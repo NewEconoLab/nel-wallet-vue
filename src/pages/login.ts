@@ -14,10 +14,12 @@ declare const mui;
     // Data property
     Message: string = "hello world";
     file:File;
-    filename:string;
+    filename:string="";
   
     // Lifecycle hook
-    fileChange($event:any) {
+    fileChange($event:any) {      
+      var wallet: ThinNeo.nep6wallet;
+      var reader = new FileReader();
       this.file = $event.target.files[0];
       this.filename = this.file.name;
     }

@@ -8,9 +8,16 @@
     <div>
       <button @click="alert()"></button>
     </div>
-    <a class="input-file input-fileup btn btn-nel">
-      Select<input size="100" type="file" name="file" id="file" @change="fileChange">
-    </a>
+    <div style="height:56px;width:417px;margin:0 auto;">
+      <div class="input-group" style="height:56px;">
+        <span class="form-control">{{filename}}</span>
+        <span class="input-group-addon">
+          <a class="input-file input-fileup btn btn-nel" style="">
+            Select<input size="100" type="file" name="file" id="file" @change="fileChange">
+          </a>	
+        </span>
+      </div>
+    </div>	
   </main-layout>
 </template>
 
