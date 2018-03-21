@@ -1,0 +1,323 @@
+﻿body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", sans-serif
+}
+
+.h1, .h2, .h3, .h4, .lead, h1, h2, h3, h4 {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif
+}
+
+body {
+    padding: 0;
+    padding-top: 30px;
+    margin: 0;
+}
+
+
+#searchText, #searchText:hover, #searchText:focus {
+    border: 0;
+}
+
+#searchBtn {
+    border: 0;
+}
+
+#searchText:hover, #searchText:focus {
+    width: 564px;
+    border-right: 0;
+    outline: 0;
+}
+
+.form-control:focus {
+    border: 0;
+    outline: 0;
+    -webkit-box-shadow: inset 0;
+    box-shadow: inset 0;
+}
+
+.caption {
+    text-align: center;
+}
+
+.code {
+    word-break: break-all;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.container {
+    position: relative;
+    z-index: 2
+}
+
+.container-nel{
+    padding-top: 28px;
+}
+
+body:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: .4
+}
+
+.align-center {
+    margin: 0 auto;
+    /* 居中 这个是必须的，，其它的属性非必须 */
+    text-align: center;
+    /* 文字等内容居中 */
+}
+
+.title {
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+.caption {
+    margin: 0 auto;
+    height: 60%;
+    padding: 40px;
+}
+
+.table-nel {
+    border-radius: 5px 5px 5px 5px;
+}
+
+.tfood {
+    margin: 0 auto;
+    text-align: center;
+    height: 46px;
+    padding: 13px;
+}
+
+.table-nel>tbody>tr>td {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 0;
+    text-align: center;
+}
+.page {
+    width: 101px;
+    height: 38px;
+    margin: 0 auto;
+    /* Firefox */
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+    /* Safari, Chrome, and Opera */
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    /* W3C */
+    display: box;
+    text-align: center;
+    padding-top: 30px;
+}
+
+
+.dropdown-nel.pull-right {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-nel>.disabled>a:hover, .dropdown-nel>.disabled>a:focus {
+    text-decoration: none;
+    cursor: not-allowed;
+    background-color: transparent;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.open>.dropdown-nel {
+    display: block;
+}
+
+.open>a {
+    outline: 0;
+}
+
+.dropdown-nel-right {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-nel-left {
+    right: auto;
+    left: 0;
+}
+
+.dropdown-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 990;
+}
+
+.pull-right>.dropdown-nel {
+    right: 0;
+    left: auto;
+}
+
+.dropup .caret, .navbar-fixed-bottom .dropdown .caret {
+    content: "";
+    border-top: 0;
+    border-bottom: 4px dashed;
+    border-bottom: 4px solid \9;
+}
+
+.dropup .dropdown-nel, .navbar-fixed-bottom .dropdown .dropdown-nel {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 2px;
+}
+
+
+.list-nel{
+    border-radius: 5px 5px 5px 5px;
+}
+
+.list-nel>.list-head>.list-title{
+    border-radius: 5px 5px 0px 0px;
+    height: 55px;
+}
+
+.list-head > .line > .title-nel,
+.list-body > .line > .title-nel,
+.list-body > .line > .content-nel {
+    display: table-cell;
+    vertical-align: middle;
+    height: 56px;
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    line-height: 16px;
+    width: 270px;
+}
+
+.list-head .title-content
+{
+    display: table-cell;
+    vertical-align: middle;
+    height: 56px;
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    line-height: 16px;
+    width: 270px;
+    text-align: center;
+}
+
+.list-body>.line>.title-nel{
+    width: 160px;
+}
+
+.list-head>.line .title-nel>span,
+.list-body>.line .title-nel>span,
+.list-body>.line .content-nel>span{
+    padding-left: 20px;
+    margin: 0 auto;
+}
+
+.list-body .line .end {
+    display: table-cell;
+    vertical-align: middle;
+    height: 56px;
+    width:60px;
+    text-align:center;
+    border-left:1px solid #fff;
+    border-bottom:1px solid #fff;
+}
+
+.line .end.active>img{
+    -ms-transform:rotate(180deg)!important;
+    -webkit-transform:rotate(180deg)!important;
+    transform:rotate(180deg)!important
+}
+
+.line-general {
+    display: table-cell;
+    vertical-align: middle;
+    height: 56px;
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    line-height: 16px;
+    width: 1100px;
+    border-bottom: 1px solid #fff;
+}
+.line-general  .title-nel,
+.line-general  .content-nel {
+    text-align:center;
+    width:270px;
+    display: table-cell;
+    vertical-align: middle;
+    height: 56px;
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    line-height: 16px;
+}
+
+
+.transaction {
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+    /* Safari, Chrome, and Opera */
+    display: -webkit-box;
+}
+
+.item {
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+    /* Safari, Chrome, and Opera */
+    display: -webkit-box;
+    padding-left:60px;
+    padding-top:25px;
+    
+}
+
+.address{
+    text-overflow: ellipsis;overflow: hidden;
+    width: 292px;
+}
+
+.amount {
+    list-style-type: none;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.turnto {
+    width: 100px;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+@media (min-width: 768px) {
+    .navbar-right .dropdown-nel {
+        right: 0;
+        left: auto;
+    }
+    .navbar-right .dropdown-nel-left {
+        right: auto;
+        left: 0;
+    }
+}
+
+/* .table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 0;
+    text-align: center;
+} */
