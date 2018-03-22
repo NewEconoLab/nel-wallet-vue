@@ -5,19 +5,35 @@
         Login your wallet
       </span>
     </div>
-    <div>
-      <button @click="alert()"></button>
-    </div>
     <div style="height:56px;width:417px;margin:0 auto;">
       <div class="input-group" style="height:56px;">
-        <span class="form-control">{{filename}}</span>
-        <span class="input-group-addon">
-          <a class="input-file input-fileup btn btn-nel" style="">
-            Select<input size="100" type="file" name="file" id="file" @change="fileChange">
-          </a>	
+        <input type="text" class="form-control" style="height:56px; line-height：56px;" disabled="true" v-model="filename">
+        <span class="input-group-addon">            
+          <button class="btn btn-nel fileinput-button">
+              <span>Select</span>
+              <input type="file" @change="fileChange">
+          </button>
         </span>
       </div>
     </div>	
+    <div style="height:56px;width:417px;margin:0 auto; padding-top:40px;">
+      <div class="input-group" style="height:56px;">
+        <input class="form-control" style="height:56px; line-height：56px;" type="password" v-model="password">
+        <span class="input-group-addon">            
+          <button class="btn btn-nel fileinput-button" @click="login">
+              Login
+          </button>
+        </span>
+      </div>
+    </div>	
+    <div style="height:36px;padding-top:80px;padding-bottom:30px; text-align:center">or you can</div>
+    <div style="width:417px; margin:0 auto; padding-top:30px">
+      <button class="btn btn-nel btn-import">Import key from WIF String </button>
+    </div>
+    
+    <div style="width:417px; margin:0 auto; padding-top:20px">
+      <button class="btn btn-nel btn-import" @click="modual('nep2')">Import key from nep2 String </button>
+    </div>
   </main-layout>
 </template>
 
@@ -33,28 +49,31 @@
   font-size: 24px;
   color: #198cee;
   line-height: 24px;
+}        
+.input-group-addon{
+  padding: 0;
+  border: 0;
 }
-.input-file {
-  display: inline-block;
+.fileinput-button {
+  border: 0;
   position: relative;
+  display: inline-block;
   overflow: hidden;
-  text-align: center;
-  width: auto;
-  border-radius: 4px;
-  padding: 5px 10px;
-  font-size: 12px;
-  font-weight: normal;
-  line-height: 18px;
-  text-decoration: none;
+  width: 97px;
+  height: 56px;
+  border-radius: 0px 5px 5px 0px;
 }
-.input-file input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 14px;
-  transform: translate(-300px, 0px) scale(4);
-  height: 40px;
-  opacity: 0;
-  filter: alpha(opacity=0);
+.fileinput-button input{
+    position:absolute;
+    right: 0px;
+    top: 0px;
+    opacity: 0;
+    /* -ms-filter: 'alpha(opacity=0)'; */
+    font-size: 200px;
+}
+.btn-import{
+  width: 417px;
+  height: 50px;
+  margin: 0 auto;
 }
 </style>

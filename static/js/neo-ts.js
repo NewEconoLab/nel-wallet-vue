@@ -1689,7 +1689,7 @@ var ThinNeo;
             if (r === void 0) { r = 8; }
             if (p === void 0) { p = 8; }
             var pp = scrypt.getAvailableMod();
-            scrypt.setResPath('lib/asset');
+            scrypt.setResPath('./asset');
             var addresshash = null;
             var ready = function () {
                 var param = {
@@ -1802,7 +1802,7 @@ var ThinNeo;
             var addresshash = buffer.subarray(3, 3 + 4);
             var encryptedkey = buffer.subarray(7, 7 + 32);
             var pp = scrypt.getAvailableMod();
-            scrypt.setResPath('lib/asset');
+            scrypt.setResPath('./static/js/asset');
             var ready = function () {
                 var param = {
                     N: n,
