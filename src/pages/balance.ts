@@ -8,6 +8,7 @@ declare const mui;
 @Component({
   components: {
     "wallet-layout": WalletLayout
+    
   }
 })
 export default class balance extends Vue {
