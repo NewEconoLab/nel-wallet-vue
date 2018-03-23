@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Home from './pages/home.vue'
 import About from './pages/about.vue'
 import Login from './pages/login.vue'
+import Balance from './pages/balance.vue'
+import Wallet from './layouts/wallet.vue'
 
 // const notFound = () => import('./pages/404.vue');
 declare var require : (filename,resolve)=>any;
@@ -17,7 +19,7 @@ var app = new Vue({
         ViewComponent() {
             switch (this.currentRoute) {
                 case "#wallet":
-                    return Home;
+                    return Balance;
                 case "#login":
                     return Login;
             }
