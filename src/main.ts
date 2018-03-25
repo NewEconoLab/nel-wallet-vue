@@ -18,7 +18,7 @@ var app = new Vue({
     computed: {
         ViewComponent() {
             switch (this.currentRoute) {
-                case "#wallet":
+                case "#balance":
                     return Balance;
                 case "#login":
                     return Login;

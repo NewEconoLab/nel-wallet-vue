@@ -1,9 +1,11 @@
-/// <reference path="../../static/js/neo-ts.d.ts"/>
+import { Result } from './../tools/entity';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import MainLayout from "../layouts/Main.vue";
 import { neotools } from "./../tools/neotools";
-import { result } from './../tools/neotools';
+import { StorageTool } from '../tools/storagetool';
+import { LoginInfo } from './../tools/entity';
+/// <reference path="../tools/neo-ts.d.ts"/>
 
 declare const mui;
 
@@ -22,7 +24,6 @@ declare const mui;
     reader:FileReader;
     filename:string="";
     password:string="";
-    private loadKeys: { pubkey: Uint8Array, prikey: Uint8Array, address: string }[];
 
     constructor(){
       super()
@@ -30,10 +31,6 @@ declare const mui;
       this.reader.onload =()=>{
         var walletstr = this.reader.result as string;
         this.wallet.fromJsonStr(walletstr);
-        for (var i = 0; i < this.wallet.accounts.length; i++)
-        {
-          mui.alert(this.wallet.accounts[i].address);
-        }
       }
     }
   
@@ -52,10 +49,12 @@ declare const mui;
     login()
     {
       neotools.nep6Load(this.wallet,this.password)
-      .then((res:result)=>
+      .then((res:Result)=>
       {
-        mui.alert("登陆成功");
-        this.loadKeys = res.result
+        var loginarray:LoginInfo[] = res.info as LoginInfo[];
+        StorageTool.setLoginMessage(res.info);
+        StorageTool.setStorage("current-address",loginarray[0].address);
+        window.location.hash="#balance";
       })
       .catch((e)=>
       {
@@ -63,10 +62,11 @@ declare const mui;
       })
     }
 
-    modual(type)
+    modual()
     {
       var mask = mui.createMask((call)=>
       {
+        mui.alert("modual is close");
       });//callback为用户点击蒙版时自动执行的回调；
       mask.show();//显示遮罩
       // mask.close();//关闭遮罩

@@ -5,16 +5,16 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
             <li>
-              <v-link href="#explorer">Balance</v-link>
+              <v-link href="#balance">Balance</v-link>
             </li>
             <li>
-              <v-link href="#wallet">Transfer</v-link>
+              <v-link href="#transfer">Transfer</v-link>
             </li>
             <li>
-              <v-link href="#login">NNS</v-link>
+              <v-link href="#nns">NNS</v-link>
             </li>
             <li>
-              <v-link href="#generate">Settings</v-link>
+              <v-link href="#settings">Settings</v-link>
             </li>
           </ul>
         </div>

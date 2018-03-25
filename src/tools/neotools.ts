@@ -1,4 +1,5 @@
-///<reference path="../../static/js/neo-ts.d.ts"/>
+import { Result } from './entity';
+///<reference path="./neo-ts.d.ts"/>
     export class neotools
     {
         constructor() { }
@@ -37,7 +38,7 @@
          */
         public static wifDecode(wif: string)
         {
-            let result: result = { err: false, result: { pubkey: Uint8Array, prikey: Uint8Array, address: "" } };
+            let result: Result = new Result();
 
             var prikey: Uint8Array;
             var pubkey: Uint8Array;
@@ -46,35 +47,35 @@
             {
                 prikey = ThinNeo.Helper.GetPrivateKeyFromWIF(wif);
                 var hexstr = prikey.toHexString();
-                result.result.prikey = hexstr;
+                result.info.prikey = hexstr;
             }
             catch (e)
             {
                 result.err = true;
-                result.result = e.message;
+                result.info = e.message;
                 return result
             }
             try
             {
                 pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(prikey);
                 var hexstr = pubkey.toHexString();
-                result.result.pubkey = hexstr;
+                result.info.pubkey = hexstr;
             }
             catch (e)
             {
                 result.err = true;
-                result.result = e.message;
+                result.info = e.message;
                 return result
             }
             try
             {
                 address = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
-                result.result.address = address;
+                result.info.address = address;
             }
             catch (e)
             {
                 result.err = true;
-                result.result = e.message;
+                result.info = e.message;
                 return result
             }
             return result;
@@ -82,12 +83,12 @@
         /**
          * nep2FromWif
          */
-        public static nep2FromWif(wif: string, password: string): result
+        public static nep2FromWif(wif: string, password: string): Result
         {
             var prikey: Uint8Array;
             var pubkey: Uint8Array;
             var address: string;
-            let res: result = { err: false, result: { address: "", nep2: "" } };
+            let res: Result = new Result();
             try
             {
                 prikey = ThinNeo.Helper.GetPrivateKeyFromWIF(wif);
@@ -97,18 +98,18 @@
                 ThinNeo.Helper.GetNep2FromPrivateKey(prikey, password, n, r, p, (info, result) =>
                 {
                     res.err = false;
-                    res.result.nep2 = result;
+                    res.info.nep2 = result;
                     pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(prikey);
                     var hexstr = pubkey.toHexString();
                     address = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
-                    res.result.address = address
+                    res.info.address = address
                     return res;
                 });
             }
             catch (e)
             {
                 res.err = true;
-                res.result = e.message;
+                res.info = e.message;
                 return res;
             }
         }
@@ -116,12 +117,13 @@
         /**
          * nep2TOWif
          */
-        public static async nep2ToWif(nep2: string, password: string): Promise<result>
+        public static async nep2ToWif(nep2: string, password: string): Promise<Result>
         {
             var prikey: Uint8Array;
             var pubkey: Uint8Array;
             var address: string;
-            let promise: Promise<result> = new Promise((resolve, reject) =>
+            var res = new Result();
+            let promise: Promise<Result> = new Promise((resolve, reject) =>
             {
                 let n: number = 16384;
                 var r: number = 8;
@@ -136,13 +138,14 @@
                         var pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(prikey);
                         var address = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
                         var wif = ThinNeo.Helper.GetWifFromPrivateKey(prikey);
-                        console.log('1:' + address);
-                        resolve({ err: false, result: { pubkey, address, prikey } });
+                        res.err = false;
+                        res.info = {pubkey,address,prikey};
+                        resolve(res);
                     }
                     else
                     {
                         // spanWif.textContent = "result=" + "info=" + info + " result=" + result;
-                        reject({ err: false, result: result });
+                        reject(res);
                     }
                 });
             });
@@ -152,13 +155,13 @@
         /**
          * nep6Load
          */
-        public static async nep6Load(wallet: ThinNeo.nep6wallet, password: string):Promise<result>
+        public static async nep6Load(wallet: ThinNeo.nep6wallet, password: string):Promise<Result>
         {
             try
             {
                 //getPrivateKey 是异步方法，且同时只能执行一个
                 var istart = 0;
-                let res = new result();
+                let res = new Result();
                 let arr: any[] = new Array<any>();
                 // getkey = async (keyindex: number) => {
                 for (let keyindex = 0; keyindex < wallet.accounts.length; keyindex++)
@@ -170,19 +173,19 @@
                     }
                     try
                     {
-                        let result: result = await neotools.getPriKeyfromAccount(wallet.scrypt, password, account);
+                        let result: Result = await neotools.getPriKeyfromAccount(wallet.scrypt, password, account);
                         console.log("getpkformacc:"+result);
-                        arr.push(result.result);
+                        arr.push(result.info);
                     } catch (error)
                     {
                         console.error(error);
                         res.err=true;
-                        res.result=error;
+                        res.info=error;
                         return res;
                     }
                 }
                 res.err=false;
-                res.result=arr;
+                res.info=arr;
                 return res;
             }
             catch (e)
@@ -196,10 +199,10 @@
         /**
          * getPriKeyform
          */
-        public static async getPriKeyfromAccount(scrypt: ThinNeo.nep6ScryptParameters, password: string, account: ThinNeo.nep6account): Promise<result>
+        public static async getPriKeyfromAccount(scrypt: ThinNeo.nep6ScryptParameters, password: string, account: ThinNeo.nep6account): Promise<Result>
         {
-            let res = new result();
-            let promise: Promise<result> =
+            let res = new Result();
+            let promise: Promise<Result> =
                 new Promise((resolve, reject) =>
                 {
                     account.getPrivateKey(scrypt, password, (info, result) =>
@@ -212,7 +215,7 @@
                             var hexkey = (result as Uint8Array).toHexString();
                             console.log(info + "|" + address + " wif=" + wif);
                             res.err=false;
-                            res.result={ pubkey: pubkey, address: address, prikey: result as Uint8Array };
+                            res.info={ pubkey: pubkey, address: address, prikey: result as Uint8Array };
                             resolve(res);
                         }
                         else
@@ -226,10 +229,4 @@
             return promise;
         }
 
-    }
-
-    export class result
-    {
-        err: boolean;
-        result: any;
     }
