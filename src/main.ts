@@ -4,6 +4,9 @@ import About from './pages/about.vue'
 import Login from './pages/login.vue'
 import Balance from './pages/balance.vue'
 import Wallet from './layouts/wallet.vue'
+import Transfer from './pages/transfer.vue';
+import NNS from './pages/nns.vue';
+import Settings from './pages/settings.vue';
 
 // const notFound = () => import('./pages/404.vue');
 declare var require : (filename,resolve)=>any;
@@ -22,6 +25,12 @@ var app = new Vue({
                     return Balance;
                 case "#login":
                     return Login;
+                case "#transfer":
+                    return Transfer;                    
+                case "#nns":
+                    return NNS;                
+                case "#settings":
+                    return Settings;
             }
             return notFound;
         }

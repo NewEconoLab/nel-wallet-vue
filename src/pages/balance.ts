@@ -8,6 +8,7 @@ import { WWW } from '../tools/wwwtool';
 
 declare const mui;
 
+let vm = new Vue();
 @Component({
   components: {
     "wallet-layout": WalletLayout    
@@ -22,7 +23,7 @@ export default class balance extends Vue
 
   // Component method
   mounted() 
-  {
+  { 
     this.currentAddress = StorageTool.getStorage("current-address");
     this.getBalances();
   }
@@ -33,8 +34,8 @@ export default class balance extends Vue
 
   async getBalances()
   {
-    var res:Result = await WWW.api_getBalance("AYX8yqcvQroV9mJ5k4Ez2gro8Kjh7B78kD");
-    var clamis = await WWW.api_getclaimgas("AYX8yqcvQroV9mJ5k4Ez2gro8Kjh7B78kD");
+    var res:Result = await WWW.api_getBalance(this.currentAddress);
+    var clamis = await WWW.api_getclaimgas(this.currentAddress);
     if(res.err){
       mui.alert("Current address balance is empty -_-!");
     }else{
@@ -53,6 +54,11 @@ export default class balance extends Vue
       );
 
     }
+  }
+
+  toTransfer(asset:string){
+    vm.$emit('txasset',asset); //触发事件
+    window.location.hash = "#transfer";
   }
 
 }
