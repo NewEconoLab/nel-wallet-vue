@@ -8,6 +8,7 @@ import { WWW } from '../tools/wwwtool';
 import Vue from "vue";
 import Component from "vue-class-component";
 
+declare const mui;
 @Component({
     components: {
       "wallet-layout": WalletLayout    
@@ -48,10 +49,10 @@ export default class transfer extends Vue
     {
 
     }
-    send()
+    async send()
     {
-        CoinTool.rawTransaction(this.targetaddr,this.asset,this.amount+"");
-        alert(this.targetaddr+","+this.amount);
-
+        var res:Result = await CoinTool.rawTransaction(this.targetaddr,this.asset,this.amount+"");
+        if(!res.err)
+        mui.alert(res.info);
     }
 }

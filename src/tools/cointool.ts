@@ -1,5 +1,5 @@
 import { WWW } from './wwwtool';
-import { UTXO } from './entity';
+import { UTXO, Result } from './entity';
 import { StorageTool } from './storagetool';
 ///<reference path="./neo-ts.d.ts"/>
 
@@ -106,7 +106,7 @@ export class CoinTool
         return tran;
     }
 
-    static async rawTransaction(targetaddr:string,asset:string,count:string)
+    static async rawTransaction(targetaddr:string,asset:string,count:string):Promise<Result>
     {
         
         var arr = StorageTool.getLoginArr();
@@ -116,7 +116,9 @@ export class CoinTool
         var utxo = await CoinTool.getassets();
         
         var tran:ThinNeo.Transaction = CoinTool.makeTran(utxo, targetaddr, asset, _count);
-        tran.witnesses = [];
+        if(tran.witnesses==null)
+            tran.witnesses = [];
+        let txid = tran.GetHash().clone().reverse().toHexString();
         var msg = tran.GetMessage().clone();
         var pubkey = arr[n].pubkey.clone();
         var prekey = arr[n].prikey.clone();
@@ -124,8 +126,12 @@ export class CoinTool
         var signdata = ThinNeo.Helper.Sign(msg, prekey);
         tran.AddWitness(signdata, pubkey, addr);
         var data:Uint8Array = tran.GetRawData();
-        WWW.api_postRawTransaction(data);
 
+        var res:Result = new Result();
+        var result = await WWW.api_postRawTransaction(data);
+        res.err = !result;
+        res.info = txid;
+        return res;
     }
 
     
