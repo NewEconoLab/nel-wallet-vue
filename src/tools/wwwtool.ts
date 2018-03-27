@@ -1,4 +1,4 @@
-import { Result, BlanaceInfo, AssetEnum } from './entity';
+import { Result, BalanceInfo, AssetEnum } from './entity';
 export class WWW
 {
     static api: string = "https://api.nel.group/api/testnet";
@@ -71,7 +71,7 @@ export class WWW
         var json = await value.json();
         if(json["result"]){
             var r = json["result"];     
-            var balances = r as Array<BlanaceInfo>;       
+            var balances = r as Array<BalanceInfo>;       
             balances.map(balance=> balance.names = balance.name.map(name => name.name).join('|'));
             balances.map((balance) =>
             {

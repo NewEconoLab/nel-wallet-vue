@@ -3,14 +3,42 @@ export class LoginInfo
     pubkey: Uint8Array;
     prikey: Uint8Array;
     address: string;
+    static ArrayToString(array:LoginInfo[]):string
+    {
+        var obj =[];
+        for(var i =0;i<array.length;i++)
+        {
+            obj.push({});
+            obj[i].pubkey = array[i].pubkey.toHexString();
+            obj[i].prikey =array[i].prikey.toHexString();
+            obj[i].address =array[i].address;
+        }
+        return JSON.stringify(obj);
+    }
+    static StringToArray(str:string):LoginInfo[]
+    {
+        var obj  =JSON.parse(str);
+        var arr:LoginInfo[] =[];
+        for(var i=0;i<obj.length;i++)
+        {
+            arr.push(new LoginInfo());
+            var str:string = obj[i].prikey;
+            var str2:string = obj[i].pubkey;
+            arr[i].prikey = str.hexToBytes();
+            arr[i].pubkey = str2.hexToBytes();
+            arr[i].address = obj[i].address;
+        }
+        return arr;
+    }
 }
 
-export class BlanaceInfo
+export class BalanceInfo
 {
     balance:number;
     asset:string;
     name:{lang:string,name:string}[];
     names:string;
+    type:string;
 }
 
 export class Result
@@ -30,4 +58,13 @@ export class NeoAsset
     neo:number;
     gas:number;
     claim:number;
+}
+
+export class UTXO
+{
+    addr: string;
+    txid: string;
+    n: number;
+    asset: string;
+    count: Neo.Fixed8;
 }

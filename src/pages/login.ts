@@ -52,7 +52,7 @@ declare const mui;
       .then((res:Result)=>
       {
         var loginarray:LoginInfo[] = res.info as LoginInfo[];
-        StorageTool.setLoginMessage(res.info);
+        StorageTool.setLoginArr(loginarray);
         StorageTool.setStorage("current-address",loginarray[0].address);
         window.location.hash="#balance";
       })

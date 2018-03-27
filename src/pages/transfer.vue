@@ -16,9 +16,8 @@
                     Asset：
                 </div>
                 <div class="col-sm-10">
-                    <select name="" id="" v-model="asset" style="width:150px">
-                        <option value="0x3fccdb91c9bb66ef2446010796feb6ca4ed96b05">NNC</option>
-                        <option value="c88acaae8a0362cdbdedddf0083c452a3a8bb7b8">CPX Token</option>
+                    <select @change="choose" v-model="asset" style="width:150px">
+                        <option v-for="balance in balances" :key="balance.asset" :value="balance.asset">{{balance.names}}</option>
                     </select>
                     Neo 2000 Neo available
                 </div>
@@ -29,7 +28,7 @@
                     Address：
                 </div>
                 <div class="col-sm-10">
-                    <input type="text" name="" id="" v-model="targetaddr" class="input-nel">
+                    <input type="text" v-model="targetaddr" :class="{}" class="input-nel" @change="verify_addr">
                 </div>
                 <div class="col-sm-2" style="font-family: PingFangSC-Medium;
                                             font-size: 16px;

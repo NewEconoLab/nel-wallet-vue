@@ -1,4 +1,5 @@
-import { LoginInfo, BlanaceInfo, Result, NeoAsset } from './../tools/entity';
+import { CoinTool } from './../tools/cointool';
+import { LoginInfo, BalanceInfo, Result, NeoAsset } from './../tools/entity';
 import { StorageTool } from './../tools/storagetool';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
@@ -8,7 +9,6 @@ import { WWW } from '../tools/wwwtool';
 
 declare const mui;
 
-let vm = new Vue();
 @Component({
   components: {
     "wallet-layout": WalletLayout    
@@ -18,7 +18,7 @@ export default class balance extends Vue
 {
   // Data property
   neoasset:NeoAsset = new NeoAsset();
-  balances:Array<BlanaceInfo> = new Array();
+  balances:Array<BalanceInfo> = new Array();
   currentAddress:string="";
 
   // Component method
@@ -34,6 +34,7 @@ export default class balance extends Vue
 
   async getBalances()
   {
+    CoinTool.initAllAsset();
     var res:Result = await WWW.api_getBalance(this.currentAddress);
     var clamis = await WWW.api_getclaimgas(this.currentAddress);
     if(res.err){
@@ -51,13 +52,13 @@ export default class balance extends Vue
             this.neoasset.gas = balance.balance;
           }
         }
-      );
-
+      )
+      StorageTool.setStorage("balances_asset",JSON.stringify(this.balances));
     }
   }
 
   toTransfer(asset:string){
-    vm.$emit('txasset',asset); //触发事件
+    StorageTool.setStorage("transfer_choose",asset);
     window.location.hash = "#transfer";
   }
 
