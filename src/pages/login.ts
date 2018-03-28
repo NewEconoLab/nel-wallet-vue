@@ -48,17 +48,19 @@ declare const mui;
 
     login()
     {
+      mui.toast("Be patient and wait for patience ...");
       neotools.nep6Load(this.wallet,this.password)
       .then((res:Result)=>
       {
         var loginarray:LoginInfo[] = res.info as LoginInfo[];
         StorageTool.setLoginArr(loginarray);
         StorageTool.setStorage("current-address",loginarray[0].address);
+        mui.toast('Authentication passed, entering your account ^_^ ...',{ duration:'long', type:'div' }) 
         window.location.hash="#balance";
       })
       .catch((e)=>
       {
-        mui.alert(e);
+        mui.alert(">_< !!! The login failure error message is as follows:"+e);
       })
     }
 
