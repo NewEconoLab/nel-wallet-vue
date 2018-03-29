@@ -1,6 +1,6 @@
 import { CoinTool } from './../tools/cointool';
 import { neotools } from './../tools/neotools';
-import { LoginInfo,BalanceInfo, Result, NeoAsset } from './../tools/entity';
+import { LoginInfo, BalanceInfo, Result, NeoAsset } from './../tools/entity';
 import { StorageTool } from './../tools/storagetool';
 import WalletLayout from "../layouts/wallet.vue";
 import axios from "axios"
@@ -11,21 +11,20 @@ import Component from "vue-class-component";
 declare const mui;
 @Component({
     components: {
-      "wallet-layout": WalletLayout    
+        "wallet-layout": WalletLayout
     }
-  })
+})
 export default class transfer extends Vue 
 {
-
-    targetaddr:string="";
-    amount:number=0;
-    asset:string="";
-    balances:BalanceInfo[] = [];
+    targetaddr: string = "";
+    amount: number = 0;
+    asset: string = "";
+    balances: BalanceInfo[] = [];
     constructor() 
     {
         super();
         this.targetaddr = "";
-        this.amount = 0;    
+        this.amount = 0;
     }
     mounted() 
     {
@@ -36,11 +35,11 @@ export default class transfer extends Vue
     }
     choose()
     {
-        StorageTool.setStorage("transfer_choose",this.asset);
+        StorageTool.setStorage("transfer_choose", this.asset);
     }
     verify_addr()
     {
-        if(neotools.verifyPublicKey(this.targetaddr))
+        if (neotools.verifyPublicKey(this.targetaddr))
             alert("地址正确");
         else
             alert("错误地址");
@@ -51,8 +50,8 @@ export default class transfer extends Vue
     }
     async send()
     {
-        var res:Result = await CoinTool.rawTransaction(this.targetaddr,this.asset,this.amount+"");
-        if(!res.err)
-        mui.alert(res.info);
+        var res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount + "");
+        if (!res.err)
+            mui.alert(res.info);
     }
 }

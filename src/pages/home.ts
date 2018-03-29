@@ -10,22 +10,26 @@ declare const mui;
     "main-layout": MainLayout
   }
 })
-export default class home extends Vue {
+export default class home extends Vue
+{
   // Data property
   Message: string = "hello world";
 
-  async login() {
+  async login()
+  {
     let rt = await axios.post("/user/login", this.$data);
     console.log(rt.data);
   }
 
   // Lifecycle hook
-  mounted() {
+  mounted()
+  {
     mui.toast("mouted");
   }
 
   // Component method
-  updateMyProperty($event: any) {
+  updateMyProperty($event: any)
+  {
 
   }
 }

@@ -304,7 +304,6 @@ body:after {
     user-select: none;
 }
 
-
 @media (min-width: 768px) {
     .navbar-right .dropdown-nel {
         right: 0;

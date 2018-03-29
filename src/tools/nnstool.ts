@@ -1,4 +1,4 @@
-import { DomainInfo, Consts } from './entity';
+import { DomainInfo, Consts, RootDomainInfo } from './entity';
 import { WWW } from "./wwwtool";
 
 /**
@@ -7,34 +7,52 @@ import { WWW } from "./wwwtool";
  */
 export class NNSTool
 {
-    static domainInfo_test:DomainInfo;
-    static domainInfo_main:DomainInfo;
+    static root_test: RootDomainInfo;
 
     /**
      * @method 初始化根域名信息
      */
     static async initRootDomain()
-    {         
-        var rootNameHash_test = await NNSTool.getRootNameHash();
-        NNSTool.domainInfo_test = await NNSTool.getDomainInfo(rootNameHash_test);
+    {
+        var test = new RootDomainInfo();
+        test.roothash = await NNSTool.getRootNameHash();
+        test.rootname = await NNSTool.getRootName();
+        var domain = await NNSTool.getDomainInfo(test.roothash);
+        test.owner = domain.owner;
+        test.register = domain.register;
+        test.resolver = domain.resolver;
+        test.ttl = domain.ttl;
+        NNSTool.root_test = test;
     }
 
     /**
      * @method 查询域名信息
      * @param doamin 域名字符串
      */
-    static async queryDomainInfo(doamin:string)
+    static async queryDomainInfo(doamin: string)
     {
         var domainarr: string[] = doamin.split('.');
         var subdomain: string = domainarr[0];
-        var root: string = await NNSTool.getRootName();
         domainarr.shift();
-        domainarr.push(root)
+        domainarr.push(this.root_test.rootname)
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
-        let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.domainInfo_test.register);
+        let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         return domains;
     }
 
+    /**
+     * 注册域名
+     * @param doamin 域名字符串
+     */
+    static async registerDomain(doamin: string)
+    {
+        var domainarr: string[] = doamin.split('.');
+        var subdomain: string = domainarr[0];
+        domainarr.shift();
+        domainarr.push(NNSTool.root_test.rootname);
+        var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
+        let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
+    }
 
     /**
      * @method 返回根域名名称
@@ -88,7 +106,7 @@ export class NNSTool
     static async getRootNameHash(): Promise<Uint8Array>
     {
 
-        let nameHash: Uint8Array ;
+        let nameHash: Uint8Array;
 
         var sb = new ThinNeo.ScriptBuilder();
 
@@ -181,17 +199,22 @@ export class NNSTool
         domainarr.shift();
         domainarr.push(root)
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
-        
+
         return nnshash;
     }
 
     //计算子域名hash
-    static async getNameHashSub(domainhash: Uint8Array, subdomain: string) {}
+    static async getNameHashSub(domainhash: Uint8Array, subdomain: string) { }
 
     //nanmeHashArray
-    static async getNameHashArray(nameArray: string[]) {}
+    static async getNameHashArray(nameArray: string[]) { }
 
-    //解析域名
+    /**
+     * 
+     * @param protocol 
+     * @param nnshash 
+     * @param scriptaddress 
+     */
     static async resolve(protocol: string, nnshash: Uint8Array, scriptaddress): Promise<Uint8Array>
     {
         let namehash: Uint8Array
@@ -206,8 +229,8 @@ export class NNSTool
     }
 
     //解析域名完整模式
-    static async resolveFull(protocol: string, nameArray: string[]) {}
-    
+    static async resolveFull(protocol: string, nameArray: string[]) { }
+
     /**
      * 此接口为注册器规范要求，必须实现，完整解析域名时会调用此接口验证权利
      * @param nnshash   域名中除最后一位的hash : aa.bb.cc 中的 bb.cc的hash
@@ -215,7 +238,7 @@ export class NNSTool
      */
     static async getSubOwner(nnshash: Uint8Array, subdomain: string, scriptaddress: Uint8Array): Promise<string>
     {
-        let owner: string="";
+        let owner: string = "";
         var sb = new ThinNeo.ScriptBuilder();
         //var scriptaddress = Consts.registerContract.hexToBytes().reverse();
         sb.EmitParamJson(["(bytes)" + nnshash.toHexString(), "(str)" + subdomain]);//第二个参数是个数组
@@ -249,7 +272,7 @@ export class NNSTool
         }
         return owner;
     }
-    
+
     /**
      * 此接口为演示的先到先得注册器使用，用户调用注册器的这个接口申请域名
      * @param who         注册人的地址
@@ -330,7 +353,7 @@ export class NNSTool
      * 返回一组域名的最终hash
      * @param domainarray 域名倒叙的数组
      */
-    static nameHashArray(domainarray:string[]):Uint8Array
+    static nameHashArray(domainarray: string[]): Uint8Array
     {
         domainarray.reverse();
         var hash: Uint8Array = NNSTool.nameHash(domainarray[0]);
@@ -341,6 +364,14 @@ export class NNSTool
         return hash;
     }
 
+    /**
+     * 
+     * @param owner 拥有者
+     * @param nnshash 域名hash
+     * @param subdomain 子域名
+     * @param protocol 解析器类型
+     * @param data 解析地址
+     */
     static async setResolveData(owner: string, nnshash: Uint8Array, subdomain: string | Neo.BigInteger, protocol: string, data: string): Promise<boolean>
     {
         try
@@ -361,4 +392,6 @@ export class NNSTool
         }
         return true;
     }
+
+
 }

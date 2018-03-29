@@ -3,27 +3,27 @@ export class LoginInfo
     pubkey: Uint8Array;
     prikey: Uint8Array;
     address: string;
-    static ArrayToString(array:LoginInfo[]):string
+    static ArrayToString(array: LoginInfo[]): string
     {
-        var obj =[];
-        for(var i =0;i<array.length;i++)
+        var obj = [];
+        for (var i = 0; i < array.length; i++)
         {
             obj.push({});
             obj[i].pubkey = array[i].pubkey.toHexString();
-            obj[i].prikey =array[i].prikey.toHexString();
-            obj[i].address =array[i].address;
+            obj[i].prikey = array[i].prikey.toHexString();
+            obj[i].address = array[i].address;
         }
         return JSON.stringify(obj);
     }
-    static StringToArray(str:string):LoginInfo[]
+    static StringToArray(str: string): LoginInfo[]
     {
-        var obj  =JSON.parse(str);
-        var arr:LoginInfo[] =[];
-        for(var i=0;i<obj.length;i++)
+        var obj = JSON.parse(str);
+        var arr: LoginInfo[] = [];
+        for (var i = 0; i < obj.length; i++)
         {
             arr.push(new LoginInfo());
-            var str:string = obj[i].prikey;
-            var str2:string = obj[i].pubkey;
+            var str: string = obj[i].prikey;
+            var str2: string = obj[i].pubkey;
             arr[i].prikey = str.hexToBytes();
             arr[i].pubkey = str2.hexToBytes();
             arr[i].address = obj[i].address;
@@ -34,11 +34,11 @@ export class LoginInfo
 
 export class BalanceInfo
 {
-    balance:number;
-    asset:string;
-    name:{lang:string,name:string}[];
-    names:string;
-    type:string;
+    balance: number;
+    asset: string;
+    name: { lang: string, name: string }[];
+    names: string;
+    type: string;
 }
 
 export class Result
@@ -55,9 +55,9 @@ export enum AssetEnum
 
 export class NeoAsset
 {
-    neo:number;
-    gas:number;
-    claim:number;
+    neo: number;
+    gas: number;
+    claim: number;
 }
 
 export class UTXO
@@ -71,8 +71,8 @@ export class UTXO
 
 export class Consts
 {
-    static baseContract= "0xdffbdd534a41dd4c56ba5ccba9dfaaf4f84e1362";
-    static registerContract= "d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c";
+    static baseContract = "0xdffbdd534a41dd4c56ba5ccba9dfaaf4f84e1362";
+    static registerContract = "d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c";
 }
 
 export class DomainInfo
@@ -81,4 +81,14 @@ export class DomainInfo
     register: Uint8Array//注册器
     resolver: Uint8Array//解析器
     ttl: Neo.BigInteger//到期时间
+}
+
+export class RootDomainInfo extends DomainInfo
+{
+    rootname: string;
+    roothash: Uint8Array;
+    constructor()
+    {
+        super();
+    }
 }
