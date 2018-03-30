@@ -11,20 +11,20 @@ declare const mui;
 
 @Component({
   components: {
-    "wallet-layout": WalletLayout    
+    "wallet-layout": WalletLayout
   }
 })
 export default class balance extends Vue 
 {
   // Data property
-  neoasset:NeoAsset = new NeoAsset();
-  balances:Array<BalanceInfo> = new Array();
-  currentAddress:string="";
+  neoasset: NeoAsset = new NeoAsset();
+  balances: Array<BalanceInfo> = new Array();
+  currentAddress: string = "";
 
   // Component method
   mounted() 
-  { 
-    this.currentAddress = StorageTool.getStorage("current-address");
+  {
+    this.currentAddress = LoginInfo.getCurrentAddress();
     this.getBalances();
   }
 
@@ -35,30 +35,36 @@ export default class balance extends Vue
   async getBalances()
   {
     CoinTool.initAllAsset();
-    var res:Result = await WWW.api_getBalance(this.currentAddress);
+    var res: Result = await WWW.api_getBalance(this.currentAddress);
     var clamis = await WWW.api_getclaimgas(this.currentAddress);
-    if(res.err){
+    if (res.err)
+    {
       mui.alert("Current address balance is empty -_-!");
-    }else{
+    } else
+    {
       this.balances = res.info;
       this.neoasset.claim = clamis;
       this.balances.map
-      (
-        (balance)=> {
-          if(balance.names=="NEO"){
+        (
+        (balance) =>
+        {
+          if (balance.names == "NEO")
+          {
             this.neoasset.neo = balance.balance;
           }
-          if(balance.names=="GAS"){
+          if (balance.names == "GAS")
+          {
             this.neoasset.gas = balance.balance;
           }
         }
-      )
-      StorageTool.setStorage("balances_asset",JSON.stringify(this.balances));
+        )
+      StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
     }
   }
 
-  toTransfer(asset:string){
-    StorageTool.setStorage("transfer_choose",asset);
+  toTransfer(asset: string)
+  {
+    StorageTool.setStorage("transfer_choose", asset);
     window.location.hash = "#transfer";
   }
 

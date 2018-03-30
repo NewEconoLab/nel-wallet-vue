@@ -1,5 +1,7 @@
-import { DomainInfo, Consts, RootDomainInfo } from './entity';
+import { DomainInfo, Consts, RootDomainInfo, LoginInfo } from './entity';
 import { WWW } from "./wwwtool";
+import { CoinTool } from './cointool';
+import { StorageTool } from './storagetool';
 
 /**
  * @name NEONameServiceTool
@@ -32,7 +34,7 @@ export class NNSTool
     static async queryDomainInfo(doamin: string)
     {
         var domainarr: string[] = doamin.split('.');
-        var subdomain: string = domainarr[0];
+        var subdomain: string = domainarr[ 0 ];
         domainarr.shift();
         domainarr.push(this.root_test.rootname)
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
@@ -47,12 +49,20 @@ export class NNSTool
     static async registerDomain(doamin: string)
     {
         var domainarr: string[] = doamin.split('.');
-        var subdomain: string = domainarr[0];
+        var subdomain: string = domainarr[ 0 ];
         domainarr.shift();
         domainarr.push(NNSTool.root_test.rootname);
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
         let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
+        var sb = new ThinNeo.ScriptBuilder();
+        var scriptaddress = NNSTool.root_test.register;
+        sb.EmitParamJson([ "(addr)" + LoginInfo.getCurrentAddress(), "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
+        sb.EmitPushString("requestSubDomain");//第一个参数
+        sb.EmitAppCall(scriptaddress);  //资产合约
+        var res = CoinTool.contractTransaction(sb);
+        return res;
     }
+
 
     /**
      * @method 返回根域名名称
@@ -81,14 +91,14 @@ export class NNSTool
             }
             var stack = result.stack as any[];
             //find name 他的type 有可能是string 或者ByteArray
-            if (stack[0].type == "Array")
+            if (stack[ 0 ].type == "Array")
             {
                 // info2.textContent += "name=" + stack[0].value + "\n";
-                length = stack[0].lenght;
+                length = stack[ 0 ].lenght;
             }
-            else if (stack[0].type == "ByteArray")
+            else if (stack[ 0 ].type == "ByteArray")
             {
-                var bs = (stack[0].value as string).hexToBytes();
+                var bs = (stack[ 0 ].value as string).hexToBytes();
                 name = ThinNeo.Helper.Bytes2String(bs);
             }
 
@@ -127,9 +137,9 @@ export class NNSTool
             }
             var stack = result.stack as any[];
             //find name 他的type 有可能是string 或者ByteArray
-            if (stack[0].type == "ByteArray")
+            if (stack[ 0 ].type == "ByteArray")
             {
-                nameHash = (stack[0].value as string).hexToBytes();
+                nameHash = (stack[ 0 ].value as string).hexToBytes();
             }
             return nameHash;
         }
@@ -145,7 +155,7 @@ export class NNSTool
         let info: DomainInfo = new DomainInfo();
         var sb = new ThinNeo.ScriptBuilder();
         var scriptaddress = Consts.baseContract.hexToBytes().reverse();
-        sb.EmitParamJson(["(bytes)" + domain.toHexString()]);//第二个参数是个数组
+        sb.EmitParamJson([ "(bytes)" + domain.toHexString() ]);//第二个参数是个数组
         sb.EmitPushString("getInfo");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
@@ -161,25 +171,24 @@ export class NNSTool
                 // info2.textContent += "Succ\n";
             }
             var stackarr = result.stack as any[];
-            if (stackarr[0].type == "Array")
+            if (stackarr[ 0 ].type == "Array")
             {
-                var stack = stackarr[0].value as any[];
-                if (stack[0].type == "ByteArray")
+                var stack = stackarr[ 0 ].value as any[];
+                if (stack[ 0 ].type == "ByteArray")
                 {
-                    info.owner = (stack[0].value as string).hexToBytes();
-
+                    info.owner = (stack[ 0 ].value as string).hexToBytes();
                 }
-                if (stack[1].type == "ByteArray")
+                if (stack[ 1 ].type == "ByteArray")
                 {
-                    info.register = (stack[1].value as string).hexToBytes();
+                    info.register = (stack[ 1 ].value as string).hexToBytes();
                 }
-                if (stack[2].type == "ByteArray")
+                if (stack[ 2 ].type == "ByteArray")
                 {
-                    info.resolver = (stack[2].value as string).hexToBytes();
+                    info.resolver = (stack[ 2 ].value as string).hexToBytes();
                 }
-                if (stack[3].type == "Integer")
+                if (stack[ 3 ].type == "Integer")
                 {
-                    info.ttl = new Neo.BigInteger(stack[3].value as string);
+                    info.ttl = new Neo.BigInteger(stack[ 3 ].value as string);
                 }
             }
         }
@@ -194,7 +203,7 @@ export class NNSTool
     {
         let namehash: Uint8Array
         var domainarr: string[] = domain.split('.');
-        var subdomain: string = domainarr[0];
+        var subdomain: string = domainarr[ 0 ];
         var root: string = await NNSTool.getRootName();
         domainarr.shift();
         domainarr.push(root)
@@ -219,7 +228,7 @@ export class NNSTool
     {
         let namehash: Uint8Array
         var sb = new ThinNeo.ScriptBuilder();
-        sb.EmitParamJson(["(str)" + protocol, "(bytes)" + nnshash.toHexString()]);//第二个参数是个数组
+        sb.EmitParamJson([ "(str)" + protocol, "(bytes)" + nnshash.toHexString() ]);//第二个参数是个数组
         sb.EmitPushString("resolve");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
@@ -241,7 +250,7 @@ export class NNSTool
         let owner: string = "";
         var sb = new ThinNeo.ScriptBuilder();
         //var scriptaddress = Consts.registerContract.hexToBytes().reverse();
-        sb.EmitParamJson(["(bytes)" + nnshash.toHexString(), "(str)" + subdomain]);//第二个参数是个数组
+        sb.EmitParamJson([ "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
         sb.EmitPushString("getSubOwner");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
@@ -257,11 +266,11 @@ export class NNSTool
                 // info2.textContent += "Succ\n";
                 var stack = result.stack as any[];
                 //find name 他的type 有可能是string 或者ByteArray
-                if (stack[0].type == "ByteArray")
+                if (stack[ 0 ].type == "ByteArray")
                 {
-                    if (stack[0].value as string != "00")
+                    if (stack[ 0 ].value as string != "00")
                     {
-                        owner = ThinNeo.Helper.GetAddressFromScriptHash((stack[0].value as string).hexToBytes());
+                        owner = ThinNeo.Helper.GetAddressFromScriptHash((stack[ 0 ].value as string).hexToBytes());
                     }
                 }
             }
@@ -285,7 +294,7 @@ export class NNSTool
         let namehash: Uint8Array
         var sb = new ThinNeo.ScriptBuilder();
         var scriptaddress = Consts.registerContract.hexToBytes().reverse();
-        sb.EmitParamJson(["(bytes)" + nnshash.toHexString(), "(str)" + subdomain]);//第二个参数是个数组
+        sb.EmitParamJson([ "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
         sb.EmitPushString("getSubOwner");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
@@ -302,9 +311,9 @@ export class NNSTool
             }
             var stack = result.stack as any[];
             //find name 他的type 有可能是string 或者ByteArray
-            if (stack[0].type == "ByteArray")
+            if (stack[ 0 ].type == "ByteArray")
             {
-                namehash = (stack[0].value as string).hexToBytes();
+                namehash = (stack[ 0 ].value as string).hexToBytes();
             }
         }
         catch (e)
@@ -356,10 +365,10 @@ export class NNSTool
     static nameHashArray(domainarray: string[]): Uint8Array
     {
         domainarray.reverse();
-        var hash: Uint8Array = NNSTool.nameHash(domainarray[0]);
+        var hash: Uint8Array = NNSTool.nameHash(domainarray[ 0 ]);
         for (var i = 1; i < domainarray.length; i++)
         {
-            hash = NNSTool.nameHashSub(hash, domainarray[i]);
+            hash = NNSTool.nameHashSub(hash, domainarray[ i ]);
         }
         return hash;
     }
@@ -378,7 +387,7 @@ export class NNSTool
         {
             var sb = new ThinNeo.ScriptBuilder();
             var scriptaddress = Consts.registerContract.hexToBytes().reverse();
-            sb.EmitParamJson(["(addr)" + owner, "(bytes)" + nnshash.toHexString(), "(str)" + subdomain, "(str)addr", "(addr)" + data]);//第二个参数是个数组
+            sb.EmitParamJson([ "(addr)" + owner, "(bytes)" + nnshash.toHexString(), "(str)" + subdomain, "(str)addr", "(addr)" + data ]);//第二个参数是个数组
             sb.EmitPushString("getSubOwner");
             sb.EmitAppCall(scriptaddress);
             //var data = sb.ToArray();

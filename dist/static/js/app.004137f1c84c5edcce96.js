@@ -1,5 +1,12 @@
 webpackJsonp([1],{
 
+/***/ "2rs9":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "2xXY":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -76,7 +83,7 @@ var balance = /** @class */ (function (_super) {
     }
     // Component method
     balance.prototype.mounted = function () {
-        this.currentAddress = storagetool_1.StorageTool.getStorage("current-address");
+        this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
         this.getBalances();
     };
     balance.prototype.getNeoasset = function () {
@@ -507,26 +514,23 @@ exports.StaticStore = StaticStore;
 
 /***/ }),
 
-/***/ "5o6Y":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "6Fs6":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "6nHw":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
+var storagetool_1 = __webpack_require__("5LD5");
 var LoginInfo = /** @class */ (function () {
     function LoginInfo() {
     }
@@ -552,6 +556,18 @@ var LoginInfo = /** @class */ (function () {
             arr[i].address = obj[i].address;
         }
         return arr;
+    };
+    LoginInfo.getCurrentLogin = function () {
+        var address = LoginInfo.getCurrentAddress();
+        var arr = storagetool_1.StorageTool.getLoginArr();
+        var n = arr.findIndex(function (info) { return info.address == address; });
+        return arr[n];
+    };
+    LoginInfo.getCurrentAddress = function () {
+        return storagetool_1.StorageTool.getStorage("current-address");
+    };
+    LoginInfo.setCurrentAddress = function (str) {
+        storagetool_1.StorageTool.setStorage("current-address", str);
     };
     return LoginInfo;
 }());
@@ -599,6 +615,14 @@ var DomainInfo = /** @class */ (function () {
     return DomainInfo;
 }());
 exports.DomainInfo = DomainInfo;
+var RootDomainInfo = /** @class */ (function (_super) {
+    __extends(RootDomainInfo, _super);
+    function RootDomainInfo() {
+        return _super.call(this) || this;
+    }
+    return RootDomainInfo;
+}(DomainInfo));
+exports.RootDomainInfo = RootDomainInfo;
 
 
 /***/ }),
@@ -613,14 +637,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var nns = __webpack_require__("cfoD");
 var nns_default = /*#__PURE__*/__webpack_require__.n(nns);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-38933bd2","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:{ 'input-err': _vm.domainerr }},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"form-control nel",attrs:{"id":"searchText","type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel ",attrs:{"id":"searchBtn"}},[_c('Span',[_vm._v(_vm._s(_vm.network))])],1)]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.nnsRegister}},[_vm._v("Register")])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-b5dfde52","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:{ 'input-err': _vm.domainerr }},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"form-control nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('Span',[_vm._v(_vm._s(_vm.network))])],1)]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]),_vm._v(" "),_c('div',[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_nns = (esExports);
 // CONCATENATED MODULE: ./src/pages/nns.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("LB8j")
+  __webpack_require__("MQ4j")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -742,13 +766,6 @@ exports.default = login;
 
 /***/ }),
 
-/***/ "LB8j":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "Luci":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -794,16 +811,19 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "MQ4j":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "N5E8":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/VLink.vue
-//
-//
-//
-//
 //
 //
 //
@@ -831,14 +851,14 @@ var Component = normalizeComponent(
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0a8239e6","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/VLink.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-179656f6","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/VLink.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:{ active: _vm.isActive },attrs:{"href":_vm.href},on:{"click":_vm.go}},[_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_VLink = (esExports);
 // CONCATENATED MODULE: ./src/components/VLink.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("6Fs6")
+  __webpack_require__("NLED")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -850,7 +870,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-0a8239e6"
+var __vue_scopeId__ = "data-v-179656f6"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -864,6 +884,13 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_VLink = __webpack_exports__["a"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "NLED":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1171,24 +1198,32 @@ var VLink = __webpack_require__("N5E8");
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ var wallet = ({
-    components: {
-        VLink: VLink["a" /* default */],
-        MainLayout: Main["default"]
-    }
+  components: {
+    VLink: VLink["a" /* default */],
+    MainLayout: Main["default"]
+  }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-6e10cf91","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{attrs:{"href":"#balance"}},[_vm._v("Balance")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#transfer"}},[_vm._v("Transfer")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#nns"}},[_vm._v("NNS")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#settings"}},[_vm._v("Settings")])],1)])])])]),_vm._v(" "),_vm._t("default")],2)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-005d3f7c","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{attrs:{"href":"#balance"}},[_c('span',{staticClass:"icon-balance-select"}),_vm._v(" Balance\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#transfer"}},[_c('span',{staticClass:"icon-transfer-unselect"}),_vm._v(" Transfer\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#nns"}},[_c('span',{staticClass:"icon-nns-unselect"}),_vm._v(" NNS\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#settings"}},[_c('span',{staticClass:"icon-setting-unselect"}),_vm._v(" Settings\n            ")])],1)])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_wallet = (esExports);
 // CONCATENATED MODULE: ./src/layouts/wallet.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("5o6Y")
+  __webpack_require__("cz4e")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1262,13 +1297,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "ZURh":
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,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"
-
-/***/ }),
-
 /***/ "ar5l":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1312,6 +1340,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var entity_1 = __webpack_require__("6nHw");
 var wwwtool_1 = __webpack_require__("50aY");
+var cointool_1 = __webpack_require__("pLPz");
 /**
  * @name NEONameServiceTool
  * @method initRootDomain_初始化根域名信息
@@ -1324,16 +1353,27 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.initRootDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var rootNameHash_test, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, NNSTool.getRootNameHash()];
+            var test, _a, _b, domain;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        test = new entity_1.RootDomainInfo();
+                        _a = test;
+                        return [4 /*yield*/, NNSTool.getRootNameHash()];
                     case 1:
-                        rootNameHash_test = _b.sent();
-                        _a = NNSTool;
-                        return [4 /*yield*/, NNSTool.getDomainInfo(rootNameHash_test)];
+                        _a.roothash = _c.sent();
+                        _b = test;
+                        return [4 /*yield*/, NNSTool.getRootName()];
                     case 2:
-                        _a.domainInfo_test = _b.sent();
+                        _b.rootname = _c.sent();
+                        return [4 /*yield*/, NNSTool.getDomainInfo(test.roothash)];
+                    case 3:
+                        domain = _c.sent();
+                        test.owner = domain.owner;
+                        test.register = domain.register;
+                        test.resolver = domain.resolver;
+                        test.ttl = domain.ttl;
+                        NNSTool.root_test = test;
                         return [2 /*return*/];
                 }
             });
@@ -1345,22 +1385,48 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.queryDomainInfo = function (doamin) {
         return __awaiter(this, void 0, void 0, function () {
-            var domainarr, subdomain, root, nnshash, domains;
+            var domainarr, subdomain, nnshash, domains;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         domainarr = doamin.split('.');
                         subdomain = domainarr[0];
-                        return [4 /*yield*/, NNSTool.getRootName()];
-                    case 1:
-                        root = _a.sent();
                         domainarr.shift();
-                        domainarr.push(root);
+                        domainarr.push(this.root_test.rootname);
                         nnshash = NNSTool.nameHashArray(domainarr);
-                        return [4 /*yield*/, NNSTool.getSubOwner(nnshash, subdomain, NNSTool.domainInfo_test.register)];
-                    case 2:
+                        return [4 /*yield*/, NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register)];
+                    case 1:
                         domains = _a.sent();
                         return [2 /*return*/, domains];
+                }
+            });
+        });
+    };
+    /**
+     * 注册域名
+     * @param doamin 域名字符串
+     */
+    NNSTool.registerDomain = function (doamin) {
+        return __awaiter(this, void 0, void 0, function () {
+            var domainarr, subdomain, nnshash, domains, sb, scriptaddress, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        domainarr = doamin.split('.');
+                        subdomain = domainarr[0];
+                        domainarr.shift();
+                        domainarr.push(NNSTool.root_test.rootname);
+                        nnshash = NNSTool.nameHashArray(domainarr);
+                        return [4 /*yield*/, NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register)];
+                    case 1:
+                        domains = _a.sent();
+                        sb = new ThinNeo.ScriptBuilder();
+                        scriptaddress = NNSTool.root_test.register;
+                        sb.EmitParamJson(["(addr)" + entity_1.LoginInfo.getCurrentAddress(), "(bytes)" + nnshash.toHexString(), "(str)" + subdomain]); //第二个参数是个数组
+                        sb.EmitPushString("requestSubDomain"); //第一个参数
+                        sb.EmitAppCall(scriptaddress); //资产合约
+                        res = cointool_1.CoinTool.contractTransaction(sb);
+                        return [2 /*return*/, res];
                 }
             });
         });
@@ -1528,7 +1594,12 @@ var NNSTool = /** @class */ (function () {
             return [2 /*return*/];
         }); });
     };
-    //解析域名
+    /**
+     *
+     * @param protocol
+     * @param nnshash
+     * @param scriptaddress
+     */
     NNSTool.resolve = function (protocol, nnshash, scriptaddress) {
         return __awaiter(this, void 0, void 0, function () {
             var namehash, sb, data, result;
@@ -1678,6 +1749,14 @@ var NNSTool = /** @class */ (function () {
         }
         return hash;
     };
+    /**
+     *
+     * @param owner 拥有者
+     * @param nnshash 域名hash
+     * @param subdomain 子域名
+     * @param protocol 解析器类型
+     * @param data 解析地址
+     */
     NNSTool.setResolveData = function (owner, nnshash, subdomain, protocol, data) {
         return __awaiter(this, void 0, void 0, function () {
             var sb, scriptaddress;
@@ -1775,6 +1854,7 @@ var Nnsmanage = /** @class */ (function (_super) {
         _this.network = ".test";
         _this.nnsstr = "";
         _this.domainerr = false;
+        _this.errmsg = "";
         return _this;
     }
     Nnsmanage.prototype.mounted = function () {
@@ -1789,23 +1869,54 @@ var Nnsmanage = /** @class */ (function (_super) {
             });
         });
     };
-    Nnsmanage.prototype.nnsRegister = function () {
+    Nnsmanage.prototype.verifyDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var domains;
+            var regStr, re, domains;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(this.nnsstr)];
-                    case 1:
+                    case 0:
+                        this.nnsstr = this.nnsstr.trim();
+                        regStr = "^([a-zA-Z0-9-])";
+                        re = new RegExp(regStr);
+                        if (!!re.exec(this.nnsstr)) return [3 /*break*/, 1];
+                        this.domainerr = true;
+                        this.errmsg = "Please enter a domain name in the correct format ";
+                        return [2 /*return*/];
+                    case 1: return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(this.nnsstr)];
+                    case 2:
                         domains = _a.sent();
                         if (domains) {
                             this.domainerr = true;
-                            alert(this.domainerr);
-                            mui.toast("The current domain name is registered : " + domains, { duration: 'long', type: 'div' });
+                            mui.toast("The current domain name is registered : " + domains);
                         }
                         else {
-                            alert("此域名为空!!!");
+                            this.domainerr = false;
                         }
-                        return [2 /*return*/];
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage.prototype.nnsRegister = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!!this.domainerr) return [3 /*break*/, 2];
+                        return [4 /*yield*/, nnstool_1.NNSTool.registerDomain(this.nnsstr)];
+                    case 1:
+                        res = _a.sent();
+                        if (res.err) {
+                            console.error(res.info);
+                        }
+                        else {
+                            mui.alert("Domain name registration contract has been issued, please see ");
+                            mui.toast(res.info);
+                        }
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
                 }
             });
         });
@@ -1822,6 +1933,13 @@ var Nnsmanage = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Nnsmanage;
 
+
+/***/ }),
+
+/***/ "cz4e":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -2047,14 +2165,14 @@ var VLink = __webpack_require__("N5E8");
     VLink: VLink["a" /* default */]
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-41300f4a","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-12c9a8e7","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_vm._m(0,false,false),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{attrs:{"href":"#explorer"}},[_vm._v("Explorer")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#wallet"}},[_vm._v("Wallet")])],1)]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',[_c('v-link',{attrs:{"href":"#login"}},[_vm._v("login")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#generate"}},[_vm._v("Generate")])],1)])])])]),_vm._v(" "),_vm._t("default")],2)}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v("Toggle navigation")]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})]),_vm._v(" "),_c('a',{staticClass:"navbar-brand",attrs:{"href":"#"}},[_c('img',{attrs:{"width":"40","height":"40","src":__webpack_require__("ZURh"),"alt":""}})])])}]
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v("Toggle navigation")]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_Main = (esExports);
 // CONCATENATED MODULE: ./src/layouts/Main.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("rfS+")
+  __webpack_require__("2rs9")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2066,7 +2184,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-41300f4a"
+var __vue_scopeId__ = "data-v-12c9a8e7"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -2304,6 +2422,48 @@ var CoinTool = /** @class */ (function () {
             });
         });
     };
+    CoinTool.contractTransaction = function (sb) {
+        return __awaiter(this, void 0, void 0, function () {
+            var utxo, targeraddr, current, assetid, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, CoinTool.getassets()];
+                    case 1:
+                        utxo = _a.sent();
+                        targeraddr = entity_1.LoginInfo.getCurrentAddress();
+                        current = entity_1.LoginInfo.getCurrentLogin();
+                        assetid = CoinTool.id_GAS;
+                        tran = CoinTool.makeTran(utxo, targeraddr, assetid, Neo.Fixed8.Zero);
+                        //合约类型
+                        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+                        tran.extdata = new ThinNeo.InvokeTransData();
+                        //塞入脚本
+                        tran.extdata.script = sb.ToArray();
+                        //估计一个gas用量
+                        //如果估计gas用量少了，智能合约执行会失败。
+                        //如果估计gas用量>10,交易必须丢弃gas，否则智能合约执行会失败
+                        tran.extdata.gas = Neo.Fixed8.fromNumber(1.0);
+                        if (tran.witnesses == null)
+                            tran.witnesses = [];
+                        txid = tran.GetHash().clone().reverse().toHexString();
+                        msg = tran.GetMessage().clone();
+                        pubkey = current.pubkey.clone();
+                        prekey = current.prikey.clone();
+                        addr = current.address;
+                        signdata = ThinNeo.Helper.Sign(msg, prekey);
+                        tran.AddWitness(signdata, pubkey, addr);
+                        data = tran.GetRawData();
+                        res = new entity_1.Result();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
+                    case 2:
+                        result = _a.sent();
+                        res.err = !result;
+                        res.info = txid;
+                        return [2 /*return*/, res];
+                }
+            });
+        });
+    };
     CoinTool.getassets = function () {
         return __awaiter(this, void 0, void 0, function () {
             var utxos, assets, i, item, txid, n, asset, count, utxo;
@@ -2347,13 +2507,6 @@ exports.CoinTool = CoinTool;
 /***/ }),
 
 /***/ "pcqO":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "rfS+":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

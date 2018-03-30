@@ -1,3 +1,5 @@
+import { StorageTool } from "./storagetool";
+
 export class LoginInfo
 {
     pubkey: Uint8Array;
@@ -9,9 +11,9 @@ export class LoginInfo
         for (var i = 0; i < array.length; i++)
         {
             obj.push({});
-            obj[i].pubkey = array[i].pubkey.toHexString();
-            obj[i].prikey = array[i].prikey.toHexString();
-            obj[i].address = array[i].address;
+            obj[ i ].pubkey = array[ i ].pubkey.toHexString();
+            obj[ i ].prikey = array[ i ].prikey.toHexString();
+            obj[ i ].address = array[ i ].address;
         }
         return JSON.stringify(obj);
     }
@@ -22,13 +24,28 @@ export class LoginInfo
         for (var i = 0; i < obj.length; i++)
         {
             arr.push(new LoginInfo());
-            var str: string = obj[i].prikey;
-            var str2: string = obj[i].pubkey;
-            arr[i].prikey = str.hexToBytes();
-            arr[i].pubkey = str2.hexToBytes();
-            arr[i].address = obj[i].address;
+            var str: string = obj[ i ].prikey;
+            var str2: string = obj[ i ].pubkey;
+            arr[ i ].prikey = str.hexToBytes();
+            arr[ i ].pubkey = str2.hexToBytes();
+            arr[ i ].address = obj[ i ].address;
         }
         return arr;
+    }
+    static getCurrentLogin(): LoginInfo
+    {
+        var address: string = LoginInfo.getCurrentAddress();
+        var arr: LoginInfo[] = StorageTool.getLoginArr();
+        var n: number = arr.findIndex(info => info.address == address);
+        return arr[ n ];
+    }
+    static getCurrentAddress(): string
+    {
+        return StorageTool.getStorage("current-address");
+    }
+    static setCurrentAddress(str: string)
+    {
+        StorageTool.setStorage("current-address", str);
     }
 }
 

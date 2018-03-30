@@ -38,6 +38,7 @@ export default class Nnsmanage extends Vue
         if (!re.exec(this.nnsstr))
         { //验证输入的字符串是否符合规则 
             this.domainerr = true;
+            this.errmsg = "Please enter a domain name in the correct format ";
             return;
         } else
         {
@@ -57,7 +58,15 @@ export default class Nnsmanage extends Vue
     {
         if (!this.domainerr)
         {
-            NNSTool.registerDomain(this.nnsstr);
+            var res = await NNSTool.registerDomain(this.nnsstr);
+            if (res.err)
+            {
+                console.error(res.info);
+            } else
+            {
+                mui.alert("Domain name registration contract has been issued, please see ")
+                mui.toast(res.info);
+            }
         }
     }
 }

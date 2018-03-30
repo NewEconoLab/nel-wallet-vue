@@ -1,0 +1,61 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('../fonts/icomoon.eot?are1ml');
+  src: url('../fonts/icomoon.eot?are1ml#iefix') format('embedded-opentype'), url('../fonts/icomoon.ttf?are1ml') format('truetype'), url('../fonts/icomoon.woff?are1ml') format('woff'), url('../fonts/icomoon.svg?are1ml#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-balance-select:before {
+  content: "\e900";
+  color: #fff;
+}
+
+.icon-balance-unselect:before {
+  content: "\e901";
+  color: #b2b2b2;
+}
+
+.icon-nns-select:before {
+  content: "\e902";
+  color: #fff;
+}
+
+.icon-nns-unselect:before {
+  content: "\e903";
+  color: #b2b2b2;
+}
+
+.icon-setting-select:before {
+  content: "\e904";
+  color: #fff;
+}
+
+.icon-setting-unselect:before {
+  content: "\e905";
+  color: #b2b2b2;
+}
+
+.icon-transfer-select:before {
+  content: "\e906";
+  color: #fff;
+}
+
+.icon-transfer-unselect:before {
+  content: "\e907";
+  color: #b2b2b2;
+}

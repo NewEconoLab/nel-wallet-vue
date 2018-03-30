@@ -34,6 +34,7 @@
   background: #454f60;
   padding-top: 50px;
   padding-bottom: 60px;
+  border-radius: 5px;
 }
 .nns-register {
   background: #454f60;
