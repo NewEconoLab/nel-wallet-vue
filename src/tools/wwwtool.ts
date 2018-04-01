@@ -2,19 +2,19 @@ import { Result, BalanceInfo, AssetEnum } from './entity';
 export class WWW
 {
     static api: string = "https://api.nel.group/api/testnet";
-    static rpc: string = "http://47.96.168.8:20332/";
-    static otcgo : string = "http://state-api.otcgo.cn/api/v1/testnet";
+    static rpc: string = "http://47.96.168.8:20332/testnet";
+    static otcgo: string = "http://state-api.otcgo.cn/api/v1/testnet";
     static rpcName: string = "";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
 
 
-        if (url[url.length - 1] != '/')
+        if (url[ url.length - 1 ] != '/')
             url = url + "/";
         var urlout = url + "?jsonrpc=2.0&id=1&method=" + method + "&params=[";
         for (var i = 0; i < _params.length; i++)
         {
-            urlout += JSON.stringify(_params[i]);
+            urlout += JSON.stringify(_params[ i ]);
             if (i != _params.length - 1)
                 urlout += ",";
         }
@@ -24,15 +24,15 @@ export class WWW
     static makeRpcPostBody(method: string, ..._params: any[]): {}
     {
         var body = {};
-        body["jsonrpc"] = "2.0";
-        body["id"] = 1;
-        body["method"] = method;
+        body[ "jsonrpc" ] = "2.0";
+        body[ "id" ] = 1;
+        body[ "method" ] = method;
         var params = [];
         for (var i = 0; i < _params.length; i++)
         {
-            params.push(_params[i]);
+            params.push(_params[ i ]);
         }
-        body["params"] = params;
+        body[ "params" ] = params;
         return body;
     }
 
@@ -42,8 +42,8 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getblockcount");
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json["result"];
-        var height = parseInt(r[0]["blockcount"] as string) - 1;
+        var r = json[ "result" ];
+        var height = parseInt(r[ 0 ][ "blockcount" ] as string) - 1;
         return height;
     }
     static async api_getAllAssets()
@@ -51,7 +51,7 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getallasset");
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json["result"];
+        var r = json[ "result" ];
         return r;
     }
     static async api_getUTXO(address: string)
@@ -59,20 +59,21 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getutxo", address);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json["result"];
+        var r = json[ "result" ];
         return r;
 
     }
     static async api_getBalance(address: string)
     {
-        var res:Result = new Result();
+        var res: Result = new Result();
         var str = WWW.makeRpcUrl(WWW.api, "getbalance", address);
         var value = await fetch(str, { "method": "get" });
         var json = await value.json();
-        if(json["result"]){
-            var r = json["result"];     
-            var balances = r as Array<BalanceInfo>;       
-            balances.map(balance=> balance.names = balance.name.map(name => name.name).join('|'));
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ];
+            var balances = r as Array<BalanceInfo>;
+            balances.map(balance => balance.names = balance.name.map(name => name.name).join('|'));
             balances.map((balance) =>
             {
                 if (balance.asset == AssetEnum.NEO)
@@ -86,19 +87,20 @@ export class WWW
             });
             res.err = false;
             res.info = balances;
-        }else{
+        } else
+        {
             res.err = true;
-            res.info = json["error"];
+            res.info = json[ "error" ];
         }
         return res;
     }
 
     static async otc_getBalances(address: string)
     {
-        var str = WWW.otcgo+"/address/balances/{"+address+"}";
-        var value = await fetch(str,{"method":"get"});
+        var str = WWW.otcgo + "/address/balances/{" + address + "}";
+        var value = await fetch(str, { "method": "get" });
         var json = await value.json();
-        var r = json["data"];
+        var r = json[ "data" ];
         return r;
     }
 
@@ -107,7 +109,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("sendrawtransaction", data.toHexString());
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json["result"] as boolean;
+        var r = json[ "result" ] as boolean;
         return r;
     }
 
@@ -116,10 +118,10 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json["result"];
-        if(r==undefined)
-            return 0;        
-        return r[0]["gas"];
+        var r = json[ "result" ];
+        if (r == undefined)
+            return 0;
+        return r[ 0 ][ "gas" ];
     }
 
     static async rpc_getURL()
@@ -127,8 +129,8 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json["result"][0];
-        var url = r.nodeList[0];
+        var r = json[ "result" ][ 0 ];
+        var url = r.nodeList[ 0 ];
         WWW.rpc = url;
         WWW.rpcName = r.nodeType;
         return url;
@@ -136,33 +138,33 @@ export class WWW
 
     static async  rpc_getHeight()
     {
-        var str = WWW.makeRpcUrl(WWW.rpc, "getblockcount");
+        var str = WWW.makeRpcUrl(WWW.api, "getblockcount");
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json["result"];
+        var r = json[ "result" ];
         var height = parseInt(r as string) - 1;
         return height;
     }
 
     static async  rpc_getStorage(scripthash: Uint8Array, key: Uint8Array): Promise<string>
     {
-        var str = WWW.makeRpcUrl(WWW.rpc, "getstorage", scripthash.toHexString(), key.toHexString());
+        var str = WWW.makeRpcUrl(WWW.api, "getstorage", scripthash.toHexString(), key.toHexString());
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        if (json["result"] == null)
+        if (json[ "result" ] == null)
             return null;
-        var r = json["result"] as string;
+        var r = json[ "result" ] as string;
         return r;
     }
 
     static async rpc_getInvokescript(scripthash: Uint8Array): Promise<any>
     {
-        var str = WWW.makeRpcUrl(WWW.rpc, "invokescript", scripthash.toHexString());
+        var str = WWW.makeRpcUrl(WWW.api, "invokescript", scripthash.toHexString());
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        if (json["result"] == null)
+        if (json[ "result" ] == null)
             return null;
-        var r = json["result"]
+        var r = json[ "result" ]
         return r;
     }
 }

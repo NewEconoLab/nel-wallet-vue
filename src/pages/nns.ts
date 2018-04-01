@@ -22,6 +22,7 @@ export default class Nnsmanage extends Vue
         this.nnsstr = "";
         this.domainerr = false;
         this.errmsg = "";
+        this.mounted();
     }
 
     async mounted()

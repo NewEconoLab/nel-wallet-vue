@@ -1,148 +1,13 @@
 webpackJsonp([1],{
 
-/***/ "2rs9":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "2xXY":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "1CZp":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var cointool_1 = __webpack_require__("pLPz");
-var entity_1 = __webpack_require__("6nHw");
-var storagetool_1 = __webpack_require__("5LD5");
-var vue_1 = __webpack_require__("/5sW");
-var vue_property_decorator_1 = __webpack_require__("EOM2");
-var wallet_vue_1 = __webpack_require__("PPZq");
-var wwwtool_1 = __webpack_require__("50aY");
-var balance = /** @class */ (function (_super) {
-    __extends(balance, _super);
-    function balance() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        // Data property
-        _this.neoasset = new entity_1.NeoAsset();
-        _this.balances = new Array();
-        _this.currentAddress = "";
-        return _this;
-    }
-    // Component method
-    balance.prototype.mounted = function () {
-        this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
-        this.getBalances();
-    };
-    balance.prototype.getNeoasset = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    };
-    balance.prototype.getBalances = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var res, clamis;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        cointool_1.CoinTool.initAllAsset();
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getBalance(this.currentAddress)];
-                    case 1:
-                        res = _a.sent();
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(this.currentAddress)];
-                    case 2:
-                        clamis = _a.sent();
-                        if (res.err) {
-                            mui.alert("Current address balance is empty -_-!");
-                        }
-                        else {
-                            this.balances = res.info;
-                            this.neoasset.claim = clamis;
-                            this.balances.map(function (balance) {
-                                if (balance.names == "NEO") {
-                                    _this.neoasset.neo = balance.balance;
-                                }
-                                if (balance.names == "GAS") {
-                                    _this.neoasset.gas = balance.balance;
-                                }
-                            });
-                            storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    balance.prototype.toTransfer = function (asset) {
-        storagetool_1.StorageTool.setStorage("transfer_choose", asset);
-        window.location.hash = "#transfer";
-    };
-    balance = __decorate([
-        vue_property_decorator_1.Component({
-            components: {
-                "wallet-layout": wallet_vue_1.default
-            }
-        })
-    ], balance);
-    return balance;
-}(vue_1.default));
-exports.default = balance;
-
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:{ 'input-err': _vm.domainerr }},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"form-control nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('Span',[_vm._v(_vm._s(_vm.network))])],1)]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]),_vm._v(" "),_c('div',[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])])])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -473,6 +338,13 @@ exports.WWW = WWW;
 
 /***/ }),
 
+/***/ "5AfN":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "5LD5":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -632,22 +504,16 @@ exports.RootDomainInfo = RootDomainInfo;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-// EXTERNAL MODULE: ./node_modules/ts-loader!./src/pages/nns.ts
-var nns = __webpack_require__("cfoD");
-var nns_default = /*#__PURE__*/__webpack_require__.n(nns);
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-b5dfde52","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:{ 'input-err': _vm.domainerr }},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"form-control nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('Span',[_vm._v(_vm._s(_vm.network))])],1)]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]),_vm._v(" "),_c('div',[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ var pages_nns = (esExports);
-// CONCATENATED MODULE: ./src/pages/nns.vue
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_nns_ts__ = __webpack_require__("yw2z");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_nns_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_nns_ts__);
+/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_nns_ts__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_nns_ts__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_704755f4_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_nns_vue__ = __webpack_require__("1CZp");
 function injectStyle (ssrContext) {
-  __webpack_require__("MQ4j")
+  __webpack_require__("Tmoe")
 }
-var normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
+
 /* template */
 
 /* template functional */
@@ -659,110 +525,27 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  nns_default.a,
-  pages_nns,
+  __WEBPACK_IMPORTED_MODULE_0__ts_loader_nns_ts___default.a,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_704755f4_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_nns_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ var src_pages_nns = __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
 
-/***/ "ILH5":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "JUU6":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__("/5sW");
-var vue_property_decorator_1 = __webpack_require__("EOM2");
-var Main_vue_1 = __webpack_require__("l7Tq");
-var neotools_1 = __webpack_require__("PMwo");
-var storagetool_1 = __webpack_require__("5LD5");
-var login = /** @class */ (function (_super) {
-    __extends(login, _super);
-    function login() {
-        var _this = _super.call(this) || this;
-        // Data property
-        _this.Message = "hello world";
-        _this.wallet = new ThinNeo.nep6wallet();
-        _this.filename = "";
-        _this.password = "";
-        _this.reader = new FileReader();
-        _this.reader.onload = function () {
-            var walletstr = _this.reader.result;
-            _this.wallet.fromJsonStr(walletstr);
-        };
-        return _this;
-    }
-    // Lifecycle hook
-    login.prototype.fileChange = function ($event) {
-        this.file = $event.target.files[0];
-        this.filename = this.file.name;
-        if (this.filename.includes(".json")) {
-            this.reader.readAsText(this.file);
-        }
-    };
-    login.prototype.login = function () {
-        mui.toast("Be patient and wait for patience ...");
-        neotools_1.neotools.nep6Load(this.wallet, this.password)
-            .then(function (res) {
-            var loginarray = res.info;
-            storagetool_1.StorageTool.setLoginArr(loginarray);
-            storagetool_1.StorageTool.setStorage("current-address", loginarray[0].address);
-            mui.toast('Authentication passed, entering your account ^_^ ...', { duration: 'long', type: 'div' });
-            window.location.hash = "#balance";
-        })
-            .catch(function (e) {
-            mui.alert(">_< !!! The login failure error message is as follows:" + e);
-        });
-    };
-    login.prototype.modual = function () {
-        var mask = mui.createMask(function (call) {
-            mui.alert("modual is close");
-        }); //callback为用户点击蒙版时自动执行的回调；
-        mask.show(); //显示遮罩
-        // mask.close();//关闭遮罩
-    };
-    login.prototype.wifImport = function () {
-    };
-    login.prototype.nep2Import = function () {
-    };
-    login = __decorate([
-        vue_property_decorator_1.Component({
-            components: {
-                "main-layout": Main_vue_1.default,
-            }
-        }),
-        __metadata("design:paramtypes", [])
-    ], login);
-    return login;
-}(vue_1.default));
-exports.default = login;
-
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"line-title"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("NEO Balance")]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',[_vm._v("Key Address ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel"},[_vm._v("Switch")])])])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding-top":"2.8%","padding-bottom":"0.9%","padding-left":"2.3%"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-top":"2.8%","padding-bottom":"0.9%","padding-left":"2.3%"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding-top":"2.8%","padding-bottom":"0.9%","padding-left":"2.3%"}},[_vm._v("\n                    GAS available to claim : "+_vm._s(_vm.neoasset.claim)+" "),(_vm.neoasset.claim>0)?_c('button',{staticClass:"btn btn-nel"},[_vm._v("Claim")]):_vm._e()])])]),_vm._v(" "),_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Asset")])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"row"},[_c('div',{staticClass:"col-lg-2"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-lg-8"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-lg-2"},[_c('span',{staticClass:"btn btn-nel",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v("Transfer")])])])})],2)])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -771,22 +554,16 @@ exports.default = login;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-// EXTERNAL MODULE: ./node_modules/ts-loader!./src/pages/login.ts
-var login = __webpack_require__("ILH5");
-var login_default = /*#__PURE__*/__webpack_require__.n(login);
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-4037e9bb","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/login.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("\n      Login your wallet\n    ")])]),_vm._v(" "),_c('div',{staticStyle:{"height":"56px","width":"417px","margin":"0 auto"}},[_c('div',{staticClass:"input-group",staticStyle:{"height":"56px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filename),expression:"filename"}],staticClass:"form-control",staticStyle:{"height":"56px"},attrs:{"type":"text","disabled":"true"},domProps:{"value":(_vm.filename)},on:{"input":function($event){if($event.target.composing){ return; }_vm.filename=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button"},[_c('span',[_vm._v("Select")]),_vm._v(" "),_c('input',{attrs:{"type":"file"},on:{"change":_vm.fileChange}})])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"56px","width":"417px","margin":"0 auto","padding-top":"40px"}},[_c('div',{staticClass:"input-group",staticStyle:{"height":"56px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.password),expression:"password"}],staticClass:"form-control",staticStyle:{"height":"56px"},attrs:{"type":"password"},domProps:{"value":(_vm.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.password=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button",on:{"click":_vm.login}},[_vm._v("\n            Login\n        ")])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"36px","padding-top":"80px","padding-bottom":"30px","text-align":"center"}},[_vm._v("or you can")]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"30px"}},[_c('button',{staticClass:"btn btn-nel btn-import"},[_vm._v("Import key from WIF String ")])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"20px"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.modual('nep2')}}},[_vm._v("Import key from nep2 String ")])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ var pages_login = (esExports);
-// CONCATENATED MODULE: ./src/pages/login.vue
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts__ = __webpack_require__("xWBt");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts__);
+/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_844ffe3c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_login_vue__ = __webpack_require__("TGWR");
 function injectStyle (ssrContext) {
-  __webpack_require__("d2qE")
+  __webpack_require__("oU6Y")
 }
-var normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
+
 /* template */
 
 /* template functional */
@@ -798,23 +575,16 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  login_default.a,
-  pages_login,
+  __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts___default.a,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_844ffe3c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_login_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ var src_pages_login = __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "MQ4j":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -823,7 +593,7 @@ var Component = normalizeComponent(
 
 "use strict";
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/VLink.vue
+// CONCATENATED MODULE: ./node_modules/_babel-loader@7.1.4@babel-loader/lib!./node_modules/_vue-loader@13.7.1@vue-loader/lib/selector.js?type=script&index=0!./src/components/VLink.vue
 //
 //
 //
@@ -851,17 +621,18 @@ var Component = normalizeComponent(
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-179656f6","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/VLink.vue
+// CONCATENATED MODULE: ./node_modules/_vue-loader@13.7.1@vue-loader/lib/template-compiler?{"id":"data-v-12bd885a","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/_vue-loader@13.7.1@vue-loader/lib/selector.js?type=template&index=0!./src/components/VLink.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:{ active: _vm.isActive },attrs:{"href":_vm.href},on:{"click":_vm.go}},[_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_VLink = (esExports);
 // CONCATENATED MODULE: ./src/components/VLink.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("NLED")
+  __webpack_require__("Q+Ny")
 }
-var normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
+
 
 /* template */
 
@@ -870,7 +641,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-179656f6"
+var __vue_scopeId__ = "data-v-12bd885a"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -884,13 +655,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_VLink = __webpack_exports__["a"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "NLED":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1168,7 +932,7 @@ var Main = __webpack_require__("l7Tq");
 // EXTERNAL MODULE: ./src/components/VLink.vue + 2 modules
 var VLink = __webpack_require__("N5E8");
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/layouts/wallet.vue
+// CONCATENATED MODULE: ./node_modules/_babel-loader@7.1.4@babel-loader/lib!./node_modules/_vue-loader@13.7.1@vue-loader/lib/selector.js?type=script&index=0!./src/layouts/wallet.vue
 //
 //
 //
@@ -1216,17 +980,18 @@ var VLink = __webpack_require__("N5E8");
     MainLayout: Main["default"]
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-005d3f7c","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
+// CONCATENATED MODULE: ./node_modules/_vue-loader@13.7.1@vue-loader/lib/template-compiler?{"id":"data-v-3f590ae0","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/_vue-loader@13.7.1@vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{attrs:{"href":"#balance"}},[_c('span',{staticClass:"icon-balance-select"}),_vm._v(" Balance\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#transfer"}},[_c('span',{staticClass:"icon-transfer-unselect"}),_vm._v(" Transfer\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#nns"}},[_c('span',{staticClass:"icon-nns-unselect"}),_vm._v(" NNS\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#settings"}},[_c('span',{staticClass:"icon-setting-unselect"}),_vm._v(" Settings\n            ")])],1)])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_wallet = (esExports);
 // CONCATENATED MODULE: ./src/layouts/wallet.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("cz4e")
+  __webpack_require__("quwK")
 }
-var normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
+
 
 /* template */
 
@@ -1252,27 +1017,28 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "Q+Ny":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "QRjO":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-// EXTERNAL MODULE: ./node_modules/ts-loader!./src/pages/balance.ts
-var balance = __webpack_require__("2xXY");
-var balance_default = /*#__PURE__*/__webpack_require__.n(balance);
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-893908b8","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"line-title"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("NEO Balance")]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',[_vm._v("Key Address ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel"},[_vm._v("Switch")])])])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding-top":"2.8%","padding-bottom":"0.9%","padding-left":"2.3%"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-top":"2.8%","padding-bottom":"0.9%","padding-left":"2.3%"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding-top":"2.8%","padding-bottom":"0.9%","padding-left":"2.3%"}},[_vm._v("\n                    GAS available to claim : "+_vm._s(_vm.neoasset.claim)+" "),(_vm.neoasset.claim>0)?_c('button',{staticClass:"btn btn-nel"},[_vm._v("Claim")]):_vm._e()])])]),_vm._v(" "),_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Asset")])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"row"},[_c('div',{staticClass:"col-lg-2"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-lg-8"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-lg-2"},[_c('span',{staticClass:"btn btn-nel",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v("Transfer")])])])})],2)])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ var pages_balance = (esExports);
-// CONCATENATED MODULE: ./src/pages/balance.vue
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts__ = __webpack_require__("SUg6");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts__);
+/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_683a0f4a_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_balance_vue__ = __webpack_require__("JUU6");
 function injectStyle (ssrContext) {
-  __webpack_require__("n5CO")
+  __webpack_require__("dFe9")
 }
-var normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
+
 /* template */
 
 /* template functional */
@@ -1284,16 +1050,173 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  balance_default.a,
-  pages_balance,
+  __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts___default.a,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_683a0f4a_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_balance_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ var src_pages_balance = __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "SUg6":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var cointool_1 = __webpack_require__("pLPz");
+var entity_1 = __webpack_require__("6nHw");
+var storagetool_1 = __webpack_require__("5LD5");
+var vue_1 = __webpack_require__("i8gr");
+var vue_property_decorator_1 = __webpack_require__("bSIW");
+var wallet_vue_1 = __webpack_require__("PPZq");
+var wwwtool_1 = __webpack_require__("50aY");
+var balance = /** @class */ (function (_super) {
+    __extends(balance, _super);
+    function balance() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        // Data property
+        _this.neoasset = new entity_1.NeoAsset();
+        _this.balances = new Array();
+        _this.currentAddress = "";
+        return _this;
+    }
+    // Component method
+    balance.prototype.mounted = function () {
+        this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
+        this.getBalances();
+    };
+    balance.prototype.getNeoasset = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    balance.prototype.getBalances = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var res, clamis;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        cointool_1.CoinTool.initAllAsset();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getBalance(this.currentAddress)];
+                    case 1:
+                        res = _a.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(this.currentAddress)];
+                    case 2:
+                        clamis = _a.sent();
+                        if (res.err) {
+                            mui.alert("Current address balance is empty -_-!");
+                        }
+                        else {
+                            this.balances = res.info;
+                            this.neoasset.claim = clamis;
+                            this.balances.map(function (balance) {
+                                if (balance.names == "NEO") {
+                                    _this.neoasset.neo = balance.balance;
+                                }
+                                if (balance.names == "GAS") {
+                                    _this.neoasset.gas = balance.balance;
+                                }
+                            });
+                            storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    balance.prototype.toTransfer = function (asset) {
+        storagetool_1.StorageTool.setStorage("transfer_choose", asset);
+        window.location.hash = "#transfer";
+    };
+    balance = __decorate([
+        vue_property_decorator_1.Component({
+            components: {
+                "wallet-layout": wallet_vue_1.default
+            }
+        })
+    ], balance);
+    return balance;
+}(vue_1.default));
+exports.default = balance;
+
+
+/***/ }),
+
+/***/ "TGWR":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("\n      Login your wallet\n    ")])]),_vm._v(" "),_c('div',{staticStyle:{"height":"56px","width":"417px","margin":"0 auto"}},[_c('div',{staticClass:"input-group",staticStyle:{"height":"56px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filename),expression:"filename"}],staticClass:"form-control",staticStyle:{"height":"56px"},attrs:{"type":"text","disabled":"true"},domProps:{"value":(_vm.filename)},on:{"input":function($event){if($event.target.composing){ return; }_vm.filename=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button"},[_c('span',[_vm._v("Select")]),_vm._v(" "),_c('input',{attrs:{"type":"file"},on:{"change":_vm.fileChange}})])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"56px","width":"417px","margin":"0 auto","padding-top":"40px"}},[_c('div',{staticClass:"input-group",staticStyle:{"height":"56px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.password),expression:"password"}],staticClass:"form-control",staticStyle:{"height":"56px"},attrs:{"type":"password"},domProps:{"value":(_vm.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.password=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button",on:{"click":_vm.login}},[_vm._v("\n            Login\n        ")])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"36px","padding-top":"80px","padding-bottom":"30px","text-align":"center"}},[_vm._v("or you can")]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"30px"}},[_c('button',{staticClass:"btn btn-nel btn-import"},[_vm._v("Import key from WIF String ")])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"20px"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.modual('nep2')}}},[_vm._v("Import key from nep2 String ")])])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ "Tmoe":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1783,167 +1706,7 @@ exports.NNSTool = NNSTool;
 
 /***/ }),
 
-/***/ "cfoD":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__("/5sW");
-var vue_class_component_1 = __webpack_require__("c+8m");
-var wallet_vue_1 = __webpack_require__("PPZq");
-var nnstool_1 = __webpack_require__("ar5l");
-var Nnsmanage = /** @class */ (function (_super) {
-    __extends(Nnsmanage, _super);
-    function Nnsmanage() {
-        var _this = _super.call(this) || this;
-        _this.network = ".test";
-        _this.nnsstr = "";
-        _this.domainerr = false;
-        _this.errmsg = "";
-        return _this;
-    }
-    Nnsmanage.prototype.mounted = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, nnstool_1.NNSTool.initRootDomain()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Nnsmanage.prototype.verifyDomain = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var regStr, re, domains;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.nnsstr = this.nnsstr.trim();
-                        regStr = "^([a-zA-Z0-9-])";
-                        re = new RegExp(regStr);
-                        if (!!re.exec(this.nnsstr)) return [3 /*break*/, 1];
-                        this.domainerr = true;
-                        this.errmsg = "Please enter a domain name in the correct format ";
-                        return [2 /*return*/];
-                    case 1: return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(this.nnsstr)];
-                    case 2:
-                        domains = _a.sent();
-                        if (domains) {
-                            this.domainerr = true;
-                            mui.toast("The current domain name is registered : " + domains);
-                        }
-                        else {
-                            this.domainerr = false;
-                        }
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Nnsmanage.prototype.nnsRegister = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!!this.domainerr) return [3 /*break*/, 2];
-                        return [4 /*yield*/, nnstool_1.NNSTool.registerDomain(this.nnsstr)];
-                    case 1:
-                        res = _a.sent();
-                        if (res.err) {
-                            console.error(res.info);
-                        }
-                        else {
-                            mui.alert("Domain name registration contract has been issued, please see ");
-                            mui.toast(res.info);
-                        }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Nnsmanage = __decorate([
-        vue_class_component_1.default({
-            components: {
-                "wallet-layout": wallet_vue_1.default
-            }
-        }),
-        __metadata("design:paramtypes", [])
-    ], Nnsmanage);
-    return Nnsmanage;
-}(vue_1.default));
-exports.default = Nnsmanage;
-
-
-/***/ }),
-
-/***/ "cz4e":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "d2qE":
+/***/ "dFe9":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -1955,7 +1718,7 @@ exports.default = Nnsmanage;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-var normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
 var __vue_script__ = null
 /* template */
@@ -1982,128 +1745,14 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "f3HO":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "fl1Y":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var cointool_1 = __webpack_require__("pLPz");
-var neotools_1 = __webpack_require__("PMwo");
-var storagetool_1 = __webpack_require__("5LD5");
-var wallet_vue_1 = __webpack_require__("PPZq");
-var vue_1 = __webpack_require__("/5sW");
-var vue_class_component_1 = __webpack_require__("c+8m");
-var transfer = /** @class */ (function (_super) {
-    __extends(transfer, _super);
-    function transfer() {
-        var _this = _super.call(this) || this;
-        _this.targetaddr = "";
-        _this.amount = 0;
-        _this.asset = "";
-        _this.balances = [];
-        _this.targetaddr = "";
-        _this.amount = 0;
-        return _this;
-    }
-    transfer.prototype.mounted = function () {
-        var choose = storagetool_1.StorageTool.getStorage("transfer_choose");
-        var str = storagetool_1.StorageTool.getStorage("balances_asset");
-        this.balances = JSON.parse(str);
-        this.asset = choose;
-    };
-    transfer.prototype.choose = function () {
-        storagetool_1.StorageTool.setStorage("transfer_choose", this.asset);
-    };
-    transfer.prototype.verify_addr = function () {
-        if (neotools_1.neotools.verifyPublicKey(this.targetaddr))
-            alert("地址正确");
-        else
-            alert("错误地址");
-    };
-    transfer.prototype.verify_Amount = function () {
-    };
-    transfer.prototype.send = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount + "")];
-                    case 1:
-                        res = _a.sent();
-                        if (!res.err)
-                            mui.alert(res.info);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    transfer = __decorate([
-        vue_class_component_1.default({
-            components: {
-                "wallet-layout": wallet_vue_1.default
-            }
-        }),
-        __metadata("design:paramtypes", [])
-    ], transfer);
-    return transfer;
-}(vue_1.default));
-exports.default = transfer;
-
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"line-title"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("NEO Balance")])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2",staticStyle:{"font-family":"PingFangSC-Medium","font-size":"16px","color":"#FFFFFF","line-height":"16px"}},[_vm._v("\n                Asset：\n            ")]),_vm._v(" "),_c('div',{staticClass:"col-sm-10"},[_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.asset),expression:"asset"}],staticStyle:{"width":"150px"},on:{"change":[function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.asset=$event.target.multiple ? $$selectedVal : $$selectedVal[0]},_vm.choose]}},_vm._l((_vm.balances),function(balance){return _c('option',{key:balance.asset,domProps:{"value":balance.asset}},[_vm._v(_vm._s(balance.names))])})),_vm._v("\n                Neo 2000 Neo available\n            ")]),_vm._v(" "),_c('div',{staticClass:"col-sm-2",staticStyle:{"font-family":"PingFangSC-Medium","font-size":"16px","color":"#FFFFFF","line-height":"16px"}},[_vm._v("\n                Address：\n            ")]),_vm._v(" "),_c('div',{staticClass:"col-sm-10"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"input-nel",class:{},attrs:{"type":"text"},domProps:{"value":(_vm.targetaddr)},on:{"change":_vm.verify_addr,"input":function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"col-sm-2",staticStyle:{"font-family":"PingFangSC-Medium","font-size":"16px","color":"#FFFFFF","line-height":"16px"}},[_vm._v("\n                Amount：\n            ")]),_vm._v(" "),_c('div',{staticClass:"col-sm-10"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input",attrs:{"type":"number","name":"","id":""},domProps:{"value":(_vm.amount)},on:{"input":function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value}}})])]),_vm._v(" "),_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.send}},[_vm._v("Send")])])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -2116,7 +1765,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // EXTERNAL MODULE: ./src/components/VLink.vue + 2 modules
 var VLink = __webpack_require__("N5E8");
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/layouts/Main.vue
+// CONCATENATED MODULE: ./node_modules/_babel-loader@7.1.4@babel-loader/lib!./node_modules/_vue-loader@13.7.1@vue-loader/lib/selector.js?type=script&index=0!./src/layouts/Main.vue
 //
 //
 //
@@ -2165,17 +1814,18 @@ var VLink = __webpack_require__("N5E8");
     VLink: VLink["a" /* default */]
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-12c9a8e7","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_vm._m(0,false,false),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{attrs:{"href":"#explorer"}},[_vm._v("Explorer")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#wallet"}},[_vm._v("Wallet")])],1)]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',[_c('v-link',{attrs:{"href":"#login"}},[_vm._v("login")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#generate"}},[_vm._v("Generate")])],1)])])])]),_vm._v(" "),_vm._t("default")],2)}
+// CONCATENATED MODULE: ./node_modules/_vue-loader@13.7.1@vue-loader/lib/template-compiler?{"id":"data-v-185adc2e","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/_vue-loader@13.7.1@vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{attrs:{"href":"#explorer"}},[_vm._v("Explorer")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#wallet"}},[_vm._v("Wallet")])],1)]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',[_c('v-link',{attrs:{"href":"#login"}},[_vm._v("login")])],1),_vm._v(" "),_c('li',[_c('v-link',{attrs:{"href":"#generate"}},[_vm._v("Generate")])],1)])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v("Toggle navigation")]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_Main = (esExports);
 // CONCATENATED MODULE: ./src/layouts/Main.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("2rs9")
+  __webpack_require__("5AfN")
 }
-var normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
+
 
 /* template */
 
@@ -2184,7 +1834,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-12c9a8e7"
+var __vue_scopeId__ = "data-v-185adc2e"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -2201,7 +1851,14 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "n5CO":
+/***/ "lUN1":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "oU6Y":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -2213,22 +1870,16 @@ var Component = normalizeComponent(
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-// EXTERNAL MODULE: ./node_modules/ts-loader!./src/pages/transfer.ts
-var transfer = __webpack_require__("f3HO");
-var transfer_default = /*#__PURE__*/__webpack_require__.n(transfer);
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-28b9cd7a","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"line-title"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("NEO Balance")])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2",staticStyle:{"font-family":"PingFangSC-Medium","font-size":"16px","color":"#FFFFFF","line-height":"16px"}},[_vm._v("\n                Asset：\n            ")]),_vm._v(" "),_c('div',{staticClass:"col-sm-10"},[_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.asset),expression:"asset"}],staticStyle:{"width":"150px"},on:{"change":[function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.asset=$event.target.multiple ? $$selectedVal : $$selectedVal[0]},_vm.choose]}},_vm._l((_vm.balances),function(balance){return _c('option',{key:balance.asset,domProps:{"value":balance.asset}},[_vm._v(_vm._s(balance.names))])})),_vm._v("\n                Neo 2000 Neo available\n            ")]),_vm._v(" "),_c('div',{staticClass:"col-sm-2",staticStyle:{"font-family":"PingFangSC-Medium","font-size":"16px","color":"#FFFFFF","line-height":"16px"}},[_vm._v("\n                Address：\n            ")]),_vm._v(" "),_c('div',{staticClass:"col-sm-10"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"input-nel",class:{},attrs:{"type":"text"},domProps:{"value":(_vm.targetaddr)},on:{"change":_vm.verify_addr,"input":function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"col-sm-2",staticStyle:{"font-family":"PingFangSC-Medium","font-size":"16px","color":"#FFFFFF","line-height":"16px"}},[_vm._v("\n                Amount：\n            ")]),_vm._v(" "),_c('div',{staticClass:"col-sm-10"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input",attrs:{"type":"number","name":"","id":""},domProps:{"value":(_vm.amount)},on:{"input":function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value}}})])]),_vm._v(" "),_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.send}},[_vm._v("Send")])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ var pages_transfer = (esExports);
-// CONCATENATED MODULE: ./src/pages/transfer.vue
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts__ = __webpack_require__("snhR");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts__);
+/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_6cdc932f_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_transfer_vue__ = __webpack_require__("fl1Y");
 function injectStyle (ssrContext) {
-  __webpack_require__("pcqO")
+  __webpack_require__("lUN1")
 }
-var normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
+
 /* template */
 
 /* template functional */
@@ -2240,15 +1891,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  transfer_default.a,
-  pages_transfer,
+  __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts___default.a,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_6cdc932f_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_transfer_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ var src_pages_transfer = __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
@@ -2506,10 +2157,135 @@ exports.CoinTool = CoinTool;
 
 /***/ }),
 
-/***/ "pcqO":
+/***/ "quwK":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "snhR":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var cointool_1 = __webpack_require__("pLPz");
+var neotools_1 = __webpack_require__("PMwo");
+var storagetool_1 = __webpack_require__("5LD5");
+var wallet_vue_1 = __webpack_require__("PPZq");
+var vue_1 = __webpack_require__("i8gr");
+var vue_class_component_1 = __webpack_require__("9ZwC");
+var transfer = /** @class */ (function (_super) {
+    __extends(transfer, _super);
+    function transfer() {
+        var _this = _super.call(this) || this;
+        _this.targetaddr = "";
+        _this.amount = 0;
+        _this.asset = "";
+        _this.balances = [];
+        _this.targetaddr = "";
+        _this.amount = 0;
+        return _this;
+    }
+    transfer.prototype.mounted = function () {
+        var choose = storagetool_1.StorageTool.getStorage("transfer_choose");
+        var str = storagetool_1.StorageTool.getStorage("balances_asset");
+        this.balances = JSON.parse(str);
+        this.asset = choose;
+    };
+    transfer.prototype.choose = function () {
+        storagetool_1.StorageTool.setStorage("transfer_choose", this.asset);
+    };
+    transfer.prototype.verify_addr = function () {
+        if (neotools_1.neotools.verifyPublicKey(this.targetaddr))
+            alert("地址正确");
+        else
+            alert("错误地址");
+    };
+    transfer.prototype.verify_Amount = function () {
+    };
+    transfer.prototype.send = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount + "")];
+                    case 1:
+                        res = _a.sent();
+                        if (!res.err)
+                            mui.alert(res.info);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    transfer = __decorate([
+        vue_class_component_1.default({
+            components: {
+                "wallet-layout": wallet_vue_1.default
+            }
+        }),
+        __metadata("design:paramtypes", [])
+    ], transfer);
+    return transfer;
+}(vue_1.default));
+exports.default = transfer;
+
 
 /***/ }),
 
@@ -2519,14 +2295,14 @@ exports.CoinTool = CoinTool;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__("/5sW");
+var vue_1 = __webpack_require__("i8gr");
 var login_vue_1 = __webpack_require__("Luci");
 var balance_vue_1 = __webpack_require__("QRjO");
 var transfer_vue_1 = __webpack_require__("owRU");
 var nns_vue_1 = __webpack_require__("GZV2");
 var settings_vue_1 = __webpack_require__("dkEd");
 vue_1.default.config.productionTip = false;
-var notFound = vue_1.default.component('notFound', function (resolve) { return __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("c5Mg")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var notFound = vue_1.default.component('notFound', function (resolve) { return __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("c5Mg")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
 var app = new vue_1.default({
     el: '#app',
     data: {
@@ -2556,6 +2332,253 @@ var app = new vue_1.default({
 window.addEventListener('popstate', function () {
     app.currentRoute = window.location.hash;
 });
+
+
+/***/ }),
+
+/***/ "xWBt":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("i8gr");
+var vue_property_decorator_1 = __webpack_require__("bSIW");
+var Main_vue_1 = __webpack_require__("l7Tq");
+var neotools_1 = __webpack_require__("PMwo");
+var storagetool_1 = __webpack_require__("5LD5");
+var login = /** @class */ (function (_super) {
+    __extends(login, _super);
+    function login() {
+        var _this = _super.call(this) || this;
+        // Data property
+        _this.Message = "hello world";
+        _this.wallet = new ThinNeo.nep6wallet();
+        _this.filename = "";
+        _this.password = "";
+        _this.reader = new FileReader();
+        _this.reader.onload = function () {
+            var walletstr = _this.reader.result;
+            _this.wallet.fromJsonStr(walletstr);
+        };
+        return _this;
+    }
+    // Lifecycle hook
+    login.prototype.fileChange = function ($event) {
+        this.file = $event.target.files[0];
+        this.filename = this.file.name;
+        if (this.filename.includes(".json")) {
+            this.reader.readAsText(this.file);
+        }
+    };
+    login.prototype.login = function () {
+        mui.toast("Be patient and wait for patience ...");
+        neotools_1.neotools.nep6Load(this.wallet, this.password)
+            .then(function (res) {
+            var loginarray = res.info;
+            storagetool_1.StorageTool.setLoginArr(loginarray);
+            storagetool_1.StorageTool.setStorage("current-address", loginarray[0].address);
+            mui.toast('Authentication passed, entering your account ^_^ ...', { duration: 'long', type: 'div' });
+            window.location.hash = "#balance";
+        })
+            .catch(function (e) {
+            mui.alert(">_< !!! The login failure error message is as follows:" + e);
+        });
+    };
+    login.prototype.modual = function () {
+        var mask = mui.createMask(function (call) {
+            mui.alert("modual is close");
+        }); //callback为用户点击蒙版时自动执行的回调；
+        mask.show(); //显示遮罩
+        // mask.close();//关闭遮罩
+    };
+    login.prototype.wifImport = function () {
+    };
+    login.prototype.nep2Import = function () {
+    };
+    login = __decorate([
+        vue_property_decorator_1.Component({
+            components: {
+                "main-layout": Main_vue_1.default,
+            }
+        }),
+        __metadata("design:paramtypes", [])
+    ], login);
+    return login;
+}(vue_1.default));
+exports.default = login;
+
+
+/***/ }),
+
+/***/ "yw2z":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("i8gr");
+var vue_class_component_1 = __webpack_require__("9ZwC");
+var wallet_vue_1 = __webpack_require__("PPZq");
+var nnstool_1 = __webpack_require__("ar5l");
+var Nnsmanage = /** @class */ (function (_super) {
+    __extends(Nnsmanage, _super);
+    function Nnsmanage() {
+        var _this = _super.call(this) || this;
+        _this.network = ".test";
+        _this.nnsstr = "";
+        _this.domainerr = false;
+        _this.errmsg = "";
+        return _this;
+    }
+    Nnsmanage.prototype.mounted = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, nnstool_1.NNSTool.initRootDomain()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage.prototype.verifyDomain = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var regStr, re, domains;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.nnsstr = this.nnsstr.trim();
+                        regStr = "^([a-zA-Z0-9-])";
+                        re = new RegExp(regStr);
+                        if (!!re.exec(this.nnsstr)) return [3 /*break*/, 1];
+                        this.domainerr = true;
+                        this.errmsg = "Please enter a domain name in the correct format ";
+                        return [2 /*return*/];
+                    case 1: return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(this.nnsstr)];
+                    case 2:
+                        domains = _a.sent();
+                        if (domains) {
+                            this.domainerr = true;
+                            mui.toast("The current domain name is registered : " + domains);
+                        }
+                        else {
+                            this.domainerr = false;
+                        }
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage.prototype.nnsRegister = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!!this.domainerr) return [3 /*break*/, 2];
+                        return [4 /*yield*/, nnstool_1.NNSTool.registerDomain(this.nnsstr)];
+                    case 1:
+                        res = _a.sent();
+                        if (res.err) {
+                            console.error(res.info);
+                        }
+                        else {
+                            mui.alert("Domain name registration contract has been issued, please see ");
+                            mui.toast(res.info);
+                        }
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage = __decorate([
+        vue_class_component_1.default({
+            components: {
+                "wallet-layout": wallet_vue_1.default
+            }
+        }),
+        __metadata("design:paramtypes", [])
+    ], Nnsmanage);
+    return Nnsmanage;
+}(vue_1.default));
+exports.default = Nnsmanage;
 
 
 /***/ })

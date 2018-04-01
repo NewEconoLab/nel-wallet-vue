@@ -83,13 +83,13 @@ export class NNSTool
         let result = await WWW.rpc_getInvokescript(data);
         try
         {
-            var state = result.state as string;
+            var state = result[ 0 ].state as string;
             // info2.textContent = "";
-            if (state.includes("HALT"))
+            if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
             }
-            var stack = result.stack as any[];
+            var stack = result[ 0 ].stack as any[];
             //find name 他的type 有可能是string 或者ByteArray
             if (stack[ 0 ].type == "Array")
             {
@@ -129,13 +129,13 @@ export class NNSTool
         let result = await WWW.rpc_getInvokescript(data);
         try
         {
-            var state = result.state as string;
+            var state = result[ 0 ].state as string;
             // info2.textContent = "";
-            if (state.includes("HALT"))
+            if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
             }
-            var stack = result.stack as any[];
+            var stack = result[ 0 ].stack as any[];
             //find name 他的type 有可能是string 或者ByteArray
             if (stack[ 0 ].type == "ByteArray")
             {
@@ -164,13 +164,13 @@ export class NNSTool
 
         try
         {
-            var state = result.state as string;
+            var state = result[ 0 ].state as string;
             // info2.textContent = "";
-            if (state.includes("HALT"))
+            if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
             }
-            var stackarr = result.stack as any[];
+            var stackarr = result[ 0 ].stack as any[];
             if (stackarr[ 0 ].type == "Array")
             {
                 var stack = stackarr[ 0 ].value as any[];
@@ -259,12 +259,12 @@ export class NNSTool
 
         try
         {
-            var state = result.state as string;
+            var state = result[ 0 ].state as string;
             // info2.textContent = "";
-            if (state.includes("HALT"))
+            if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
-                var stack = result.stack as any[];
+                var stack = result[ 0 ].stack as any[];
                 //find name 他的type 有可能是string 或者ByteArray
                 if (stack[ 0 ].type == "ByteArray")
                 {
@@ -303,13 +303,13 @@ export class NNSTool
 
         try
         {
-            var state = result.state as string;
+            var state = result[ 0 ].state as string;
             // info2.textContent = "";
-            if (state.includes("HALT"))
+            if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
             }
-            var stack = result.stack as any[];
+            var stack = result[ 0 ].stack as any[];
             //find name 他的type 有可能是string 或者ByteArray
             if (stack[ 0 ].type == "ByteArray")
             {
