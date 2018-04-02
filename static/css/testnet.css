@@ -2,7 +2,7 @@
     background: #151A1E;
 }
 
-jumbotron{
+jumbotron {
     background-color: transparent;
 }
 
@@ -17,11 +17,10 @@ jumbotron{
 }
 
 .navbar-nel .navbar-brand {
-    color:  #C5C5C5;
+    color: #C5C5C5;
 }
 
-.navbar-nel .navbar-brand:hover, 
-.navbar-nel .navbar-brand:focus {
+.navbar-nel .navbar-brand:hover, .navbar-nel .navbar-brand:focus {
     color: #fff;
     background-color: transparent;
 }
@@ -31,25 +30,20 @@ jumbotron{
 }
 
 .navbar-nel .navbar-nav>li>a {
-    color:  #C5C5C5;
+    color: #C5C5C5;
 }
 
-.navbar-nel .navbar-nav>li>a:hover, 
-.navbar-nel .navbar-nav>li>a:focus {
+.navbar-nel .navbar-nav>li>a:hover, .navbar-nel .navbar-nav>li>a:focus {
     color: #fff;
     background-color: transparent;
 }
 
-.navbar-nel .navbar-nav>.active>a, 
-.navbar-nel .navbar-nav>.active>a:hover, 
-.navbar-nel .navbar-nav>.active>a:focus {
+.navbar-nel .navbar-nav>.active>a, .navbar-nel .navbar-nav>.active>a:hover, .navbar-nel .navbar-nav>.active>a:focus {
     border-bottom: 4px solid #96B3A4;
     color: #fff;
 }
 
-.navbar-nel .navbar-nav>.disabled>a, 
-.navbar-nel .navbar-nav>.disabled>a:hover, 
-.navbar-nel .navbar-nav>.disabled>a:focus {
+.navbar-nel .navbar-nav>.disabled>a, .navbar-nel .navbar-nav>.disabled>a:hover, .navbar-nel .navbar-nav>.disabled>a:focus {
     color: #444;
     background-color: transparent;
 }
@@ -58,8 +52,7 @@ jumbotron{
     border-color: #fff;
 }
 
-.navbar-nel .navbar-toggle:hover, 
-.navbar-nel .navbar-toggle:focus {
+.navbar-nel .navbar-toggle:hover, .navbar-nel .navbar-toggle:focus {
     background-color: #151A1E;
 }
 
@@ -67,14 +60,11 @@ jumbotron{
     background-color: #fff;
 }
 
-.navbar-nel .navbar-collapse, 
-.navbar-nel .navbar-form {
+.navbar-nel .navbar-collapse, .navbar-nel .navbar-form {
     border-color: #fff;
 }
 
-.navbar-nel .navbar-nav>.open>a, 
-.navbar-nel .navbar-nav>.open>a:hover, 
-.navbar-nel .navbar-nav>.open>a:focus {
+.navbar-nel .navbar-nav>.open>a, .navbar-nel .navbar-nav>.open>a:hover, .navbar-nel .navbar-nav>.open>a:focus {
     color: #fff;
     background-color: #151A1E;
 }
@@ -120,16 +110,13 @@ jumbotron{
     white-space: nowrap;
 }
 
-.dropdown-nel>li>a:hover, 
-.dropdown-nel>li>a:focus {
+.dropdown-nel>li>a:hover, .dropdown-nel>li>a:focus {
     color: #262626;
     text-decoration: none;
     background-color: #f5f5f5;
 }
 
-.dropdown-nel>.active>a, 
-.dropdown-nel>.active>a:hover, 
-.dropdown-nel>.active>a:focus {
+.dropdown-nel>.active>a, .dropdown-nel>.active>a:hover, .dropdown-nel>.active>a:focus {
     color: #151A1E;
     text-decoration: none;
     outline: 0;
@@ -150,11 +137,10 @@ jumbotron{
     white-space: nowrap;
 }
 
-
 .nel-input {
     background: #151A1E;
     border: 1px solid #454F60;
-    box-shadow: 0 0 3px 0 rgba(25,140,238,0.50);
+    box-shadow: 0 0 3px 0 rgba(25, 140, 238, 0.50);
     border-radius: 5px;
 }
 
@@ -178,21 +164,15 @@ jumbotron{
         color: #fff;
         background-color: transparent;
     }
-    .navbar-nel .navbar-nav .open .dropdown-nel>.active>a,
-     .navbar-nel .navbar-nav .open .dropdown-nel>.active>a:hover,
-      .navbar-nel .navbar-nav .open .dropdown-nel>.active>a:focus {
+    .navbar-nel .navbar-nav .open .dropdown-nel>.active>a, .navbar-nel .navbar-nav .open .dropdown-nel>.active>a:hover, .navbar-nel .navbar-nav .open .dropdown-nel>.active>a:focus {
         color: #fff;
         background-color: #151A1E;
     }
-    .navbar-nel .navbar-nav .open .dropdown-nel>.disabled>a,
-     .navbar-nel .navbar-nav .open .dropdown-nel>.disabled>a:hover,
-      .navbar-nel .navbar-nav .open .dropdown-nel>.disabled>a:focus {
+    .navbar-nel .navbar-nav .open .dropdown-nel>.disabled>a, .navbar-nel .navbar-nav .open .dropdown-nel>.disabled>a:hover, .navbar-nel .navbar-nav .open .dropdown-nel>.disabled>a:focus {
         color: #444;
         background-color: transparent;
     }
-    .navbar-nel .navbar-nav>.active>a, 
-    .navbar-nel .navbar-nav>.active>a:hover, 
-    .navbar-nel .navbar-nav>.active>a:focus {
+    .navbar-nel .navbar-nav>.active>a, .navbar-nel .navbar-nav>.active>a:hover, .navbar-nel .navbar-nav>.active>a:focus {
         border-bottom: 0px solid;
         color: #151A1E;
         background-color: #fff;
@@ -301,21 +281,22 @@ a:hover, a:focus {
     padding-bottom: 30px;
 }
 
-.table-nel > tbody > tr:nth-of-type(odd) {
+.table-nel>tbody>tr:nth-of-type(odd) {
     background-color: #505F79;
     height: 56px;
 }
 
-.table-nel{
-    background-color:#454F60;
+.table-nel {
+    background-color: #454F60;
 }
 
-table>thead>tr{
+table>thead>tr {
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #FFFFFF;
     line-height: 12px;
 }
+
 table>tbody>tr {
     height: 56px;
     font-family: Microsoft Yahei;
@@ -323,6 +304,7 @@ table>tbody>tr {
     color: #fff;
     line-height: 16px;
 }
+
 .tfood>a {
     color: #fff;
     text-decoration: none;
@@ -368,19 +350,15 @@ table>tbody>tr {
     user-select: none;
 }
 
-
-.page-previous.disabled, 
-.page-next.disabled {
+.page-previous.disabled, .page-next.disabled {
     background: #33393D;
 }
 
-.page-previous:hover, 
-.page-next:hover {
+.page-previous:hover, .page-next:hover {
     background: #788DB2;
 }
 
-.page-next.disabled:hover, 
-.page-previous.disabled:hover {
+.page-next.disabled:hover, .page-previous.disabled:hover {
     background: #33393D;
 }
 
@@ -392,21 +370,19 @@ table>tbody>tr {
     padding-top: 20px;
 }
 
-.list-nel{
-    background-color: #454F60;border-collapse: separate;
+.list-nel {
+    background-color: #454F60;
+    border-collapse: separate;
 }
 
-.list-body>.line:nth-of-type(odd){
+.list-body>.line:nth-of-type(odd) {
     background-color: #505F79;
 }
 
-
-.list-head .title-content,
-.list-head .line .title-nel,
-.list-body .line .title-nel,
-.list-body .line .content-nel {
+.list-head .title-content, .list-head .line .title-nel, .list-body .line .title-nel, .list-body .line .content-nel {
     color: #fff;
 }
+
 .amount {
     color: #fff;
 }
@@ -414,4 +390,19 @@ table>tbody>tr {
 .table-nel>tbody tr:last-of-type {
     border-collapse: separate;
     border-radius: 5px 5px 5px 5px;
+}
+
+@media (min-width: 768px) {
+    .navbar-right .dropdown-nel {
+        right: 0;
+        left: auto;
+    }
+    .navbar-right .dropdown-nel-left {
+        right: auto;
+        left: 0;
+    }
+}
+
+.login-body {
+    background-image: url("../img/background.jpg")
 }

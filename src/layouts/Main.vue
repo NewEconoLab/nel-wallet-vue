@@ -20,9 +20,9 @@
               <v-link href="#wallet">Wallet</v-link>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right" hidden>
             <li>
-              <v-link href="#login">login</v-link>
+              <v-link ref="login" href="#login">logout</v-link>
             </li>
             <li>
               <v-link href="#generate">Generate</v-link>
@@ -44,6 +44,13 @@ import VLink from "../components/VLink.vue";
 export default {
   components: {
     VLink
+  },
+  mounted() {
+    if (this.$refs["login"]["isActive"]) {
+      document.body.classList.add("login-body");
+    } else {
+      document.body.classList.remove("login-body");
+    }
   }
 };
 </script>

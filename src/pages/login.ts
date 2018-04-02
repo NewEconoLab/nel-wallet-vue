@@ -5,6 +5,7 @@ import MainLayout from "../layouts/Main.vue";
 import { neotools } from "./../tools/neotools";
 import { StorageTool } from '../tools/storagetool';
 import { LoginInfo } from './../tools/entity';
+import VLink from "../components/VLink.vue";
 /// <reference path="../tools/neo-ts.d.ts"/>
 
 declare const mui;
@@ -13,6 +14,7 @@ declare const mui;
   components:
     {
       "main-layout": MainLayout,
+      "v-link": VLink
     }
 })
 export default class login extends Vue 
@@ -24,10 +26,13 @@ export default class login extends Vue
   reader: FileReader;
   filename: string = "";
   password: string = "";
+  mould_nep6: boolean = true;
+  mould_wif: boolean = false;
+  mould_nep2: boolean = false;
 
   constructor()
   {
-    super()
+    super();
     this.reader = new FileReader();
     this.reader.onload = () =>
     {
@@ -36,10 +41,14 @@ export default class login extends Vue
     }
   }
 
+  mounted()
+  {
+  }
+
   // Lifecycle hook
   fileChange($event: any) 
   {
-    this.file = $event.target.files[0];
+    this.file = $event.target.files[ 0 ];
     this.filename = this.file.name;
 
     if (this.filename.includes(".json"))
@@ -56,7 +65,7 @@ export default class login extends Vue
       {
         var loginarray: LoginInfo[] = res.info as LoginInfo[];
         StorageTool.setLoginArr(loginarray);
-        StorageTool.setStorage("current-address", loginarray[0].address);
+        StorageTool.setStorage("current-address", loginarray[ 0 ].address);
         mui.toast('Authentication passed, entering your account ^_^ ...', { duration: 'long', type: 'div' })
         window.location.hash = "#balance";
       })
