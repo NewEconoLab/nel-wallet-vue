@@ -1,6 +1,6 @@
 <template>
   <wallet-layout>
-    <div class="container">
+    <div class="container nns">
       <div class="title">
         <span>Register Neo Name</span>
       </div>
@@ -11,7 +11,7 @@
             <Span>{{network}}</Span>
           </span>
         </div>
-        <button class="btn btn-nel" @click="nnsRegister">Register</button>
+        <button class="btn btn-nel btn-big" @click="nnsRegister">Register</button>
         <div>
           <span>{{errmsg}}</span>
         </div>
@@ -61,11 +61,6 @@
   margin-bottom: 0px;
   height: 56px;
   margin-left: 50px;
-}
-.container .btn {
-  height: 56px;
-  width: 138px;
-  margin-left: 20px;
 }
 </style>
 

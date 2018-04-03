@@ -30,15 +30,17 @@
                 <div class="title">
                     <span>Asset</span>
                 </div>
-                <div v-for="balance in balances" :key="balance.asset" class="row">
-                    <div class="col-lg-2">
-                        <span>{{balance.names}}</span>
-                    </div>
-                    <div class="col-lg-8">
-                        <span> {{balance.balance}}</span>
-                    </div>
-                    <div class="col-lg-2">
-                        <span class="btn btn-nel" @click="toTransfer(balance.asset)">Transfer</span>
+                <div v-for="balance in balances" :key="balance.asset" class="assetrow">
+                    <div class="row">
+                        <div class="col-lg-2 info">
+                            <span>{{balance.names}}</span>
+                        </div>
+                        <div class="col-lg-8 info">
+                            <span> {{balance.balance}}</span>
+                        </div>
+                        <div class="col-lg-2 transfer-btn">
+                            <span class="btn btn-transfer" @click="toTransfer(balance.asset)">Transfer</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,6 +51,10 @@
 <script lang="ts" src="./balance.ts">
 </script>
 <style>
+.btn-transfer {
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
 .line-title {
   padding-top: 40px;
   padding-bottom: 20px;
@@ -81,17 +87,25 @@
   padding-bottom: 20px;
 }
 
-.balance-asset .row {
-  padding-top: 20px;
+.assetrow .row {
   font-family: PingFangSC-Medium;
   font-size: 16px;
   color: #ffffff;
   text-align: center;
   line-height: 16px;
-}
-.balance-asset .row > div {
-  height: 60px;
+  border-radius: 5px;
   background: #454f60;
+  height: 60px;
+  margin: 0 auto;
+}
+.assetrow .row .info {
+  padding-top: 20px;
+}
+.assetrow .transfer-btn {
+  padding-top: 12px;
+}
+.balance-asset .assetrow {
+  padding-top: 20px;
   text-align: center;
 }
 </style>
