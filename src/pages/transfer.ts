@@ -16,26 +16,32 @@ declare const mui;
 })
 export default class transfer extends Vue 
 {
-    targetaddr: string = "";
-    amount: number = 0;
-    asset: string = "";
+    targetaddr: string;
+    amount: string;
+    asset: string;
     balances: BalanceInfo[] = [];
+    balance: BalanceInfo = new BalanceInfo();
     constructor() 
     {
         super();
         this.targetaddr = "";
-        this.amount = 0;
+        this.amount = "";
+        this.asset = "";
     }
     mounted() 
     {
         var choose = StorageTool.getStorage("transfer_choose");
+        this.asset = choose;
         var str = StorageTool.getStorage("balances_asset");
         this.balances = JSON.parse(str) as BalanceInfo[];
-        this.asset = choose;
+        var n: number = this.balances.findIndex(b => b.asset == this.asset);
+        this.balance = this.balances[ n ];
     }
     choose()
     {
         StorageTool.setStorage("transfer_choose", this.asset);
+        var n: number = this.balances.findIndex(b => b.asset == this.asset);
+        this.balance = this.balances[ n ];
     }
     verify_addr()
     {
@@ -50,7 +56,7 @@ export default class transfer extends Vue
     }
     async send()
     {
-        var res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount + "");
+        var res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount);
         if (!res.err)
             mui.alert(res.info);
     }
