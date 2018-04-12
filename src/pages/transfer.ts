@@ -21,6 +21,8 @@ export default class transfer extends Vue
     asset: string;
     balances: BalanceInfo[] = [];
     balance: BalanceInfo = new BalanceInfo();
+    addrerr: string = "";
+    amounterr: string = "";
     constructor() 
     {
         super();
@@ -30,25 +32,30 @@ export default class transfer extends Vue
     }
     mounted() 
     {
-        var choose = StorageTool.getStorage("transfer_choose");
-        this.asset = choose;
         var str = StorageTool.getStorage("balances_asset");
-        this.balances = JSON.parse(str) as BalanceInfo[];
-        var n: number = this.balances.findIndex(b => b.asset == this.asset);
-        this.balance = this.balances[ n ];
+        if (str == null)
+            this.balances = new Array<BalanceInfo>();
+        else
+        {
+            this.balances = JSON.parse(str) as BalanceInfo[];
+            var choose = StorageTool.getStorage("transfer_choose");
+            this.asset = (choose == null ? this.balances[ 0 ].asset : choose);
+            var n: number = this.balances.findIndex(b => b.asset == this.asset);
+            this.balance = this.balances[ n ];
+            this.history();
+        }
     }
-    choose()
+    choose(assetid: string)
     {
-        StorageTool.setStorage("transfer_choose", this.asset);
+        this.asset = assetid
+        StorageTool.setStorage("transfer_choose", assetid);
         var n: number = this.balances.findIndex(b => b.asset == this.asset);
         this.balance = this.balances[ n ];
     }
     verify_addr()
     {
-        if (neotools.verifyPublicKey(this.targetaddr))
-            alert("地址正确");
-        else
-            alert("错误地址");
+        if (neotools.verifyPublicKey(this.targetaddr)) this.addrerr = 'false';
+        else this.addrerr = 'true';
     }
     verify_Amount()
     {
@@ -59,5 +66,10 @@ export default class transfer extends Vue
         var res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount);
         if (!res.err)
             mui.alert(res.info);
+    }
+    async history()
+    {
+        var res = await WWW.api_getAddressTxs(LoginInfo.getCurrentAddress(), 20, 1);
+        console.log(res);
     }
 }

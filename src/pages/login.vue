@@ -1,15 +1,18 @@
 <template>
   <main-layout>
     <div style="height:180px"></div>
-    <div class="container">
+    <div class="container-box">
       <div class="row login-container">
-        <div class="col-xs-2">
-          <div style="height:116px;text-align:center;margin:0 auto; line-height:116px;"><img src="../../static/img/NeoLogo.svg" alt=""></div>
-          <div style="text-align:center;height:70px;background: #198CEE;border-radius: 10px 0 0 10px;">
-            <v-link ref="login" href="#login">login</v-link>
+        <div class="container-left">
+          <div class="container-icon"><img src="../../static/img/NeoLogo.svg" alt=""></div>
+          <div class="container-title" @click="cutModual('nep6')" :class="{'active':!(moudle_generate||moudle_download)}">
+            <span ref="login">Login</span>
+          </div>
+          <div class="container-title" @click="cutModual('generate')" :class="{'active':(moudle_generate || moudle_download)}">
+            <span ref="login">Generate</span>
           </div>
         </div>
-        <div class="col-xs-10 login-right">
+        <div class="container-right">
           <div v-if="moudle_nep6" class="nep6-imp">
 
             <div class="title-login">
@@ -17,9 +20,9 @@
                 Login your wallet
               </span>
             </div>
-            <div style="height:56px;width:417px;margin:0 auto;">
-              <div class="input-group" style="height:56px;">
-                <input type="text" class="form-control" placeholder="Select keystore file. " style="height:56px; line-height：56px;" disabled="true" v-model="filename">
+            <div class="input-login">
+              <div class="input-group nel-input-blg">
+                <input type="text" class="form-control" placeholder="Select keystore file. " disabled="true" v-model="filename">
                 <span class="input-group-addon">
                   <button class="btn btn-nel fileinput-button">
                     <span>Select</span>
@@ -28,9 +31,9 @@
                 </span>
               </div>
             </div>
-            <div style="height:56px;width:417px;margin:0 auto; padding-top:40px;">
-              <div class="input-group" style="height:56px;">
-                <input class="form-control" placeholder="Enter password. " style="height:56px; line-height：56px;" type="password" v-model="password">
+            <div class="input-login" style="padding-top:40px;">
+              <div class="input-group nel-input-blg">
+                <input class="form-control" placeholder="Enter password. " type="password" v-model="password">
                 <span class="input-group-addon">
                   <button class="btn btn-nel fileinput-button" @click="login('nep6')">
                     Login
@@ -76,6 +79,61 @@
               <a @click="cutModual('nep6')">&lt; Back</a>
             </div>
           </div>
+          <div class="generate" v-if="moudle_generate">
+            <div class="title-login">
+              <span>Generate a new wallet</span>
+            </div>
+            <div :class="nameerr!=''?( nameerr == 'true' ?'err':'success') :''">
+              <div class="nel-input-blg"><input type="text" placeholder="Name your wallet. " @input="verifyName" @blur="verifyName" v-model="walletname">
+              </div>
+              <div class="message">
+                <p v-if="nameerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; Wallet name cannot be empty.</p>
+                <p v-if="nameerr=='false'"><img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; Verification pass. </p>
+              </div>
+            </div>
+            <div :class="pwderr!=''?( pwderr == 'true' ?'err':'success') :''">
+              <div class="nel-input-blg">
+                <input type="password" placeholder="Enter password. " @input="verifypwd" @blur="verifypwd" v-model="walletpwd">
+              </div>
+              <div class="message">
+                <p v-if="pwderr=='true'">
+                  <img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; {{pwdmsg}}
+                </p>
+                <p v-if="pwderr=='false'">
+                  <img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; Verification pass.
+                </p>
+              </div>
+            </div>
+            <div :class="confirmerr!=''?( confirmerr == 'true' ?'err':'success') :''">
+              <div class="nel-input-blg">
+                <input type="password" placeholder="Confirm password. " @input="verifyConfirm" @blur="verifyConfirm" v-model="confirmpwd">
+              </div>
+              <div class="message">
+                <p v-if="confirmerr=='true'">
+                  <img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; Please enter the same password as above.
+                </p>
+                <p v-if="confirmerr=='false'">
+                  <img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; Verification pass.
+                </p>
+              </div>
+            </div>
+            <div class="login-btn">
+              <button class="btn btn-nel btn-import" @click="generate()">Generate</button>
+            </div>
+          </div>
+          <div class="generate download" v-if="moudle_download">
+            <div class="title-login">
+              <span>Your keystore file has been created.</span>
+            </div>
+            <p class="guide">You can click the ‘download’ button to save your keystore file!</p>
+            <div class="login-btn">
+              <a class="btn btn-nel btn-import" :download="download_name" :href="download_href">Download</a>
+            </div>
+            <div class="remind">
+              <p class="title-remind">Do not lose it!</p>
+              <p class="content-remind">It can’t be recovered if you lose it.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -86,6 +144,90 @@
 </script>
 
 <style>
+.guide {
+  padding-bottom: 30px;
+  font-family: PingFangSC-Medium;
+  font-size: 16px;
+  color: #b2b2b2;
+  line-height: 16px;
+}
+.generate.download {
+  text-align: center;
+}
+.generate.download .remind {
+  padding-bottom: 18.7%;
+}
+.generate.download .title-remind {
+  font-family: PingFangSC-Medium;
+  font-size: 24px;
+  color: #333333;
+  line-height: 24px;
+  display: inline;
+}
+.generate.download .content-remind {
+  font-family: PingFangSC-Medium;
+  font-size: 20px;
+  color: #b2b2b2;
+  line-height: 20px;
+  display: inline;
+}
+.generate .message {
+  height: 30px;
+  width: 417px;
+  margin: 0 auto;
+}
+.generate .message img {
+  height: 15px;
+  width: 15px;
+}
+.generate .title-login {
+  padding-top: 10.4%;
+  margin-bottom: 8.6%;
+}
+.generate .login-btn {
+  margin-top: 1%;
+  padding-bottom: 10.4%;
+}
+.container-box{
+  width: 883px;
+  min-width:883px;
+  margin:0 auto;
+}
+.container-left {
+  width:185px;
+  height:580px;
+  float:left;
+  background: #151A1E;
+  border-radius: 10px 0 0 10px;
+}
+.container-left .container-icon {
+  height: 116px;
+  text-align: center;
+  margin: 0 auto;
+  line-height: 116px;
+}
+
+.container-left .container-title {
+  padding-top: 20px;
+  text-align: center;
+  height: 70px;
+  font-family: PingFangSC-Medium;
+  font-size: 20px;
+}
+.container-title > span {
+  color: #b2b2b2;
+}
+.container-title.active {
+  background: #198cee;
+  border-radius: 10px 0 0 10px;
+  position: relative;
+  z-index: 1000;
+  margin-left: -8px;
+}
+.container-title.active > span {
+  color: #ffffff;
+}
+
 .login-btn {
   width: 417px;
   margin: 0 auto;
@@ -127,6 +269,11 @@
   padding-bottom: 13.4%;
   padding-top: 5.9%;
 }
+.nep6-imp .input-login {
+  height: 56px;
+  width: 417px;
+  margin: 0 auto;
+}
 .title-login {
   font-family: PingFangSC-Semibold;
   font-size: 24px;
@@ -149,21 +296,26 @@
   position: relative;
   left: 50%;
   top: -30px;
-
+  margin-left:-65px;
   font: normal 1.2em/20px;
   vertical-align: middle;
   text-align: center;
   border-radius: 4px;
   background-color: #ffffff;
+  font-size: 14px;
+  color: #B2B2B2;
+  line-height: 14px;
 }
 .login-container {
   background: #ffffff;
   box-shadow: 0 2px 10px 0 #2c80c8;
   border-radius: 10px;
 }
-.login-container .login-right {
+.login-container .container-right {
+  width: 680px;
+  height:580px;
+  float:right;
   background: #ffffff;
-  box-shadow: -3px 0 4px 0 #d1e8fc;
   border-radius: 0 10px 10px 0;
 }
 .input-group-addon {

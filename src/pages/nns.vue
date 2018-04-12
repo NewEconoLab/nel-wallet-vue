@@ -1,6 +1,6 @@
 <template>
   <wallet-layout>
-    <div class="container nns">
+    <div class="container ">
       <div class="title">
         <span>Register Neo Name</span>
       </div>
@@ -26,9 +26,6 @@
 <style>
 .input-err {
   box-shadow: 0 0 3px 0 rgba(255, 106, 106, 0.5);
-}
-.container .title {
-  padding-bottom: 20px;
 }
 .container .form-inline {
   background: #454f60;

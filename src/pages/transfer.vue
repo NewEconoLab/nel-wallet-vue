@@ -1,46 +1,61 @@
 <template>
     <wallet-layout>
         <div class="container">
-            <div class="line-title">
-                <div class="title">
-                    <span>NEO Balance</span>
-                </div>
+            <div class="title">
+                <span>Transfer</span>
             </div>
         </div>
         <div class="container">
             <div class="transfer-panel">
                 <div class="form-horizontal">
                     <div class="col-sm-12">
-                        <label for="firstname" class="col-sm-2 control-label">Asset：</label>
-                        <div class="col-sm-10">
-                            <select @change="choose" v-model="asset" style="width:150px">
-                                <option v-for="balance in balances" :key="balance.asset" :value="balance.asset">{{balance.names}}</option>
-                            </select>
-                            <span> &nbsp;&nbsp;&nbsp;&nbsp; {{balance.balance}} {{balance.names}} available</span>
+                        <label for="firstname" class="col-sm-2 control-label" style="padding-top:20px;">Asset：</label>
+                        <div class="col-sm-3">
+                            <div class="dropdown">
+                                <div type="button" class="btn dropdown-toggle select-nel" id="dropdownMenu1" data-toggle="dropdown" :class="balance.length>0 ? '' : 'select-disabled' ">
+                                    <div class="select-title">{{balance.names}}</div>
+                                    <div class="select-caret">
+                                        <span class="caret"></span>
+                                    </div>
+                                </div>
+                                <ul class="dropdown-menu dropdown-nel" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li role="presentation" v-for="balance in balances" :key="balance.asset" :value="balance.asset">
+                                        <a role="menuitem" tabindex="-1" @click="choose(balance.asset)">{{balance.names}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="padding-top:20px;">
+                            <span> &nbsp;&nbsp;&nbsp;&nbsp; {{balance.balance}} {{balance.names ? balance.names + "available" : ""}} </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" :class="addrerr!=''?(addrerr == 'true' ?'err':'success') :''">
+                        <label for="" class="col-sm-2 control-label">
+                            <div style="padding-top:40px;">Address:</div>
+                        </label>
+                        <div class="col-sm-7">
+                            <div style="padding-top:30px;">
+                                <input type="text" v-model="targetaddr" class="nel-input big" @change="verify_addr">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 mess">
+                            <p v-if="addrerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; Your adress is incorrect.</p>
+                            <p v-if="addrerr=='false'"><img src="../../static/img/correct.svg" alt=""></p>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <label for="" class="col-sm-2 control-label">
-                            <div style="padding-top:30px;">Address:</div>
+                            <div style="padding-top:40px;">Amount:</div>
                         </label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <div style="padding-top:30px;">
-                                <input type="text" v-model="targetaddr" style="background: #454F60;border: 1px solid #B2B2B2;border-radius: 5px;" @change="verify_addr">
+                                <input type="number" v-model="amount" class="nel-input big" @change="verify_addr">
                             </div>
                         </div>
+                        <div class="col-sm-3 mess"></div>
                     </div>
-                    <div class="col-sm-12">
-                        <label for="" class="col-sm-2 control-label">
-                            <div style="padding-top:30px;">Amount:</div>
-                        </label>
-                        <div class="col-sm-8">
-                            <div style="padding-top:30px;">
-                                <input type="number" v-model="amount" style="background: #454F60;border: 1px solid #B2B2B2;border-radius: 5px;" @change="verify_addr">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="col-sm-7"></div>
+                    <div class="col-sm-12" style="padding-top:30px;">
+                        <div class="col-sm-6"></div>
                         <div class="col-sm-3">
                             <button class="btn btn-link">Details</button>
                             <button class="btn btn-nel btn-big" @click="send">Send</button>
@@ -56,35 +71,50 @@
 </script>
 
 <style>
-.line-title {
-  padding-top: 40px;
-  padding-bottom: 20px;
+.select-nel {
+  background: #198cee;
+  border-radius: 5px;
+  height: 56px;
+  margin: 0 auto;
+  padding: 0;
+}
+.select-disabled {
+  background: #77bcf6;
+  cursor: not-allowed;
+}
+.select-title {
+  padding-top: 15px;
+  float: left;
+  width: 110px;
+  font-family: PingFangSC-Medium;
+  font-size: 18px;
+  color: #ffffff;
+  line-height: 16px;
+}
+.select-caret {
+  padding-top: 15px;
+  margin-top: 0;
+  width: 36px;
+  float: right;
+  background: #ffffff;
+  border-radius: 0 5px 5px 0;
+  height: 54px;
+}
+.mess {
+  padding-top: 45px;
 }
 .balance-type {
   font-family: PingFangSC-Medium;
   font-size: 20px;
-  color: #ffffff;
   line-height: 20px;
 }
 .balance-amount {
   font-family: PingFangSC-Medium;
   font-size: 30px;
-  color: #ffffff;
   line-height: 30px;
 }
-.line-title span {
-  color: #fff;
-  font-size: 16px;
-  line-height: 16px;
-}
-.neobalance .claim {
-  font-size: 16px;
-  color: #ffffff;
-  line-height: 16px;
-  border-top: 1px solid #b2b2b2;
-}
 .transfer-panel {
-  background: #454f60;
+  background: #ffffff;
   border-radius: 5px;
   width: 1080px;
   height: 414px;
@@ -96,9 +126,14 @@
 .transfer-panel label {
   font-family: PingFangSC-Medium;
   font-size: 16px;
-  color: #ffffff;
   line-height: 16px;
   font-weight: unset;
+}
+.transfer-panel span {
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  color: #198cee;
+  line-height: 16px;
 }
 </style>
 

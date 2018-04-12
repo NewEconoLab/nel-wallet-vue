@@ -64,6 +64,25 @@ jumbotron {
     border-color: #fff;
 }
 
+.navbar-nel .navbar-collapse .logo {
+    width: 161px;
+    height: 50px;
+    background: url(../img/logo.png) no-repeat center;
+    background-size: 100%;
+    float: left;
+    margin-right: 50px;
+    margin-top: 2px;
+}
+
+.navbar-wallet .navbar-collapse .blockheight {
+    width: 175px;
+    float: right;
+    font-size: 16px;
+    color: #198CEE;
+    letter-spacing: 0;
+    text-align: center;
+}
+
 .navbar-nel .navbar-nav>.open>a, .navbar-nel .navbar-nav>.open>a:hover, .navbar-nel .navbar-nav>.open>a:focus {
     color: #fff;
     background-color: #151A1E;
@@ -199,9 +218,23 @@ jumbotron {
     color: #444;
 }
 
+.btn-disabled{
+    color: #fff;
+    background: #77BCF6;
+    cursor: not-allowed;
+    padding: 12px 23px;
+    border-radius: 5px;
+    font-size: 18px;
+    line-height: 18px;
+}
+
 .btn-nel {
     color: #fff;
     background-color: #198CEE;
+    padding: 12px 23px;
+    border-radius: 5px;
+    font-size: 18px;
+    line-height: 18px;
 }
 
 .btn-nel:focus, .btn-nel.focus {
@@ -264,7 +297,8 @@ a:hover, a:focus {
     font-size: 20px;
     color: #FFFFFF;
     line-height: 20px;
-    border-bottom: 4px solid #198CEE;
+    padding-left: 10px;
+    border-left: 4px solid #198CEE;
 }
 
 .caption .title-summary {
@@ -403,12 +437,20 @@ table>tbody>tr {
     }
 }
 
-.login-body {
-    background-image: url("../img/background.jpg")
-}
-
 .btn-nel.btn-big {
     height: 56px;
     width: 138px;
     margin-left: 20px;
+}
+
+.user-select-ok{
+    -moz-user-select: text; 
+    -webkit-user-select: text; 
+    -ms-user-select: text; 
+    -khtml-user-select: text; 
+    user-select: text; 
+}
+.container .title {
+  padding-top: 40px;
+  padding-bottom: 20px;
 }

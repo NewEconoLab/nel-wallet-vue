@@ -20,7 +20,19 @@ export default class balance extends Vue
   neoasset: NeoAsset = new NeoAsset();
   balances: Array<BalanceInfo> = new Array();
   currentAddress: string = "";
+  chooseAddress: Array<StorageTool> = new Array();
 
+  constructor()
+  {
+    super();
+    this.neoasset = new NeoAsset();
+    this.balances = new Array();
+    this.neoasset.gas = 0;
+    this.neoasset.neo = 0;
+    this.neoasset.claim = 0;
+    this.chooseAddress = new Array();
+    this.chooseAddress = StorageTool.getLoginArr();
+  }
   // Component method
   mounted() 
   {
@@ -39,7 +51,7 @@ export default class balance extends Vue
     var clamis = await WWW.api_getclaimgas(this.currentAddress);
     if (res.err)
     {
-      mui.alert("Current address balance is empty -_-!");
+      // mui.alert("Current address balance is empty -_-!");
     } else
     {
       this.balances = res.info;

@@ -1,32 +1,30 @@
 <template>
     <wallet-layout>
         <div class="container">
-            <div class="line-title">
-                <div class="title">
-                    <span>NEO Balance</span>
-                    <div style="float:right">
-                        <span>Key Address ：{{currentAddress}}</span>
-                        <button class="btn btn-nel">Switch</button>
-                    </div>
+            <div class="title" style="padding-bottom:28px;">
+                <span>NEO Balance</span>
+                <div style="float:right">
+                    <span class="user-select-ok" style="margin-right: 11px;color:#fff;">Key Address ：{{currentAddress}}</span>
+                    <button class="btn" :class="chooseAddress && chooseAddress.length>1 ? 'btn-nel' : 'btn-disabled' ">Switch</button>
                 </div>
             </div>
             <div class="neobalance" style=" background: #454F60;border-radius: 5px;">
                 <div>
-                    <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
-                        <span class="balance-type">NEO</span>
+                    <div style="padding: 30px; padding-bottom: 40px;">
+                        <span class="balance-type">NEO&nbsp;</span>
                         <span class="balance-amount">{{neoasset.neo}}</span>
                     </div>
-                    <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
-                        <span class="balance-type">GAS</span>
+                    <div style="padding-left: 30px; padding-bottom: 30px;">
+                        <span class="balance-type">GAS&nbsp;</span>
                         <span class="balance-amount">{{neoasset.gas}}</span>
                     </div>
-                    <div class="claim" style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
-                        GAS available to claim : {{neoasset.claim}}
+                    <div class="claim" style="padding: 30px; padding-left: 2.3%;">
+                        <span style="margin-right: 17px;">GAS available to claim : {{neoasset.claim}}</span>
                         <button class="btn btn-nel" v-if="neoasset.claim>0">Claim</button>
                     </div>
                 </div>
             </div>
-            <div class="balance-asset">
+            <div class="balance-asset"  v-if="balances.length">
                 <div class="title">
                     <span>Asset</span>
                 </div>
@@ -55,10 +53,7 @@
   border: 1px solid #ffffff;
   border-radius: 5px;
 }
-.line-title {
-  padding-top: 40px;
-  padding-bottom: 20px;
-}
+
 .balance-type {
   font-family: PingFangSC-Medium;
   font-size: 20px;
@@ -70,11 +65,6 @@
   font-size: 30px;
   color: #ffffff;
   line-height: 30px;
-}
-.line-title span {
-  color: #fff;
-  font-size: 16px;
-  line-height: 16px;
 }
 .neobalance .claim {
   font-size: 16px;

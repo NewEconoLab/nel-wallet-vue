@@ -1,9 +1,9 @@
 import { Result, BalanceInfo, AssetEnum } from './entity';
 export class WWW
 {
-    static api: string = "https://api.nel.group/api/testnet";
-    static rpc: string = "http://47.96.168.8:20332/testnet";
-    static otcgo: string = "http://state-api.otcgo.cn/api/v1/testnet";
+    static api: string = "https://api.nel.group/api/mainnet";
+    static rpc: string = "http://47.96.168.8:20332/mainnet";
+    static otcgo: string = "http://state-api.otcgo.cn/api/v1/mainnet";
     static rpcName: string = "";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
@@ -104,12 +104,21 @@ export class WWW
         return r;
     }
 
+    static async api_getAddressTxs(address: string, size: number, page: number)
+    {
+        var postdata = WWW.makeRpcPostBody("getaddresstxs", address, size, page);
+        var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+
     static async api_postRawTransaction(data: Uint8Array): Promise<boolean>
     {
         var postdata = WWW.makeRpcPostBody("sendrawtransaction", data.toHexString());
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ] as boolean;
+        var r = json[ "result" ][ 0 ] as boolean;
         return r;
     }
 
@@ -164,7 +173,7 @@ export class WWW
         var json = await result.json();
         if (json[ "result" ] == null)
             return null;
-        var r = json[ "result" ]
+        var r = json[ "result" ][ 0 ]
         return r;
     }
 }

@@ -59,3 +59,7 @@
   content: "\e907";
   color: #b2b2b2;
 }
+
+.login-body {
+  background-image: url("../img/background.jpg")
+}

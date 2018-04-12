@@ -25,6 +25,7 @@
               </v-link>
             </li>
           </ul>
+          <div class="blockheight">Block Height：{{blockheight}}</div>
         </div>
         <!--/.nav-collapse -->
       </div>
@@ -40,6 +41,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import MainLayout from "./Main.vue";
 import VLink from "../components/VLink.vue";
+import { WWW } from "../tools/wwwtool";
 @Component({
   components: {
     VLink,
@@ -51,12 +53,14 @@ export default class FeatureComponent extends Vue {
   transfer: string;
   nns: string;
   setting: string;
+  blockheight: number;
   constructor() {
     super();
     this.balance = "";
     this.nns = "";
     this.transfer = "";
     this.setting = "";
+    this.blockheight = 0;
   }
 
   mounted() {
@@ -72,6 +76,12 @@ export default class FeatureComponent extends Vue {
     this.setting = this.$refs["setting"]["isActive"]
       ? "icon-setting-select"
       : "icon-setting-unselect";
+
+    this.getHeight();
+  }
+
+  async getHeight() {
+    this.blockheight = await WWW.api_getHeight();
   }
 }
 </script>

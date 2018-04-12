@@ -1,50 +1,63 @@
-var __extends = (this && this.__extends) || (function () {
+var __extends = (this && this.__extends) || (function ()
+{
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
         function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
+    return function (d, b)
+    {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 var Neo;
-(function (Neo) {
-    var UintVariable = (function () {
-        function UintVariable(bits) {
-            if (typeof bits === "number") {
+(function (Neo)
+{
+    var UintVariable = (function ()
+    {
+        function UintVariable(bits)
+        {
+            if (typeof bits === "number")
+            {
                 if (bits <= 0 || bits % 32 != 0)
                     throw new RangeError();
                 this._bits = new Uint32Array(bits / 32);
             }
-            else if (bits instanceof Uint8Array) {
+            else if (bits instanceof Uint8Array)
+            {
                 if (bits.length == 0 || bits.length % 4 != 0)
                     throw new RangeError();
-                if (bits.byteOffset % 4 == 0) {
+                if (bits.byteOffset % 4 == 0)
+                {
                     this._bits = new Uint32Array(bits.buffer, bits.byteOffset, bits.length / 4);
                 }
-                else {
+                else
+                {
                     var bits_new = new Uint8Array(bits);
                     this._bits = new Uint32Array(bits_new.buffer);
                 }
             }
-            else if (bits instanceof Uint32Array) {
+            else if (bits instanceof Uint32Array)
+            {
                 this._bits = bits;
             }
-            else if (bits instanceof Array) {
+            else if (bits instanceof Array)
+            {
                 if (bits.length == 0)
                     throw new RangeError();
                 this._bits = new Uint32Array(bits);
             }
         }
         Object.defineProperty(UintVariable.prototype, "bits", {
-            get: function () {
+            get: function ()
+            {
                 return this._bits;
             },
             enumerable: true,
             configurable: true
         });
-        UintVariable.prototype.compareTo = function (other) {
+        UintVariable.prototype.compareTo = function (other)
+        {
             var max = Math.max(this._bits.length, other._bits.length);
             for (var i = max - 1; i >= 0; i--)
                 if ((this._bits[i] || 0) > (other._bits[i] || 0))
@@ -53,14 +66,16 @@ var Neo;
                     return -1;
             return 0;
         };
-        UintVariable.prototype.equals = function (other) {
+        UintVariable.prototype.equals = function (other)
+        {
             var max = Math.max(this._bits.length, other._bits.length);
             for (var i = 0; i < max; i++)
                 if ((this._bits[i] || 0) != (other._bits[i] || 0))
                     return false;
             return true;
         };
-        UintVariable.prototype.toString = function () {
+        UintVariable.prototype.toString = function ()
+        {
             var s = "";
             for (var i = this._bits.length * 32 - 4; i >= 0; i -= 4)
                 s += ((this._bits[i >>> 5] >>> (i % 32)) & 0xf).toString(16);
@@ -71,11 +86,14 @@ var Neo;
     Neo.UintVariable = UintVariable;
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var _max, _min;
-    var Uint64 = (function (_super) {
+    var Uint64 = (function (_super)
+    {
         __extends(Uint64, _super);
-        function Uint64(low, high) {
+        function Uint64(low, high)
+        {
             if (low === void 0) { low = 0; }
             if (high === void 0) { high = 0; }
             return _super.call(this, [low, high]) || this;
@@ -95,23 +113,28 @@ var Neo;
             enumerable: true,
             configurable: true
         });
-        Uint64.prototype.add = function (other) {
+        Uint64.prototype.add = function (other)
+        {
             var low = this._bits[0] + other._bits[0];
             var high = this._bits[1] + other._bits[1] + (low > 0xffffffff ? 1 : 0);
             return new Uint64(low, high);
         };
-        Uint64.prototype.and = function (other) {
-            if (typeof other === "number") {
+        Uint64.prototype.and = function (other)
+        {
+            if (typeof other === "number")
+            {
                 return this.and(new Uint64(other));
             }
-            else {
+            else
+            {
                 var bits = new Uint32Array(this._bits.length);
                 for (var i = 0; i < bits.length; i++)
                     bits[i] = this._bits[i] & other._bits[i];
                 return new Uint64(bits[0], bits[1]);
             }
         };
-        Uint64.prototype.leftShift = function (shift) {
+        Uint64.prototype.leftShift = function (shift)
+        {
             if (shift == 0)
                 return this;
             var shift_units = shift >>> 5;
@@ -124,31 +147,37 @@ var Neo;
                     bits[i] = this._bits[i - shift_units] << shift | this._bits[i - shift_units - 1] >>> (32 - shift);
             return new Uint64(bits[0], bits[1]);
         };
-        Uint64.prototype.not = function () {
+        Uint64.prototype.not = function ()
+        {
             var bits = new Uint32Array(this._bits.length);
             for (var i = 0; i < bits.length; i++)
                 bits[i] = ~this._bits[i];
             return new Uint64(bits[0], bits[1]);
         };
-        Uint64.prototype.or = function (other) {
-            if (typeof other === "number") {
+        Uint64.prototype.or = function (other)
+        {
+            if (typeof other === "number")
+            {
                 return this.or(new Uint64(other));
             }
-            else {
+            else
+            {
                 var bits = new Uint32Array(this._bits.length);
                 for (var i = 0; i < bits.length; i++)
                     bits[i] = this._bits[i] | other._bits[i];
                 return new Uint64(bits[0], bits[1]);
             }
         };
-        Uint64.parse = function (str) {
+        Uint64.parse = function (str)
+        {
             var bi = Neo.BigInteger.parse(str);
             if (bi.bitLength() > 64)
                 throw new RangeError();
             var array = new Uint32Array(bi.toUint8Array(true, 8).buffer);
             return new Uint64(array[0], array[1]);
         };
-        Uint64.prototype.rightShift = function (shift) {
+        Uint64.prototype.rightShift = function (shift)
+        {
             if (shift == 0)
                 return this;
             var shift_units = shift >>> 5;
@@ -161,28 +190,36 @@ var Neo;
                     bits[i] = this._bits[i + shift_units] >>> shift | this._bits[i + shift_units + 1] << (32 - shift);
             return new Uint64(bits[0], bits[1]);
         };
-        Uint64.prototype.subtract = function (other) {
+        Uint64.prototype.subtract = function (other)
+        {
             var low = this._bits[0] - other._bits[0];
             var high = this._bits[1] - other._bits[1] - (this._bits[0] < other._bits[0] ? 1 : 0);
             return new Uint64(low, high);
         };
-        Uint64.prototype.toInt32 = function () {
+        Uint64.prototype.toInt32 = function ()
+        {
             return this._bits[0] | 0;
         };
-        Uint64.prototype.toNumber = function () {
+        Uint64.prototype.toNumber = function ()
+        {
             return this._bits[0] + this._bits[1] * Math.pow(2, 32);
         };
-        Uint64.prototype.toString = function () {
+        Uint64.prototype.toString = function ()
+        {
             return (new Neo.BigInteger(this._bits.buffer)).toString();
         };
-        Uint64.prototype.toUint32 = function () {
+        Uint64.prototype.toUint32 = function ()
+        {
             return this._bits[0];
         };
-        Uint64.prototype.xor = function (other) {
-            if (typeof other === "number") {
+        Uint64.prototype.xor = function (other)
+        {
+            if (typeof other === "number")
+            {
                 return this.xor(new Uint64(other));
             }
-            else {
+            else
+            {
                 var bits = new Uint32Array(this._bits.length);
                 for (var i = 0; i < bits.length; i++)
                     bits[i] = this._bits[i] ^ other._bits[i];
@@ -194,28 +231,35 @@ var Neo;
     Neo.Uint64 = Uint64;
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var DB = 26;
     var DM = (1 << DB) - 1;
     var DV = DM + 1;
     var _minusone, _one, _zero;
-    var BigInteger = (function () {
-        function BigInteger(value) {
+    var BigInteger = (function ()
+    {
+        function BigInteger(value)
+        {
             this._sign = 0;
             this._bits = new Array();
-            if (typeof value === "number") {
+            if (typeof value === "number")
+            {
                 if (!isFinite(value) || isNaN(value))
                     throw new RangeError();
                 var parts = BigInteger.getDoubleParts(value);
                 if (parts.man.equals(Neo.Uint64.Zero) || parts.exp <= -64)
                     return;
-                if (parts.exp <= 0) {
+                if (parts.exp <= 0)
+                {
                     this.fromUint64(parts.man.rightShift(-parts.exp), parts.sign);
                 }
-                else if (parts.exp <= 11) {
+                else if (parts.exp <= 11)
+                {
                     this.fromUint64(parts.man.leftShift(parts.exp), parts.sign);
                 }
-                else {
+                else
+                {
                     parts.man = parts.man.leftShift(11);
                     parts.exp -= 11;
                     var units = Math.ceil((parts.exp + 64) / DB);
@@ -229,13 +273,16 @@ var Neo;
                     this.clamp();
                 }
             }
-            else if (typeof value === "string") {
+            else if (typeof value === "string")
+            {
                 this.fromString(value);
             }
-            else if (value instanceof Uint8Array) {
+            else if (value instanceof Uint8Array)
+            {
                 this.fromUint8Array(value);
             }
-            else if (value instanceof ArrayBuffer) {
+            else if (value instanceof ArrayBuffer)
+            {
                 this.fromUint8Array(new Uint8Array(value));
             }
         }
@@ -254,7 +301,8 @@ var Neo;
             enumerable: true,
             configurable: true
         });
-        BigInteger.add = function (x, y) {
+        BigInteger.add = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             if (bi_x._sign == 0)
@@ -267,22 +315,27 @@ var Neo;
             BigInteger.addTo(bi_x._bits, bi_y._bits, bits_r);
             return BigInteger.create(bi_x._sign, bits_r);
         };
-        BigInteger.prototype.add = function (other) {
+        BigInteger.prototype.add = function (other)
+        {
             return BigInteger.add(this, other);
         };
-        BigInteger.addTo = function (x, y, r) {
-            if (x.length < y.length) {
+        BigInteger.addTo = function (x, y, r)
+        {
+            if (x.length < y.length)
+            {
                 var t = x;
                 x = y;
                 y = t;
             }
             var c = 0, i = 0;
-            while (i < y.length) {
+            while (i < y.length)
+            {
                 c += x[i] + y[i];
                 r[i++] = c & DM;
                 c >>>= DB;
             }
-            while (i < x.length) {
+            while (i < x.length)
+            {
                 c += x[i];
                 r[i++] = c & DM;
                 c >>>= DB;
@@ -290,28 +343,31 @@ var Neo;
             if (c > 0)
                 r[i] = c;
         };
-        BigInteger.prototype.bitLength = function () {
+        BigInteger.prototype.bitLength = function ()
+        {
             var l = this._bits.length;
             if (l == 0)
                 return 0;
             return --l * DB + BigInteger.bitLengthInternal(this._bits[l]);
         };
-        BigInteger.bitLengthInternal = function (w) {
+        BigInteger.bitLengthInternal = function (w)
+        {
             return (w < 1 << 15 ? (w < 1 << 7
                 ? (w < 1 << 3 ? (w < 1 << 1
                     ? (w < 1 << 0 ? (w < 0 ? 32 : 0) : 1)
                     : (w < 1 << 2 ? 2 : 3)) : (w < 1 << 5
-                    ? (w < 1 << 4 ? 4 : 5)
-                    : (w < 1 << 6 ? 6 : 7)))
+                        ? (w < 1 << 4 ? 4 : 5)
+                        : (w < 1 << 6 ? 6 : 7)))
                 : (w < 1 << 11
                     ? (w < 1 << 9 ? (w < 1 << 8 ? 8 : 9) : (w < 1 << 10 ? 10 : 11))
                     : (w < 1 << 13 ? (w < 1 << 12 ? 12 : 13) : (w < 1 << 14 ? 14 : 15)))) : (w < 1 << 23 ? (w < 1 << 19
-                ? (w < 1 << 17 ? (w < 1 << 16 ? 16 : 17) : (w < 1 << 18 ? 18 : 19))
-                : (w < 1 << 21 ? (w < 1 << 20 ? 20 : 21) : (w < 1 << 22 ? 22 : 23))) : (w < 1 << 27
-                ? (w < 1 << 25 ? (w < 1 << 24 ? 24 : 25) : (w < 1 << 26 ? 26 : 27))
-                : (w < 1 << 29 ? (w < 1 << 28 ? 28 : 29) : (w < 1 << 30 ? 30 : 31)))));
+                        ? (w < 1 << 17 ? (w < 1 << 16 ? 16 : 17) : (w < 1 << 18 ? 18 : 19))
+                        : (w < 1 << 21 ? (w < 1 << 20 ? 20 : 21) : (w < 1 << 22 ? 22 : 23))) : (w < 1 << 27
+                            ? (w < 1 << 25 ? (w < 1 << 24 ? 24 : 25) : (w < 1 << 26 ? 26 : 27))
+                            : (w < 1 << 29 ? (w < 1 << 28 ? 28 : 29) : (w < 1 << 30 ? 30 : 31)))));
         };
-        BigInteger.prototype.clamp = function () {
+        BigInteger.prototype.clamp = function ()
+        {
             var l = this._bits.length;
             while (l > 0 && (this._bits[--l] | 0) == 0)
                 this._bits.pop();
@@ -320,7 +376,8 @@ var Neo;
             if (this._bits.length == 0)
                 this._sign = 0;
         };
-        BigInteger.compare = function (x, y) {
+        BigInteger.compare = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             if (bi_x._sign >= 0 && bi_y._sign < 0)
@@ -330,7 +387,8 @@ var Neo;
             var c = BigInteger.compareAbs(bi_x, bi_y);
             return bi_x._sign < 0 ? -c : c;
         };
-        BigInteger.compareAbs = function (x, y) {
+        BigInteger.compareAbs = function (x, y)
+        {
             if (x._bits.length > y._bits.length)
                 return +1;
             if (x._bits.length < y._bits.length)
@@ -342,10 +400,12 @@ var Neo;
                     return -1;
             return 0;
         };
-        BigInteger.prototype.compareTo = function (other) {
+        BigInteger.prototype.compareTo = function (other)
+        {
             return BigInteger.compare(this, other);
         };
-        BigInteger.create = function (sign, bits, clamp) {
+        BigInteger.create = function (sign, bits, clamp)
+        {
             if (clamp === void 0) { clamp = false; }
             var bi = Object.create(BigInteger.prototype);
             bi._sign = sign;
@@ -354,15 +414,18 @@ var Neo;
                 bi.clamp();
             return bi;
         };
-        BigInteger.divide = function (x, y) {
+        BigInteger.divide = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             return BigInteger.divRem(bi_x, bi_y).result;
         };
-        BigInteger.prototype.divide = function (other) {
+        BigInteger.prototype.divide = function (other)
+        {
             return BigInteger.divide(this, other);
         };
-        BigInteger.divRem = function (x, y) {
+        BigInteger.divRem = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             if (bi_y._sign == 0)
@@ -383,14 +446,16 @@ var Neo;
             var bits_rem = new Array();
             Array.copy(bi_x._bits, 0, bits_rem, 0, bi_x._bits.length);
             var df = bi_y._bits[bi_y._bits.length - 1];
-            for (var i = bi_x._bits.length - 1; i >= bi_y._bits.length - 1; i--) {
+            for (var i = bi_x._bits.length - 1; i >= bi_y._bits.length - 1; i--)
+            {
                 var offset = i - bi_y._bits.length + 1;
                 var d = bits_rem[i] + (bits_rem[i + 1] || 0) * DV;
                 var max = Math.floor(d / df);
                 if (max > DM)
                     max = DM;
                 var min = 0;
-                while (min != max) {
+                while (min != max)
+                {
                     var bits_sub_1 = new Array(offset + bi_y._bits.length);
                     for (var i_1 = 0; i_1 < offset; i_1++)
                         bits_sub_1[i_1] = 0;
@@ -410,7 +475,8 @@ var Neo;
             }
             return { result: BigInteger.create(sign_result, bits_result, true), remainder: BigInteger.create(bi_x._sign, bits_rem, true) };
         };
-        BigInteger.equals = function (x, y) {
+        BigInteger.equals = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             if (bi_x._sign != bi_y._sign)
@@ -422,20 +488,24 @@ var Neo;
                     return false;
             return true;
         };
-        BigInteger.prototype.equals = function (other) {
+        BigInteger.prototype.equals = function (other)
+        {
             return BigInteger.equals(this, other);
         };
-        BigInteger.fromString = function (str, radix) {
+        BigInteger.fromString = function (str, radix)
+        {
             if (radix === void 0) { radix = 10; }
             var bi = Object.create(BigInteger.prototype);
             bi.fromString(str, radix);
             return bi;
         };
-        BigInteger.prototype.fromString = function (str, radix) {
+        BigInteger.prototype.fromString = function (str, radix)
+        {
             if (radix === void 0) { radix = 10; }
             if (radix < 2 || radix > 36)
                 throw new RangeError();
-            if (str.length == 0) {
+            if (str.length == 0)
+            {
                 this._sign == 0;
                 this._bits = [];
                 return;
@@ -446,7 +516,8 @@ var Neo;
             var withsign = first == 0x2b || first == 0x2d;
             this._sign = first == 0x2d ? -1 : +1;
             this._bits = [];
-            for (var i = withsign ? 1 : 0; i < str.length; i++) {
+            for (var i = withsign ? 1 : 0; i < str.length; i++)
+            {
                 bits_a[0] = str.charCodeAt(i);
                 if (bits_a[0] >= 0x30 && bits_a[0] <= 0x39)
                     bits_a[0] -= 0x30;
@@ -462,17 +533,20 @@ var Neo;
             }
             this.clamp();
         };
-        BigInteger.fromUint8Array = function (arr, sign, littleEndian) {
+        BigInteger.fromUint8Array = function (arr, sign, littleEndian)
+        {
             if (sign === void 0) { sign = 1; }
             if (littleEndian === void 0) { littleEndian = true; }
             var bi = Object.create(BigInteger.prototype);
             bi.fromUint8Array(arr, sign, littleEndian);
             return bi;
         };
-        BigInteger.prototype.fromUint8Array = function (arr, sign, littleEndian) {
+        BigInteger.prototype.fromUint8Array = function (arr, sign, littleEndian)
+        {
             if (sign === void 0) { sign = 1; }
             if (littleEndian === void 0) { littleEndian = true; }
-            if (!littleEndian) {
+            if (!littleEndian)
+            {
                 var arr_new = new Uint8Array(arr.length);
                 for (var i = 0; i < arr.length; i++)
                     arr_new[arr.length - 1 - i] = arr[i];
@@ -482,7 +556,8 @@ var Neo;
             var bits = actual_length * 8;
             var units = Math.ceil(bits / DB);
             this._bits = [];
-            for (var i = 0; i < units; i++) {
+            for (var i = 0; i < units; i++)
+            {
                 var cb = i * DB;
                 var cu = Math.floor(cb / 8);
                 cb %= 8;
@@ -491,24 +566,29 @@ var Neo;
             this._sign = sign < 0 ? -1 : +1;
             this.clamp();
         };
-        BigInteger.prototype.fromUint64 = function (i, sign) {
-            while (i.bits[0] != 0 || i.bits[1] != 0) {
+        BigInteger.prototype.fromUint64 = function (i, sign)
+        {
+            while (i.bits[0] != 0 || i.bits[1] != 0)
+            {
                 this._bits.push(i.toUint32() & DM);
                 i = i.rightShift(DB);
             }
             this._sign = sign;
             this.clamp();
         };
-        BigInteger.getActualLength = function (arr) {
+        BigInteger.getActualLength = function (arr)
+        {
             var actual_length = arr.length;
             for (var i = arr.length - 1; i >= 0; i--)
-                if (arr[i] != 0) {
+                if (arr[i] != 0)
+                {
                     actual_length = i + 1;
                     break;
                 }
             return actual_length;
         };
-        BigInteger.getDoubleParts = function (dbl) {
+        BigInteger.getDoubleParts = function (dbl)
+        {
             var uu = new Uint32Array(2);
             new Float64Array(uu.buffer)[0] = dbl;
             var result = {
@@ -517,20 +597,24 @@ var Neo;
                 exp: (uu[1] >>> 20) & 0x7FF,
                 fFinite: true
             };
-            if (result.exp == 0) {
+            if (result.exp == 0)
+            {
                 if (!result.man.equals(Neo.Uint64.Zero))
                     result.exp = -1074;
             }
-            else if (result.exp == 0x7FF) {
+            else if (result.exp == 0x7FF)
+            {
                 result.fFinite = false;
             }
-            else {
+            else
+            {
                 result.man = result.man.or(new Neo.Uint64(0, 0x00100000));
                 result.exp -= 1075;
             }
             return result;
         };
-        BigInteger.prototype.getLowestSetBit = function () {
+        BigInteger.prototype.getLowestSetBit = function ()
+        {
             if (this._sign == 0)
                 return -1;
             var w = 0;
@@ -540,32 +624,38 @@ var Neo;
                 if ((this._bits[w] & 1 << x) > 0)
                     return x + w * DB;
         };
-        BigInteger.prototype.isEven = function () {
+        BigInteger.prototype.isEven = function ()
+        {
             if (this._sign == 0)
                 return true;
             return (this._bits[0] & 1) == 0;
         };
-        BigInteger.prototype.isZero = function () {
+        BigInteger.prototype.isZero = function ()
+        {
             return this._sign == 0;
         };
-        BigInteger.prototype.leftShift = function (shift) {
+        BigInteger.prototype.leftShift = function (shift)
+        {
             if (shift == 0)
                 return this;
             var shift_units = Math.floor(shift / DB);
             shift %= DB;
             var bits_new = new Array(this._bits.length + shift_units);
-            if (shift == 0) {
+            if (shift == 0)
+            {
                 for (var i = 0; i < this._bits.length; i++)
                     bits_new[i + shift_units] = this._bits[i];
             }
-            else {
+            else
+            {
                 for (var i = shift_units; i < bits_new.length; i++)
                     bits_new[i] = (this._bits[i - shift_units] << shift | this._bits[i - shift_units - 1] >>> (DB - shift)) & DM;
                 bits_new[bits_new.length] = this._bits[this._bits.length - 1] >>> (DB - shift) & DM;
             }
             return BigInteger.create(this._sign, bits_new, true);
         };
-        BigInteger.mod = function (x, y) {
+        BigInteger.mod = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             var bi_new = BigInteger.divRem(bi_x, bi_y).remainder;
@@ -573,14 +663,17 @@ var Neo;
                 bi_new = BigInteger.add(bi_new, bi_y);
             return bi_new;
         };
-        BigInteger.prototype.mod = function (other) {
+        BigInteger.prototype.mod = function (other)
+        {
             return BigInteger.mod(this, other);
         };
-        BigInteger.modInverse = function (value, modulus) {
+        BigInteger.modInverse = function (value, modulus)
+        {
             var a = typeof value === "number" ? new BigInteger(value) : value;
             var n = typeof modulus === "number" ? new BigInteger(modulus) : modulus;
             var i = n, v = BigInteger.Zero, d = BigInteger.One;
-            while (a._sign > 0) {
+            while (a._sign > 0)
+            {
                 var t = BigInteger.divRem(i, a);
                 var x = d;
                 i = a;
@@ -590,10 +683,12 @@ var Neo;
             }
             return BigInteger.mod(v, n);
         };
-        BigInteger.prototype.modInverse = function (modulus) {
+        BigInteger.prototype.modInverse = function (modulus)
+        {
             return BigInteger.modInverse(this, modulus);
         };
-        BigInteger.modPow = function (value, exponent, modulus) {
+        BigInteger.modPow = function (value, exponent, modulus)
+        {
             var bi_v = typeof value === "number" ? new BigInteger(value) : value;
             var bi_e = typeof exponent === "number" ? new BigInteger(exponent) : exponent;
             var bi_m = typeof modulus === "number" ? new BigInteger(modulus) : modulus;
@@ -603,7 +698,8 @@ var Neo;
                 return BigInteger.Zero;
             var h = bi_e.bitLength();
             var bi_new = BigInteger.One;
-            for (var i = 0; i < h; i++) {
+            for (var i = 0; i < h; i++)
+            {
                 if (i > 0)
                     bi_v = BigInteger.multiply(bi_v, bi_v);
                 bi_v = bi_v.remainder(bi_m);
@@ -614,10 +710,12 @@ var Neo;
                 bi_new = BigInteger.add(bi_new, bi_m);
             return bi_new;
         };
-        BigInteger.prototype.modPow = function (exponent, modulus) {
+        BigInteger.prototype.modPow = function (exponent, modulus)
+        {
             return BigInteger.modPow(this, exponent, modulus);
         };
-        BigInteger.multiply = function (x, y) {
+        BigInteger.multiply = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             if (bi_x._sign == 0)
@@ -636,27 +734,33 @@ var Neo;
             BigInteger.multiplyTo(bi_x._bits, bi_y._bits, bits_r);
             return BigInteger.create((bi_x._sign > 0) == (bi_y._sign > 0) ? +1 : -1, bits_r);
         };
-        BigInteger.prototype.multiply = function (other) {
+        BigInteger.prototype.multiply = function (other)
+        {
             return BigInteger.multiply(this, other);
         };
-        BigInteger.multiplyTo = function (x, y, r, offset) {
+        BigInteger.multiplyTo = function (x, y, r, offset)
+        {
             if (offset === void 0) { offset = 0; }
-            if (x.length > y.length) {
+            if (x.length > y.length)
+            {
                 var t = x;
                 x = y;
                 y = t;
             }
             for (var i = x.length + y.length - 2; i >= 0; i--)
                 r[i + offset] = 0;
-            for (var i = 0; i < x.length; i++) {
+            for (var i = 0; i < x.length; i++)
+            {
                 if (x[i] == 0)
                     continue;
-                for (var j = 0; j < y.length; j++) {
+                for (var j = 0; j < y.length; j++)
+                {
                     var c = x[i] * y[j];
                     if (c == 0)
                         continue;
                     var k = i + j;
-                    do {
+                    do
+                    {
                         c += r[k + offset] || 0;
                         r[k + offset] = c & DM;
                         c = Math.floor(c / DV);
@@ -665,13 +769,16 @@ var Neo;
                 }
             }
         };
-        BigInteger.prototype.negate = function () {
+        BigInteger.prototype.negate = function ()
+        {
             return BigInteger.create(-this._sign, this._bits);
         };
-        BigInteger.parse = function (str) {
+        BigInteger.parse = function (str)
+        {
             return BigInteger.fromString(str);
         };
-        BigInteger.pow = function (value, exponent) {
+        BigInteger.pow = function (value, exponent)
+        {
             var bi_v = typeof value === "number" ? new BigInteger(value) : value;
             if (exponent < 0 || exponent > 0x7fffffff)
                 throw new RangeError();
@@ -681,7 +788,8 @@ var Neo;
                 return bi_v;
             if (bi_v._sign == 0)
                 return bi_v;
-            if (bi_v._bits.length == 1) {
+            if (bi_v._bits.length == 1)
+            {
                 if (bi_v._bits[0] == 1)
                     return bi_v;
                 if (bi_v._bits[0] == -1)
@@ -689,7 +797,8 @@ var Neo;
             }
             var h = BigInteger.bitLengthInternal(exponent);
             var bi_new = BigInteger.One;
-            for (var i = 0; i < h; i++) {
+            for (var i = 0; i < h; i++)
+            {
                 var e = 1 << i;
                 if (e > 1)
                     bi_v = BigInteger.multiply(bi_v, bi_v);
@@ -698,32 +807,39 @@ var Neo;
             }
             return bi_new;
         };
-        BigInteger.prototype.pow = function (exponent) {
+        BigInteger.prototype.pow = function (exponent)
+        {
             return BigInteger.pow(this, exponent);
         };
-        BigInteger.random = function (bitLength, rng) {
+        BigInteger.random = function (bitLength, rng)
+        {
             if (bitLength == 0)
                 return BigInteger.Zero;
             var bytes = new Uint8Array(Math.ceil(bitLength / 8));
-            if (rng == null) {
+            if (rng == null)
+            {
                 for (var i = 0; i < bytes.length; i++)
                     bytes[i] = Math.random() * 256;
             }
-            else {
+            else
+            {
                 rng.getRandomValues(bytes);
             }
             bytes[bytes.length - 1] &= 0xff >>> (8 - bitLength % 8);
             return new BigInteger(bytes);
         };
-        BigInteger.remainder = function (x, y) {
+        BigInteger.remainder = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             return BigInteger.divRem(bi_x, bi_y).remainder;
         };
-        BigInteger.prototype.remainder = function (other) {
+        BigInteger.prototype.remainder = function (other)
+        {
             return BigInteger.remainder(this, other);
         };
-        BigInteger.prototype.rightShift = function (shift) {
+        BigInteger.prototype.rightShift = function (shift)
+        {
             if (shift == 0)
                 return this;
             var shift_units = Math.floor(shift / DB);
@@ -731,20 +847,24 @@ var Neo;
             if (this._bits.length <= shift_units)
                 return BigInteger.Zero;
             var bits_new = new Array(this._bits.length - shift_units);
-            if (shift == 0) {
+            if (shift == 0)
+            {
                 for (var i = 0; i < bits_new.length; i++)
                     bits_new[i] = this._bits[i + shift_units];
             }
-            else {
+            else
+            {
                 for (var i = 0; i < bits_new.length; i++)
                     bits_new[i] = (this._bits[i + shift_units] >>> shift | this._bits[i + shift_units + 1] << (DB - shift)) & DM;
             }
             return BigInteger.create(this._sign, bits_new, true);
         };
-        BigInteger.prototype.sign = function () {
+        BigInteger.prototype.sign = function ()
+        {
             return this._sign;
         };
-        BigInteger.subtract = function (x, y) {
+        BigInteger.subtract = function (x, y)
+        {
             var bi_x = typeof x === "number" ? new BigInteger(x) : x;
             var bi_y = typeof y === "number" ? new BigInteger(y) : y;
             if (bi_x._sign == 0)
@@ -762,54 +882,63 @@ var Neo;
             BigInteger.subtractTo(bi_x._bits, bi_y._bits, bits_r);
             return BigInteger.create(bi_x._sign, bits_r, true);
         };
-        BigInteger.prototype.subtract = function (other) {
+        BigInteger.prototype.subtract = function (other)
+        {
             return BigInteger.subtract(this, other);
         };
-        BigInteger.subtractTo = function (x, y, r) {
+        BigInteger.subtractTo = function (x, y, r)
+        {
             if (r == null)
                 r = [];
             var l = Math.min(x.length, y.length);
             var c = 0, i = 0;
-            while (i < l) {
+            while (i < l)
+            {
                 c += x[i] - y[i];
                 r[i++] = c & DM;
                 c >>= DB;
             }
             if (x.length < y.length)
-                while (i < y.length) {
+                while (i < y.length)
+                {
                     c -= y[i];
                     r[i++] = c & DM;
                     c >>= DB;
                 }
             else
-                while (i < x.length) {
+                while (i < x.length)
+                {
                     c += x[i];
                     r[i++] = c & DM;
                     c >>= DB;
                 }
             return c < 0;
         };
-        BigInteger.prototype.testBit = function (n) {
+        BigInteger.prototype.testBit = function (n)
+        {
             var units = Math.floor(n / DB);
             if (this._bits.length <= units)
                 return false;
             return (this._bits[units] & (1 << (n %= DB))) != 0;
         };
-        BigInteger.prototype.toInt32 = function () {
+        BigInteger.prototype.toInt32 = function ()
+        {
             if (this._sign == 0)
                 return 0;
             if (this._bits.length == 1)
                 return this._bits[0] * this._sign;
             return ((this._bits[0] | this._bits[1] * DV) & 0x7fffffff) * this._sign;
         };
-        BigInteger.prototype.toString = function (radix) {
+        BigInteger.prototype.toString = function (radix)
+        {
             if (radix === void 0) { radix = 10; }
             if (this._sign == 0)
                 return "0";
             if (radix < 2 || radix > 36)
                 throw new RangeError();
             var s = "";
-            for (var bi = this; bi._sign != 0;) {
+            for (var bi = this; bi._sign != 0;)
+            {
                 var r = BigInteger.divRem(bi, radix);
                 var rem = Math.abs(r.remainder.toInt32());
                 if (rem < 10)
@@ -823,13 +952,15 @@ var Neo;
                 s = "-" + s;
             return s;
         };
-        BigInteger.prototype.toUint8Array = function (littleEndian, length) {
+        BigInteger.prototype.toUint8Array = function (littleEndian, length)
+        {
             if (littleEndian === void 0) { littleEndian = true; }
             if (this._sign == 0)
                 return new Uint8Array(length || 1);
             var cb = Math.ceil(this._bits.length * DB / 8);
             var array = new Uint8Array(length || cb);
-            for (var i = 0; i < array.length; i++) {
+            for (var i = 0; i < array.length; i++)
+            {
                 var offset = littleEndian ? i : array.length - 1 - i;
                 var cbits = i * 8;
                 var cu = Math.floor(cbits / DB);
@@ -849,11 +980,14 @@ var Neo;
     Neo.BigInteger = BigInteger;
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var D = 100000000;
     var _max, _minus, _min, _one, _satoshi;
-    var Fixed8 = (function () {
-        function Fixed8(data) {
+    var Fixed8 = (function ()
+    {
+        function Fixed8(data)
+        {
             this.data = data;
             if (data.bits[1] >= 0x80000000 && (data.bits[0] != 0xffffffff || data.bits[1] != 0xffffffff))
                 throw new RangeError();
@@ -888,19 +1022,23 @@ var Neo;
             enumerable: true,
             configurable: true
         });
-        Fixed8.prototype.add = function (other) {
+        Fixed8.prototype.add = function (other)
+        {
             var result = this.data.add(other.data);
             if (result.compareTo(this.data) < 0)
                 throw new Error();
             return new Fixed8(result);
         };
-        Fixed8.prototype.compareTo = function (other) {
+        Fixed8.prototype.compareTo = function (other)
+        {
             return this.data.compareTo(other.data);
         };
-        Fixed8.prototype.equals = function (other) {
+        Fixed8.prototype.equals = function (other)
+        {
             return this.data.equals(other.data);
         };
-        Fixed8.fromNumber = function (value) {
+        Fixed8.fromNumber = function (value)
+        {
             if (value < 0)
                 throw new RangeError();
             value *= D;
@@ -909,12 +1047,15 @@ var Neo;
             var array = new Uint32Array((new Neo.BigInteger(value)).toUint8Array(true, 8).buffer);
             return new Fixed8(new Neo.Uint64(array[0], array[1]));
         };
-        Fixed8.prototype.getData = function () {
+        Fixed8.prototype.getData = function ()
+        {
             return this.data;
         };
-        Fixed8.max = function (first) {
+        Fixed8.max = function (first)
+        {
             var others = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
+            for (var _i = 1; _i < arguments.length; _i++)
+            {
                 others[_i - 1] = arguments[_i];
             }
             for (var i = 0; i < others.length; i++)
@@ -922,9 +1063,11 @@ var Neo;
                     first = others[i];
             return first;
         };
-        Fixed8.min = function (first) {
+        Fixed8.min = function (first)
+        {
             var others = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
+            for (var _i = 1; _i < arguments.length; _i++)
+            {
                 others[_i - 1] = arguments[_i];
             }
             for (var i = 0; i < others.length; i++)
@@ -932,7 +1075,8 @@ var Neo;
                     first = others[i];
             return first;
         };
-        Fixed8.parse = function (str) {
+        Fixed8.parse = function (str)
+        {
             var dot = str.indexOf('.');
             var digits = dot >= 0 ? str.length - dot - 1 : 0;
             str = str.replace('.', '');
@@ -943,12 +1087,14 @@ var Neo;
                     str += '0';
             return new Fixed8(Neo.Uint64.parse(str));
         };
-        Fixed8.prototype.subtract = function (other) {
+        Fixed8.prototype.subtract = function (other)
+        {
             if (this.data.compareTo(other.data) < 0)
                 throw new Error();
             return new Fixed8(this.data.subtract(other.data));
         };
-        Fixed8.prototype.toString = function () {
+        Fixed8.prototype.toString = function ()
+        {
             var str = this.data.toString();
             while (str.length <= 8)
                 str = '0' + str;
@@ -964,49 +1110,58 @@ var Neo;
                 str = str.substr(0, str.length - 1);
             return str;
         };
-        Fixed8.prototype.deserialize = function (reader) {
+        Fixed8.prototype.deserialize = function (reader)
+        {
             this.data = reader.readUint64();
         };
-        Fixed8.prototype.serialize = function (writer) {
+        Fixed8.prototype.serialize = function (writer)
+        {
             writer.writeUint64(this.getData());
         };
         return Fixed8;
     }());
     Neo.Fixed8 = Fixed8;
 })(Neo || (Neo = {}));
-Array.copy = function (src, srcOffset, dst, dstOffset, count) {
+Array.copy = function (src, srcOffset, dst, dstOffset, count)
+{
     for (var i = 0; i < count; i++)
         dst[i + dstOffset] = src[i + srcOffset];
 };
-Array.fromArray = function (arr) {
+Array.fromArray = function (arr)
+{
     var array = new Array(arr.length);
     for (var i = 0; i < array.length; i++)
         array[i] = arr[i];
     return array;
 };
-Uint8Array.fromArrayBuffer = function (buffer) {
+Uint8Array.fromArrayBuffer = function (buffer)
+{
     if (buffer instanceof Uint8Array)
         return buffer;
     else if (buffer instanceof ArrayBuffer)
         return new Uint8Array(buffer);
-    else {
+    else
+    {
         var view = buffer;
         return new Uint8Array(view.buffer, view.byteOffset, view.byteLength);
     }
 };
-String.prototype.hexToBytes = function () {
+String.prototype.hexToBytes = function ()
+{
     if ((this.length & 1) != 0)
         throw new RangeError();
     var str = this;
     if (this.length >= 2 && this[0] == '0' && this[1] == 'x')
         str = this.substr(2);
     var bytes = new Uint8Array(str.length / 2);
-    for (var i = 0; i < bytes.length; i++) {
+    for (var i = 0; i < bytes.length; i++)
+    {
         bytes[i] = parseInt(str.substr(i * 2, 2), 16);
     }
     return bytes;
 };
-ArrayBuffer.prototype.slice = ArrayBuffer.prototype.slice || function (begin, end) {
+ArrayBuffer.prototype.slice = ArrayBuffer.prototype.slice || function (begin, end)
+{
     if (end === void 0) { end = this.byteLength; }
     if (begin < 0)
         begin += this.byteLength;
@@ -1025,32 +1180,40 @@ ArrayBuffer.prototype.slice = ArrayBuffer.prototype.slice || function (begin, en
         dst[i] = src[i + begin];
     return dst.buffer;
 };
-Uint8Array.prototype.toHexString = function () {
+Uint8Array.prototype.toHexString = function ()
+{
     var s = "";
-    for (var i = 0; i < this.length; i++) {
+    for (var i = 0; i < this.length; i++)
+    {
         s += (this[i] >>> 4).toString(16);
         s += (this[i] & 0xf).toString(16);
     }
     return s;
 };
-Uint8Array.prototype.clone = function () {
+Uint8Array.prototype.clone = function ()
+{
     var u8 = new Uint8Array(this.length);
     for (var i = 0; i < this.length; i++)
         u8[i] = this[i];
     return u8;
 };
-Uint8Array.prototype.concat = function (data) {
+Uint8Array.prototype.concat = function (data)
+{
     var newarr = new Uint8Array(this.length + data.length);
-    for (var i = 0; i < this.length; i++) {
+    for (var i = 0; i < this.length; i++)
+    {
         newarr[i] = this[i];
     }
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++)
+    {
         newarr[this.length + i] = data[i];
     }
     return newarr;
 };
-void function () {
-    function fillArray(value, start, end) {
+void function ()
+{
+    function fillArray(value, start, end)
+    {
         if (start === void 0) { start = 0; }
         if (end === void 0) { end = this.length; }
         if (start < 0)
@@ -1077,8 +1240,10 @@ void function () {
     Uint16Array.prototype.fill = Uint16Array.prototype.fill || fillArray;
     Uint32Array.prototype.fill = Uint32Array.prototype.fill || fillArray;
 }();
-var NeoMap = (function () {
-    function NeoMap() {
+var NeoMap = (function ()
+{
+    function NeoMap()
+    {
         this._map = new Object();
         this._size = 0;
     }
@@ -1087,28 +1252,34 @@ var NeoMap = (function () {
         enumerable: true,
         configurable: true
     });
-    NeoMap.prototype.clear = function () {
+    NeoMap.prototype.clear = function ()
+    {
         for (var key in this._map)
             delete this._map[key];
         this._size = 0;
     };
-    NeoMap.prototype.delete = function (key) {
+    NeoMap.prototype.delete = function (key)
+    {
         if (!this._map.hasOwnProperty(key))
             return false;
         this._size--;
         return delete this._map[key];
     };
-    NeoMap.prototype.forEach = function (callback) {
+    NeoMap.prototype.forEach = function (callback)
+    {
         for (var key in this._map)
             callback(this._map[key], key, this);
     };
-    NeoMap.prototype.get = function (key) {
+    NeoMap.prototype.get = function (key)
+    {
         return this._map[key];
     };
-    NeoMap.prototype.has = function (key) {
+    NeoMap.prototype.has = function (key)
+    {
         return this._map.hasOwnProperty(key);
     };
-    NeoMap.prototype.set = function (key, value) {
+    NeoMap.prototype.set = function (key, value)
+    {
         if (!this._map.hasOwnProperty(key))
             this._size++;
         this._map[key] = value;
@@ -1116,60 +1287,76 @@ var NeoMap = (function () {
     return NeoMap;
 }());
 var PromiseState;
-(function (PromiseState) {
+(function (PromiseState)
+{
     PromiseState[PromiseState["pending"] = 0] = "pending";
     PromiseState[PromiseState["fulfilled"] = 1] = "fulfilled";
     PromiseState[PromiseState["rejected"] = 2] = "rejected";
 })(PromiseState || (PromiseState = {}));
-var NeoPromise = (function () {
-    function NeoPromise(executor) {
+var NeoPromise = (function ()
+{
+    function NeoPromise(executor)
+    {
         this._state = PromiseState.pending;
         this._callback_attached = false;
         if (executor != null)
             executor(this.resolve.bind(this), this.reject.bind(this));
     }
-    NeoPromise.all = function (iterable) {
-        return new NeoPromise(function (resolve, reject) {
-            if (iterable.length == 0) {
+    NeoPromise.all = function (iterable)
+    {
+        return new NeoPromise(function (resolve, reject)
+        {
+            if (iterable.length == 0)
+            {
                 resolve([]);
                 return;
             }
             var results = new Array(iterable.length);
             var rejected = false;
-            var onFulfilled = function (result) {
+            var onFulfilled = function (result)
+            {
                 results[this._tag] = result;
                 for (var i = 0; i < iterable.length; i++)
                     if (iterable[i]._state != PromiseState.fulfilled)
                         return;
                 resolve(results);
             };
-            var onRejected = function (reason) {
-                if (!rejected) {
+            var onRejected = function (reason)
+            {
+                if (!rejected)
+                {
                     rejected = true;
                     reject(reason);
                 }
             };
-            for (var i = 0; i < iterable.length; i++) {
+            for (var i = 0; i < iterable.length; i++)
+            {
                 iterable[i]._tag = i;
                 iterable[i].then(onFulfilled, onRejected);
             }
         });
     };
-    NeoPromise.prototype.catch = function (onRejected) {
+    NeoPromise.prototype.catch = function (onRejected)
+    {
         return this.then(null, onRejected);
     };
-    NeoPromise.prototype.checkState = function () {
-        if (this._state != PromiseState.pending && this._callback_attached) {
+    NeoPromise.prototype.checkState = function ()
+    {
+        if (this._state != PromiseState.pending && this._callback_attached)
+        {
             var callback = this._state == PromiseState.fulfilled ? this._onFulfilled : this._onRejected;
             var arg = this._state == PromiseState.fulfilled ? this._value : this._reason;
             var value = void 0, reason = void 0;
-            try {
+            try
+            {
                 value = callback == null ? this : callback.call(this, arg);
             }
-            catch (ex) {
+            catch (ex)
+            {
                 reason = ex;
             }
-            if (this._next_promise == null) {
+            if (this._next_promise == null)
+            {
                 if (reason != null)
                     return NeoPromise.reject(reason);
                 else if (value instanceof NeoPromise)
@@ -1177,7 +1364,8 @@ var NeoPromise = (function () {
                 else
                     return NeoPromise.resolve(value);
             }
-            else {
+            else
+            {
                 if (reason != null)
                     this._next_promise.reject(reason);
                 else if (value instanceof NeoPromise)
@@ -1187,44 +1375,54 @@ var NeoPromise = (function () {
             }
         }
     };
-    NeoPromise.prototype.reject = function (reason) {
+    NeoPromise.prototype.reject = function (reason)
+    {
         this._state = PromiseState.rejected;
         this._reason = reason;
         this.checkState();
     };
-    NeoPromise.reject = function (reason) {
+    NeoPromise.reject = function (reason)
+    {
         return new NeoPromise(function (resolve, reject) { return reject(reason); });
     };
-    NeoPromise.prototype.resolve = function (value) {
+    NeoPromise.prototype.resolve = function (value)
+    {
         this._state = PromiseState.fulfilled;
         this._value = value;
         this.checkState();
     };
-    NeoPromise.resolve = function (value) {
+    NeoPromise.resolve = function (value)
+    {
         if (value instanceof NeoPromise)
             return value;
         return new NeoPromise(function (resolve, reject) { return resolve(value); });
     };
-    NeoPromise.prototype.then = function (onFulfilled, onRejected) {
+    NeoPromise.prototype.then = function (onFulfilled, onRejected)
+    {
         this._onFulfilled = onFulfilled;
         this._onRejected = onRejected;
         this._callback_attached = true;
-        if (this._state == PromiseState.pending) {
+        if (this._state == PromiseState.pending)
+        {
             this._next_promise = new NeoPromise(null);
             return this._next_promise;
         }
-        else {
+        else
+        {
             return this.checkState();
         }
     };
     return NeoPromise;
 }());
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var _zero;
-    var Uint160 = (function (_super) {
+    var Uint160 = (function (_super)
+    {
         __extends(Uint160, _super);
-        function Uint160(value) {
+        function Uint160(value)
+        {
             var _this = this;
             if (value == null)
                 value = new ArrayBuffer(20);
@@ -1238,7 +1436,8 @@ var Neo;
             enumerable: true,
             configurable: true
         });
-        Uint160.parse = function (str) {
+        Uint160.parse = function (str)
+        {
             if (str.length != 40)
                 throw new RangeError();
             var x = str.hexToBytes();
@@ -1252,11 +1451,14 @@ var Neo;
     Neo.Uint160 = Uint160;
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var _zero;
-    var Uint256 = (function (_super) {
+    var Uint256 = (function (_super)
+    {
         __extends(Uint256, _super);
-        function Uint256(value) {
+        function Uint256(value)
+        {
             var _this = this;
             if (value == null)
                 value = new ArrayBuffer(32);
@@ -1270,7 +1472,8 @@ var Neo;
             enumerable: true,
             configurable: true
         });
-        Uint256.parse = function (str) {
+        Uint256.parse = function (str)
+        {
             if (str.length != 64)
                 throw new RangeError();
             var x = str.hexToBytes();
@@ -1284,25 +1487,44 @@ var Neo;
     Neo.Uint256 = Uint256;
 })(Neo || (Neo = {}));
 var ThinNeo;
-(function (ThinNeo) {
-    var nep6account = (function () {
-        function nep6account() {
+(function (ThinNeo)
+{
+    var contract = (function ()
+    {
+        function contract()
+        {
+            this.parameters = [{ "name": "parameter0", "type": "Signature" }];
+            this.deployed = false;
         }
-        nep6account.prototype.getPrivateKey = function (scrypt, password, callback) {
+        return contract;
+    }());
+    ThinNeo.contract = contract;
+    var nep6account = (function ()
+    {
+        function nep6account()
+        {
+        }
+        nep6account.prototype.getPrivateKey = function (scrypt, password, callback)
+        {
             var _this = this;
-            var cb = function (i, r) {
-                if (i == "finish") {
+            var cb = function (i, r)
+            {
+                if (i == "finish")
+                {
                     var bytes = r;
                     var pkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(bytes);
                     var address = ThinNeo.Helper.GetAddressFromPublicKey(pkey);
-                    if (address == _this.address) {
+                    if (address == _this.address)
+                    {
                         callback(i, r);
                     }
-                    else {
+                    else
+                    {
                         callback("error", "checkerror");
                     }
                 }
-                else {
+                else
+                {
                     callback(i, r);
                 }
             };
@@ -1311,33 +1533,53 @@ var ThinNeo;
         return nep6account;
     }());
     ThinNeo.nep6account = nep6account;
-    var nep6ScryptParameters = (function () {
-        function nep6ScryptParameters() {
+    var nep6ScryptParameters = (function ()
+    {
+        function nep6ScryptParameters()
+        {
         }
         return nep6ScryptParameters;
     }());
     ThinNeo.nep6ScryptParameters = nep6ScryptParameters;
-    var nep6wallet = (function () {
-        function nep6wallet() {
+    var nep6wallet = (function ()
+    {
+        function nep6wallet()
+        {
         }
-        nep6wallet.prototype.fromJsonStr = function (jsonstr) {
+        nep6wallet.prototype.fromJsonStr = function (jsonstr)
+        {
             var json = JSON.parse(jsonstr);
             this.scrypt = new nep6ScryptParameters();
             this.scrypt.N = json.scrypt.n;
             this.scrypt.r = json.scrypt.r;
             this.scrypt.p = json.scrypt.p;
             this.accounts = [];
-            for (var i = 0; i < json.accounts.length; i++) {
+            for (var i = 0; i < json.accounts.length; i++)
+            {
                 var acc = json.accounts[i];
                 var localacc = new nep6account();
                 localacc.address = acc.address;
                 localacc.nep2key = acc.key;
+                localacc.contract = acc.contract;
+                if (localacc.contract == null || localacc.contract.script == null)
+                {
+                    localacc.nep2key = null;
+                }
+                else
+                {
+                    var ss = localacc.contract.script.hexToBytes();
+                    if (ss.length != 35 || ss[0] != 33 || ss[34] != 172)
+                    {
+                        localacc.nep2key = null;
+                    }
+                }
                 if (acc.key == undefined)
                     localacc.nep2key = null;
                 this.accounts.push(localacc);
             }
         };
-        nep6wallet.prototype.toJson = function () {
+        nep6wallet.prototype.toJson = function ()
+        {
             var obj = {};
             obj["name"] = null;
             obj["version"] = "1.0";
@@ -1347,7 +1589,8 @@ var ThinNeo;
                 "p": this.scrypt.p
             };
             var accounts = [];
-            for (var i = 0; i < this.accounts.length; i++) {
+            for (var i = 0; i < this.accounts.length; i++)
+            {
                 var acc = this.accounts[0];
                 var jsonacc = {};
                 jsonacc["address"] = acc.address;
@@ -1356,6 +1599,7 @@ var ThinNeo;
                 jsonacc["lock"] = false;
                 jsonacc["key"] = acc.nep2key;
                 jsonacc["extra"] = null;
+                jsonacc["contract"] = acc.contract;
                 accounts.push(jsonacc);
             }
             obj["accounts"] = accounts;
@@ -1367,16 +1611,21 @@ var ThinNeo;
     ThinNeo.nep6wallet = nep6wallet;
 })(ThinNeo || (ThinNeo = {}));
 var ThinNeo;
-(function (ThinNeo) {
-    var Base64 = (function () {
-        function Base64() {
+(function (ThinNeo)
+{
+    var Base64 = (function ()
+    {
+        function Base64()
+        {
         }
-        Base64.init = function () {
+        Base64.init = function ()
+        {
             if (Base64.binited)
                 return;
             Base64.lookup = [];
             Base64.revLookup = [];
-            for (var i = 0, len = Base64.code.length; i < len; ++i) {
+            for (var i = 0, len = Base64.code.length; i < len; ++i)
+            {
                 Base64.lookup[i] = Base64.code[i];
                 Base64.revLookup[Base64.code.charCodeAt(i)] = i;
             }
@@ -1384,17 +1633,21 @@ var ThinNeo;
             Base64.revLookup['_'.charCodeAt(0)] = 63;
             Base64.binited = true;
         };
-        Base64.placeHoldersCount = function (b64) {
+        Base64.placeHoldersCount = function (b64)
+        {
             var len = b64.length;
-            if (len % 4 > 0) {
+            if (len % 4 > 0)
+            {
                 throw new Error('Invalid string. Length must be a multiple of 4');
             }
             return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0;
         };
-        Base64.byteLength = function (b64) {
+        Base64.byteLength = function (b64)
+        {
             return (b64.length * 3 / 4) - Base64.placeHoldersCount(b64);
         };
-        Base64.toByteArray = function (b64) {
+        Base64.toByteArray = function (b64)
+        {
             Base64.init();
             var i, l, tmp, placeHolders, arr;
             var len = b64.length;
@@ -1402,36 +1655,43 @@ var ThinNeo;
             arr = new Uint8Array((len * 3 / 4) - placeHolders);
             l = placeHolders > 0 ? len - 4 : len;
             var L = 0;
-            for (i = 0; i < l; i += 4) {
+            for (i = 0; i < l; i += 4)
+            {
                 tmp = (Base64.revLookup[b64.charCodeAt(i)] << 18) | (Base64.revLookup[b64.charCodeAt(i + 1)] << 12) | (Base64.revLookup[b64.charCodeAt(i + 2)] << 6) | Base64.revLookup[b64.charCodeAt(i + 3)];
                 arr[L++] = (tmp >> 16) & 0xFF;
                 arr[L++] = (tmp >> 8) & 0xFF;
                 arr[L++] = tmp & 0xFF;
             }
-            if (placeHolders === 2) {
+            if (placeHolders === 2)
+            {
                 tmp = (Base64.revLookup[b64.charCodeAt(i)] << 2) | (Base64.revLookup[b64.charCodeAt(i + 1)] >> 4);
                 arr[L++] = tmp & 0xFF;
             }
-            else if (placeHolders === 1) {
+            else if (placeHolders === 1)
+            {
                 tmp = (Base64.revLookup[b64.charCodeAt(i)] << 10) | (Base64.revLookup[b64.charCodeAt(i + 1)] << 4) | (Base64.revLookup[b64.charCodeAt(i + 2)] >> 2);
                 arr[L++] = (tmp >> 8) & 0xFF;
                 arr[L++] = tmp & 0xFF;
             }
             return arr;
         };
-        Base64.tripletToBase64 = function (num) {
+        Base64.tripletToBase64 = function (num)
+        {
             return Base64.lookup[num >> 18 & 0x3F] + Base64.lookup[num >> 12 & 0x3F] + Base64.lookup[num >> 6 & 0x3F] + Base64.lookup[num & 0x3F];
         };
-        Base64.encodeChunk = function (uint8, start, end) {
+        Base64.encodeChunk = function (uint8, start, end)
+        {
             var tmp;
             var output = [];
-            for (var i = start; i < end; i += 3) {
+            for (var i = start; i < end; i += 3)
+            {
                 tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2]);
                 output.push(Base64.tripletToBase64(tmp));
             }
             return output.join('');
         };
-        Base64.fromByteArray = function (uint8) {
+        Base64.fromByteArray = function (uint8)
+        {
             Base64.init();
             var tmp;
             var len = uint8.length;
@@ -1439,16 +1699,19 @@ var ThinNeo;
             var output = '';
             var parts = [];
             var maxChunkLength = 16383;
-            for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+            for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength)
+            {
                 parts.push(Base64.encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)));
             }
-            if (extraBytes === 1) {
+            if (extraBytes === 1)
+            {
                 tmp = uint8[len - 1];
                 output += Base64.lookup[tmp >> 2];
                 output += Base64.lookup[(tmp << 4) & 0x3F];
                 output += '==';
             }
-            else if (extraBytes === 2) {
+            else if (extraBytes === 2)
+            {
                 tmp = (uint8[len - 2] << 8) + (uint8[len - 1]);
                 output += Base64.lookup[tmp >> 10];
                 output += Base64.lookup[(tmp >> 4) & 0x3F];
@@ -1467,12 +1730,16 @@ var ThinNeo;
     ThinNeo.Base64 = Base64;
 })(ThinNeo || (ThinNeo = {}));
 var ThinNeo;
-(function (ThinNeo) {
+(function (ThinNeo)
+{
     var scrypt_loaded = false;
-    var Helper = (function () {
-        function Helper() {
+    var Helper = (function ()
+    {
+        function Helper()
+        {
         }
-        Helper.GetPrivateKeyFromWIF = function (wif) {
+        Helper.GetPrivateKeyFromWIF = function (wif)
+        {
             if (wif == null)
                 throw new Error("null wif");
             var data = Neo.Cryptography.Base58.decode(wif);
@@ -1483,82 +1750,98 @@ var ThinNeo;
             var _checksum = Neo.Cryptography.Sha256.computeHash(realdata);
             var checksum = new Uint8Array(Neo.Cryptography.Sha256.computeHash(_checksum));
             var sumcalc = checksum.subarray(0, 4);
-            for (var i = 0; i < 4; i++) {
+            for (var i = 0; i < 4; i++)
+            {
                 if (sum[i] != sumcalc[i])
                     throw new Error("the sum is not match.");
             }
             var privateKey = data.subarray(1, 1 + 32);
             return privateKey;
         };
-        Helper.GetWifFromPrivateKey = function (prikey) {
+        Helper.GetWifFromPrivateKey = function (prikey)
+        {
             var data = new Uint8Array(38);
             data[0] = 0x80;
             data[33] = 0x01;
-            for (var i = 0; i < 32; i++) {
+            for (var i = 0; i < 32; i++)
+            {
                 data[i + 1] = prikey[i];
             }
             var realdata = data.subarray(0, data.length - 4);
             var _checksum = Neo.Cryptography.Sha256.computeHash(realdata);
             var checksum = new Uint8Array(Neo.Cryptography.Sha256.computeHash(_checksum));
-            for (var i = 0; i < 4; i++) {
+            for (var i = 0; i < 4; i++)
+            {
                 data[34 + i] = checksum[i];
             }
             var wif = Neo.Cryptography.Base58.encode(data);
             return wif;
         };
-        Helper.GetPublicKeyFromPrivateKey = function (privateKey) {
+        Helper.GetPublicKeyFromPrivateKey = function (privateKey)
+        {
             var pkey = Neo.Cryptography.ECPoint.multiply(Neo.Cryptography.ECCurve.secp256r1.G, privateKey);
             return pkey.encodePoint(true);
         };
-        Helper.Hash160 = function (data) {
+        Helper.Hash160 = function (data)
+        {
             var hash1 = Neo.Cryptography.Sha256.computeHash(data);
             var hash2 = Neo.Cryptography.RIPEMD160.computeHash(hash1);
             return new Uint8Array(hash2);
         };
-        Helper.GetAddressCheckScriptFromPublicKey = function (publicKey) {
+        Helper.GetAddressCheckScriptFromPublicKey = function (publicKey)
+        {
             var script = new Uint8Array(publicKey.length + 2);
             script[0] = publicKey.length;
-            for (var i = 0; i < publicKey.length; i++) {
+            for (var i = 0; i < publicKey.length; i++)
+            {
                 script[i + 1] = publicKey[i];
             }
             ;
             script[script.length - 1] = 172;
             return script;
         };
-        Helper.GetPublicKeyScriptHashFromPublicKey = function (publicKey) {
+        Helper.GetPublicKeyScriptHashFromPublicKey = function (publicKey)
+        {
             var script = Helper.GetAddressCheckScriptFromPublicKey(publicKey);
             var scripthash = Neo.Cryptography.Sha256.computeHash(script);
             scripthash = Neo.Cryptography.RIPEMD160.computeHash(scripthash);
             return new Uint8Array(scripthash);
         };
-        Helper.GetScriptHashFromScript = function (script) {
+        Helper.GetScriptHashFromScript = function (script)
+        {
             var scripthash = Neo.Cryptography.Sha256.computeHash(script);
             scripthash = Neo.Cryptography.RIPEMD160.computeHash(scripthash);
             return new Uint8Array(scripthash);
         };
-        Helper.GetAddressFromScriptHash = function (scripthash) {
+        Helper.GetAddressFromScriptHash = function (scripthash)
+        {
             var data = new Uint8Array(scripthash.length + 1);
             data[0] = 0x17;
-            for (var i = 0; i < scripthash.length; i++) {
+            for (var i = 0; i < scripthash.length; i++)
+            {
                 data[i + 1] = scripthash[i];
             }
             var hash = Neo.Cryptography.Sha256.computeHash(data);
             hash = Neo.Cryptography.Sha256.computeHash(hash);
             var hashu8 = new Uint8Array(hash, 0, 4);
             var alldata = new Uint8Array(data.length + 4);
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++)
+            {
                 alldata[i] = data[i];
             }
-            for (var i = 0; i < 4; i++) {
+            for (var i = 0; i < 4; i++)
+            {
                 alldata[data.length + i] = hashu8[i];
             }
             return Neo.Cryptography.Base58.encode(alldata);
         };
-        Helper.GetAddressFromPublicKey = function (publicKey) {
+        Helper.GetAddressFromPublicKey = function (publicKey)
+        {
             var scripthash = Helper.GetPublicKeyScriptHashFromPublicKey(publicKey);
             return Helper.GetAddressFromScriptHash(scripthash);
         };
-        Helper.GetPublicKeyScriptHash_FromAddress = function (address) {
+        Helper.GetPublicKeyScriptHash_FromAddress = function (address)
+        {
             var array = Neo.Cryptography.Base58.decode(address);
             var salt = array.subarray(0, 1);
             var hash = array.subarray(1, 1 + 20);
@@ -1568,14 +1851,17 @@ var ThinNeo;
             hashd = Neo.Cryptography.Sha256.computeHash(hashd);
             var hashd = hashd.slice(0, 4);
             var checked = new Uint8Array(hashd);
-            for (var i = 0; i < 4; i++) {
-                if (checked[i] != check[i]) {
+            for (var i = 0; i < 4; i++)
+            {
+                if (checked[i] != check[i])
+                {
                     throw new Error("the sum is not match.");
                 }
             }
             return hash.clone();
         };
-        Helper.Sign = function (message, privateKey) {
+        Helper.Sign = function (message, privateKey)
+        {
             var PublicKey = Neo.Cryptography.ECPoint.multiply(Neo.Cryptography.ECCurve.secp256r1.G, privateKey);
             var pubkey = PublicKey.encodePoint(false).subarray(1, 64);
             var key = new Neo.Cryptography.ECDsaCryptoKey(PublicKey, privateKey);
@@ -1584,7 +1870,8 @@ var ThinNeo;
                 return new Uint8Array(ecdsa.sign(message));
             }
         };
-        Helper.VerifySignature = function (message, signature, pubkey) {
+        Helper.VerifySignature = function (message, signature, pubkey)
+        {
             var PublicKey = Neo.Cryptography.ECPoint.decodePoint(pubkey, Neo.Cryptography.ECCurve.secp256r1);
             var usepk = PublicKey.encodePoint(false).subarray(1, 64);
             var key = new Neo.Cryptography.ECDsaCryptoKey(PublicKey);
@@ -1593,22 +1880,27 @@ var ThinNeo;
                 return ecdsa.verify(message, signature);
             }
         };
-        Helper.String2Bytes = function (str) {
+        Helper.String2Bytes = function (str)
+        {
             var back = [];
             var byteSize = 0;
-            for (var i = 0; i < str.length; i++) {
+            for (var i = 0; i < str.length; i++)
+            {
                 var code = str.charCodeAt(i);
-                if (0x00 <= code && code <= 0x7f) {
+                if (0x00 <= code && code <= 0x7f)
+                {
                     byteSize += 1;
                     back.push(code);
                 }
-                else if (0x80 <= code && code <= 0x7ff) {
+                else if (0x80 <= code && code <= 0x7ff)
+                {
                     byteSize += 2;
                     back.push((192 | (31 & (code >> 6))));
                     back.push((128 | (63 & code)));
                 }
                 else if ((0x800 <= code && code <= 0xd7ff)
-                    || (0xe000 <= code && code <= 0xffff)) {
+                    || (0xe000 <= code && code <= 0xffff))
+                {
                     byteSize += 3;
                     back.push((224 | (15 & (code >> 12))));
                     back.push((128 | (63 & (code >> 6))));
@@ -1616,31 +1908,38 @@ var ThinNeo;
                 }
             }
             var uarr = new Uint8Array(back.length);
-            for (i = 0; i < back.length; i++) {
+            for (i = 0; i < back.length; i++)
+            {
                 uarr[i] = back[i] & 0xff;
             }
             return uarr;
         };
-        Helper.Bytes2String = function (_arr) {
+        Helper.Bytes2String = function (_arr)
+        {
             var UTF = '';
-            for (var i = 0; i < _arr.length; i++) {
+            for (var i = 0; i < _arr.length; i++)
+            {
                 var one = _arr[i].toString(2), v = one.match(/^1+?(?=0)/);
-                if (v && one.length == 8) {
+                if (v && one.length == 8)
+                {
                     var bytesLength = v[0].length;
                     var store = _arr[i].toString(2).slice(7 - bytesLength);
-                    for (var st = 1; st < bytesLength; st++) {
+                    for (var st = 1; st < bytesLength; st++)
+                    {
                         store += _arr[st + i].toString(2).slice(2);
                     }
                     UTF += String.fromCharCode(parseInt(store, 2));
                     i += bytesLength - 1;
                 }
-                else {
+                else
+                {
                     UTF += String.fromCharCode(_arr[i]);
                 }
             }
             return UTF;
         };
-        Helper.Aes256Encrypt = function (src, key) {
+        Helper.Aes256Encrypt = function (src, key)
+        {
             var srcs = CryptoJS.enc.Utf8.parse(src);
             var keys = CryptoJS.enc.Utf8.parse(key);
             var encryptedkey = CryptoJS.AES.encrypt(srcs, keys, {
@@ -1649,17 +1948,20 @@ var ThinNeo;
             });
             return encryptedkey.ciphertext.toString();
         };
-        Helper.Aes256Encrypt_u8 = function (src, key) {
+        Helper.Aes256Encrypt_u8 = function (src, key)
+        {
             var srcs = CryptoJS.enc.Utf8.parse("1234123412341234");
             srcs.sigBytes = src.length;
             srcs.words = new Array(src.length / 4);
-            for (var i = 0; i < src.length / 4; i++) {
+            for (var i = 0; i < src.length / 4; i++)
+            {
                 srcs.words[i] = src[i * 4 + 3] + src[i * 4 + 2] * 256 + src[i * 4 + 1] * 256 * 256 + src[i * 4 + 0] * 256 * 256 * 256;
             }
             var keys = CryptoJS.enc.Utf8.parse("1234123412341234");
             keys.sigBytes = key.length;
             keys.words = new Array(key.length / 4);
-            for (var i = 0; i < key.length / 4; i++) {
+            for (var i = 0; i < key.length / 4; i++)
+            {
                 keys.words[i] = key[i * 4 + 3] + key[i * 4 + 2] * 256 + key[i * 4 + 1] * 256 * 256 + key[i * 4 + 0] * 256 * 256 * 256;
             }
             var encryptedkey = CryptoJS.AES.encrypt(srcs, keys, {
@@ -1669,11 +1971,13 @@ var ThinNeo;
             var str = encryptedkey.ciphertext.toString();
             return str.hexToBytes();
         };
-        Helper.Aes256Decrypt_u8 = function (encryptedkey, key) {
+        Helper.Aes256Decrypt_u8 = function (encryptedkey, key)
+        {
             var keys = CryptoJS.enc.Utf8.parse("1234123412341234");
             keys.sigBytes = key.length;
             keys.words = new Array(key.length / 4);
-            for (var i = 0; i < key.length / 4; i++) {
+            for (var i = 0; i < key.length / 4; i++)
+            {
                 keys.words[i] = key[i * 4 + 3] + key[i * 4 + 2] * 256 + key[i * 4 + 1] * 256 * 256 + key[i * 4 + 0] * 256 * 256 * 256;
             }
             var base64key = ThinNeo.Base64.fromByteArray(encryptedkey);
@@ -1684,14 +1988,16 @@ var ThinNeo;
             var str = srcs.toString();
             return str.hexToBytes();
         };
-        Helper.GetNep2FromPrivateKey = function (prikey, passphrase, n, r, p, callback) {
+        Helper.GetNep2FromPrivateKey = function (prikey, passphrase, n, r, p, callback)
+        {
             if (n === void 0) { n = 16384; }
             if (r === void 0) { r = 8; }
             if (p === void 0) { p = 8; }
             var pp = scrypt.getAvailableMod();
-            scrypt.setResPath('./asset');
+            scrypt.setResPath('static/js/asset');
             var addresshash = null;
-            var ready = function () {
+            var ready = function ()
+            {
                 var param = {
                     N: n,
                     r: r,
@@ -1703,29 +2009,35 @@ var ThinNeo;
                     maxDkLen: 64,
                     maxThread: 4
                 };
-                try {
+                try
+                {
                     scrypt.config(param, opt);
                 }
-                catch (err) {
+                catch (err)
+                {
                     console.warn('config err: ', err);
                 }
             };
-            scrypt.onload = function () {
+            scrypt.onload = function ()
+            {
                 console.log("scrypt.onload");
                 scrypt_loaded = true;
                 ready();
             };
-            scrypt.onerror = function (err) {
+            scrypt.onerror = function (err)
+            {
                 console.warn('scrypt err:', err);
                 callback("error", err);
             };
-            scrypt.oncomplete = function (dk) {
+            scrypt.oncomplete = function (dk)
+            {
                 console.log('done', scrypt.binToHex(dk));
                 var u8dk = new Uint8Array(dk);
                 var derivedhalf1 = u8dk.subarray(0, 32);
                 var derivedhalf2 = u8dk.subarray(32, 64);
                 var u8xor = new Uint8Array(32);
-                for (var i = 0; i < 32; i++) {
+                for (var i = 0; i < 32; i++)
+                {
                     u8xor[i] = prikey[i] ^ derivedhalf1[i];
                 }
                 var encryptedkey = Helper.Aes256Encrypt_u8(u8xor, derivedhalf2);
@@ -1733,29 +2045,35 @@ var ThinNeo;
                 buffer[0] = 0x01;
                 buffer[1] = 0x42;
                 buffer[2] = 0xe0;
-                for (var i = 3; i < 3 + 4; i++) {
+                for (var i = 3; i < 3 + 4; i++)
+                {
                     buffer[i] = addresshash[i - 3];
                 }
-                for (var i = 7; i < 32 + 7; i++) {
+                for (var i = 7; i < 32 + 7; i++)
+                {
                     buffer[i] = encryptedkey[i - 7];
                 }
                 var b1 = Neo.Cryptography.Sha256.computeHash(buffer);
                 b1 = Neo.Cryptography.Sha256.computeHash(b1);
                 var u8hash = new Uint8Array(b1);
                 var outbuf = new Uint8Array(39 + 4);
-                for (var i = 0; i < 39; i++) {
+                for (var i = 0; i < 39; i++)
+                {
                     outbuf[i] = buffer[i];
                 }
-                for (var i = 39; i < 39 + 4; i++) {
+                for (var i = 39; i < 39 + 4; i++)
+                {
                     outbuf[i] = u8hash[i - 39];
                 }
                 var base58str = Neo.Cryptography.Base58.encode(outbuf);
                 callback("finish", base58str);
             };
-            scrypt.onprogress = function (percent) {
+            scrypt.onprogress = function (percent)
+            {
                 console.log('onprogress');
             };
-            scrypt.onready = function () {
+            scrypt.onready = function ()
+            {
                 var pubkey = Helper.GetPublicKeyFromPrivateKey(prikey);
                 var script_hash = Helper.GetPublicKeyScriptHashFromPublicKey(pubkey);
                 var address = Helper.GetAddressFromScriptHash(script_hash);
@@ -1767,24 +2085,29 @@ var ThinNeo;
                 var passbin = scrypt.strToBin(passphrase);
                 scrypt.hash(passbin, addresshash, 64);
             };
-            if (scrypt_loaded == false) {
+            if (scrypt_loaded == false)
+            {
                 scrypt.load("asmjs");
             }
-            else {
+            else
+            {
                 ready();
             }
             return;
         };
-        Helper.GetPrivateKeyFromNep2 = function (nep2, passphrase, n, r, p, callback) {
+        Helper.GetPrivateKeyFromNep2 = function (nep2, passphrase, n, r, p, callback)
+        {
             if (n === void 0) { n = 16384; }
             if (r === void 0) { r = 8; }
             if (p === void 0) { p = 8; }
             var data = Neo.Cryptography.Base58.decode(nep2);
-            if (data.length != 39 + 4) {
+            if (data.length != 39 + 4)
+            {
                 callback("error", "data.length error");
                 return;
             }
-            if (data[0] != 0x01 || data[1] != 0x42 || data[2] != 0xe0) {
+            if (data[0] != 0x01 || data[1] != 0x42 || data[2] != 0xe0)
+            {
                 callback("error", "dataheader error");
                 return;
             }
@@ -1793,8 +2116,10 @@ var ThinNeo;
             var b1 = Neo.Cryptography.Sha256.computeHash(buffer);
             b1 = Neo.Cryptography.Sha256.computeHash(b1);
             var u8hash = new Uint8Array(b1);
-            for (var i = 0; i < 4; i++) {
-                if (u8hash[i] != hash[i]) {
+            for (var i = 0; i < 4; i++)
+            {
+                if (u8hash[i] != hash[i])
+                {
                     callback("error", "data hash error");
                     return;
                 }
@@ -1802,8 +2127,9 @@ var ThinNeo;
             var addresshash = buffer.subarray(3, 3 + 4);
             var encryptedkey = buffer.subarray(7, 7 + 32);
             var pp = scrypt.getAvailableMod();
-            scrypt.setResPath('./static/js/asset');
-            var ready = function () {
+            scrypt.setResPath('static/js/asset');
+            var ready = function ()
+            {
                 var param = {
                     N: n,
                     r: r,
@@ -1815,26 +2141,31 @@ var ThinNeo;
                     maxDkLen: 64,
                     maxThread: 4
                 };
-                try {
+                try
+                {
                     scrypt.config(param, opt);
                 }
-                catch (err) {
+                catch (err)
+                {
                     console.warn('config err: ', err);
                 }
             };
-            scrypt.onload = function () {
+            scrypt.onload = function ()
+            {
                 console.log("scrypt.onload");
                 scrypt_loaded = true;
                 ready();
             };
-            scrypt.oncomplete = function (dk) {
+            scrypt.oncomplete = function (dk)
+            {
                 console.log('done', scrypt.binToHex(dk));
                 var u8dk = new Uint8Array(dk);
                 var derivedhalf1 = u8dk.subarray(0, 32);
                 var derivedhalf2 = u8dk.subarray(32, 64);
                 var u8xor = Helper.Aes256Decrypt_u8(encryptedkey, derivedhalf2);
                 var prikey = new Uint8Array(u8xor.length);
-                for (var i = 0; i < 32; i++) {
+                for (var i = 0; i < 32; i++)
+                {
                     prikey[i] = u8xor[i] ^ derivedhalf1[i];
                 }
                 var pubkey = Helper.GetPublicKeyFromPrivateKey(prikey);
@@ -1845,29 +2176,36 @@ var ThinNeo;
                 b1 = Neo.Cryptography.Sha256.computeHash(b1);
                 var b2 = new Uint8Array(b1);
                 var addresshashgot = b2.subarray(0, 4);
-                for (var i = 0; i < 4; i++) {
-                    if (addresshash[i] != b2[i]) {
+                for (var i = 0; i < 4; i++)
+                {
+                    if (addresshash[i] != b2[i])
+                    {
                         callback("error", "nep2 hash not match.");
                         return;
                     }
                 }
                 callback("finish", prikey);
             };
-            scrypt.onerror = function (err) {
+            scrypt.onerror = function (err)
+            {
                 console.warn('scrypt err:', err);
                 callback("error", err);
             };
-            scrypt.onprogress = function (percent) {
+            scrypt.onprogress = function (percent)
+            {
                 console.log('onprogress');
             };
-            scrypt.onready = function () {
+            scrypt.onready = function ()
+            {
                 var passbin = scrypt.strToBin(passphrase);
                 scrypt.hash(passbin, addresshash, 64);
             };
-            if (scrypt_loaded == false) {
+            if (scrypt_loaded == false)
+            {
                 scrypt.load("asmjs");
             }
-            else {
+            else
+            {
                 ready();
             }
         };
@@ -1876,9 +2214,11 @@ var ThinNeo;
     ThinNeo.Helper = Helper;
 })(ThinNeo || (ThinNeo = {}));
 var ThinNeo;
-(function (ThinNeo) {
+(function (ThinNeo)
+{
     var OpCode;
-    (function (OpCode) {
+    (function (OpCode)
+    {
         OpCode[OpCode["PUSH0"] = 0] = "PUSH0";
         OpCode[OpCode["PUSHF"] = 0] = "PUSHF";
         OpCode[OpCode["PUSHBYTES1"] = 1] = "PUSHBYTES1";
@@ -1985,17 +2325,22 @@ var ThinNeo;
     })(OpCode = ThinNeo.OpCode || (ThinNeo.OpCode = {}));
 })(ThinNeo || (ThinNeo = {}));
 var ThinNeo;
-(function (ThinNeo) {
-    var ScriptBuilder = (function () {
-        function ScriptBuilder() {
+(function (ThinNeo)
+{
+    var ScriptBuilder = (function ()
+    {
+        function ScriptBuilder()
+        {
             this.Offset = 0;
             this.writer = [];
         }
-        ScriptBuilder.prototype._WriteUint8 = function (num) {
+        ScriptBuilder.prototype._WriteUint8 = function (num)
+        {
             this.writer.push(num);
             this.Offset++;
         };
-        ScriptBuilder.prototype._WriteUint16 = function (num) {
+        ScriptBuilder.prototype._WriteUint16 = function (num)
+        {
             var buf = new Uint8Array(2);
             var d = new DataView(buf.buffer, 0, 2);
             d.setUint16(0, num, true);
@@ -2003,7 +2348,8 @@ var ThinNeo;
             this.writer.push(buf[1]);
             this.Offset += 2;
         };
-        ScriptBuilder.prototype._WriteUint32 = function (num) {
+        ScriptBuilder.prototype._WriteUint32 = function (num)
+        {
             var buf = new Uint8Array(4);
             var d = new DataView(buf.buffer, 0, 4);
             d.setUint32(0, num, true);
@@ -2013,36 +2359,42 @@ var ThinNeo;
             this.writer.push(buf[3]);
             this.Offset += 4;
         };
-        ScriptBuilder.prototype._WriteUint8Array = function (nums) {
+        ScriptBuilder.prototype._WriteUint8Array = function (nums)
+        {
             for (var i = 0; i < nums.length; i++)
                 this.writer.push(nums[i]);
             this.Offset += nums.length;
         };
-        ScriptBuilder.prototype._ConvertInt16ToBytes = function (num) {
+        ScriptBuilder.prototype._ConvertInt16ToBytes = function (num)
+        {
             var buf = new Uint8Array(2);
             var d = new DataView(buf.buffer, 0, 2);
             d.setInt16(0, num, true);
             return buf;
         };
-        ScriptBuilder.prototype.Emit = function (op, arg) {
+        ScriptBuilder.prototype.Emit = function (op, arg)
+        {
             if (arg === void 0) { arg = null; }
             this._WriteUint8(op);
             if (arg != null)
                 this._WriteUint8Array(arg);
             return this;
         };
-        ScriptBuilder.prototype.EmitAppCall = function (scriptHash, useTailCall) {
+        ScriptBuilder.prototype.EmitAppCall = function (scriptHash, useTailCall)
+        {
             if (useTailCall === void 0) { useTailCall = false; }
             if (scriptHash.length != 20)
                 throw new Error("error scriptHash length");
             return this.Emit(useTailCall ? ThinNeo.OpCode.TAILCALL : ThinNeo.OpCode.APPCALL, scriptHash);
         };
-        ScriptBuilder.prototype.EmitJump = function (op, offset) {
+        ScriptBuilder.prototype.EmitJump = function (op, offset)
+        {
             if (op != ThinNeo.OpCode.JMP && op != ThinNeo.OpCode.JMPIF && op != ThinNeo.OpCode.JMPIFNOT && op != ThinNeo.OpCode.CALL)
                 throw new Error("ArgumentException");
             return this.Emit(op, this._ConvertInt16ToBytes(offset));
         };
-        ScriptBuilder.prototype.EmitPushNumber = function (number) {
+        ScriptBuilder.prototype.EmitPushNumber = function (number)
+        {
             var i32 = number.toInt32();
             if (i32 == -1)
                 return this.Emit(ThinNeo.OpCode.PUSHM1);
@@ -2052,37 +2404,45 @@ var ThinNeo;
                 return this.Emit(ThinNeo.OpCode.PUSH1 - 1 + i32);
             return this.EmitPushBytes(number.toUint8Array(true));
         };
-        ScriptBuilder.prototype.EmitPushBool = function (data) {
+        ScriptBuilder.prototype.EmitPushBool = function (data)
+        {
             return this.Emit(data ? ThinNeo.OpCode.PUSHT : ThinNeo.OpCode.PUSHF);
         };
-        ScriptBuilder.prototype.EmitPushBytes = function (data) {
+        ScriptBuilder.prototype.EmitPushBytes = function (data)
+        {
             if (data == null)
                 throw new Error("ArgumentNullException");
-            if (data.length <= ThinNeo.OpCode.PUSHBYTES75) {
+            if (data.length <= ThinNeo.OpCode.PUSHBYTES75)
+            {
                 this._WriteUint8(data.length);
                 this._WriteUint8Array(data);
             }
-            else if (data.length < 0x100) {
+            else if (data.length < 0x100)
+            {
                 this.Emit(ThinNeo.OpCode.PUSHDATA1);
                 this._WriteUint8(data.length);
                 this._WriteUint8Array(data);
             }
-            else if (data.length < 0x10000) {
+            else if (data.length < 0x10000)
+            {
                 this.Emit(ThinNeo.OpCode.PUSHDATA2);
                 this._WriteUint16(data.length);
                 this._WriteUint8Array(data);
             }
-            else {
+            else
+            {
                 this.Emit(ThinNeo.OpCode.PUSHDATA4);
                 this._WriteUint32(data.length);
                 this._WriteUint8Array(data);
             }
             return this;
         };
-        ScriptBuilder.prototype.EmitPushString = function (data) {
+        ScriptBuilder.prototype.EmitPushString = function (data)
+        {
             return this.EmitPushBytes(ThinNeo.Helper.String2Bytes(data));
         };
-        ScriptBuilder.prototype.EmitSysCall = function (api) {
+        ScriptBuilder.prototype.EmitSysCall = function (api)
+        {
             if (api == null)
                 throw new Error("ArgumentNullException");
             var api_bytes = ThinNeo.Helper.String2Bytes(api);
@@ -2090,88 +2450,110 @@ var ThinNeo;
                 throw new Error("ArgumentException");
             var arg = new Uint8Array(api_bytes.length + 1);
             arg[0] = api_bytes.length;
-            for (var i = 0; i < api_bytes.length; i++) {
+            for (var i = 0; i < api_bytes.length; i++)
+            {
                 arg[i + 1] = api_bytes[i];
             }
             return this.Emit(ThinNeo.OpCode.SYSCALL, arg);
         };
-        ScriptBuilder.prototype.ToArray = function () {
+        ScriptBuilder.prototype.ToArray = function ()
+        {
             var array = new Uint8Array(this.writer.length);
-            for (var i = 0; i < this.writer.length; i++) {
+            for (var i = 0; i < this.writer.length; i++)
+            {
                 array[i] = this.writer[i];
             }
             return array;
         };
-        ScriptBuilder.prototype.EmitParamJson = function (param) {
-            if (typeof param === "number") {
+        ScriptBuilder.prototype.EmitParamJson = function (param)
+        {
+            if (typeof param === "number")
+            {
                 this.EmitPushNumber(new Neo.BigInteger(param));
             }
-            else if (typeof param === "boolean") {
+            else if (typeof param === "boolean")
+            {
                 this.EmitPushBool(param);
             }
-            else if (typeof param === "object") {
+            else if (typeof param === "object")
+            {
                 var list = param;
-                for (var i = list.length - 1; i >= 0; i--) {
+                for (var i = list.length - 1; i >= 0; i--)
+                {
                     this.EmitParamJson(list[i]);
                 }
                 this.EmitPushNumber(new Neo.BigInteger(list.length));
                 this.Emit(ThinNeo.OpCode.PACK);
             }
-            else if (typeof param === "string") {
+            else if (typeof param === "string")
+            {
                 var str = param;
                 if (str[0] != '(')
                     throw new Error("must start with:(str) or (hex) or (hexrev) or (addr)or(int)");
-                if (str.indexOf("(string)") == 0) {
+                if (str.indexOf("(string)") == 0)
+                {
                     this.EmitPushString(str.substr(8));
                 }
-                if (str.indexOf("(str)") == 0) {
+                if (str.indexOf("(str)") == 0)
+                {
                     this.EmitPushString(str.substr(5));
                 }
-                else if (str.indexOf("(bytes)") == 0) {
+                else if (str.indexOf("(bytes)") == 0)
+                {
                     var hex = str.substr(7).hexToBytes();
                     this.EmitPushBytes(hex);
                 }
-                else if (str.indexOf("([])") == 0) {
+                else if (str.indexOf("([])") == 0)
+                {
                     var hex = str.substr(4).hexToBytes();
                     this.EmitPushBytes(hex);
                 }
-                else if (str.indexOf("(address)") == 0) {
+                else if (str.indexOf("(address)") == 0)
+                {
                     var addr = (str.substr(9));
                     var hex = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
                     this.EmitPushBytes(hex);
                 }
-                else if (str.indexOf("(addr)") == 0) {
+                else if (str.indexOf("(addr)") == 0)
+                {
                     var addr = (str.substr(6));
                     var hex = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
                     this.EmitPushBytes(hex);
                 }
-                else if (str.indexOf("(integer)") == 0) {
+                else if (str.indexOf("(integer)") == 0)
+                {
                     var num = new Neo.BigInteger(str.substr(9));
                     this.EmitPushNumber(num);
                 }
-                else if (str.indexOf("(int)") == 0) {
+                else if (str.indexOf("(int)") == 0)
+                {
                     var num = new Neo.BigInteger(str.substr(5));
                     this.EmitPushNumber(num);
                 }
-                else if (str.indexOf("(hexinteger)") == 0) {
+                else if (str.indexOf("(hexinteger)") == 0)
+                {
                     var hex = str.substr(12).hexToBytes();
                     this.EmitPushBytes(hex.reverse());
                 }
-                else if (str.indexOf("(hexint)") == 0) {
+                else if (str.indexOf("(hexint)") == 0)
+                {
                     var hex = str.substr(8).hexToBytes();
                     this.EmitPushBytes(hex.reverse());
                 }
-                else if (str.indexOf("(hex)") == 0) {
+                else if (str.indexOf("(hex)") == 0)
+                {
                     var hex = str.substr(5).hexToBytes();
                     this.EmitPushBytes(hex.reverse());
                 }
-                else if (str.indexOf("(int256)") == 0 || str.indexOf("(hex256)") == 0) {
+                else if (str.indexOf("(int256)") == 0 || str.indexOf("(hex256)") == 0)
+                {
                     var hex = str.substr(8).hexToBytes();
                     if (hex.length != 32)
                         throw new Error("not a int256");
                     this.EmitPushBytes(hex.reverse());
                 }
-                else if (str.indexOf("(int160)") == 0 || str.indexOf("(hex160)") == 0) {
+                else if (str.indexOf("(int160)") == 0 || str.indexOf("(hex160)") == 0)
+                {
                     var hex = str.substr(8).hexToBytes();
                     if (hex.length != 20)
                         throw new Error("not a int160");
@@ -2180,7 +2562,8 @@ var ThinNeo;
                 else
                     throw new Error("must start with:(str) or (hex) or (hexbig) or (addr) or(int)");
             }
-            else {
+            else
+            {
                 throw new Error("error type:" + typeof param);
             }
             return this;
@@ -2190,9 +2573,11 @@ var ThinNeo;
     ThinNeo.ScriptBuilder = ScriptBuilder;
 })(ThinNeo || (ThinNeo = {}));
 var ThinNeo;
-(function (ThinNeo) {
+(function (ThinNeo)
+{
     var TransactionType;
-    (function (TransactionType) {
+    (function (TransactionType)
+    {
         TransactionType[TransactionType["MinerTransaction"] = 0] = "MinerTransaction";
         TransactionType[TransactionType["IssueTransaction"] = 1] = "IssueTransaction";
         TransactionType[TransactionType["ClaimTransaction"] = 2] = "ClaimTransaction";
@@ -2203,7 +2588,8 @@ var ThinNeo;
         TransactionType[TransactionType["InvocationTransaction"] = 209] = "InvocationTransaction";
     })(TransactionType = ThinNeo.TransactionType || (ThinNeo.TransactionType = {}));
     var TransactionAttributeUsage;
-    (function (TransactionAttributeUsage) {
+    (function (TransactionAttributeUsage)
+    {
         TransactionAttributeUsage[TransactionAttributeUsage["ContractHash"] = 0] = "ContractHash";
         TransactionAttributeUsage[TransactionAttributeUsage["ECDH02"] = 2] = "ECDH02";
         TransactionAttributeUsage[TransactionAttributeUsage["ECDH03"] = 3] = "ECDH03";
@@ -2243,29 +2629,38 @@ var ThinNeo;
         TransactionAttributeUsage[TransactionAttributeUsage["Remark14"] = 254] = "Remark14";
         TransactionAttributeUsage[TransactionAttributeUsage["Remark15"] = 255] = "Remark15";
     })(TransactionAttributeUsage = ThinNeo.TransactionAttributeUsage || (ThinNeo.TransactionAttributeUsage = {}));
-    var Attribute = (function () {
-        function Attribute() {
+    var Attribute = (function ()
+    {
+        function Attribute()
+        {
         }
         return Attribute;
     }());
     ThinNeo.Attribute = Attribute;
-    var TransactionOutput = (function () {
-        function TransactionOutput() {
+    var TransactionOutput = (function ()
+    {
+        function TransactionOutput()
+        {
         }
         return TransactionOutput;
     }());
     ThinNeo.TransactionOutput = TransactionOutput;
-    var TransactionInput = (function () {
-        function TransactionInput() {
+    var TransactionInput = (function ()
+    {
+        function TransactionInput()
+        {
         }
         return TransactionInput;
     }());
     ThinNeo.TransactionInput = TransactionInput;
-    var Witness = (function () {
-        function Witness() {
+    var Witness = (function ()
+    {
+        function Witness()
+        {
         }
         Object.defineProperty(Witness.prototype, "Address", {
-            get: function () {
+            get: function ()
+            {
                 var hash = ThinNeo.Helper.GetScriptHashFromScript(this.VerificationScript);
                 return ThinNeo.Helper.GetAddressFromScriptHash(hash);
             },
@@ -2275,60 +2670,132 @@ var ThinNeo;
         return Witness;
     }());
     ThinNeo.Witness = Witness;
-    var InvokeTransData = (function () {
-        function InvokeTransData() {
+    var InvokeTransData = (function ()
+    {
+        function InvokeTransData()
+        {
         }
-        InvokeTransData.prototype.Serialize = function (trans, writer) {
+        InvokeTransData.prototype.Serialize = function (trans, writer)
+        {
             writer.writeVarBytes(this.script.buffer);
-            if (trans.version >= 1) {
+            if (trans.version >= 1)
+            {
                 writer.writeUint64(this.gas.getData());
             }
         };
-        InvokeTransData.prototype.Deserialize = function (trans, reader) {
+        InvokeTransData.prototype.Deserialize = function (trans, reader)
+        {
             var buf = reader.readVarBytes(10000000);
             this.script = new Uint8Array(buf, 0, buf.byteLength);
-            if (trans.version >= 1) {
+            if (trans.version >= 1)
+            {
                 this.gas = new Neo.Fixed8(reader.readUint64());
             }
         };
         return InvokeTransData;
     }());
     ThinNeo.InvokeTransData = InvokeTransData;
-    var Transaction = (function () {
-        function Transaction() {
+    var ClaimTransData = (function ()
+    {
+        function ClaimTransData()
+        {
         }
-        Transaction.prototype.SerializeUnsigned = function (writer) {
+        ClaimTransData.prototype.Serialize = function (trans, writer)
+        {
+            writer.writeVarInt(this.claims.length);
+            for (var i = 0; i < this.claims.length; i++)
+            {
+                writer.write(this.claims[i].hash, 0, 32);
+                writer.writeUint16(this.claims[i].index);
+            }
+        };
+        ClaimTransData.prototype.Deserialize = function (trans, reader)
+        {
+            var countClaims = reader.readVarInt();
+            this.claims = [];
+            for (var i = 0; i < countClaims; i++)
+            {
+                this.claims.push(new TransactionInput());
+                var arr = reader.readBytes(32);
+                this.claims[i].hash = new Uint8Array(arr, 0, arr.byteLength);
+                this.claims[i].index = reader.readUint16();
+            }
+        };
+        return ClaimTransData;
+    }());
+    ThinNeo.ClaimTransData = ClaimTransData;
+    var MinerTransData = (function ()
+    {
+        function MinerTransData()
+        {
+        }
+        MinerTransData.prototype.Serialize = function (trans, writer)
+        {
+            writer.writeUint32(this.nonce);
+        };
+        MinerTransData.prototype.Deserialize = function (trans, reader)
+        {
+            this.nonce = reader.readUint32();
+        };
+        return MinerTransData;
+    }());
+    ThinNeo.MinerTransData = MinerTransData;
+    var Transaction = (function ()
+    {
+        function Transaction()
+        {
+        }
+        Transaction.prototype.SerializeUnsigned = function (writer)
+        {
             writer.writeByte(this.type);
             writer.writeByte(this.version);
-            if (this.type == TransactionType.ContractTransaction) {
+            if (this.type == TransactionType.ContractTransaction ||
+                this.type == TransactionType.IssueTransaction)
+            {
             }
-            else if (this.type == TransactionType.InvocationTransaction) {
+            else if (this.type == TransactionType.InvocationTransaction)
+            {
                 this.extdata.Serialize(this, writer);
             }
-            else {
+            else if (this.type == TransactionType.ClaimTransaction)
+            {
+                this.extdata.Serialize(this, writer);
+            }
+            else if (this.type == TransactionType.MinerTransaction)
+            {
+                this.extdata.Serialize(this, writer);
+            }
+            else
+            {
                 throw new Error("未编写针对这个交易类型的代码");
             }
             var countAttributes = this.attributes.length;
             writer.writeVarInt(countAttributes);
-            for (var i = 0; i < countAttributes; i++) {
+            for (var i = 0; i < countAttributes; i++)
+            {
                 var attributeData = this.attributes[i].data;
                 var Usage = this.attributes[i].usage;
                 writer.writeByte(Usage);
-                if (Usage == TransactionAttributeUsage.ContractHash || Usage == TransactionAttributeUsage.Vote || (Usage >= TransactionAttributeUsage.Hash1 && Usage <= TransactionAttributeUsage.Hash15)) {
+                if (Usage == TransactionAttributeUsage.ContractHash || Usage == TransactionAttributeUsage.Vote || (Usage >= TransactionAttributeUsage.Hash1 && Usage <= TransactionAttributeUsage.Hash15))
+                {
                     writer.write(attributeData.buffer, 0, 32);
                 }
-                else if (Usage == TransactionAttributeUsage.ECDH02 || Usage == TransactionAttributeUsage.ECDH03) {
+                else if (Usage == TransactionAttributeUsage.ECDH02 || Usage == TransactionAttributeUsage.ECDH03)
+                {
                     writer.write(attributeData.buffer, 1, 32);
                 }
-                else if (Usage == TransactionAttributeUsage.Script) {
+                else if (Usage == TransactionAttributeUsage.Script)
+                {
                     writer.write(attributeData.buffer, 0, 20);
                 }
-                else if (Usage == TransactionAttributeUsage.DescriptionUrl) {
+                else if (Usage == TransactionAttributeUsage.DescriptionUrl)
+                {
                     var len = attributeData.length;
                     writer.writeByte(len);
                     writer.write(attributeData.buffer, 0, len);
                 }
-                else if (Usage == TransactionAttributeUsage.Description || Usage >= TransactionAttributeUsage.Remark) {
+                else if (Usage == TransactionAttributeUsage.Description || Usage >= TransactionAttributeUsage.Remark)
+                {
                     var len = attributeData.length;
                     writer.writeVarInt(len);
                     writer.write(attributeData.buffer, 0, len);
@@ -2338,72 +2805,97 @@ var ThinNeo;
             }
             var countInputs = this.inputs.length;
             writer.writeVarInt(countInputs);
-            for (var i = 0; i < countInputs; i++) {
+            for (var i = 0; i < countInputs; i++)
+            {
                 writer.write(this.inputs[i].hash, 0, 32);
                 writer.writeUint16(this.inputs[i].index);
             }
             var countOutputs = this.outputs.length;
             writer.writeVarInt(countOutputs);
-            for (var i = 0; i < countOutputs; i++) {
+            for (var i = 0; i < countOutputs; i++)
+            {
                 var item = this.outputs[i];
                 writer.write(item.assetId.buffer, 0, 32);
                 writer.writeUint64(item.value.getData());
                 writer.write(item.toAddress.buffer, 0, 20);
             }
         };
-        Transaction.prototype.Serialize = function (writer) {
+        Transaction.prototype.Serialize = function (writer)
+        {
             this.SerializeUnsigned(writer);
             var witnesscount = this.witnesses.length;
             writer.writeVarInt(witnesscount);
-            for (var i = 0; i < witnesscount; i++) {
+            for (var i = 0; i < witnesscount; i++)
+            {
                 var _witness = this.witnesses[i];
                 writer.writeVarBytes(_witness.InvocationScript.buffer);
                 writer.writeVarBytes(_witness.VerificationScript.buffer);
             }
         };
-        Transaction.prototype.DeserializeUnsigned = function (ms) {
+        Transaction.prototype.DeserializeUnsigned = function (ms)
+        {
             this.type = ms.readByte();
             this.version = ms.readByte();
-            if (this.type == TransactionType.ContractTransaction) {
+            if (this.type == TransactionType.ContractTransaction
+                || this.type == TransactionType.IssueTransaction)
+            {
                 this.extdata = null;
             }
-            else if (this.type == TransactionType.InvocationTransaction) {
+            else if (this.type == TransactionType.InvocationTransaction)
+            {
                 this.extdata = new InvokeTransData();
             }
-            else {
+            else if (this.type == TransactionType.ClaimTransaction)
+            {
+                this.extdata = new ClaimTransData();
+            }
+            else if (this.type == TransactionType.MinerTransaction)
+            {
+                this.extdata = new MinerTransData();
+            }
+            else
+            {
                 throw new Error("未编写针对这个交易类型的代码");
             }
-            if (this.extdata != null) {
+            if (this.extdata != null)
+            {
                 this.extdata.Deserialize(this, ms);
             }
             var countAttributes = ms.readVarInt();
             this.attributes = [];
-            for (var i = 0; i < countAttributes; i++) {
+            for (var i = 0; i < countAttributes; i++)
+            {
                 var attributeData = null;
                 var Usage = ms.readByte();
-                if (Usage == TransactionAttributeUsage.ContractHash || Usage == TransactionAttributeUsage.Vote || (Usage >= TransactionAttributeUsage.Hash1 && Usage <= TransactionAttributeUsage.Hash15)) {
+                if (Usage == TransactionAttributeUsage.ContractHash || Usage == TransactionAttributeUsage.Vote || (Usage >= TransactionAttributeUsage.Hash1 && Usage <= TransactionAttributeUsage.Hash15))
+                {
                     var arr = ms.readBytes(32);
                     attributeData = new Uint8Array(arr, 0, arr.byteLength);
                 }
-                else if (Usage == TransactionAttributeUsage.ECDH02 || Usage == TransactionAttributeUsage.ECDH03) {
+                else if (Usage == TransactionAttributeUsage.ECDH02 || Usage == TransactionAttributeUsage.ECDH03)
+                {
                     var arr = ms.readBytes(32);
                     var data = new Uint8Array(arr, 0, arr.byteLength);
                     attributeData = new Uint8Array(33);
                     attributeData[0] = Usage;
-                    for (var i = 0; i < 32; i++) {
+                    for (var i = 0; i < 32; i++)
+                    {
                         attributeData[i + 1] = data[i];
                     }
                 }
-                else if (Usage == TransactionAttributeUsage.Script) {
+                else if (Usage == TransactionAttributeUsage.Script)
+                {
                     var arr = ms.readBytes(20);
                     attributeData = new Uint8Array(arr, 0, arr.byteLength);
                 }
-                else if (Usage == TransactionAttributeUsage.DescriptionUrl) {
+                else if (Usage == TransactionAttributeUsage.DescriptionUrl)
+                {
                     var len = ms.readByte();
                     var arr = ms.readBytes(len);
                     attributeData = new Uint8Array(arr, 0, arr.byteLength);
                 }
-                else if (Usage == TransactionAttributeUsage.Description || Usage >= TransactionAttributeUsage.Remark) {
+                else if (Usage == TransactionAttributeUsage.Description || Usage >= TransactionAttributeUsage.Remark)
+                {
                     var len = ms.readVarInt(65535);
                     var arr = ms.readBytes(len);
                     attributeData = new Uint8Array(arr, 0, arr.byteLength);
@@ -2417,7 +2909,8 @@ var ThinNeo;
             }
             var countInputs = ms.readVarInt();
             this.inputs = [];
-            for (var i = 0; i < countInputs; i++) {
+            for (var i = 0; i < countInputs; i++)
+            {
                 this.inputs.push(new TransactionInput());
                 var arr = ms.readBytes(32);
                 this.inputs[i].hash = new Uint8Array(arr, 0, arr.byteLength);
@@ -2425,7 +2918,8 @@ var ThinNeo;
             }
             var countOutputs = ms.readVarInt();
             this.outputs = [];
-            for (var i = 0; i < countOutputs; i++) {
+            for (var i = 0; i < countOutputs; i++)
+            {
                 this.outputs.push(new TransactionOutput());
                 var outp = this.outputs[i];
                 var arr = ms.readBytes(32);
@@ -2439,19 +2933,23 @@ var ThinNeo;
                 this.outputs[i] = outp;
             }
         };
-        Transaction.prototype.Deserialize = function (ms) {
+        Transaction.prototype.Deserialize = function (ms)
+        {
             this.DeserializeUnsigned(ms);
-            if (ms.canRead() > 0) {
+            if (ms.canRead() > 0)
+            {
                 var witnesscount = ms.readVarInt();
                 this.witnesses = [];
-                for (var i = 0; i < witnesscount; i++) {
+                for (var i = 0; i < witnesscount; i++)
+                {
                     this.witnesses.push(new Witness());
                     this.witnesses[i].InvocationScript = new Uint8Array(ms.readVarBytes()).clone();
                     this.witnesses[i].VerificationScript = new Uint8Array(ms.readVarBytes()).clone();
                 }
             }
         };
-        Transaction.prototype.GetMessage = function () {
+        Transaction.prototype.GetMessage = function ()
+        {
             var ms = new Neo.IO.MemoryStream();
             var writer = new Neo.IO.BinaryWriter(ms);
             this.SerializeUnsigned(writer);
@@ -2459,7 +2957,8 @@ var ThinNeo;
             var msg = new Uint8Array(arr, 0, arr.byteLength);
             return msg;
         };
-        Transaction.prototype.GetRawData = function () {
+        Transaction.prototype.GetRawData = function ()
+        {
             var ms = new Neo.IO.MemoryStream();
             var writer = new Neo.IO.BinaryWriter(ms);
             this.Serialize(writer);
@@ -2467,7 +2966,8 @@ var ThinNeo;
             var msg = new Uint8Array(arr, 0, arr.byteLength);
             return msg;
         };
-        Transaction.prototype.AddWitness = function (signdata, pubkey, addrs) {
+        Transaction.prototype.AddWitness = function (signdata, pubkey, addrs)
+        {
             {
                 var msg = this.GetMessage();
                 var bsign = ThinNeo.Helper.VerifySignature(msg, signdata, pubkey);
@@ -2483,20 +2983,23 @@ var ThinNeo;
             var iscript = sb.ToArray();
             this.AddWitnessScript(vscript, iscript);
         };
-        Transaction.prototype.AddWitnessScript = function (vscript, iscript) {
+        Transaction.prototype.AddWitnessScript = function (vscript, iscript)
+        {
             var scripthash = ThinNeo.Helper.GetScriptHashFromScript(vscript);
             if (this.witnesses == null)
                 this.witnesses = [];
             var newwit = new Witness();
             newwit.VerificationScript = vscript;
             newwit.InvocationScript = iscript;
-            for (var i = 0; i < this.witnesses.length; i++) {
+            for (var i = 0; i < this.witnesses.length; i++)
+            {
                 if (this.witnesses[i].Address == newwit.Address)
                     throw new Error("alread have this witness");
             }
             this.witnesses.push(newwit);
         };
-        Transaction.prototype.GetHash = function () {
+        Transaction.prototype.GetHash = function ()
+        {
             var msg = this.GetMessage();
             var data = Neo.Cryptography.Sha256.computeHash(msg);
             data = Neo.Cryptography.Sha256.computeHash(data);
@@ -2507,22 +3010,29 @@ var ThinNeo;
     ThinNeo.Transaction = Transaction;
 })(ThinNeo || (ThinNeo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var Aes = (function () {
-            function Aes(key, iv) {
+    (function (Cryptography)
+    {
+        var Aes = (function ()
+        {
+            function Aes(key, iv)
+            {
                 this._Ke = [];
                 this._Kd = [];
                 this._lastCipherblock = new Uint8Array(16);
                 var rounds = Aes.numberOfRounds[key.byteLength];
-                if (rounds == null) {
+                if (rounds == null)
+                {
                     throw new RangeError('invalid key size (must be length 16, 24 or 32)');
                 }
-                if (iv.byteLength != 16) {
+                if (iv.byteLength != 16)
+                {
                     throw new RangeError('initialation vector iv must be of length 16');
                 }
-                for (var i = 0; i <= rounds; i++) {
+                for (var i = 0; i <= rounds; i++)
+                {
                     this._Ke.push([0, 0, 0, 0]);
                     this._Kd.push([0, 0, 0, 0]);
                 }
@@ -2530,14 +3040,16 @@ var Neo;
                 var KC = key.byteLength / 4;
                 var tk = Aes.convertToInt32(Uint8Array.fromArrayBuffer(key));
                 var index;
-                for (var i = 0; i < KC; i++) {
+                for (var i = 0; i < KC; i++)
+                {
                     index = i >> 2;
                     this._Ke[index][i % 4] = tk[i];
                     this._Kd[rounds - index][i % 4] = tk[i];
                 }
                 var rconpointer = 0;
                 var t = KC, tt;
-                while (t < roundKeyCount) {
+                while (t < roundKeyCount)
+                {
                     tt = tk[KC - 1];
                     tk[0] ^= ((Aes.S[(tt >> 16) & 0xFF] << 24) ^
                         (Aes.S[(tt >> 8) & 0xFF] << 16) ^
@@ -2545,13 +3057,17 @@ var Neo;
                         Aes.S[(tt >> 24) & 0xFF] ^
                         (Aes.rcon[rconpointer] << 24));
                     rconpointer += 1;
-                    if (KC != 8) {
-                        for (var i = 1; i < KC; i++) {
+                    if (KC != 8)
+                    {
+                        for (var i = 1; i < KC; i++)
+                        {
                             tk[i] ^= tk[i - 1];
                         }
                     }
-                    else {
-                        for (var i = 1; i < (KC / 2); i++) {
+                    else
+                    {
+                        for (var i = 1; i < (KC / 2); i++)
+                        {
                             tk[i] ^= tk[i - 1];
                         }
                         tt = tk[(KC / 2) - 1];
@@ -2559,12 +3075,14 @@ var Neo;
                             (Aes.S[(tt >> 8) & 0xFF] << 8) ^
                             (Aes.S[(tt >> 16) & 0xFF] << 16) ^
                             (Aes.S[(tt >> 24) & 0xFF] << 24));
-                        for (var i = (KC / 2) + 1; i < KC; i++) {
+                        for (var i = (KC / 2) + 1; i < KC; i++)
+                        {
                             tk[i] ^= tk[i - 1];
                         }
                     }
                     var i = 0;
-                    while (i < KC && t < roundKeyCount) {
+                    while (i < KC && t < roundKeyCount)
+                    {
                         var r_1 = t >> 2;
                         var c_1 = t % 4;
                         this._Ke[r_1][c_1] = tk[i];
@@ -2572,8 +3090,10 @@ var Neo;
                         t++;
                     }
                 }
-                for (var r = 1; r < rounds; r++) {
-                    for (var c = 0; c < 4; c++) {
+                for (var r = 1; r < rounds; r++)
+                {
+                    for (var c = 0; c < 4; c++)
+                    {
                         tt = this._Kd[r][c];
                         this._Kd[r][c] = (Aes.U1[(tt >> 24) & 0xFF] ^
                             Aes.U2[(tt >> 16) & 0xFF] ^
@@ -2584,15 +3104,18 @@ var Neo;
                 this._lastCipherblock.set(Uint8Array.fromArrayBuffer(iv));
             }
             Object.defineProperty(Aes.prototype, "mode", {
-                get: function () {
+                get: function ()
+                {
                     return "CBC";
                 },
                 enumerable: true,
                 configurable: true
             });
-            Aes.convertToInt32 = function (bytes) {
+            Aes.convertToInt32 = function (bytes)
+            {
                 var result = [];
-                for (var i = 0; i < bytes.length; i += 4) {
+                for (var i = 0; i < bytes.length; i += 4)
+                {
                     result.push((bytes[i] << 24) |
                         (bytes[i + 1] << 16) |
                         (bytes[i + 2] << 8) |
@@ -2600,7 +3123,8 @@ var Neo;
                 }
                 return result;
             };
-            Aes.prototype.decrypt = function (ciphertext) {
+            Aes.prototype.decrypt = function (ciphertext)
+            {
                 if (ciphertext.byteLength == 0 || ciphertext.byteLength % 16 != 0)
                     throw new RangeError();
                 var plaintext = new Uint8Array(ciphertext.byteLength);
@@ -2609,17 +3133,21 @@ var Neo;
                     this.decryptBlock(ciphertext_view.subarray(i, i + 16), plaintext.subarray(i, i + 16));
                 return plaintext.buffer.slice(0, plaintext.length - plaintext[plaintext.length - 1]);
             };
-            Aes.prototype.decryptBlock = function (ciphertext, plaintext) {
+            Aes.prototype.decryptBlock = function (ciphertext, plaintext)
+            {
                 if (ciphertext.length != 16 || plaintext.length != 16)
                     throw new RangeError();
                 var rounds = this._Kd.length - 1;
                 var a = [0, 0, 0, 0];
                 var t = Aes.convertToInt32(ciphertext);
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 4; i++)
+                {
                     t[i] ^= this._Kd[0][i];
                 }
-                for (var r = 1; r < rounds; r++) {
-                    for (var i = 0; i < 4; i++) {
+                for (var r = 1; r < rounds; r++)
+                {
+                    for (var i = 0; i < 4; i++)
+                    {
                         a[i] = (Aes.T5[(t[i] >> 24) & 0xff] ^
                             Aes.T6[(t[(i + 3) % 4] >> 16) & 0xff] ^
                             Aes.T7[(t[(i + 2) % 4] >> 8) & 0xff] ^
@@ -2628,19 +3156,22 @@ var Neo;
                     }
                     t = a.slice(0);
                 }
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 4; i++)
+                {
                     var tt = this._Kd[rounds][i];
                     plaintext[4 * i] = (Aes.Si[(t[i] >> 24) & 0xff] ^ (tt >> 24)) & 0xff;
                     plaintext[4 * i + 1] = (Aes.Si[(t[(i + 3) % 4] >> 16) & 0xff] ^ (tt >> 16)) & 0xff;
                     plaintext[4 * i + 2] = (Aes.Si[(t[(i + 2) % 4] >> 8) & 0xff] ^ (tt >> 8)) & 0xff;
                     plaintext[4 * i + 3] = (Aes.Si[t[(i + 1) % 4] & 0xff] ^ tt) & 0xff;
                 }
-                for (var i = 0; i < 16; i++) {
+                for (var i = 0; i < 16; i++)
+                {
                     plaintext[i] ^= this._lastCipherblock[i];
                 }
                 Array.copy(ciphertext, 0, this._lastCipherblock, 0, ciphertext.length);
             };
-            Aes.prototype.encrypt = function (plaintext) {
+            Aes.prototype.encrypt = function (plaintext)
+            {
                 var block_count = Math.ceil((plaintext.byteLength + 1) / 16);
                 var ciphertext = new Uint8Array(block_count * 16);
                 var plaintext_view = Uint8Array.fromArrayBuffer(plaintext);
@@ -2654,21 +3185,26 @@ var Neo;
                 this.encryptBlock(final_block, ciphertext.subarray(ciphertext.length - 16));
                 return ciphertext.buffer;
             };
-            Aes.prototype.encryptBlock = function (plaintext, ciphertext) {
+            Aes.prototype.encryptBlock = function (plaintext, ciphertext)
+            {
                 if (plaintext.length != 16 || ciphertext.length != 16)
                     throw new RangeError();
                 var precipherblock = new Uint8Array(plaintext.length);
-                for (var i = 0; i < precipherblock.length; i++) {
+                for (var i = 0; i < precipherblock.length; i++)
+                {
                     precipherblock[i] = plaintext[i] ^ this._lastCipherblock[i];
                 }
                 var rounds = this._Ke.length - 1;
                 var a = [0, 0, 0, 0];
                 var t = Aes.convertToInt32(precipherblock);
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 4; i++)
+                {
                     t[i] ^= this._Ke[0][i];
                 }
-                for (var r = 1; r < rounds; r++) {
-                    for (var i = 0; i < 4; i++) {
+                for (var r = 1; r < rounds; r++)
+                {
+                    for (var i = 0; i < 4; i++)
+                    {
                         a[i] = (Aes.T1[(t[i] >> 24) & 0xff] ^
                             Aes.T2[(t[(i + 1) % 4] >> 16) & 0xff] ^
                             Aes.T3[(t[(i + 2) % 4] >> 8) & 0xff] ^
@@ -2677,7 +3213,8 @@ var Neo;
                     }
                     t = a.slice(0);
                 }
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 4; i++)
+                {
                     var tt = this._Ke[rounds][i];
                     ciphertext[4 * i] = (Aes.S[(t[i] >> 24) & 0xff] ^ (tt >> 24)) & 0xff;
                     ciphertext[4 * i + 1] = (Aes.S[(t[(i + 1) % 4] >> 16) & 0xff] ^ (tt >> 16)) & 0xff;
@@ -2708,15 +3245,21 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var Base58 = (function () {
-            function Base58() {
+    (function (Cryptography)
+    {
+        var Base58 = (function ()
+        {
+            function Base58()
+            {
             }
-            Base58.decode = function (input) {
+            Base58.decode = function (input)
+            {
                 var bi = Neo.BigInteger.Zero;
-                for (var i = input.length - 1; i >= 0; i--) {
+                for (var i = input.length - 1; i >= 0; i--)
+                {
                     var index = Base58.Alphabet.indexOf(input[i]);
                     if (index == -1)
                         throw new RangeError();
@@ -2724,7 +3267,8 @@ var Neo;
                 }
                 var bytes = bi.toUint8Array();
                 var leadingZeros = 0;
-                for (var i = 0; i < input.length && input[i] == Base58.Alphabet[0]; i++) {
+                for (var i = 0; i < input.length && input[i] == Base58.Alphabet[0]; i++)
+                {
                     leadingZeros++;
                 }
                 var tmp = new Uint8Array(bytes.length + leadingZeros);
@@ -2732,15 +3276,18 @@ var Neo;
                     tmp[i + leadingZeros] = bytes[bytes.length - 1 - i];
                 return tmp;
             };
-            Base58.encode = function (input) {
+            Base58.encode = function (input)
+            {
                 var value = Neo.BigInteger.fromUint8Array(input, 1, false);
                 var s = "";
-                while (!value.isZero()) {
+                while (!value.isZero())
+                {
                     var r = Neo.BigInteger.divRem(value, Base58.Alphabet.length);
                     s = Base58.Alphabet[r.remainder.toInt32()] + s;
                     value = r.result;
                 }
-                for (var i = 0; i < input.length; i++) {
+                for (var i = 0; i < input.length; i++)
+                {
                     if (input[i] == 0)
                         s = Base58.Alphabet[0] + s;
                     else
@@ -2755,11 +3302,15 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var CryptoKey = (function () {
-            function CryptoKey(type, extractable, algorithm, usages) {
+    (function (Cryptography)
+    {
+        var CryptoKey = (function ()
+        {
+            function CryptoKey(type, extractable, algorithm, usages)
+            {
                 this.type = type;
                 this.extractable = extractable;
                 this.algorithm = algorithm;
@@ -2768,24 +3319,29 @@ var Neo;
             return CryptoKey;
         }());
         Cryptography.CryptoKey = CryptoKey;
-        var AesCryptoKey = (function (_super) {
+        var AesCryptoKey = (function (_super)
+        {
             __extends(AesCryptoKey, _super);
-            function AesCryptoKey(_key_bytes) {
+            function AesCryptoKey(_key_bytes)
+            {
                 var _this = _super.call(this, "secret", true, { name: "AES-CBC", length: _key_bytes.length * 8 }, ["encrypt", "decrypt"]) || this;
                 _this._key_bytes = _key_bytes;
                 return _this;
             }
-            AesCryptoKey.create = function (length) {
+            AesCryptoKey.create = function (length)
+            {
                 if (length != 128 && length != 192 && length != 256)
                     throw new RangeError();
                 var key = new AesCryptoKey(new Uint8Array(length / 8));
                 window.crypto.getRandomValues(key._key_bytes);
                 return key;
             };
-            AesCryptoKey.prototype.export = function () {
+            AesCryptoKey.prototype.export = function ()
+            {
                 return this._key_bytes;
             };
-            AesCryptoKey.import = function (keyData) {
+            AesCryptoKey.import = function (keyData)
+            {
                 if (keyData.byteLength != 16 && keyData.byteLength != 24 && keyData.byteLength != 32)
                     throw new RangeError();
                 return new AesCryptoKey(Uint8Array.fromArrayBuffer(keyData));
@@ -2793,9 +3349,11 @@ var Neo;
             return AesCryptoKey;
         }(Neo.Cryptography.CryptoKey));
         Cryptography.AesCryptoKey = AesCryptoKey;
-        var ECDsaCryptoKey = (function (_super) {
+        var ECDsaCryptoKey = (function (_super)
+        {
             __extends(ECDsaCryptoKey, _super);
-            function ECDsaCryptoKey(publicKey, privateKey) {
+            function ECDsaCryptoKey(publicKey, privateKey)
+            {
                 var _this = _super.call(this, privateKey == null ? "public" : "private", true, { name: "ECDSA", namedCurve: "P-256" }, [privateKey == null ? "verify" : "sign"]) || this;
                 _this.publicKey = publicKey;
                 _this.privateKey = privateKey;
@@ -2807,13 +3365,17 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
+    (function (Cryptography)
+    {
         var _secp256k1;
         var _secp256r1;
-        var ECCurve = (function () {
-            function ECCurve(Q, A, B, N, G) {
+        var ECCurve = (function ()
+        {
+            function ECCurve(Q, A, B, N, G)
+            {
                 this.Q = Q;
                 this.A = new Cryptography.ECFieldElement(A, this);
                 this.B = new Cryptography.ECFieldElement(B, this);
@@ -2822,14 +3384,16 @@ var Neo;
                 this.G = Cryptography.ECPoint.decodePoint(G, this);
             }
             Object.defineProperty(ECCurve, "secp256k1", {
-                get: function () {
+                get: function ()
+                {
                     return _secp256k1 || (_secp256k1 = new ECCurve(Neo.BigInteger.fromString("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F", 16), Neo.BigInteger.Zero, new Neo.BigInteger(7), Neo.BigInteger.fromString("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141", 16), ("04" + "79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798" + "483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8").hexToBytes()));
                 },
                 enumerable: true,
                 configurable: true
             });
             Object.defineProperty(ECCurve, "secp256r1", {
-                get: function () {
+                get: function ()
+                {
                     return _secp256r1 || (_secp256r1 = new ECCurve(Neo.BigInteger.fromString("FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF", 16), Neo.BigInteger.fromString("FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC", 16), Neo.BigInteger.fromString("5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B", 16), Neo.BigInteger.fromString("FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551", 16), ("04" + "6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296" + "4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5").hexToBytes()));
                 },
                 enumerable: true,
@@ -2841,17 +3405,23 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var ECDsa = (function () {
-            function ECDsa(key) {
+    (function (Cryptography)
+    {
+        var ECDsa = (function ()
+        {
+            function ECDsa(key)
+            {
                 this.key = key;
             }
-            ECDsa.calculateE = function (n, message) {
+            ECDsa.calculateE = function (n, message)
+            {
                 return Neo.BigInteger.fromUint8Array(new Uint8Array(Cryptography.Sha256.computeHash(message)), 1, false);
             };
-            ECDsa.generateKey = function (curve) {
+            ECDsa.generateKey = function (curve)
+            {
                 var prikey = new Uint8Array(32);
                 window.crypto.getRandomValues(prikey);
                 var pubkey = Cryptography.ECPoint.multiply(curve.G, prikey);
@@ -2860,16 +3430,20 @@ var Neo;
                     publicKey: new Cryptography.ECDsaCryptoKey(pubkey)
                 };
             };
-            ECDsa.prototype.sign = function (message) {
+            ECDsa.prototype.sign = function (message)
+            {
                 if (this.key.privateKey == null)
                     throw new Error();
                 var e = ECDsa.calculateE(this.key.publicKey.curve.N, message);
                 var d = Neo.BigInteger.fromUint8Array(this.key.privateKey, 1, false);
                 var r, s;
-                do {
+                do
+                {
                     var k = void 0;
-                    do {
-                        do {
+                    do
+                    {
+                        do
+                        {
                             k = Neo.BigInteger.random(this.key.publicKey.curve.N.bitLength(), window.crypto);
                         } while (k.sign() == 0 || k.compareTo(this.key.publicKey.curve.N) >= 0);
                         var p = Cryptography.ECPoint.multiply(this.key.publicKey.curve.G, k);
@@ -2877,7 +3451,8 @@ var Neo;
                         r = x.mod(this.key.publicKey.curve.N);
                     } while (r.sign() == 0);
                     s = k.modInverse(this.key.publicKey.curve.N).multiply(e.add(d.multiply(r))).mod(this.key.publicKey.curve.N);
-                    if (s.compareTo(this.key.publicKey.curve.N.divide(2)) > 0) {
+                    if (s.compareTo(this.key.publicKey.curve.N.divide(2)) > 0)
+                    {
                         s = this.key.publicKey.curve.N.subtract(s);
                     }
                 } while (s.sign() == 0);
@@ -2886,26 +3461,31 @@ var Neo;
                 Array.copy(s.toUint8Array(false, 32), 0, arr, 32, 32);
                 return arr.buffer;
             };
-            ECDsa.sumOfTwoMultiplies = function (P, k, Q, l) {
+            ECDsa.sumOfTwoMultiplies = function (P, k, Q, l)
+            {
                 var m = Math.max(k.bitLength(), l.bitLength());
                 var Z = Cryptography.ECPoint.add(P, Q);
                 var R = P.curve.Infinity;
-                for (var i = m - 1; i >= 0; --i) {
+                for (var i = m - 1; i >= 0; --i)
+                {
                     R = R.twice();
-                    if (k.testBit(i)) {
+                    if (k.testBit(i))
+                    {
                         if (l.testBit(i))
                             R = Cryptography.ECPoint.add(R, Z);
                         else
                             R = Cryptography.ECPoint.add(R, P);
                     }
-                    else {
+                    else
+                    {
                         if (l.testBit(i))
                             R = Cryptography.ECPoint.add(R, Q);
                     }
                 }
                 return R;
             };
-            ECDsa.prototype.verify = function (message, signature) {
+            ECDsa.prototype.verify = function (message, signature)
+            {
                 var arr = Uint8Array.fromArrayBuffer(signature);
                 var r = Neo.BigInteger.fromUint8Array(arr.subarray(0, 32), 1, false);
                 var s = Neo.BigInteger.fromUint8Array(arr.subarray(32, 64), 1, false);
@@ -2925,31 +3505,40 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var ECFieldElement = (function () {
-            function ECFieldElement(value, curve) {
+    (function (Cryptography)
+    {
+        var ECFieldElement = (function ()
+        {
+            function ECFieldElement(value, curve)
+            {
                 this.value = value;
                 this.curve = curve;
                 if (Neo.BigInteger.compare(value, curve.Q) >= 0)
                     throw new RangeError("x value too large in field element");
             }
-            ECFieldElement.prototype.add = function (other) {
+            ECFieldElement.prototype.add = function (other)
+            {
                 return new ECFieldElement(this.value.add(other.value).mod(this.curve.Q), this.curve);
             };
-            ECFieldElement.prototype.compareTo = function (other) {
+            ECFieldElement.prototype.compareTo = function (other)
+            {
                 if (this === other)
                     return 0;
                 return this.value.compareTo(other.value);
             };
-            ECFieldElement.prototype.divide = function (other) {
+            ECFieldElement.prototype.divide = function (other)
+            {
                 return new ECFieldElement(this.value.multiply(other.value.modInverse(this.curve.Q)).mod(this.curve.Q), this.curve);
             };
-            ECFieldElement.prototype.equals = function (other) {
+            ECFieldElement.prototype.equals = function (other)
+            {
                 return this.value.equals(other.value);
             };
-            ECFieldElement.fastLucasSequence = function (p, P, Q, k) {
+            ECFieldElement.fastLucasSequence = function (p, P, Q, k)
+            {
                 var n = k.bitLength();
                 var s = k.getLowestSetBit();
                 console.assert(k.testBit(s));
@@ -2958,15 +3547,18 @@ var Neo;
                 var Vh = P;
                 var Ql = Neo.BigInteger.One;
                 var Qh = Neo.BigInteger.One;
-                for (var j = n - 1; j >= s + 1; --j) {
+                for (var j = n - 1; j >= s + 1; --j)
+                {
                     Ql = Neo.BigInteger.mod(Neo.BigInteger.multiply(Ql, Qh), p);
-                    if (k.testBit(j)) {
+                    if (k.testBit(j))
+                    {
                         Qh = Ql.multiply(Q).mod(p);
                         Uh = Uh.multiply(Vh).mod(p);
                         Vl = Vh.multiply(Vl).subtract(P.multiply(Ql)).mod(p);
                         Vh = Vh.multiply(Vh).subtract(Qh.leftShift(1)).mod(p);
                     }
-                    else {
+                    else
+                    {
                         Qh = Ql;
                         Uh = Uh.multiply(Vl).subtract(Ql).mod(p);
                         Vh = Vh.multiply(Vl).subtract(P.multiply(Ql)).mod(p);
@@ -2978,21 +3570,26 @@ var Neo;
                 Uh = Uh.multiply(Vl).subtract(Ql).mod(p);
                 Vl = Vh.multiply(Vl).subtract(P.multiply(Ql)).mod(p);
                 Ql = Ql.multiply(Qh).mod(p);
-                for (var j = 1; j <= s; ++j) {
+                for (var j = 1; j <= s; ++j)
+                {
                     Uh = Uh.multiply(Vl).multiply(p);
                     Vl = Vl.multiply(Vl).subtract(Ql.leftShift(1)).mod(p);
                     Ql = Ql.multiply(Ql).mod(p);
                 }
                 return [Uh, Vl];
             };
-            ECFieldElement.prototype.multiply = function (other) {
+            ECFieldElement.prototype.multiply = function (other)
+            {
                 return new ECFieldElement(this.value.multiply(other.value).mod(this.curve.Q), this.curve);
             };
-            ECFieldElement.prototype.negate = function () {
+            ECFieldElement.prototype.negate = function ()
+            {
                 return new ECFieldElement(this.value.negate().mod(this.curve.Q), this.curve);
             };
-            ECFieldElement.prototype.sqrt = function () {
-                if (this.curve.Q.testBit(1)) {
+            ECFieldElement.prototype.sqrt = function ()
+            {
+                if (this.curve.Q.testBit(1))
+                {
                     var z = new ECFieldElement(Neo.BigInteger.modPow(this.value, this.curve.Q.rightShift(2).add(1), this.curve.Q), this.curve);
                     return z.square().equals(this) ? z : null;
                 }
@@ -3005,16 +3602,20 @@ var Neo;
                 var Q = this.value;
                 var fourQ = Q.leftShift(2).mod(this.curve.Q);
                 var U, V;
-                do {
+                do
+                {
                     var P = void 0;
-                    do {
+                    do
+                    {
                         P = Neo.BigInteger.random(this.curve.Q.bitLength());
                     } while (P.compareTo(this.curve.Q) >= 0 || !Neo.BigInteger.modPow(P.multiply(P).subtract(fourQ), legendreExponent, this.curve.Q).equals(qMinusOne));
                     var result = ECFieldElement.fastLucasSequence(this.curve.Q, P, Q, k);
                     U = result[0];
                     V = result[1];
-                    if (V.multiply(V).mod(this.curve.Q).equals(fourQ)) {
-                        if (V.testBit(0)) {
+                    if (V.multiply(V).mod(this.curve.Q).equals(fourQ))
+                    {
+                        if (V.testBit(0))
+                        {
                             V = V.add(this.curve.Q);
                         }
                         V = V.rightShift(1);
@@ -3024,10 +3625,12 @@ var Neo;
                 } while (U.equals(Neo.BigInteger.One) || U.equals(qMinusOne));
                 return null;
             };
-            ECFieldElement.prototype.square = function () {
+            ECFieldElement.prototype.square = function ()
+            {
                 return new ECFieldElement(this.value.multiply(this.value).mod(this.curve.Q), this.curve);
             };
-            ECFieldElement.prototype.subtract = function (other) {
+            ECFieldElement.prototype.subtract = function (other)
+            {
                 return new ECFieldElement(this.value.subtract(other.value).mod(this.curve.Q), this.curve);
             };
             return ECFieldElement;
@@ -3036,23 +3639,29 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var ECPoint = (function () {
-            function ECPoint(x, y, curve) {
+    (function (Cryptography)
+    {
+        var ECPoint = (function ()
+        {
+            function ECPoint(x, y, curve)
+            {
                 this.x = x;
                 this.y = y;
                 this.curve = curve;
                 if ((x == null) != (y == null))
                     throw new RangeError("Exactly one of the field elements is null");
             }
-            ECPoint.add = function (x, y) {
+            ECPoint.add = function (x, y)
+            {
                 if (x.isInfinity())
                     return y;
                 if (y.isInfinity())
                     return x;
-                if (x.x.equals(y.x)) {
+                if (x.x.equals(y.x))
+                {
                     if (x.y.equals(y.y))
                         return x.twice();
                     console.assert(x.y.equals(y.y.negate()));
@@ -3063,7 +3672,8 @@ var Neo;
                 var y3 = gamma.multiply(x.x.subtract(x3)).subtract(x.y);
                 return new ECPoint(x3, y3, x.curve);
             };
-            ECPoint.prototype.compareTo = function (other) {
+            ECPoint.prototype.compareTo = function (other)
+            {
                 if (this === other)
                     return 0;
                 var result = this.x.compareTo(other.x);
@@ -3071,10 +3681,12 @@ var Neo;
                     return result;
                 return this.y.compareTo(other.y);
             };
-            ECPoint.decodePoint = function (encoded, curve) {
+            ECPoint.decodePoint = function (encoded, curve)
+            {
                 var p;
                 var expectedLength = Math.ceil(curve.Q.bitLength() / 8);
-                switch (encoded[0]) {
+                switch (encoded[0])
+                {
                     case 0x00:
                         {
                             if (encoded.length != 1)
@@ -3108,7 +3720,8 @@ var Neo;
                 }
                 return p;
             };
-            ECPoint.decompressPoint = function (yTilde, X1, curve) {
+            ECPoint.decompressPoint = function (yTilde, X1, curve)
+            {
                 var x = new Cryptography.ECFieldElement(X1, curve);
                 var alpha = x.multiply(x.square().add(curve.A)).add(curve.B);
                 var beta = alpha.sqrt();
@@ -3116,16 +3729,19 @@ var Neo;
                     throw new RangeError("Invalid point compression");
                 var betaValue = beta.value;
                 var bit0 = betaValue.isEven() ? 0 : 1;
-                if (bit0 != yTilde) {
+                if (bit0 != yTilde)
+                {
                     beta = new Cryptography.ECFieldElement(curve.Q.subtract(betaValue), curve);
                 }
                 return new ECPoint(x, beta, curve);
             };
-            ECPoint.deserializeFrom = function (reader, curve) {
+            ECPoint.deserializeFrom = function (reader, curve)
+            {
                 var expectedLength = Math.floor((curve.Q.bitLength() + 7) / 8);
                 var array = new Uint8Array(1 + expectedLength * 2);
                 array[0] = reader.readByte();
-                switch (array[0]) {
+                switch (array[0])
+                {
                     case 0x00:
                         return curve.Infinity;
                     case 0x02:
@@ -3141,14 +3757,17 @@ var Neo;
                         throw new Error("Invalid point encoding " + array[0]);
                 }
             };
-            ECPoint.prototype.encodePoint = function (commpressed) {
+            ECPoint.prototype.encodePoint = function (commpressed)
+            {
                 if (this.isInfinity())
                     return new Uint8Array(1);
                 var data;
-                if (commpressed) {
+                if (commpressed)
+                {
                     data = new Uint8Array(33);
                 }
-                else {
+                else
+                {
                     data = new Uint8Array(65);
                     var yBytes = this.y.value.toUint8Array();
                     for (var i = 0; i < yBytes.length; i++)
@@ -3160,7 +3779,8 @@ var Neo;
                 data[0] = commpressed ? this.y.value.isEven() ? 0x02 : 0x03 : 0x04;
                 return data;
             };
-            ECPoint.prototype.equals = function (other) {
+            ECPoint.prototype.equals = function (other)
+            {
                 if (this === other)
                     return true;
                 if (null === other)
@@ -3171,8 +3791,10 @@ var Neo;
                     return false;
                 return this.x.equals(other.x) && this.y.equals(other.y);
             };
-            ECPoint.fromUint8Array = function (arr, curve) {
-                switch (arr.length) {
+            ECPoint.fromUint8Array = function (arr, curve)
+            {
+                switch (arr.length)
+                {
                     case 33:
                     case 65:
                         return ECPoint.decodePoint(arr, curve);
@@ -3196,10 +3818,12 @@ var Neo;
                         throw new RangeError();
                 }
             };
-            ECPoint.prototype.isInfinity = function () {
+            ECPoint.prototype.isInfinity = function ()
+            {
                 return this.x == null && this.y == null;
             };
-            ECPoint.multiply = function (p, n) {
+            ECPoint.multiply = function (p, n)
+            {
                 var k = n instanceof Uint8Array ? Neo.BigInteger.fromUint8Array(n, 1, false) : n;
                 if (p.isInfinity())
                     return p;
@@ -3208,77 +3832,95 @@ var Neo;
                 var m = k.bitLength();
                 var width;
                 var reqPreCompLen;
-                if (m < 13) {
+                if (m < 13)
+                {
                     width = 2;
                     reqPreCompLen = 1;
                 }
-                else if (m < 41) {
+                else if (m < 41)
+                {
                     width = 3;
                     reqPreCompLen = 2;
                 }
-                else if (m < 121) {
+                else if (m < 121)
+                {
                     width = 4;
                     reqPreCompLen = 4;
                 }
-                else if (m < 337) {
+                else if (m < 337)
+                {
                     width = 5;
                     reqPreCompLen = 8;
                 }
-                else if (m < 897) {
+                else if (m < 897)
+                {
                     width = 6;
                     reqPreCompLen = 16;
                 }
-                else if (m < 2305) {
+                else if (m < 2305)
+                {
                     width = 7;
                     reqPreCompLen = 32;
                 }
-                else {
+                else
+                {
                     width = 8;
                     reqPreCompLen = 127;
                 }
                 var preCompLen = 1;
                 var preComp = [p];
                 var twiceP = p.twice();
-                if (preCompLen < reqPreCompLen) {
+                if (preCompLen < reqPreCompLen)
+                {
                     var oldPreComp = preComp;
                     preComp = new Array(reqPreCompLen);
                     for (var i = 0; i < preCompLen; i++)
                         preComp[i] = oldPreComp[i];
-                    for (var i = preCompLen; i < reqPreCompLen; i++) {
+                    for (var i = preCompLen; i < reqPreCompLen; i++)
+                    {
                         preComp[i] = ECPoint.add(twiceP, preComp[i - 1]);
                     }
                 }
                 var wnaf = ECPoint.windowNaf(width, k);
                 var l = wnaf.length;
                 var q = p.curve.Infinity;
-                for (var i = l - 1; i >= 0; i--) {
+                for (var i = l - 1; i >= 0; i--)
+                {
                     q = q.twice();
-                    if (wnaf[i] != 0) {
-                        if (wnaf[i] > 0) {
+                    if (wnaf[i] != 0)
+                    {
+                        if (wnaf[i] > 0)
+                        {
                             q = ECPoint.add(q, preComp[Math.floor((wnaf[i] - 1) / 2)]);
                         }
-                        else {
+                        else
+                        {
                             q = ECPoint.subtract(q, preComp[Math.floor((-wnaf[i] - 1) / 2)]);
                         }
                     }
                 }
                 return q;
             };
-            ECPoint.prototype.negate = function () {
+            ECPoint.prototype.negate = function ()
+            {
                 return new ECPoint(this.x, this.y.negate(), this.curve);
             };
-            ECPoint.parse = function (str, curve) {
+            ECPoint.parse = function (str, curve)
+            {
                 return ECPoint.decodePoint(str.hexToBytes(), curve);
             };
-            ECPoint.subtract = function (x, y) {
+            ECPoint.subtract = function (x, y)
+            {
                 if (y.isInfinity())
                     return x;
                 return ECPoint.add(x, y.negate());
             };
-            ECPoint.prototype.toString = function () {
+            ECPoint.prototype.toString = function ()
+            {
                 return this.encodePoint(true).toHexString();
             };
-            ECPoint.prototype.twice = function () {
+            ECPoint.prototype.twice = function ()
+            {
                 if (this.isInfinity())
                     return this;
                 if (this.y.value.sign() == 0)
@@ -3290,24 +3932,30 @@ var Neo;
                 var y3 = gamma.multiply(this.x.subtract(x3)).subtract(this.y);
                 return new ECPoint(x3, y3, this.curve);
             };
-            ECPoint.windowNaf = function (width, k) {
+            ECPoint.windowNaf = function (width, k)
+            {
                 var wnaf = new Array(k.bitLength() + 1);
                 var pow2wB = 1 << width;
                 var i = 0;
                 var length = 0;
-                while (k.sign() > 0) {
-                    if (!k.isEven()) {
+                while (k.sign() > 0)
+                {
+                    if (!k.isEven())
+                    {
                         var remainder = Neo.BigInteger.remainder(k, pow2wB);
-                        if (remainder.testBit(width - 1)) {
+                        if (remainder.testBit(width - 1))
+                        {
                             wnaf[i] = Neo.BigInteger.subtract(remainder, pow2wB).toInt32();
                         }
-                        else {
+                        else
+                        {
                             wnaf[i] = remainder.toInt32();
                         }
                         k = k.subtract(wnaf[i]);
                         length = i;
                     }
-                    else {
+                    else
+                    {
                         wnaf[i] = 0;
                     }
                     k = k.rightShift(1);
@@ -3322,17 +3970,23 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var RandomNumberGenerator = (function () {
-            function RandomNumberGenerator() {
+    (function (Cryptography)
+    {
+        var RandomNumberGenerator = (function ()
+        {
+            function RandomNumberGenerator()
+            {
             }
-            RandomNumberGenerator.addEntropy = function (data, strength) {
+            RandomNumberGenerator.addEntropy = function (data, strength)
+            {
                 if (RandomNumberGenerator._stopped)
                     return;
                 for (var i = 0; i < data.length; i++)
-                    if (data[i] != null && data[i] != 0) {
+                    if (data[i] != null && data[i] != 0)
+                    {
                         RandomNumberGenerator._entropy.push(data[i]);
                         RandomNumberGenerator._strength += strength;
                         RandomNumberGenerator._key = null;
@@ -3340,49 +3994,58 @@ var Neo;
                 if (RandomNumberGenerator._strength >= 512)
                     RandomNumberGenerator.stopCollectors();
             };
-            RandomNumberGenerator.getRandomValues = function (array) {
+            RandomNumberGenerator.getRandomValues = function (array)
+            {
                 if (RandomNumberGenerator._strength < 256)
                     throw new Error();
-                if (RandomNumberGenerator._key == null) {
+                if (RandomNumberGenerator._key == null)
+                {
                     var data = new Float64Array(RandomNumberGenerator._entropy);
                     RandomNumberGenerator._key = new Uint8Array(Cryptography.Sha256.computeHash(data));
                 }
                 var aes = new Cryptography.Aes(RandomNumberGenerator._key, RandomNumberGenerator.getWeakRandomValues(16));
                 var src = new Uint8Array(16);
                 var dst = new Uint8Array(array.buffer, array.byteOffset, array.byteLength);
-                for (var i = 0; i < dst.length; i += 16) {
+                for (var i = 0; i < dst.length; i += 16)
+                {
                     aes.encryptBlock(RandomNumberGenerator.getWeakRandomValues(16), src);
                     Array.copy(src, 0, dst, i, Math.min(dst.length - i, 16));
                 }
                 return array;
             };
-            RandomNumberGenerator.getWeakRandomValues = function (array) {
+            RandomNumberGenerator.getWeakRandomValues = function (array)
+            {
                 var buffer = typeof array === "number" ? new Uint8Array(array) : array;
                 for (var i = 0; i < buffer.length; i++)
                     buffer[i] = Math.random() * 256;
                 return buffer;
             };
-            RandomNumberGenerator.processDeviceMotionEvent = function (event) {
+            RandomNumberGenerator.processDeviceMotionEvent = function (event)
+            {
                 RandomNumberGenerator.addEntropy([event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y, event.accelerationIncludingGravity.z], 1);
                 RandomNumberGenerator.processEvent(event);
             };
-            RandomNumberGenerator.processEvent = function (event) {
+            RandomNumberGenerator.processEvent = function (event)
+            {
                 if (window.performance && window.performance.now)
                     RandomNumberGenerator.addEntropy([window.performance.now()], 20);
                 else
                     RandomNumberGenerator.addEntropy([event.timeStamp], 2);
             };
-            RandomNumberGenerator.processMouseEvent = function (event) {
+            RandomNumberGenerator.processMouseEvent = function (event)
+            {
                 RandomNumberGenerator.addEntropy([event.clientX, event.clientY, event.offsetX, event.offsetY, event.screenX, event.screenY], 4);
                 RandomNumberGenerator.processEvent(event);
             };
-            RandomNumberGenerator.processTouchEvent = function (event) {
+            RandomNumberGenerator.processTouchEvent = function (event)
+            {
                 var touches = event.changedTouches || event.touches;
                 for (var i = 0; i < touches.length; i++)
                     RandomNumberGenerator.addEntropy([touches[i].clientX, touches[i].clientY, touches[i]["radiusX"], touches[i]["radiusY"], touches[i]["force"]], 1);
                 RandomNumberGenerator.processEvent(event);
             };
-            RandomNumberGenerator.startCollectors = function () {
+            RandomNumberGenerator.startCollectors = function ()
+            {
                 if (RandomNumberGenerator._started)
                     return;
                 window.addEventListener("load", RandomNumberGenerator.processEvent, false);
@@ -3392,7 +4055,8 @@ var Neo;
                 window.addEventListener("touchmove", RandomNumberGenerator.processTouchEvent, false);
                 RandomNumberGenerator._started = true;
             };
-            RandomNumberGenerator.stopCollectors = function () {
+            RandomNumberGenerator.stopCollectors = function ()
+            {
                 if (RandomNumberGenerator._stopped)
                     return;
                 window.removeEventListener("load", RandomNumberGenerator.processEvent, false);
@@ -3412,32 +4076,40 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        String.prototype.base58Decode = function () {
+    (function (Cryptography)
+    {
+        String.prototype.base58Decode = function ()
+        {
             return Cryptography.Base58.decode(this);
         };
-        String.prototype.base64UrlDecode = function () {
+        String.prototype.base64UrlDecode = function ()
+        {
             var str = window.atob(this.replace(/-/g, '+').replace(/_/g, '/'));
             var arr = new Uint8Array(str.length);
             for (var i = 0; i < str.length; i++)
                 arr[i] = str.charCodeAt(i);
             return arr;
         };
-        String.prototype.toAesKey = function () {
+        String.prototype.toAesKey = function ()
+        {
             var utf8 = unescape(encodeURIComponent(this));
             var codes = new Uint8Array(utf8.length);
             for (var i = 0; i < codes.length; i++)
                 codes[i] = utf8.charCodeAt(i);
-            return window.crypto.subtle.digest({ name: "SHA-256" }, codes).then(function (result) {
+            return window.crypto.subtle.digest({ name: "SHA-256" }, codes).then(function (result)
+            {
                 return window.crypto.subtle.digest({ name: "SHA-256" }, result);
             });
         };
-        Uint8Array.prototype.base58Encode = function () {
+        Uint8Array.prototype.base58Encode = function ()
+        {
             return Cryptography.Base58.encode(this);
         };
-        Uint8Array.prototype.base64UrlEncode = function () {
+        Uint8Array.prototype.base64UrlEncode = function ()
+        {
             var str = String.fromCharCode.apply(null, this);
             str = window.btoa(str);
             return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
@@ -3446,17 +4118,21 @@ var Neo;
         var w = window;
         if (window.crypto == null)
             window.crypto = { subtle: null, getRandomValues: null };
-        if (window.crypto.getRandomValues == null) {
-            if (w.msCrypto) {
+        if (window.crypto.getRandomValues == null)
+        {
+            if (w.msCrypto)
+            {
                 w.crypto.getRandomValues = function (array) { return w.msCrypto.getRandomValues(array); };
             }
-            else {
+            else
+            {
                 Cryptography.RandomNumberGenerator.startCollectors();
                 window.crypto.getRandomValues = Cryptography.RandomNumberGenerator.getRandomValues;
             }
         }
         w.crypto.subtle = window.crypto.subtle || w.crypto.webkitSubtle;
-        if (window.crypto.subtle == null && w.msCrypto) {
+        if (window.crypto.subtle == null && w.msCrypto)
+        {
             window.crypto.subtle = {
                 decrypt: function (a, b, c) { return new NeoPromise(function (resolve, reject) { var op = w.msCrypto.subtle.decrypt(a, b, c); op.oncomplete = function () { return resolve(op.result); }; op.onerror = function (e) { return reject(e); }; }); },
                 deriveBits: function (a, b, c) { return new NeoPromise(function (resolve, reject) { var op = w.msCrypto.subtle.deriveBits(a, b, c); op.oncomplete = function () { return resolve(op.result); }; op.onerror = function (e) { return reject(e); }; }); },
@@ -3472,126 +4148,178 @@ var Neo;
                 wrapKey: function (a, b, c, d) { return new NeoPromise(function (resolve, reject) { var op = w.msCrypto.subtle.wrapKey(a, b, c, d); op.oncomplete = function () { return resolve(op.result); }; op.onerror = function (e) { return reject(e); }; }); },
             };
         }
-        if (window.crypto.subtle == null) {
+        if (window.crypto.subtle == null)
+        {
             window.crypto.subtle = {
-                decrypt: function (algorithm, key, data) { return new NeoPromise(function (resolve, reject) {
-                    if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || !algorithm.iv || algorithm.iv.byteLength != 16 || data.byteLength % 16 != 0) {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        var aes = new Cryptography.Aes(key.export(), algorithm.iv);
-                        resolve(aes.decrypt(data));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
+                decrypt: function (algorithm, key, data)
+                {
+                    return new NeoPromise(function (resolve, reject)
+                    {
+                        if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || !algorithm.iv || algorithm.iv.byteLength != 16 || data.byteLength % 16 != 0)
+                        {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try
+                        {
+                            var aes = new Cryptography.Aes(key.export(), algorithm.iv);
+                            resolve(aes.decrypt(data));
+                        }
+                        catch (e)
+                        {
+                            reject(e);
+                        }
+                    });
+                },
                 deriveBits: null,
                 deriveKey: null,
-                digest: function (algorithm, data) { return new NeoPromise(function (resolve, reject) {
-                    if (getAlgorithmName(algorithm) != "SHA-256") {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        resolve(Cryptography.Sha256.computeHash(data));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
-                encrypt: function (algorithm, key, data) { return new NeoPromise(function (resolve, reject) {
-                    if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || !algorithm.iv || algorithm.iv.byteLength != 16) {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        var aes = new Cryptography.Aes(key.export(), algorithm.iv);
-                        resolve(aes.encrypt(data));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
-                exportKey: function (format, key) { return new NeoPromise(function (resolve, reject) {
-                    if (format != "jwk" || !(key instanceof Cryptography.AesCryptoKey)) {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        var k = key;
-                        resolve({
-                            alg: "A256CBC",
-                            ext: true,
-                            k: k.export().base64UrlEncode(),
-                            key_ops: k.usages,
-                            kty: "oct"
-                        });
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
-                generateKey: function (algorithm, extractable, keyUsages) { return new NeoPromise(function (resolve, reject) {
-                    if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || (algorithm.length != 128 && algorithm.length != 192 && algorithm.length != 256)) {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        resolve(Cryptography.AesCryptoKey.create(algorithm.length));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
-                importKey: function (format, keyData, algorithm, extractable, keyUsages) { return new NeoPromise(function (resolve, reject) {
-                    if ((format != "raw" && format != "jwk") || getAlgorithmName(algorithm) != "AES-CBC") {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        if (format == "jwk")
-                            keyData = keyData.k.base64UrlDecode();
-                        resolve(Cryptography.AesCryptoKey.import(keyData));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
+                digest: function (algorithm, data)
+                {
+                    return new NeoPromise(function (resolve, reject)
+                    {
+                        if (getAlgorithmName(algorithm) != "SHA-256")
+                        {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try
+                        {
+                            resolve(Cryptography.Sha256.computeHash(data));
+                        }
+                        catch (e)
+                        {
+                            reject(e);
+                        }
+                    });
+                },
+                encrypt: function (algorithm, key, data)
+                {
+                    return new NeoPromise(function (resolve, reject)
+                    {
+                        if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || !algorithm.iv || algorithm.iv.byteLength != 16)
+                        {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try
+                        {
+                            var aes = new Cryptography.Aes(key.export(), algorithm.iv);
+                            resolve(aes.encrypt(data));
+                        }
+                        catch (e)
+                        {
+                            reject(e);
+                        }
+                    });
+                },
+                exportKey: function (format, key)
+                {
+                    return new NeoPromise(function (resolve, reject)
+                    {
+                        if (format != "jwk" || !(key instanceof Cryptography.AesCryptoKey))
+                        {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try
+                        {
+                            var k = key;
+                            resolve({
+                                alg: "A256CBC",
+                                ext: true,
+                                k: k.export().base64UrlEncode(),
+                                key_ops: k.usages,
+                                kty: "oct"
+                            });
+                        }
+                        catch (e)
+                        {
+                            reject(e);
+                        }
+                    });
+                },
+                generateKey: function (algorithm, extractable, keyUsages)
+                {
+                    return new NeoPromise(function (resolve, reject)
+                    {
+                        if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || (algorithm.length != 128 && algorithm.length != 192 && algorithm.length != 256))
+                        {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try
+                        {
+                            resolve(Cryptography.AesCryptoKey.create(algorithm.length));
+                        }
+                        catch (e)
+                        {
+                            reject(e);
+                        }
+                    });
+                },
+                importKey: function (format, keyData, algorithm, extractable, keyUsages)
+                {
+                    return new NeoPromise(function (resolve, reject)
+                    {
+                        if ((format != "raw" && format != "jwk") || getAlgorithmName(algorithm) != "AES-CBC")
+                        {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try
+                        {
+                            if (format == "jwk")
+                                keyData = keyData.k.base64UrlDecode();
+                            resolve(Cryptography.AesCryptoKey.import(keyData));
+                        }
+                        catch (e)
+                        {
+                            reject(e);
+                        }
+                    });
+                },
                 sign: null,
                 unwrapKey: null,
                 verify: null,
                 wrapKey: null,
             };
         }
-        function hook_ripemd160() {
+        function hook_ripemd160()
+        {
             var digest_old = window.crypto.subtle.digest;
-            window.crypto.subtle.digest = function (algorithm, data) {
+            window.crypto.subtle.digest = function (algorithm, data)
+            {
                 if (getAlgorithmName(algorithm) != "RIPEMD-160")
                     return digest_old.call(window.crypto.subtle, algorithm, data);
-                return new NeoPromise(function (resolve, reject) {
-                    try {
+                return new NeoPromise(function (resolve, reject)
+                {
+                    try
+                    {
                         resolve(Cryptography.RIPEMD160.computeHash(data));
                     }
-                    catch (e) {
+                    catch (e)
+                    {
                         reject(e);
                     }
                 });
             };
         }
         hook_ripemd160();
-        function hook_ecdsa() {
+        function hook_ecdsa()
+        {
             var exportKey_old = window.crypto.subtle.exportKey;
-            window.crypto.subtle.exportKey = function (format, key) {
+            window.crypto.subtle.exportKey = function (format, key)
+            {
                 if (key.algorithm.name != "ECDSA")
                     return exportKey_old.call(window.crypto.subtle, format, key);
-                return new NeoPromise(function (resolve, reject) {
+                return new NeoPromise(function (resolve, reject)
+                {
                     var k = key;
                     if (format != "jwk" || k.algorithm.namedCurve != "P-256")
                         reject(new RangeError());
                     else
-                        try {
+                        try
+                        {
                             if (k.type == "private")
                                 resolve({
                                     crv: k.algorithm.namedCurve,
@@ -3612,36 +4340,44 @@ var Neo;
                                     y: k.publicKey.y.value.toUint8Array(false, 32).base64UrlEncode()
                                 });
                         }
-                        catch (e) {
+                        catch (e)
+                        {
                             reject(e);
                         }
                 });
             };
             var generateKey_old = window.crypto.subtle.generateKey;
-            window.crypto.subtle.generateKey = function (algorithm, extractable, keyUsages) {
+            window.crypto.subtle.generateKey = function (algorithm, extractable, keyUsages)
+            {
                 if (getAlgorithmName(algorithm) != "ECDSA")
                     return generateKey_old.call(window.crypto.subtle, algorithm, extractable, keyUsages);
-                return new NeoPromise(function (resolve, reject) {
+                return new NeoPromise(function (resolve, reject)
+                {
                     if (algorithm.namedCurve != "P-256")
                         reject(new RangeError());
                     else
-                        try {
+                        try
+                        {
                             resolve(Cryptography.ECDsa.generateKey(Cryptography.ECCurve.secp256r1));
                         }
-                        catch (e) {
+                        catch (e)
+                        {
                             reject(e);
                         }
                 });
             };
             var importKey_old = window.crypto.subtle.importKey;
-            window.crypto.subtle.importKey = function (format, keyData, algorithm, extractable, keyUsages) {
+            window.crypto.subtle.importKey = function (format, keyData, algorithm, extractable, keyUsages)
+            {
                 if (getAlgorithmName(algorithm) != "ECDSA")
                     return importKey_old.call(window.crypto.subtle, format, keyData, algorithm, extractable, keyUsages);
-                return new NeoPromise(function (resolve, reject) {
+                return new NeoPromise(function (resolve, reject)
+                {
                     if (format != "jwk" || algorithm.namedCurve != "P-256")
                         reject(new RangeError());
                     else
-                        try {
+                        try
+                        {
                             var k = keyData;
                             var x = k.x.base64UrlDecode();
                             var y = k.y.base64UrlDecode();
@@ -3655,77 +4391,98 @@ var Neo;
                             else
                                 resolve(new Cryptography.ECDsaCryptoKey(pubkey));
                         }
-                        catch (e) {
+                        catch (e)
+                        {
                             reject(e);
                         }
                 });
             };
             var sign_old = window.crypto.subtle.sign;
-            window.crypto.subtle.sign = function (algorithm, key, data) {
+            window.crypto.subtle.sign = function (algorithm, key, data)
+            {
                 if (getAlgorithmName(algorithm) != "ECDSA")
                     return sign_old.call(window.crypto.subtle, algorithm, key, data);
-                return new NeoPromise(function (resolve, reject) {
+                return new NeoPromise(function (resolve, reject)
+                {
                     if (algorithm.hash.name != "SHA-256" || key.algorithm.name != "ECDSA")
                         reject(new RangeError());
                     else
-                        try {
+                        try
+                        {
                             var ecdsa = new Cryptography.ECDsa(key);
                             resolve(ecdsa.sign(data));
                         }
-                        catch (e) {
+                        catch (e)
+                        {
                             reject(e);
                         }
                 });
             };
             var verify_old = window.crypto.subtle.verify;
-            window.crypto.subtle.verify = function (algorithm, key, signature, data) {
+            window.crypto.subtle.verify = function (algorithm, key, signature, data)
+            {
                 if (getAlgorithmName(algorithm) != "ECDSA")
                     return verify_old.call(window.crypto.subtle, algorithm, key, signature, data);
-                return new NeoPromise(function (resolve, reject) {
+                return new NeoPromise(function (resolve, reject)
+                {
                     if (algorithm.hash.name != "SHA-256" || key.algorithm.name != "ECDSA")
                         reject(new RangeError());
                     else
-                        try {
+                        try
+                        {
                             var ecdsa = new Cryptography.ECDsa(key);
                             resolve(ecdsa.verify(data, signature));
                         }
-                        catch (e) {
+                        catch (e)
+                        {
                             reject(e);
                         }
                 });
             };
         }
-        try {
+        try
+        {
             window.crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, false, ["sign", "verify"]).catch(hook_ecdsa);
         }
-        catch (ex) {
+        catch (ex)
+        {
             hook_ecdsa();
         }
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var RIPEMD160 = (function () {
-            function RIPEMD160() {
+    (function (Cryptography)
+    {
+        var RIPEMD160 = (function ()
+        {
+            function RIPEMD160()
+            {
             }
-            RIPEMD160.bytesToWords = function (bytes) {
+            RIPEMD160.bytesToWords = function (bytes)
+            {
                 var words = [];
-                for (var i = 0, b = 0; i < bytes.length; i++, b += 8) {
+                for (var i = 0, b = 0; i < bytes.length; i++ , b += 8)
+                {
                     words[b >>> 5] |= bytes[i] << (24 - b % 32);
                 }
                 return words;
             };
-            RIPEMD160.wordsToBytes = function (words) {
+            RIPEMD160.wordsToBytes = function (words)
+            {
                 var bytes = [];
-                for (var b = 0; b < words.length * 32; b += 8) {
+                for (var b = 0; b < words.length * 32; b += 8)
+                {
                     bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
                 }
                 return bytes;
             };
-            RIPEMD160.processBlock = function (H, M, offset) {
-                for (var i = 0; i < 16; i++) {
+            RIPEMD160.processBlock = function (H, M, offset)
+            {
+                for (var i = 0; i < 16; i++)
+                {
                     var offset_i = offset + i;
                     var M_offset_i = M[offset_i];
                     M[offset_i] = ((((M_offset_i << 8) | (M_offset_i >>> 24)) & 0x00ff00ff) |
@@ -3739,21 +4496,27 @@ var Neo;
                 dr = dl = H[3];
                 er = el = H[4];
                 var t;
-                for (var i = 0; i < 80; i += 1) {
+                for (var i = 0; i < 80; i += 1)
+                {
                     t = (al + M[offset + RIPEMD160.zl[i]]) | 0;
-                    if (i < 16) {
+                    if (i < 16)
+                    {
                         t += RIPEMD160.f1(bl, cl, dl) + RIPEMD160.hl[0];
                     }
-                    else if (i < 32) {
+                    else if (i < 32)
+                    {
                         t += RIPEMD160.f2(bl, cl, dl) + RIPEMD160.hl[1];
                     }
-                    else if (i < 48) {
+                    else if (i < 48)
+                    {
                         t += RIPEMD160.f3(bl, cl, dl) + RIPEMD160.hl[2];
                     }
-                    else if (i < 64) {
+                    else if (i < 64)
+                    {
                         t += RIPEMD160.f4(bl, cl, dl) + RIPEMD160.hl[3];
                     }
-                    else {
+                    else
+                    {
                         t += RIPEMD160.f5(bl, cl, dl) + RIPEMD160.hl[4];
                     }
                     t = t | 0;
@@ -3765,19 +4528,24 @@ var Neo;
                     cl = bl;
                     bl = t;
                     t = (ar + M[offset + RIPEMD160.zr[i]]) | 0;
-                    if (i < 16) {
+                    if (i < 16)
+                    {
                         t += RIPEMD160.f5(br, cr, dr) + RIPEMD160.hr[0];
                     }
-                    else if (i < 32) {
+                    else if (i < 32)
+                    {
                         t += RIPEMD160.f4(br, cr, dr) + RIPEMD160.hr[1];
                     }
-                    else if (i < 48) {
+                    else if (i < 48)
+                    {
                         t += RIPEMD160.f3(br, cr, dr) + RIPEMD160.hr[2];
                     }
-                    else if (i < 64) {
+                    else if (i < 64)
+                    {
                         t += RIPEMD160.f2(br, cr, dr) + RIPEMD160.hr[3];
                     }
-                    else {
+                    else
+                    {
                         t += RIPEMD160.f1(br, cr, dr) + RIPEMD160.hr[4];
                     }
                     t = t | 0;
@@ -3802,7 +4570,8 @@ var Neo;
             RIPEMD160.f4 = function (x, y, z) { return (((x) & (z)) | ((y) & (~(z)))); };
             RIPEMD160.f5 = function (x, y, z) { return ((x) ^ ((y) | (~(z)))); };
             RIPEMD160.rotl = function (x, n) { return (x << n) | (x >>> (32 - n)); };
-            RIPEMD160.computeHash = function (data) {
+            RIPEMD160.computeHash = function (data)
+            {
                 var H = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0];
                 var m = RIPEMD160.bytesToWords(Uint8Array.fromArrayBuffer(data));
                 var nBitsLeft = data.byteLength * 8;
@@ -3810,10 +4579,12 @@ var Neo;
                 m[nBitsLeft >>> 5] |= 0x80 << (24 - nBitsLeft % 32);
                 m[(((nBitsLeft + 64) >>> 9) << 4) + 14] = ((((nBitsTotal << 8) | (nBitsTotal >>> 24)) & 0x00ff00ff) |
                     (((nBitsTotal << 24) | (nBitsTotal >>> 8)) & 0xff00ff00));
-                for (var i = 0; i < m.length; i += 16) {
+                for (var i = 0; i < m.length; i += 16)
+                {
                     RIPEMD160.processBlock(H, m, i);
                 }
-                for (var i = 0; i < 5; i++) {
+                for (var i = 0; i < 5; i++)
+                {
                     var H_i = H[i];
                     H[i] = (((H_i << 8) | (H_i >>> 24)) & 0x00ff00ff) |
                         (((H_i << 24) | (H_i >>> 8)) & 0xff00ff00);
@@ -3857,13 +4628,18 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var Cryptography;
-    (function (Cryptography) {
-        var Sha256 = (function () {
-            function Sha256() {
+    (function (Cryptography)
+    {
+        var Sha256 = (function ()
+        {
+            function Sha256()
+            {
             }
-            Sha256.computeHash = function (data) {
+            Sha256.computeHash = function (data)
+            {
                 var H = new Uint32Array([
                     0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
                 ]);
@@ -3871,9 +4647,11 @@ var Neo;
                 var N = Math.ceil(l / 16);
                 var M = new Array(N);
                 var view = Uint8Array.fromArrayBuffer(data);
-                for (var i = 0; i < N; i++) {
+                for (var i = 0; i < N; i++)
+                {
                     M[i] = new Uint32Array(16);
-                    for (var j = 0; j < 16; j++) {
+                    for (var j = 0; j < 16; j++)
+                    {
                         M[i][j] = (view[i * 64 + j * 4] << 24) | (view[i * 64 + j * 4 + 1] << 16) |
                             (view[i * 64 + j * 4 + 2] << 8) | (view[i * 64 + j * 4 + 3]);
                     }
@@ -3883,7 +4661,8 @@ var Neo;
                 M[N - 1][15] = (data.byteLength * 8) & 0xffffffff;
                 var W = new Uint32Array(64);
                 var a, b, c, d, e, f, g, h;
-                for (var i = 0; i < N; i++) {
+                for (var i = 0; i < N; i++)
+                {
                     for (var t = 0; t < 16; t++)
                         W[t] = M[i][t];
                     for (var t = 16; t < 64; t++)
@@ -3896,7 +4675,8 @@ var Neo;
                     f = H[5];
                     g = H[6];
                     h = H[7];
-                    for (var t = 0; t < 64; t++) {
+                    for (var t = 0; t < 64; t++)
+                    {
                         var T1 = h + Sha256.Σ1(e) + Sha256.Ch(e, f, g) + Sha256.K[t] + W[t];
                         var T2 = Sha256.Σ0(a) + Sha256.Maj(a, b, c);
                         h = g;
@@ -3918,7 +4698,8 @@ var Neo;
                     H[7] = (H[7] + h) & 0xffffffff;
                 }
                 var result = new Uint8Array(32);
-                for (var i = 0; i < H.length; i++) {
+                for (var i = 0; i < H.length; i++)
+                {
                     result[i * 4 + 0] = (H[i] >>> (3 * 8)) & 0xff;
                     result[i * 4 + 1] = (H[i] >>> (2 * 8)) & 0xff;
                     result[i * 4 + 2] = (H[i] >>> (1 * 8)) & 0xff;
@@ -3949,22 +4730,30 @@ var Neo;
     })(Cryptography = Neo.Cryptography || (Neo.Cryptography = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var IO;
-    (function (IO) {
-        var BinaryReader = (function () {
-            function BinaryReader(input) {
+    (function (IO)
+    {
+        var BinaryReader = (function ()
+        {
+            function BinaryReader(input)
+            {
                 this.input = input;
                 this._buffer = new ArrayBuffer(8);
             }
-            BinaryReader.prototype.canRead = function () {
+            BinaryReader.prototype.canRead = function ()
+            {
                 return this.input.length() - this.input.position();
             };
-            BinaryReader.prototype.close = function () {
+            BinaryReader.prototype.close = function ()
+            {
             };
-            BinaryReader.prototype.fillBuffer = function (buffer, count) {
+            BinaryReader.prototype.fillBuffer = function (buffer, count)
+            {
                 var i = 0;
-                while (count > 0) {
+                while (count > 0)
+                {
                     var actual_count = this.input.read(buffer, 0, count);
                     if (actual_count == 0)
                         throw new Error("EOF");
@@ -3972,96 +4761,115 @@ var Neo;
                     count -= actual_count;
                 }
             };
-            BinaryReader.prototype.read = function (buffer, index, count) {
+            BinaryReader.prototype.read = function (buffer, index, count)
+            {
                 return this.input.read(buffer, index, count);
             };
-            BinaryReader.prototype.readBoolean = function () {
+            BinaryReader.prototype.readBoolean = function ()
+            {
                 return this.readByte() != 0;
             };
-            BinaryReader.prototype.readByte = function () {
+            BinaryReader.prototype.readByte = function ()
+            {
                 this.fillBuffer(this._buffer, 1);
                 if (this.array_uint8 == null)
                     this.array_uint8 = new Uint8Array(this._buffer, 0, 1);
                 return this.array_uint8[0];
             };
-            BinaryReader.prototype.readBytes = function (count) {
+            BinaryReader.prototype.readBytes = function (count)
+            {
                 var buffer = new ArrayBuffer(count);
                 this.fillBuffer(buffer, count);
                 return buffer;
             };
-            BinaryReader.prototype.readDouble = function () {
+            BinaryReader.prototype.readDouble = function ()
+            {
                 this.fillBuffer(this._buffer, 8);
                 if (this.array_float64 == null)
                     this.array_float64 = new Float64Array(this._buffer, 0, 1);
                 return this.array_float64[0];
             };
-            BinaryReader.prototype.readFixed8 = function () {
+            BinaryReader.prototype.readFixed8 = function ()
+            {
                 return new Neo.Fixed8(this.readUint64());
             };
-            BinaryReader.prototype.readInt16 = function () {
+            BinaryReader.prototype.readInt16 = function ()
+            {
                 this.fillBuffer(this._buffer, 2);
                 if (this.array_int16 == null)
                     this.array_int16 = new Int16Array(this._buffer, 0, 1);
                 return this.array_int16[0];
             };
-            BinaryReader.prototype.readInt32 = function () {
+            BinaryReader.prototype.readInt32 = function ()
+            {
                 this.fillBuffer(this._buffer, 4);
                 if (this.array_int32 == null)
                     this.array_int32 = new Int32Array(this._buffer, 0, 1);
                 return this.array_int32[0];
             };
-            BinaryReader.prototype.readSByte = function () {
+            BinaryReader.prototype.readSByte = function ()
+            {
                 this.fillBuffer(this._buffer, 1);
                 if (this.array_int8 == null)
                     this.array_int8 = new Int8Array(this._buffer, 0, 1);
                 return this.array_int8[0];
             };
-            BinaryReader.prototype.readSerializable = function (T) {
+            BinaryReader.prototype.readSerializable = function (T)
+            {
                 var obj = new T();
                 obj.deserialize(this);
                 return obj;
             };
-            BinaryReader.prototype.readSerializableArray = function (T) {
+            BinaryReader.prototype.readSerializableArray = function (T)
+            {
                 var array = new Array(this.readVarInt(0x10000000));
                 for (var i = 0; i < array.length; i++)
                     array[i] = this.readSerializable(T);
                 return array;
             };
-            BinaryReader.prototype.readSingle = function () {
+            BinaryReader.prototype.readSingle = function ()
+            {
                 this.fillBuffer(this._buffer, 4);
                 if (this.array_float32 == null)
                     this.array_float32 = new Float32Array(this._buffer, 0, 1);
                 return this.array_float32[0];
             };
-            BinaryReader.prototype.readUint16 = function () {
+            BinaryReader.prototype.readUint16 = function ()
+            {
                 this.fillBuffer(this._buffer, 2);
                 if (this.array_uint16 == null)
                     this.array_uint16 = new Uint16Array(this._buffer, 0, 1);
                 return this.array_uint16[0];
             };
-            BinaryReader.prototype.readUint160 = function () {
+            BinaryReader.prototype.readUint160 = function ()
+            {
                 return new Neo.Uint160(this.readBytes(20));
             };
-            BinaryReader.prototype.readUint256 = function () {
+            BinaryReader.prototype.readUint256 = function ()
+            {
                 return new Neo.Uint256(this.readBytes(32));
             };
-            BinaryReader.prototype.readUint32 = function () {
+            BinaryReader.prototype.readUint32 = function ()
+            {
                 this.fillBuffer(this._buffer, 4);
                 if (this.array_uint32 == null)
                     this.array_uint32 = new Uint32Array(this._buffer, 0, 1);
                 return this.array_uint32[0];
             };
-            BinaryReader.prototype.readUint64 = function () {
+            BinaryReader.prototype.readUint64 = function ()
+            {
                 this.fillBuffer(this._buffer, 8);
                 if (this.array_uint32 == null)
                     this.array_uint32 = new Uint32Array(this._buffer, 0, 2);
                 return new Neo.Uint64(this.array_uint32[0], this.array_uint32[1]);
             };
-            BinaryReader.prototype.readVarBytes = function (max) {
+            BinaryReader.prototype.readVarBytes = function (max)
+            {
                 if (max === void 0) { max = 0X7fffffc7; }
                 return this.readBytes(this.readVarInt(max));
             };
-            BinaryReader.prototype.readVarInt = function (max) {
+            BinaryReader.prototype.readVarInt = function (max)
+            {
                 if (max === void 0) { max = 9007199254740991; }
                 var fb = this.readByte();
                 var value;
@@ -4077,7 +4885,8 @@ var Neo;
                     throw new RangeError();
                 return value;
             };
-            BinaryReader.prototype.readVarString = function () {
+            BinaryReader.prototype.readVarString = function ()
+            {
                 return decodeURIComponent(escape(String.fromCharCode.apply(null, new Uint8Array(this.readVarBytes()))));
             };
             return BinaryReader;
@@ -4086,111 +4895,137 @@ var Neo;
     })(IO = Neo.IO || (Neo.IO = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var IO;
-    (function (IO) {
-        var BinaryWriter = (function () {
-            function BinaryWriter(output) {
+    (function (IO)
+    {
+        var BinaryWriter = (function ()
+        {
+            function BinaryWriter(output)
+            {
                 this.output = output;
                 this._buffer = new ArrayBuffer(8);
             }
-            BinaryWriter.prototype.close = function () {
+            BinaryWriter.prototype.close = function ()
+            {
             };
-            BinaryWriter.prototype.seek = function (offset, origin) {
+            BinaryWriter.prototype.seek = function (offset, origin)
+            {
                 return this.output.seek(offset, origin);
             };
-            BinaryWriter.prototype.write = function (buffer, index, count) {
+            BinaryWriter.prototype.write = function (buffer, index, count)
+            {
                 if (index === void 0) { index = 0; }
                 if (count === void 0) { count = buffer.byteLength - index; }
                 this.output.write(buffer, index, count);
             };
-            BinaryWriter.prototype.writeBoolean = function (value) {
+            BinaryWriter.prototype.writeBoolean = function (value)
+            {
                 this.writeByte(value ? 0xff : 0);
             };
-            BinaryWriter.prototype.writeByte = function (value) {
+            BinaryWriter.prototype.writeByte = function (value)
+            {
                 if (this.array_uint8 == null)
                     this.array_uint8 = new Uint8Array(this._buffer, 0, 1);
                 this.array_uint8[0] = value;
                 this.output.write(this._buffer, 0, 1);
             };
-            BinaryWriter.prototype.writeDouble = function (value) {
+            BinaryWriter.prototype.writeDouble = function (value)
+            {
                 if (this.array_float64 == null)
                     this.array_float64 = new Float64Array(this._buffer, 0, 1);
                 this.array_float64[0] = value;
                 this.output.write(this._buffer, 0, 8);
             };
-            BinaryWriter.prototype.writeInt16 = function (value) {
+            BinaryWriter.prototype.writeInt16 = function (value)
+            {
                 if (this.array_int16 == null)
                     this.array_int16 = new Int16Array(this._buffer, 0, 1);
                 this.array_int16[0] = value;
                 this.output.write(this._buffer, 0, 2);
             };
-            BinaryWriter.prototype.writeInt32 = function (value) {
+            BinaryWriter.prototype.writeInt32 = function (value)
+            {
                 if (this.array_int32 == null)
                     this.array_int32 = new Int32Array(this._buffer, 0, 1);
                 this.array_int32[0] = value;
                 this.output.write(this._buffer, 0, 4);
             };
-            BinaryWriter.prototype.writeSByte = function (value) {
+            BinaryWriter.prototype.writeSByte = function (value)
+            {
                 if (this.array_int8 == null)
                     this.array_int8 = new Int8Array(this._buffer, 0, 1);
                 this.array_int8[0] = value;
                 this.output.write(this._buffer, 0, 1);
             };
-            BinaryWriter.prototype.writeSerializableArray = function (array) {
+            BinaryWriter.prototype.writeSerializableArray = function (array)
+            {
                 this.writeVarInt(array.length);
                 for (var i = 0; i < array.length; i++)
                     array[i].serialize(this);
             };
-            BinaryWriter.prototype.writeSingle = function (value) {
+            BinaryWriter.prototype.writeSingle = function (value)
+            {
                 if (this.array_float32 == null)
                     this.array_float32 = new Float32Array(this._buffer, 0, 1);
                 this.array_float32[0] = value;
                 this.output.write(this._buffer, 0, 4);
             };
-            BinaryWriter.prototype.writeUint16 = function (value) {
+            BinaryWriter.prototype.writeUint16 = function (value)
+            {
                 if (this.array_uint16 == null)
                     this.array_uint16 = new Uint16Array(this._buffer, 0, 1);
                 this.array_uint16[0] = value;
                 this.output.write(this._buffer, 0, 2);
             };
-            BinaryWriter.prototype.writeUint32 = function (value) {
+            BinaryWriter.prototype.writeUint32 = function (value)
+            {
                 if (this.array_uint32 == null)
                     this.array_uint32 = new Uint32Array(this._buffer, 0, 1);
                 this.array_uint32[0] = value;
                 this.output.write(this._buffer, 0, 4);
             };
-            BinaryWriter.prototype.writeUint64 = function (value) {
+            BinaryWriter.prototype.writeUint64 = function (value)
+            {
                 this.writeUintVariable(value);
             };
-            BinaryWriter.prototype.writeUintVariable = function (value) {
+            BinaryWriter.prototype.writeUintVariable = function (value)
+            {
                 this.write(value.bits.buffer);
             };
-            BinaryWriter.prototype.writeVarBytes = function (value) {
+            BinaryWriter.prototype.writeVarBytes = function (value)
+            {
                 this.writeVarInt(value.byteLength);
                 this.output.write(value, 0, value.byteLength);
             };
-            BinaryWriter.prototype.writeVarInt = function (value) {
+            BinaryWriter.prototype.writeVarInt = function (value)
+            {
                 if (value < 0)
                     throw new RangeError();
-                if (value < 0xfd) {
+                if (value < 0xfd)
+                {
                     this.writeByte(value);
                 }
-                else if (value <= 0xffff) {
+                else if (value <= 0xffff)
+                {
                     this.writeByte(0xfd);
                     this.writeUint16(value);
                 }
-                else if (value <= 0xFFFFFFFF) {
+                else if (value <= 0xFFFFFFFF)
+                {
                     this.writeByte(0xfe);
                     this.writeUint32(value);
                 }
-                else {
+                else
+                {
                     this.writeByte(0xff);
                     this.writeUint32(value);
                     this.writeUint32(value / Math.pow(2, 32));
                 }
             };
-            BinaryWriter.prototype.writeVarString = function (value) {
+            BinaryWriter.prototype.writeVarString = function (value)
+            {
                 value = unescape(encodeURIComponent(value));
                 var codes = new Uint8Array(value.length);
                 for (var i = 0; i < codes.length; i++)
@@ -4202,38 +5037,47 @@ var Neo;
         IO.BinaryWriter = BinaryWriter;
     })(IO = Neo.IO || (Neo.IO = {}));
 })(Neo || (Neo = {}));
-Uint8Array.prototype.asSerializable = function (T) {
+Uint8Array.prototype.asSerializable = function (T)
+{
     var ms = new Neo.IO.MemoryStream(this.buffer, false);
     var reader = new Neo.IO.BinaryReader(ms);
     return reader.readSerializable(T);
 };
-Uint8Array.fromSerializable = function (obj) {
+Uint8Array.fromSerializable = function (obj)
+{
     var ms = new Neo.IO.MemoryStream();
     var writer = new Neo.IO.BinaryWriter(ms);
     obj.serialize(writer);
     return new Uint8Array(ms.toArray());
 };
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var IO;
-    (function (IO) {
+    (function (IO)
+    {
         var SeekOrigin;
-        (function (SeekOrigin) {
+        (function (SeekOrigin)
+        {
             SeekOrigin[SeekOrigin["Begin"] = 0] = "Begin";
             SeekOrigin[SeekOrigin["Current"] = 1] = "Current";
             SeekOrigin[SeekOrigin["End"] = 2] = "End";
         })(SeekOrigin = IO.SeekOrigin || (IO.SeekOrigin = {}));
-        var Stream = (function () {
-            function Stream() {
+        var Stream = (function ()
+        {
+            function Stream()
+            {
                 this._array = new Uint8Array(1);
             }
             Stream.prototype.close = function () { };
-            Stream.prototype.readByte = function () {
+            Stream.prototype.readByte = function ()
+            {
                 if (this.read(this._array.buffer, 0, 1) == 0)
                     return -1;
                 return this._array[0];
             };
-            Stream.prototype.writeByte = function (value) {
+            Stream.prototype.writeByte = function (value)
+            {
                 if (value < 0 || value > 255)
                     throw new RangeError();
                 this._array[0] = value;
@@ -4245,43 +5089,53 @@ var Neo;
     })(IO = Neo.IO || (Neo.IO = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var IO;
-    (function (IO) {
+    (function (IO)
+    {
         var BufferSize = 1024;
-        var MemoryStream = (function (_super) {
+        var MemoryStream = (function (_super)
+        {
             __extends(MemoryStream, _super);
-            function MemoryStream() {
+            function MemoryStream()
+            {
                 var _this = _super.call(this) || this;
                 _this._buffers = new Array();
                 _this._origin = 0;
                 _this._position = 0;
-                if (arguments.length == 0) {
+                if (arguments.length == 0)
+                {
                     _this._length = 0;
                     _this._capacity = 0;
                     _this._expandable = true;
                     _this._writable = true;
                 }
-                else if (arguments.length == 1 && typeof arguments[0] === "number") {
+                else if (arguments.length == 1 && typeof arguments[0] === "number")
+                {
                     _this._length = 0;
                     _this._capacity = arguments[0];
                     _this._expandable = true;
                     _this._writable = true;
                     _this._buffers.push(new ArrayBuffer(_this._capacity));
                 }
-                else {
+                else
+                {
                     var buffer = arguments[0];
                     _this._buffers.push(buffer);
                     _this._expandable = false;
-                    if (arguments.length == 1) {
+                    if (arguments.length == 1)
+                    {
                         _this._writable = false;
                         _this._length = buffer.byteLength;
                     }
-                    else if (typeof arguments[1] === "boolean") {
+                    else if (typeof arguments[1] === "boolean")
+                    {
                         _this._writable = arguments[1];
                         _this._length = buffer.byteLength;
                     }
-                    else {
+                    else
+                    {
                         _this._origin = arguments[1];
                         _this._length = arguments[2];
                         _this._writable = arguments.length == 4 ? arguments[3] : false;
@@ -4292,55 +5146,70 @@ var Neo;
                 }
                 return _this;
             }
-            MemoryStream.prototype.canRead = function () {
+            MemoryStream.prototype.canRead = function ()
+            {
                 return true;
             };
-            MemoryStream.prototype.canSeek = function () {
+            MemoryStream.prototype.canSeek = function ()
+            {
                 return true;
             };
-            MemoryStream.prototype.canWrite = function () {
+            MemoryStream.prototype.canWrite = function ()
+            {
                 return this._writable;
             };
-            MemoryStream.prototype.capacity = function () {
+            MemoryStream.prototype.capacity = function ()
+            {
                 return this._capacity;
             };
-            MemoryStream.prototype.findBuffer = function (position) {
+            MemoryStream.prototype.findBuffer = function (position)
+            {
                 var iBuff, pBuff;
                 var firstSize = this._buffers[0] == null ? BufferSize : this._buffers[0].byteLength;
-                if (position < firstSize) {
+                if (position < firstSize)
+                {
                     iBuff = 0;
                     pBuff = position;
                 }
-                else {
+                else
+                {
                     iBuff = Math.floor((position - firstSize) / BufferSize) + 1;
                     pBuff = (position - firstSize) % BufferSize;
                 }
                 return { iBuff: iBuff, pBuff: pBuff };
             };
-            MemoryStream.prototype.length = function () {
+            MemoryStream.prototype.length = function ()
+            {
                 return this._length;
             };
-            MemoryStream.prototype.position = function () {
+            MemoryStream.prototype.position = function ()
+            {
                 return this._position;
             };
-            MemoryStream.prototype.read = function (buffer, offset, count) {
+            MemoryStream.prototype.read = function (buffer, offset, count)
+            {
                 if (this._position + count > this._length)
                     count = this._length - this._position;
                 this.readInternal(new Uint8Array(buffer, offset, count), this._position);
                 this._position += count;
                 return count;
             };
-            MemoryStream.prototype.readInternal = function (dst, srcPos) {
-                if (this._expandable) {
+            MemoryStream.prototype.readInternal = function (dst, srcPos)
+            {
+                if (this._expandable)
+                {
                     var i = 0, count = dst.length;
                     var d = this.findBuffer(srcPos);
-                    while (count > 0) {
+                    while (count > 0)
+                    {
                         var actual_count = void 0;
-                        if (this._buffers[d.iBuff] == null) {
+                        if (this._buffers[d.iBuff] == null)
+                        {
                             actual_count = Math.min(count, BufferSize - d.pBuff);
                             dst.fill(0, i, i + actual_count);
                         }
-                        else {
+                        else
+                        {
                             actual_count = Math.min(count, this._buffers[d.iBuff].byteLength - d.pBuff);
                             var src = new Uint8Array(this._buffers[d.iBuff]);
                             Array.copy(src, d.pBuff, dst, i, actual_count);
@@ -4351,13 +5220,16 @@ var Neo;
                         d.pBuff = 0;
                     }
                 }
-                else {
+                else
+                {
                     var src = new Uint8Array(this._buffers[0], this._origin, this._length);
                     Array.copy(src, srcPos, dst, 0, dst.length);
                 }
             };
-            MemoryStream.prototype.seek = function (offset, origin) {
-                switch (origin) {
+            MemoryStream.prototype.seek = function (offset, origin)
+            {
+                switch (origin)
+                {
                     case IO.SeekOrigin.Begin:
                         break;
                     case IO.SeekOrigin.Current:
@@ -4374,7 +5246,8 @@ var Neo;
                 this._position = offset;
                 return offset;
             };
-            MemoryStream.prototype.setLength = function (value) {
+            MemoryStream.prototype.setLength = function (value)
+            {
                 if (value < 0 || (value != this._length && !this._writable) || (value > this._capacity && !this._expandable))
                     throw new RangeError();
                 this._length = value;
@@ -4383,20 +5256,24 @@ var Neo;
                 if (this._capacity < this._length)
                     this._capacity = this._length;
             };
-            MemoryStream.prototype.toArray = function () {
+            MemoryStream.prototype.toArray = function ()
+            {
                 if (this._buffers.length == 1 && this._origin == 0 && this._length == this._buffers[0].byteLength)
                     return this._buffers[0];
                 var bw = new Uint8Array(this._length);
                 this.readInternal(bw, 0);
                 return bw.buffer;
             };
-            MemoryStream.prototype.write = function (buffer, offset, count) {
+            MemoryStream.prototype.write = function (buffer, offset, count)
+            {
                 if (!this._writable || (!this._expandable && this._capacity - this._position < count))
                     throw new Error();
-                if (this._expandable) {
+                if (this._expandable)
+                {
                     var src = new Uint8Array(buffer);
                     var d = this.findBuffer(this._position);
-                    while (count > 0) {
+                    while (count > 0)
+                    {
                         if (this._buffers[d.iBuff] == null)
                             this._buffers[d.iBuff] = new ArrayBuffer(BufferSize);
                         var actual_count = Math.min(count, this._buffers[d.iBuff].byteLength - d.pBuff);
@@ -4409,7 +5286,8 @@ var Neo;
                         d.pBuff = 0;
                     }
                 }
-                else {
+                else
+                {
                     var src = new Uint8Array(buffer, offset, count);
                     var dst = new Uint8Array(this._buffers[0], this._origin, this._capacity);
                     Array.copy(src, 0, dst, this._position, count);
@@ -4426,27 +5304,37 @@ var Neo;
     })(IO = Neo.IO || (Neo.IO = {}));
 })(Neo || (Neo = {}));
 var ThinNeo;
-(function (ThinNeo) {
+(function (ThinNeo)
+{
     var Compiler;
-    (function (Compiler) {
-        var Avm2Asm = (function () {
-            function Avm2Asm() {
+    (function (Compiler)
+    {
+        var Avm2Asm = (function ()
+        {
+            function Avm2Asm()
+            {
             }
-            Avm2Asm.Trans = function (script) {
+            Avm2Asm.Trans = function (script)
+            {
                 var breader = new Compiler.ByteReader(script);
                 var arr = new Array();
-                while (breader.End == false) {
+                while (breader.End == false)
+                {
                     var o = new Compiler.Op();
                     o.addr = breader.addr;
                     o.code = breader.ReadOP();
-                    try {
-                        if (o.code >= ThinNeo.OpCode.PUSHBYTES1 && o.code <= ThinNeo.OpCode.PUSHBYTES75) {
+                    try
+                    {
+                        if (o.code >= ThinNeo.OpCode.PUSHBYTES1 && o.code <= ThinNeo.OpCode.PUSHBYTES75)
+                        {
                             o.paramType = Compiler.ParamType.ByteArray;
                             var _count = o.code;
                             o.paramData = breader.ReadBytes(_count);
                         }
-                        else {
-                            switch (o.code) {
+                        else
+                        {
+                            switch (o.code)
+                            {
                                 case ThinNeo.OpCode.PUSH0:
                                 case ThinNeo.OpCode.PUSHM1:
                                 case ThinNeo.OpCode.PUSH1:
@@ -4600,7 +5488,8 @@ var ThinNeo;
                             }
                         }
                     }
-                    catch (_a) {
+                    catch (_a)
+                    {
                         o.error = true;
                     }
                     arr.push(o);
@@ -4615,65 +5504,79 @@ var ThinNeo;
     })(Compiler = ThinNeo.Compiler || (ThinNeo.Compiler = {}));
 })(ThinNeo || (ThinNeo = {}));
 var ThinNeo;
-(function (ThinNeo) {
+(function (ThinNeo)
+{
     var Compiler;
-    (function (Compiler) {
-        var ByteReader = (function () {
-            function ByteReader(data) {
+    (function (Compiler)
+    {
+        var ByteReader = (function ()
+        {
+            function ByteReader(data)
+            {
                 this.addr = 0;
                 this.data = data;
             }
-            ByteReader.prototype.ReadOP = function () {
+            ByteReader.prototype.ReadOP = function ()
+            {
                 var op = this.data[this.addr];
                 this.addr++;
                 return op;
             };
-            ByteReader.prototype.ReadBytes = function (count) {
+            ByteReader.prototype.ReadBytes = function (count)
+            {
                 var _data = new Uint8Array(count);
                 for (var i = 0; i < count; i++)
                     _data[i] = this.data[this.addr + i];
                 this.addr += count;
                 return _data;
             };
-            ByteReader.prototype.ReadByte = function () {
+            ByteReader.prototype.ReadByte = function ()
+            {
                 var b = this.data[this.addr];
                 this.addr++;
                 return b;
             };
-            ByteReader.prototype.ReadUInt16 = function () {
+            ByteReader.prototype.ReadUInt16 = function ()
+            {
                 var d = new DataView(this.data.buffer);
                 var u16 = d.getUint16(this.addr, true);
                 this.addr += 2;
                 return u16;
             };
-            ByteReader.prototype.ReadInt16 = function () {
+            ByteReader.prototype.ReadInt16 = function ()
+            {
                 var d = new DataView(this.data.buffer);
                 var u16 = d.getInt16(this.addr, true);
                 this.addr += 2;
                 return u16;
             };
-            ByteReader.prototype.ReadUInt32 = function () {
+            ByteReader.prototype.ReadUInt32 = function ()
+            {
                 var d = new DataView(this.data.buffer);
                 var u16 = d.getUint32(this.addr, true);
                 this.addr += 4;
                 return u16;
             };
-            ByteReader.prototype.ReadInt32 = function () {
+            ByteReader.prototype.ReadInt32 = function ()
+            {
                 var d = new DataView(this.data.buffer);
                 var u16 = d.getInt32(this.addr, true);
                 this.addr += 4;
                 return u16;
             };
-            ByteReader.prototype.ReadUInt64 = function () {
+            ByteReader.prototype.ReadUInt64 = function ()
+            {
                 var u1 = this.ReadUInt32();
                 var u2 = this.ReadUInt32();
                 return u2 * 0x100000000 + u1;
             };
-            ByteReader.prototype.ReadVarBytes = function () {
+            ByteReader.prototype.ReadVarBytes = function ()
+            {
                 var count = this.ReadVarInt();
                 return this.ReadBytes(count);
             };
-            ByteReader.prototype.ReadVarInt = function () {
+            ByteReader.prototype.ReadVarInt = function ()
+            {
                 var fb = this.ReadByte();
                 var value;
                 if (fb == 0xFD)
@@ -4687,7 +5590,8 @@ var ThinNeo;
                 return value;
             };
             Object.defineProperty(ByteReader.prototype, "End", {
-                get: function () {
+                get: function ()
+                {
                     return this.addr >= this.data.length;
                 },
                 enumerable: true,
@@ -4699,37 +5603,49 @@ var ThinNeo;
     })(Compiler = ThinNeo.Compiler || (ThinNeo.Compiler = {}));
 })(ThinNeo || (ThinNeo = {}));
 var ThinNeo;
-(function (ThinNeo) {
+(function (ThinNeo)
+{
     var Compiler;
-    (function (Compiler) {
+    (function (Compiler)
+    {
         var ParamType;
-        (function (ParamType) {
+        (function (ParamType)
+        {
             ParamType[ParamType["None"] = 0] = "None";
             ParamType[ParamType["ByteArray"] = 1] = "ByteArray";
             ParamType[ParamType["String"] = 2] = "String";
             ParamType[ParamType["Addr"] = 3] = "Addr";
         })(ParamType = Compiler.ParamType || (Compiler.ParamType = {}));
-        var Op = (function () {
-            function Op() {
+        var Op = (function ()
+        {
+            function Op()
+            {
             }
-            Op.prototype.toString = function () {
+            Op.prototype.toString = function ()
+            {
                 var name = this.getCodeName();
-                if (this.paramType == ParamType.None) {
+                if (this.paramType == ParamType.None)
+                {
                 }
-                else if (this.paramType == ParamType.ByteArray) {
+                else if (this.paramType == ParamType.ByteArray)
+                {
                     name += "[" + this.AsHexString() + "]";
                 }
-                else if (this.paramType == ParamType.String) {
+                else if (this.paramType == ParamType.String)
+                {
                     name += "[" + this.AsString() + "]";
                 }
-                else if (this.paramType == ParamType.Addr) {
+                else if (this.paramType == ParamType.Addr)
+                {
                     name += "[" + this.AsAddr() + "]";
                 }
                 return this.addr.toString(16) + ":" + name;
             };
-            Op.prototype.AsHexString = function () {
+            Op.prototype.AsHexString = function ()
+            {
                 var str = "0x";
-                for (var i = 0; i < this.paramData.length; i++) {
+                for (var i = 0; i < this.paramData.length; i++)
+                {
                     var s = this.paramData[i].toString(16);
                     if (s.length % 2 == 1)
                         s = "0" + s;
@@ -4737,18 +5653,22 @@ var ThinNeo;
                 }
                 return str;
             };
-            Op.prototype.AsString = function () {
+            Op.prototype.AsString = function ()
+            {
                 var str = "";
-                for (var i = 0; i < this.paramData.length; i++) {
+                for (var i = 0; i < this.paramData.length; i++)
+                {
                     str += this.paramData[i].toLocaleString();
                 }
                 return str;
             };
-            Op.prototype.AsAddr = function () {
+            Op.prototype.AsAddr = function ()
+            {
                 var dview = new DataView(this.paramData.buffer);
                 return dview.getInt16(0, true);
             };
-            Op.prototype.getCodeName = function () {
+            Op.prototype.getCodeName = function ()
+            {
                 var name = "";
                 if (this.error)
                     name = "[E]";
@@ -4767,62 +5687,81 @@ var ThinNeo;
     })(Compiler = ThinNeo.Compiler || (ThinNeo.Compiler = {}));
 })(ThinNeo || (ThinNeo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var IO;
-    (function (IO) {
+    (function (IO)
+    {
         var Caching;
-        (function (Caching) {
-            var TrackableCollection = (function () {
-                function TrackableCollection(items) {
+        (function (Caching)
+        {
+            var TrackableCollection = (function ()
+            {
+                function TrackableCollection(items)
+                {
                     this._map = new NeoMap();
-                    if (items != null) {
-                        for (var i = 0; i < items.length; i++) {
+                    if (items != null)
+                    {
+                        for (var i = 0; i < items.length; i++)
+                        {
                             this._map.set(items[i].key, items[i]);
                             items[i].trackState = Caching.TrackState.None;
                         }
                     }
                 }
-                TrackableCollection.prototype.add = function (item) {
+                TrackableCollection.prototype.add = function (item)
+                {
                     this._map.set(item.key, item);
                     item.trackState = Caching.TrackState.Added;
                 };
-                TrackableCollection.prototype.clear = function () {
-                    this._map.forEach(function (value, key, map) {
+                TrackableCollection.prototype.clear = function ()
+                {
+                    this._map.forEach(function (value, key, map)
+                    {
                         if (value.trackState == Caching.TrackState.Added)
                             map.delete(key);
                         else
                             value.trackState = Caching.TrackState.Deleted;
                     });
                 };
-                TrackableCollection.prototype.commit = function () {
-                    this._map.forEach(function (value, key, map) {
+                TrackableCollection.prototype.commit = function ()
+                {
+                    this._map.forEach(function (value, key, map)
+                    {
                         if (value.trackState == Caching.TrackState.Deleted)
                             map.delete(key);
                         else
                             value.trackState = Caching.TrackState.None;
                     });
                 };
-                TrackableCollection.prototype.forEach = function (callback) {
+                TrackableCollection.prototype.forEach = function (callback)
+                {
                     var _this = this;
-                    this._map.forEach(function (value, key) {
+                    this._map.forEach(function (value, key)
+                    {
                         callback(value, key, _this);
                     });
                 };
-                TrackableCollection.prototype.get = function (key) {
+                TrackableCollection.prototype.get = function (key)
+                {
                     return this._map.get(key);
                 };
-                TrackableCollection.prototype.getChangeSet = function () {
+                TrackableCollection.prototype.getChangeSet = function ()
+                {
                     var array = new Array();
-                    this._map.forEach(function (value) {
+                    this._map.forEach(function (value)
+                    {
                         if (value.trackState != Caching.TrackState.None)
                             array.push(value);
                     });
                     return array;
                 };
-                TrackableCollection.prototype.has = function (key) {
+                TrackableCollection.prototype.has = function (key)
+                {
                     return this._map.has(key);
                 };
-                TrackableCollection.prototype.remove = function (key) {
+                TrackableCollection.prototype.remove = function (key)
+                {
                     var item = this._map.get(key);
                     if (item.trackState == Caching.TrackState.Added)
                         this._map.delete(key);
@@ -4836,13 +5775,17 @@ var Neo;
     })(IO = Neo.IO || (Neo.IO = {}));
 })(Neo || (Neo = {}));
 var Neo;
-(function (Neo) {
+(function (Neo)
+{
     var IO;
-    (function (IO) {
+    (function (IO)
+    {
         var Caching;
-        (function (Caching) {
+        (function (Caching)
+        {
             var TrackState;
-            (function (TrackState) {
+            (function (TrackState)
+            {
                 TrackState[TrackState["None"] = 0] = "None";
                 TrackState[TrackState["Added"] = 1] = "Added";
                 TrackState[TrackState["Changed"] = 2] = "Changed";
