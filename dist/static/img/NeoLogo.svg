@@ -4,15 +4,15 @@
     <desc>Created with Sketch.</desc>
     <defs>
         <linearGradient x1="19.9635341%" y1="72.4959176%" x2="100%" y2="20.0308981%" id="linearGradient-1">
-            <stop stop-color="#B8E62E" offset="0%"></stop>
-            <stop stop-color="#5CBD22" offset="100%"></stop>
+            <stop stop-color="#fff" offset="0%"></stop>
+            <stop stop-color="#fff" offset="100%"></stop>
         </linearGradient>
     </defs>
     <g id="登陆注册5" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="首页" transform="translate(-280.000000, -174.000000)">
             <g id="Group-5" transform="translate(205.000000, 144.000000)">
                 <g id="logo" transform="translate(75.000000, 30.000000)">
-                    <path d="M0.738586768,8.35811436 L23.9574516,0 L39.632996,7.51586125 L16.4958178,15.8655134 L0.738586768,8.35811436 Z M23.5074823,31.5985914 L23.5074823,13.9965478 L40,8.29690368 L40,39.5081871 L23.5074823,31.5985914 Z" id="Combined-Shape" fill="#5CBD22"></path>
+                    <path d="M0.738586768,8.35811436 L23.9574516,0 L39.632996,7.51586125 L16.4958178,15.8655134 L0.738586768,8.35811436 Z M23.5074823,31.5985914 L23.5074823,13.9965478 L40,8.29690368 L40,39.5081871 L23.5074823,31.5985914 Z" id="Combined-Shape" fill="#fff"></path>
                     <polygon id="Path-2" fill="url(#linearGradient-1)" points="0 39.986688 0 8.8669927 15.9899066 16.4248778 15.9899066 47.3517397"></polygon>
                 </g>
             </g>
