@@ -1,9 +1,9 @@
 import { Result, BalanceInfo, AssetEnum } from './entity';
 export class WWW
 {
-    static api: string = "https://api.nel.group/api/mainnet";
-    static rpc: string = "http://47.96.168.8:20332/mainnet";
-    static otcgo: string = "http://state-api.otcgo.cn/api/v1/mainnet";
+    static api: string = "https://api.nel.group/api/testnet";
+    static rpc: string = "http://47.96.168.8:20332/testnet";
+    static otcgo: string = "http://state-api.otcgo.cn/api/v1/testnet";
     static rpcName: string = "";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
