@@ -40,11 +40,52 @@ export class CoinTool
         }
     }
 
+    /**
+     * 获得utxos
+     */
+    static async getassets(): Promise<{ [ id: string ]: UTXO[] }>
+    {
+        var assets = UTXO.getAssets();
+        if (assets == null)
+        {
+            assets = {};
+            var utxos = await WWW.api_getUTXO(StorageTool.getStorage("current-address"));
+            for (var i in utxos)
+            {
+                var item = utxos[ i ];
+                var txid = item.txid;
+                var n = item.n;
+                var asset = item.asset;
+                var count = item.value;
+                if (assets[ asset ] == undefined || assets[ asset ] == null)
+                {
+                    assets[ asset ] = [];
+                }
+                var utxo = new UTXO();
+                utxo.addr = item.addr;
+                utxo.asset = asset;
+                utxo.n = n;
+                utxo.txid = txid;
+                utxo.count = Neo.Fixed8.parse(count);
+                assets[ asset ].push(utxo);
+            }
+        }
+        return assets;
+    }
 
-    static makeTran(utxos: { [ id: string ]: UTXO[] }, targetaddr: string, assetid: string, sendcount: Neo.Fixed8): ThinNeo.Transaction
+    static makeTran(utxos: { [ id: string ]: UTXO[] }, targetaddr: string, assetid: string, sendcount: Neo.Fixed8): Result
     {
         //if (sendcount.compareTo(Neo.Fixed8.Zero) <= 0)
         //    throw new Error("can not send zero.");
+        var res = new Result();
+        var us = utxos[ assetid ];
+        if (us == undefined)
+        {
+            // res.err = true;
+            // res.info = "no enough money.";
+            throw new Error("no enough money.");
+        }
+
         var tran = new ThinNeo.Transaction();
         tran.type = ThinNeo.TransactionType.ContractTransaction;
         tran.version = 0;//0 or 1
@@ -58,22 +99,25 @@ export class CoinTool
         {
             return a.count.compareTo(b.count);
         });
-        var us = utxos[ assetid ];
         var count: Neo.Fixed8 = Neo.Fixed8.Zero;
+        var clonearr = [].concat(us);       //用于返回剩余可用的utxo
         for (var i = 0; i < us.length; i++)
         {
             var input = new ThinNeo.TransactionInput();
             input.hash = us[ i ].txid.hexToBytes().reverse();
             input.index = us[ i ].n;
             input[ "_addr" ] = us[ i ].addr;//利用js的隨意性，臨時傳個值
-            tran.inputs.push(input);
-            count = count.add(us[ i ].count);
+            tran.inputs.push(input);        //将utxo塞入input
+            count = count.add(us[ i ].count);//添加至count中
             scraddr = us[ i ].addr;
-            if (count.compareTo(sendcount) > 0)
+            clonearr.shift();               //删除已塞入的utxo
+            if (count.compareTo(sendcount) > 0) //判断输入是否足够
             {
-                break;
+                break;      //如果足够则跳出循环
             }
         }
+
+
         if (count.compareTo(sendcount) >= 0)//输入大于等于输出
         {
             tran.outputs = [];
@@ -98,12 +142,14 @@ export class CoinTool
                 tran.outputs.push(outputchange);
 
             }
+            res.err = false;
+            res.info = { "tran": tran, "clonearr": clonearr };
         }
         else
         {
             throw new Error("no enough money.");
         }
-        return tran;
+        return res;
     }
 
     static async rawTransaction(targetaddr: string, asset: string, count: string): Promise<Result>
@@ -113,25 +159,41 @@ export class CoinTool
         var add = StorageTool.getStorage("current-address")
         var n = arr.findIndex(login => login.address == add);
         var _count = Neo.Fixed8.parse(count + "");
-        var utxo = await CoinTool.getassets();
+        var utxos = await CoinTool.getassets();
+        try
+        {
+            var tranres = CoinTool.makeTran(utxos, targetaddr, asset, _count);  //获得tran和改变后的utxo
+            var tran: ThinNeo.Transaction = tranres.info[ 'tran' ];
 
-        var tran: ThinNeo.Transaction = CoinTool.makeTran(utxo, targetaddr, asset, _count);
-        if (tran.witnesses == null)
-            tran.witnesses = [];
-        let txid = tran.GetHash().clone().reverse().toHexString();
-        var msg = tran.GetMessage().clone();
-        var pubkey = arr[ n ].pubkey.clone();
-        var prekey = arr[ n ].prikey.clone();
-        var addr = arr[ n ].address;
-        var signdata = ThinNeo.Helper.Sign(msg, prekey);
-        tran.AddWitness(signdata, pubkey, addr);
-        var data: Uint8Array = tran.GetRawData();
+            if (tran.witnesses == null)
+                tran.witnesses = [];
+            let txid = tran.GetHash().clone().reverse().toHexString();
+            var msg = tran.GetMessage().clone();
+            var pubkey = arr[ n ].pubkey.clone();
+            var prekey = arr[ n ].prikey.clone();
+            var addr = arr[ n ].address;
+            var signdata = ThinNeo.Helper.Sign(msg, prekey);
+            tran.AddWitness(signdata, pubkey, addr);
+            var data: Uint8Array = tran.GetRawData();
 
-        var res: Result = new Result();
-        var result = await WWW.api_postRawTransaction(data);
-        res.err = !result;
-        res.info = txid;
-        return res;
+            var res: Result = new Result();
+            var result = await WWW.api_postRawTransaction(data);
+            if (result[ "sendrawtransactionresult" ])
+            {
+                res.err = !result;
+                res.info = txid;
+                let us = tranres.info[ 'clonearr' ] as UTXO[];
+                if (us.length)
+                    utxos[ asset ] = us;
+                else
+                    delete utxos[ asset ];
+                UTXO.setAssets(utxos);
+            }
+            return res;
+        } catch (error)
+        {
+            throw error;
+        }
     }
 
 
@@ -142,7 +204,8 @@ export class CoinTool
         let current: LoginInfo = LoginInfo.getCurrentLogin();
         let assetid = CoinTool.id_GAS;
         //let _count = Neo.Fixed8.Zero;   //十个gas内都不要钱滴
-        let tran = CoinTool.makeTran(utxo, targeraddr, assetid, Neo.Fixed8.Zero);
+        var tranres = CoinTool.makeTran(utxo, targeraddr, assetid, Neo.Fixed8.Zero);  //获得tran和改变后的utxo
+        var tran: ThinNeo.Transaction = tranres.info[ 'tran' ];
         //合约类型
         tran.type = ThinNeo.TransactionType.InvocationTransaction;
         tran.extdata = new ThinNeo.InvokeTransData();
@@ -170,31 +233,5 @@ export class CoinTool
         return res;
     }
 
-
-    static async getassets(): Promise<{ [ id: string ]: UTXO[] }>
-    {
-        var utxos = await WWW.api_getUTXO(StorageTool.getStorage("current-address"));
-        var assets = {};
-        for (var i in utxos)
-        {
-            var item = utxos[ i ];
-            var txid = item.txid;
-            var n = item.n;
-            var asset = item.asset;
-            var count = item.value;
-            if (assets[ asset ] == undefined)
-            {
-                assets[ asset ] = [];
-            }
-            var utxo = new UTXO();
-            utxo.addr = item.addr;
-            utxo.asset = asset;
-            utxo.n = n;
-            utxo.txid = txid;
-            utxo.count = Neo.Fixed8.parse(count);
-            assets[ asset ].push(utxo);
-        }
-        return assets;
-    }
 
 }

@@ -84,6 +84,76 @@ export class UTXO
     n: number;
     asset: string;
     count: Neo.Fixed8;
+
+    static ArrayToString(utxos: UTXO[]): Array<any>
+    {
+        var str = "";
+        var obj = [];
+        for (var i = 0; i < utxos.length; i++)
+        {
+            obj.push({});
+            obj[ i ].n = utxos[ i ].n;
+            obj[ i ].addr = utxos[ i ].addr;
+            obj[ i ].txid = utxos[ i ].txid;
+            obj[ i ].asset = utxos[ i ].asset;
+            obj[ i ].count = utxos[ i ].count.toString();
+        }
+        return obj
+    }
+    static StringToArray(obj: Array<any>): UTXO[]
+    {
+        var utxos: Array<UTXO> = new Array<UTXO>();
+        for (var i = 0; i < obj.length; i++)
+        {
+            utxos.push(new UTXO);
+            var str: string = obj[ i ].count;
+            utxos[ i ].n = obj[ i ].n;
+            utxos[ i ].addr = obj[ i ].addr;
+            utxos[ i ].txid = obj[ i ].txid;
+            utxos[ i ].asset = obj[ i ].asset;
+            utxos[ i ].count = Neo.Fixed8.parse(str);
+        }
+        return utxos;
+    }
+
+    // static getUtxoArray(): UTXO[]
+    // {
+    //     var str = sessionStorage.getItem("current-utxo-list");
+    //     let utxos: UTXO[] = new Array<UTXO>();
+    //     if (str != null && str != '' && str != undefined)
+    //     {
+    //         utxos = UTXO.StringToArray(str);
+    //     }
+    //     return utxos;
+    // }
+    // static setUtxoArray(utxos: UTXO[])
+    // {
+    //     sessionStorage.setItem("current-utxo-list", UTXO.ArrayToString(utxos));
+    // }
+    static setAssets(assets: { [ id: string ]: UTXO[] })
+    {
+        var obj = {}
+        for (var asset in assets)
+        {
+            let arr = UTXO.ArrayToString(assets[ asset ]);
+            obj[ asset ] = arr;
+        }
+        sessionStorage.setItem("current-assets-utxos", JSON.stringify(obj));
+    }
+    static getAssets()
+    {
+        let assets = null;
+        var str = sessionStorage.getItem("current-assets-utxos");
+        if (str !== null && str != undefined && str != '')
+        {
+            assets = JSON.parse(str);
+            for (const asset in assets)
+            {
+                assets[ asset ] = UTXO.StringToArray(assets[ asset ]);
+            }
+        }
+        return assets;
+    }
 }
 
 export class Consts

@@ -63,9 +63,14 @@ export default class transfer extends Vue
     }
     async send()
     {
-        var res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount);
-        if (!res.err)
-            mui.alert(res.info);
+        try
+        {
+            var res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount);
+            mui.toast(res.info);
+        } catch (error)
+        {
+            mui.alert("-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction ");
+        }
     }
     async history()
     {
