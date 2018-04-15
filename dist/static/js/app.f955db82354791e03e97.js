@@ -7,125 +7,10 @@ webpackJsonp([1],{
 
 /***/ }),
 
-/***/ "1d4v":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "+mP0":
+/***/ (function(module, exports) {
 
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__("/5sW");
-var vue_class_component_1 = __webpack_require__("c+8m");
-var Main_vue_1 = __webpack_require__("l7Tq");
-var VLink_vue_1 = __webpack_require__("N5E8");
-var wwwtool_1 = __webpack_require__("50aY");
-var FeatureComponent = /** @class */ (function (_super) {
-    __extends(FeatureComponent, _super);
-    function FeatureComponent() {
-        var _this = _super.call(this) || this;
-        _this.balance = "";
-        _this.nns = "";
-        _this.transfer = "";
-        _this.setting = "";
-        _this.blockheight = 0;
-        return _this;
-    }
-    FeatureComponent.prototype.mounted = function () {
-        this.balance = this.$refs["balance"]["isActive"]
-            ? "icon-balance-select"
-            : "icon-balance-unselect";
-        this.transfer = this.$refs["transfer"]["isActive"]
-            ? "icon-transfer-select"
-            : "icon-transfer-unselect";
-        this.nns = this.$refs["nns"]["isActive"]
-            ? "icon-nns-select"
-            : "icon-nns-unselect";
-        this.setting = this.$refs["setting"]["isActive"]
-            ? "icon-setting-select"
-            : "icon-setting-unselect";
-        this.getHeight();
-    };
-    FeatureComponent.prototype.getHeight = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = this;
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
-                    case 1:
-                        _a.blockheight = _b.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    FeatureComponent = __decorate([
-        vue_class_component_1.default({
-            components: {
-                VLink: VLink_vue_1.default,
-                MainLayout: Main_vue_1.default
-            }
-        }),
-        __metadata("design:paramtypes", [])
-    ], FeatureComponent);
-    return FeatureComponent;
-}(vue_1.default));
-exports.default = FeatureComponent;
-
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -645,8 +530,45 @@ exports.WWW = WWW;
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var entity_1 = __webpack_require__("6nHw");
+var wwwtool_1 = __webpack_require__("50aY");
+var cointool_1 = __webpack_require__("pLPz");
 var StorageTool = /** @class */ (function () {
     function StorageTool() {
     }
@@ -663,6 +585,43 @@ var StorageTool = /** @class */ (function () {
     };
     StorageTool.getStorage = function (key) {
         return sessionStorage.getItem(key);
+    };
+    StorageTool.heightRefresh = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var oldheight, height;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        oldheight = StorageTool.getStorage("block-height");
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 1:
+                        height = _a.sent();
+                        if (oldheight == undefined || oldheight == null || oldheight == "") {
+                            StorageTool.setStorage("block-height", height.toString());
+                        }
+                        if (height - parseInt(oldheight) >= 2) {
+                            StorageTool.utxosRefresh();
+                            StorageTool.setStorage('block-height', height.toString());
+                        }
+                        setInterval(this.heightRefresh(), 30000);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    StorageTool.utxosRefresh = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var assets;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, cointool_1.CoinTool.getassets()];
+                    case 1:
+                        assets = _a.sent();
+                        entity_1.UTXO.setAssets(assets);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     return StorageTool;
 }());
@@ -765,6 +724,65 @@ exports.NeoAsset = NeoAsset;
 var UTXO = /** @class */ (function () {
     function UTXO() {
     }
+    UTXO.ArrayToString = function (utxos) {
+        var str = "";
+        var obj = [];
+        for (var i = 0; i < utxos.length; i++) {
+            obj.push({});
+            obj[i].n = utxos[i].n;
+            obj[i].addr = utxos[i].addr;
+            obj[i].txid = utxos[i].txid;
+            obj[i].asset = utxos[i].asset;
+            obj[i].count = utxos[i].count.toString();
+        }
+        return obj;
+    };
+    UTXO.StringToArray = function (obj) {
+        var utxos = new Array();
+        for (var i = 0; i < obj.length; i++) {
+            utxos.push(new UTXO);
+            var str = obj[i].count;
+            utxos[i].n = obj[i].n;
+            utxos[i].addr = obj[i].addr;
+            utxos[i].txid = obj[i].txid;
+            utxos[i].asset = obj[i].asset;
+            utxos[i].count = Neo.Fixed8.parse(str);
+        }
+        return utxos;
+    };
+    // static getUtxoArray(): UTXO[]
+    // {
+    //     var str = sessionStorage.getItem("current-utxo-list");
+    //     let utxos: UTXO[] = new Array<UTXO>();
+    //     if (str != null && str != '' && str != undefined)
+    //     {
+    //         utxos = UTXO.StringToArray(str);
+    //     }
+    //     return utxos;
+    // }
+    // static setUtxoArray(utxos: UTXO[])
+    // {
+    //     sessionStorage.setItem("current-utxo-list", UTXO.ArrayToString(utxos));
+    // }
+    UTXO.setAssets = function (assets) {
+        var obj = {};
+        for (var asset in assets) {
+            var arr = UTXO.ArrayToString(assets[asset]);
+            obj[asset] = arr;
+        }
+        sessionStorage.setItem("current-assets-utxos", JSON.stringify(obj));
+    };
+    UTXO.getAssets = function () {
+        var assets = null;
+        var str = sessionStorage.getItem("current-assets-utxos");
+        if (str !== null && str != undefined && str != '') {
+            assets = JSON.parse(str);
+            for (var asset in assets) {
+                assets[asset] = UTXO.StringToArray(assets[asset]);
+            }
+        }
+        return assets;
+    };
     return UTXO;
 }());
 exports.UTXO = UTXO;
@@ -798,13 +816,6 @@ exports.RootDomainInfo = RootDomainInfo;
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0OSAoNTEwMDIpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iYmFsYW5jZTQtdGVzdG5ldCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IummlumhtS10cmFuc2Zlci1pbnB1dDIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC05MjIuMDAwMDAwLCAtMzc4LjAwMDAwMCkiPgogICAgICAgICAgICA8ZyBpZD0idHJhbnNmZXIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwMC4wMDAwMDAsIDIyNi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSLlpKflm77moIcv6K2m5ZGKIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MjIuMDAwMDAwLCAxNTIuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTI0LDEyLjE0ODE0ODEgQzI0LDUuMzcyNDQ0NDQgMTguNjI3NTU1NiwwIDExLjg1MTg1MTksMCBDNS4zNzI0NDQ0NCwwIDAsNS4zNzI0NDQ0NCAwLDEyLjE0ODE0ODEgQzAsMTguNjI3NTU1NiA1LjM3MjQ0NDQ0LDI0IDExLjg1MTg1MTksMjQgQzE4LjYyNzU1NTYsMjQgMjQsMTguNjI3NTU1NiAyNCwxMi4xNDgxNDgxIFoiIGlkPSJGaWxsLSIgZmlsbD0iI0ZGNkE2QSI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMiw2LjQ1MTYxMjkgQzEyLjUwMjMxNTYsNi40NTE2MTI5IDEyLjg4ODU0MzcsNi44NDkxMDQ4NSAxMi44NzA0MzIzLDcuMzM5NDM2MDEgTDEyLjYzNDk0NCwxMy43MTQ4NTIgQzEyLjYxNjY3MiwxNC4yMDk1MzI0IDEyLjE5OTAyNTUsMTQuNjAyNjc1MSAxMS43MDE3NDU1LDE0LjYwMjY3NTEgTDEyLjI5ODI1NDUsMTQuNjAyNjc1MSBDMTEuODA1NTcwOSwxNC42MDI2NzUxIDExLjM4MzE2NzMsMTQuMjA1MTgzMSAxMS4zNjUwNTYsMTMuNzE0ODUyIEwxMS4xMjk1Njc3LDcuMzM5NDM2MDEgQzExLjExMTI5NTcsNi44NDQ3NTU1NyAxMS41MDExNjIyLDYuNDUxNjEyOSAxMiw2LjQ1MTYxMjkgWiBNMTIsMTcuNTQ4Mzg3MSBDMTEuNTAxMTYyMiwxNy41NDgzODcxIDExLjA5Njc3NDIsMTcuMTQzOTk5MSAxMS4wOTY3NzQyLDE2LjY0NTE2MTMgQzExLjA5Njc3NDIsMTYuMTQ2MzIzNSAxMS41MDExNjIyLDE1Ljc0MTkzNTUgMTIsMTUuNzQxOTM1NSBDMTIuNDk4ODM3OCwxNS43NDE5MzU1IDEyLjkwMzIyNTgsMTYuMTQ2MzIzNSAxMi45MDMyMjU4LDE2LjY0NTE2MTMgQzEyLjkwMzIyNTgsMTcuMTQzOTk5MSAxMi40OTg4Mzc4LDE3LjU0ODM4NzEgMTIsMTcuNTQ4Mzg3MSBaIiBpZD0iUGF0aC0iIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
-
-/***/ }),
-
-/***/ "BBLG":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1611,22 +1622,21 @@ exports.neotools = neotools;
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
-// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/layouts/wallet.vue
-var wallet = __webpack_require__("1d4v");
+// EXTERNAL MODULE: ./node_modules/ts-loader!./src/layouts/wallet.ts
+var wallet = __webpack_require__("YRcM");
 var wallet_default = /*#__PURE__*/__webpack_require__.n(wallet);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-8294906a","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-989ea100","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{ref:"balance",attrs:{"href":"#balance"}},[_c('span',{class:[_vm.balance]}),_vm._v(" Balance\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"transfer",attrs:{"href":"#transfer"}},[_c('span',{class:[_vm.transfer]}),_vm._v(" Transfer\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nns",attrs:{"href":"#nns"}},[_c('span',{class:[_vm.nns]}),_vm._v(" NNS\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"setting",attrs:{"href":"#settings"}},[_c('span',{class:[_vm.setting]}),_vm._v(" Settings\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"blockheight"},[_vm._v("Block Height："+_vm._s(_vm.blockheight))])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_wallet = (esExports);
 // CONCATENATED MODULE: ./src/layouts/wallet.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("BBLG")
+  __webpack_require__("+mP0")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 /* template */
 
 /* template functional */
@@ -1692,6 +1702,131 @@ var Component = normalizeComponent(
 )
 
 /* harmony default export */ var src_pages_balance = __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ "YRcM":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("/5sW");
+var vue_class_component_1 = __webpack_require__("c+8m");
+var Main_vue_1 = __webpack_require__("l7Tq");
+var VLink_vue_1 = __webpack_require__("N5E8");
+var wwwtool_1 = __webpack_require__("50aY");
+var storagetool_1 = __webpack_require__("5LD5");
+var FeatureComponent = /** @class */ (function (_super) {
+    __extends(FeatureComponent, _super);
+    function FeatureComponent() {
+        var _this = _super.call(this) || this;
+        _this.balance = "";
+        _this.nns = "";
+        _this.transfer = "";
+        _this.setting = "";
+        _this.blockheight = 0;
+        return _this;
+    }
+    FeatureComponent.prototype.mounted = function () {
+        this.balance = this.$refs["balance"]["isActive"]
+            ? "icon-balance-select"
+            : "icon-balance-unselect";
+        this.transfer = this.$refs["transfer"]["isActive"]
+            ? "icon-transfer-select"
+            : "icon-transfer-unselect";
+        this.nns = this.$refs["nns"]["isActive"]
+            ? "icon-nns-select"
+            : "icon-nns-unselect";
+        this.setting = this.$refs["setting"]["isActive"]
+            ? "icon-setting-select"
+            : "icon-setting-unselect";
+        this.getHeight();
+        storagetool_1.StorageTool.heightRefresh();
+    };
+    FeatureComponent.prototype.getHeight = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this;
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 1:
+                        _a.blockheight = _b.sent();
+                        setInterval(this.getHeight(), 30000);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    FeatureComponent = __decorate([
+        vue_class_component_1.default({
+            components: {
+                VLink: VLink_vue_1.default,
+                MainLayout: Main_vue_1.default
+            }
+        }),
+        __metadata("design:paramtypes", [])
+    ], FeatureComponent);
+    return FeatureComponent;
+}(vue_1.default));
+exports.default = FeatureComponent;
 
 
 /***/ }),
@@ -2493,15 +2628,21 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.send = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var res, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount)];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount)];
                     case 1:
                         res = _a.sent();
-                        if (!res.err)
-                            mui.alert(res.info);
-                        return [2 /*return*/];
+                        mui.toast(res.info);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        mui.alert("-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction ");
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -2801,9 +2942,54 @@ var CoinTool = /** @class */ (function () {
             });
         });
     };
+    /**
+     * 获得utxos
+     */
+    CoinTool.getassets = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var assets, utxos, i, item, txid, n, asset, count, utxo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        assets = entity_1.UTXO.getAssets();
+                        if (!(assets == null)) return [3 /*break*/, 2];
+                        assets = {};
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getUTXO(storagetool_1.StorageTool.getStorage("current-address"))];
+                    case 1:
+                        utxos = _a.sent();
+                        for (i in utxos) {
+                            item = utxos[i];
+                            txid = item.txid;
+                            n = item.n;
+                            asset = item.asset;
+                            count = item.value;
+                            if (assets[asset] == undefined || assets[asset] == null) {
+                                assets[asset] = [];
+                            }
+                            utxo = new entity_1.UTXO();
+                            utxo.addr = item.addr;
+                            utxo.asset = asset;
+                            utxo.n = n;
+                            utxo.txid = txid;
+                            utxo.count = Neo.Fixed8.parse(count);
+                            assets[asset].push(utxo);
+                        }
+                        _a.label = 2;
+                    case 2: return [2 /*return*/, assets];
+                }
+            });
+        });
+    };
     CoinTool.makeTran = function (utxos, targetaddr, assetid, sendcount) {
         //if (sendcount.compareTo(Neo.Fixed8.Zero) <= 0)
         //    throw new Error("can not send zero.");
+        var res = new entity_1.Result();
+        var us = utxos[assetid];
+        if (us == undefined) {
+            // res.err = true;
+            // res.info = "no enough money.";
+            throw new Error("no enough money.");
+        }
         var tran = new ThinNeo.Transaction();
         tran.type = ThinNeo.TransactionType.ContractTransaction;
         tran.version = 0; //0 or 1
@@ -2814,18 +3000,19 @@ var CoinTool = /** @class */ (function () {
         utxos[assetid].sort(function (a, b) {
             return a.count.compareTo(b.count);
         });
-        var us = utxos[assetid];
         var count = Neo.Fixed8.Zero;
+        var clonearr = [].concat(us); //用于返回剩余可用的utxo
         for (var i = 0; i < us.length; i++) {
             var input = new ThinNeo.TransactionInput();
             input.hash = us[i].txid.hexToBytes().reverse();
             input.index = us[i].n;
             input["_addr"] = us[i].addr; //利用js的隨意性，臨時傳個值
-            tran.inputs.push(input);
-            count = count.add(us[i].count);
+            tran.inputs.push(input); //将utxo塞入input
+            count = count.add(us[i].count); //添加至count中
             scraddr = us[i].addr;
+            clonearr.shift(); //删除已塞入的utxo
             if (count.compareTo(sendcount) > 0) {
-                break;
+                break; //如果足够则跳出循环
             }
         }
         if (count.compareTo(sendcount) >= 0) {
@@ -2847,15 +3034,17 @@ var CoinTool = /** @class */ (function () {
                 outputchange.assetId = assetid.hexToBytes().reverse();
                 tran.outputs.push(outputchange);
             }
+            res.err = false;
+            res.info = { "tran": tran, "clonearr": clonearr };
         }
         else {
             throw new Error("no enough money.");
         }
-        return tran;
+        return res;
     };
     CoinTool.rawTransaction = function (targetaddr, asset, count) {
         return __awaiter(this, void 0, void 0, function () {
-            var arr, add, n, _count, utxo, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, result;
+            var arr, add, n, _count, utxos, tranres, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, result, us, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2865,8 +3054,12 @@ var CoinTool = /** @class */ (function () {
                         _count = Neo.Fixed8.parse(count + "");
                         return [4 /*yield*/, CoinTool.getassets()];
                     case 1:
-                        utxo = _a.sent();
-                        tran = CoinTool.makeTran(utxo, targetaddr, asset, _count);
+                        utxos = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        tranres = CoinTool.makeTran(utxos, targetaddr, asset, _count);
+                        tran = tranres.info['tran'];
                         if (tran.witnesses == null)
                             tran.witnesses = [];
                         txid = tran.GetHash().clone().reverse().toHexString();
@@ -2879,18 +3072,30 @@ var CoinTool = /** @class */ (function () {
                         data = tran.GetRawData();
                         res = new entity_1.Result();
                         return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
-                    case 2:
+                    case 3:
                         result = _a.sent();
-                        res.err = !result;
-                        res.info = txid;
+                        if (result["sendrawtransactionresult"]) {
+                            res.err = !result;
+                            res.info = txid;
+                            us = tranres.info['clonearr'];
+                            if (us.length)
+                                utxos[asset] = us;
+                            else
+                                delete utxos[asset];
+                            entity_1.UTXO.setAssets(utxos);
+                        }
                         return [2 /*return*/, res];
+                    case 4:
+                        error_1 = _a.sent();
+                        throw error_1;
+                    case 5: return [2 /*return*/];
                 }
             });
         });
     };
     CoinTool.contractTransaction = function (sb) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxo, targeraddr, current, assetid, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, result;
+            var utxo, targeraddr, current, assetid, tranres, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, CoinTool.getassets()];
@@ -2899,7 +3104,8 @@ var CoinTool = /** @class */ (function () {
                         targeraddr = entity_1.LoginInfo.getCurrentAddress();
                         current = entity_1.LoginInfo.getCurrentLogin();
                         assetid = CoinTool.id_GAS;
-                        tran = CoinTool.makeTran(utxo, targeraddr, assetid, Neo.Fixed8.Zero);
+                        tranres = CoinTool.makeTran(utxo, targeraddr, assetid, Neo.Fixed8.Zero);
+                        tran = tranres.info['tran'];
                         //合约类型
                         tran.type = ThinNeo.TransactionType.InvocationTransaction;
                         tran.extdata = new ThinNeo.InvokeTransData();
@@ -2926,37 +3132,6 @@ var CoinTool = /** @class */ (function () {
                         res.err = !result;
                         res.info = txid;
                         return [2 /*return*/, res];
-                }
-            });
-        });
-    };
-    CoinTool.getassets = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var utxos, assets, i, item, txid, n, asset, count, utxo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, wwwtool_1.WWW.api_getUTXO(storagetool_1.StorageTool.getStorage("current-address"))];
-                    case 1:
-                        utxos = _a.sent();
-                        assets = {};
-                        for (i in utxos) {
-                            item = utxos[i];
-                            txid = item.txid;
-                            n = item.n;
-                            asset = item.asset;
-                            count = item.value;
-                            if (assets[asset] == undefined) {
-                                assets[asset] = [];
-                            }
-                            utxo = new entity_1.UTXO();
-                            utxo.addr = item.addr;
-                            utxo.asset = asset;
-                            utxo.n = n;
-                            utxo.txid = txid;
-                            utxo.count = Neo.Fixed8.parse(count);
-                            assets[asset].push(utxo);
-                        }
-                        return [2 /*return*/, assets];
                 }
             });
         });
