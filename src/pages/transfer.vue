@@ -74,7 +74,7 @@
                 <div>
                     <div class="title"></div>
                     <div v-for="tx in txs" class="history" :key="tx.index">
-                        <div class="number">+&nbsp;{{tx.value}}&nbsp;{{tx.assetname}}</div>
+                        <div class="number">-&nbsp;{{tx.value}}&nbsp;{{tx.assetname}}</div>
                         <div class="address">Send to : {{tx.address}}</div>
                         <div class="time">{{tx.time}}</div>
                     </div>
@@ -141,6 +141,12 @@
 .transfer-panel .form-horizontal {
   padding-top: 2.9%;
 }
+.form-horizontal input {
+  background: #454f60;
+  border: 1px solid #b2b2b2;
+  border-radius: 5px;
+  height: 56px;
+}
 .transfer-panel span,
 .transfer-panel label {
   font-family: PingFangSC-Medium;
@@ -169,7 +175,7 @@
 .history .number {
   font-family: PingFangSC-Medium;
   font-size: 20px;
-  color: #2dde4f;
+  color: #ff6a6a;
   line-height: 20px;
 }
 .history .address {

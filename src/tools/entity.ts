@@ -123,20 +123,6 @@ export class UTXO
         return utxos;
     }
 
-    // static getUtxoArray(): UTXO[]
-    // {
-    //     var str = sessionStorage.getItem("current-utxo-list");
-    //     let utxos: UTXO[] = new Array<UTXO>();
-    //     if (str != null && str != '' && str != undefined)
-    //     {
-    //         utxos = UTXO.StringToArray(str);
-    //     }
-    //     return utxos;
-    // }
-    // static setUtxoArray(utxos: UTXO[])
-    // {
-    //     sessionStorage.setItem("current-utxo-list", UTXO.ArrayToString(utxos));
-    // }
     static setAssets(assets: { [ id: string ]: UTXO[] })
     {
         var obj = {}

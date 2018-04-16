@@ -94,6 +94,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var entity_1 = __webpack_require__("6nHw");
+var cointool_1 = __webpack_require__("pLPz");
 var WWW = /** @class */ (function () {
     function WWW() {
     }
@@ -187,6 +188,25 @@ var WWW = /** @class */ (function () {
             });
         });
     };
+    WWW.api_getnep5Balance = function (address) {
+        return __awaiter(this, void 0, void 0, function () {
+            var str, result, json, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        str = WWW.makeRpcUrl(WWW.api, "getallnep5assetofaddress", address, 1);
+                        return [4 /*yield*/, fetch(str, { "method": "get" })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        r = json["result"];
+                        return [2 /*return*/, r];
+                }
+            });
+        });
+    };
     WWW.api_getBalance = function (address) {
         return __awaiter(this, void 0, void 0, function () {
             var res, str, value, json, r, balances;
@@ -206,12 +226,7 @@ var WWW = /** @class */ (function () {
                             balances = r;
                             balances.map(function (balance) { return balance.names = balance.name.map(function (name) { return name.name; }).join('|'); });
                             balances.map(function (balance) {
-                                if (balance.asset == entity_1.AssetEnum.NEO) {
-                                    balance.names = "NEO";
-                                }
-                                if (balance.asset == entity_1.AssetEnum.GAS) {
-                                    balance.names = "GAS";
-                                }
+                                balance.names = cointool_1.CoinTool.assetID2name[balance.asset];
                             });
                             res.err = false;
                             res.info = balances;
@@ -225,20 +240,20 @@ var WWW = /** @class */ (function () {
             });
         });
     };
-    WWW.otc_getBalances = function (address) {
+    WWW.getNep5Asset = function (asset) {
         return __awaiter(this, void 0, void 0, function () {
-            var str, value, json, r;
+            var postdata, result, json, r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        str = WWW.otcgo + "/address/balances/{" + address + "}";
-                        return [4 /*yield*/, fetch(str, { "method": "get" })];
+                        postdata = WWW.makeRpcPostBody("getnep5asset", asset);
+                        return [4 /*yield*/, fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) })];
                     case 1:
-                        value = _a.sent();
-                        return [4 /*yield*/, value.json()];
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
                     case 2:
                         json = _a.sent();
-                        r = json["data"];
+                        r = json["result"][0];
                         return [2 /*return*/, r];
                 }
             });
@@ -303,28 +318,26 @@ var WWW = /** @class */ (function () {
             });
         });
     };
-    WWW.rpc_getURL = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var str, result, json, r, url;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
-                        return [4 /*yield*/, fetch(str, { "method": "get" })];
-                    case 1:
-                        result = _a.sent();
-                        return [4 /*yield*/, result.json()];
-                    case 2:
-                        json = _a.sent();
-                        r = json["result"][0];
-                        url = r.nodeList[0];
-                        WWW.rpc = url;
-                        WWW.rpcName = r.nodeType;
-                        return [2 /*return*/, url];
-                }
-            });
-        });
-    };
+    // static async rpc_getURL()
+    // {
+    //     var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
+    //     var result = await fetch(str, { "method": "get" });
+    //     var json = await result.json();
+    //     var r = json[ "result" ][ 0 ];
+    //     var url = r.nodeList[ 0 ];
+    //     WWW.rpc = url;
+    //     WWW.rpcName = r.nodeType;
+    //     return url;
+    // }
+    // 蓝鲸淘接口
+    // static async otc_getBalances(address: string)
+    // {
+    //     var str = WWW.otcgo + "/address/balances/{" + address + "}";
+    //     var value = await fetch(str, { "method": "get" });
+    //     var json = await value.json();
+    //     var r = json[ "data" ];
+    //     return r;
+    // }
     WWW.rpc_getHeight = function () {
         return __awaiter(this, void 0, void 0, function () {
             var str, result, json, r, height;
@@ -409,9 +422,6 @@ var WWW = /** @class */ (function () {
         });
     };
     WWW.api = "https://api.nel.group/api/testnet";
-    WWW.rpc = "http://47.96.168.8:20332/testnet";
-    WWW.otcgo = "http://state-api.otcgo.cn/api/v1/testnet";
-    WWW.rpcName = "";
     return WWW;
 }());
 exports.WWW = WWW;
@@ -604,6 +614,12 @@ var BalanceInfo = /** @class */ (function () {
     return BalanceInfo;
 }());
 exports.BalanceInfo = BalanceInfo;
+var Nep5Balance = /** @class */ (function () {
+    function Nep5Balance() {
+    }
+    return Nep5Balance;
+}());
+exports.Nep5Balance = Nep5Balance;
 var Result = /** @class */ (function () {
     function Result() {
     }
@@ -650,20 +666,6 @@ var UTXO = /** @class */ (function () {
         }
         return utxos;
     };
-    // static getUtxoArray(): UTXO[]
-    // {
-    //     var str = sessionStorage.getItem("current-utxo-list");
-    //     let utxos: UTXO[] = new Array<UTXO>();
-    //     if (str != null && str != '' && str != undefined)
-    //     {
-    //         utxos = UTXO.StringToArray(str);
-    //     }
-    //     return utxos;
-    // }
-    // static setUtxoArray(utxos: UTXO[])
-    // {
-    //     sessionStorage.setItem("current-utxo-list", UTXO.ArrayToString(utxos));
-    // }
     UTXO.setAssets = function (assets) {
         var obj = {};
         for (var asset in assets) {
@@ -1029,17 +1031,6 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ "BdY+":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balance.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"dropdownMenu1","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"dropdownMenu1"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + "available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"nel-input big",attrs:{"type":"text"},domProps:{"value":(_vm.targetaddr)},on:{"change":_vm.verify_addr,"input":function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_addr,"input":function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number"},[_vm._v("+ "+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v("Send to : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_vm._v(_vm._s(tx.time))])])})],2)])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
 /***/ "CT+7":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1048,13 +1039,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v("Toggle navigation")]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/#mainnet","target":"_blank"}},[_vm._v("Explorer")])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel",attrs:{"href":"#wallet"}},[_vm._v("Wallet")])])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v("MainNet")]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v("TestNet")])]),_vm._v(" "),_c('li',{staticClass:"active",attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"id":"maina"}},[_vm._v("MainNet")])])])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
-/***/ "EFy9":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1215,6 +1199,24 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_VLink = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "NHbK":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "OJbS":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v("NEO Balance")]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v("Key Address ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),_c('button',{staticClass:"btn",class:_vm.chooseAddress && _vm.chooseAddress.length>1 ? 'btn-nel' : 'btn-disabled'},[_vm._v("Switch")])])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v("GAS available to claim : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim>0)?_c('button',{staticClass:"btn btn-nel"},[_vm._v("Claim")]):_vm._e()])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Asset")])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v("Transfer")])])])])})],2):_vm._e()])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -1529,9 +1531,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts__ = __webpack_require__("SUg6");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_f4f4d4cc_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_balance_vue__ = __webpack_require__("pNqq");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_cace634e_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_balance_vue__ = __webpack_require__("OJbS");
 function injectStyle (ssrContext) {
-  __webpack_require__("bxiG")
+  __webpack_require__("s/Bl")
 }
 var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
@@ -1548,7 +1550,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__ts_loader_balance_ts___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_f4f4d4cc_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_balance_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_cace634e_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_balance_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -1650,17 +1652,10 @@ var balance = /** @class */ (function (_super) {
         this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
         this.getBalances();
     };
-    balance.prototype.getNeoasset = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    };
     balance.prototype.getBalances = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var res, clamis;
+            var res, clamis, nep5balances, index, nep5, nep5b;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1671,6 +1666,9 @@ var balance = /** @class */ (function (_super) {
                         return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(this.currentAddress)];
                     case 2:
                         clamis = _a.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getnep5Balance(this.currentAddress)];
+                    case 3:
+                        nep5balances = _a.sent();
                         if (res.err) {
                             // mui.alert("Current address balance is empty -_-!");
                         }
@@ -1685,8 +1683,19 @@ var balance = /** @class */ (function (_super) {
                                     _this.neoasset.gas = balance.balance;
                                 }
                             });
-                            storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
                         }
+                        if (nep5balances != undefined && nep5balances.length > 0) {
+                            for (index = 0; index < nep5balances.length; index++) {
+                                nep5 = nep5balances[index];
+                                nep5b = new entity_1.BalanceInfo();
+                                nep5b.asset = nep5.assetid;
+                                nep5b.balance = nep5.balance;
+                                nep5b.names = nep5.symbol;
+                                nep5b.type = "nep5";
+                                this.balances.push(nep5b);
+                            }
+                        }
+                        storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
                         return [2 /*return*/];
                 }
             });
@@ -1843,10 +1852,12 @@ var NNSTool = /** @class */ (function () {
                         domains = _a.sent();
                         sb = new ThinNeo.ScriptBuilder();
                         scriptaddress = NNSTool.root_test.register;
+                        sb.EmitPushNumber(new Neo.BigInteger(232323));
+                        sb.Emit(ThinNeo.OpCode.DROP);
                         sb.EmitParamJson(["(addr)" + entity_1.LoginInfo.getCurrentAddress(), "(bytes)" + nnshash.toHexString(), "(str)" + subdomain]); //第二个参数是个数组
                         sb.EmitPushString("requestSubDomain"); //第一个参数
                         sb.EmitAppCall(scriptaddress); //资产合约
-                        res = cointool_1.CoinTool.contractTransaction(sb);
+                        res = cointool_1.CoinTool.contractInvokeTrans(sb.ToArray());
                         return [2 /*return*/, res];
                 }
             });
@@ -2204,10 +2215,14 @@ exports.NNSTool = NNSTool;
 
 /***/ }),
 
-/***/ "bxiG":
-/***/ (function(module, exports) {
+/***/ "cdAW":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"nel-input big",attrs:{"type":"text"},domProps:{"value":(_vm.targetaddr)},on:{"change":_vm.verify_addr,"input":function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_addr,"input":function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number"},[_vm._v("- "+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v("Send to : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_vm._v(_vm._s(tx.time))])])})],2)])])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -2305,9 +2320,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts__ = __webpack_require__("snhR");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_01c3fb0a_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_transfer_vue__ = __webpack_require__("BdY+");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_5230b8b9_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_transfer_vue__ = __webpack_require__("cdAW");
 function injectStyle (ssrContext) {
-  __webpack_require__("EFy9")
+  __webpack_require__("NHbK")
 }
 var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
@@ -2324,7 +2339,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__ts_loader_transfer_ts___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_01c3fb0a_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_transfer_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_5230b8b9_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_transfer_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -2569,45 +2584,69 @@ var CoinTool = /** @class */ (function () {
             });
         });
     };
-    CoinTool.contractTransaction = function (sb) {
+    CoinTool.contractInvokeTrans = function (script) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxo, targeraddr, current, assetid, tranres, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, result;
+            var current, addr, tran, msg, pubkey, prekey, signdata, data, res, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, CoinTool.getassets()];
-                    case 1:
-                        utxo = _a.sent();
-                        targeraddr = entity_1.LoginInfo.getCurrentAddress();
+                    case 0:
                         current = entity_1.LoginInfo.getCurrentLogin();
-                        assetid = CoinTool.id_GAS;
-                        tranres = CoinTool.makeTran(utxo, targeraddr, assetid, Neo.Fixed8.Zero);
-                        tran = tranres.info['tran'];
+                        addr = current.address;
+                        tran = new ThinNeo.Transaction();
                         //合约类型
+                        tran.inputs = [];
+                        tran.outputs = [];
                         tran.type = ThinNeo.TransactionType.InvocationTransaction;
                         tran.extdata = new ThinNeo.InvokeTransData();
                         //塞入脚本
-                        tran.extdata.script = sb.ToArray();
-                        //估计一个gas用量
-                        //如果估计gas用量少了，智能合约执行会失败。
-                        //如果估计gas用量>10,交易必须丢弃gas，否则智能合约执行会失败
-                        tran.extdata.gas = Neo.Fixed8.fromNumber(1.0);
+                        tran.extdata.script = script;
+                        tran.attributes = new Array(1);
+                        tran.attributes[0] = new ThinNeo.Attribute();
+                        tran.attributes[0].usage = ThinNeo.TransactionAttributeUsage.Script;
+                        tran.attributes[0].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
                         if (tran.witnesses == null)
                             tran.witnesses = [];
-                        txid = tran.GetHash().clone().reverse().toHexString();
                         msg = tran.GetMessage().clone();
                         pubkey = current.pubkey.clone();
                         prekey = current.prikey.clone();
-                        addr = current.address;
                         signdata = ThinNeo.Helper.Sign(msg, prekey);
                         tran.AddWitness(signdata, pubkey, addr);
                         data = tran.GetRawData();
                         res = new entity_1.Result();
                         return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
-                    case 2:
+                    case 1:
                         result = _a.sent();
                         res.err = !result;
-                        res.info = txid;
+                        res.info = "成功";
                         return [2 /*return*/, res];
+                }
+            });
+        });
+    };
+    CoinTool.nep5Transaction = function (address, tatgeraddr, asset, amount) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, decimals, numarr, v, i, bnum, intv, sb, scriptaddress;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
+                    case 1:
+                        res = _a.sent();
+                        decimals = res["decimals"];
+                        numarr = amount.split(".");
+                        decimals -= (numarr.length == 1 ? 0 : numarr[1].length);
+                        v = 1;
+                        for (i = 0; i < decimals; i++) {
+                            v *= 10;
+                        }
+                        bnum = new Neo.BigInteger(amount.replace(".", ""));
+                        intv = bnum.multiply(v).toString();
+                        sb = new ThinNeo.ScriptBuilder();
+                        scriptaddress = asset.hexToBytes().reverse();
+                        sb.EmitParamJson(["(address)" + address, "(address)" + tatgeraddr, "(integer)" + intv]); //第二个参数是个数组
+                        sb.EmitPushString("transfer"); //第一个参数
+                        sb.EmitAppCall(scriptaddress); //资产合约
+                        CoinTool.contractInvokeTrans(sb.ToArray());
+                        return [2 /*return*/];
                 }
             });
         });
@@ -2623,14 +2662,10 @@ exports.CoinTool = CoinTool;
 
 /***/ }),
 
-/***/ "pNqq":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "s/Bl":
+/***/ (function(module, exports) {
 
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v("NEO Balance")]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v("Key Address ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),_c('button',{staticClass:"btn",class:_vm.chooseAddress && _vm.chooseAddress.length>1 ? 'btn-nel' : 'btn-disabled'},[_vm._v("Switch")])])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v("GAS available to claim : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim>0)?_c('button',{staticClass:"btn btn-nel"},[_vm._v("Claim")]):_vm._e()])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Asset")])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-lg-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-lg-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-lg-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v("Transfer")])])])])})],2):_vm._e()])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -2719,19 +2754,18 @@ var transfer = /** @class */ (function (_super) {
         return _this;
     }
     transfer.prototype.mounted = function () {
-        // var str = StorageTool.getStorage("balances_asset");
-        // if (str == null)
-        //     this.balances = new Array<BalanceInfo>();
-        // else
-        // {
-        //     this.balances = JSON.parse(str) as BalanceInfo[];
-        //     var choose = StorageTool.getStorage("transfer_choose");
-        //     this.asset = (choose == null ? this.balances[ 0 ].asset : choose);
-        //     var n: number = this.balances.findIndex(b => b.asset == this.asset);
-        //     this.balance = this.balances[ n ];
-        //     this.history();
-        // }
-        this.history();
+        var _this = this;
+        var str = storagetool_1.StorageTool.getStorage("balances_asset");
+        if (str == null)
+            this.balances = new Array();
+        else {
+            this.balances = JSON.parse(str);
+            var choose = storagetool_1.StorageTool.getStorage("transfer_choose");
+            this.asset = (choose == null ? this.balances[0].asset : choose);
+            var n = this.balances.findIndex(function (b) { return b.asset == _this.asset; });
+            this.balance = this.balances[n];
+            this.history();
+        }
     };
     transfer.prototype.choose = function (assetid) {
         var _this = this;
@@ -2750,21 +2784,27 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.send = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, error_1;
+            var res, res, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount)];
+                        _a.trys.push([0, 5, , 6]);
+                        if (!(this.balance.type == "nep5")) return [3 /*break*/, 2];
+                        return [4 /*yield*/, cointool_1.CoinTool.nep5Transaction(entity_1.LoginInfo.getCurrentAddress(), this.targetaddr, this.asset, this.amount)];
                     case 1:
                         res = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 2: return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount)];
+                    case 3:
+                        res = _a.sent();
                         mui.toast(res.info);
-                        return [3 /*break*/, 3];
-                    case 2:
+                        _a.label = 4;
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
                         error_1 = _a.sent();
                         mui.alert("-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction ");
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 6];
+                    case 6: return [2 /*return*/];
                 }
             });
         });

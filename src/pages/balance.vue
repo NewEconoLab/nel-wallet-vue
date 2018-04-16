@@ -30,13 +30,13 @@
                 </div>
                 <div v-for="balance in balances" :key="balance.asset" class="assetrow">
                     <div class="row">
-                        <div class="col-lg-2 info">
+                        <div class="col-sm-2 info">
                             <span>{{balance.names}}</span>
                         </div>
-                        <div class="col-lg-8 info">
+                        <div class="col-sm-8 info">
                             <span> {{balance.balance}}</span>
                         </div>
-                        <div class="col-lg-2 transfer-btn">
+                        <div class="col-sm-2 transfer-btn">
                             <span class="btn btn-transfer" @click="toTransfer(balance.asset)">Transfer</span>
                         </div>
                     </div>

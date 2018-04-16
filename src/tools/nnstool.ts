@@ -62,7 +62,7 @@ export class NNSTool
         sb.EmitParamJson([ "(addr)" + LoginInfo.getCurrentAddress(), "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
         sb.EmitPushString("requestSubDomain");//第一个参数
         sb.EmitAppCall(scriptaddress);  //资产合约
-        var res = CoinTool.contractTransaction(sb.ToArray());
+        var res = CoinTool.contractInvokeTrans(sb.ToArray());
         return res;
     }
 

@@ -68,7 +68,7 @@ export default class balance extends Vue
         }
         )
     }
-    if (nep5balances.length > 0)
+    if (nep5balances != undefined && nep5balances.length > 0)
     {
       for (let index = 0; index < nep5balances.length; index++)
       {
