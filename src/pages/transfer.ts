@@ -78,8 +78,8 @@ export default class transfer extends Vue
     }
     async history()
     {
-        var address = "ARFe4mTKRTETerRoMsyzBXoPt2EKBvBXFX";
-        var res = await WWW.api_getAddressTxs("ARFe4mTKRTETerRoMsyzBXoPt2EKBvBXFX", 20, 1) as Transactionforaddr[];
+        var address = LoginInfo.getCurrentAddress();
+        var res = await WWW.api_getAddressTxs(address, 20, 1) as Transactionforaddr[];
         console.log(res);
         var showtxs: Array<History> = [];
 
