@@ -1,5 +1,5 @@
 import { CoinTool } from './../tools/cointool';
-import { LoginInfo, BalanceInfo, Result, NeoAsset } from './../tools/entity';
+import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance } from './../tools/entity';
 import { StorageTool } from './../tools/storagetool';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
@@ -34,14 +34,10 @@ export default class balance extends Vue
     this.chooseAddress = StorageTool.getLoginArr();
   }
   // Component method
-  mounted() 
+  mounted()
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
     this.getBalances();
-  }
-
-  async getNeoasset()
-  {
   }
 
   async getBalances()
@@ -49,6 +45,7 @@ export default class balance extends Vue
     CoinTool.initAllAsset();
     var res: Result = await WWW.api_getBalance(this.currentAddress);
     var clamis = await WWW.api_getclaimgas(this.currentAddress);
+    var nep5balances = await WWW.api_getnep5Balance(this.currentAddress) as Nep5Balance[];
     if (res.err)
     {
       // mui.alert("Current address balance is empty -_-!");
@@ -70,8 +67,21 @@ export default class balance extends Vue
           }
         }
         )
-      StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
     }
+    if (nep5balances.length > 0)
+    {
+      for (let index = 0; index < nep5balances.length; index++)
+      {
+        const nep5 = nep5balances[ index ];
+        var nep5b: BalanceInfo = new BalanceInfo();
+        nep5b.asset = nep5.assetid;
+        nep5b.balance = nep5.balance;
+        nep5b.names = nep5.symbol;
+        nep5b.type = "nep5";
+        this.balances.push(nep5b);
+      }
+    }
+    StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
   }
 
   toTransfer(asset: string)

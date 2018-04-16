@@ -56,10 +56,13 @@ export class NNSTool
         let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         var sb = new ThinNeo.ScriptBuilder();
         var scriptaddress = NNSTool.root_test.register;
+        sb.EmitPushNumber(new Neo.BigInteger(232323));
+        sb.Emit(ThinNeo.OpCode.DROP);
+
         sb.EmitParamJson([ "(addr)" + LoginInfo.getCurrentAddress(), "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
         sb.EmitPushString("requestSubDomain");//第一个参数
         sb.EmitAppCall(scriptaddress);  //资产合约
-        var res = CoinTool.contractTransaction(sb);
+        var res = CoinTool.contractTransaction(sb.ToArray());
         return res;
     }
 

@@ -1,10 +1,8 @@
 import { Result, BalanceInfo, AssetEnum } from './entity';
+import { CoinTool } from './cointool';
 export class WWW
 {
     static api: string = "https://api.nel.group/api/testnet";
-    static rpc: string = "http://47.96.168.8:20332/testnet";
-    static otcgo: string = "http://state-api.otcgo.cn/api/v1/testnet";
-    static rpcName: string = "";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
         if (url[ url.length - 1 ] != '/')
@@ -59,7 +57,14 @@ export class WWW
         var json = await result.json();
         var r = json[ "result" ];
         return r;
-
+    }
+    static async api_getnep5Balance(address: string)
+    {
+        var str = WWW.makeRpcUrl(WWW.api, "getallnep5assetofaddress", address, 1);
+        var result = await fetch(str, { "method": "get" });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
     }
     static async api_getBalance(address: string)
     {
@@ -74,14 +79,7 @@ export class WWW
             balances.map(balance => balance.names = balance.name.map(name => name.name).join('|'));
             balances.map((balance) =>
             {
-                if (balance.asset == AssetEnum.NEO)
-                {
-                    balance.names = "NEO";
-                }
-                if (balance.asset == AssetEnum.GAS)
-                {
-                    balance.names = "GAS";
-                }
+                balance.names = CoinTool.assetID2name[ balance.asset ];
             });
             res.err = false;
             res.info = balances;
@@ -93,12 +91,12 @@ export class WWW
         return res;
     }
 
-    static async otc_getBalances(address: string)
+    static async getNep5Asset(asset: string)
     {
-        var str = WWW.otcgo + "/address/balances/{" + address + "}";
-        var value = await fetch(str, { "method": "get" });
-        var json = await value.json();
-        var r = json[ "data" ];
+        var postdata = WWW.makeRpcPostBody("getnep5asset", asset);
+        var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ][ 0 ];
         return r;
     }
 
@@ -131,17 +129,27 @@ export class WWW
         return r[ 0 ][ "gas" ];
     }
 
-    static async rpc_getURL()
-    {
-        var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
-        var result = await fetch(str, { "method": "get" });
-        var json = await result.json();
-        var r = json[ "result" ][ 0 ];
-        var url = r.nodeList[ 0 ];
-        WWW.rpc = url;
-        WWW.rpcName = r.nodeType;
-        return url;
-    }
+    // static async rpc_getURL()
+    // {
+    //     var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
+    //     var result = await fetch(str, { "method": "get" });
+    //     var json = await result.json();
+    //     var r = json[ "result" ][ 0 ];
+    //     var url = r.nodeList[ 0 ];
+    //     WWW.rpc = url;
+    //     WWW.rpcName = r.nodeType;
+    //     return url;
+    // }
+    // 蓝鲸淘接口
+    // static async otc_getBalances(address: string)
+    // {
+    //     var str = WWW.otcgo + "/address/balances/{" + address + "}";
+    //     var value = await fetch(str, { "method": "get" });
+    //     var json = await value.json();
+    //     var r = json[ "data" ];
+    //     return r;
+    // }
+
 
     static async  rpc_getHeight()
     {

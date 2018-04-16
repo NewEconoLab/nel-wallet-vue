@@ -174,6 +174,7 @@ export class CoinTool
             var addr = arr[ n ].address;
             var signdata = ThinNeo.Helper.Sign(msg, prekey);
             tran.AddWitness(signdata, pubkey, addr);
+
             var data: Uint8Array = tran.GetRawData();
 
             var res: Result = new Result();
@@ -197,26 +198,30 @@ export class CoinTool
     }
 
 
-    static async contractTransaction(sb: ThinNeo.ScriptBuilder)
+    static async contractTransaction(script: Uint8Array)
     {
-        var utxo = await CoinTool.getassets();
-        let targeraddr = LoginInfo.getCurrentAddress();//给自己转账
+        // var utxo = await CoinTool.getassets();
         let current: LoginInfo = LoginInfo.getCurrentLogin();
         let assetid = CoinTool.id_GAS;
         //let _count = Neo.Fixed8.Zero;   //十个gas内都不要钱滴
-        var tranres = CoinTool.makeTran(utxo, targeraddr, assetid, Neo.Fixed8.Zero);  //获得tran和改变后的utxo
-        var tran: ThinNeo.Transaction = tranres.info[ 'tran' ];
+        // var tranres = CoinTool.makeTran(utxo, targeraddr, assetid, Neo.Fixed8.Zero);  //获得tran和改变后的utxo
+        var tran: ThinNeo.Transaction = new ThinNeo.Transaction();
         //合约类型
         tran.type = ThinNeo.TransactionType.InvocationTransaction;
         tran.extdata = new ThinNeo.InvokeTransData();
         //塞入脚本
-        (tran.extdata as ThinNeo.InvokeTransData).script = sb.ToArray();
+        (tran.extdata as ThinNeo.InvokeTransData).script = script;
+        var addr = current.address;
+        tran.attributes = new ThinNeo.Attribute[ 1 ];
+        tran.attributes[ 0 ] = new ThinNeo.Attribute();
+        tran.attributes[ 0 ].usage = ThinNeo.TransactionAttributeUsage.Script;
+        tran.attributes[ 0 ].data = addr.hexToBytes();
         //估计一个gas用量
         //如果估计gas用量少了，智能合约执行会失败。
         //如果估计gas用量>10,交易必须丢弃gas，否则智能合约执行会失败
-        (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(1.0);
-        if (tran.witnesses == null)
-            tran.witnesses = [];
+        // (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(1.0);
+        // if (tran.witnesses == null)
+        //     tran.witnesses = [];
         let txid = tran.GetHash().clone().reverse().toHexString();
         var msg = tran.GetMessage().clone();
         var pubkey = current.pubkey.clone();
@@ -231,6 +236,28 @@ export class CoinTool
         res.err = !result;
         res.info = txid;
         return res;
+    }
+
+    static async nep5Transaction(address: string, tatgeraddr, asset: string, amount: string)
+    {
+        let res = await WWW.getNep5Asset(asset);
+        var decimals = res[ "decimals" ] as number;
+        var numarr = amount.split(".");
+        decimals -= (numarr.length == 1 ? 0 : numarr[ 1 ].length);
+
+        var v = 1;
+        for (var i = 0; i < decimals; i++)
+        {
+            v *= 10;
+        }
+        var bnum = new Neo.BigInteger(amount.replace(".", ""));
+        var intv = bnum.multiply(v).toString();
+
+        var sb = new ThinNeo.ScriptBuilder();
+        var scriptaddress = asset.hexToBytes().reverse();
+        sb.EmitParamJson([ "(address)" + address, "(address)" + tatgeraddr, "(integer)" + amount ]);//第二个参数是个数组
+        sb.EmitPushString("transfer");//第一个参数
+        sb.EmitAppCall(scriptaddress);  //资产合约
     }
 
 

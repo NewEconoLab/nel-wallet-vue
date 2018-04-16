@@ -12,13 +12,13 @@
                         <label for="firstname" class="col-sm-2 control-label" style="padding-top:20px;">Asset：</label>
                         <div class="col-sm-3">
                             <div class="dropdown">
-                                <div type="button" class="btn dropdown-toggle select-nel" id="dropdownMenu1" data-toggle="dropdown" :class="balance.length>0 ? '' : 'select-disabled' ">
+                                <div type="button" class="btn dropdown-toggle select-nel" id="assets" data-toggle="dropdown" :class="balances.length>0 ? '' : 'select-disabled' ">
                                     <div class="select-title">{{balance.names}}</div>
                                     <div class="select-caret">
                                         <span class="caret"></span>
                                     </div>
                                 </div>
-                                <ul class="dropdown-menu dropdown-nel" role="menu" aria-labelledby="dropdownMenu1">
+                                <ul class="dropdown-menu dropdown-nel" role="menu" aria-labelledby="assets">
                                     <li role="presentation" v-for="balance in balances" :key="balance.asset" :value="balance.asset">
                                         <a role="menuitem" tabindex="-1" @click="choose(balance.asset)">{{balance.names}}</a>
                                     </li>
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4" style="padding-top:20px;">
-                            <span> &nbsp;&nbsp;&nbsp;&nbsp; {{balance.balance}} {{balance.names ? balance.names + "available" : ""}} </span>
+                            <span> &nbsp;&nbsp;&nbsp;&nbsp; {{balance.balance}} {{balance.names ? balance.names + " available" : ""}} </span>
                         </div>
                     </div>
                     <div class="col-sm-12" :class="addrerr!=''?(addrerr == 'true' ?'err':'success') :''">

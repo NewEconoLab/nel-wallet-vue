@@ -58,6 +58,13 @@ export class BalanceInfo
     type: string;
 }
 
+export class Nep5Balance
+{
+    assetid: string;
+    symbol: string;
+    balance: number;
+}
+
 export class Result
 {
     err: boolean;
