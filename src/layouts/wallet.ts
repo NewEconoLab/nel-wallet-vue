@@ -49,7 +49,7 @@ export default class FeatureComponent extends Vue
     async getHeight()
     {
         this.blockheight = await WWW.api_getHeight();
-        setInterval(this.getHeight(), 30000);
+        // setInterval(this.getHeight(), 30000);
     }
 
 }

@@ -64,6 +64,24 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div class="title">
+                <span>History</span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="history-panel">
+                <div>
+                    <div class="title"></div>
+                    <div v-for="tx in txs" class="history" :key="tx.index">
+                        <div class="number">+&nbsp;{{tx.value}}&nbsp;{{tx.assetname}}</div>
+                        <div class="address">Send to : {{tx.address}}</div>
+                        <div class="time">{{tx.time}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </wallet-layout>
 </template>
 
@@ -114,7 +132,8 @@
   line-height: 30px;
 }
 .transfer-panel {
-  background: #ffffff;
+  background: #454f60;
+  color: #ffffff;
   border-radius: 5px;
   width: 1080px;
   height: 414px;
@@ -134,6 +153,39 @@
   font-size: 16px;
   color: #198cee;
   line-height: 16px;
+}
+.history-panel {
+  background: #454f60;
+  color: #ffffff;
+  border-radius: 5px;
+}
+.history {
+  border: 1px solid #b2b2b2;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  margin-left: 30px;
+  width: 872px;
+}
+.history .number {
+  font-family: PingFangSC-Medium;
+  font-size: 20px;
+  color: #2dde4f;
+  line-height: 20px;
+}
+.history .address {
+  font-family: PingFangSC-Medium;
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 16px;
+}
+.history > div {
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+.history .time {
+  border-top: 1px solid #b2b2b2;
 }
 </style>
 

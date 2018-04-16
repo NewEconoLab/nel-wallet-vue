@@ -174,4 +174,14 @@ export class WWW
         var r = json[ "result" ][ 0 ]
         return r;
     }
+    static async getrawtransaction(txid: string)
+    {
+        var str = WWW.makeRpcUrl(WWW.api, "getrawtransaction", txid);
+        var result = await fetch(str, { "method": "get" });
+        var json = await result.json();
+        if (json[ "result" ] == null)
+            return null;
+        var r = json[ "result" ][ 0 ]
+        return r;
+    }
 }

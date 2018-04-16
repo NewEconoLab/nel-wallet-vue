@@ -179,3 +179,23 @@ export class RootDomainInfo extends DomainInfo
         super();
     }
 }
+
+export class Transactionforaddr
+{
+    addr: string;
+    blockindex: number;
+    blocktime: { $date: number }
+    txid: string;
+}
+export interface Transaction
+{
+    txid: string;
+    type: string;
+    vin: { txid: string, vout: number }[];
+    vout: { n: number, asset: string, value: string, address: string }[];
+}
+export class History
+{
+    n: number; asset: string; value: string; address: string; assetname: string;
+    time: string; txid: string;
+}

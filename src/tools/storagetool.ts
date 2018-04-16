@@ -35,7 +35,7 @@ export class StorageTool
             StorageTool.utxosRefresh();
             StorageTool.setStorage('block-height', height.toString());
         }
-        setInterval(this.heightRefresh(), 30000);
+        // setInterval(this.heightRefresh(), 30000);
     }
     static async utxosRefresh()
     {
