@@ -195,7 +195,7 @@ export default class login extends Vue
 
   verifyConfirm()
   {
-    if (this.walletpwd == this.confirmpwd)
+    if (this.confirmpwd && this.walletpwd == this.confirmpwd)
     {
       this.confirmerr = 'false';
       return true;

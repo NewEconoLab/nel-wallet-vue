@@ -14,7 +14,6 @@
         </div>
         <div class="container-right">
           <div v-if="moudle_nep6" class="nep6-imp">
-
             <div class="title-login">
               <span>
                 Login your wallet
@@ -48,11 +47,9 @@
             <div style="width:417px; margin:0 auto; padding-top:30px">
               <button class="btn btn-nel btn-import" @click="cutModual('wif')">Import key from WIF String </button>
             </div>
-
             <div style="width:417px; margin:0 auto; padding-top:20px;padding-bottom: 5.9%;">
               <button class="btn btn-nel btn-import" @click="cutModual('nep2')">Import key from nep2 String </button>
             </div>
-
           </div>
           <div v-if="moudle_wif" class="wif_imp">
             <div class="title-login">
@@ -188,16 +185,16 @@
   margin-top: 1%;
   padding-bottom: 10.4%;
 }
-.container-box{
+.container-box {
   width: 883px;
-  min-width:883px;
-  margin:0 auto;
+  min-width: 883px;
+  margin: 0 auto;
 }
 .container-left {
-  width:185px;
-  height:580px;
-  float:left;
-  background: #151A1E;
+  width: 185px;
+  height: 580px;
+  float: left;
+  background: #151a1e;
   border-radius: 10px 0 0 10px;
 }
 .container-left .container-icon {
@@ -242,6 +239,7 @@
 .wif_imp input {
   font-size: 16px;
   line-height: 16px;
+  height: 56px;
 }
 .back {
   padding-bottom: 8.4%;
@@ -296,14 +294,14 @@
   position: relative;
   left: 50%;
   top: -30px;
-  margin-left:-65px;
+  margin-left: -65px;
   font: normal 1.2em/20px;
   vertical-align: middle;
   text-align: center;
   border-radius: 4px;
   background-color: #ffffff;
   font-size: 14px;
-  color: #B2B2B2;
+  color: #b2b2b2;
   line-height: 14px;
 }
 .login-container {
@@ -313,8 +311,8 @@
 }
 .login-container .container-right {
   width: 680px;
-  height:580px;
-  float:right;
+  height: 580px;
+  float: right;
   background: #ffffff;
   border-radius: 0 10px 10px 0;
 }
