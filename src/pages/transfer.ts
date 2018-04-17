@@ -71,7 +71,8 @@ export default class transfer extends Vue
             if (this.balance.type == "nep5")
             {
                 let res = await CoinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.targetaddr, this.asset, this.amount);
-
+                if (!res[ "err" ])
+                    mui.toast("Your transaction has been sent, please check it later");
             } else
             {
                 let res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount);
@@ -111,7 +112,6 @@ export default class transfer extends Vue
                     history.n = element.n;
                     history.value = element.value;
                     history.asset = element.asset;
-
                     showtxs.push(history);
                 }
             }

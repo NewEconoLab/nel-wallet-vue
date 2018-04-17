@@ -17,10 +17,11 @@ declare const mui;
 export default class balance extends Vue 
 {
   // Data property
-  neoasset: NeoAsset = new NeoAsset();
-  balances: Array<BalanceInfo> = new Array();
+  neoasset: NeoAsset;
+  balances: Array<BalanceInfo>;
   currentAddress: string = "";
-  chooseAddress: Array<StorageTool> = new Array();
+  chooseAddressarr: Array<LoginInfo>;
+  chooseAddress: string = "";
 
   constructor()
   {
@@ -30,8 +31,8 @@ export default class balance extends Vue
     this.neoasset.gas = 0;
     this.neoasset.neo = 0;
     this.neoasset.claim = 0;
-    this.chooseAddress = new Array();
-    this.chooseAddress = StorageTool.getLoginArr();
+    this.chooseAddressarr = new Array();
+    this.chooseAddressarr = StorageTool.getLoginArr();
   }
   // Component method
   mounted()
@@ -39,6 +40,15 @@ export default class balance extends Vue
     this.currentAddress = LoginInfo.getCurrentAddress();
     this.getBalances();
   }
+
+  addressSwitch()
+  {
+    LoginInfo.setCurrentAddress(this.chooseAddress);
+    this.currentAddress = this.chooseAddress;
+    this.getBalances();
+  }
+
+  initAddress
 
   async getBalances()
   {

@@ -239,9 +239,7 @@ export class CoinTool
 
         var v = 1;
         for (var i = 0; i < decimals; i++)
-        {
             v *= 10;
-        }
         var bnum = new Neo.BigInteger(amount.replace(".", ""));
         var intv = bnum.multiply(v).toString();
 
@@ -250,7 +248,8 @@ export class CoinTool
         sb.EmitParamJson([ "(address)" + address, "(address)" + tatgeraddr, "(integer)" + intv ]);//第二个参数是个数组
         sb.EmitPushString("transfer");//第一个参数
         sb.EmitAppCall(scriptaddress);  //资产合约
-        CoinTool.contractInvokeTrans(sb.ToArray())
+        var result = await CoinTool.contractInvokeTrans(sb.ToArray())
+        return result;
     }
 
 

@@ -5,7 +5,7 @@
                 <span>NEO Balance</span>
                 <div style="float:right">
                     <span class="user-select-ok" style="margin-right: 11px;color:#fff;">Key Address ：{{currentAddress}}</span>
-                    <button class="btn" :class="chooseAddress && chooseAddress.length>1 ? 'btn-nel' : 'btn-disabled' ">Switch</button>
+                    <button class="btn" data-toggle="modal" data-target="#selectAddr" :class="chooseAddressarr && chooseAddressarr.length>1 ? 'btn-nel' : 'btn-disabled' ">Switch</button>
                 </div>
             </div>
             <div class="neobalance" style=" background: #454F60;border-radius: 5px;">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="balance-asset"  v-if="balances.length">
+            <div class="balance-asset" v-if="balances.length">
                 <div class="title">
                     <span>Asset</span>
                 </div>
@@ -39,6 +39,36 @@
                         <div class="col-sm-2 transfer-btn">
                             <span class="btn btn-transfer" @click="toTransfer(balance.asset)">Transfer</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 地址选框 -->
+        <div class="modal fade" id="selectAddr" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="exampleModalLabel">Choose address</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputFile">Select Nep6 File:</label>
+                                <div class="radio" id="selectAddress">
+                                    <label v-for="item in chooseAddressarr" :key="item.address">
+                                        <input type="radio" v-model="chooseAddress" :value="item.address">{{item.address}}
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addressSwitch()">confirm</button>
                     </div>
                 </div>
             </div>

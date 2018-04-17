@@ -135,7 +135,6 @@
   background: #454f60;
   color: #ffffff;
   border-radius: 5px;
-  width: 1080px;
   height: 414px;
 }
 .transfer-panel .form-horizontal {
