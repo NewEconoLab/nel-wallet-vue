@@ -1,5 +1,5 @@
 import { WWW } from './wwwtool';
-import { UTXO, Result, LoginInfo } from './entity';
+import { UTXO, Result, LoginInfo, OldUTXO } from './entity';
 import { StorageTool } from './storagetool';
 ///<reference path="./neo-ts.d.ts"/>
 
@@ -101,6 +101,7 @@ export class CoinTool
         });
         var count: Neo.Fixed8 = Neo.Fixed8.Zero;
         var clonearr = [].concat(us);       //用于返回剩余可用的utxo
+        var old: OldUTXO[] = []
         for (var i = 0; i < us.length; i++)
         {
             var input = new ThinNeo.TransactionInput();
@@ -111,6 +112,7 @@ export class CoinTool
             count = count.add(us[ i ].count);//添加至count中
             scraddr = us[ i ].addr;
             clonearr.shift();               //删除已塞入的utxo
+            old.push(new OldUTXO(us[ i ].txid, us[ i ].n));
             if (count.compareTo(sendcount) > 0) //判断输入是否足够
             {
                 break;      //如果足够则跳出循环
@@ -178,6 +180,7 @@ export class CoinTool
             var data: Uint8Array = tran.GetRawData();
 
             var res: Result = new Result();
+            var height = await WWW.api_getHeight();
             var result = await WWW.api_postRawTransaction(data);
             if (result[ "sendrawtransactionresult" ])
             {
@@ -252,5 +255,19 @@ export class CoinTool
         return result;
     }
 
+
+    static setOldutxo(utxo: OldUTXO)
+    {
+        var utxos = this.getOldutxos();
+        utxos.push(utxo);
+    }
+
+    static getOldutxos(): Array<OldUTXO>
+    {
+        var arr = new Array<OldUTXO>();
+        var str = StorageTool.getStorage("old-utxos");
+        if (str)
+            return arr;
+    }
 
 }

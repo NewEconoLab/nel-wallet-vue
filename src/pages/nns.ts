@@ -2,6 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../layouts/wallet.vue";
 import { NNSTool } from "../tools/nnstool";
+import { WWW } from "tools/wwwtool";
 
 declare const mui;
 @Component({
@@ -22,7 +23,6 @@ export default class Nnsmanage extends Vue
         this.nnsstr = "";
         this.domainerr = false;
         this.errmsg = "";
-        this.mounted();
     }
 
     async mounted()
@@ -65,6 +65,7 @@ export default class Nnsmanage extends Vue
                 console.error(res.info);
             } else
             {
+                // var res = await WWW.setnnsinfo();
                 mui.alert("Domain name registration contract has been issued, please see ")
                 mui.toast(res.info);
             }

@@ -84,6 +84,23 @@ export class NeoAsset
     claim: number;
 }
 
+export class OldUTXO
+{
+    height: number;
+    txid: string;
+    n: number;
+    constructor(txid: string, n: number)
+    {
+        this.n = n;
+        this.txid = txid;
+    }
+
+    compareUtxo(utxo: UTXO)
+    {
+        return this.txid == utxo.txid && this.n == utxo.n;
+    }
+}
+
 export class UTXO
 {
     addr: string;
@@ -133,7 +150,7 @@ export class UTXO
         }
         sessionStorage.setItem("current-assets-utxos", JSON.stringify(obj));
     }
-    static getAssets()
+    static getAssets()  
     {
         let assets = null;
         var str = sessionStorage.getItem("current-assets-utxos");
@@ -151,8 +168,10 @@ export class UTXO
 
 export class Consts
 {
-    static baseContract = "0xdffbdd534a41dd4c56ba5ccba9dfaaf4f84e1362";
+    // static baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";
+    static baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";
     static registerContract = "d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c";
+    // static domainContract = '954f285a93eed7b4aed9396a7806a5812f1a5950';
 }
 
 export class DomainInfo

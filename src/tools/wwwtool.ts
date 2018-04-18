@@ -32,6 +32,26 @@ export class WWW
         return body;
     }
 
+    // static async rpc_getURL()
+    // {
+    //     var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
+    //     var result = await fetch(str, { "method": "get" });
+    //     var json = await result.json();
+    //     var r = json[ "result" ][ 0 ];
+    //     var url = r.nodeList[ 0 ];
+    //     WWW.rpc = url;
+    //     WWW.rpcName = r.nodeType;
+    //     return url;
+    // }
+    // 蓝鲸淘接口
+    // static async otc_getBalances(address: string)
+    // {
+    //     var str = WWW.otcgo + "/address/balances/{" + address + "}";
+    //     var value = await fetch(str, { "method": "get" });
+    //     var json = await value.json();
+    //     var r = json[ "data" ];
+    //     return r;
+    // }
 
     static async  api_getHeight()
     {
@@ -129,28 +149,6 @@ export class WWW
         return r[ 0 ][ "gas" ];
     }
 
-    // static async rpc_getURL()
-    // {
-    //     var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
-    //     var result = await fetch(str, { "method": "get" });
-    //     var json = await result.json();
-    //     var r = json[ "result" ][ 0 ];
-    //     var url = r.nodeList[ 0 ];
-    //     WWW.rpc = url;
-    //     WWW.rpcName = r.nodeType;
-    //     return url;
-    // }
-    // 蓝鲸淘接口
-    // static async otc_getBalances(address: string)
-    // {
-    //     var str = WWW.otcgo + "/address/balances/{" + address + "}";
-    //     var value = await fetch(str, { "method": "get" });
-    //     var json = await value.json();
-    //     var r = json[ "data" ];
-    //     return r;
-    // }
-
-
     static async  rpc_getHeight()
     {
         var str = WWW.makeRpcUrl(WWW.api, "getblockcount");
@@ -191,5 +189,22 @@ export class WWW
             return null;
         var r = json[ "result" ][ 0 ]
         return r;
+    }
+    //注册域名时塞值
+    static async setnnsinfo(address: string, name: string, time: number)
+    {
+        var str = WWW.makeRpcUrl(WWW.api, "setnnsinfo", address, name, time);
+        var result = await fetch(str, { "method": "get" });
+        var json = await result.json();
+        if (json[ "result" ] == null)
+            return null;
+        var r = json[ "result" ][ 0 ]
+        return r;
+    }
+    static async getnnsinfo(address: string)
+    {
+    }
+    static async delnnsinfo(address: string, domain: string)
+    {
     }
 }

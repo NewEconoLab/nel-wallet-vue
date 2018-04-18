@@ -17,9 +17,11 @@ export class NNSTool
     static async initRootDomain()
     {
         var test = new RootDomainInfo();
-        test.roothash = await NNSTool.getRootNameHash();
-        test.rootname = await NNSTool.getRootName();
-        var domain = await NNSTool.getDomainInfo(test.roothash);
+        // test.roothash = await NNSTool.getRootNameHash();
+        test.roothash = NNSTool.nameHash("neo");
+        test.rootname = "neo";
+        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
+        var domain = await NNSTool.getDomainInfo(test.roothash, scriptaddress);
         test.owner = domain.owner;
         test.register = domain.register;
         test.resolver = domain.resolver;
@@ -38,8 +40,9 @@ export class NNSTool
         domainarr.shift();
         domainarr.push(this.root_test.rootname)
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
-        let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
-        return domains;
+        let address = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
+        let doamininfo = await NNSTool.getDomainInfo(nnshash, NNSTool.root_test.owner.reverse());
+        return address;
     }
 
     /**
@@ -58,7 +61,6 @@ export class NNSTool
         var scriptaddress = NNSTool.root_test.register;
         sb.EmitPushNumber(new Neo.BigInteger(232323));
         sb.Emit(ThinNeo.OpCode.DROP);
-
         sb.EmitParamJson([ "(addr)" + LoginInfo.getCurrentAddress(), "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
         sb.EmitPushString("requestSubDomain");//第一个参数
         sb.EmitAppCall(scriptaddress);  //资产合约
@@ -86,13 +88,13 @@ export class NNSTool
         let result = await WWW.rpc_getInvokescript(data);
         try
         {
-            var state = result[ 0 ].state as string;
+            var state = result.state as string;
             // info2.textContent = "";
             if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
             }
-            var stack = result[ 0 ].stack as any[];
+            var stack = result.stack as any[];
             //find name 他的type 有可能是string 或者ByteArray
             if (stack[ 0 ].type == "Array")
             {
@@ -132,17 +134,17 @@ export class NNSTool
         let result = await WWW.rpc_getInvokescript(data);
         try
         {
-            var state = result[ 0 ].state as string;
+            var state = result[ "state" ] as string;
             // info2.textContent = "";
             if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
             }
-            var stack = result[ 0 ].stack as any[];
+            var stack = result[ "stack" ] as any[];
             //find name 他的type 有可能是string 或者ByteArray
             if (stack[ 0 ].type == "ByteArray")
             {
-                nameHash = (stack[ 0 ].value as string).hexToBytes();
+                nameHash = (stack[ 0 ][ "value" ] as string).hexToBytes();
             }
             return nameHash;
         }
@@ -153,13 +155,12 @@ export class NNSTool
     }
 
     //返回域名详情
-    static async getDomainInfo(domain: Uint8Array): Promise<DomainInfo>
+    static async getDomainInfo(domain: Uint8Array, scriptaddress: Uint8Array): Promise<DomainInfo>
     {
         let info: DomainInfo = new DomainInfo();
         var sb = new ThinNeo.ScriptBuilder();
-        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
         sb.EmitParamJson([ "(bytes)" + domain.toHexString() ]);//第二个参数是个数组
-        sb.EmitPushString("getInfo");
+        sb.EmitPushString("getOwnerInfo");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
 
@@ -167,13 +168,13 @@ export class NNSTool
 
         try
         {
-            var state = result[ 0 ].state as string;
+            var state = result.state as string;
             // info2.textContent = "";
             if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
             }
-            var stackarr = result[ 0 ].stack as any[];
+            var stackarr = result[ "stack" ] as any[];
             if (stackarr[ 0 ].type == "Array")
             {
                 var stack = stackarr[ 0 ].value as any[];
@@ -244,9 +245,10 @@ export class NNSTool
     static async resolveFull(protocol: string, nameArray: string[]) { }
 
     /**
-     * 此接口为注册器规范要求，必须实现，完整解析域名时会调用此接口验证权利
-     * @param nnshash   域名中除最后一位的hash : aa.bb.cc 中的 bb.cc的hash
-     * @param subdomain 域名中的最后一位: aa.bb.cc 中的 aa
+     * 获得所有者
+     * @param nnshash 根域名hash
+     * @param subdomain 二级域名
+     * @param scriptaddress scriptaddress
      */
     static async getSubOwner(nnshash: Uint8Array, subdomain: string, scriptaddress: Uint8Array): Promise<string>
     {
@@ -262,12 +264,12 @@ export class NNSTool
 
         try
         {
-            var state = result[ 0 ].state as string;
+            var state = result.state as string;
             // info2.textContent = "";
             if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
-                var stack = result[ 0 ].stack as any[];
+                var stack = result.stack as any[];
                 //find name 他的type 有可能是string 或者ByteArray
                 if (stack[ 0 ].type == "ByteArray")
                 {
