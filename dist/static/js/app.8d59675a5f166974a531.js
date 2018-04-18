@@ -130,6 +130,26 @@ var WWW = /** @class */ (function () {
         body["params"] = params;
         return body;
     };
+    // static async rpc_getURL()
+    // {
+    //     var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
+    //     var result = await fetch(str, { "method": "get" });
+    //     var json = await result.json();
+    //     var r = json[ "result" ][ 0 ];
+    //     var url = r.nodeList[ 0 ];
+    //     WWW.rpc = url;
+    //     WWW.rpcName = r.nodeType;
+    //     return url;
+    // }
+    // 蓝鲸淘接口
+    // static async otc_getBalances(address: string)
+    // {
+    //     var str = WWW.otcgo + "/address/balances/{" + address + "}";
+    //     var value = await fetch(str, { "method": "get" });
+    //     var json = await value.json();
+    //     var r = json[ "data" ];
+    //     return r;
+    // }
     WWW.api_getHeight = function () {
         return __awaiter(this, void 0, void 0, function () {
             var str, result, json, r, height;
@@ -318,26 +338,6 @@ var WWW = /** @class */ (function () {
             });
         });
     };
-    // static async rpc_getURL()
-    // {
-    //     var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
-    //     var result = await fetch(str, { "method": "get" });
-    //     var json = await result.json();
-    //     var r = json[ "result" ][ 0 ];
-    //     var url = r.nodeList[ 0 ];
-    //     WWW.rpc = url;
-    //     WWW.rpcName = r.nodeType;
-    //     return url;
-    // }
-    // 蓝鲸淘接口
-    // static async otc_getBalances(address: string)
-    // {
-    //     var str = WWW.otcgo + "/address/balances/{" + address + "}";
-    //     var value = await fetch(str, { "method": "get" });
-    //     var json = await value.json();
-    //     var r = json[ "data" ];
-    //     return r;
-    // }
     WWW.rpc_getHeight = function () {
         return __awaiter(this, void 0, void 0, function () {
             var str, result, json, r, height;
@@ -418,6 +418,42 @@ var WWW = /** @class */ (function () {
                         r = json["result"][0];
                         return [2 /*return*/, r];
                 }
+            });
+        });
+    };
+    //注册域名时塞值
+    WWW.setnnsinfo = function (address, name, time) {
+        return __awaiter(this, void 0, void 0, function () {
+            var str, result, json, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        str = WWW.makeRpcUrl(WWW.api, "setnnsinfo", address, name, time);
+                        return [4 /*yield*/, fetch(str, { "method": "get" })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        if (json["result"] == null)
+                            return [2 /*return*/, null];
+                        r = json["result"][0];
+                        return [2 /*return*/, r];
+                }
+            });
+        });
+    };
+    WWW.getnnsinfo = function (address) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    WWW.delnnsinfo = function (address, domain) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
             });
         });
     };
@@ -637,6 +673,32 @@ var NeoAsset = /** @class */ (function () {
     return NeoAsset;
 }());
 exports.NeoAsset = NeoAsset;
+var OldUTXO = /** @class */ (function () {
+    function OldUTXO(txid, n) {
+        this.n = n;
+        this.txid = txid;
+    }
+    OldUTXO.oldutxosPush = function (olds) {
+        var arr = this.getOldutxos();
+        storagetool_1.StorageTool.setStorage("old-utxos", JSON.stringify(arr.concat(olds)));
+    };
+    OldUTXO.setOldutxos = function (olds) {
+        // let arr: OldUTXO[] = this.getOldutxos();
+        storagetool_1.StorageTool.setStorage("old-utxos", JSON.stringify(olds));
+    };
+    OldUTXO.getOldutxos = function () {
+        var arr = new Array();
+        var str = storagetool_1.StorageTool.getStorage("old-utxos");
+        if (str)
+            arr = JSON.parse(str);
+        return arr;
+    };
+    OldUTXO.prototype.compareUtxo = function (utxo) {
+        return this.txid == utxo.txid && this.n == utxo.n;
+    };
+    return OldUTXO;
+}());
+exports.OldUTXO = OldUTXO;
 var UTXO = /** @class */ (function () {
     function UTXO() {
     }
@@ -691,7 +753,8 @@ exports.UTXO = UTXO;
 var Consts = /** @class */ (function () {
     function Consts() {
     }
-    Consts.baseContract = "0xdffbdd534a41dd4c56ba5ccba9dfaaf4f84e1362";
+    // static baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";
+    Consts.baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";
     Consts.registerContract = "d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c";
     return Consts;
 }());
@@ -1089,9 +1152,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts__ = __webpack_require__("xWBt");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_78efcf6a_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_login_vue__ = __webpack_require__("iCB5");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_08ed4342_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_login_vue__ = __webpack_require__("No2t");
 function injectStyle (ssrContext) {
-  __webpack_require__("mRez")
+  __webpack_require__("rewh")
 }
 var normalizeComponent = __webpack_require__("Z0/y")
 /* script */
@@ -1108,7 +1171,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__ts_loader_login_ts___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_78efcf6a_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_login_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_13_7_1_vue_loader_lib_template_compiler_index_id_data_v_08ed4342_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_13_7_1_vue_loader_lib_selector_type_template_index_0_login_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -1199,6 +1262,17 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_VLink = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "No2t":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('div',{staticStyle:{"height":"180px"}}),_vm._v(" "),_c('div',{staticClass:"container-box"},[_c('div',{staticClass:"row login-container"},[_c('div',{staticClass:"container-left"},[_c('div',{staticClass:"container-icon"},[_c('img',{attrs:{"src":__webpack_require__("4+Dl"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':!(_vm.moudle_generate||_vm.moudle_download)},on:{"click":function($event){_vm.cutModual('nep6')}}},[_c('span',{ref:"login"},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':(_vm.moudle_generate || _vm.moudle_download)},on:{"click":function($event){_vm.cutModual('generate')}}},[_c('span',{ref:"login"},[_vm._v("Generate")])])]),_vm._v(" "),_c('div',{staticClass:"container-right"},[(_vm.moudle_nep6)?_c('div',{staticClass:"nep6-imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("\n              Login your wallet\n            ")])]),_vm._v(" "),_c('div',{staticClass:"input-login"},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filename),expression:"filename"}],staticClass:"form-control",attrs:{"type":"text","placeholder":"Select keystore file. ","disabled":"true"},domProps:{"value":(_vm.filename)},on:{"input":function($event){if($event.target.composing){ return; }_vm.filename=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button"},[_c('span',[_vm._v("Select")]),_vm._v(" "),_c('input',{attrs:{"type":"file"},on:{"change":_vm.fileChange}})])])])]),_vm._v(" "),_c('div',{staticClass:"input-login",staticStyle:{"padding-top":"40px"}},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.password),expression:"password"}],staticClass:"form-control",attrs:{"placeholder":"Enter password. ","type":"password"},domProps:{"value":(_vm.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.password=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button",on:{"click":function($event){_vm.login('nep6')}}},[_vm._v("\n                  Login\n                ")])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"36px","padding-top":"80px","padding-bottom":"30px","text-align":"center"}},[_c('hr',{attrs:{"width":"80%","color":"#987cb9"}}),_vm._v(" "),_c('div',{staticClass:"hr-more"},[_vm._v("or you can")])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"30px"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('wif')}}},[_vm._v("Import key from WIF String ")])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"20px","padding-bottom":"5.9%"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('nep2')}}},[_vm._v("Import key from nep2 String ")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_wif)?_c('div',{staticClass:"wif_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("WIF Private Key")])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.wif),expression:"wif"}],attrs:{"type":"text","placeholder":"Enter your private key. "},domProps:{"value":(_vm.wif)},on:{"input":function($event){if($event.target.composing){ return; }_vm.wif=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.login('wif')}}},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< Back")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_nep2)?_c('div',{staticClass:"nep2_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Nep2")])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2),expression:"nep2"}],attrs:{"type":"text","placeholder":"Enter your Nep2. "},domProps:{"value":(_vm.nep2)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2pwd),expression:"nep2pwd"}],attrs:{"type":"password","placeholder":"Enter password. "},domProps:{"value":(_vm.nep2pwd)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2pwd=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.login('nep2')}}},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< Back")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_generate)?_c('div',{staticClass:"generate"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Generate a new wallet")])]),_vm._v(" "),_c('div',{class:_vm.nameerr!=''?( _vm.nameerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletname),expression:"walletname"}],attrs:{"type":"text","placeholder":"Name your wallet. "},domProps:{"value":(_vm.walletname)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletname=$event.target.value},_vm.verifyName],"blur":_vm.verifyName}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.nameerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Wallet name cannot be empty.")]):_vm._e(),_vm._v(" "),(_vm.nameerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass. ")]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.pwderr!=''?( _vm.pwderr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletpwd),expression:"walletpwd"}],attrs:{"type":"password","placeholder":"Enter password. "},domProps:{"value":(_vm.walletpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletpwd=$event.target.value},_vm.verifypwd],"blur":_vm.verifypwd}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.pwderr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.pwdmsg)+"\n              ")]):_vm._e(),_vm._v(" "),(_vm.pwderr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass.\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.confirmerr!=''?( _vm.confirmerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.confirmpwd),expression:"confirmpwd"}],attrs:{"type":"password","placeholder":"Confirm password. "},domProps:{"value":(_vm.confirmpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.confirmpwd=$event.target.value},_vm.verifyConfirm],"blur":_vm.verifyConfirm}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.confirmerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Please enter the same password as above.\n              ")]):_vm._e(),_vm._v(" "),(_vm.confirmerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass.\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.generate()}}},[_vm._v("Generate")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_download)?_c('div',{staticClass:"generate download"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Your keystore file has been created.")])]),_vm._v(" "),_c('p',{staticClass:"guide"},[_vm._v("You can click the ‘download’ button to save your keystore file!")]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('a',{staticClass:"btn btn-nel btn-import",attrs:{"download":_vm.download_name,"href":_vm.download_href}},[_vm._v("Download")])]),_vm._v(" "),_c('div',{staticClass:"remind"},[_c('p',{staticClass:"title-remind"},[_vm._v("Do not lose it!")]),_vm._v(" "),_c('p',{staticClass:"content-remind"},[_vm._v("It can’t be recovered if you lose it.")])])]):_vm._e()])])])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -1778,22 +1852,18 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.initRootDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var test, _a, _b, domain;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var test, scriptaddress, domain;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         test = new entity_1.RootDomainInfo();
-                        _a = test;
-                        return [4 /*yield*/, NNSTool.getRootNameHash()];
+                        // test.roothash = await NNSTool.getRootNameHash();
+                        test.roothash = NNSTool.nameHash("neo");
+                        test.rootname = "neo";
+                        scriptaddress = entity_1.Consts.baseContract.hexToBytes().reverse();
+                        return [4 /*yield*/, NNSTool.getDomainInfo(test.roothash, scriptaddress)];
                     case 1:
-                        _a.roothash = _c.sent();
-                        _b = test;
-                        return [4 /*yield*/, NNSTool.getRootName()];
-                    case 2:
-                        _b.rootname = _c.sent();
-                        return [4 /*yield*/, NNSTool.getDomainInfo(test.roothash)];
-                    case 3:
-                        domain = _c.sent();
+                        domain = _a.sent();
                         test.owner = domain.owner;
                         test.register = domain.register;
                         test.resolver = domain.resolver;
@@ -1810,7 +1880,7 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.queryDomainInfo = function (doamin) {
         return __awaiter(this, void 0, void 0, function () {
-            var domainarr, subdomain, nnshash, domains;
+            var domainarr, subdomain, nnshash, address, doamininfo;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1821,8 +1891,11 @@ var NNSTool = /** @class */ (function () {
                         nnshash = NNSTool.nameHashArray(domainarr);
                         return [4 /*yield*/, NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register)];
                     case 1:
-                        domains = _a.sent();
-                        return [2 /*return*/, domains];
+                        address = _a.sent();
+                        return [4 /*yield*/, NNSTool.getDomainInfo(nnshash, NNSTool.root_test.owner.reverse())];
+                    case 2:
+                        doamininfo = _a.sent();
+                        return [2 /*return*/, address];
                 }
             });
         });
@@ -1878,12 +1951,12 @@ var NNSTool = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         try {
-                            state = result[0].state;
+                            state = result.state;
                             // info2.textContent = "";
                             if (state.includes("HALT, BREAK")) {
                                 // info2.textContent += "Succ\n";
                             }
-                            stack = result[0].stack;
+                            stack = result.stack;
                             //find name 他的type 有可能是string 或者ByteArray
                             if (stack[0].type == "Array") {
                                 // info2.textContent += "name=" + stack[0].value + "\n";
@@ -1922,15 +1995,15 @@ var NNSTool = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         try {
-                            state = result[0].state;
+                            state = result["state"];
                             // info2.textContent = "";
                             if (state.includes("HALT, BREAK")) {
                                 // info2.textContent += "Succ\n";
                             }
-                            stack = result[0].stack;
+                            stack = result["stack"];
                             //find name 他的type 有可能是string 或者ByteArray
                             if (stack[0].type == "ByteArray") {
-                                nameHash = stack[0].value.hexToBytes();
+                                nameHash = stack[0]["value"].hexToBytes();
                             }
                             return [2 /*return*/, nameHash];
                         }
@@ -1943,29 +2016,28 @@ var NNSTool = /** @class */ (function () {
         });
     };
     //返回域名详情
-    NNSTool.getDomainInfo = function (domain) {
+    NNSTool.getDomainInfo = function (domain, scriptaddress) {
         return __awaiter(this, void 0, void 0, function () {
-            var info, sb, scriptaddress, data, result, state, stackarr, stack;
+            var info, sb, data, result, state, stackarr, stack;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         info = new entity_1.DomainInfo();
                         sb = new ThinNeo.ScriptBuilder();
-                        scriptaddress = entity_1.Consts.baseContract.hexToBytes().reverse();
                         sb.EmitParamJson(["(bytes)" + domain.toHexString()]); //第二个参数是个数组
-                        sb.EmitPushString("getInfo");
+                        sb.EmitPushString("getOwnerInfo");
                         sb.EmitAppCall(scriptaddress);
                         data = sb.ToArray();
                         return [4 /*yield*/, wwwtool_1.WWW.rpc_getInvokescript(data)];
                     case 1:
                         result = _a.sent();
                         try {
-                            state = result[0].state;
+                            state = result.state;
                             // info2.textContent = "";
                             if (state.includes("HALT, BREAK")) {
                                 // info2.textContent += "Succ\n";
                             }
-                            stackarr = result[0].stack;
+                            stackarr = result["stack"];
                             if (stackarr[0].type == "Array") {
                                 stack = stackarr[0].value;
                                 if (stack[0].type == "ByteArray") {
@@ -2053,9 +2125,10 @@ var NNSTool = /** @class */ (function () {
         }); });
     };
     /**
-     * 此接口为注册器规范要求，必须实现，完整解析域名时会调用此接口验证权利
-     * @param nnshash   域名中除最后一位的hash : aa.bb.cc 中的 bb.cc的hash
-     * @param subdomain 域名中的最后一位: aa.bb.cc 中的 aa
+     * 获得所有者
+     * @param nnshash 根域名hash
+     * @param subdomain 二级域名
+     * @param scriptaddress scriptaddress
      */
     NNSTool.getSubOwner = function (nnshash, subdomain, scriptaddress) {
         return __awaiter(this, void 0, void 0, function () {
@@ -2074,10 +2147,10 @@ var NNSTool = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         try {
-                            state = result[0].state;
+                            state = result.state;
                             // info2.textContent = "";
                             if (state.includes("HALT, BREAK")) {
-                                stack = result[0].stack;
+                                stack = result.stack;
                                 //find name 他的type 有可能是string 或者ByteArray
                                 if (stack[0].type == "ByteArray") {
                                     if (stack[0].value != "00") {
@@ -2263,17 +2336,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "iCB5":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('div',{staticStyle:{"height":"180px"}}),_vm._v(" "),_c('div',{staticClass:"container-box"},[_c('div',{staticClass:"row login-container"},[_c('div',{staticClass:"container-left"},[_c('div',{staticClass:"container-icon"},[_c('img',{attrs:{"src":__webpack_require__("4+Dl"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':!(_vm.moudle_generate||_vm.moudle_download)},on:{"click":function($event){_vm.cutModual('nep6')}}},[_c('span',{ref:"login"},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':(_vm.moudle_generate || _vm.moudle_download)},on:{"click":function($event){_vm.cutModual('generate')}}},[_c('span',{ref:"login"},[_vm._v("Generate")])])]),_vm._v(" "),_c('div',{staticClass:"container-right"},[(_vm.moudle_nep6)?_c('div',{staticClass:"nep6-imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("\n              Login your wallet\n            ")])]),_vm._v(" "),_c('div',{staticClass:"input-login"},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filename),expression:"filename"}],staticClass:"form-control",attrs:{"type":"text","placeholder":"Select keystore file. ","disabled":"true"},domProps:{"value":(_vm.filename)},on:{"input":function($event){if($event.target.composing){ return; }_vm.filename=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button"},[_c('span',[_vm._v("Select")]),_vm._v(" "),_c('input',{attrs:{"type":"file"},on:{"change":_vm.fileChange}})])])])]),_vm._v(" "),_c('div',{staticClass:"input-login",staticStyle:{"padding-top":"40px"}},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.password),expression:"password"}],staticClass:"form-control",attrs:{"placeholder":"Enter password. ","type":"password"},domProps:{"value":(_vm.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.password=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button",on:{"click":function($event){_vm.login('nep6')}}},[_vm._v("\n                  Login\n                ")])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"36px","padding-top":"80px","padding-bottom":"30px","text-align":"center"}},[_c('hr',{attrs:{"width":"80%","color":"#987cb9"}}),_vm._v(" "),_c('div',{staticClass:"hr-more"},[_vm._v("or you can")])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"30px"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('wif')}}},[_vm._v("Import key from WIF String ")])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"20px","padding-bottom":"5.9%"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('nep2')}}},[_vm._v("Import key from nep2 String ")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_wif)?_c('div',{staticClass:"wif_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("WIF Private Key")])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.wif),expression:"wif"}],attrs:{"type":"text","placeholder":"Enter your private key. "},domProps:{"value":(_vm.wif)},on:{"input":function($event){if($event.target.composing){ return; }_vm.wif=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.login('wif')}}},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< Back")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_nep2)?_c('div',{staticClass:"nep2_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Nep2")])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2),expression:"nep2"}],attrs:{"type":"text","placeholder":"Enter your Nep2. "},domProps:{"value":(_vm.nep2)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2pwd),expression:"nep2pwd"}],attrs:{"type":"password","placeholder":"Enter password. "},domProps:{"value":(_vm.nep2pwd)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2pwd=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.login('nep2')}}},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< Back")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_generate)?_c('div',{staticClass:"generate"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Generate a new wallet")])]),_vm._v(" "),_c('div',{class:_vm.nameerr!=''?( _vm.nameerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletname),expression:"walletname"}],attrs:{"type":"text","placeholder":"Name your wallet. "},domProps:{"value":(_vm.walletname)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletname=$event.target.value},_vm.verifyName],"blur":_vm.verifyName}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.nameerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Wallet name cannot be empty.")]):_vm._e(),_vm._v(" "),(_vm.nameerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass. ")]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.pwderr!=''?( _vm.pwderr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletpwd),expression:"walletpwd"}],attrs:{"type":"password","placeholder":"Enter password. "},domProps:{"value":(_vm.walletpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletpwd=$event.target.value},_vm.verifypwd],"blur":_vm.verifypwd}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.pwderr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.pwdmsg)+"\n              ")]):_vm._e(),_vm._v(" "),(_vm.pwderr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass.\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.confirmerr!=''?( _vm.confirmerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.confirmpwd),expression:"confirmpwd"}],attrs:{"type":"password","placeholder":"Confirm password. "},domProps:{"value":(_vm.confirmpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.confirmpwd=$event.target.value},_vm.verifyConfirm],"blur":_vm.verifyConfirm}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.confirmerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Please enter the same password as above.\n              ")]):_vm._e(),_vm._v(" "),(_vm.confirmerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass.\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.generate()}}},[_vm._v("Generate")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_download)?_c('div',{staticClass:"generate download"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Your keystore file has been created.")])]),_vm._v(" "),_c('p',{staticClass:"guide"},[_vm._v("You can click the ‘download’ button to save your keystore file!")]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('a',{staticClass:"btn btn-nel btn-import",attrs:{"download":_vm.download_name,"href":_vm.download_href}},[_vm._v("Download")])]),_vm._v(" "),_c('div',{staticClass:"remind"},[_c('p',{staticClass:"title-remind"},[_vm._v("Do not lose it!")]),_vm._v(" "),_c('p',{staticClass:"content-remind"},[_vm._v("It can’t be recovered if you lose it.")])])]):_vm._e()])])])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
 /***/ "iPSp":
 /***/ (function(module, exports) {
 
@@ -2318,13 +2380,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "mRez":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -2454,35 +2509,49 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.getassets = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var assets, utxos, i, item, txid, n, asset, count, utxo;
+            var height, utxos, olds, olds2, n, old, findutxo, i_1, utxo, assets, i, item, asset, utxo;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        assets = entity_1.UTXO.getAssets();
-                        if (!(assets == null)) return [3 /*break*/, 2];
-                        assets = {};
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getUTXO(storagetool_1.StorageTool.getStorage("current-address"))];
+                    case 0: return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
                     case 1:
+                        height = _a.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getUTXO(storagetool_1.StorageTool.getStorage("current-address"))];
+                    case 2:
                         utxos = _a.sent();
+                        olds = entity_1.OldUTXO.getOldutxos();
+                        olds2 = new Array();
+                        for (n = 0; n < olds.length; n++) {
+                            old = olds[n];
+                            findutxo = false;
+                            for (i_1 = 0; i_1 < utxos.length; i_1++) {
+                                utxo = utxos[i_1];
+                                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height <= 2) {
+                                    findutxo = true;
+                                    utxos.splice(i_1, 1);
+                                }
+                            }
+                            if (findutxo) {
+                                olds2.push(old);
+                            }
+                        }
+                        entity_1.OldUTXO.setOldutxos(olds2);
+                        assets = {};
                         for (i in utxos) {
                             item = utxos[i];
-                            txid = item.txid;
-                            n = item.n;
                             asset = item.asset;
-                            count = item.value;
                             if (assets[asset] == undefined || assets[asset] == null) {
                                 assets[asset] = [];
                             }
                             utxo = new entity_1.UTXO();
                             utxo.addr = item.addr;
-                            utxo.asset = asset;
-                            utxo.n = n;
-                            utxo.txid = txid;
-                            utxo.count = Neo.Fixed8.parse(count);
+                            utxo.asset = item.asset;
+                            utxo.n = item.n;
+                            utxo.txid = item.txid;
+                            utxo.count = Neo.Fixed8.parse(item.value);
                             assets[asset].push(utxo);
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/, assets];
+                        // }
+                        return [2 /*return*/, assets];
                 }
             });
         });
@@ -2509,6 +2578,7 @@ var CoinTool = /** @class */ (function () {
         });
         var count = Neo.Fixed8.Zero;
         var clonearr = [].concat(us); //用于返回剩余可用的utxo
+        var old = [];
         for (var i = 0; i < us.length; i++) {
             var input = new ThinNeo.TransactionInput();
             input.hash = us[i].txid.hexToBytes().reverse();
@@ -2518,6 +2588,7 @@ var CoinTool = /** @class */ (function () {
             count = count.add(us[i].count); //添加至count中
             scraddr = us[i].addr;
             clonearr.shift(); //删除已塞入的utxo
+            old.push(new entity_1.OldUTXO(us[i].txid, us[i].n));
             if (count.compareTo(sendcount) > 0) {
                 break; //如果足够则跳出循环
             }
@@ -2542,7 +2613,7 @@ var CoinTool = /** @class */ (function () {
                 tran.outputs.push(outputchange);
             }
             res.err = false;
-            res.info = { "tran": tran, "clonearr": clonearr };
+            res.info = { "tran": tran, "oldarr": old };
         }
         else {
             throw new Error("no enough money.");
@@ -2551,7 +2622,7 @@ var CoinTool = /** @class */ (function () {
     };
     CoinTool.rawTransaction = function (targetaddr, asset, count) {
         return __awaiter(this, void 0, void 0, function () {
-            var arr, add, n, _count, utxos, tranres, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, result, us, error_1;
+            var arr, add, n, _count, utxos, tranres, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, height, result, olds, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2564,7 +2635,7 @@ var CoinTool = /** @class */ (function () {
                         utxos = _a.sent();
                         _a.label = 2;
                     case 2:
-                        _a.trys.push([2, 4, , 5]);
+                        _a.trys.push([2, 5, , 6]);
                         tranres = CoinTool.makeTran(utxos, targetaddr, asset, _count);
                         tran = tranres.info['tran'];
                         if (tran.witnesses == null)
@@ -2578,24 +2649,24 @@ var CoinTool = /** @class */ (function () {
                         tran.AddWitness(signdata, pubkey, addr);
                         data = tran.GetRawData();
                         res = new entity_1.Result();
-                        return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
                     case 3:
+                        height = _a.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
+                    case 4:
                         result = _a.sent();
                         if (result["sendrawtransactionresult"]) {
                             res.err = !result;
                             res.info = txid;
-                            us = tranres.info['clonearr'];
-                            if (us.length)
-                                utxos[asset] = us;
-                            else
-                                delete utxos[asset];
-                            entity_1.UTXO.setAssets(utxos);
+                            olds = tranres.info['oldarr'];
+                            olds.map(function (old) { return old.height = height; });
+                            entity_1.OldUTXO.oldutxosPush(olds);
                         }
                         return [2 /*return*/, res];
-                    case 4:
+                    case 5:
                         error_1 = _a.sent();
                         throw error_1;
-                    case 5: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
@@ -2668,6 +2739,16 @@ var CoinTool = /** @class */ (function () {
             });
         });
     };
+    CoinTool.setOldutxo = function (utxo) {
+        var utxos = this.getOldutxos();
+        utxos.push(utxo);
+    };
+    CoinTool.getOldutxos = function () {
+        var arr = new Array();
+        var str = storagetool_1.StorageTool.getStorage("old-utxos");
+        if (str)
+            return arr;
+    };
     CoinTool.id_GAS = "0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
     CoinTool.id_NEO = "0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
     CoinTool.assetID2name = {};
@@ -2676,6 +2757,13 @@ var CoinTool = /** @class */ (function () {
 }());
 exports.CoinTool = CoinTool;
 
+
+/***/ }),
+
+/***/ "rewh":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -3319,7 +3407,6 @@ var Nnsmanage = /** @class */ (function (_super) {
         _this.nnsstr = "";
         _this.domainerr = false;
         _this.errmsg = "";
-        _this.mounted();
         return _this;
     }
     Nnsmanage.prototype.mounted = function () {
@@ -3377,6 +3464,7 @@ var Nnsmanage = /** @class */ (function (_super) {
                             console.error(res.info);
                         }
                         else {
+                            // var res = await WWW.setnnsinfo();
                             mui.alert("Domain name registration contract has been issued, please see ");
                             mui.toast(res.info);
                         }

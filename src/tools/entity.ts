@@ -95,6 +95,27 @@ export class OldUTXO
         this.txid = txid;
     }
 
+    static oldutxosPush(olds: OldUTXO[])
+    {
+        let arr: OldUTXO[] = this.getOldutxos();
+        StorageTool.setStorage("old-utxos", JSON.stringify(arr.concat(olds)));
+    }
+
+    static setOldutxos(olds: OldUTXO[])
+    {
+        // let arr: OldUTXO[] = this.getOldutxos();
+        StorageTool.setStorage("old-utxos", JSON.stringify(olds));
+    }
+
+    static getOldutxos()
+    {
+        var arr: OldUTXO[] = new Array<OldUTXO>();
+        var str = StorageTool.getStorage("old-utxos");
+        if (str)
+            arr = JSON.parse(str) as OldUTXO[];
+        return arr;
+    }
+
     compareUtxo(utxo: UTXO)
     {
         return this.txid == utxo.txid && this.n == utxo.n;

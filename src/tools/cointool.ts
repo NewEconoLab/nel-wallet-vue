@@ -45,31 +45,48 @@ export class CoinTool
      */
     static async getassets(): Promise<{ [ id: string ]: UTXO[] }>
     {
-        var assets = UTXO.getAssets();
-        if (assets == null)
+        //获得高度
+        var height = await WWW.api_getHeight();
+        var utxos = await WWW.api_getUTXO(StorageTool.getStorage("current-address"));   //获得utxo
+        var olds = OldUTXO.getOldutxos();       //获得以标记的utxo(交易过的utxo 存储在本地的标记)
+        var olds2 = new Array<OldUTXO>();       //
+        for (let n = 0; n < olds.length; n++)
         {
-            assets = {};
-            var utxos = await WWW.api_getUTXO(StorageTool.getStorage("current-address"));
-            for (var i in utxos)
+            const old = olds[ n ];
+            let findutxo = false;
+            for (let i = 0; i < utxos.length; i++)
             {
-                var item = utxos[ i ];
-                var txid = item.txid;
-                var n = item.n;
-                var asset = item.asset;
-                var count = item.value;
-                if (assets[ asset ] == undefined || assets[ asset ] == null)
+                let utxo = utxos[ i ];
+                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height <= 2)
                 {
-                    assets[ asset ] = [];
+                    findutxo = true;
+                    utxos.splice(i, 1);
                 }
-                var utxo = new UTXO();
-                utxo.addr = item.addr;
-                utxo.asset = asset;
-                utxo.n = n;
-                utxo.txid = txid;
-                utxo.count = Neo.Fixed8.parse(count);
-                assets[ asset ].push(utxo);
+            }
+            if (findutxo)
+            {
+                olds2.push(old);
             }
         }
+        OldUTXO.setOldutxos(olds2);
+        var assets = {};        //对utxo进行归类，并且将count由string转换成 Neo.Fixed8
+        for (var i in utxos)
+        {
+            var item = utxos[ i ];
+            var asset = item.asset;
+            if (assets[ asset ] == undefined || assets[ asset ] == null)
+            {
+                assets[ asset ] = [];
+            }
+            let utxo = new UTXO();
+            utxo.addr = item.addr;
+            utxo.asset = item.asset;
+            utxo.n = item.n;
+            utxo.txid = item.txid;
+            utxo.count = Neo.Fixed8.parse(item.value);
+            assets[ asset ].push(utxo);
+        }
+        // }
         return assets;
     }
 
@@ -145,7 +162,7 @@ export class CoinTool
 
             }
             res.err = false;
-            res.info = { "tran": tran, "clonearr": clonearr };
+            res.info = { "tran": tran, "oldarr": old };
         }
         else
         {
@@ -186,12 +203,9 @@ export class CoinTool
             {
                 res.err = !result;
                 res.info = txid;
-                let us = tranres.info[ 'clonearr' ] as UTXO[];
-                if (us.length)
-                    utxos[ asset ] = us;
-                else
-                    delete utxos[ asset ];
-                UTXO.setAssets(utxos);
+                let olds = tranres.info[ 'oldarr' ] as OldUTXO[];
+                olds.map(old => old.height = height);
+                OldUTXO.oldutxosPush(olds);
             }
             return res;
         } catch (error)
