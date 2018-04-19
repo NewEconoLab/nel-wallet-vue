@@ -149,6 +149,17 @@ export class WWW
         return r[ 0 ][ "gas" ];
     }
 
+    static async api_getclaimtxhex(address: string): Promise<string>
+    {
+        var str = WWW.makeRpcUrl(WWW.api, "getclaimtxhex", address);
+        var result = await fetch(str, { "method": "get" });
+        var json = await result.json();
+        var r = json[ "result" ];
+        if (r == undefined)
+            return "";
+        return r[ 0 ][ "claimtxhex" ];
+    }
+
     static async  rpc_getHeight()
     {
         var str = WWW.makeRpcUrl(WWW.api, "getblockcount");
@@ -190,6 +201,7 @@ export class WWW
         var r = json[ "result" ][ 0 ]
         return r;
     }
+
     //注册域名时塞值
     static async setnnsinfo(address: string, name: string, time: number)
     {
@@ -207,4 +219,6 @@ export class WWW
     static async delnnsinfo(address: string, domain: string)
     {
     }
+
+
 }

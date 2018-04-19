@@ -90,6 +90,13 @@ export class CoinTool
         return assets;
     }
 
+    /**
+     * @method 创建交易对象 ThinNeo.Transaction
+     * @param utxos utxo列表
+     * @param targetaddr 对方地址
+     * @param assetid 资产id
+     * @param sendcount 金额
+     */
     static makeTran(utxos: { [ id: string ]: UTXO[] }, targetaddr: string, assetid: string, sendcount: Neo.Fixed8): Result
     {
         //if (sendcount.compareTo(Neo.Fixed8.Zero) <= 0)
@@ -171,6 +178,12 @@ export class CoinTool
         return res;
     }
 
+    /**
+     * utxo转账方法
+     * @param targetaddr 转入的地址
+     * @param asset 资产
+     * @param count 金额
+     */
     static async rawTransaction(targetaddr: string, asset: string, count: string): Promise<Result>
     {
 
@@ -208,13 +221,35 @@ export class CoinTool
                 OldUTXO.oldutxosPush(olds);
             }
             return res;
-        } catch (error)
+        } catch (error) 
         {
             throw error;
         }
     }
 
+    /**
+     * 领取gas
+     */
+    static async claimgas()
+    {
+        let claimtxhex: string = await WWW.api_getclaimtxhex(LoginInfo.getCurrentAddress());
 
+        var tran = new ThinNeo.Transaction();
+        // tran.DeserializeUnsigned(new Neo.IO.MemoryStream(claimtxhex.hexToBytes()))
+        // var signdata = ThinNeo.Helper.Sign(claimtxhex.hexToBytes(), prekey);
+        // tran.AddWitness(signdata, pubkey, addr);
+
+        // var data: Uint8Array = tran.GetRawData();
+
+        var res: Result = new Result();
+        var height = await WWW.api_getHeight();
+        // var result = await WWW.api_postRawTransaction(data);
+    }
+
+    /**
+     * invokeTrans 方式调用合约
+     * @param script 合约的script
+     */
     static async contractInvokeTrans(script: Uint8Array)
     {
         let current: LoginInfo = LoginInfo.getCurrentLogin();
@@ -247,6 +282,13 @@ export class CoinTool
         return res;
     }
 
+    /**
+     * nep5转账
+     * @param address 自己的地址
+     * @param tatgeraddr 转账的地址
+     * @param asset nep5资产id
+     * @param amount 转账数额
+     */
     static async nep5Transaction(address: string, tatgeraddr, asset: string, amount: string)
     {
         let res = await WWW.getNep5Asset(asset);
@@ -269,19 +311,5 @@ export class CoinTool
         return result;
     }
 
-
-    static setOldutxo(utxo: OldUTXO)
-    {
-        var utxos = this.getOldutxos();
-        utxos.push(utxo);
-    }
-
-    static getOldutxos(): Array<OldUTXO>
-    {
-        var arr = new Array<OldUTXO>();
-        var str = StorageTool.getStorage("old-utxos");
-        if (str)
-            return arr;
-    }
 
 }
