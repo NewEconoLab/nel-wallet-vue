@@ -117,9 +117,12 @@ export class WWW
         return r;
     }
 
-    static async api_getclaimgas(address: string): Promise<number>
+    static async api_getclaimgas(address: string, type: number): Promise<number>
     {
-        var str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address);
+        if (type)
+            var str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address, type);
+        else
+            var str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
         var r = json[ "result" ];

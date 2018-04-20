@@ -54,13 +54,14 @@ export default class balance extends Vue
     CoinTool.initAllAsset();
     //获得balance列表
     var balances = await WWW.api_getBalance(this.currentAddress) as BalanceInfo[];
-    var clamis = await WWW.api_getclaimgas(this.currentAddress);
+    var clamis = await WWW.api_getclaimgas(this.currentAddress, 0);
+    var clamis2 = await WWW.api_getclaimgas(this.currentAddress, 1);
     var nep5balances = await WWW.api_getnep5Balance(this.currentAddress) as Nep5Balance[];
     if (balances) //余额不唯空
     {
       balances.map(item => item.names = CoinTool.assetID2name[ item.asset ]); //将列表的余额资产名称赋值
       this.balances = balances; //塞入页面modual
-      this.neoasset.claim = clamis;   //塞入claim
+      this.neoasset.claim = clamis + clamis2;   //塞入claim
       this.balances.forEach //取NEO 和GAS
         (
         (balance) =>

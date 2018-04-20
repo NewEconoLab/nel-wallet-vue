@@ -74,8 +74,9 @@
                 <div>
                     <div class="title"></div>
                     <div v-for="tx in txs" class="history" :key="tx.index">
-                        <div class="number">-&nbsp;{{tx.value}}&nbsp;{{tx.assetname}}</div>
-                        <div class="address">Send to : {{tx.address}}</div>
+                        <div class="number" :class="tx.txtype">
+                            {{tx.txtype == 'out'?'+ ':'- '}}{{tx.value}}&nbsp;{{tx.assetname}}</div>
+                        <div class="address"> Send {{tx.txtype == 'out'?'form':'to'}} : {{tx.address}}</div>
                         <div class="time">{{tx.time}}</div>
                     </div>
                 </div>
@@ -174,8 +175,13 @@
 .history .number {
   font-family: PingFangSC-Medium;
   font-size: 20px;
-  color: #ff6a6a;
   line-height: 20px;
+}
+.number.out {
+  color: #2dde4f;
+}
+.number.in {
+  color: #ff6a6a;
 }
 .history .address {
   font-family: PingFangSC-Medium;

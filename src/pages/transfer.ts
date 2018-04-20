@@ -87,7 +87,6 @@ export default class transfer extends Vue
     {
         var currentAddress = LoginInfo.getCurrentAddress();
         var res = await WWW.gettransbyaddress(this.addrerr, 20, 1);
-        console.log(res);
         for (let index = 0; index < res.length; index++)
         {
             const tx = res[ index ];
@@ -103,10 +102,9 @@ export default class transfer extends Vue
             if (txtype == "out")
             {
                 var arr = {}
-                for (const index in vins)
+                if (vins && vins.length == 1)
                 {
-                    let i = parseInt(index);
-                    const vin = vins[ i ];
+                    const vin = vins[ 0 ];
                     let address = vin[ "address" ];
                     let amount = vin[ "value" ];
                     let asset = vin[ "asset" ];
@@ -144,6 +142,7 @@ export default class transfer extends Vue
                                 history.assetname = asset;
                                 history.address = address;
                                 history.value = amount;
+                                history.txtype = txtype;
                                 this.txs.push(history);
                             }
                         }
@@ -197,6 +196,7 @@ export default class transfer extends Vue
                                 history.assetname = asset;
                                 history.address = address;
                                 history.value = amount;
+                                history.txtype = txtype;
                                 this.txs.push(history);
                             }
                         }
@@ -205,31 +205,6 @@ export default class transfer extends Vue
 
             }
         }
-        //     const element = res[ index ];
-        //     var txid = element.txid;
-        //     var time = element.blocktime.$date;
-        //     let tx = await WWW.getrawtransaction(element.txid) as Transaction;
-        //     for (let index = 0; index < tx.vout.length; index++)
-        //     {
-        //         const element = tx.vout[ index ];
-        //         if (element.address != address)
-        //         {
-        //             element[ "time" ] = time;
-        //             element[ "txid" ] = txid;
-        //             element[ "assetname" ] = CoinTool.assetID2name[ element.asset ];
-        //             var history: History = new History();
-        //             history.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
-        //             history.txid = txid;
-        //             history.assetname = CoinTool.assetID2name[ element.asset ];
-        //             history.address = element.address;
-        //             history.n = element.n;
-        //             history.value = element.value;
-        //             history.asset = element.asset;
-        //             showtxs.push(history);
-        //         }
-        //     }
-        // }
-        // this.txs = showtxs;
 
     }
 }
