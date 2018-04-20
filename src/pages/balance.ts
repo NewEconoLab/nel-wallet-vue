@@ -48,37 +48,34 @@ export default class balance extends Vue
     this.getBalances();
   }
 
-  initAddress
-
+  //获取余额
   async getBalances()
   {
     CoinTool.initAllAsset();
-    var res: Result = await WWW.api_getBalance(this.currentAddress);
+    //获得balance列表
+    var balances = await WWW.api_getBalance(this.currentAddress) as BalanceInfo[];
     var clamis = await WWW.api_getclaimgas(this.currentAddress);
     var nep5balances = await WWW.api_getnep5Balance(this.currentAddress) as Nep5Balance[];
-    if (res.err)
+    if (balances) //余额不唯空
     {
-      // mui.alert("Current address balance is empty -_-!");
-    } else
-    {
-      this.balances = res.info;
-      this.neoasset.claim = clamis;
-      this.balances.map
+      balances.map(item => item.names = CoinTool.assetID2name[ item.asset ]); //将列表的余额资产名称赋值
+      this.balances = balances; //塞入页面modual
+      this.neoasset.claim = clamis;   //塞入claim
+      this.balances.forEach //取NEO 和GAS
         (
         (balance) =>
         {
-          if (balance.names == "NEO")
+          if (balance.asset == CoinTool.id_NEO)
           {
             this.neoasset.neo = balance.balance;
           }
-          if (balance.names == "GAS")
+          if (balance.asset == CoinTool.id_GAS)
           {
             this.neoasset.gas = balance.balance;
           }
-        }
-        )
+        });
     }
-    if (nep5balances != undefined && nep5balances.length > 0)
+    if (nep5balances)
     {
       for (let index = 0; index < nep5balances.length; index++)
       {

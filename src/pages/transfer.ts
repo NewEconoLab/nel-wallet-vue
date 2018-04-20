@@ -85,38 +85,151 @@ export default class transfer extends Vue
     }
     async history()
     {
-        var address = LoginInfo.getCurrentAddress();
-        var res = await WWW.api_getAddressTxs(address, 20, 1) as Transactionforaddr[];
+        var currentAddress = LoginInfo.getCurrentAddress();
+        var res = await WWW.gettransbyaddress(this.addrerr, 20, 1);
         console.log(res);
-        var showtxs: Array<History> = [];
-
         for (let index = 0; index < res.length; index++)
         {
-            const element = res[ index ];
-            var txid = element.txid;
-            var time = element.blocktime.$date;
-            let tx = await WWW.getrawtransaction(element.txid) as Transaction;
-            for (let index = 0; index < tx.vout.length; index++)
+            const tx = res[ index ];
+            let txid = tx[ "txid" ];
+            let vins = tx[ "vin" ];
+            let vouts = tx[ "vout" ];
+            let value = tx[ "value" ];
+            let txtype = tx[ "type" ];
+            let assetType = tx[ "assetType" ]
+            let blockindex = tx[ "blockindex" ];
+            let time = JSON.parse(tx[ "blocktime" ])[ "$date" ];
+            time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
+            if (txtype == "out")
             {
-                const element = tx.vout[ index ];
-                if (element.address != address)
+                var arr = {}
+                for (const index in vins)
                 {
-                    element[ "time" ] = time;
-                    element[ "txid" ] = txid;
-                    element[ "assetname" ] = CoinTool.assetID2name[ element.asset ];
-                    var history: History = new History();
-                    history.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
-                    history.txid = txid;
-                    history.assetname = CoinTool.assetID2name[ element.asset ];
-                    history.address = element.address;
-                    history.n = element.n;
-                    history.value = element.value;
-                    history.asset = element.asset;
-                    showtxs.push(history);
+                    let i = parseInt(index);
+                    const vin = vins[ i ];
+                    let address = vin[ "address" ];
+                    let amount = vin[ "value" ];
+                    let asset = vin[ "asset" ];
+                    if (assetType == "utxo")
+                        asset = CoinTool.assetID2name[ asset ];
+                    else
+                    {
+                        let nep5 = await WWW.getNep5Asset(asset);
+                        asset = nep5[ "name" ];
+                    }
+                    let n = vin[ "n" ];
+                    if (arr[ address ] && arr[ address ][ asset ])
+                    {
+                        arr[ address ][ asset ] += amount;
+                    } else
+                    {
+                        var assets = {}
+                        assets[ asset ] = amount;
+                        arr[ address ] = assets;
+                    }
+                }
+                for (const address in arr)
+                {
+                    if (arr.hasOwnProperty(address))
+                    {
+                        const value = arr[ address ];
+                        for (const asset in value)
+                        {
+                            if (value.hasOwnProperty(asset))
+                            {
+                                const amount = value[ asset ];
+                                var history = new History();
+                                history.time = time;
+                                history.txid = txid;
+                                history.assetname = asset;
+                                history.address = address;
+                                history.value = amount;
+                                this.txs.push(history);
+                            }
+                        }
+                    }
                 }
             }
+            else
+            {
+                var arr = {}
+                for (const index in vouts)
+                {
+                    let i = parseInt(index);
+                    const out = vouts[ i ];
+                    let address = out[ "address" ];
+                    let amount = out[ "value" ];
+                    let asset = out[ "asset" ];
+                    if (assetType == "utxo")
+                        asset = CoinTool.assetID2name[ asset ];
+                    else
+                    {
+                        let nep5 = await WWW.getNep5Asset(asset);
+                        asset = nep5[ "name" ];
+                    }
+                    let n = out[ "n" ];
+                    if (address != currentAddress)
+                    {
+                        if (arr[ address ] && arr[ address ][ asset ])
+                        {
+                            arr[ address ][ asset ] += amount;
+                        } else
+                        {
+                            var assets = {}
+                            assets[ asset ] = amount;
+                            arr[ address ] = assets;
+                        }
+                    }
+                }
+                for (const address in arr)
+                {
+                    if (arr.hasOwnProperty(address))
+                    {
+                        const value = arr[ address ];
+                        for (const asset in value)
+                        {
+                            if (value.hasOwnProperty(asset))
+                            {
+                                const amount = value[ asset ];
+                                var history = new History();
+                                history.time = time;
+                                history.txid = txid;
+                                history.assetname = asset;
+                                history.address = address;
+                                history.value = amount;
+                                this.txs.push(history);
+                            }
+                        }
+                    }
+                }
+
+            }
         }
-        this.txs = showtxs;
+        //     const element = res[ index ];
+        //     var txid = element.txid;
+        //     var time = element.blocktime.$date;
+        //     let tx = await WWW.getrawtransaction(element.txid) as Transaction;
+        //     for (let index = 0; index < tx.vout.length; index++)
+        //     {
+        //         const element = tx.vout[ index ];
+        //         if (element.address != address)
+        //         {
+        //             element[ "time" ] = time;
+        //             element[ "txid" ] = txid;
+        //             element[ "assetname" ] = CoinTool.assetID2name[ element.asset ];
+        //             var history: History = new History();
+        //             history.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
+        //             history.txid = txid;
+        //             history.assetname = CoinTool.assetID2name[ element.asset ];
+        //             history.address = element.address;
+        //             history.n = element.n;
+        //             history.value = element.value;
+        //             history.asset = element.asset;
+        //             showtxs.push(history);
+        //         }
+        //     }
+        // }
+        // this.txs = showtxs;
 
     }
 }

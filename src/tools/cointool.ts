@@ -234,12 +234,10 @@ export class CoinTool
     {
         let claimtxhex: string = await WWW.api_getclaimtxhex(LoginInfo.getCurrentAddress());
 
+        //对象化交易体
         var tran = new ThinNeo.Transaction();
-        // tran.DeserializeUnsigned(new Neo.IO.MemoryStream(claimtxhex.hexToBytes()))
-        // var signdata = ThinNeo.Helper.Sign(claimtxhex.hexToBytes(), prekey);
-        // tran.AddWitness(signdata, pubkey, addr);
-
-        // var data: Uint8Array = tran.GetRawData();
+        var buf = claimtxhex.hexToBytes();
+        tran.Deserialize(new Neo.IO.BinaryReader(new Neo.IO.MemoryStream(buf.buffer, 0, buf.byteLength)));
 
         var res: Result = new Result();
         var height = await WWW.api_getHeight();

@@ -3,6 +3,7 @@ import { CoinTool } from './cointool';
 export class WWW
 {
     static api: string = "https://api.nel.group/api/testnet";
+    static apiaggr: string = "https://apiaggr.nel.group/api/testnet";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
         if (url[ url.length - 1 ] != '/')
@@ -32,26 +33,20 @@ export class WWW
         return body;
     }
 
-    // static async rpc_getURL()
-    // {
-    //     var str = WWW.makeRpcUrl(WWW.api, "getnoderpcapi");
-    //     var result = await fetch(str, { "method": "get" });
-    //     var json = await result.json();
-    //     var r = json[ "result" ][ 0 ];
-    //     var url = r.nodeList[ 0 ];
-    //     WWW.rpc = url;
-    //     WWW.rpcName = r.nodeType;
-    //     return url;
-    // }
-    // 蓝鲸淘接口
-    // static async otc_getBalances(address: string)
-    // {
-    //     var str = WWW.otcgo + "/address/balances/{" + address + "}";
-    //     var value = await fetch(str, { "method": "get" });
-    //     var json = await value.json();
-    //     var r = json[ "data" ];
-    //     return r;
-    // }
+    static async gettransbyaddress(address: string, pagesize: number, pageindex: number)
+    {
+        var postdata =
+            WWW.makeRpcPostBody(
+                "gettransbyaddress",
+                "ARFe4mTKRTETerRoMsyzBXoPt2EKBvBXFX",
+                pagesize,
+                pageindex
+            );
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
 
     static async  api_getHeight()
     {
@@ -88,27 +83,11 @@ export class WWW
     }
     static async api_getBalance(address: string)
     {
-        var res: Result = new Result();
         var str = WWW.makeRpcUrl(WWW.api, "getbalance", address);
         var value = await fetch(str, { "method": "get" });
         var json = await value.json();
-        if (json[ "result" ])
-        {
-            var r = json[ "result" ];
-            var balances = r as Array<BalanceInfo>;
-            balances.map(balance => balance.names = balance.name.map(name => name.name).join('|'));
-            balances.map((balance) =>
-            {
-                balance.names = CoinTool.assetID2name[ balance.asset ];
-            });
-            res.err = false;
-            res.info = balances;
-        } else
-        {
-            res.err = true;
-            res.info = json[ "error" ];
-        }
-        return res;
+        var r = json[ "result" ];
+        return r;
     }
 
     static async getNep5Asset(asset: string)
