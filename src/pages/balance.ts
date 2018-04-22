@@ -92,6 +92,28 @@ export default class balance extends Vue
     StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
   }
 
+  async toClaimGas()
+  {
+    if (this.neoasset.claim > 0)
+    {
+      let res = await CoinTool.rawTransaction(this.currentAddress, CoinTool.id_NEO, this.neoasset.neo.toString());
+      if (res.info)
+      {
+      }
+    }
+  }
+
+  async queryClaimTx(txid)
+  {
+    setTimeout(() =>
+    {
+      var res = WWW.getrawtransaction(txid);
+      if (!res)
+        this.queryClaimTx(txid);
+      CoinTool.claimgas();
+    }, 30000);
+  }
+
   toTransfer(asset: string)
   {
     StorageTool.setStorage("transfer_choose", asset);

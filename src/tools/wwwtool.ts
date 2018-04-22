@@ -178,7 +178,7 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getrawtransaction", txid);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        if (json[ "result" ] == null)
+        if (!json[ "result" ])
             return null;
         var r = json[ "result" ][ 0 ]
         return r;

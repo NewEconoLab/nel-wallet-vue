@@ -238,10 +238,14 @@ export class CoinTool
         var tran = new ThinNeo.Transaction();
         var buf = claimtxhex.hexToBytes();
         tran.Deserialize(new Neo.IO.BinaryReader(new Neo.IO.MemoryStream(buf.buffer, 0, buf.byteLength)));
+        var current = LoginInfo.getCurrentLogin();
+        var msg = tran.GetMessage().clone();
+        var signdata = ThinNeo.Helper.Sign(msg, current.prikey);
+        tran.AddWitness(signdata, current.pubkey, current.address);
 
-        var res: Result = new Result();
-        var height = await WWW.api_getHeight();
-        // var result = await WWW.api_postRawTransaction(data);
+        var data: Uint8Array = tran.GetRawData();
+
+        var result = await WWW.api_postRawTransaction(data);
     }
 
     /**
