@@ -20,7 +20,7 @@
                     </div>
                     <div class="claim" style="padding: 30px; padding-left: 2.3%;">
                         <span style="margin-right: 17px;">GAS available to claim : {{neoasset.claim}}</span>
-                        <button class="btn btn-nel" v-if="neoasset.claim>0">Claim</button>
+                        <button class="btn btn-nel" v-if="neoasset.claim>0" @click="toClaimGas">Claim</button>
                     </div>
                 </div>
             </div>

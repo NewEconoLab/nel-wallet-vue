@@ -99,15 +99,16 @@ export default class balance extends Vue
       let res = await CoinTool.rawTransaction(this.currentAddress, CoinTool.id_NEO, this.neoasset.neo.toString());
       if (res.info)
       {
+        this.queryClaimTx(res.info);
       }
     }
   }
 
   async queryClaimTx(txid)
   {
-    setTimeout(() =>
+    setTimeout(async () =>
     {
-      var res = WWW.getrawtransaction(txid);
+      var res = await WWW.getrawtransaction(txid);
       if (!res)
         this.queryClaimTx(txid);
       CoinTool.claimgas();

@@ -246,6 +246,7 @@ export class CoinTool
         var data: Uint8Array = tran.GetRawData();
 
         var result = await WWW.api_postRawTransaction(data);
+
     }
 
     /**
