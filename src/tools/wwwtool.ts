@@ -117,7 +117,7 @@ export class WWW
         return r;
     }
 
-    static async api_getclaimgas(address: string, type: number): Promise<number>
+    static async api_getclaimgas(address: string, type: number)
     {
         if (type)
             var str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address, type);
@@ -128,7 +128,7 @@ export class WWW
         var r = json[ "result" ];
         if (r == undefined)
             return 0;
-        return r[ 0 ][ "gas" ];
+        return r[ 0 ];
     }
 
     static async api_getclaimtxhex(address: string): Promise<string>

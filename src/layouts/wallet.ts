@@ -41,15 +41,19 @@ export default class FeatureComponent extends Vue
         this.setting = this.$refs[ "setting" ][ "isActive" ]
             ? "icon-setting-select"
             : "icon-setting-unselect";
-        this.getHeight();
 
-        StorageTool.heightRefresh();
+        this.getHeight()
+        // StorageTool.heightRefresh();
     }
 
     async getHeight()
     {
-        this.blockheight = await WWW.api_getHeight();
-        // setInterval(this.getHeight(), 30000);
+        WWW.api_getHeight()
+            .then((res) =>
+            {
+                this.blockheight = res;
+            });
+        setTimeout(() => { this.getHeight() }, 15000);
     }
 
 }

@@ -25,7 +25,7 @@
               </v-link>
             </li>
           </ul>
-          <div class="blockheight">Block Height：</div>
+          <div class="blockheight">Block Height：{{blockheight}}</div>
         </div>
         <!--/.nav-collapse -->
       </div>

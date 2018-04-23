@@ -1,5 +1,12 @@
 webpackJsonp([1],{
 
+/***/ "+mP0":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "2xXY":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -73,6 +80,8 @@ var balance = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.currentAddress = "";
         _this.chooseAddress = "";
+        _this.loadmsg = "";
+        _this.claimbtn = true;
         _this.neoasset = new entity_1.NeoAsset();
         _this.balances = new Array();
         _this.neoasset.gas = 0;
@@ -96,7 +105,7 @@ var balance = /** @class */ (function (_super) {
     balance.prototype.getBalances = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var balances, clamis, nep5balances, index, nep5, nep5b;
+            var balances, clamis, clamis2, nep5balances, sum1, sum2, sum, index, nep5, nep5b;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -104,16 +113,24 @@ var balance = /** @class */ (function (_super) {
                         return [4 /*yield*/, wwwtool_1.WWW.api_getBalance(this.currentAddress)];
                     case 1:
                         balances = _a.sent();
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(this.currentAddress)];
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(this.currentAddress, 0)];
                     case 2:
                         clamis = _a.sent();
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getnep5Balance(this.currentAddress)];
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(this.currentAddress, 1)];
                     case 3:
+                        clamis2 = _a.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getnep5Balance(this.currentAddress)];
+                    case 4:
                         nep5balances = _a.sent();
+                        this.neoasset.neo = 0;
+                        this.neoasset.gas = 0;
                         if (balances) {
                             balances.map(function (item) { return item.names = cointool_1.CoinTool.assetID2name[item.asset]; }); //将列表的余额资产名称赋值
                             this.balances = balances; //塞入页面modual
-                            this.neoasset.claim = clamis; //塞入claim
+                            sum1 = Neo.Fixed8.parse(clamis["gas"].toFixed(8));
+                            sum2 = Neo.Fixed8.parse(clamis2["gas"].toFixed(8));
+                            sum = sum1.add(sum2).toString();
+                            this.neoasset.claim = parseFloat(sum); //塞入claim
                             this.balances.forEach //取NEO 和GAS
                             (function (balance) {
                                 if (balance.asset == cointool_1.CoinTool.id_NEO) {
@@ -138,6 +155,95 @@ var balance = /** @class */ (function (_super) {
                         storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
                         return [2 /*return*/];
                 }
+            });
+        });
+    };
+    balance.prototype.toClaimGas = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, res, txid;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(this.neoasset.claim > 0)) return [3 /*break*/, 4];
+                        if (!(this.neoasset.neo > 0)) return [3 /*break*/, 2];
+                        this.claimbtn = false;
+                        this.loadmsg = "Sending NEO to account address…";
+                        return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.currentAddress, cointool_1.CoinTool.id_NEO, this.neoasset.neo.toString())];
+                    case 1:
+                        res = _a.sent();
+                        if (res.info) {
+                            this.loadmsg = "Waiting for confirmation of transfer…";
+                            this.queryNEOTx(res.info);
+                        }
+                        return [3 /*break*/, 4];
+                    case 2:
+                        this.loadmsg = "Claiming GAS…";
+                        return [4 /*yield*/, cointool_1.CoinTool.claimGas()];
+                    case 3:
+                        res = _a.sent();
+                        if (res["sendrawtransactionresult"]) {
+                            txid = res["txid"];
+                            this.queryClaimTx(txid);
+                        }
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    balance.prototype.queryNEOTx = function (txid) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+                    var res, result, txid_1;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, wwwtool_1.WWW.getrawtransaction(txid)];
+                            case 1:
+                                res = _a.sent();
+                                if (!res) {
+                                    this.queryNEOTx(txid);
+                                    return [2 /*return*/];
+                                }
+                                this.loadmsg = "Claiming GAS…";
+                                return [4 /*yield*/, cointool_1.CoinTool.claimGas()];
+                            case 2:
+                                result = _a.sent();
+                                if (result["sendrawtransactionresult"]) {
+                                    txid_1 = result["txid"];
+                                    this.queryClaimTx(txid_1);
+                                }
+                                return [2 /*return*/];
+                        }
+                    });
+                }); }, 20000);
+                return [2 /*return*/];
+            });
+        });
+    };
+    balance.prototype.queryClaimTx = function (txid) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+                    var res;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, wwwtool_1.WWW.getrawtransaction(txid)];
+                            case 1:
+                                res = _a.sent();
+                                if (res) {
+                                    this.loadmsg = "Your GAS claim is successful!";
+                                    this.claimbtn = true;
+                                    return [2 /*return*/];
+                                }
+                                this.queryClaimTx(txid);
+                                return [2 /*return*/];
+                        }
+                    });
+                }); }, 20000);
+                return [2 /*return*/];
             });
         });
     };
@@ -449,13 +555,16 @@ var WWW = /** @class */ (function () {
             });
         });
     };
-    WWW.api_getclaimgas = function (address) {
+    WWW.api_getclaimgas = function (address, type) {
         return __awaiter(this, void 0, void 0, function () {
-            var str, result, json, r;
+            var str, str, result, json, r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address);
+                        if (type)
+                            str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address, type);
+                        else
+                            str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address);
                         return [4 /*yield*/, fetch(str, { "method": "get" })];
                     case 1:
                         result = _a.sent();
@@ -465,7 +574,7 @@ var WWW = /** @class */ (function () {
                         r = json["result"];
                         if (r == undefined)
                             return [2 /*return*/, 0];
-                        return [2 /*return*/, r[0]["gas"]];
+                        return [2 /*return*/, r[0]];
                 }
             });
         });
@@ -566,7 +675,7 @@ var WWW = /** @class */ (function () {
                         return [4 /*yield*/, result.json()];
                     case 2:
                         json = _a.sent();
-                        if (json["result"] == null)
+                        if (!json["result"])
                             return [2 /*return*/, null];
                         r = json["result"][0];
                         return [2 /*return*/, r];
@@ -794,6 +903,22 @@ exports.LoginInfo = LoginInfo;
 var BalanceInfo = /** @class */ (function () {
     function BalanceInfo() {
     }
+    BalanceInfo.jsonToArray = function (json) {
+        var arr = new Array();
+        for (var i in json) {
+            if (json.hasOwnProperty(i)) {
+                var element = json[i];
+                var balance = new BalanceInfo();
+                balance.asset = element["asset"];
+                balance.balance = element["balance"];
+                balance.name = element["balance"];
+                balance.names = element["names"];
+                balance.type = element["type"];
+                arr.push(balance);
+            }
+        }
+        return arr;
+    };
     return BalanceInfo;
 }());
 exports.BalanceInfo = BalanceInfo;
@@ -932,6 +1057,30 @@ var History = /** @class */ (function () {
     return History;
 }());
 exports.History = History;
+var Claim = /** @class */ (function () {
+    function Claim(json) {
+        this.addr = json['addr'];
+        this.asset = json['asset'];
+        this.claimed = json['claimed'];
+        this.createHeight = json['createHeight'];
+        this.n = json['n'];
+        this.txid = json['txid'];
+        this.useHeight = json['useHeight'];
+        this.used = json['used'];
+        this.value = json['value'];
+    }
+    Claim.strToClaimArray = function (arr) {
+        var claimarr = new Array();
+        for (var i in arr) {
+            if (arr.hasOwnProperty(i)) {
+                claimarr.push(new Claim(arr[i]));
+            }
+        }
+        return claimarr;
+    };
+    return Claim;
+}());
+exports.Claim = Claim;
 
 
 /***/ }),
@@ -1051,6 +1200,13 @@ var Main = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Main;
 
+
+/***/ }),
+
+/***/ "GpEq":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1743,14 +1899,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var wallet = __webpack_require__("YRcM");
 var wallet_default = /*#__PURE__*/__webpack_require__.n(wallet);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-307c5c40","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{ref:"balance",attrs:{"href":"#balance"}},[_c('span',{class:[_vm.balance]}),_vm._v(" Balance\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"transfer",attrs:{"href":"#transfer"}},[_c('span',{class:[_vm.transfer]}),_vm._v(" Transfer\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nns",attrs:{"href":"#nns"}},[_c('span',{class:[_vm.nns]}),_vm._v(" NNS\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"setting",attrs:{"href":"#settings"}},[_c('span',{class:[_vm.setting]}),_vm._v(" Settings\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"blockheight"},[_vm._v("Block Height：")])])])]),_vm._v(" "),_vm._t("default")],2)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-989ea100","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{ref:"balance",attrs:{"href":"#balance"}},[_c('span',{class:[_vm.balance]}),_vm._v(" Balance\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"transfer",attrs:{"href":"#transfer"}},[_c('span',{class:[_vm.transfer]}),_vm._v(" Transfer\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nns",attrs:{"href":"#nns"}},[_c('span',{class:[_vm.nns]}),_vm._v(" NNS\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"setting",attrs:{"href":"#settings"}},[_c('span',{class:[_vm.setting]}),_vm._v(" Settings\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"blockheight"},[_vm._v("Block Height："+_vm._s(_vm.blockheight))])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_wallet = (esExports);
 // CONCATENATED MODULE: ./src/layouts/wallet.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("qzQ0")
+  __webpack_require__("+mP0")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1778,13 +1934,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "PcCl":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "QRjO":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1795,14 +1944,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var balance = __webpack_require__("2xXY");
 var balance_default = /*#__PURE__*/__webpack_require__.n(balance);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2b7535d4","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v("NEO Balance")]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v("Key Address ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),_c('button',{staticClass:"btn",class:_vm.chooseAddressarr && _vm.chooseAddressarr.length>1 ? 'btn-nel' : 'btn-disabled',attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v("Switch")])])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v("GAS available to claim : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim>0)?_c('button',{staticClass:"btn btn-nel"},[_vm._v("Claim")]):_vm._e()])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Asset")])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v("Transfer")])])])])})],2):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v("Choose address")])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v("Select Nep6 File:")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v("Close")]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v("confirm")])])])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-34cffb72","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v("NEO Balance")]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v("Key Address ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),_c('button',{staticClass:"btn",class:_vm.chooseAddressarr && _vm.chooseAddressarr.length>1 ? 'btn-nel' : 'btn-disabled',attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v("Switch")])])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v("GAS available to claim : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim>0&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v("Claim")]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('div',{staticClass:"spinner-wrap"},[_c('div',{staticClass:"spinner"},[_c('div',{staticClass:"spinner-container container1"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container2"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container3"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})])])]):_vm._e()])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Asset")])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v("Transfer")])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v("Choose address")])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v("Select Nep6 File:")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v("Close")]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v("confirm")])])])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_balance = (esExports);
 // CONCATENATED MODULE: ./src/pages/balance.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("PcCl")
+  __webpack_require__("lNNG")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1895,7 +2044,6 @@ var vue_class_component_1 = __webpack_require__("c+8m");
 var Main_vue_1 = __webpack_require__("l7Tq");
 var VLink_vue_1 = __webpack_require__("N5E8");
 var wwwtool_1 = __webpack_require__("50aY");
-var storagetool_1 = __webpack_require__("5LD5");
 var FeatureComponent = /** @class */ (function (_super) {
     __extends(FeatureComponent, _super);
     function FeatureComponent() {
@@ -1921,20 +2069,18 @@ var FeatureComponent = /** @class */ (function (_super) {
             ? "icon-setting-select"
             : "icon-setting-unselect";
         this.getHeight();
-        storagetool_1.StorageTool.heightRefresh();
+        // StorageTool.heightRefresh();
     };
     FeatureComponent.prototype.getHeight = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = this;
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
-                    case 1:
-                        _a.blockheight = _b.sent();
-                        return [2 /*return*/];
-                }
+            var _this = this;
+            return __generator(this, function (_a) {
+                wwwtool_1.WWW.api_getHeight()
+                    .then(function (res) {
+                    _this.blockheight = res;
+                });
+                setTimeout(function () { _this.getHeight(); }, 15000);
+                return [2 /*return*/];
             });
         });
     };
@@ -2761,6 +2907,7 @@ var transfer = /** @class */ (function (_super) {
         _this.targetaddr = "";
         _this.amount = "";
         _this.asset = "";
+        _this.txpage = 1;
         cointool_1.CoinTool.initAllAsset();
         return _this;
     }
@@ -2778,6 +2925,10 @@ var transfer = /** @class */ (function (_super) {
             this.history();
         }
     };
+    transfer.prototype.cutPage = function (btn) {
+        btn == "next" ? this.txpage++ : (this.txpage <= 1 ? this.txpage = 1 : this.txpage--);
+        this.history();
+    };
     transfer.prototype.choose = function (assetid) {
         var _this = this;
         this.asset = assetid;
@@ -2792,6 +2943,10 @@ var transfer = /** @class */ (function (_super) {
             this.addrerr = 'true';
     };
     transfer.prototype.verify_Amount = function () {
+        var balancenum = Neo.Fixed8.parse(this.balance.balance + '');
+        var inputamount = Neo.Fixed8.parse(this.amount);
+        var compare = balancenum.compareTo(inputamount);
+        compare >= 1 ? this.amount = this.amount : this.amount = balancenum.toString();
     };
     transfer.prototype.send = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -2824,19 +2979,19 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.history = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var currentAddress, res, index, tx, txid, vins, vouts, value, txtype, assetType, blockindex, time, arr, _a, _b, _i, index_1, i, vin, address, amount, asset, nep5, n, assets, address, value_1, asset, amount, history, arr, _c, _d, _e, index_2, i, out, address, amount, asset, nep5, n, assets, address, value_2, asset, amount, history;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
+            var currentAddress, res, index, tx, txid, vins, vouts, value, txtype, assetType, blockindex, time, arr, vin, address, amount, asset, nep5, n, assets, address, value_1, asset, amount, history, arr, _a, _b, _i, index_1, i, out, address, amount, asset, nep5, n, assets, address, value_2, asset, amount, history;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         currentAddress = entity_1.LoginInfo.getCurrentAddress();
-                        return [4 /*yield*/, wwwtool_1.WWW.gettransbyaddress(this.addrerr, 20, 1)];
+                        return [4 /*yield*/, wwwtool_1.WWW.gettransbyaddress(currentAddress, 5, this.txpage)];
                     case 1:
-                        res = _f.sent();
-                        console.log(res);
+                        res = _c.sent();
+                        this.txs = [];
                         index = 0;
-                        _f.label = 2;
+                        _c.label = 2;
                     case 2:
-                        if (!(index < res.length)) return [3 /*break*/, 17];
+                        if (!(index < res.length)) return [3 /*break*/, 15];
                         tx = res[index];
                         txid = tx["txid"];
                         vins = tx["vin"];
@@ -2847,30 +3002,22 @@ var transfer = /** @class */ (function (_super) {
                         blockindex = tx["blockindex"];
                         time = JSON.parse(tx["blocktime"])["$date"];
                         time = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
-                        if (!(txtype == "out")) return [3 /*break*/, 9];
+                        if (!(txtype == "out")) return [3 /*break*/, 7];
                         arr = {};
-                        _a = [];
-                        for (_b in vins)
-                            _a.push(_b);
-                        _i = 0;
-                        _f.label = 3;
-                    case 3:
-                        if (!(_i < _a.length)) return [3 /*break*/, 8];
-                        index_1 = _a[_i];
-                        i = parseInt(index_1);
-                        vin = vins[i];
+                        if (!(vins && vins.length == 1)) return [3 /*break*/, 6];
+                        vin = vins[0];
                         address = vin["address"];
                         amount = vin["value"];
                         asset = vin["asset"];
-                        if (!(assetType == "utxo")) return [3 /*break*/, 4];
+                        if (!(assetType == "utxo")) return [3 /*break*/, 3];
                         asset = cointool_1.CoinTool.assetID2name[asset];
-                        return [3 /*break*/, 6];
-                    case 4: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
-                    case 5:
-                        nep5 = _f.sent();
+                        return [3 /*break*/, 5];
+                    case 3: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
+                    case 4:
+                        nep5 = _c.sent();
                         asset = nep5["name"];
-                        _f.label = 6;
-                    case 6:
+                        _c.label = 5;
+                    case 5:
                         n = vin["n"];
                         if (arr[address] && arr[address][asset]) {
                             arr[address][asset] += amount;
@@ -2880,11 +3027,8 @@ var transfer = /** @class */ (function (_super) {
                             assets[asset] = amount;
                             arr[address] = assets;
                         }
-                        _f.label = 7;
-                    case 7:
-                        _i++;
-                        return [3 /*break*/, 3];
-                    case 8:
+                        _c.label = 6;
+                    case 6:
                         for (address in arr) {
                             if (arr.hasOwnProperty(address)) {
                                 value_1 = arr[address];
@@ -2897,36 +3041,37 @@ var transfer = /** @class */ (function (_super) {
                                         history.assetname = asset;
                                         history.address = address;
                                         history.value = amount;
+                                        history.txtype = txtype;
                                         this.txs.push(history);
                                     }
                                 }
                             }
                         }
-                        return [3 /*break*/, 16];
-                    case 9:
+                        return [3 /*break*/, 14];
+                    case 7:
                         arr = {};
-                        _c = [];
-                        for (_d in vouts)
-                            _c.push(_d);
-                        _e = 0;
-                        _f.label = 10;
-                    case 10:
-                        if (!(_e < _c.length)) return [3 /*break*/, 15];
-                        index_2 = _c[_e];
-                        i = parseInt(index_2);
+                        _a = [];
+                        for (_b in vouts)
+                            _a.push(_b);
+                        _i = 0;
+                        _c.label = 8;
+                    case 8:
+                        if (!(_i < _a.length)) return [3 /*break*/, 13];
+                        index_1 = _a[_i];
+                        i = parseInt(index_1);
                         out = vouts[i];
                         address = out["address"];
                         amount = out["value"];
                         asset = out["asset"];
-                        if (!(assetType == "utxo")) return [3 /*break*/, 11];
+                        if (!(assetType == "utxo")) return [3 /*break*/, 9];
                         asset = cointool_1.CoinTool.assetID2name[asset];
-                        return [3 /*break*/, 13];
-                    case 11: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
-                    case 12:
-                        nep5 = _f.sent();
+                        return [3 /*break*/, 11];
+                    case 9: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
+                    case 10:
+                        nep5 = _c.sent();
                         asset = nep5["name"];
-                        _f.label = 13;
-                    case 13:
+                        _c.label = 11;
+                    case 11:
                         n = out["n"];
                         if (address != currentAddress) {
                             if (arr[address] && arr[address][asset]) {
@@ -2938,11 +3083,11 @@ var transfer = /** @class */ (function (_super) {
                                 arr[address] = assets;
                             }
                         }
-                        _f.label = 14;
-                    case 14:
-                        _e++;
-                        return [3 /*break*/, 10];
-                    case 15:
+                        _c.label = 12;
+                    case 12:
+                        _i++;
+                        return [3 /*break*/, 8];
+                    case 13:
                         for (address in arr) {
                             if (arr.hasOwnProperty(address)) {
                                 value_2 = arr[address];
@@ -2955,16 +3100,17 @@ var transfer = /** @class */ (function (_super) {
                                         history.assetname = asset;
                                         history.address = address;
                                         history.value = amount;
+                                        history.txtype = txtype;
                                         this.txs.push(history);
                                     }
                                 }
                             }
                         }
-                        _f.label = 16;
-                    case 16:
+                        _c.label = 14;
+                    case 14:
                         index++;
                         return [3 /*break*/, 2];
-                    case 17: return [2 /*return*/];
+                    case 15: return [2 /*return*/];
                 }
             });
         });
@@ -3027,6 +3173,13 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_layouts_Main = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "lNNG":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -3133,14 +3286,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var transfer = __webpack_require__("f3HO");
 var transfer_default = /*#__PURE__*/__webpack_require__.n(transfer);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-62d0ae5b","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"nel-input big",attrs:{"type":"text"},domProps:{"value":(_vm.targetaddr)},on:{"change":_vm.verify_addr,"input":function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_addr,"input":function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value}}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number"},[_vm._v("- "+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v("Send to : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_vm._v(_vm._s(tx.time))])])})],2)])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1098999c","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"nel-input big",attrs:{"type":"text"},domProps:{"value":(_vm.targetaddr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value},_vm.verify_addr]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(" Send "+_vm._s(tx.txtype == 'out'?'form':'to')+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_vm._v(_vm._s(tx.time))])])})],2)]),_vm._v(" "),(_vm.txs &&_vm.txs.length)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_transfer = (esExports);
 // CONCATENATED MODULE: ./src/pages/transfer.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("xyyd")
+  __webpack_require__("GpEq")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -3435,7 +3588,7 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.claimgas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var claimtxhex, tran, buf, res, height;
+            var claimtxhex, tran, buf, current, msg, signdata, data, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, wwwtool_1.WWW.api_getclaimtxhex(entity_1.LoginInfo.getCurrentAddress())];
@@ -3444,11 +3597,61 @@ var CoinTool = /** @class */ (function () {
                         tran = new ThinNeo.Transaction();
                         buf = claimtxhex.hexToBytes();
                         tran.Deserialize(new Neo.IO.BinaryReader(new Neo.IO.MemoryStream(buf.buffer, 0, buf.byteLength)));
-                        res = new entity_1.Result();
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                        current = entity_1.LoginInfo.getCurrentLogin();
+                        msg = tran.GetMessage().clone();
+                        signdata = ThinNeo.Helper.Sign(msg, current.prikey);
+                        tran.AddWitness(signdata, current.pubkey, current.address);
+                        data = tran.GetRawData();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
                     case 2:
-                        height = _a.sent();
-                        return [2 /*return*/];
+                        result = _a.sent();
+                        return [2 /*return*/, result];
+                }
+            });
+        });
+    };
+    CoinTool.claimGas = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var current, claimsstr, claims, sum, tran, i, claim, input, output, msg, signdata, data, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        current = entity_1.LoginInfo.getCurrentLogin();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(current.address, 0)];
+                    case 1:
+                        claimsstr = _a.sent();
+                        claims = claimsstr["claims"];
+                        sum = claimsstr["gas"].toFixed(8);
+                        tran = new ThinNeo.Transaction();
+                        //交易类型为合约交易
+                        tran.type = ThinNeo.TransactionType.ClaimTransaction;
+                        tran.version = 0; //0 or 1
+                        tran.extdata = new ThinNeo.ClaimTransData(); //JSON.parse(JSON.stringify(claims));
+                        tran.extdata.claims = [];
+                        tran.attributes = [];
+                        tran.inputs = [];
+                        for (i in claims) {
+                            claim = claims[i];
+                            input = new ThinNeo.TransactionInput();
+                            input.hash = (claim.txid).hexToBytes().reverse();
+                            input.index = claim.n;
+                            input["_addr"] = claim.addr;
+                            tran.extdata.claims.push(input);
+                        }
+                        output = new ThinNeo.TransactionOutput();
+                        output.assetId = (CoinTool.id_GAS).hexToBytes().reverse();
+                        output.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(current.address);
+                        output.value = Neo.Fixed8.parse(sum);
+                        tran.outputs = [];
+                        tran.outputs.push(output);
+                        msg = tran.GetMessage().clone();
+                        signdata = ThinNeo.Helper.Sign(msg, current.prikey);
+                        tran.AddWitness(signdata, current.pubkey, current.address);
+                        data = tran.GetRawData();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
+                    case 2:
+                        result = _a.sent();
+                        return [2 /*return*/, result];
                 }
             });
         });
@@ -3543,10 +3746,17 @@ exports.CoinTool = CoinTool;
 
 /***/ }),
 
-/***/ "qzQ0":
+/***/ "pp3u":
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE1IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0OSAoNTEwMDIpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0i5rWP6KeI5ZmoNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9ImJsb2Nrcy1oYW5nb3ZlciIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTY1OC4wMDAwMDAsIC0xMTY1LjAwMDAwMCkiIGZpbGw9IiNGRkZGRkYiPgogICAgICAgICAgICA8ZyBpZD0ic3d0aWNoIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTAuMDAwMDAwLCAxMTU0LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9Ikdyb3VwLTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUxLjAwMDAwMCwgMC4wMDAwMDApIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjUuMjc2MzkzMiwxMi4xNzEwMzk0IEwzMS42NTgzNTkyLDI0LjkzNDk3MTUgQzMxLjkwNTM0ODUsMjUuNDI4OTUgMzEuNzA1MTI0MSwyNi4wMjk2MjMgMzEuMjExMTQ1NiwyNi4yNzY2MTIzIEMzMS4wNzIyOTAyLDI2LjM0NjA0IDMwLjkxOTE3NzEsMjYuMzgyMTg1MSAzMC43NjM5MzIsMjYuMzgyMTg1MSBMMTgsMjYuMzgyMTg1MSBDMTcuNDQ3NzE1MywyNi4zODIxODUxIDE3LDI1LjkzNDQ2OTggMTcsMjUuMzgyMTg1MSBDMTcsMjUuMjI2OTQgMTcuMDM2MTQ1MSwyNS4wNzM4MjY5IDE3LjEwNTU3MjgsMjQuOTM0OTcxNSBMMjMuNDg3NTM4OCwxMi4xNzEwMzk0IEMyMy43MzQ1MjgxLDExLjY3NzA2MSAyNC4zMzUyMDExLDExLjQ3NjgzNjYgMjQuODI5MTc5NiwxMS43MjM4MjU5IEMyNS4wMjI3MDcsMTEuODIwNTg5NiAyNS4xNzk2Mjk1LDExLjk3NzUxMiAyNS4yNzYzOTMyLDEyLjE3MTAzOTQgWiIgaWQ9IlRyaWFuZ2xlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC4zODIwNzYsIDE5LjAwMDExMCkgcm90YXRlKDkwLjAwMDAwMCkgdHJhbnNsYXRlKC0yNC4zODIwNzYsIC0xOS4wMDAxMTApICI+PC9wYXRoPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4="
+
+/***/ }),
+
+/***/ "tt5S":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE1IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0OSAoNTEwMDIpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0i5rWP6KeI5ZmoNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9ImJsb2Nrcy1oYW5nb3ZlciIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTYwOC4wMDAwMDAsIC0xMTY1LjAwMDAwMCkiIGZpbGw9IiNGRkZGRkYiPgogICAgICAgICAgICA8ZyBpZD0ic3d0aWNoIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTAuMDAwMDAwLCAxMTU0LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9Ikdyb3VwIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjUuODk0NDI3MiwxMi43ODg4NTQ0IEwzMi4yNzYzOTMyLDI1LjU1Mjc4NjQgQzMyLjUyMzM4MjUsMjYuMDQ2NzY0OSAzMi4zMjMxNTgxLDI2LjY0NzQzNzkgMzEuODI5MTc5NiwyNi44OTQ0MjcyIEMzMS42OTAzMjQyLDI2Ljk2Mzg1NDkgMzEuNTM3MjExMSwyNyAzMS4zODE5NjYsMjcgTDE4LjYxODAzNCwyNyBDMTguMDY1NzQ5MiwyNyAxNy42MTgwMzQsMjYuNTUyMjg0NyAxNy42MTgwMzQsMjYgQzE3LjYxODAzNCwyNS44NDQ3NTQ5IDE3LjY1NDE3OTEsMjUuNjkxNjQxOCAxNy43MjM2MDY4LDI1LjU1Mjc4NjQgTDI0LjEwNTU3MjgsMTIuNzg4ODU0NCBDMjQuMzUyNTYyMSwxMi4yOTQ4NzU5IDI0Ljk1MzIzNTEsMTIuMDk0NjUxNSAyNS40NDcyMTM2LDEyLjM0MTY0MDggQzI1LjY0MDc0MSwxMi40Mzg0MDQ1IDI1Ljc5NzY2MzUsMTIuNTk1MzI3IDI1Ljg5NDQyNzIsMTIuNzg4ODU0NCBaIiBpZD0iVHJpYW5nbGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1LjAwMDAwMCwgMTkuMDAwMDAwKSBzY2FsZSgtMSwgMSkgcm90YXRlKDkwLjAwMDAwMCkgdHJhbnNsYXRlKC0yNS4wMDAwMDAsIC0xOS4wMDAwMDApICI+PC9wYXRoPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4="
 
 /***/ }),
 
@@ -3622,13 +3832,6 @@ window.addEventListener('popstate', function () {
     app.currentRoute = window.location.hash;
 });
 
-
-/***/ }),
-
-/***/ "xyyd":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 

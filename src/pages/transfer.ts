@@ -25,12 +25,14 @@ export default class transfer extends Vue
     addrerr: string = "";
     amounterr: string = "";
     txs: History[] = [];
+    txpage: number;
     constructor() 
     {
         super();
         this.targetaddr = "";
         this.amount = "";
         this.asset = "";
+        this.txpage = 1;
         CoinTool.initAllAsset();
     }
     mounted() 
@@ -48,6 +50,11 @@ export default class transfer extends Vue
             this.history();
         }
     }
+    cutPage(btn: string)
+    {
+        btn == "next" ? this.txpage++ : (this.txpage <= 1 ? this.txpage = 1 : this.txpage--);
+        this.history();
+    }
     choose(assetid: string)
     {
         this.asset = assetid
@@ -62,7 +69,10 @@ export default class transfer extends Vue
     }
     verify_Amount()
     {
-
+        let balancenum = Neo.Fixed8.parse(this.balance.balance + '');
+        let inputamount = Neo.Fixed8.parse(this.amount);
+        let compare = balancenum.compareTo(inputamount);
+        compare >= 1 ? this.amount = this.amount : this.amount = balancenum.toString();
     }
     async send()
     {
@@ -86,7 +96,8 @@ export default class transfer extends Vue
     async history()
     {
         var currentAddress = LoginInfo.getCurrentAddress();
-        var res = await WWW.gettransbyaddress(this.addrerr, 20, 1);
+        var res = await WWW.gettransbyaddress(currentAddress, 5, this.txpage);
+        this.txs = [];
         for (let index = 0; index < res.length; index++)
         {
             const tx = res[ index ];
@@ -202,7 +213,6 @@ export default class transfer extends Vue
                         }
                     }
                 }
-
             }
         }
 

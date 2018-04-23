@@ -56,6 +56,27 @@ export class BalanceInfo
     name: { lang: string, name: string }[];
     names: string;
     type: string;
+
+    static jsonToArray(json: {}[])
+    {
+        let arr = new Array<BalanceInfo>();
+        for (const i in json)
+        {
+            if (json.hasOwnProperty(i))
+            {
+                const element = json[ i ];
+                let balance = new BalanceInfo();
+                balance.asset = element[ "asset" ];
+                balance.balance = element[ "balance" ];
+                balance.name = element[ "balance" ];
+                balance.names = element[ "names" ];
+                balance.type = element[ "type" ];
+                arr.push(balance);
+            }
+        }
+        return arr;
+
+    }
 }
 
 export class Nep5Balance
@@ -236,4 +257,41 @@ export class History
     assetname: string;
     txtype: string;
     time: string; txid: string;
+}
+export class Claim
+{
+    addr: string;//"ALfnhLg7rUyL6Jr98bzzoxz5J7m64fbR4s"
+    asset: string;//"0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b"
+    claimed: boolean;//""
+    createHeight: number;//1365554
+    n: number;//0
+    txid: string;//"0x90800a9dde3f00b61e16a387aa4a2ea15e4c7a4711a51aa9751da224d9178c64"
+    useHeight: number;//1373557
+    used: string;//"0x47bf58edae75796b1ba4fd5085e5012c3661109e2e82ad9b84666740e561c795"
+    value: number;//"1"
+
+    constructor(json: {})
+    {
+        this.addr = json[ 'addr' ];
+        this.asset = json[ 'asset' ];
+        this.claimed = json[ 'claimed' ];
+        this.createHeight = json[ 'createHeight' ];
+        this.n = json[ 'n' ];
+        this.txid = json[ 'txid' ];
+        this.useHeight = json[ 'useHeight' ];
+        this.used = json[ 'used' ];
+        this.value = json[ 'value' ];
+    }
+    static strToClaimArray(arr: {}[]): Claim[]
+    {
+        let claimarr = new Array<Claim>();
+        for (const i in arr)
+        {
+            if (arr.hasOwnProperty(i))
+            {
+                claimarr.push(new Claim(arr[ i ]));
+            }
+        }
+        return claimarr;
+    }
 }

@@ -218,7 +218,7 @@ jumbotron {
     color: #444;
 }
 
-.btn-disabled{
+.btn-disabled {
     color: #fff;
     background: #77BCF6;
     cursor: not-allowed;
@@ -443,14 +443,54 @@ table>tbody>tr {
     margin-left: 20px;
 }
 
-.user-select-ok{
-    -moz-user-select: text; 
-    -webkit-user-select: text; 
-    -ms-user-select: text; 
-    -khtml-user-select: text; 
-    user-select: text; 
+.user-select-ok {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    -khtml-user-select: text;
+    user-select: text;
 }
+
 .container .title {
-  padding-top: 40px;
-  padding-bottom: 20px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+.page {
+    width: 101px;
+    height: 38px;
+    margin: 0 auto;
+    /* Firefox */
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+    /* Safari, Chrome, and Opera */
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    /* W3C */
+    display: box;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+.err .mess p {
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #f25151;
+    line-height: 12px;
+}
+
+.success input {
+    border: 1px solid #b2b2b2;
+    box-shadow: 0 0 3px 0 #2dde4f;
+    border-radius: 5px;
+}
+
+.err input {
+    border: 1px solid #b2b2b2;
+    box-shadow: 0 0 3px 0 #f25151;
+    border-radius: 5px;
 }

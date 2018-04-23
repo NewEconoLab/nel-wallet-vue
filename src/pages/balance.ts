@@ -22,6 +22,8 @@ export default class balance extends Vue
   currentAddress: string = "";
   chooseAddressarr: Array<LoginInfo>;
   chooseAddress: string = "";
+  loadmsg: string = "";
+  claimbtn: boolean = true;
 
   constructor()
   {
@@ -57,11 +59,16 @@ export default class balance extends Vue
     var clamis = await WWW.api_getclaimgas(this.currentAddress, 0);
     var clamis2 = await WWW.api_getclaimgas(this.currentAddress, 1);
     var nep5balances = await WWW.api_getnep5Balance(this.currentAddress) as Nep5Balance[];
+    this.neoasset.neo = 0;
+    this.neoasset.gas = 0;
     if (balances) //余额不唯空
     {
       balances.map(item => item.names = CoinTool.assetID2name[ item.asset ]); //将列表的余额资产名称赋值
       this.balances = balances; //塞入页面modual
-      this.neoasset.claim = clamis + clamis2;   //塞入claim
+      let sum1 = Neo.Fixed8.parse(clamis[ "gas" ].toFixed(8));
+      let sum2 = Neo.Fixed8.parse(clamis2[ "gas" ].toFixed(8));
+      let sum = sum1.add(sum2).toString();
+      this.neoasset.claim = parseFloat(sum);   //塞入claim
       this.balances.forEach //取NEO 和GAS
         (
         (balance) =>
@@ -96,12 +103,47 @@ export default class balance extends Vue
   {
     if (this.neoasset.claim > 0)
     {
-      let res = await CoinTool.rawTransaction(this.currentAddress, CoinTool.id_NEO, this.neoasset.neo.toString());
-      if (res.info)
+      if (this.neoasset.neo > 0)
       {
-        this.queryClaimTx(res.info);
+        this.claimbtn = false;
+        this.loadmsg = "Sending NEO to account address…";
+        let res = await CoinTool.rawTransaction(this.currentAddress, CoinTool.id_NEO, this.neoasset.neo.toString());
+        if (res.info)
+        {
+          this.loadmsg = "Waiting for confirmation of transfer…";
+          this.queryNEOTx(res.info);
+        }
+      } else
+      {
+        this.loadmsg = "Claiming GAS…";
+        let res = await CoinTool.claimGas();
+        if (res[ "sendrawtransactionresult" ])
+        {
+          let txid = res[ "txid" ];
+          this.queryClaimTx(txid);
+        }
       }
     }
+  }
+
+  async queryNEOTx(txid)
+  {
+    setTimeout(async () =>
+    {
+      let res = await WWW.getrawtransaction(txid);
+      if (!res)
+      {
+        this.queryNEOTx(txid);
+        return;
+      }
+      this.loadmsg = "Claiming GAS…";
+      let result = await CoinTool.claimGas();
+      if (result[ "sendrawtransactionresult" ])
+      {
+        let txid = result[ "txid" ];
+        this.queryClaimTx(txid);
+      }
+    }, 20000);
   }
 
   async queryClaimTx(txid)
@@ -109,10 +151,14 @@ export default class balance extends Vue
     setTimeout(async () =>
     {
       var res = await WWW.getrawtransaction(txid);
-      if (!res)
-        this.queryClaimTx(txid);
-      CoinTool.claimgas();
-    }, 30000);
+      if (res)
+      {
+        this.loadmsg = "Your GAS claim is successful!";
+        this.claimbtn = true;
+        return;
+      }
+      this.queryClaimTx(txid);
+    }, 20000);
   }
 
   toTransfer(asset: string)

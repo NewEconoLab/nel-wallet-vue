@@ -35,7 +35,7 @@
                         </label>
                         <div class="col-sm-7">
                             <div style="padding-top:30px;">
-                                <input type="text" v-model="targetaddr" class="nel-input big" @change="verify_addr">
+                                <input type="text" v-model="targetaddr" class="nel-input big" @input="verify_addr">
                             </div>
                         </div>
                         <div class="col-sm-3 mess">
@@ -43,16 +43,19 @@
                             <p v-if="addrerr=='false'"><img src="../../static/img/correct.svg" alt=""></p>
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" :class="amounterr!=''?(amounterr == 'true' ?'err':'success') :''">
                         <label for="" class="col-sm-2 control-label">
                             <div style="padding-top:40px;">Amount:</div>
                         </label>
                         <div class="col-sm-7">
                             <div style="padding-top:30px;">
-                                <input type="number" v-model="amount" class="nel-input big" @change="verify_addr">
+                                <input type="number" v-model="amount" class="nel-input big" @input="verify_Amount">
                             </div>
                         </div>
-                        <div class="col-sm-3 mess"></div>
+                        <div class="col-sm-3 mess">
+                            <!-- <p v-if="addrerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; Your adress is incorrect.</p>
+                            <p v-if="addrerr=='false'"><img src="../../static/img/correct.svg" alt=""></p> -->
+                        </div>
                     </div>
                     <div class="col-sm-12" style="padding-top:30px;">
                         <div class="col-sm-6"></div>
@@ -81,8 +84,16 @@
                     </div>
                 </div>
             </div>
+            <div class="page" v-if="txs &&txs.length">
+                <div class="page-previous" :class="txpage<=1?'disabled':''" @click="cutPage('pre')">
+                    <img src="../../static/img/lefttrangle.svg" alt="">
+                </div>
+                <div style="width:1px;"></div>
+                <div class="page-next" @click="cutPage('next')">
+                    <img src="../../static/img/righttrangle.svg" alt="">
+                </div>
+            </div>
         </div>
-
     </wallet-layout>
 </template>
 
@@ -164,6 +175,8 @@
   background: #454f60;
   color: #ffffff;
   border-radius: 5px;
+  padding-bottom: 30px;
+  margin-bottom: 15px;
 }
 .history {
   border: 1px solid #b2b2b2;
