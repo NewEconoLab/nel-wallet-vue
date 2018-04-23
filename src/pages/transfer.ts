@@ -25,6 +25,7 @@ export default class transfer extends Vue
     addrerr: string = "";
     amounterr: string = "";
     txs: History[] = [];
+    nextpage: boolean = true;
     txpage: number;
     constructor() 
     {
@@ -61,11 +62,15 @@ export default class transfer extends Vue
         StorageTool.setStorage("transfer_choose", assetid);
         var n: number = this.balances.findIndex(b => b.asset == this.asset);
         this.balance = this.balances[ n ];
+        this.verify_Amount();
     }
     verify_addr()
     {
-        if (neotools.verifyPublicKey(this.targetaddr)) this.addrerr = 'false';
-        else this.addrerr = 'true';
+        if (neotools.verifyPublicKey(this.targetaddr))
+        {
+            this.addrerr = 'false'; return true;
+        }
+        else { this.addrerr = 'true'; return false; }
     }
     verify_Amount()
     {
@@ -73,20 +78,24 @@ export default class transfer extends Vue
         let inputamount = Neo.Fixed8.parse(this.amount);
         let compare = balancenum.compareTo(inputamount);
         compare >= 1 ? this.amount = this.amount : this.amount = balancenum.toString();
+        return true;
     }
     async send()
     {
         try
         {
-            if (this.balance.type == "nep5")
+            if (this.verify_addr() && this.verify_Amount())
             {
-                let res = await CoinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.targetaddr, this.asset, this.amount);
-                if (!res[ "err" ])
-                    mui.toast("Your transaction has been sent, please check it later");
-            } else
-            {
-                let res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount);
-                mui.toast(res.info);
+                if (this.balance.type == "nep5")
+                {
+                    let res = await CoinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.targetaddr, this.asset, this.amount);
+                    if (!res[ "err" ])
+                        mui.toast("Your transaction has been sent, please check it later");
+                } else
+                {
+                    let res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount);
+                    mui.toast(res.info);
+                }
             }
         } catch (error)
         {
@@ -97,12 +106,10 @@ export default class transfer extends Vue
     {
         var currentAddress = LoginInfo.getCurrentAddress();
         var res = await WWW.gettransbyaddress(currentAddress, 5, this.txpage);
-        if (res)
+        res = res ? res : []; //将空值转为长度0的数组
+        if (res.length > 0)
         {
-
-        }
-        else
-        {
+            this.txs = [];
             for (let index = 0; index < res.length; index++)
             {
                 const tx = res[ index ];
@@ -221,6 +228,9 @@ export default class transfer extends Vue
                 }
             }
         }
+        //分页判断
+        res.length < 5 ? this.nextpage = false : this.nextpage = true;    //判断是否是最后一页
+        this.txpage > 1 && res == 0 ? this.txpage-- : this.txpage;   //判断是否到最后一页
 
     }
 }

@@ -41,6 +41,7 @@ export default class balance extends Vue
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
     this.getBalances();
+    setInterval(() => { this.getBalances() }, 30000)
   }
 
   addressSwitch()

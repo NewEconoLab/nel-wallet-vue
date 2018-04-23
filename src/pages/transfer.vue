@@ -49,7 +49,7 @@
                         </label>
                         <div class="col-sm-7">
                             <div style="padding-top:30px;">
-                                <input type="number" v-model="amount" class="nel-input big" @input="verify_Amount">
+                                <input type="number" v-model="amount" class="nel-input big" @change="verify_Amount" @input="verify_Amount">
                             </div>
                         </div>
                         <div class="col-sm-3 mess">
@@ -89,7 +89,7 @@
                     <img src="../../static/img/lefttrangle.svg" alt="">
                 </div>
                 <div style="width:1px;"></div>
-                <div class="page-next" @click="cutPage('next')">
+                <div class="page-next" :class="nextpage?'':'disabled'" @click="cutPage('next')">
                     <img src="../../static/img/righttrangle.svg" alt="">
                 </div>
             </div>
