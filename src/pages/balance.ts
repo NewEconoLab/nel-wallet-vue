@@ -32,7 +32,7 @@ export default class balance extends Vue
     this.balances = new Array();
     this.neoasset.gas = 0;
     this.neoasset.neo = 0;
-    this.neoasset.claim = 0;
+    this.neoasset.claim = '';
     this.chooseAddressarr = new Array();
     this.chooseAddressarr = StorageTool.getLoginArr();
   }
@@ -67,8 +67,8 @@ export default class balance extends Vue
       this.balances = balances; //塞入页面modual
       let sum1 = Neo.Fixed8.parse(clamis[ "gas" ].toFixed(8));
       let sum2 = Neo.Fixed8.parse(clamis2[ "gas" ].toFixed(8));
-      let sum = sum1.add(sum2).toString();
-      this.neoasset.claim = parseFloat(sum);   //塞入claim
+      let sum = sum1.add(sum2).toString()
+      this.neoasset.claim = sum;   //塞入claim
       this.balances.forEach //取NEO 和GAS
         (
         (balance) =>
@@ -101,7 +101,7 @@ export default class balance extends Vue
 
   async toClaimGas()
   {
-    if (this.neoasset.claim > 0)
+    if (Neo.Fixed8.parse(this.neoasset.claim).compareTo(Neo.Fixed8.Zero) > 0)
     {
       if (this.neoasset.neo > 0)
       {
@@ -155,6 +155,7 @@ export default class balance extends Vue
       {
         this.loadmsg = "Your GAS claim is successful!";
         this.claimbtn = true;
+        this.getBalances();
         return;
       }
       this.queryClaimTx(txid);

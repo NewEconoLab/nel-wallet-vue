@@ -102,7 +102,7 @@ export class NeoAsset
 {
     neo: number;
     gas: number;
-    claim: number;
+    claim: string;
 }
 
 export class OldUTXO

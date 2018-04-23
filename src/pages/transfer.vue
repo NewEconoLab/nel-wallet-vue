@@ -19,7 +19,7 @@
                                     </div>
                                 </div>
                                 <ul class="dropdown-menu dropdown-nel" role="menu" aria-labelledby="assets">
-                                    <li role="presentation" v-for="balance in balances" :key="balance.asset" :value="balance.asset">
+                                    <li role="presentation" v-for="balance in balances" :class="asset==balance.asset?'active':''" :key="balance.asset" :value="balance.asset">
                                         <a role="menuitem" tabindex="-1" @click="choose(balance.asset)">{{balance.names}}</a>
                                     </li>
                                 </ul>

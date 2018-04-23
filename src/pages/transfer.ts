@@ -97,89 +97,41 @@ export default class transfer extends Vue
     {
         var currentAddress = LoginInfo.getCurrentAddress();
         var res = await WWW.gettransbyaddress(currentAddress, 5, this.txpage);
-        this.txs = [];
-        for (let index = 0; index < res.length; index++)
+        if (res)
         {
-            const tx = res[ index ];
-            let txid = tx[ "txid" ];
-            let vins = tx[ "vin" ];
-            let vouts = tx[ "vout" ];
-            let value = tx[ "value" ];
-            let txtype = tx[ "type" ];
-            let assetType = tx[ "assetType" ]
-            let blockindex = tx[ "blockindex" ];
-            let time = JSON.parse(tx[ "blocktime" ])[ "$date" ];
-            time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
-            if (txtype == "out")
+
+        }
+        else
+        {
+            for (let index = 0; index < res.length; index++)
             {
-                var arr = {}
-                if (vins && vins.length == 1)
+                const tx = res[ index ];
+                let txid = tx[ "txid" ];
+                let vins = tx[ "vin" ];
+                let vouts = tx[ "vout" ];
+                let value = tx[ "value" ];
+                let txtype = tx[ "type" ];
+                let assetType = tx[ "assetType" ]
+                let blockindex = tx[ "blockindex" ];
+                let time = JSON.parse(tx[ "blocktime" ])[ "$date" ];
+                time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
+                if (txtype == "out")
                 {
-                    const vin = vins[ 0 ];
-                    let address = vin[ "address" ];
-                    let amount = vin[ "value" ];
-                    let asset = vin[ "asset" ];
-                    if (assetType == "utxo")
-                        asset = CoinTool.assetID2name[ asset ];
-                    else
+                    var arr = {}
+                    if (vins && vins.length == 1)
                     {
-                        let nep5 = await WWW.getNep5Asset(asset);
-                        asset = nep5[ "name" ];
-                    }
-                    let n = vin[ "n" ];
-                    if (arr[ address ] && arr[ address ][ asset ])
-                    {
-                        arr[ address ][ asset ] += amount;
-                    } else
-                    {
-                        var assets = {}
-                        assets[ asset ] = amount;
-                        arr[ address ] = assets;
-                    }
-                }
-                for (const address in arr)
-                {
-                    if (arr.hasOwnProperty(address))
-                    {
-                        const value = arr[ address ];
-                        for (const asset in value)
+                        const vin = vins[ 0 ];
+                        let address = vin[ "address" ];
+                        let amount = vin[ "value" ];
+                        let asset = vin[ "asset" ];
+                        if (assetType == "utxo")
+                            asset = CoinTool.assetID2name[ asset ];
+                        else
                         {
-                            if (value.hasOwnProperty(asset))
-                            {
-                                const amount = value[ asset ];
-                                var history = new History();
-                                history.time = time;
-                                history.txid = txid;
-                                history.assetname = asset;
-                                history.address = address;
-                                history.value = amount;
-                                history.txtype = txtype;
-                                this.txs.push(history);
-                            }
+                            let nep5 = await WWW.getNep5Asset(asset);
+                            asset = nep5[ "name" ];
                         }
-                    }
-                }
-            }
-            else
-            {
-                var arr = {}
-                for (const index in vouts)
-                {
-                    let i = parseInt(index);
-                    const out = vouts[ i ];
-                    let address = out[ "address" ];
-                    let amount = out[ "value" ];
-                    let asset = out[ "asset" ];
-                    if (assetType == "utxo")
-                        asset = CoinTool.assetID2name[ asset ];
-                    else
-                    {
-                        let nep5 = await WWW.getNep5Asset(asset);
-                        asset = nep5[ "name" ];
-                    }
-                    let n = out[ "n" ];
-                    if (address != currentAddress)
-                    {
+                        let n = vin[ "n" ];
                         if (arr[ address ] && arr[ address ][ asset ])
                         {
                             arr[ address ][ asset ] += amount;
@@ -190,25 +142,79 @@ export default class transfer extends Vue
                             arr[ address ] = assets;
                         }
                     }
-                }
-                for (const address in arr)
-                {
-                    if (arr.hasOwnProperty(address))
+                    for (const address in arr)
                     {
-                        const value = arr[ address ];
-                        for (const asset in value)
+                        if (arr.hasOwnProperty(address))
                         {
-                            if (value.hasOwnProperty(asset))
+                            const value = arr[ address ];
+                            for (const asset in value)
                             {
-                                const amount = value[ asset ];
-                                var history = new History();
-                                history.time = time;
-                                history.txid = txid;
-                                history.assetname = asset;
-                                history.address = address;
-                                history.value = amount;
-                                history.txtype = txtype;
-                                this.txs.push(history);
+                                if (value.hasOwnProperty(asset))
+                                {
+                                    const amount = value[ asset ];
+                                    var history = new History();
+                                    history.time = time;
+                                    history.txid = txid;
+                                    history.assetname = asset;
+                                    history.address = address;
+                                    history.value = amount;
+                                    history.txtype = txtype;
+                                    this.txs.push(history);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var arr = {}
+                    for (const index in vouts)
+                    {
+                        let i = parseInt(index);
+                        const out = vouts[ i ];
+                        let address = out[ "address" ];
+                        let amount = out[ "value" ];
+                        let asset = out[ "asset" ];
+                        if (assetType == "utxo")
+                            asset = CoinTool.assetID2name[ asset ];
+                        else
+                        {
+                            let nep5 = await WWW.getNep5Asset(asset);
+                            asset = nep5[ "name" ];
+                        }
+                        let n = out[ "n" ];
+                        if (address != currentAddress)
+                        {
+                            if (arr[ address ] && arr[ address ][ asset ])
+                            {
+                                arr[ address ][ asset ] += amount;
+                            } else
+                            {
+                                var assets = {}
+                                assets[ asset ] = amount;
+                                arr[ address ] = assets;
+                            }
+                        }
+                    }
+                    for (const address in arr)
+                    {
+                        if (arr.hasOwnProperty(address))
+                        {
+                            const value = arr[ address ];
+                            for (const asset in value)
+                            {
+                                if (value.hasOwnProperty(asset))
+                                {
+                                    const amount = value[ asset ];
+                                    var history = new History();
+                                    history.time = time;
+                                    history.txid = txid;
+                                    history.assetname = asset;
+                                    history.address = address;
+                                    history.value = amount;
+                                    history.txtype = txtype;
+                                    this.txs.push(history);
+                                }
                             }
                         }
                     }
