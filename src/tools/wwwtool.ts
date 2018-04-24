@@ -38,7 +38,7 @@ export class WWW
         var postdata =
             WWW.makeRpcPostBody(
                 "gettransbyaddress",
-                "ARFe4mTKRTETerRoMsyzBXoPt2EKBvBXFX",
+                address,
                 pagesize,
                 pageindex
             );

@@ -392,7 +392,7 @@ var WWW = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        postdata = WWW.makeRpcPostBody("gettransbyaddress", "ARFe4mTKRTETerRoMsyzBXoPt2EKBvBXFX", pagesize, pageindex);
+                        postdata = WWW.makeRpcPostBody("gettransbyaddress", address, pagesize, pageindex);
                         return [4 /*yield*/, fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) })];
                     case 1:
                         result = _a.sent();
