@@ -124,52 +124,28 @@ export default class transfer extends Vue
                 time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
                 if (txtype == "out")
                 {
-                    var arr = {}
                     if (vins && vins.length == 1)
                     {
                         const vin = vins[ 0 ];
                         let address = vin[ "address" ];
                         let amount = vin[ "value" ];
                         let asset = vin[ "asset" ];
+                        let assetname = "";
                         if (assetType == "utxo")
-                            asset = CoinTool.assetID2name[ asset ];
+                            assetname = CoinTool.assetID2name[ asset ];
                         else
                         {
                             let nep5 = await WWW.getNep5Asset(asset);
-                            asset = nep5[ "name" ];
+                            assetname = nep5[ "name" ];
                         }
-                        let n = vin[ "n" ];
-                        if (arr[ address ] && arr[ address ][ asset ])
-                        {
-                            arr[ address ][ asset ] += amount;
-                        } else
-                        {
-                            var assets = {}
-                            assets[ asset ] = amount;
-                            arr[ address ] = assets;
-                        }
-                    }
-                    for (const address in arr)
-                    {
-                        if (arr.hasOwnProperty(address))
-                        {
-                            const value = arr[ address ];
-                            for (const asset in value)
-                            {
-                                if (value.hasOwnProperty(asset))
-                                {
-                                    const amount = value[ asset ];
-                                    var history = new History();
-                                    history.time = time;
-                                    history.txid = txid;
-                                    history.assetname = asset;
-                                    history.address = address;
-                                    history.value = amount;
-                                    history.txtype = txtype;
-                                    this.txs.push(history);
-                                }
-                            }
-                        }
+                        var history = new History();
+                        history.time = time;
+                        history.txid = txid;
+                        history.assetname = assetname;
+                        history.address = address;
+                        history.value = value[ asset ];
+                        history.txtype = txtype;
+                        this.txs.push(history);
                     }
                 }
                 else
