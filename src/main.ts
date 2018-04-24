@@ -8,6 +8,7 @@ import Transfer from './pages/transfer.vue';
 import NNS from './pages/nns.vue';
 import Settings from './pages/settings.vue';
 import { CoinTool } from './tools/cointool';
+import { StorageTool } from './tools/storagetool';
 
 // const notFound = () => import('./pages/404.vue');
 declare var require: (filename, resolve) => any;

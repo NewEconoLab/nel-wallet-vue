@@ -121,8 +121,6 @@ export class neotools
             var p: number = 8
             ThinNeo.Helper.GetPrivateKeyFromNep2(nep2, password, n, r, p, (info, result) =>
             {
-                //spanNep2.textContent = "info=" + info + " result=" + result;
-                console.log("result=" + "info=" + info + " result=" + result);
                 login.prikey = result as Uint8Array;
                 if (login.prikey != null)
                 {
@@ -135,7 +133,6 @@ export class neotools
                 else
                 {
                     res.err = true;
-                    // spanWif.textContent = "result=" + "info=" + info + " result=" + result;
                     reject(res);
                 }
             });
@@ -165,7 +162,7 @@ export class neotools
                 try
                 {
                     let result: Result = await neotools.getPriKeyfromAccount(wallet.scrypt, password, account);
-                    console.log("getpkformacc:" + result);
+                    // console.log("getpkformacc:" + result);
                     arr.push(result.info);
                 } catch (error)
                 {
@@ -204,7 +201,7 @@ export class neotools
                         var address = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
                         var wif = ThinNeo.Helper.GetWifFromPrivateKey(result as Uint8Array);
                         var hexkey = (result as Uint8Array).toHexString();
-                        console.log(info + "|" + address + " wif=" + wif);
+                        // console.log(info + "|" + address + " wif=" + wif);
                         res.err = false;
                         res.info = { pubkey: pubkey, address: address, prikey: result as Uint8Array };
                         resolve(res);

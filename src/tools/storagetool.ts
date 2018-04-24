@@ -7,7 +7,8 @@ export class StorageTool
     static getLoginArr(): LoginInfo[]
     {
         var message = sessionStorage.getItem("login-info-arr");
-        var arr: LoginInfo[] = LoginInfo.StringToArray(message);
+
+        var arr: LoginInfo[] = message ? LoginInfo.StringToArray(message) : [];
         return arr;
     }
     static setLoginArr(value: LoginInfo[])

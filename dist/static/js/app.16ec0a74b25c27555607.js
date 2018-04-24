@@ -780,7 +780,7 @@ var StorageTool = /** @class */ (function () {
     }
     StorageTool.getLoginArr = function () {
         var message = sessionStorage.getItem("login-info-arr");
-        var arr = entity_1.LoginInfo.StringToArray(message);
+        var arr = message ? entity_1.LoginInfo.StringToArray(message) : [];
         return arr;
     };
     StorageTool.setLoginArr = function (value) {
@@ -1775,8 +1775,6 @@ var neotools = /** @class */ (function () {
                     var r = 8;
                     var p = 8;
                     ThinNeo.Helper.GetPrivateKeyFromNep2(nep2, password, n, r, p, function (info, result) {
-                        //spanNep2.textContent = "info=" + info + " result=" + result;
-                        console.log("result=" + "info=" + info + " result=" + result);
                         login.prikey = result;
                         if (login.prikey != null) {
                             login.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(login.prikey);
@@ -1787,7 +1785,6 @@ var neotools = /** @class */ (function () {
                         }
                         else {
                             res.err = true;
-                            // spanWif.textContent = "result=" + "info=" + info + " result=" + result;
                             reject(res);
                         }
                     });
@@ -1823,7 +1820,7 @@ var neotools = /** @class */ (function () {
                         return [4 /*yield*/, neotools.getPriKeyfromAccount(wallet.scrypt, password, account)];
                     case 3:
                         result = _a.sent();
-                        console.log("getpkformacc:" + result);
+                        // console.log("getpkformacc:" + result);
                         arr.push(result.info);
                         return [3 /*break*/, 5];
                     case 4:
@@ -1863,7 +1860,7 @@ var neotools = /** @class */ (function () {
                             var address = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
                             var wif = ThinNeo.Helper.GetWifFromPrivateKey(result);
                             var hexkey = result.toHexString();
-                            console.log(info + "|" + address + " wif=" + wif);
+                            // console.log(info + "|" + address + " wif=" + wif);
                             res.err = false;
                             res.info = { pubkey: pubkey, address: address, prikey: result };
                             resolve(res);
@@ -2047,6 +2044,7 @@ var vue_class_component_1 = __webpack_require__("c+8m");
 var Main_vue_1 = __webpack_require__("l7Tq");
 var VLink_vue_1 = __webpack_require__("N5E8");
 var wwwtool_1 = __webpack_require__("50aY");
+var storagetool_1 = __webpack_require__("5LD5");
 var FeatureComponent = /** @class */ (function (_super) {
     __extends(FeatureComponent, _super);
     function FeatureComponent() {
@@ -2072,7 +2070,10 @@ var FeatureComponent = /** @class */ (function (_super) {
             ? "icon-setting-select"
             : "icon-setting-unselect";
         this.getHeight();
-        // StorageTool.heightRefresh();
+        var arr = storagetool_1.StorageTool.getLoginArr();
+        if (arr.length == 0) {
+            window.location.hash = "#login";
+        }
     };
     FeatureComponent.prototype.getHeight = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -3144,14 +3145,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var Main = __webpack_require__("Gc41");
 var Main_default = /*#__PURE__*/__webpack_require__.n(Main);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-663871e6","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-b6798c58","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_vm._m(0,false,false),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('div',{staticClass:"logo"}),_vm._v(" "),_vm._m(1,false,false),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_vm._m(2,false,false),_vm._v(" "),(_vm.loginshow)?_c('li',[_c('v-link',{ref:"login",attrs:{"href":"#login"}},[_vm._v("logout")])],1):_vm._e()])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v("Toggle navigation")]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/#mainnet","target":"_blank"}},[_vm._v("Explorer")])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel",attrs:{"href":"#wallet"}},[_vm._v("Wallet")])])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v("MainNet")]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v("TestNet")])]),_vm._v(" "),_c('li',{staticClass:"active",attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"id":"maina"}},[_vm._v("MainNet")])])])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_Main = (esExports);
 // CONCATENATED MODULE: ./src/layouts/Main.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("veze")
+  __webpack_require__("woxa")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -3764,14 +3765,14 @@ module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1cHgiIGhlaWdodD0i
 
 /***/ }),
 
-/***/ "veze":
+/***/ "wTse":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ "wTse":
+/***/ "woxa":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -36,7 +36,7 @@
                 </li>
               </ul>
             </li>
-            <li  v-if="loginshow">
+            <li v-if="loginshow">
               <v-link ref="login" href="#login">logout</v-link>
             </li>
           </ul>
@@ -54,6 +54,7 @@
 import VLink from "../components/VLink.vue";
 import Component from "vue-class-component";
 import Vue from "vue";
+import { StorageTool } from "../tools/storagetool";
 @Component({
   components: {
     VLink
