@@ -289,10 +289,10 @@ export class CoinTool
     }
 
     /**
-     * invokeTrans 方式调用合约
+     * invokeTrans 方式调用合约塞入attributes
      * @param script 合约的script
      */
-    static async contractInvokeTrans(script: Uint8Array)
+    static async contractInvokeTrans_attributes(script: Uint8Array)
     {
         let current: LoginInfo = LoginInfo.getCurrentLogin();
         var addr = current.address;
@@ -326,6 +326,41 @@ export class CoinTool
     }
 
     /**
+     * invokeTrans 方式调用合约塞入attributes
+     * @param script 合约的script
+     */
+    static async contractInvokeTrans(script: Uint8Array)
+    {
+        let current: LoginInfo = LoginInfo.getCurrentLogin();
+        var addr = current.address;
+        let assetid = CoinTool.id_GAS;
+        //let _count = Neo.Fixed8.Zero;   //十个gas内都不要钱滴
+        var utxos = await CoinTool.getassets();
+        let tranmsg = CoinTool.makeTran(utxos, current.address, assetid, Neo.Fixed8.Zero);
+        let tran: ThinNeo.Transaction = tranmsg.info[ 'tran' ];
+        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+        tran.extdata = new ThinNeo.InvokeTransData();
+        //塞入脚本
+        (tran.extdata as ThinNeo.InvokeTransData).script = script;
+        // (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(1.0);
+
+        if (tran.witnesses == null)
+            tran.witnesses = [];
+        var msg = tran.GetMessage().clone();
+        var pubkey = current.pubkey.clone();
+        var prekey = current.prikey.clone();
+        var signdata = ThinNeo.Helper.Sign(msg, prekey);
+        tran.AddWitness(signdata, pubkey, addr);
+        var data: Uint8Array = tran.GetRawData();
+        console.log(data);
+        var res: Result = new Result();
+        var result = await WWW.api_postRawTransaction(data);
+        res.err = !result;
+        res.info = "成功";
+        return res;
+    }
+
+    /**
      * nep5转账
      * @param address 自己的地址
      * @param tatgeraddr 转账的地址
@@ -350,7 +385,7 @@ export class CoinTool
         sb.EmitParamJson([ "(address)" + address, "(address)" + tatgeraddr, "(integer)" + intv ]);//第二个参数是个数组
         sb.EmitPushString("transfer");//第一个参数
         sb.EmitAppCall(scriptaddress);  //资产合约
-        var result = await CoinTool.contractInvokeTrans(sb.ToArray())
+        var result = await CoinTool.contractInvokeTrans_attributes(sb.ToArray())
         return result;
     }
 

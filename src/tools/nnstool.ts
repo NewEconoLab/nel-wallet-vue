@@ -18,8 +18,8 @@ export class NNSTool
     {
         var test = new RootDomainInfo();
         // test.roothash = await NNSTool.getRootNameHash();
-        test.roothash = NNSTool.nameHash("test");
-        test.rootname = "test";
+        test.roothash = NNSTool.nameHash("wei");
+        test.rootname = "wei";
         var scriptaddress = Consts.baseContract.hexToBytes().reverse();
         var domain = await NNSTool.getOwnerInfo(test.roothash, scriptaddress);
         test.owner = domain.owner;
@@ -37,14 +37,14 @@ export class NNSTool
     {
         var domainarr: string[] = doamin.split('.');
         var subdomain: string = domainarr[ 0 ];
-        domainarr.shift();
+        // domainarr.shift();
         domainarr.push(this.root_test.rootname)
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
-        let address = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
+        // let address = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         let doamininfo = await NNSTool.getOwnerInfo(nnshash, Consts.baseContract.hexToBytes().reverse());
         let info = await NNSTool.getNameInfo(nnshash)
         var owner = doamininfo.owner.toHexString();
-        return address;
+        // return address;
     }
 
     /**
@@ -53,21 +53,20 @@ export class NNSTool
      */
     static async registerDomain(doamin: string)
     {
-        var domainarr: string[] = doamin.split('.');
-        var subdomain: string = domainarr[ 0 ];
-        domainarr.shift();
-        domainarr.push(NNSTool.root_test.rootname);
-        var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
+        // var domainarr: string[] = doamin.split('.');
+        // var subdomain: string = domainarr[ 0 ];
+        // domainarr.push(NNSTool.root_test.rootname);
+        var nnshash: Uint8Array = NNSTool.nameHash(NNSTool.root_test.rootname);
         // let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         var address = LoginInfo.getCurrentAddress();
         var sb = new ThinNeo.ScriptBuilder();
         var scriptaddress = NNSTool.root_test.register;
-        sb.EmitPushNumber(new Neo.BigInteger(232323));
-        sb.Emit(ThinNeo.OpCode.DROP);
-        sb.EmitParamJson([ "(addr)" + address, "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
-        sb.EmitPushString("requestSubDomain");//第一个参数
-        sb.EmitAppCall(scriptaddress);  //资产合约
-        var res = CoinTool.contractInvokeTrans(sb.ToArray());
+        sb.EmitParamJson([ "(addr)" + address, "(bytes)" + nnshash.toHexString(), "(str)" + doamin ]);//第二个参数是个数组
+        sb.EmitPushString("requestSubDomain");
+        sb.EmitAppCall(scriptaddress);
+        var data = sb.ToArray();
+        console.log(data);
+        var res = CoinTool.contractInvokeTrans(data);
         return res;
     }
 
@@ -235,6 +234,27 @@ export class NNSTool
                 if (stack[ 3 ].type == "Integer")
                 {
                     info.ttl = new Neo.BigInteger(stack[ 3 ].value as string);
+                } if (stack[ 3 ].type = "ByteArray")
+                {
+                    let bt = (stack[ 3 ].value as string).hexToBytes();
+                    info.ttl = Neo.BigInteger.fromUint8ArrayAutoSign(bt);
+                } if (stack[ 4 ].type = "ByteArray")
+                {
+                    let parentOwner = (stack[ 5 ].value as string).hexToBytes();
+                } if (stack[ 5 ].type = "String")
+                {
+                    let domain = stack[ 5 ].value as string;
+                } if (stack[ 6 ].type = "ByteArray")
+                {
+                    let parentHash = (stack[ 6 ].value as string).hexToBytes();
+                } if (stack[ 7 ].type = "ByteArray")
+                {
+                    let bt = (stack[ 7 ].value as string).hexToBytes();
+                    let root = Neo.BigInteger.fromUint8ArrayAutoSign(bt);
+                }
+                if (stack[ 7 ].type = "Integer")
+                {
+                    info.ttl = new Neo.BigInteger(stack[ 7 ].value as string);
                 }
             }
         }
@@ -329,46 +349,6 @@ export class NNSTool
         return owner;
     }
 
-    /**
-     * 此接口为演示的先到先得注册器使用，用户调用注册器的这个接口申请域名
-     * @param who         注册人的地址
-     * @param nnshash     域名中除最后一位的hash : aa.bb.cc 中的 bb.cc的hash
-     * @param subdomain   域名中的最后一位: aa.bb.cc 中的 aa
-     */
-    static async requestSubDomain(who: string, nnshash: Uint8Array, subdomain: string): Promise<any>
-    {
-
-        let namehash: Uint8Array
-        var sb = new ThinNeo.ScriptBuilder();
-        var scriptaddress = Consts.registerContract.hexToBytes().reverse();
-        sb.EmitParamJson([ "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
-        sb.EmitPushString("getSubOwner");
-        sb.EmitAppCall(scriptaddress);
-        var data = sb.ToArray();
-
-        let result = await WWW.rpc_getInvokescript(data);
-
-        try
-        {
-            var state = result[ 0 ].state as string;
-            // info2.textContent = "";
-            if (state.includes("HALT, BREAK"))
-            {
-                // info2.textContent += "Succ\n";
-            }
-            var stack = result[ 0 ].stack as any[];
-            //find name 他的type 有可能是string 或者ByteArray
-            if (stack[ 0 ].type == "ByteArray")
-            {
-                namehash = (stack[ 0 ].value as string).hexToBytes();
-            }
-        }
-        catch (e)
-        {
-            console.log(e);
-        }
-        return;
-    }
 
     //#region 域名转hash算法
     //域名转hash算法
