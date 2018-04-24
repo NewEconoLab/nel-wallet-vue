@@ -5,7 +5,7 @@
         <span>NEO Balance</span>
         <div style="float:right">
           <span class="user-select-ok" style="margin-right: 11px;color:#fff;">Key Address ：{{currentAddress}}</span>
-          <button class="btn" data-toggle="modal" data-target="#selectAddr" :class="chooseAddressarr && chooseAddressarr.length>1 ? 'btn-nel' : 'btn-disabled' ">Switch</button>
+          <button class="btn" data-toggle="modal" data-target="#selectAddr" v-if="chooseAddressarr &&chooseAddressarr>1">Switch</button>
         </div>
       </div>
       <div class="neobalance" style=" background: #454F60;border-radius: 5px;">

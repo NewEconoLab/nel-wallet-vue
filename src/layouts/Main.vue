@@ -28,11 +28,11 @@
                 <span class=" caret"></span>
               </a>
               <ul class="dropdown-menu dropdown-nel">
-                <li id="testnet-btn">
+                <li id="testnet-btn" class="active">
                   <a id="testa">TestNet</a>
                 </li>
-                <li id="mainnet-btn" class="active">
-                  <a id="maina">MainNet</a>
+                <li id="mainnet-btn">
+                  <a target="_blank" href="https://wallet.nel.group/#login" id="maina">MainNet</a>
                 </li>
               </ul>
             </li>

@@ -60,6 +60,10 @@ export default class login extends Vue
 
   mounted()
   {
+    if (StorageTool.getLoginArr().length > 0)
+    {
+      sessionStorage.clear();
+    }
   }
 
   // Lifecycle hook
