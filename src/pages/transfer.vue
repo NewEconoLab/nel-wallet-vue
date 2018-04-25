@@ -35,7 +35,7 @@
                         </label>
                         <div class="col-sm-7">
                             <div style="padding-top:30px;">
-                                <input type="text" v-model="targetaddr" class="nel-input big" @input="verify_addr">
+                                <input type="text" v-model="targetaddr" class="nel-input big" placeholder="Please enter an address or domain name " @input="verify_addr">
                             </div>
                         </div>
                         <div class="col-sm-3 mess">

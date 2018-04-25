@@ -18,8 +18,8 @@ export class NNSTool
     {
         var test = new RootDomainInfo();
         // test.roothash = await NNSTool.getRootNameHash();
-        test.roothash = NNSTool.nameHash("wei");
-        test.rootname = "wei";
+        test.roothash = NNSTool.nameHash("test");
+        test.rootname = "test";
         var scriptaddress = Consts.baseContract.hexToBytes().reverse();
         var domain = await NNSTool.getOwnerInfo(test.roothash, scriptaddress);
         test.owner = domain.owner;
@@ -42,9 +42,23 @@ export class NNSTool
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
         // let address = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         let doamininfo = await NNSTool.getOwnerInfo(nnshash, Consts.baseContract.hexToBytes().reverse());
-        let info = await NNSTool.getNameInfo(nnshash)
+        console.log(doamininfo.ttl);
+        let have = false;
+        if (doamininfo.ttl)
+        {
+            var timestamp = new Date().getTime();
+            let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(doamininfo.ttl).multiply(1000));
+            // let copare: number = new Neo.BigInteger(timestamp).compareTo(doamininfo.ttl.multiply(1000));
+            if (copare < 0)
+            {
+                // console.log('域名已到期');
+                have = true;
+            }
+        }
+        // let info = await NNSTool.getNameInfo(nnshash)
         var owner = doamininfo.owner.toHexString();
         // return address;
+        return have;
     }
 
     /**
@@ -65,8 +79,11 @@ export class NNSTool
         sb.EmitPushString("requestSubDomain");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
-        console.log(data);
-        var res = CoinTool.contractInvokeTrans(data);
+        var res = await CoinTool.contractInvokeTrans(data);
+        if (!res.err)
+        {
+            // WWW.setnnsinfo(address,doamin,);
+        }
         return res;
     }
 
@@ -233,17 +250,20 @@ export class NNSTool
                 }
                 if (stack[ 3 ].type == "Integer")
                 {
-                    info.ttl = new Neo.BigInteger(stack[ 3 ].value as string);
+                    info.ttl = new Neo.BigInteger(stack[ 3 ].value as string).toString();
+
                 } if (stack[ 3 ].type = "ByteArray")
                 {
                     let bt = (stack[ 3 ].value as string).hexToBytes();
-                    info.ttl = Neo.BigInteger.fromUint8ArrayAutoSign(bt);
+                    info.ttl = Neo.BigInteger.fromUint8ArrayAutoSign(bt.clone()).toString();
+
+                    console.log(info.ttl);
                 } if (stack[ 4 ].type = "ByteArray")
                 {
                     let parentOwner = (stack[ 5 ].value as string).hexToBytes();
                 } if (stack[ 5 ].type = "String")
                 {
-                    let domain = stack[ 5 ].value as string;
+                    let domainstr = stack[ 5 ].value as string;
                 } if (stack[ 6 ].type = "ByteArray")
                 {
                     let parentHash = (stack[ 6 ].value as string).hexToBytes();
@@ -254,14 +274,17 @@ export class NNSTool
                 }
                 if (stack[ 7 ].type = "Integer")
                 {
-                    info.ttl = new Neo.BigInteger(stack[ 7 ].value as string);
+                    let a = new Neo.BigInteger(stack[ 7 ].value as string);
                 }
             }
         }
         catch (e)
         {
         }
+        console.log(info);
+
         return info;
+
     }
 
     //返回域名hash

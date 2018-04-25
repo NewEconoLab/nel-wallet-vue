@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "less": "^3.0.2",
+    "less-loader": "^4.1.0",
     "vue": "^2.5.2",
     "vue-class-component": "^6.1.0",
     "vue-property-decorator": "^6.0.0"

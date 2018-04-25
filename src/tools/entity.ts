@@ -221,7 +221,7 @@ export class DomainInfo
     owner: Uint8Array//所有者
     register: Uint8Array//注册器
     resolver: Uint8Array//解析器
-    ttl: Neo.BigInteger//到期时间
+    ttl: string//到期时间
 }
 
 export class RootDomainInfo extends DomainInfo

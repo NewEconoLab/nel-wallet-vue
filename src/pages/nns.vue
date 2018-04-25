@@ -6,9 +6,9 @@
       </div>
       <div class="form-inline">
         <div class="input-group nns-register" v-bind:class="{ 'input-err': domainerr }">
-          <input @input="verifyDomain" type="text" class="form-control nel" v-model="nnsstr" placeholder="type a name">
+          <input @input="verifyDomain" type="text" class="nel" v-model="nnsstr" placeholder="type a name">
           <span class="input-group-addon nel ">
-            <Span>{{network}}</Span>
+            <span>{{network}}</span>
           </span>
         </div>
         <button class="btn btn-nel btn-big" @click="nnsRegister">Register</button>
@@ -49,6 +49,7 @@
   height: 56px;
   line-height: 16px;
   font-size: 16px;
+  margin: 0 auto;
 }
 .container .form-inline > input {
   background: #454f60;
