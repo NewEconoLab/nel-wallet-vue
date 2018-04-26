@@ -2,7 +2,8 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../layouts/wallet.vue";
 import { NNSTool } from "../tools/nnstool";
-import { WWW } from "tools/wwwtool";
+import { WWW } from "../tools/wwwtool";
+import { LoginInfo, Domainmsg, DomainInfo } from "../tools/entity";
 
 declare const mui;
 @Component({
@@ -16,6 +17,7 @@ export default class Nnsmanage extends Vue
     nnsstr: string;
     domainerr: boolean;
     errmsg: string;
+    domainarr: Domainmsg[]
     constructor() 
     {
         super();
@@ -23,11 +25,13 @@ export default class Nnsmanage extends Vue
         this.nnsstr = "";
         this.domainerr = false;
         this.errmsg = "";
+        this.domainarr = new Array<Domainmsg>();
     }
 
     async mounted()
     {
         await NNSTool.initRootDomain()
+        this.getDomainsByAddr();
     }
 
     async verifyDomain()
@@ -43,14 +47,15 @@ export default class Nnsmanage extends Vue
             return;
         } else
         {
-            let domains = await NNSTool.queryDomainInfo(this.nnsstr)
-            if (domains)
+            let domains = await NNSTool.queryDomainInfo(this.nnsstr + ".test")
+            if (domains.valueOf() == DomainInfo)
             {
                 this.domainerr = true;
-                mui.toast("The current domain name is registered : " + domains);
+                mui.toast("The current domain name is registered : ");
             } else
             {
                 this.domainerr = false;
+                this.errmsg = "";
             }
         }
     }
@@ -59,16 +64,51 @@ export default class Nnsmanage extends Vue
     {
         if (!this.domainerr)
         {
-            var res = await NNSTool.registerDomain(this.nnsstr);
+            let res = await NNSTool.registerDomain(this.nnsstr);
             if (res.err)
             {
                 console.error(res.info);
             } else
             {
+                let res = await WWW.setnnsinfo(LoginInfo.getCurrentAddress(), this.nnsstr, 0);
+                if (res == "suc")
+                {
+                    mui.alert("Domain name registration contract has been issued, please see ")
+                }
                 // var res = await WWW.setnnsinfo();
-                mui.alert("Domain name registration contract has been issued, please see ")
-                mui.toast(res.info);
+                // mui.toast(res.info);
             }
         }
+    }
+
+    async getDomainsByAddr()
+    {
+        let res = await WWW.getnnsinfo(LoginInfo.getCurrentAddress());
+        for (const i in res)
+        {
+            if (res.hasOwnProperty(i))
+            {
+                const n = parseInt(i)
+                const domain = res[ n ];
+                this.domainarr.push(new Domainmsg);
+                this.domainarr[ n ].domainname = domain[ "name" ];
+                let msg = await NNSTool.queryDomainInfo(domain[ 'name' ]);
+                if (msg.valueOf() == DomainInfo)
+                {
+                    if (msg[ "resolve" ] && msg[ "resolver" ].length >= 0)
+                    {
+                        this.domainarr[ n ].reslove = { mapping: msg[ "address" ] };
+                    } else
+                    {
+                        this.domainarr[ n ].reslove = false;
+                    }
+                }
+            }
+        }
+    }
+    async resolve()
+    {
+        let nnshash: Uint8Array;
+        NNSTool.resolve("address", nnshash, "");
     }
 }

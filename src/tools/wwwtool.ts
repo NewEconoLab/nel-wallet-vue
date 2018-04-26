@@ -187,16 +187,24 @@ export class WWW
     //注册域名时塞值
     static async setnnsinfo(address: string, name: string, time: number)
     {
-        var str = WWW.makeRpcUrl(WWW.api, "setnnsinfo", address, name, time);
+        var str = WWW.makeRpcUrl(WWW.apiaggr, "setnnsinfo", address, name, time);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
         if (json[ "result" ] == null)
             return null;
-        var r = json[ "result" ][ 0 ]
+        var r = json[ "result" ][ 0 ][ "result" ]
         return r;
     }
+    //获取地址下所有的域名
     static async getnnsinfo(address: string)
     {
+        var str = WWW.makeRpcUrl(WWW.apiaggr, "getnnsinfo", address);
+        var result = await fetch(str, { "method": "get" });
+        var json = await result.json();
+        if (json[ "result" ] == null)
+            return null;
+        var r = json[ "result" ]
+        return r;
     }
     static async delnnsinfo(address: string, domain: string)
     {

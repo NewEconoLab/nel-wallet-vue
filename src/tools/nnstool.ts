@@ -37,8 +37,7 @@ export class NNSTool
     {
         var domainarr: string[] = doamin.split('.');
         var subdomain: string = domainarr[ 0 ];
-        // domainarr.shift();
-        domainarr.push(this.root_test.rootname)
+        // let rootdomain: string = domainarr.pop();    //返回根域名并删除
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
         // let address = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         let doamininfo = await NNSTool.getOwnerInfo(nnshash, Consts.baseContract.hexToBytes().reverse());
@@ -58,6 +57,8 @@ export class NNSTool
         // let info = await NNSTool.getNameInfo(nnshash)
         var owner = doamininfo.owner.toHexString();
         // return address;
+        if (have)
+            return DomainInfo;
         return have;
     }
 

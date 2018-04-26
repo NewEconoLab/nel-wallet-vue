@@ -5,16 +5,31 @@
         <span>Register Neo Name</span>
       </div>
       <div class="form-inline">
-        <div class="input-group nns-register" v-bind:class="{ 'input-err': domainerr }">
+        <div class="input-group nns-register" v-bind:class="domainerr?'input-err':'input-success'">
           <input @input="verifyDomain" type="text" class="nel" v-model="nnsstr" placeholder="type a name">
           <span class="input-group-addon nel ">
             <span>{{network}}</span>
           </span>
         </div>
         <button class="btn btn-nel btn-big" @click="nnsRegister">Register</button>
-        <div>
+        <div style="padding-left:50px">
           <span>{{errmsg}}</span>
         </div>
+      </div>
+
+      <div class="title">
+        <span>My Neo Name</span>
+      </div>
+      <div class="form-inline" v-for="domain in domainarr" :key="domain.domainname">
+        <span class="domainname">
+          {{domain.domainname}}
+        </span>
+        <br>
+        <span class="msg-null" v-if="!domain.reslove">
+          ( not configured )
+        </span>
+        <span class="domainname"></span>
+        <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve()">Edit</button>
       </div>
     </div>
   </wallet-layout>
@@ -27,11 +42,15 @@
 .input-err {
   box-shadow: 0 0 3px 0 rgba(255, 106, 106, 0.5);
 }
+.input-success {
+  box-shadow: 0 0 3px 0 rgba(45, 222, 79, 0.5);
+}
 .container .form-inline {
   background: #454f60;
   padding-top: 50px;
   padding-bottom: 60px;
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 .nns-register {
   background: #454f60;
@@ -59,6 +78,20 @@
   margin-bottom: 0px;
   height: 56px;
   margin-left: 50px;
+}
+.domainname {
+  font-family: PingFangSC-Medium;
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 16px;
+  padding-left: 50px;
+}
+.msg-null {
+  font-family: PingFangSC-Medium;
+  font-size: 14px;
+  color: #c5c5c5;
+  line-height: 14px;
+  padding-left: 50px;
 }
 </style>
 

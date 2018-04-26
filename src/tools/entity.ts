@@ -295,3 +295,9 @@ export class Claim
         return claimarr;
     }
 }
+
+export class Domainmsg
+{
+    domainname: string;
+    reslove: boolean | { mapping: string }
+}
