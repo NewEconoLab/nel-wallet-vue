@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="page" v-if="txs &&txs.length&&txpage>1">
+            <div class="page" v-if="cutshow">
                 <div class="page-previous" :class="txpage<=1?'disabled':''" @click="cutPage('pre')">
                     <img src="../../static/img/lefttrangle.svg" alt="">
                 </div>
@@ -100,7 +100,7 @@
 <script lang="ts" src="./transfer.ts">
 </script>
 
-<style>
+<style scoped>
 .select-nel {
   background: #198cee;
   border-radius: 5px;

@@ -57,6 +57,15 @@ export class WWW
         var height = parseInt(r[ 0 ][ "blockcount" ] as string) - 1;
         return height;
     }
+    static async api_getBlockInfo(index: number)
+    {
+        var str = WWW.makeRpcUrl(WWW.api, "getblocktime");
+        var result = await fetch(str, { "method": "get" });
+        var json = await result.json();
+        var r = json[ "result" ];
+        var height = parseInt(r[ 0 ][ "blockcount" ] as string) - 1;
+        return height;
+    }
     static async api_getAllAssets()
     {
         var str = WWW.makeRpcUrl(WWW.api, "getallasset");

@@ -4,11 +4,13 @@ import WalletLayout from "../layouts/wallet.vue";
 import { NNSTool } from "../tools/nnstool";
 import { WWW } from "../tools/wwwtool";
 import { LoginInfo, Domainmsg, DomainInfo } from "../tools/entity";
+import Valert from "../components/Valert.vue";
 
 declare const mui;
 @Component({
     components: {
-        "wallet-layout": WalletLayout
+        "wallet-layout": WalletLayout,
+        "v-alert": Valert
     }
 })
 export default class Nnsmanage extends Vue 
@@ -106,9 +108,12 @@ export default class Nnsmanage extends Vue
             }
         }
     }
-    async resolve()
+    async resolve(domain: string)
     {
-        let nnshash: Uint8Array;
-        NNSTool.resolve("address", nnshash, "");
+        this.$refs[ "alert" ][ "domainname" ] = domain;
+        this.$refs[ "alert" ][ "show" ] = true;
+        // let arr = domain.split('.');
+        // let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+        // NNSTool.resolve("address", nnshash, "");
     }
 }

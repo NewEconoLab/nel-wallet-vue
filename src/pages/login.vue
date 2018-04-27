@@ -140,7 +140,7 @@
 <script lang="ts" src="./login.ts">
 </script>
 
-<style>
+<style scoped>
 .guide {
   padding-bottom: 30px;
   font-family: PingFangSC-Medium;

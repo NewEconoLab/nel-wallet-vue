@@ -27,6 +27,7 @@ export default class transfer extends Vue
     txs: History[] = [];
     nextpage: boolean = true;
     txpage: number;
+    cutshow: boolean = true;
     constructor() 
     {
         super();
@@ -34,7 +35,6 @@ export default class transfer extends Vue
         this.amount = "";
         this.asset = "";
         this.txpage = 1;
-        CoinTool.initAllAsset();
     }
     mounted() 
     {
@@ -104,15 +104,18 @@ export default class transfer extends Vue
     }
     async history()
     {
+        await CoinTool.initAllAsset();
         var currentAddress = LoginInfo.getCurrentAddress();
         var res = await WWW.gettransbyaddress(currentAddress, 5, this.txpage);
         res = res ? res : []; //将空值转为长度0的数组
+        this.txpage == 1 && res.length > 5 ? this.cutshow = false : this.cutshow = true;
         if (res.length > 0)
         {
             this.txs = [];
             for (let index = 0; index < res.length; index++)
             {
                 const tx = res[ index ];
+                let time = "";
                 let txid = tx[ "txid" ];
                 let vins = tx[ "vin" ];
                 let vouts = tx[ "vout" ];
@@ -120,30 +123,34 @@ export default class transfer extends Vue
                 let txtype = tx[ "type" ];
                 let assetType = tx[ "assetType" ]
                 let blockindex = tx[ "blockindex" ];
-                let time = JSON.parse(tx[ "blocktime" ])[ "$date" ];
-                time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
                 if (txtype == "out")
                 {
                     if (vins && vins.length == 1)
                     {
                         const vin = vins[ 0 ];
                         let address = vin[ "address" ];
-                        let amount = vin[ "value" ];
                         let asset = vin[ "asset" ];
+                        let amount = vin[ "value" ];
                         let assetname = "";
                         if (assetType == "utxo")
+                        {
                             assetname = CoinTool.assetID2name[ asset ];
+                            time = JSON.parse(tx[ "blocktime" ])[ "$date" ];
+                            time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
+                        }
                         else
                         {
                             let nep5 = await WWW.getNep5Asset(asset);
+                            // let block = await WWW.
                             assetname = nep5[ "name" ];
+                            time = "";
                         }
                         var history = new History();
                         history.time = time;
                         history.txid = txid;
                         history.assetname = assetname;
                         history.address = address;
-                        history.value = value[ asset ];
+                        history.value = amount;
                         history.txtype = txtype;
                         this.txs.push(history);
                     }
@@ -158,37 +165,38 @@ export default class transfer extends Vue
                         let address = out[ "address" ];
                         let amount = out[ "value" ];
                         let asset = out[ "asset" ];
+                        let assetname = "";
                         if (assetType == "utxo")
-                            asset = CoinTool.assetID2name[ asset ];
+                            assetname = CoinTool.assetID2name[ asset ];
                         else
                         {
                             let nep5 = await WWW.getNep5Asset(asset);
-                            asset = nep5[ "name" ];
+                            assetname = nep5[ "name" ];
                         }
                         let n = out[ "n" ];
-                        if (address != currentAddress)
+                        // if (address != currentAddress)
+                        // {
+                        if (arr[ address ] && arr[ address ][ assetname ])
                         {
-                            if (arr[ address ] && arr[ address ][ asset ])
-                            {
-                                arr[ address ][ asset ] += amount;
-                            } else
-                            {
-                                var assets = {}
-                                assets[ asset ] = amount;
-                                arr[ address ] = assets;
-                            }
+                            arr[ address ][ assetname ] += amount;
+                        } else
+                        {
+                            var assets = {}
+                            assets[ assetname ] = amount;
+                            arr[ address ] = assets;
                         }
+                        // }
                     }
                     for (const address in arr)
                     {
                         if (arr.hasOwnProperty(address))
                         {
-                            const value = arr[ address ];
-                            for (const asset in value)
+                            const data = arr[ address ];
+                            for (const asset in data)
                             {
-                                if (value.hasOwnProperty(asset))
+                                if (data.hasOwnProperty(asset))
                                 {
-                                    const amount = value[ asset ];
+                                    const amount = data[ asset ];
                                     var history = new History();
                                     history.time = time;
                                     history.txid = txid;

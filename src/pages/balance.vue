@@ -5,7 +5,7 @@
         <span>NEO Balance</span>
         <div style="float:right">
           <span class="user-select-ok" style="margin-right: 11px;color:#fff;">Key Address ：{{currentAddress}}</span>
-          <button class="btn" data-toggle="modal" data-target="#selectAddr" v-if="chooseAddressarr &&chooseAddressarr>1">Switch</button>
+          <button class="btn" data-toggle="modal" data-target="#selectAddr" v-if="chooseAddressarr &&chooseAddressarr.length>1">Switch</button>
         </div>
       </div>
       <div class="neobalance" style=" background: #454F60;border-radius: 5px;">
@@ -102,7 +102,7 @@
 
 <script lang="ts" src="./balance.ts">
 </script>
-<style>
+<style scoped>
 .btn-transfer {
   border: 1px solid #ffffff;
   border-radius: 5px;

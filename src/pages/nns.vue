@@ -29,16 +29,17 @@
           ( not configured )
         </span>
         <span class="domainname"></span>
-        <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve()">Edit</button>
+        <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain.domainname)">Edit</button>
       </div>
     </div>
+    <v-alert ref="alert"></v-alert>
   </wallet-layout>
 </template>
 
 <script lang="ts" src="./nns.ts">
 </script>
 
-<style>
+<style scoped>
 .input-err {
   box-shadow: 0 0 3px 0 rgba(255, 106, 106, 0.5);
 }
@@ -92,6 +93,13 @@
   color: #c5c5c5;
   line-height: 14px;
   padding-left: 50px;
+}
+
+h4 {
+  margin-left: 20px;
+}
+p {
+  text-align: center;
 }
 </style>
 

@@ -327,6 +327,7 @@ export class NNSTool
         return;
     }
 
+
     //解析域名完整模式
     static async resolveFull(protocol: string, nameArray: string[]) { }
 
@@ -432,16 +433,17 @@ export class NNSTool
      * @param protocol 解析器类型
      * @param data 解析地址
      */
-    static async setResolveData(owner: string, nnshash: Uint8Array, subdomain: string | Neo.BigInteger, protocol: string, data: string): Promise<boolean>
+    static async setResolve(owner: string, nnshash: Uint8Array, subdomain: string | Neo.BigInteger, protocol: string, data: string): Promise<boolean>
     {
         try
         {
             var sb = new ThinNeo.ScriptBuilder();
-            var scriptaddress = Consts.registerContract.hexToBytes().reverse();
+            var scriptaddress = Consts.baseContract.hexToBytes().reverse();
             sb.EmitParamJson([ "(addr)" + owner, "(bytes)" + nnshash.toHexString(), "(str)" + subdomain, "(str)addr", "(addr)" + data ]);//第二个参数是个数组
             sb.EmitPushString("getSubOwner");
             sb.EmitAppCall(scriptaddress);
-            //var data = sb.ToArray();
+
+            // let data = sb.ToArray();
 
             //let result = await WWW.rpc_getInvokescript(data);
 
