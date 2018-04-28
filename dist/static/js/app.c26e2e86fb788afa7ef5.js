@@ -2550,47 +2550,6 @@ var NNSTool = /** @class */ (function () {
             });
         });
     };
-    NNSTool.getNameInfo = function (domain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var sb, data, result, state, stackarr, stack, owner, domainmsg, root;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        sb = new ThinNeo.ScriptBuilder();
-                        sb.EmitParamJson(["(bytes)" + domain.toHexString()]); //第二个参数是个数组
-                        sb.EmitPushString("getOwnerInfo");
-                        sb.EmitAppCall(entity_1.Consts.baseContract.hexToBytes().reverse());
-                        data = sb.ToArray();
-                        return [4 /*yield*/, wwwtool_1.WWW.rpc_getInvokescript(data)];
-                    case 1:
-                        result = _a.sent();
-                        try {
-                            state = result.state;
-                            // info2.textContent = "";
-                            if (state.includes("HALT, BREAK")) {
-                                // info2.textContent += "Succ\n";
-                            }
-                            stackarr = result["stack"];
-                            if (stackarr[0].type == "Array") {
-                                stack = stackarr[0].value;
-                                if (stack[0].type == "ByteArray") {
-                                    owner = stack[0].value.hexToBytes();
-                                }
-                                if (stack[1].type == "ByteArray") {
-                                    domainmsg = stack[1].value.hexToBytes();
-                                }
-                                if (stack[2].type == "Boolean") {
-                                    root = stack[2].value;
-                                }
-                            }
-                        }
-                        catch (e) {
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
     //返回域名详情
     NNSTool.getOwnerInfo = function (domain, scriptaddress) {
         return __awaiter(this, void 0, void 0, function () {
@@ -2679,20 +2638,8 @@ var NNSTool = /** @class */ (function () {
             });
         });
     };
-    //计算子域名hash
-    NNSTool.getNameHashSub = function (domainhash, subdomain) {
-        return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/];
-        }); });
-    };
-    //nanmeHashArray
-    NNSTool.getNameHashArray = function (nameArray) {
-        return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/];
-        }); });
-    };
     /**
-     *
+     * 生成解析器
      * @param protocol
      * @param nnshash
      * @param scriptaddress
@@ -2815,33 +2762,6 @@ var NNSTool = /** @class */ (function () {
             hash = NNSTool.nameHashSub(hash, domainarray[i]);
         }
         return hash;
-    };
-    /**
-     *
-     * @param owner 拥有者
-     * @param nnshash 域名hash
-     * @param subdomain 子域名
-     * @param protocol 解析器类型
-     * @param data 解析地址
-     */
-    NNSTool.setResolve = function (owner, nnshash, subdomain, protocol, data) {
-        return __awaiter(this, void 0, void 0, function () {
-            var sb, scriptaddress;
-            return __generator(this, function (_a) {
-                try {
-                    sb = new ThinNeo.ScriptBuilder();
-                    scriptaddress = entity_1.Consts.baseContract.hexToBytes().reverse();
-                    sb.EmitParamJson(["(addr)" + owner, "(bytes)" + nnshash.toHexString(), "(str)" + subdomain, "(str)addr", "(addr)" + data]); //第二个参数是个数组
-                    sb.EmitPushString("getSubOwner");
-                    sb.EmitAppCall(scriptaddress);
-                    // let data = sb.ToArray();
-                    //let result = await WWW.rpc_getInvokescript(data);
-                }
-                catch (e) {
-                }
-                return [2 /*return*/, true];
-            });
-        });
     };
     return NNSTool;
 }());
