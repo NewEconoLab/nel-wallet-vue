@@ -26,7 +26,7 @@
             <input type="text" :value="address" class="input-ico input-disabled">
             <div class="icon-verify" style="display:none;"></div>
             <div class="btn-verify-warp">
-              <button class="btn-nel btn-verify btn-disabled">Confirm</button>
+              <button class="btn-nel btn-verify btn-disabled" @click="resolve()">Confirm</button>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import Spinner from "./Spinner.vue";
 import { NNSTool } from "../tools/nnstool";
-import { Consts } from "../tools/entity";
+import { Consts, LoginInfo } from "../tools/entity";
 
 @Component({
   components: {
@@ -71,7 +71,12 @@ export default class Valert extends Vue {
     let arr = this.domainname.split(".");
     let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
     let contract = this.contractaddr.hexToBytes().reverse();
-    await NNSTool.resolve( nnshash, contract);
+    await NNSTool.setResolve(nnshash, contract);
+  }
+  async resolve() {
+    let arr = this.domainname.split(".");
+    let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+    NNSTool.setResolveData(nnshash, this.address);
   }
   mounted() {}
 }

@@ -95,10 +95,12 @@ export default class Nnsmanage extends Vue
                 this.domainarr.push(new Domainmsg);
                 this.domainarr[ n ].domainname = domain[ "name" ];
                 let msg = await NNSTool.queryDomainInfo(domain[ 'name' ]);
-                if (msg.valueOf() == DomainInfo)
+                if (msg)
                 {
-                    if (msg[ "resolve" ] && msg[ "resolver" ].length >= 0)
+                    if (msg[ "resolver" ])
                     {
+                        let resolver = msg[ "resolver" ];
+                        let addr = await NNSTool.resolveData(domain[ "name" ], resolver);
                         this.domainarr[ n ].reslove = { mapping: msg[ "address" ] };
                     } else
                     {
@@ -111,15 +113,15 @@ export default class Nnsmanage extends Vue
     async resolve(domain: string)
     {
 
-        let arr = domain.split(".");
-        let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
-        let contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b".hexToBytes().reverse();
-        await NNSTool.resolve(nnshash, contract);
+        // let arr = domain.split(".");
+        // let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+        // let contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b".hexToBytes().reverse();
+        // await NNSTool.setResolve(nnshash, contract);
 
-        // this.$refs[ "alert" ][ "domainname" ] = domain;
-        // this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
-        // this.$refs[ "alert" ][ "address" ] = "";
-        // this.$refs[ "alert" ][ "show" ] = true;
+        this.$refs[ "alert" ][ "domainname" ] = domain;
+        this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
+        this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();
+        this.$refs[ "alert" ][ "show" ] = true;
         // let arr = domain.split('.');
         // let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         // NNSTool.resolve("address", nnshash, "");
