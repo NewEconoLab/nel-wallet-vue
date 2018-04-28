@@ -1,6 +1,66 @@
 webpackJsonp([1],{
 
+/***/ "+jyM":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/Spinner.vue
+var Spinner = __webpack_require__("8Qnm");
+var Spinner_default = /*#__PURE__*/__webpack_require__.n(Spinner);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-759448ce","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Spinner.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner-wrap",class:_vm.isbig?'height: 56px; width: 138px;':'width: 46px;height: 18px;'},[_vm._m(0,false,false)])}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner"},[_c('div',{staticClass:"spinner-container container1"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container2"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container3"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_Spinner = (esExports);
+// CONCATENATED MODULE: ./src/components/Spinner.vue
+function injectStyle (ssrContext) {
+  __webpack_require__("s6Fw")
+}
+var normalizeComponent = __webpack_require__("VU/8")
+/* script */
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-759448ce"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  Spinner_default.a,
+  components_Spinner,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+
+/* harmony default export */ var src_components_Spinner = __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+
 /***/ "+mP0":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "/Xsv":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "2Gf+":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -73,6 +133,7 @@ var storagetool_1 = __webpack_require__("5LD5");
 var vue_1 = __webpack_require__("/5sW");
 var vue_property_decorator_1 = __webpack_require__("EOM2");
 var wallet_vue_1 = __webpack_require__("PPZq");
+var Spinner_vue_1 = __webpack_require__("+jyM");
 var wwwtool_1 = __webpack_require__("50aY");
 var balance = /** @class */ (function (_super) {
     __extends(balance, _super);
@@ -257,7 +318,8 @@ var balance = /** @class */ (function (_super) {
     balance = __decorate([
         vue_property_decorator_1.Component({
             components: {
-                "wallet-layout": wallet_vue_1.default
+                "wallet-layout": wallet_vue_1.default,
+                "spinner-wrap": Spinner_vue_1.default
             }
         }),
         __metadata("design:paramtypes", [])
@@ -412,6 +474,26 @@ var WWW = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         str = WWW.makeRpcUrl(WWW.api, "getblockcount");
+                        return [4 /*yield*/, fetch(str, { "method": "get" })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        r = json["result"];
+                        height = parseInt(r[0]["blockcount"]) - 1;
+                        return [2 /*return*/, height];
+                }
+            });
+        });
+    };
+    WWW.api_getBlockInfo = function (index) {
+        return __awaiter(this, void 0, void 0, function () {
+            var str, result, json, r, height;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        str = WWW.makeRpcUrl(WWW.api, "getblocktime");
                         return [4 /*yield*/, fetch(str, { "method": "get" })];
                     case 1:
                         result = _a.sent();
@@ -693,7 +775,7 @@ var WWW = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        str = WWW.makeRpcUrl(WWW.api, "setnnsinfo", address, name, time);
+                        str = WWW.makeRpcUrl(WWW.apiaggr, "setnnsinfo", address, name, time);
                         return [4 /*yield*/, fetch(str, { "method": "get" })];
                     case 1:
                         result = _a.sent();
@@ -702,16 +784,31 @@ var WWW = /** @class */ (function () {
                         json = _a.sent();
                         if (json["result"] == null)
                             return [2 /*return*/, null];
-                        r = json["result"][0];
+                        r = json["result"][0]["result"];
                         return [2 /*return*/, r];
                 }
             });
         });
     };
+    //获取地址下所有的域名
     WWW.getnnsinfo = function (address) {
         return __awaiter(this, void 0, void 0, function () {
+            var str, result, json, r;
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        str = WWW.makeRpcUrl(WWW.apiaggr, "getnnsinfo", address);
+                        return [4 /*yield*/, fetch(str, { "method": "get" })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        if (json["result"] == null)
+                            return [2 /*return*/, null];
+                        r = json["result"];
+                        return [2 /*return*/, r];
+                }
             });
         });
     };
@@ -1028,7 +1125,7 @@ exports.UTXO = UTXO;
 var Consts = /** @class */ (function () {
     function Consts() {
     }
-    // static baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";
+    // static baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";0x954f285a93eed7b4aed9396a7806a5812f1a5950
     Consts.baseContract = "954f285a93eed7b4aed9396a7806a5812f1a5950";
     Consts.registerContract = "d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c";
     return Consts;
@@ -1084,6 +1181,12 @@ var Claim = /** @class */ (function () {
     return Claim;
 }());
 exports.Claim = Claim;
+var Domainmsg = /** @class */ (function () {
+    function Domainmsg() {
+    }
+    return Domainmsg;
+}());
+exports.Domainmsg = Domainmsg;
 
 
 /***/ }),
@@ -1092,6 +1195,59 @@ exports.Claim = Claim;
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0OSAoNTEwMDIpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iYmFsYW5jZTQtdGVzdG5ldCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IummlumhtS10cmFuc2Zlci1pbnB1dDIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC05MjIuMDAwMDAwLCAtMzc4LjAwMDAwMCkiPgogICAgICAgICAgICA8ZyBpZD0idHJhbnNmZXIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwMC4wMDAwMDAsIDIyNi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSLlpKflm77moIcv6K2m5ZGKIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MjIuMDAwMDAwLCAxNTIuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTI0LDEyLjE0ODE0ODEgQzI0LDUuMzcyNDQ0NDQgMTguNjI3NTU1NiwwIDExLjg1MTg1MTksMCBDNS4zNzI0NDQ0NCwwIDAsNS4zNzI0NDQ0NCAwLDEyLjE0ODE0ODEgQzAsMTguNjI3NTU1NiA1LjM3MjQ0NDQ0LDI0IDExLjg1MTg1MTksMjQgQzE4LjYyNzU1NTYsMjQgMjQsMTguNjI3NTU1NiAyNCwxMi4xNDgxNDgxIFoiIGlkPSJGaWxsLSIgZmlsbD0iI0ZGNkE2QSI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMiw2LjQ1MTYxMjkgQzEyLjUwMjMxNTYsNi40NTE2MTI5IDEyLjg4ODU0MzcsNi44NDkxMDQ4NSAxMi44NzA0MzIzLDcuMzM5NDM2MDEgTDEyLjYzNDk0NCwxMy43MTQ4NTIgQzEyLjYxNjY3MiwxNC4yMDk1MzI0IDEyLjE5OTAyNTUsMTQuNjAyNjc1MSAxMS43MDE3NDU1LDE0LjYwMjY3NTEgTDEyLjI5ODI1NDUsMTQuNjAyNjc1MSBDMTEuODA1NTcwOSwxNC42MDI2NzUxIDExLjM4MzE2NzMsMTQuMjA1MTgzMSAxMS4zNjUwNTYsMTMuNzE0ODUyIEwxMS4xMjk1Njc3LDcuMzM5NDM2MDEgQzExLjExMTI5NTcsNi44NDQ3NTU1NyAxMS41MDExNjIyLDYuNDUxNjEyOSAxMiw2LjQ1MTYxMjkgWiBNMTIsMTcuNTQ4Mzg3MSBDMTEuNTAxMTYyMiwxNy41NDgzODcxIDExLjA5Njc3NDIsMTcuMTQzOTk5MSAxMS4wOTY3NzQyLDE2LjY0NTE2MTMgQzExLjA5Njc3NDIsMTYuMTQ2MzIzNSAxMS41MDExNjIyLDE1Ljc0MTkzNTUgMTIsMTUuNzQxOTM1NSBDMTIuNDk4ODM3OCwxNS43NDE5MzU1IDEyLjkwMzIyNTgsMTYuMTQ2MzIzNSAxMi45MDMyMjU4LDE2LjY0NTE2MTMgQzEyLjkwMzIyNTgsMTcuMTQzOTk5MSAxMi40OTg4Mzc4LDE3LjU0ODM4NzEgMTIsMTcuNTQ4Mzg3MSBaIiBpZD0iUGF0aC0iIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
+
+/***/ }),
+
+/***/ "8Qnm":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("/5sW");
+var vue_class_component_1 = __webpack_require__("c+8m");
+var Spinner = /** @class */ (function (_super) {
+    __extends(Spinner, _super);
+    function Spinner() {
+        var _this = _super.call(this) || this;
+        _this.isbig = false;
+        return _this;
+    }
+    Spinner.prototype.mounted = function () { };
+    Spinner = __decorate([
+        vue_class_component_1.default({}),
+        __metadata("design:paramtypes", [])
+    ], Spinner);
+    return Spinner;
+}(vue_1.default));
+exports.default = Spinner;
+
+
+/***/ }),
+
+/***/ "Ay4p":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1112,14 +1268,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var nns = __webpack_require__("cfoD");
 var nns_default = /*#__PURE__*/__webpack_require__.n(nns);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-56c6e3ba","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:{ 'input-err': _vm.domainerr }},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"form-control nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('Span',[_vm._v(_vm._s(_vm.network))])],1)]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]),_vm._v(" "),_c('div',[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-73b00389","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:_vm.domainerr?'input-err':'input-success'},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('span',[_vm._v(_vm._s(_vm.network))])])]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"50px"}},[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v("My Neo Name")])]),_vm._v(" "),_vm._l((_vm.domainarr),function(domain){return _c('div',{key:domain.domainname,staticClass:"form-inline"},[_c('span',{staticClass:"domainname"},[_vm._v("\n        "+_vm._s(domain.domainname)+"\n      ")]),_vm._v(" "),_c('br'),_vm._v(" "),(!domain.reslove)?_c('span',{staticClass:"msg-null"},[_vm._v("\n        ( not configured )\n      ")]):_vm._e(),_vm._v(" "),_c('span',{staticClass:"domainname"}),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",staticStyle:{"float":"right","margin-right":"50px"},on:{"click":function($event){_vm.resolve(domain.domainname)}}},[_vm._v("Edit")])])})],2),_vm._v(" "),_c('v-alert',{ref:"alert"})],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_nns = (esExports);
 // CONCATENATED MODULE: ./src/pages/nns.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("uw+d")
+  __webpack_require__("afGh")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1130,7 +1286,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-73b00389"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -1202,6 +1358,52 @@ var Main = /** @class */ (function (_super) {
     return Main;
 }(vue_1.default));
 exports.default = Main;
+
+
+/***/ }),
+
+/***/ "Gieu":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/Valert.vue
+var Valert = __webpack_require__("shbj");
+var Valert_default = /*#__PURE__*/__webpack_require__.n(Valert);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-8c3f19a6","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Valert.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.show)?_c('div',{staticClass:"alert-box"},[_c('div',{staticClass:"alert-warp"},[_c('div',{staticClass:"alert-title"},[_vm._v("Edit information")]),_vm._v(" "),_c('div',{staticClass:"alert-content"},[_c('div',{staticClass:"content content-file"},[_c('span',{staticClass:"content-des"},[_vm._v("Neo Name : "+_vm._s(_vm.domainname))]),_vm._v(" "),_c('span',{staticClass:"content-msg"})]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Resolver : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg warning-msg"},[_vm._v("( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )")]),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text"},domProps:{"value":_vm.contractaddr}}),_vm._v(" "),(_vm.resolvebtn)?_c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify ",on:{"click":_vm.setresolve}},[_vm._v("Confirm")])]):_c('spinner-wrap',{staticStyle:{"height":"56px","width":"141px","padding":"0px","margin-left":"20px"}})],1)]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Mapping : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg"}),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text"},domProps:{"value":_vm.address}}),_vm._v(" "),_c('div',{staticClass:"icon-verify",staticStyle:{"display":"none"}}),_vm._v(" "),_vm._m(0,false,false)])])]),_vm._v(" "),_c('div',{staticClass:"alert-close",on:{"click":_vm.closemudloe}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e()}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify btn-disabled"},[_vm._v("Confirm")])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_Valert = (esExports);
+// CONCATENATED MODULE: ./src/components/Valert.vue
+function injectStyle (ssrContext) {
+  __webpack_require__("QQTK")
+}
+var normalizeComponent = __webpack_require__("VU/8")
+/* script */
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-8c3f19a6"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  Valert_default.a,
+  components_Valert,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+
+/* harmony default export */ var src_components_Valert = __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
@@ -1519,14 +1721,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var login = __webpack_require__("ILH5");
 var login_default = /*#__PURE__*/__webpack_require__.n(login);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-16f61aee","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/login.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-667a6f35","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/login.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('div',{staticStyle:{"height":"180px"}}),_vm._v(" "),_c('div',{staticClass:"container-box"},[_c('div',{staticClass:"row login-container"},[_c('div',{staticClass:"container-left"},[_c('div',{staticClass:"container-icon"},[_c('img',{attrs:{"src":__webpack_require__("4+Dl"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':!(_vm.moudle_generate||_vm.moudle_download)},on:{"click":function($event){_vm.cutModual('nep6')}}},[_c('span',{ref:"login"},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':(_vm.moudle_generate || _vm.moudle_download)},on:{"click":function($event){_vm.cutModual('generate')}}},[_c('span',{ref:"login"},[_vm._v("Generate")])])]),_vm._v(" "),_c('div',{staticClass:"container-right"},[(_vm.moudle_nep6)?_c('div',{staticClass:"nep6-imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("\n              Login your wallet\n            ")])]),_vm._v(" "),_c('div',{staticClass:"input-login"},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filename),expression:"filename"}],staticClass:"form-control",attrs:{"type":"text","placeholder":"Select keystore file. ","disabled":"true"},domProps:{"value":(_vm.filename)},on:{"input":function($event){if($event.target.composing){ return; }_vm.filename=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button"},[_c('span',[_vm._v("Select")]),_vm._v(" "),_c('input',{attrs:{"type":"file"},on:{"change":_vm.fileChange}})])])])]),_vm._v(" "),_c('div',{staticClass:"input-login",staticStyle:{"padding-top":"40px"}},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.password),expression:"password"}],staticClass:"form-control",attrs:{"placeholder":"Enter password. ","type":"password"},domProps:{"value":(_vm.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.password=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button",on:{"click":function($event){_vm.login('nep6')}}},[_vm._v("\n                  Login\n                ")])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"36px","padding-top":"80px","padding-bottom":"30px","text-align":"center"}},[_c('hr',{attrs:{"width":"80%","color":"#987cb9"}}),_vm._v(" "),_c('div',{staticClass:"hr-more"},[_vm._v("or you can")])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"30px"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('wif')}}},[_vm._v("Import key from WIF String ")])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"20px","padding-bottom":"5.9%"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('nep2')}}},[_vm._v("Import key from nep2 String ")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_wif)?_c('div',{staticClass:"wif_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("WIF Private Key")])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.wif),expression:"wif"}],attrs:{"type":"text","placeholder":"Enter your private key. "},domProps:{"value":(_vm.wif)},on:{"input":function($event){if($event.target.composing){ return; }_vm.wif=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.login('wif')}}},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< Back")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_nep2)?_c('div',{staticClass:"nep2_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Nep2")])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2),expression:"nep2"}],attrs:{"type":"text","placeholder":"Enter your Nep2. "},domProps:{"value":(_vm.nep2)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2pwd),expression:"nep2pwd"}],attrs:{"type":"password","placeholder":"Enter password. "},domProps:{"value":(_vm.nep2pwd)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2pwd=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.login('nep2')}}},[_vm._v("Login")])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< Back")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_generate)?_c('div',{staticClass:"generate"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Generate a new wallet")])]),_vm._v(" "),_c('div',{class:_vm.nameerr!=''?( _vm.nameerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletname),expression:"walletname"}],attrs:{"type":"text","placeholder":"Name your wallet. "},domProps:{"value":(_vm.walletname)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletname=$event.target.value},_vm.verifyName],"blur":_vm.verifyName}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.nameerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Wallet name cannot be empty.")]):_vm._e(),_vm._v(" "),(_vm.nameerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass. ")]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.pwderr!=''?( _vm.pwderr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletpwd),expression:"walletpwd"}],attrs:{"type":"password","placeholder":"Enter password. "},domProps:{"value":(_vm.walletpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletpwd=$event.target.value},_vm.verifypwd],"blur":_vm.verifypwd}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.pwderr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.pwdmsg)+"\n              ")]):_vm._e(),_vm._v(" "),(_vm.pwderr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass.\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.confirmerr!=''?( _vm.confirmerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.confirmpwd),expression:"confirmpwd"}],attrs:{"type":"password","placeholder":"Confirm password. "},domProps:{"value":(_vm.confirmpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.confirmpwd=$event.target.value},_vm.verifyConfirm],"blur":_vm.verifyConfirm}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.confirmerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Please enter the same password as above.\n              ")]):_vm._e(),_vm._v(" "),(_vm.confirmerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   Verification pass.\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.generate()}}},[_vm._v("Generate")])])]):_vm._e(),_vm._v(" "),(_vm.moudle_download)?_c('div',{staticClass:"generate download"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Your keystore file has been created.")])]),_vm._v(" "),_c('p',{staticClass:"guide"},[_vm._v("You can click the ‘download’ button to save your keystore file!")]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('a',{staticClass:"btn btn-nel btn-import",attrs:{"download":_vm.download_name,"href":_vm.download_href}},[_vm._v("Download")])]),_vm._v(" "),_c('div',{staticClass:"remind"},[_c('p',{staticClass:"title-remind"},[_vm._v("Do not lose it!")]),_vm._v(" "),_c('p',{staticClass:"content-remind"},[_vm._v("It can’t be recovered if you lose it.")])])]):_vm._e()])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_login = (esExports);
 // CONCATENATED MODULE: ./src/pages/login.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("wTse")
+  __webpack_require__("2Gf+")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1537,7 +1739,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-667a6f35"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -1621,13 +1823,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_VLink = __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "NJmQ":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1937,6 +2132,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "QQTK":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "QRjO":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1947,14 +2149,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var balance = __webpack_require__("2xXY");
 var balance_default = /*#__PURE__*/__webpack_require__.n(balance);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-088d86c0","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v("NEO Balance")]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v("Key Address ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v("Switch")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v("GAS available to claim : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v("Claim")]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('div',{staticClass:"spinner-wrap"},[_c('div',{staticClass:"spinner"},[_c('div',{staticClass:"spinner-container container1"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container2"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container3"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})])])]):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Asset")])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v("Transfer")])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v("Choose address")])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v("Select Nep6 File:")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v("Close")]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v("confirm")])])])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-54d3e3c5","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v("NEO Balance")]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v("Key Address ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v("Switch")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v("GAS available to claim : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v("Claim")]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('spinner-wrap'):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])],1)])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Asset")])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v("Transfer")])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v("Choose address")])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v("Select Nep6 File:")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v("Close")]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v("confirm")])])])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_balance = (esExports);
 // CONCATENATED MODULE: ./src/pages/balance.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("kh5M")
+  __webpack_require__("/Xsv")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1965,7 +2167,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-54d3e3c5"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -1979,6 +2181,13 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_pages_balance = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "Sy2i":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -2107,6 +2316,13 @@ exports.default = FeatureComponent;
 
 /***/ }),
 
+/***/ "afGh":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "ar5l":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2191,26 +2407,32 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.queryDomainInfo = function (doamin) {
         return __awaiter(this, void 0, void 0, function () {
-            var domainarr, subdomain, nnshash, address, doamininfo, info, owner;
+            var domainarr, subdomain, nnshash, doamininfo, have, timestamp, copare, owner;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         domainarr = doamin.split('.');
                         subdomain = domainarr[0];
-                        domainarr.shift();
-                        domainarr.push(this.root_test.rootname);
                         nnshash = NNSTool.nameHashArray(domainarr);
-                        return [4 /*yield*/, NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register)];
-                    case 1:
-                        address = _a.sent();
                         return [4 /*yield*/, NNSTool.getOwnerInfo(nnshash, entity_1.Consts.baseContract.hexToBytes().reverse())];
-                    case 2:
+                    case 1:
                         doamininfo = _a.sent();
-                        return [4 /*yield*/, NNSTool.getNameInfo(nnshash)];
-                    case 3:
-                        info = _a.sent();
+                        console.log(doamininfo.ttl);
+                        have = false;
+                        if (doamininfo.ttl) {
+                            timestamp = new Date().getTime();
+                            copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(doamininfo.ttl).multiply(1000));
+                            // let copare: number = new Neo.BigInteger(timestamp).compareTo(doamininfo.ttl.multiply(1000));
+                            if (copare < 0) {
+                                // console.log('域名已到期');
+                                have = true;
+                            }
+                        }
                         owner = doamininfo.owner.toHexString();
-                        return [2 /*return*/, address];
+                        // return address;
+                        if (have)
+                            return [2 /*return*/, entity_1.DomainInfo];
+                        return [2 /*return*/, have];
                 }
             });
         });
@@ -2221,23 +2443,26 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.registerDomain = function (doamin) {
         return __awaiter(this, void 0, void 0, function () {
-            var domainarr, subdomain, nnshash, address, sb, scriptaddress, res;
+            var nnshash, address, sb, scriptaddress, data, res;
             return __generator(this, function (_a) {
-                domainarr = doamin.split('.');
-                subdomain = domainarr[0];
-                domainarr.shift();
-                domainarr.push(NNSTool.root_test.rootname);
-                nnshash = NNSTool.nameHashArray(domainarr);
-                address = entity_1.LoginInfo.getCurrentAddress();
-                sb = new ThinNeo.ScriptBuilder();
-                scriptaddress = NNSTool.root_test.register;
-                sb.EmitPushNumber(new Neo.BigInteger(232323));
-                sb.Emit(ThinNeo.OpCode.DROP);
-                sb.EmitParamJson(["(addr)" + address, "(bytes)" + nnshash.toHexString(), "(str)" + subdomain]); //第二个参数是个数组
-                sb.EmitPushString("requestSubDomain"); //第一个参数
-                sb.EmitAppCall(scriptaddress); //资产合约
-                res = cointool_1.CoinTool.contractInvokeTrans(sb.ToArray());
-                return [2 /*return*/, res];
+                switch (_a.label) {
+                    case 0:
+                        nnshash = NNSTool.nameHash(NNSTool.root_test.rootname);
+                        address = entity_1.LoginInfo.getCurrentAddress();
+                        sb = new ThinNeo.ScriptBuilder();
+                        scriptaddress = NNSTool.root_test.register;
+                        sb.EmitParamJson(["(addr)" + address, "(bytes)" + nnshash.toHexString(), "(str)" + doamin]); //第二个参数是个数组
+                        sb.EmitPushString("requestSubDomain");
+                        sb.EmitAppCall(scriptaddress);
+                        data = sb.ToArray();
+                        return [4 /*yield*/, cointool_1.CoinTool.contractInvokeTrans(data)];
+                    case 1:
+                        res = _a.sent();
+                        if (!res.err) {
+                            // WWW.setnnsinfo(address,doamin,);
+                        }
+                        return [2 /*return*/, res];
+                }
             });
         });
     };
@@ -2369,7 +2594,7 @@ var NNSTool = /** @class */ (function () {
     //返回域名详情
     NNSTool.getOwnerInfo = function (domain, scriptaddress) {
         return __awaiter(this, void 0, void 0, function () {
-            var info, sb, data, result, state, stackarr, stack;
+            var info, sb, data, result, state, stackarr, stack, bt, parentOwner, domainstr, parentHash, bt, root, a;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2401,12 +2626,34 @@ var NNSTool = /** @class */ (function () {
                                     info.resolver = stack[2].value.hexToBytes();
                                 }
                                 if (stack[3].type == "Integer") {
-                                    info.ttl = new Neo.BigInteger(stack[3].value);
+                                    info.ttl = new Neo.BigInteger(stack[3].value).toString();
+                                }
+                                if (stack[3].type = "ByteArray") {
+                                    bt = stack[3].value.hexToBytes();
+                                    info.ttl = Neo.BigInteger.fromUint8ArrayAutoSign(bt.clone()).toString();
+                                    console.log(info.ttl);
+                                }
+                                if (stack[4].type = "ByteArray") {
+                                    parentOwner = stack[5].value.hexToBytes();
+                                }
+                                if (stack[5].type = "String") {
+                                    domainstr = stack[5].value;
+                                }
+                                if (stack[6].type = "ByteArray") {
+                                    parentHash = stack[6].value.hexToBytes();
+                                }
+                                if (stack[7].type = "ByteArray") {
+                                    bt = stack[7].value.hexToBytes();
+                                    root = Neo.BigInteger.fromUint8ArrayAutoSign(bt);
+                                }
+                                if (stack[7].type = "Integer") {
+                                    a = new Neo.BigInteger(stack[7].value);
                                 }
                             }
                         }
                         catch (e) {
                         }
+                        console.log(info);
                         return [2 /*return*/, info];
                 }
             });
@@ -2450,20 +2697,30 @@ var NNSTool = /** @class */ (function () {
      * @param nnshash
      * @param scriptaddress
      */
-    NNSTool.resolve = function (protocol, nnshash, scriptaddress) {
+    NNSTool.resolve = function (nnshash, resolverhash) {
         return __awaiter(this, void 0, void 0, function () {
-            var namehash, sb, data, result;
+            var namehash, current, sb, hash, hashstr, nnshashstr, resolvestr, scriptaddress, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        current = entity_1.LoginInfo.getCurrentLogin();
                         sb = new ThinNeo.ScriptBuilder();
-                        sb.EmitParamJson(["(str)" + protocol, "(bytes)" + nnshash.toHexString()]); //第二个参数是个数组
-                        sb.EmitPushString("resolve");
+                        hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
+                        hashstr = hash.reverse().toHexString();
+                        nnshashstr = nnshash.reverse().toHexString();
+                        resolvestr = resolverhash.reverse().toHexString();
+                        scriptaddress = entity_1.Consts.baseContract.hexToBytes().reverse();
+                        console.log(hashstr);
+                        console.log(nnshashstr);
+                        console.log(resolvestr);
+                        console.log(scriptaddress);
+                        sb.EmitParamJson(["(hex160)" + hashstr, "(hex256)" + nnshashstr, "(hex160)" + resolvestr]); //第二个参数是个数组
+                        sb.EmitPushString("owner_SetResolver");
                         sb.EmitAppCall(scriptaddress);
                         data = sb.ToArray();
-                        return [4 /*yield*/, wwwtool_1.WWW.rpc_getInvokescript(data)];
+                        return [4 /*yield*/, cointool_1.CoinTool.contractInvokeTrans(data)];
                     case 1:
-                        result = _a.sent();
+                        res = _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -2518,47 +2775,6 @@ var NNSTool = /** @class */ (function () {
             });
         });
     };
-    /**
-     * 此接口为演示的先到先得注册器使用，用户调用注册器的这个接口申请域名
-     * @param who         注册人的地址
-     * @param nnshash     域名中除最后一位的hash : aa.bb.cc 中的 bb.cc的hash
-     * @param subdomain   域名中的最后一位: aa.bb.cc 中的 aa
-     */
-    NNSTool.requestSubDomain = function (who, nnshash, subdomain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var namehash, sb, scriptaddress, data, result, state, stack;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        sb = new ThinNeo.ScriptBuilder();
-                        scriptaddress = entity_1.Consts.registerContract.hexToBytes().reverse();
-                        sb.EmitParamJson(["(bytes)" + nnshash.toHexString(), "(str)" + subdomain]); //第二个参数是个数组
-                        sb.EmitPushString("getSubOwner");
-                        sb.EmitAppCall(scriptaddress);
-                        data = sb.ToArray();
-                        return [4 /*yield*/, wwwtool_1.WWW.rpc_getInvokescript(data)];
-                    case 1:
-                        result = _a.sent();
-                        try {
-                            state = result[0].state;
-                            // info2.textContent = "";
-                            if (state.includes("HALT, BREAK")) {
-                                // info2.textContent += "Succ\n";
-                            }
-                            stack = result[0].stack;
-                            //find name 他的type 有可能是string 或者ByteArray
-                            if (stack[0].type == "ByteArray") {
-                                namehash = stack[0].value.hexToBytes();
-                            }
-                        }
-                        catch (e) {
-                            console.log(e);
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
     //#region 域名转hash算法
     //域名转hash算法
     //aaa.bb.test =>{"test","bb","aa"}
@@ -2608,17 +2824,17 @@ var NNSTool = /** @class */ (function () {
      * @param protocol 解析器类型
      * @param data 解析地址
      */
-    NNSTool.setResolveData = function (owner, nnshash, subdomain, protocol, data) {
+    NNSTool.setResolve = function (owner, nnshash, subdomain, protocol, data) {
         return __awaiter(this, void 0, void 0, function () {
             var sb, scriptaddress;
             return __generator(this, function (_a) {
                 try {
                     sb = new ThinNeo.ScriptBuilder();
-                    scriptaddress = entity_1.Consts.registerContract.hexToBytes().reverse();
+                    scriptaddress = entity_1.Consts.baseContract.hexToBytes().reverse();
                     sb.EmitParamJson(["(addr)" + owner, "(bytes)" + nnshash.toHexString(), "(str)" + subdomain, "(str)addr", "(addr)" + data]); //第二个参数是个数组
                     sb.EmitPushString("getSubOwner");
                     sb.EmitAppCall(scriptaddress);
-                    //var data = sb.ToArray();
+                    // let data = sb.ToArray();
                     //let result = await WWW.rpc_getInvokescript(data);
                 }
                 catch (e) {
@@ -2698,6 +2914,9 @@ var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
 var wallet_vue_1 = __webpack_require__("PPZq");
 var nnstool_1 = __webpack_require__("ar5l");
+var wwwtool_1 = __webpack_require__("50aY");
+var entity_1 = __webpack_require__("6nHw");
+var Valert_vue_1 = __webpack_require__("Gieu");
 var Nnsmanage = /** @class */ (function (_super) {
     __extends(Nnsmanage, _super);
     function Nnsmanage() {
@@ -2706,6 +2925,7 @@ var Nnsmanage = /** @class */ (function (_super) {
         _this.nnsstr = "";
         _this.domainerr = false;
         _this.errmsg = "";
+        _this.domainarr = new Array();
         return _this;
     }
     Nnsmanage.prototype.mounted = function () {
@@ -2715,6 +2935,7 @@ var Nnsmanage = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, nnstool_1.NNSTool.initRootDomain()];
                     case 1:
                         _a.sent();
+                        this.getDomainsByAddr();
                         return [2 /*return*/];
                 }
             });
@@ -2733,15 +2954,16 @@ var Nnsmanage = /** @class */ (function (_super) {
                         this.domainerr = true;
                         this.errmsg = "Please enter a domain name in the correct format ";
                         return [2 /*return*/];
-                    case 1: return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(this.nnsstr)];
+                    case 1: return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(this.nnsstr + ".test")];
                     case 2:
                         domains = _a.sent();
-                        if (domains) {
+                        if (domains.valueOf() == entity_1.DomainInfo) {
                             this.domainerr = true;
-                            mui.toast("The current domain name is registered : " + domains);
+                            mui.toast("The current domain name is registered : ");
                         }
                         else {
                             this.domainerr = false;
+                            this.errmsg = "";
                         }
                         _a.label = 3;
                     case 3: return [2 /*return*/];
@@ -2751,24 +2973,83 @@ var Nnsmanage = /** @class */ (function (_super) {
     };
     Nnsmanage.prototype.nnsRegister = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var res, res_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!!this.domainerr) return [3 /*break*/, 2];
+                        if (!!this.domainerr) return [3 /*break*/, 4];
                         return [4 /*yield*/, nnstool_1.NNSTool.registerDomain(this.nnsstr)];
                     case 1:
                         res = _a.sent();
-                        if (res.err) {
-                            console.error(res.info);
-                        }
-                        else {
-                            // var res = await WWW.setnnsinfo();
+                        if (!res.err) return [3 /*break*/, 2];
+                        console.error(res.info);
+                        return [3 /*break*/, 4];
+                    case 2: return [4 /*yield*/, wwwtool_1.WWW.setnnsinfo(entity_1.LoginInfo.getCurrentAddress(), this.nnsstr + ".test", 0)];
+                    case 3:
+                        res_1 = _a.sent();
+                        if (res_1 == "suc") {
                             mui.alert("Domain name registration contract has been issued, please see ");
-                            mui.toast(res.info);
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage.prototype.getDomainsByAddr = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, _a, _b, _i, i, n, domain, msg;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, wwwtool_1.WWW.getnnsinfo(entity_1.LoginInfo.getCurrentAddress())];
+                    case 1:
+                        res = _c.sent();
+                        _a = [];
+                        for (_b in res)
+                            _a.push(_b);
+                        _i = 0;
+                        _c.label = 2;
+                    case 2:
+                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                        i = _a[_i];
+                        if (!res.hasOwnProperty(i)) return [3 /*break*/, 4];
+                        n = parseInt(i);
+                        domain = res[n];
+                        this.domainarr.push(new entity_1.Domainmsg);
+                        this.domainarr[n].domainname = domain["name"];
+                        return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(domain['name'])];
+                    case 3:
+                        msg = _c.sent();
+                        if (msg.valueOf() == entity_1.DomainInfo) {
+                            if (msg["resolve"] && msg["resolver"].length >= 0) {
+                                this.domainarr[n].reslove = { mapping: msg["address"] };
+                            }
+                            else {
+                                this.domainarr[n].reslove = false;
+                            }
+                        }
+                        _c.label = 4;
+                    case 4:
+                        _i++;
+                        return [3 /*break*/, 2];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage.prototype.resolve = function (domain) {
+        return __awaiter(this, void 0, void 0, function () {
+            var arr, nnshash, contract;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        arr = domain.split(".");
+                        nnshash = nnstool_1.NNSTool.nameHashArray(arr);
+                        contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b".hexToBytes().reverse();
+                        return [4 /*yield*/, nnstool_1.NNSTool.resolve(nnshash, contract)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
@@ -2776,7 +3057,8 @@ var Nnsmanage = /** @class */ (function (_super) {
     Nnsmanage = __decorate([
         vue_class_component_1.default({
             components: {
-                "wallet-layout": wallet_vue_1.default
+                "wallet-layout": wallet_vue_1.default,
+                "v-alert": Valert_vue_1.default
             }
         }),
         __metadata("design:paramtypes", [])
@@ -2912,11 +3194,11 @@ var transfer = /** @class */ (function (_super) {
         _this.amounterr = "";
         _this.txs = [];
         _this.nextpage = true;
+        _this.cutshow = true;
         _this.targetaddr = "";
         _this.amount = "";
         _this.asset = "";
         _this.txpage = 1;
-        cointool_1.CoinTool.initAllAsset();
         return _this;
     }
     transfer.prototype.mounted = function () {
@@ -2994,22 +3276,26 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.history = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var currentAddress, res, index, tx, txid, vins, vouts, value, txtype, assetType, blockindex, time, vin, address, amount, asset, assetname, nep5, history, arr, _a, _b, _i, index_1, i, out, address, amount, asset, nep5, n, assets, address, value_1, asset, amount, history;
+            var currentAddress, res, index, tx, time, txid, vins, vouts, value, txtype, assetType, blockindex, vin, address, asset, amount, assetname, nep5, history, arr, _a, _b, _i, index_1, i, out, address, amount, asset, assetname, nep5, n, assets, address, data, asset, amount, history;
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0:
+                    case 0: return [4 /*yield*/, cointool_1.CoinTool.initAllAsset()];
+                    case 1:
+                        _c.sent();
                         currentAddress = entity_1.LoginInfo.getCurrentAddress();
                         return [4 /*yield*/, wwwtool_1.WWW.gettransbyaddress(currentAddress, 5, this.txpage)];
-                    case 1:
+                    case 2:
                         res = _c.sent();
                         res = res ? res : []; //将空值转为长度0的数组
-                        if (!(res.length > 0)) return [3 /*break*/, 15];
+                        this.txpage == 1 && res.length > 5 ? this.cutshow = false : this.cutshow = true;
+                        if (!(res.length > 0)) return [3 /*break*/, 16];
                         this.txs = [];
                         index = 0;
-                        _c.label = 2;
-                    case 2:
-                        if (!(index < res.length)) return [3 /*break*/, 15];
+                        _c.label = 3;
+                    case 3:
+                        if (!(index < res.length)) return [3 /*break*/, 16];
                         tx = res[index];
+                        time = "";
                         txid = tx["txid"];
                         vins = tx["vin"];
                         vouts = tx["vout"];
@@ -3017,80 +3303,83 @@ var transfer = /** @class */ (function (_super) {
                         txtype = tx["type"];
                         assetType = tx["assetType"];
                         blockindex = tx["blockindex"];
-                        time = JSON.parse(tx["blocktime"])["$date"];
-                        time = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
-                        if (!(txtype == "out")) return [3 /*break*/, 7];
-                        if (!(vins && vins.length == 1)) return [3 /*break*/, 6];
+                        if (!(txtype == "out")) return [3 /*break*/, 8];
+                        if (!(vins && vins.length == 1)) return [3 /*break*/, 7];
                         vin = vins[0];
                         address = vin["address"];
-                        amount = vin["value"];
                         asset = vin["asset"];
+                        amount = vin["value"];
                         assetname = "";
-                        if (!(assetType == "utxo")) return [3 /*break*/, 3];
+                        if (!(assetType == "utxo")) return [3 /*break*/, 4];
                         assetname = cointool_1.CoinTool.assetID2name[asset];
-                        return [3 /*break*/, 5];
-                    case 3: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
-                    case 4:
-                        nep5 = _c.sent();
-                        assetname = nep5["name"];
-                        _c.label = 5;
+                        time = JSON.parse(tx["blocktime"])["$date"];
+                        time = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
+                        return [3 /*break*/, 6];
+                    case 4: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
                     case 5:
+                        nep5 = _c.sent();
+                        // let block = await WWW.
+                        assetname = nep5["name"];
+                        time = "";
+                        _c.label = 6;
+                    case 6:
                         history = new entity_1.History();
                         history.time = time;
                         history.txid = txid;
                         history.assetname = assetname;
                         history.address = address;
-                        history.value = value[asset];
+                        history.value = amount;
                         history.txtype = txtype;
                         this.txs.push(history);
-                        _c.label = 6;
-                    case 6: return [3 /*break*/, 14];
-                    case 7:
+                        _c.label = 7;
+                    case 7: return [3 /*break*/, 15];
+                    case 8:
                         arr = {};
                         _a = [];
                         for (_b in vouts)
                             _a.push(_b);
                         _i = 0;
-                        _c.label = 8;
-                    case 8:
-                        if (!(_i < _a.length)) return [3 /*break*/, 13];
+                        _c.label = 9;
+                    case 9:
+                        if (!(_i < _a.length)) return [3 /*break*/, 14];
                         index_1 = _a[_i];
                         i = parseInt(index_1);
                         out = vouts[i];
                         address = out["address"];
                         amount = out["value"];
                         asset = out["asset"];
-                        if (!(assetType == "utxo")) return [3 /*break*/, 9];
-                        asset = cointool_1.CoinTool.assetID2name[asset];
-                        return [3 /*break*/, 11];
-                    case 9: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
-                    case 10:
-                        nep5 = _c.sent();
-                        asset = nep5["name"];
-                        _c.label = 11;
+                        assetname = "";
+                        if (!(assetType == "utxo")) return [3 /*break*/, 10];
+                        assetname = cointool_1.CoinTool.assetID2name[asset];
+                        return [3 /*break*/, 12];
+                    case 10: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
                     case 11:
-                        n = out["n"];
-                        if (address != currentAddress) {
-                            if (arr[address] && arr[address][asset]) {
-                                arr[address][asset] += amount;
-                            }
-                            else {
-                                assets = {};
-                                assets[asset] = amount;
-                                arr[address] = assets;
-                            }
-                        }
+                        nep5 = _c.sent();
+                        assetname = nep5["name"];
                         _c.label = 12;
                     case 12:
-                        _i++;
-                        return [3 /*break*/, 8];
+                        n = out["n"];
+                        // if (address != currentAddress)
+                        // {
+                        if (arr[address] && arr[address][assetname]) {
+                            arr[address][assetname] += amount;
+                        }
+                        else {
+                            assets = {};
+                            assets[assetname] = amount;
+                            arr[address] = assets;
+                        }
+                        _c.label = 13;
                     case 13:
+                        _i++;
+                        return [3 /*break*/, 9];
+                    case 14:
                         for (address in arr) {
                             if (arr.hasOwnProperty(address)) {
-                                value_1 = arr[address];
-                                for (asset in value_1) {
-                                    if (value_1.hasOwnProperty(asset)) {
-                                        amount = value_1[asset];
+                                data = arr[address];
+                                for (asset in data) {
+                                    if (data.hasOwnProperty(asset)) {
+                                        amount = data[asset];
                                         history = new entity_1.History();
                                         history.time = time;
                                         history.txid = txid;
@@ -3103,11 +3392,11 @@ var transfer = /** @class */ (function (_super) {
                                 }
                             }
                         }
-                        _c.label = 14;
-                    case 14:
-                        index++;
-                        return [3 /*break*/, 2];
+                        _c.label = 15;
                     case 15:
+                        index++;
+                        return [3 /*break*/, 3];
+                    case 16:
                         //分页判断
                         res.length < 5 ? this.nextpage = false : this.nextpage = true; //判断是否是最后一页
                         this.txpage > 1 && res == 0 ? this.txpage-- : this.txpage; //判断是否到最后一页
@@ -3131,20 +3420,6 @@ exports.default = transfer;
 
 /***/ }),
 
-/***/ "gfYw":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "kh5M":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "l7Tq":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3155,14 +3430,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var Main = __webpack_require__("Gc41");
 var Main_default = /*#__PURE__*/__webpack_require__.n(Main);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-326ee324","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-94f42206","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_vm._m(0,false,false),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('div',{staticClass:"logo"}),_vm._v(" "),_vm._m(1,false,false),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_vm._m(2,false,false),_vm._v(" "),(_vm.loginshow)?_c('li',[_c('v-link',{ref:"login",attrs:{"href":"#login"}},[_vm._v("logout")])],1):_vm._e()])])])]),_vm._v(" "),_vm._t("default")],2)}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v("Toggle navigation")]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/#mainnet","target":"_blank"}},[_vm._v("Explorer")])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel",attrs:{"href":"#wallet"}},[_vm._v("Wallet")])])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v("MainNet")]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{staticClass:"active",attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v("TestNet")])]),_vm._v(" "),_c('li',{attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"target":"_blank","href":"https://wallet.nel.group/#login","id":"maina"}},[_vm._v("MainNet")])])])])}]
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v("Toggle navigation")]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/#mainnet","target":"_blank"}},[_vm._v("Explorer")])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel",attrs:{"href":"#wallet"}},[_vm._v("Wallet")])])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v("TestNet")]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{staticClass:"active",attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v("TestNet")])]),_vm._v(" "),_c('li',{attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"target":"_blank","href":"https://wallet.nel.group/#login","id":"maina"}},[_vm._v("MainNet")])])])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_Main = (esExports);
 // CONCATENATED MODULE: ./src/layouts/Main.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("NJmQ")
+  __webpack_require__("Ay4p")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -3294,14 +3569,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var transfer = __webpack_require__("f3HO");
 var transfer_default = /*#__PURE__*/__webpack_require__.n(transfer);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-5108724a","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"nel-input big",attrs:{"type":"text"},domProps:{"value":(_vm.targetaddr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value},_vm.verify_addr]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(" Send "+_vm._s(tx.txtype == 'out'?'form':'to')+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_vm._v(_vm._s(tx.time))])])})],2)]),_vm._v(" "),(_vm.txs &&_vm.txs.length&&_vm.txpage>1)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2ebf4c39","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":"Please enter an address or domain name "},domProps:{"value":(_vm.targetaddr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value},_vm.verify_addr]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(" Send "+_vm._s(tx.txtype == 'out'?'form':'to')+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_vm._v(_vm._s(tx.time))])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_transfer = (esExports);
 // CONCATENATED MODULE: ./src/pages/transfer.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("gfYw")
+  __webpack_require__("Sy2i")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -3312,7 +3587,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-2ebf4c39"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -3665,10 +3940,10 @@ var CoinTool = /** @class */ (function () {
         });
     };
     /**
-     * invokeTrans 方式调用合约
+     * invokeTrans 方式调用合约塞入attributes
      * @param script 合约的script
      */
-    CoinTool.contractInvokeTrans = function (script) {
+    CoinTool.contractInvokeTrans_attributes = function (script) {
         return __awaiter(this, void 0, void 0, function () {
             var current, addr, tran, msg, pubkey, prekey, signdata, data, res, result;
             return __generator(this, function (_a) {
@@ -3708,6 +3983,49 @@ var CoinTool = /** @class */ (function () {
         });
     };
     /**
+     * invokeTrans 方式调用合约塞入attributes
+     * @param script 合约的script
+     */
+    CoinTool.contractInvokeTrans = function (script) {
+        return __awaiter(this, void 0, void 0, function () {
+            var current, addr, assetid, utxos, tranmsg, tran, msg, pubkey, prekey, signdata, data, res, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        current = entity_1.LoginInfo.getCurrentLogin();
+                        addr = current.address;
+                        assetid = CoinTool.id_GAS;
+                        return [4 /*yield*/, CoinTool.getassets()];
+                    case 1:
+                        utxos = _a.sent();
+                        tranmsg = CoinTool.makeTran(utxos, current.address, assetid, Neo.Fixed8.Zero);
+                        tran = tranmsg.info['tran'];
+                        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+                        tran.extdata = new ThinNeo.InvokeTransData();
+                        //塞入脚本
+                        tran.extdata.script = script;
+                        // (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(1.0);
+                        if (tran.witnesses == null)
+                            tran.witnesses = [];
+                        msg = tran.GetMessage().clone();
+                        pubkey = current.pubkey.clone();
+                        prekey = current.prikey.clone();
+                        signdata = ThinNeo.Helper.Sign(msg, prekey);
+                        tran.AddWitness(signdata, pubkey, addr);
+                        data = tran.GetRawData();
+                        console.log(data);
+                        res = new entity_1.Result();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
+                    case 2:
+                        result = _a.sent();
+                        res.err = !result;
+                        res.info = "成功";
+                        return [2 /*return*/, res];
+                }
+            });
+        });
+    };
+    /**
      * nep5转账
      * @param address 自己的地址
      * @param tatgeraddr 转账的地址
@@ -3735,7 +4053,7 @@ var CoinTool = /** @class */ (function () {
                         sb.EmitParamJson(["(address)" + address, "(address)" + tatgeraddr, "(integer)" + intv]); //第二个参数是个数组
                         sb.EmitPushString("transfer"); //第一个参数
                         sb.EmitAppCall(scriptaddress); //资产合约
-                        return [4 /*yield*/, CoinTool.contractInvokeTrans(sb.ToArray())];
+                        return [4 /*yield*/, CoinTool.contractInvokeTrans_attributes(sb.ToArray())];
                     case 2:
                         result = _a.sent();
                         return [2 /*return*/, result];
@@ -3761,24 +4079,130 @@ module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1cHgiIGhlaWdodD0i
 
 /***/ }),
 
+/***/ "s6Fw":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "shbj":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("/5sW");
+var vue_class_component_1 = __webpack_require__("c+8m");
+var Spinner_vue_1 = __webpack_require__("+jyM");
+var nnstool_1 = __webpack_require__("ar5l");
+var Valert = /** @class */ (function (_super) {
+    __extends(Valert, _super);
+    function Valert() {
+        var _this = _super.call(this) || this;
+        _this.show = false;
+        _this.domainname = "";
+        _this.contractaddr = "";
+        _this.address = "";
+        _this.resolvebtn = true;
+        return _this;
+    }
+    Valert.prototype.setresolve = function () {
+        this.resolvebtn = false;
+    };
+    Valert.prototype.closemudloe = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var arr, nnshash, contract;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.$refs["warp"]["isbig"] = true;
+                        this.show = false;
+                        arr = this.domainname.split(".");
+                        nnshash = nnstool_1.NNSTool.nameHashArray(arr);
+                        contract = this.contractaddr.hexToBytes().reverse();
+                        return [4 /*yield*/, nnstool_1.NNSTool.resolve(nnshash, contract)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Valert.prototype.mounted = function () { };
+    Valert = __decorate([
+        vue_class_component_1.default({
+            components: {
+                "spinner-wrap": Spinner_vue_1.default
+            }
+        }),
+        __metadata("design:paramtypes", [])
+    ], Valert);
+    return Valert;
+}(vue_1.default));
+exports.default = Valert;
+
+
+/***/ }),
+
 /***/ "tt5S":
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE1IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0OSAoNTEwMDIpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0i5rWP6KeI5ZmoNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9ImJsb2Nrcy1oYW5nb3ZlciIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTYwOC4wMDAwMDAsIC0xMTY1LjAwMDAwMCkiIGZpbGw9IiNGRkZGRkYiPgogICAgICAgICAgICA8ZyBpZD0ic3d0aWNoIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTAuMDAwMDAwLCAxMTU0LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9Ikdyb3VwIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjUuODk0NDI3MiwxMi43ODg4NTQ0IEwzMi4yNzYzOTMyLDI1LjU1Mjc4NjQgQzMyLjUyMzM4MjUsMjYuMDQ2NzY0OSAzMi4zMjMxNTgxLDI2LjY0NzQzNzkgMzEuODI5MTc5NiwyNi44OTQ0MjcyIEMzMS42OTAzMjQyLDI2Ljk2Mzg1NDkgMzEuNTM3MjExMSwyNyAzMS4zODE5NjYsMjcgTDE4LjYxODAzNCwyNyBDMTguMDY1NzQ5MiwyNyAxNy42MTgwMzQsMjYuNTUyMjg0NyAxNy42MTgwMzQsMjYgQzE3LjYxODAzNCwyNS44NDQ3NTQ5IDE3LjY1NDE3OTEsMjUuNjkxNjQxOCAxNy43MjM2MDY4LDI1LjU1Mjc4NjQgTDI0LjEwNTU3MjgsMTIuNzg4ODU0NCBDMjQuMzUyNTYyMSwxMi4yOTQ4NzU5IDI0Ljk1MzIzNTEsMTIuMDk0NjUxNSAyNS40NDcyMTM2LDEyLjM0MTY0MDggQzI1LjY0MDc0MSwxMi40Mzg0MDQ1IDI1Ljc5NzY2MzUsMTIuNTk1MzI3IDI1Ljg5NDQyNzIsMTIuNzg4ODU0NCBaIiBpZD0iVHJpYW5nbGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1LjAwMDAwMCwgMTkuMDAwMDAwKSBzY2FsZSgtMSwgMSkgcm90YXRlKDkwLjAwMDAwMCkgdHJhbnNsYXRlKC0yNS4wMDAwMDAsIC0xOS4wMDAwMDApICI+PC9wYXRoPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4="
-
-/***/ }),
-
-/***/ "uw+d":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "wTse":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 

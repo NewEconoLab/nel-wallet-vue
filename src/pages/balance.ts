@@ -4,14 +4,15 @@ import { StorageTool } from './../tools/storagetool';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import WalletLayout from "../layouts/wallet.vue";
-import axios from "axios"
+import Spinner from "../components/Spinner.vue";
 import { WWW } from '../tools/wwwtool';
 
 declare const mui;
 
 @Component({
   components: {
-    "wallet-layout": WalletLayout
+    "wallet-layout": WalletLayout,
+    "spinner-wrap": Spinner
   }
 })
 export default class balance extends Vue 

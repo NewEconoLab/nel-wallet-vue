@@ -11,18 +11,19 @@
           <span class="content-des">Adress Resolver : </span>
           <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
           <div class="input-warp">
-            <input type="text" :value="domainname" class="input-ico input-disabled">
-            <div class="icon-verify"></div>
-            <div class="btn-verify-warp" style="display:none;">
-              <button class="btn-nel btn-verify btn-disabled">Confirm</button>
+            <input type="text" :value="contractaddr" class="input-ico input-disabled">
+            <div class="btn-verify-warp" v-if="resolvebtn">
+              <button class="btn-nel btn-verify " @click="setresolve">Confirm</button>
             </div>
+            <spinner-wrap v-else style="height: 56px; width: 141px; padding:0px; margin-left:20px"></spinner-wrap>
+            <!-- <div v-else class="icon-verify"></div> -->
           </div>
         </div>
         <div class="content content-verify">
           <span class="content-des">Adress Mapping : </span>
           <span class="content-msg"></span>
           <div class="input-warp">
-            <input type="text" :value="contractaddr" class="input-ico input-disabled">
+            <input type="text" :value="address" class="input-ico input-disabled">
             <div class="icon-verify" style="display:none;"></div>
             <div class="btn-verify-warp">
               <button class="btn-nel btn-verify btn-disabled">Confirm</button>
@@ -40,19 +41,37 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import Spinner from "./Spinner.vue";
+import { NNSTool } from "../tools/nnstool";
+import { Consts } from "../tools/entity";
 
-@Component({})
+@Component({
+  components: {
+    "spinner-wrap": Spinner
+  }
+})
 export default class Valert extends Vue {
   show: boolean = false;
   domainname: string = "";
   contractaddr: string = "";
-  address;
+  address: string = "";
+  resolvebtn: boolean = true;
   constructor() {
     super();
   }
 
-  closemudloe() {
+  setresolve() {
+    this.resolvebtn = false;
+  }
+
+  async closemudloe() {
+    this.$refs["warp"]["isbig"] = true;
     this.show = false;
+
+    let arr = this.domainname.split(".");
+    let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+    let contract = this.contractaddr.hexToBytes().reverse();
+    await NNSTool.resolve( nnshash, contract);
   }
   mounted() {}
 }

@@ -314,16 +314,26 @@ export class NNSTool
      * @param nnshash 
      * @param scriptaddress 
      */
-    static async resolve(protocol: string, nnshash: Uint8Array, scriptaddress): Promise<Uint8Array>
+    static async resolve(nnshash: Uint8Array, resolverhash: Uint8Array): Promise<Uint8Array>
     {
         let namehash: Uint8Array
+        let current = LoginInfo.getCurrentLogin();
         var sb = new ThinNeo.ScriptBuilder();
-        sb.EmitParamJson([ "(str)" + protocol, "(bytes)" + nnshash.toHexString() ]);//第二个参数是个数组
-        sb.EmitPushString("resolve");
+        let hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
+        let hashstr = hash.reverse().toHexString();
+        let nnshashstr = nnshash.reverse().toHexString();
+        let resolvestr = resolverhash.reverse().toHexString();
+        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
+        console.log(hashstr);
+        console.log(nnshashstr);
+        console.log(resolvestr);
+        console.log(scriptaddress);
+
+        sb.EmitParamJson([ "(hex160)" + hashstr, "(hex256)" + nnshashstr, "(hex160)" + resolvestr ]);//第二个参数是个数组
+        sb.EmitPushString("owner_SetResolver");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
-
-        let result = await WWW.rpc_getInvokescript(data);
+        let res = await CoinTool.contractInvokeTrans(data);
         return;
     }
 
