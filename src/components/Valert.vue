@@ -3,35 +3,9 @@
     <div class="alert-warp">
       <div class="alert-title">Edit information</div>
       <div class="alert-content">
-        <div class="content content-file">
-          <span class="content-des">Neo Name : {{domainname}}</span>
-          <span class="content-msg"></span>
-        </div>
-        <div class="content content-verify">
-          <span class="content-des">Adress Resolver : </span>
-          <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
-          <div class="input-warp">
-            <input type="text" :value="contractaddr" class="input-ico input-disabled">
-            <div class="btn-verify-warp" v-if="resolvebtn">
-              <button class="btn-nel btn-verify " @click="setresolve">Confirm</button>
-            </div>
-            <spinner-wrap v-else style="height: 56px; width: 141px; padding:0px; margin-left:20px"></spinner-wrap>
-            <!-- <div v-else class="icon-verify"></div> -->
-          </div>
-        </div>
-        <div class="content content-verify">
-          <span class="content-des">Adress Mapping : </span>
-          <span class="content-msg"></span>
-          <div class="input-warp">
-            <input type="text" :value="address" class="input-ico input-disabled">
-            <div class="icon-verify" style="display:none;"></div>
-            <div class="btn-verify-warp">
-              <button class="btn-nel btn-verify btn-disabled" @click="resolve()">Confirm</button>
-            </div>
-          </div>
-        </div>
+        <slot></slot>
       </div>
-      <div class="alert-close" @click="closemudloe">
+      <div class="alert-close" @click="closemudloe()">
         <!-- <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> -->
         <span aria-hidden="true">&times;</span>
       </div>
@@ -52,31 +26,12 @@ import { Consts, LoginInfo } from "../tools/entity";
 })
 export default class Valert extends Vue {
   show: boolean = false;
-  domainname: string = "";
-  contractaddr: string = "";
-  address: string = "";
-  resolvebtn: boolean = true;
   constructor() {
     super();
   }
 
-  setresolve() {
-    this.resolvebtn = false;
-  }
-
-  async closemudloe() {
-    this.$refs["warp"]["isbig"] = true;
+  closemudloe() {
     this.show = false;
-
-    let arr = this.domainname.split(".");
-    let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
-    let contract = this.contractaddr.hexToBytes().reverse();
-    await NNSTool.setResolve(nnshash, contract);
-  }
-  async resolve() {
-    let arr = this.domainname.split(".");
-    let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
-    NNSTool.setResolveData(nnshash, this.address);
   }
   mounted() {}
 }

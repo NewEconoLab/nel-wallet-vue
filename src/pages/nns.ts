@@ -5,12 +5,14 @@ import { NNSTool } from "../tools/nnstool";
 import { WWW } from "../tools/wwwtool";
 import { LoginInfo, Domainmsg, DomainInfo, Consts } from "../tools/entity";
 import Valert from "../components/Valert.vue";
+import Spinner from "../components/Spinner.vue";
 
 declare const mui;
 @Component({
     components: {
         "wallet-layout": WalletLayout,
-        "v-alert": Valert
+        "v-alert": Valert,
+        "spinner-wrap": Spinner
     }
 })
 export default class Nnsmanage extends Vue 
@@ -19,7 +21,13 @@ export default class Nnsmanage extends Vue
     nnsstr: string;
     domainerr: boolean;
     errmsg: string;
-    domainarr: Domainmsg[]
+    domainarr: Domainmsg[];
+    alert_domain: string;
+    alert_addr: string;
+    alert_contract: string;
+    alert_resolve: boolean;
+    alert_domainmsg: Domainmsg;
+
     constructor() 
     {
         super();
@@ -27,6 +35,11 @@ export default class Nnsmanage extends Vue
         this.nnsstr = "";
         this.domainerr = false;
         this.errmsg = "";
+        this.alert_addr = "";
+        this.alert_domain = "";
+        this.alert_contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
+        this.alert_resolve = true;
+
         this.domainarr = new Array<Domainmsg>();
     }
 
@@ -99,31 +112,53 @@ export default class Nnsmanage extends Vue
                 {
                     if (msg[ "resolver" ])
                     {
-                        let resolver = msg[ "resolver" ];
-                        let addr = await NNSTool.resolveData(domain[ "name" ], resolver);
-                        this.domainarr[ n ].reslove = { mapping: msg[ "address" ] };
+                        let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
+                        let resolver_str = resolver.toHexString();
+                        let addr = await NNSTool.resolveData(domain[ "name" ]);
+                        this.domainarr[ n ].mapping = addr;
+                        this.domainarr[ n ].resolver = resolver_str;
                     } else
                     {
-                        this.domainarr[ n ].reslove = false;
+                        this.domainarr[ n ].resolver = "";
                     }
                 }
+
             }
+            console.log(this.domainarr);
         }
     }
-    async resolve(domain: string)
+    async resolve(msg)
     {
+        this.alert_domainmsg = msg;
 
-        // let arr = domain.split(".");
-        // let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
-        // let contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b".hexToBytes().reverse();
-        // await NNSTool.setResolve(nnshash, contract);
-
-        this.$refs[ "alert" ][ "domainname" ] = domain;
-        this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
-        this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();
+        let name = this.alert_domainmsg.domainname;
+        this.alert_domain = name;
+        // this.$refs[ "alert" ][ "domainname" ] = domain;
+        // this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
+        // this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();
         this.$refs[ "alert" ][ "show" ] = true;
         // let arr = domain.split('.');
         // let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         // NNSTool.resolve("address", nnshash, "");
     }
+
+    async setresolve()
+    {
+        alert("resolve");
+        this.alert_resolve = false;
+        let arr = this.alert_domain.split(".");
+        let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+        let contract = this.alert_contract.hexToBytes().reverse();
+        let res = await NNSTool.setResolve(nnshash, contract);
+        alert(res.info);
+    }
+
+    async configResolve()
+    {
+        let arr = this.alert_domain.split(".");
+        let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+        this.alert_addr = LoginInfo.getCurrentAddress();
+        let res = await NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
+    }
+
 }

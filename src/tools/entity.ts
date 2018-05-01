@@ -299,5 +299,6 @@ export class Claim
 export class Domainmsg
 {
     domainname: string;
-    reslove: boolean | { mapping: string }
+    resolver: string;
+    mapping: string;
 }

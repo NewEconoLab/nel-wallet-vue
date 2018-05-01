@@ -1,4 +1,4 @@
-import { DomainInfo, Consts, RootDomainInfo, LoginInfo } from './entity';
+import { DomainInfo, Consts, RootDomainInfo, LoginInfo, Result } from './entity';
 import { WWW } from "./wwwtool";
 import { CoinTool } from './cointool';
 import { StorageTool } from './storagetool';
@@ -269,7 +269,7 @@ export class NNSTool
      * @param nnshash 
      * @param scriptaddress 
      */
-    static async setResolve(nnshash: Uint8Array, resolverhash: Uint8Array): Promise<Uint8Array>
+    static async setResolve(nnshash: Uint8Array, resolverhash: Uint8Array): Promise<Result>
     {
         let current = LoginInfo.getCurrentLogin();
         let hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
@@ -286,29 +286,30 @@ export class NNSTool
         sb.EmitPushString("owner_SetResolver");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
-        // console.log(data.toHexString())
+        console.log(data.toHexString());
+
         let res = await CoinTool.contractInvokeTrans(data);
-        return;
+        return res;
     }
 
-    static async setResolveData(nnshash: Uint8Array, str: string)
+    static async setResolveData(nnshash: Uint8Array, str: string, resolve: string)
     {
         let namehash: Uint8Array
         let current = LoginInfo.getCurrentLogin();
         let hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
         let hashstr = hash.reverse().toHexString();
         let nnshashstr = nnshash.reverse().toHexString();
-        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
+        var scriptaddress = resolve.hexToBytes();
 
         var sb = new ThinNeo.ScriptBuilder();
         sb.EmitParamJson([
             "(hex160)0x" + hashstr,
             "(hex256)0x" + nnshashstr,
             "(str)1",
-            "(str)addr",
+            "(str)text",
             "(str)" + str
         ]);
-        sb.EmitPushString("resolve");
+        sb.EmitPushString("setResolveData");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
         // console.log(data.toHexString())
@@ -316,24 +317,49 @@ export class NNSTool
         return;
     }
 
-    static async resolveData(domain: string, resolver: Uint8Array)
+    static async resolveData(domain: string)
     {
+        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
         let arr = domain.split(".");
         let nnshash = NNSTool.nameHashArray(arr);
-        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
         let nnshashstr = nnshash.reverse().toHexString();
 
         var sb = new ThinNeo.ScriptBuilder();
         sb.EmitParamJson([
-            "(str)addr",
-            "(hex256)" + nnshashstr,
+            "(str)text",
+            "(hex256)0x" + nnshashstr,
             "(str)1"
         ]);
         sb.EmitPushString("resolve");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
         let res = await WWW.rpc_getInvokescript(data);
-        return res;
+        let addr = "";
+
+        try
+        {
+            var state = res.state as string;
+            // info2.textContent = "";
+            if (state.includes("HALT, BREAK"))
+            {
+                // info2.textContent += "Succ\n";
+                var stack = res.stack as any[];
+                //find name 他的type 有可能是string 或者ByteArray
+                if (stack[ 0 ].type == "ByteArray")
+                {
+                    if (stack[ 0 ].value as string != "00")
+                    {
+                        let value = (stack[ 0 ].value as string).hexToBytes();
+                        addr = ThinNeo.Helper.Bytes2String(value);
+                    }
+                }
+            }
+        }
+        catch (e)
+        {
+            console.log(e);
+        }
+        return addr;
     }
 
 

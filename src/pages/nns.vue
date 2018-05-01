@@ -20,19 +20,50 @@
       <div class="title">
         <span>My Neo Name</span>
       </div>
-      <div class="form-inline" v-for="domain in domainarr" :key="domain.domainname">
+      <div class="form-inline" v-for="domain in domainarr" :key="domain.index">
         <span class="domainname">
           {{domain.domainname}}
         </span>
         <br>
-        <span class="msg-null" v-if="!domain.reslove">
+        <span class="msg-null" v-if="!domain.resolver&&domain.resolver==''">
           ( not configured )
         </span>
+        <span class="msg-resolver" v-else>( Adress Resolver : {{domain.resolver}})</span>
+        <span class="msg-resolver">( Adress Mapping : {{domain.mapping}})</span>
+
         <span class="domainname"></span>
-        <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain.domainname)">Edit</button>
+        <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain)">Edit</button>
       </div>
     </div>
-    <v-alert ref="alert"></v-alert>
+    <v-alert ref="alert">
+      <div class="content content-file">
+        <span class="content-des">Neo Name : {{alert_domain}}</span>
+        <span class="content-msg"></span>
+      </div>
+      <div class="content content-verify">
+        <span class="content-des">Adress Resolver : </span>
+        <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
+        <div class="input-warp">
+          <input type="text" :value="alert_contract" class="input-ico input-disabled">
+          <div class="btn-verify-warp" v-if="alert_resolve">
+            <button class="btn-nel btn-verify " @click="setresolve()">Confirm</button>
+          </div>
+          <spinner-wrap v-else style="height: 56px; width: 141px; padding:0px; margin-left:20px"></spinner-wrap>
+          <!-- <div v-else class="icon-verify"></div> -->
+        </div>
+      </div>
+      <div class="content content-verify">
+        <span class="content-des">Adress Mapping : </span>
+        <span class="content-msg"></span>
+        <div class="input-warp">
+          <input type="text" :value="alert_addr" class="input-ico input-disabled">
+          <div class="icon-verify" style="display:none;"></div>
+          <div class="btn-verify-warp">
+            <button class="btn-nel btn-verify btn-disabled" @click="configResolve()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </v-alert>
   </wallet-layout>
 </template>
 
@@ -91,6 +122,13 @@
   font-family: PingFangSC-Medium;
   font-size: 14px;
   color: #c5c5c5;
+  line-height: 14px;
+  padding-left: 50px;
+}
+.msg-resolver {
+  font-family: PingFangSC-Medium;
+  font-size: 14px;
+  color: #ffffff;
   line-height: 14px;
   padding-left: 50px;
 }
