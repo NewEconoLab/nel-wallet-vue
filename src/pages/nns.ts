@@ -51,6 +51,7 @@ export default class Nnsmanage extends Vue
 
     async verifyDomain()
     {
+
         this.nnsstr = this.nnsstr.trim();
         var regStr = "^([a-zA-Z0-9-])";
         var re = new RegExp(regStr); //创建正则表达式对象 
@@ -63,7 +64,7 @@ export default class Nnsmanage extends Vue
         } else
         {
             let domains = await NNSTool.queryDomainInfo(this.nnsstr + ".test")
-            if (domains.valueOf() == DomainInfo)
+            if (domains)
             {
                 this.domainerr = true;
                 mui.toast("The current domain name is registered : ");
@@ -105,8 +106,8 @@ export default class Nnsmanage extends Vue
             {
                 const n = parseInt(i)
                 const domain = res[ n ];
-                this.domainarr.push(new Domainmsg);
-                this.domainarr[ n ].domainname = domain[ "name" ];
+                let dommsg = new Domainmsg();
+                dommsg.domainname = domain[ "name" ];
                 let msg = await NNSTool.queryDomainInfo(domain[ 'name' ]);
                 if (msg)
                 {
@@ -115,12 +116,14 @@ export default class Nnsmanage extends Vue
                         let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
                         let resolver_str = resolver.toHexString();
                         let addr = await NNSTool.resolveData(domain[ "name" ]);
-                        this.domainarr[ n ].mapping = addr;
-                        this.domainarr[ n ].resolver = resolver_str;
+                        dommsg.mapping = addr;
+                        dommsg.resolver = resolver_str;
                     } else
                     {
-                        this.domainarr[ n ].resolver = "";
+                        dommsg.resolver = "";
+                        dommsg.mapping = "";
                     }
+                    this.domainarr.push(dommsg);
                 }
 
             }
@@ -144,20 +147,18 @@ export default class Nnsmanage extends Vue
 
     async setresolve()
     {
-        alert("resolve");
         this.alert_resolve = false;
         let arr = this.alert_domain.split(".");
         let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         let contract = this.alert_contract.hexToBytes().reverse();
         let res = await NNSTool.setResolve(nnshash, contract);
-        alert(res.info);
     }
 
     async configResolve()
     {
         let arr = this.alert_domain.split(".");
         let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
-        this.alert_addr = LoginInfo.getCurrentAddress();
+        // this.alert_addr = this.alert_addr ? this.alert_addr : LoginInfo.getCurrentAddress();
         let res = await NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
     }
 

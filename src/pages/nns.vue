@@ -28,9 +28,9 @@
         <span class="msg-null" v-if="!domain.resolver&&domain.resolver==''">
           ( not configured )
         </span>
-        <span class="msg-resolver" v-else>( Adress Resolver : {{domain.resolver}})</span>
-        <span class="msg-resolver">( Adress Mapping : {{domain.mapping}})</span>
-
+        <span class="msg-resolver" v-if="domain.resolver">( Adress Resolver : {{domain.resolver}})</span>
+        <br>
+        <span class="msg-resolver" v-if="domain.mapping">( Adress Mapping : {{domain.mapping}})</span>
         <span class="domainname"></span>
         <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain)">Edit</button>
       </div>
@@ -56,7 +56,7 @@
         <span class="content-des">Adress Mapping : </span>
         <span class="content-msg"></span>
         <div class="input-warp">
-          <input type="text" :value="alert_addr" class="input-ico input-disabled">
+          <input type="text" v-model="alert_addr" class="input-ico input-disabled">
           <div class="icon-verify" style="display:none;"></div>
           <div class="btn-verify-warp">
             <button class="btn-nel btn-verify btn-disabled" @click="configResolve()">Confirm</button>

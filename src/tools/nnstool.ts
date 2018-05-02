@@ -218,8 +218,6 @@ export class NNSTool
                 {
                     let bt = (stack[ 3 ].value as string).hexToBytes();
                     info.ttl = Neo.BigInteger.fromUint8ArrayAutoSign(bt.clone()).toString();
-
-                    console.log(info.ttl);
                 } if (stack[ 4 ].type = "ByteArray")
                 {
                     let parentOwner = (stack[ 5 ].value as string).hexToBytes();
@@ -306,7 +304,7 @@ export class NNSTool
             "(hex160)0x" + hashstr,
             "(hex256)0x" + nnshashstr,
             "(str)1",
-            "(str)text",
+            "(str)addr",
             "(str)" + str
         ]);
         sb.EmitPushString("setResolveData");
@@ -326,7 +324,7 @@ export class NNSTool
 
         var sb = new ThinNeo.ScriptBuilder();
         sb.EmitParamJson([
-            "(str)text",
+            "(str)addr",
             "(hex256)0x" + nnshashstr,
             "(str)1"
         ]);
@@ -460,5 +458,31 @@ export class NNSTool
         return hash;
     }
 
+
+    static verifyDomain(domain)
+    {
+        //check domain valid
+        var reg = /^(.+\.)(test|[a-z][a-z])$/;
+        if (!reg.test(domain))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    static verifyAddr(addr)
+    {
+        var reg = /^[a-zA-Z0-9]{34,34}$/
+        if (!reg.test(addr))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
 }

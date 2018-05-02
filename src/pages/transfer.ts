@@ -8,6 +8,7 @@ import axios from "axios"
 import Vue from "vue";
 import Component from "vue-class-component";
 import { DateTool } from '../tools/timetool';
+import { NNSTool } from '../tools/nnstool';
 
 declare const mui;
 @Component({
@@ -17,7 +18,9 @@ declare const mui;
 })
 export default class transfer extends Vue 
 {
-    targetaddr: string;
+    target: string;
+    isDomain: boolean;
+    toaddress: string;
     amount: string;
     asset: string;
     balances: BalanceInfo[] = [];
@@ -31,7 +34,9 @@ export default class transfer extends Vue
     constructor() 
     {
         super();
-        this.targetaddr = "";
+        this.target = "";
+        this.isDomain = false;
+        this.toaddress = "";
         this.amount = "";
         this.asset = "";
         this.txpage = 1;
@@ -64,11 +69,31 @@ export default class transfer extends Vue
         this.balance = this.balances[ n ];
         this.verify_Amount();
     }
-    verify_addr()
+    async verify_addr()
     {
-        if (neotools.verifyPublicKey(this.targetaddr))
+        let isDomain = NNSTool.verifyDomain(this.target);
+        let isAddress = NNSTool.verifyAddr(this.target);
+        if (isDomain)
         {
-            this.addrerr = 'false'; return true;
+            let addr = await NNSTool.resolveData(this.target);
+            if (addr)
+            {
+                this.toaddress = addr;
+                this.isDomain = true;
+                this.addrerr = 'false'; return true;
+            }
+            else
+            {
+                this.addrerr = 'true'; return false;
+            }
+        }
+        else if (isAddress)
+        {
+            if (neotools.verifyPublicKey(this.target))
+            {
+                this.toaddress = this.target;
+                this.addrerr = 'false'; return true;
+            }
         }
         else { this.addrerr = 'true'; return false; }
     }
@@ -88,12 +113,12 @@ export default class transfer extends Vue
             {
                 if (this.balance.type == "nep5")
                 {
-                    let res = await CoinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.targetaddr, this.asset, this.amount);
+                    let res = await CoinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount);
                     if (!res[ "err" ])
                         mui.toast("Your transaction has been sent, please check it later");
                 } else
                 {
-                    let res: Result = await CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount);
+                    let res: Result = await CoinTool.rawTransaction(this.toaddress, this.asset, this.amount);
                     mui.toast(res.info);
                 }
             }

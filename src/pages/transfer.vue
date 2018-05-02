@@ -35,8 +35,9 @@
                         </label>
                         <div class="col-sm-7">
                             <div style="padding-top:30px;">
-                                <input type="text" v-model="targetaddr" class="nel-input big" placeholder="Please enter an address or domain name " @input="verify_addr">
+                                <input type="text" v-model="target" class="nel-input big" placeholder="Please enter an address or domain name " @input="verify_addr">
                             </div>
+                            <p v-if="isDomain">{{toaddress}}</p>
                         </div>
                         <div class="col-sm-3 mess">
                             <p v-if="addrerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; Your adress is incorrect.</p>
