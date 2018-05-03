@@ -57,9 +57,7 @@ export class NNSTool
         // let info = await NNSTool.getNameInfo(nnshash)
         var owner = doamininfo.owner.toHexString();
         // return address;
-        if (have)
-            return doamininfo;
-        return have;
+        return doamininfo;
     }
 
     /**

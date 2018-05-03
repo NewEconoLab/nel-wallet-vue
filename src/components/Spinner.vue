@@ -32,7 +32,7 @@ export default class Spinner extends Vue {
     super();
   }
 
-  isbig = false;
+  isbig = true;
   mounted() {}
 }
 </script>

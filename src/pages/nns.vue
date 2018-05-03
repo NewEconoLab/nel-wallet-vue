@@ -31,6 +31,8 @@
         <span class="msg-resolver" v-if="domain.resolver">( Adress Resolver : {{domain.resolver}})</span>
         <br>
         <span class="msg-resolver" v-if="domain.mapping">( Adress Mapping : {{domain.mapping}})</span>
+        <br>
+        <span class="msg-resolver" v-if="domain.mapping">( Expiration Time : {{domain.mapping}})</span>
         <span class="domainname"></span>
         <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain)">Edit</button>
       </div>
@@ -44,7 +46,7 @@
         <span class="content-des">Adress Resolver : </span>
         <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
         <div class="input-warp">
-          <input type="text" :value="alert_contract" class="input-ico input-disabled">
+          <input type="text" :value="alert_contract" class="input-ico input-disabled" :disabled="alert_resolver_disable?'disable':''">
           <div class="btn-verify-warp" v-if="alert_resolve">
             <button class="btn-nel btn-verify " @click="setresolve()">Confirm</button>
           </div>
@@ -56,7 +58,7 @@
         <span class="content-des">Adress Mapping : </span>
         <span class="content-msg"></span>
         <div class="input-warp">
-          <input type="text" v-model="alert_addr" class="input-ico input-disabled">
+          <input type="text" v-model="alert_addr" class="input-ico " :disabled="alert_mapping_disable?'disable':''">
           <div class="icon-verify" style="display:none;"></div>
           <div class="btn-verify-warp">
             <button class="btn-nel btn-verify btn-disabled" @click="configResolve()">Confirm</button>

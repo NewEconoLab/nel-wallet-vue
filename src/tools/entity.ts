@@ -301,4 +301,5 @@ export class Domainmsg
     domainname: string;
     resolver: string;
     mapping: string;
+    time: string;
 }

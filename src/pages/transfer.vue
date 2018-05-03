@@ -81,7 +81,7 @@
                         <div class="number" :class="tx.txtype">
                             {{tx.txtype == 'out'?'+ ':'- '}}{{tx.value}}&nbsp;{{tx.assetname}}</div>
                         <div class="address"> Send {{tx.txtype == 'out'?'form':'to'}} : {{tx.address}}</div>
-                        <div class="time">{{tx.time}}</div>
+                        <div class="time">{{tx.txid.replace('0x','')}}&nbsp;{{tx.time}}</div>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import { WWW } from "../tools/wwwtool";
 import { LoginInfo, Domainmsg, DomainInfo, Consts } from "../tools/entity";
 import Valert from "../components/Valert.vue";
 import Spinner from "../components/Spinner.vue";
+import { StorageTool } from "../tools/storagetool";
 
 declare const mui;
 @Component({
@@ -27,6 +28,8 @@ export default class Nnsmanage extends Vue
     alert_contract: string;
     alert_resolve: boolean;
     alert_domainmsg: Domainmsg;
+    alert_resolver_disable: boolean;
+    alert_mapping_disable: boolean;
 
     constructor() 
     {
@@ -39,7 +42,8 @@ export default class Nnsmanage extends Vue
         this.alert_domain = "";
         this.alert_contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
         this.alert_resolve = true;
-
+        this.alert_resolver_disable = false;
+        this.alert_mapping_disable = false;
         this.domainarr = new Array<Domainmsg>();
     }
 
@@ -51,7 +55,6 @@ export default class Nnsmanage extends Vue
 
     async verifyDomain()
     {
-
         this.nnsstr = this.nnsstr.trim();
         var regStr = "^([a-zA-Z0-9-])";
         var re = new RegExp(regStr); //创建正则表达式对象 
@@ -111,6 +114,8 @@ export default class Nnsmanage extends Vue
                 let msg = await NNSTool.queryDomainInfo(domain[ 'name' ]);
                 if (msg)
                 {
+                    let timestamp = new Date().getTime();
+                    let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
                     if (msg[ "resolver" ])
                     {
                         let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
@@ -127,7 +132,7 @@ export default class Nnsmanage extends Vue
                 }
 
             }
-            console.log(this.domainarr);
+            // console.log(this.domainarr);
         }
     }
     async resolve(msg)
@@ -140,6 +145,7 @@ export default class Nnsmanage extends Vue
         // this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
         // this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();
         this.$refs[ "alert" ][ "show" ] = true;
+        await this.awaitHeight();
         // let arr = domain.split('.');
         // let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         // NNSTool.resolve("address", nnshash, "");
@@ -152,6 +158,9 @@ export default class Nnsmanage extends Vue
         let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         let contract = this.alert_contract.hexToBytes().reverse();
         let res = await NNSTool.setResolve(nnshash, contract);
+        let height = await WWW.api_getHeight();
+        StorageTool.setStorage("current-height", height.toString());
+        this.awaitHeight();
     }
 
     async configResolve()
@@ -160,6 +169,21 @@ export default class Nnsmanage extends Vue
         let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         // this.alert_addr = this.alert_addr ? this.alert_addr : LoginInfo.getCurrentAddress();
         let res = await NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
+    }
+
+    async awaitHeight()
+    {
+        let oldheight = parseInt(StorageTool.getStorage("current-height"));
+        let currentheight = await WWW.api_getHeight();
+        if (oldheight < currentheight)
+        {
+            this.alert_resolve = true;
+            return;
+        }
+        await setTimeout(() =>
+        {
+            this.awaitHeight();
+        }, 15000);
     }
 
 }

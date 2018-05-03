@@ -111,7 +111,7 @@ export default class transfer extends Vue
         {
             if (this.verify_addr() && this.verify_Amount())
             {
-                if (this.balance.type == "nep5")
+                if (!!this.balance[ "type" ] && this.balance.type == "nep5")
                 {
                     let res = await CoinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount);
                     if (!res[ "err" ])
@@ -136,19 +136,25 @@ export default class transfer extends Vue
         this.txpage == 1 && res.length > 5 ? this.cutshow = false : this.cutshow = true;
         if (res.length > 0)
         {
+
             this.txs = [];
             for (let index = 0; index < res.length; index++)
             {
                 const tx = res[ index ];
-                let time = "";
                 let txid = tx[ "txid" ];
                 let vins = tx[ "vin" ];
+                let type = tx[ "type" ];
                 let vouts = tx[ "vout" ];
                 let value = tx[ "value" ];
-                let txtype = tx[ "type" ];
+                let txtype = tx[ "txType" ];
                 let assetType = tx[ "assetType" ]
                 let blockindex = tx[ "blockindex" ];
-                if (txtype == "out")
+                let time: number = tx[ "blocktime" ].includes("$date") ? JSON.parse(tx[ "blocktime" ])[ "$date" ] : parseInt(tx[ "blocktime" ] + "000");
+                let date: string = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
+
+                if (txtype == "InvocationTransaction")
+                    continue;
+                if (type == "out")
                 {
                     if (vins && vins.length == 1)
                     {
@@ -160,23 +166,19 @@ export default class transfer extends Vue
                         if (assetType == "utxo")
                         {
                             assetname = CoinTool.assetID2name[ asset ];
-                            time = JSON.parse(tx[ "blocktime" ])[ "$date" ];
-                            time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
                         }
                         else
                         {
                             let nep5 = await WWW.getNep5Asset(asset);
-                            // let block = await WWW.
                             assetname = nep5[ "name" ];
-                            time = "";
                         }
                         var history = new History();
-                        history.time = time;
+                        history.time = date;
                         history.txid = txid;
                         history.assetname = assetname;
                         history.address = address;
                         history.value = amount;
-                        history.txtype = txtype;
+                        history.txtype = type;
                         this.txs.push(history);
                     }
                 }
@@ -223,12 +225,12 @@ export default class transfer extends Vue
                                 {
                                     const amount = data[ asset ];
                                     var history = new History();
-                                    history.time = time;
+                                    history.time = date;
                                     history.txid = txid;
                                     history.assetname = asset;
                                     history.address = address;
                                     history.value = amount;
-                                    history.txtype = txtype;
+                                    history.txtype = type;
                                     this.txs.push(history);
                                 }
                             }
