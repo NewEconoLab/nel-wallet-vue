@@ -141,7 +141,8 @@ export default class transfer extends Vue
             for (let index = 0; index < res.length; index++)
             {
                 const tx = res[ index ];
-                let txid = tx[ "txid" ];
+                let txid = tx[ "txid" ] as string;
+                txid = txid.replace('0x', '');
                 let vins = tx[ "vin" ];
                 let type = tx[ "type" ];
                 let vouts = tx[ "vout" ];
@@ -152,17 +153,17 @@ export default class transfer extends Vue
                 let time: number = tx[ "blocktime" ].includes("$date") ? JSON.parse(tx[ "blocktime" ])[ "$date" ] : parseInt(tx[ "blocktime" ] + "000");
                 let date: string = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
 
-                if (txtype == "InvocationTransaction")
-                    continue;
+                // if (txtype == "InvocationTransaction")
+                // continue;
                 if (type == "out")
                 {
                     if (vins && vins.length == 1)
                     {
+                        let assetname = "";
                         const vin = vins[ 0 ];
-                        let address = vin[ "address" ];
                         let asset = vin[ "asset" ];
                         let amount = vin[ "value" ];
-                        let assetname = "";
+                        let address = vin[ "address" ];
                         if (assetType == "utxo")
                         {
                             assetname = CoinTool.assetID2name[ asset ];
@@ -185,6 +186,7 @@ export default class transfer extends Vue
                 else
                 {
                     var arr = {}
+                    let currcount = 0;
                     for (const index in vouts)
                     {
                         let i = parseInt(index);
@@ -193,26 +195,50 @@ export default class transfer extends Vue
                         let amount = out[ "value" ];
                         let asset = out[ "asset" ];
                         let assetname = "";
-                        if (assetType == "utxo")
-                            assetname = CoinTool.assetID2name[ asset ];
-                        else
+
+                        if (address != currentAddress)
                         {
-                            let nep5 = await WWW.getNep5Asset(asset);
-                            assetname = nep5[ "name" ];
+                            if (assetType == "utxo")
+                                assetname = CoinTool.assetID2name[ asset ];
+                            else
+                            {
+                                let nep5 = await WWW.getNep5Asset(asset);
+                                assetname = nep5[ "name" ];
+                            }
+                            let n = out[ "n" ];
+                            if (arr[ address ] && arr[ address ][ assetname ])
+                            {
+                                arr[ address ][ assetname ] += amount;
+                            } else
+                            {
+                                var assets = {}
+                                assets[ assetname ] = amount;
+                                arr[ address ] = assets;
+                            }
+                        } else { currcount++ }
+                    }
+                    if (currcount == vouts.length)
+                    {
+                        for (const asset in value)
+                        {
+                            if (value.hasOwnProperty(asset))
+                            {
+                                const amount = value[ asset ];
+
+                                let assetname = "";
+                                if (assetType == "utxo")
+                                    assetname = CoinTool.assetID2name[ asset ];
+                                else
+                                {
+                                    let nep5 = await WWW.getNep5Asset(asset);
+                                    assetname = nep5[ "name" ];
+                                }
+
+                                var assets = {}
+                                assets[ assetname ] = amount;
+                                arr[ currentAddress ] = assets;
+                            }
                         }
-                        let n = out[ "n" ];
-                        // if (address != currentAddress)
-                        // {
-                        if (arr[ address ] && arr[ address ][ assetname ])
-                        {
-                            arr[ address ][ assetname ] += amount;
-                        } else
-                        {
-                            var assets = {}
-                            assets[ assetname ] = amount;
-                            arr[ address ] = assets;
-                        }
-                        // }
                     }
                     for (const address in arr)
                     {

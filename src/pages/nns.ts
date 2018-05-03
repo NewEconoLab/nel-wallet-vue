@@ -7,6 +7,7 @@ import { LoginInfo, Domainmsg, DomainInfo, Consts } from "../tools/entity";
 import Valert from "../components/Valert.vue";
 import Spinner from "../components/Spinner.vue";
 import { StorageTool } from "../tools/storagetool";
+import { DateTool } from "../tools/timetool";
 
 declare const mui;
 @Component({
@@ -116,6 +117,8 @@ export default class Nnsmanage extends Vue
                 {
                     let timestamp = new Date().getTime();
                     let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
+
+                    dommsg.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
                     if (msg[ "resolver" ])
                     {
                         let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
@@ -138,7 +141,7 @@ export default class Nnsmanage extends Vue
     async resolve(msg)
     {
         this.alert_domainmsg = msg;
-
+        if (this.alert_domainmsg.resolver) { this.alert_resolver_disable = true }
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
         // this.$refs[ "alert" ][ "domainname" ] = domain;
