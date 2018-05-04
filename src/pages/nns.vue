@@ -46,9 +46,10 @@
         <span class="content-des">Adress Resolver : </span>
         <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
         <div class="input-warp">
-          <input type="text" :value="alert_contract" class="input-ico input-disabled" :disabled="alert_resolver_disable?'disable':''">
+          <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
           <div class="btn-verify-warp" v-if="alert_resolve">
-            <button class="btn-nel btn-verify " @click="setresolve()">Confirm</button>
+            <button class="btn-nel btn-verify btn-disabled" v-if="alert_resolver_disable">Confirm</button>
+            <button class="btn-nel btn-verify " v-else @click="setresolve()">Confirm</button>
           </div>
           <spinner-wrap v-else style="height: 56px; width: 141px; padding:0px; margin-left:20px"></spinner-wrap>
           <!-- <div v-else class="icon-verify"></div> -->
@@ -58,10 +59,10 @@
         <span class="content-des">Adress Mapping : </span>
         <span class="content-msg"></span>
         <div class="input-warp">
-          <input type="text" v-model="alert_addr" class="input-ico " :disabled="alert_mapping_disable?'disable':''">
+          <input type="text" v-model="alert_addr" class="input-ico ">
           <div class="icon-verify" style="display:none;"></div>
           <div class="btn-verify-warp">
-            <button class="btn-nel btn-verify btn-disabled" @click="configResolve()">Confirm</button>
+            <button class="btn-nel btn-verify" @click="configResolve()">Confirm</button>
           </div>
         </div>
       </div>

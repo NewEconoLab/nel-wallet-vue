@@ -82,7 +82,9 @@
                             {{tx.txtype == 'out'?'+ ':'- '}}{{tx.value}}&nbsp;{{tx.assetname}}</div>
                         <div class="address"> Send {{tx.txtype == 'out'?'form':'to'}} : {{tx.address}}</div>
                         <div class="time">
-                            <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">{{tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)}}</a> &nbsp;{{tx.time}}</div>
+                            <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">
+                                {{tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)}}
+                            </a> &nbsp;{{tx.time}}</div>
                     </div>
                 </div>
             </div>

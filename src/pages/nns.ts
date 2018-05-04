@@ -68,10 +68,19 @@ export default class Nnsmanage extends Vue
         } else
         {
             let domains = await NNSTool.queryDomainInfo(this.nnsstr + ".test")
-            if (domains)
+            if (domains.register && domains.ttl)
             {
-                this.domainerr = true;
-                mui.toast("The current domain name is registered : ");
+                var timestamp = new Date().getTime();
+                let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(domains.ttl).multiply(1000));
+                // let copare: number = new Neo.BigInteger(timestamp).compareTo(doamininfo.ttl.multiply(1000));
+                if (copare < 0)
+                {
+                    // console.log('域名已到期');
+                } else
+                {
+                    this.domainerr = true;
+                    mui.toast("The current domain name is registered : ");
+                }
             } else
             {
                 this.domainerr = false;
@@ -144,6 +153,7 @@ export default class Nnsmanage extends Vue
         if (this.alert_domainmsg.resolver) { this.alert_resolver_disable = true }
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
+        this.alert_addr = this.alert_domainmsg.mapping;
         // this.$refs[ "alert" ][ "domainname" ] = domain;
         // this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
         // this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();

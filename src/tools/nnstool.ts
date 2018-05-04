@@ -41,19 +41,7 @@ export class NNSTool
         var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
         // let address = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         let doamininfo = await NNSTool.getOwnerInfo(nnshash, Consts.baseContract.hexToBytes().reverse());
-        console.log(doamininfo.ttl);
-        let have = false;
-        if (doamininfo.ttl)
-        {
-            var timestamp = new Date().getTime();
-            let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(doamininfo.ttl).multiply(1000));
-            // let copare: number = new Neo.BigInteger(timestamp).compareTo(doamininfo.ttl.multiply(1000));
-            if (copare < 0)
-            {
-                // console.log('域名已到期');
-                have = true;
-            }
-        }
+
         // let info = await NNSTool.getNameInfo(nnshash)
         var owner = doamininfo.owner.toHexString();
         // return address;
