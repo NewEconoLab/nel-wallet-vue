@@ -10,14 +10,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var Spinner = __webpack_require__("8Qnm");
 var Spinner_default = /*#__PURE__*/__webpack_require__.n(Spinner);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-759448ce","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Spinner.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-5d31591e","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Spinner.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner-wrap",class:_vm.isbig?'height: 56px; width: 138px;':'width: 46px;height: 18px;'},[_vm._m(0,false,false)])}
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner"},[_c('div',{staticClass:"spinner-container container1"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container2"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container3"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_Spinner = (esExports);
 // CONCATENATED MODULE: ./src/components/Spinner.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("s6Fw")
+  __webpack_require__("a3T9")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -29,7 +29,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-759448ce"
+var __vue_scopeId__ = "data-v-5d31591e"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -168,7 +168,7 @@ var balance = /** @class */ (function (_super) {
     balance.prototype.getBalances = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var balances, clamis, clamis2, nep5balances, sum1, sum2, sum, index, nep5, nep5b;
+            var balances, clamis, clamis2, nep5balances, sum1, sum2, sum, index, nep5, nep5b, id;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -208,9 +208,11 @@ var balance = /** @class */ (function (_super) {
                             for (index = 0; index < nep5balances.length; index++) {
                                 nep5 = nep5balances[index];
                                 nep5b = new entity_1.BalanceInfo();
+                                id = nep5.assetid.replace("0x", "");
+                                id = id.substring(0, 4) + '...' + id.substring(id.length - 4);
                                 nep5b.asset = nep5.assetid;
                                 nep5b.balance = nep5.balance;
-                                nep5b.names = nep5.symbol;
+                                nep5b.names = nep5.symbol + "(" + id + ")";
                                 nep5b.type = "nep5";
                                 this.balances.push(nep5b);
                             }
@@ -1229,7 +1231,7 @@ var Spinner = /** @class */ (function (_super) {
     __extends(Spinner, _super);
     function Spinner() {
         var _this = _super.call(this) || this;
-        _this.isbig = false;
+        _this.isbig = true;
         return _this;
     }
     Spinner.prototype.mounted = function () { };
@@ -1245,6 +1247,13 @@ exports.default = Spinner;
 /***/ }),
 
 /***/ "Ay4p":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "C+5A":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -1268,14 +1277,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var nns = __webpack_require__("cfoD");
 var nns_default = /*#__PURE__*/__webpack_require__.n(nns);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-73b00389","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:_vm.domainerr?'input-err':'input-success'},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('span',[_vm._v(_vm._s(_vm.network))])])]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"50px"}},[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v("My Neo Name")])]),_vm._v(" "),_vm._l((_vm.domainarr),function(domain){return _c('div',{key:domain.domainname,staticClass:"form-inline"},[_c('span',{staticClass:"domainname"},[_vm._v("\n        "+_vm._s(domain.domainname)+"\n      ")]),_vm._v(" "),_c('br'),_vm._v(" "),(!domain.reslove)?_c('span',{staticClass:"msg-null"},[_vm._v("\n        ( not configured )\n      ")]):_vm._e(),_vm._v(" "),_c('span',{staticClass:"domainname"}),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",staticStyle:{"float":"right","margin-right":"50px"},on:{"click":function($event){_vm.resolve(domain.domainname)}}},[_vm._v("Edit")])])})],2),_vm._v(" "),_c('v-alert',{ref:"alert"})],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-cdb48970","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:_vm.domainerr?'input-err':'input-success'},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('span',[_vm._v(_vm._s(_vm.network))])])]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"50px"}},[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v("My Neo Name")])]),_vm._v(" "),_vm._l((_vm.domainarr),function(domain){return _c('div',{key:domain.index,staticClass:"form-inline"},[_c('span',{staticClass:"domainname"},[_vm._v("\n        "+_vm._s(domain.domainname)+"\n      ")]),_vm._v(" "),_c('br'),_vm._v(" "),(!domain.resolver&&domain.resolver=='')?_c('span',{staticClass:"msg-null"},[_vm._v("\n        ( not configured )\n      ")]):_vm._e(),_vm._v(" "),(domain.resolver)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Resolver : "+_vm._s(domain.resolver)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),(domain.mapping)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Mapping : "+_vm._s(domain.mapping)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),_c('span',{staticClass:"msg-resolver"},[_vm._v("( Expiration Time : "+_vm._s(domain.time)+")")]),_vm._v(" "),_c('span',{staticClass:"domainname"}),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",staticStyle:{"float":"right","margin-right":"50px"},on:{"click":function($event){_vm.resolve(domain)}}},[_vm._v("Edit")])])})],2),_vm._v(" "),_c('v-alert',{ref:"alert"},[_c('div',{staticClass:"content content-file"},[_c('span',{staticClass:"content-des"},[_vm._v("Neo Name : "+_vm._s(_vm.alert_domain))]),_vm._v(" "),_c('span',{staticClass:"content-msg"})]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Resolver : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg warning-msg"},[_vm._v("( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )")]),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text","disabled":_vm.alert_resolver_disable?'disable':''},domProps:{"value":_vm.alert_contract}}),_vm._v(" "),(_vm.alert_resolve)?_c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify ",on:{"click":function($event){_vm.setresolve()}}},[_vm._v("Confirm")])]):_c('spinner-wrap',{staticStyle:{"height":"56px","width":"141px","padding":"0px","margin-left":"20px"}})],1)]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Mapping : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg"}),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_addr),expression:"alert_addr"}],staticClass:"input-ico ",attrs:{"type":"text","disabled":_vm.alert_mapping_disable?'disable':''},domProps:{"value":(_vm.alert_addr)},on:{"input":function($event){if($event.target.composing){ return; }_vm.alert_addr=$event.target.value}}}),_vm._v(" "),_c('div',{staticClass:"icon-verify",staticStyle:{"display":"none"}}),_vm._v(" "),_c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify btn-disabled",on:{"click":function($event){_vm.configResolve()}}},[_vm._v("Confirm")])])])])])],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_nns = (esExports);
 // CONCATENATED MODULE: ./src/pages/nns.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("afGh")
+  __webpack_require__("oifs")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1286,7 +1295,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-73b00389"
+var __vue_scopeId__ = "data-v-cdb48970"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -1372,14 +1381,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var Valert = __webpack_require__("shbj");
 var Valert_default = /*#__PURE__*/__webpack_require__.n(Valert);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-8c3f19a6","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Valert.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.show)?_c('div',{staticClass:"alert-box"},[_c('div',{staticClass:"alert-warp"},[_c('div',{staticClass:"alert-title"},[_vm._v("Edit information")]),_vm._v(" "),_c('div',{staticClass:"alert-content"},[_c('div',{staticClass:"content content-file"},[_c('span',{staticClass:"content-des"},[_vm._v("Neo Name : "+_vm._s(_vm.domainname))]),_vm._v(" "),_c('span',{staticClass:"content-msg"})]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Resolver : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg warning-msg"},[_vm._v("( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )")]),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text"},domProps:{"value":_vm.contractaddr}}),_vm._v(" "),(_vm.resolvebtn)?_c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify ",on:{"click":_vm.setresolve}},[_vm._v("Confirm")])]):_c('spinner-wrap',{staticStyle:{"height":"56px","width":"141px","padding":"0px","margin-left":"20px"}})],1)]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Mapping : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg"}),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text"},domProps:{"value":_vm.address}}),_vm._v(" "),_c('div',{staticClass:"icon-verify",staticStyle:{"display":"none"}}),_vm._v(" "),_vm._m(0,false,false)])])]),_vm._v(" "),_c('div',{staticClass:"alert-close",on:{"click":_vm.closemudloe}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e()}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify btn-disabled"},[_vm._v("Confirm")])])}]
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1aea4542","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Valert.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.show)?_c('div',{staticClass:"alert-box"},[_c('div',{staticClass:"alert-warp"},[_c('div',{staticClass:"alert-title"},[_vm._v("Edit information")]),_vm._v(" "),_c('div',{staticClass:"alert-content"},[_vm._t("default")],2),_vm._v(" "),_c('div',{staticClass:"alert-close",on:{"click":function($event){_vm.closemudloe()}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e()}
+var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_Valert = (esExports);
 // CONCATENATED MODULE: ./src/components/Valert.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("QQTK")
+  __webpack_require__("MTkh")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1391,7 +1400,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-8c3f19a6"
+var __vue_scopeId__ = "data-v-1aea4542"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -1753,6 +1762,13 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_pages_login = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "MTkh":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -2132,13 +2148,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "QQTK":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "QRjO":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2181,13 +2190,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_pages_balance = __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "Sy2i":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -2316,7 +2318,7 @@ exports.default = FeatureComponent;
 
 /***/ }),
 
-/***/ "afGh":
+/***/ "a3T9":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -2430,9 +2432,7 @@ var NNSTool = /** @class */ (function () {
                         }
                         owner = doamininfo.owner.toHexString();
                         // return address;
-                        if (have)
-                            return [2 /*return*/, entity_1.DomainInfo];
-                        return [2 /*return*/, have];
+                        return [2 /*return*/, doamininfo];
                 }
             });
         });
@@ -2590,7 +2590,6 @@ var NNSTool = /** @class */ (function () {
                                 if (stack[3].type = "ByteArray") {
                                     bt = stack[3].value.hexToBytes();
                                     info.ttl = Neo.BigInteger.fromUint8ArrayAutoSign(bt.clone()).toString();
-                                    console.log(info.ttl);
                                 }
                                 if (stack[4].type = "ByteArray") {
                                     parentOwner = stack[5].value.hexToBytes();
@@ -2612,7 +2611,7 @@ var NNSTool = /** @class */ (function () {
                         }
                         catch (e) {
                         }
-                        console.log(info);
+                        // console.log(info);
                         return [2 /*return*/, info];
                 }
             });
@@ -2644,31 +2643,107 @@ var NNSTool = /** @class */ (function () {
      * @param nnshash
      * @param scriptaddress
      */
-    NNSTool.resolve = function (nnshash, resolverhash) {
+    NNSTool.setResolve = function (nnshash, resolverhash) {
         return __awaiter(this, void 0, void 0, function () {
-            var namehash, current, sb, hash, hashstr, nnshashstr, resolvestr, scriptaddress, data, res;
+            var current, hash, hashstr, nnshashstr, resolvestr, scriptaddress, sb, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         current = entity_1.LoginInfo.getCurrentLogin();
-                        sb = new ThinNeo.ScriptBuilder();
                         hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
                         hashstr = hash.reverse().toHexString();
                         nnshashstr = nnshash.reverse().toHexString();
                         resolvestr = resolverhash.reverse().toHexString();
                         scriptaddress = entity_1.Consts.baseContract.hexToBytes().reverse();
-                        console.log(hashstr);
-                        console.log(nnshashstr);
-                        console.log(resolvestr);
-                        console.log(scriptaddress);
-                        sb.EmitParamJson(["(hex160)" + hashstr, "(hex256)" + nnshashstr, "(hex160)" + resolvestr]); //第二个参数是个数组
+                        sb = new ThinNeo.ScriptBuilder();
+                        sb.EmitParamJson([
+                            "(hex160)0x" + hashstr,
+                            "(hex256)0x" + nnshashstr,
+                            "(hex160)0x" + resolvestr
+                        ]); //第二个参数是个数组
                         sb.EmitPushString("owner_SetResolver");
+                        sb.EmitAppCall(scriptaddress);
+                        data = sb.ToArray();
+                        console.log(data.toHexString());
+                        return [4 /*yield*/, cointool_1.CoinTool.contractInvokeTrans(data)];
+                    case 1:
+                        res = _a.sent();
+                        return [2 /*return*/, res];
+                }
+            });
+        });
+    };
+    NNSTool.setResolveData = function (nnshash, str, resolve) {
+        return __awaiter(this, void 0, void 0, function () {
+            var namehash, current, hash, hashstr, nnshashstr, scriptaddress, sb, data, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        current = entity_1.LoginInfo.getCurrentLogin();
+                        hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
+                        hashstr = hash.reverse().toHexString();
+                        nnshashstr = nnshash.reverse().toHexString();
+                        scriptaddress = resolve.hexToBytes();
+                        sb = new ThinNeo.ScriptBuilder();
+                        sb.EmitParamJson([
+                            "(hex160)0x" + hashstr,
+                            "(hex256)0x" + nnshashstr,
+                            "(str)1",
+                            "(str)addr",
+                            "(str)" + str
+                        ]);
+                        sb.EmitPushString("setResolveData");
                         sb.EmitAppCall(scriptaddress);
                         data = sb.ToArray();
                         return [4 /*yield*/, cointool_1.CoinTool.contractInvokeTrans(data)];
                     case 1:
                         res = _a.sent();
                         return [2 /*return*/];
+                }
+            });
+        });
+    };
+    NNSTool.resolveData = function (domain) {
+        return __awaiter(this, void 0, void 0, function () {
+            var scriptaddress, arr, nnshash, nnshashstr, sb, data, res, addr, state, stack, value;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        scriptaddress = entity_1.Consts.baseContract.hexToBytes().reverse();
+                        arr = domain.split(".");
+                        nnshash = NNSTool.nameHashArray(arr);
+                        nnshashstr = nnshash.reverse().toHexString();
+                        sb = new ThinNeo.ScriptBuilder();
+                        sb.EmitParamJson([
+                            "(str)addr",
+                            "(hex256)0x" + nnshashstr,
+                            "(str)1"
+                        ]);
+                        sb.EmitPushString("resolve");
+                        sb.EmitAppCall(scriptaddress);
+                        data = sb.ToArray();
+                        return [4 /*yield*/, wwwtool_1.WWW.rpc_getInvokescript(data)];
+                    case 1:
+                        res = _a.sent();
+                        addr = "";
+                        try {
+                            state = res.state;
+                            // info2.textContent = "";
+                            if (state.includes("HALT, BREAK")) {
+                                stack = res.stack;
+                                //find name 他的type 有可能是string 或者ByteArray
+                                if (stack[0].type == "ByteArray") {
+                                    if (stack[0].value != "00") {
+                                        value = stack[0].value.hexToBytes();
+                                        addr = ThinNeo.Helper.Bytes2String(value);
+                                    }
+                                }
+                            }
+                        }
+                        catch (e) {
+                            console.log(e);
+                        }
+                        return [2 /*return*/, addr];
                 }
             });
         });
@@ -2763,6 +2838,25 @@ var NNSTool = /** @class */ (function () {
         }
         return hash;
     };
+    NNSTool.verifyDomain = function (domain) {
+        //check domain valid
+        var reg = /^(.+\.)(test|[a-z][a-z])$/;
+        if (!reg.test(domain)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    NNSTool.verifyAddr = function (addr) {
+        var reg = /^[a-zA-Z0-9]{34,34}$/;
+        if (!reg.test(addr)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
     return NNSTool;
 }());
 exports.NNSTool = NNSTool;
@@ -2837,6 +2931,9 @@ var nnstool_1 = __webpack_require__("ar5l");
 var wwwtool_1 = __webpack_require__("50aY");
 var entity_1 = __webpack_require__("6nHw");
 var Valert_vue_1 = __webpack_require__("Gieu");
+var Spinner_vue_1 = __webpack_require__("+jyM");
+var storagetool_1 = __webpack_require__("5LD5");
+var timetool_1 = __webpack_require__("48oz");
 var Nnsmanage = /** @class */ (function (_super) {
     __extends(Nnsmanage, _super);
     function Nnsmanage() {
@@ -2845,6 +2942,12 @@ var Nnsmanage = /** @class */ (function (_super) {
         _this.nnsstr = "";
         _this.domainerr = false;
         _this.errmsg = "";
+        _this.alert_addr = "";
+        _this.alert_domain = "";
+        _this.alert_contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
+        _this.alert_resolve = true;
+        _this.alert_resolver_disable = false;
+        _this.alert_mapping_disable = false;
         _this.domainarr = new Array();
         return _this;
     }
@@ -2877,7 +2980,7 @@ var Nnsmanage = /** @class */ (function (_super) {
                     case 1: return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(this.nnsstr + ".test")];
                     case 2:
                         domains = _a.sent();
-                        if (domains.valueOf() == entity_1.DomainInfo) {
+                        if (domains) {
                             this.domainerr = true;
                             mui.toast("The current domain name is registered : ");
                         }
@@ -2918,7 +3021,7 @@ var Nnsmanage = /** @class */ (function (_super) {
     };
     Nnsmanage.prototype.getDomainsByAddr = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, _a, _b, _i, i, n, domain, msg;
+            var res, _a, _b, _i, i, n, domain, dommsg, msg, timestamp, copare, resolver, resolver_str, addr;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0: return [4 /*yield*/, wwwtool_1.WWW.getnnsinfo(entity_1.LoginInfo.getCurrentAddress())];
@@ -2930,44 +3033,126 @@ var Nnsmanage = /** @class */ (function (_super) {
                         _i = 0;
                         _c.label = 2;
                     case 2:
-                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                        if (!(_i < _a.length)) return [3 /*break*/, 8];
                         i = _a[_i];
-                        if (!res.hasOwnProperty(i)) return [3 /*break*/, 4];
+                        if (!res.hasOwnProperty(i)) return [3 /*break*/, 7];
                         n = parseInt(i);
                         domain = res[n];
-                        this.domainarr.push(new entity_1.Domainmsg);
-                        this.domainarr[n].domainname = domain["name"];
+                        dommsg = new entity_1.Domainmsg();
+                        dommsg.domainname = domain["name"];
                         return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(domain['name'])];
                     case 3:
                         msg = _c.sent();
-                        if (msg.valueOf() == entity_1.DomainInfo) {
-                            if (msg["resolve"] && msg["resolver"].length >= 0) {
-                                this.domainarr[n].reslove = { mapping: msg["address"] };
-                            }
-                            else {
-                                this.domainarr[n].reslove = false;
-                            }
-                        }
-                        _c.label = 4;
+                        if (!msg) return [3 /*break*/, 7];
+                        timestamp = new Date().getTime();
+                        copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
+                        dommsg.time = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
+                        if (!msg["resolver"]) return [3 /*break*/, 5];
+                        resolver = msg["resolver"];
+                        resolver_str = resolver.toHexString();
+                        return [4 /*yield*/, nnstool_1.NNSTool.resolveData(domain["name"])];
                     case 4:
+                        addr = _c.sent();
+                        dommsg.mapping = addr;
+                        dommsg.resolver = resolver_str;
+                        return [3 /*break*/, 6];
+                    case 5:
+                        dommsg.resolver = "";
+                        dommsg.mapping = "";
+                        _c.label = 6;
+                    case 6:
+                        this.domainarr.push(dommsg);
+                        _c.label = 7;
+                    case 7:
                         _i++;
                         return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/];
+                    case 8: return [2 /*return*/];
                 }
             });
         });
     };
-    Nnsmanage.prototype.resolve = function (domain) {
+    Nnsmanage.prototype.resolve = function (msg) {
         return __awaiter(this, void 0, void 0, function () {
-            var arr, nnshash, contract;
+            var name;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        arr = domain.split(".");
-                        nnshash = nnstool_1.NNSTool.nameHashArray(arr);
-                        contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b".hexToBytes().reverse();
-                        return [4 /*yield*/, nnstool_1.NNSTool.resolve(nnshash, contract)];
+                        this.alert_domainmsg = msg;
+                        if (this.alert_domainmsg.resolver) {
+                            this.alert_resolver_disable = true;
+                        }
+                        name = this.alert_domainmsg.domainname;
+                        this.alert_domain = name;
+                        // this.$refs[ "alert" ][ "domainname" ] = domain;
+                        // this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
+                        // this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();
+                        this.$refs["alert"]["show"] = true;
+                        return [4 /*yield*/, this.awaitHeight()];
                     case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage.prototype.setresolve = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var arr, nnshash, contract, res, height;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.alert_resolve = false;
+                        arr = this.alert_domain.split(".");
+                        nnshash = nnstool_1.NNSTool.nameHashArray(arr);
+                        contract = this.alert_contract.hexToBytes().reverse();
+                        return [4 /*yield*/, nnstool_1.NNSTool.setResolve(nnshash, contract)];
+                    case 1:
+                        res = _a.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 2:
+                        height = _a.sent();
+                        storagetool_1.StorageTool.setStorage("current-height", height.toString());
+                        this.awaitHeight();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage.prototype.configResolve = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var arr, nnshash, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        arr = this.alert_domain.split(".");
+                        nnshash = nnstool_1.NNSTool.nameHashArray(arr);
+                        return [4 /*yield*/, nnstool_1.NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver)];
+                    case 1:
+                        res = _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Nnsmanage.prototype.awaitHeight = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var oldheight, currentheight;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        oldheight = parseInt(storagetool_1.StorageTool.getStorage("current-height"));
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 1:
+                        currentheight = _a.sent();
+                        if (oldheight < currentheight) {
+                            this.alert_resolve = true;
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, setTimeout(function () {
+                                _this.awaitHeight();
+                            }, 15000)];
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -2978,7 +3163,8 @@ var Nnsmanage = /** @class */ (function (_super) {
         vue_class_component_1.default({
             components: {
                 "wallet-layout": wallet_vue_1.default,
-                "v-alert": Valert_vue_1.default
+                "v-alert": Valert_vue_1.default,
+                "spinner-wrap": Spinner_vue_1.default
             }
         }),
         __metadata("design:paramtypes", [])
@@ -3104,6 +3290,7 @@ var wallet_vue_1 = __webpack_require__("PPZq");
 var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
 var timetool_1 = __webpack_require__("48oz");
+var nnstool_1 = __webpack_require__("ar5l");
 var transfer = /** @class */ (function (_super) {
     __extends(transfer, _super);
     function transfer() {
@@ -3115,7 +3302,9 @@ var transfer = /** @class */ (function (_super) {
         _this.txs = [];
         _this.nextpage = true;
         _this.cutshow = true;
-        _this.targetaddr = "";
+        _this.target = "";
+        _this.isDomain = false;
+        _this.toaddress = "";
         _this.amount = "";
         _this.asset = "";
         _this.txpage = 1;
@@ -3148,14 +3337,45 @@ var transfer = /** @class */ (function (_super) {
         this.verify_Amount();
     };
     transfer.prototype.verify_addr = function () {
-        if (neotools_1.neotools.verifyPublicKey(this.targetaddr)) {
-            this.addrerr = 'false';
-            return true;
-        }
-        else {
-            this.addrerr = 'true';
-            return false;
-        }
+        return __awaiter(this, void 0, void 0, function () {
+            var isDomain, isAddress, addr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        isDomain = nnstool_1.NNSTool.verifyDomain(this.target);
+                        isAddress = nnstool_1.NNSTool.verifyAddr(this.target);
+                        if (!isDomain) return [3 /*break*/, 2];
+                        return [4 /*yield*/, nnstool_1.NNSTool.resolveData(this.target)];
+                    case 1:
+                        addr = _a.sent();
+                        if (addr) {
+                            this.toaddress = addr;
+                            this.isDomain = true;
+                            this.addrerr = 'false';
+                            return [2 /*return*/, true];
+                        }
+                        else {
+                            this.addrerr = 'true';
+                            return [2 /*return*/, false];
+                        }
+                        return [3 /*break*/, 3];
+                    case 2:
+                        if (isAddress) {
+                            if (neotools_1.neotools.verifyPublicKey(this.target)) {
+                                this.toaddress = this.target;
+                                this.addrerr = 'false';
+                                return [2 /*return*/, true];
+                            }
+                        }
+                        else {
+                            this.addrerr = 'true';
+                            return [2 /*return*/, false];
+                        }
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
     transfer.prototype.verify_Amount = function () {
         var balancenum = Neo.Fixed8.parse(this.balance.balance + '');
@@ -3172,14 +3392,14 @@ var transfer = /** @class */ (function (_super) {
                     case 0:
                         _a.trys.push([0, 5, , 6]);
                         if (!(this.verify_addr() && this.verify_Amount())) return [3 /*break*/, 4];
-                        if (!(this.balance.type == "nep5")) return [3 /*break*/, 2];
-                        return [4 /*yield*/, cointool_1.CoinTool.nep5Transaction(entity_1.LoginInfo.getCurrentAddress(), this.targetaddr, this.asset, this.amount)];
+                        if (!(!!this.balance["type"] && this.balance.type == "nep5")) return [3 /*break*/, 2];
+                        return [4 /*yield*/, cointool_1.CoinTool.nep5Transaction(entity_1.LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount)];
                     case 1:
                         res = _a.sent();
                         if (!res["err"])
                             mui.toast("Your transaction has been sent, please check it later");
                         return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.targetaddr, this.asset, this.amount)];
+                    case 2: return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.toaddress, this.asset, this.amount)];
                     case 3:
                         res = _a.sent();
                         mui.toast(res.info);
@@ -3196,72 +3416,72 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.history = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var currentAddress, res, index, tx, time, txid, vins, vouts, value, txtype, assetType, blockindex, vin, address, asset, amount, assetname, nep5, history, arr, _a, _b, _i, index_1, i, out, address, amount, asset, assetname, nep5, n, assets, address, data, asset, amount, history;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var currentAddress, res, index, tx, txid, vins, type, vouts, value, txtype, assetType, blockindex, time, date, assetname, vin, asset, amount, address, nep5, history, arr, currcount, _a, _b, _i, index_1, i, out, address, amount, asset, assetname, nep5, n, assets, _c, _d, _e, asset, amount, assetname, nep5, assets, address, data, asset, amount, history;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0: return [4 /*yield*/, cointool_1.CoinTool.initAllAsset()];
                     case 1:
-                        _c.sent();
+                        _f.sent();
                         currentAddress = entity_1.LoginInfo.getCurrentAddress();
                         return [4 /*yield*/, wwwtool_1.WWW.gettransbyaddress(currentAddress, 5, this.txpage)];
                     case 2:
-                        res = _c.sent();
+                        res = _f.sent();
                         res = res ? res : []; //将空值转为长度0的数组
                         this.txpage == 1 && res.length > 5 ? this.cutshow = false : this.cutshow = true;
-                        if (!(res.length > 0)) return [3 /*break*/, 16];
+                        if (!(res.length > 0)) return [3 /*break*/, 23];
                         this.txs = [];
                         index = 0;
-                        _c.label = 3;
+                        _f.label = 3;
                     case 3:
-                        if (!(index < res.length)) return [3 /*break*/, 16];
+                        if (!(index < res.length)) return [3 /*break*/, 23];
                         tx = res[index];
-                        time = "";
                         txid = tx["txid"];
+                        txid = txid.replace('0x', '');
                         vins = tx["vin"];
+                        type = tx["type"];
                         vouts = tx["vout"];
                         value = tx["value"];
-                        txtype = tx["type"];
+                        txtype = tx["txType"];
                         assetType = tx["assetType"];
                         blockindex = tx["blockindex"];
-                        if (!(txtype == "out")) return [3 /*break*/, 8];
+                        time = tx["blocktime"].includes("$date") ? JSON.parse(tx["blocktime"])["$date"] : parseInt(tx["blocktime"] + "000");
+                        date = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
+                        if (!(type == "out")) return [3 /*break*/, 8];
                         if (!(vins && vins.length == 1)) return [3 /*break*/, 7];
+                        assetname = "";
                         vin = vins[0];
-                        address = vin["address"];
                         asset = vin["asset"];
                         amount = vin["value"];
-                        assetname = "";
+                        address = vin["address"];
                         if (!(assetType == "utxo")) return [3 /*break*/, 4];
                         assetname = cointool_1.CoinTool.assetID2name[asset];
-                        time = JSON.parse(tx["blocktime"])["$date"];
-                        time = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
                         return [3 /*break*/, 6];
                     case 4: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
                     case 5:
-                        nep5 = _c.sent();
-                        // let block = await WWW.
+                        nep5 = _f.sent();
                         assetname = nep5["name"];
-                        time = "";
-                        _c.label = 6;
+                        _f.label = 6;
                     case 6:
                         history = new entity_1.History();
-                        history.time = time;
+                        history.time = date;
                         history.txid = txid;
                         history.assetname = assetname;
                         history.address = address;
                         history.value = amount;
-                        history.txtype = txtype;
+                        history.txtype = type;
                         this.txs.push(history);
-                        _c.label = 7;
-                    case 7: return [3 /*break*/, 15];
+                        _f.label = 7;
+                    case 7: return [3 /*break*/, 22];
                     case 8:
                         arr = {};
+                        currcount = 0;
                         _a = [];
                         for (_b in vouts)
                             _a.push(_b);
                         _i = 0;
-                        _c.label = 9;
+                        _f.label = 9;
                     case 9:
-                        if (!(_i < _a.length)) return [3 /*break*/, 14];
+                        if (!(_i < _a.length)) return [3 /*break*/, 15];
                         index_1 = _a[_i];
                         i = parseInt(index_1);
                         out = vouts[i];
@@ -3269,18 +3489,17 @@ var transfer = /** @class */ (function (_super) {
                         amount = out["value"];
                         asset = out["asset"];
                         assetname = "";
+                        if (!(address != currentAddress)) return [3 /*break*/, 13];
                         if (!(assetType == "utxo")) return [3 /*break*/, 10];
                         assetname = cointool_1.CoinTool.assetID2name[asset];
                         return [3 /*break*/, 12];
                     case 10: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
                     case 11:
-                        nep5 = _c.sent();
+                        nep5 = _f.sent();
                         assetname = nep5["name"];
-                        _c.label = 12;
+                        _f.label = 12;
                     case 12:
                         n = out["n"];
-                        // if (address != currentAddress)
-                        // {
                         if (arr[address] && arr[address][assetname]) {
                             arr[address][assetname] += amount;
                         }
@@ -3289,11 +3508,43 @@ var transfer = /** @class */ (function (_super) {
                             assets[assetname] = amount;
                             arr[address] = assets;
                         }
-                        _c.label = 13;
+                        return [3 /*break*/, 14];
                     case 13:
+                        currcount++;
+                        _f.label = 14;
+                    case 14:
                         _i++;
                         return [3 /*break*/, 9];
-                    case 14:
+                    case 15:
+                        if (!(currcount == vouts.length)) return [3 /*break*/, 21];
+                        _c = [];
+                        for (_d in value)
+                            _c.push(_d);
+                        _e = 0;
+                        _f.label = 16;
+                    case 16:
+                        if (!(_e < _c.length)) return [3 /*break*/, 21];
+                        asset = _c[_e];
+                        if (!value.hasOwnProperty(asset)) return [3 /*break*/, 20];
+                        amount = value[asset];
+                        assetname = "";
+                        if (!(assetType == "utxo")) return [3 /*break*/, 17];
+                        assetname = cointool_1.CoinTool.assetID2name[asset];
+                        return [3 /*break*/, 19];
+                    case 17: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
+                    case 18:
+                        nep5 = _f.sent();
+                        assetname = nep5["name"];
+                        _f.label = 19;
+                    case 19:
+                        assets = {};
+                        assets[assetname] = amount;
+                        arr[currentAddress] = assets;
+                        _f.label = 20;
+                    case 20:
+                        _e++;
+                        return [3 /*break*/, 16];
+                    case 21:
                         for (address in arr) {
                             if (arr.hasOwnProperty(address)) {
                                 data = arr[address];
@@ -3301,22 +3552,22 @@ var transfer = /** @class */ (function (_super) {
                                     if (data.hasOwnProperty(asset)) {
                                         amount = data[asset];
                                         history = new entity_1.History();
-                                        history.time = time;
+                                        history.time = date;
                                         history.txid = txid;
                                         history.assetname = asset;
                                         history.address = address;
                                         history.value = amount;
-                                        history.txtype = txtype;
+                                        history.txtype = type;
                                         this.txs.push(history);
                                     }
                                 }
                             }
                         }
-                        _c.label = 15;
-                    case 15:
+                        _f.label = 22;
+                    case 22:
                         index++;
                         return [3 /*break*/, 3];
-                    case 16:
+                    case 23:
                         //分页判断
                         res.length < 5 ? this.nextpage = false : this.nextpage = true; //判断是否是最后一页
                         this.txpage > 1 && res == 0 ? this.txpage-- : this.txpage; //判断是否到最后一页
@@ -3479,6 +3730,13 @@ exports.default = Settings;
 
 /***/ }),
 
+/***/ "oifs":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "owRU":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3489,14 +3747,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var transfer = __webpack_require__("f3HO");
 var transfer_default = /*#__PURE__*/__webpack_require__.n(transfer);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2ebf4c39","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.targetaddr),expression:"targetaddr"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":"Please enter an address or domain name "},domProps:{"value":(_vm.targetaddr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.targetaddr=$event.target.value},_vm.verify_addr]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(" Send "+_vm._s(tx.txtype == 'out'?'form':'to')+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_vm._v(_vm._s(tx.time))])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1994bb1e","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.target),expression:"target"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":"Please enter an address or domain name "},domProps:{"value":(_vm.target)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.target=$event.target.value},_vm.verify_addr]}})]),_vm._v(" "),(_vm.isDomain)?_c('p',[_vm._v(_vm._s(_vm.toaddress))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(" Send "+_vm._s(tx.txtype == 'out'?'form':'to')+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_c('a',{attrs:{"href":'https://scan.nel.group/#testnet/transaction/'+tx.txid,"target":"_blank"}},[_vm._v(_vm._s(tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)))]),_vm._v("  "+_vm._s(tx.time))])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_transfer = (esExports);
 // CONCATENATED MODULE: ./src/pages/transfer.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("Sy2i")
+  __webpack_require__("C+5A")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -3507,7 +3765,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-2ebf4c39"
+var __vue_scopeId__ = "data-v-1994bb1e"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -3999,13 +4257,6 @@ module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1cHgiIGhlaWdodD0i
 
 /***/ }),
 
-/***/ "s6Fw":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "shbj":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4030,78 +4281,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
 var Spinner_vue_1 = __webpack_require__("+jyM");
-var nnstool_1 = __webpack_require__("ar5l");
 var Valert = /** @class */ (function (_super) {
     __extends(Valert, _super);
     function Valert() {
         var _this = _super.call(this) || this;
         _this.show = false;
-        _this.domainname = "";
-        _this.contractaddr = "";
-        _this.address = "";
-        _this.resolvebtn = true;
         return _this;
     }
-    Valert.prototype.setresolve = function () {
-        this.resolvebtn = false;
-    };
     Valert.prototype.closemudloe = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var arr, nnshash, contract;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.$refs["warp"]["isbig"] = true;
-                        this.show = false;
-                        arr = this.domainname.split(".");
-                        nnshash = nnstool_1.NNSTool.nameHashArray(arr);
-                        contract = this.contractaddr.hexToBytes().reverse();
-                        return [4 /*yield*/, nnstool_1.NNSTool.resolve(nnshash, contract)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
+        this.show = false;
     };
     Valert.prototype.mounted = function () { };
     Valert = __decorate([
