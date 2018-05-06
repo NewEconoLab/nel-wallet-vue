@@ -1,7 +1,7 @@
 import { WWW } from '../tools/wwwtool';
 import { CoinTool } from '../tools/cointool';
 import { neotools } from '../tools/neotools';
-import { LoginInfo, BalanceInfo, Result, NeoAsset, Transactionforaddr, Transaction, History } from './../tools/entity';
+import { LoginInfo, BalanceInfo, Result, NeoAsset, Transactionforaddr, Transaction, History } from '../tools/entity';
 import { StorageTool } from '../tools/storagetool';
 import WalletLayout from "../layouts/wallet.vue";
 import axios from "axios"
@@ -120,6 +120,14 @@ export default class transfer extends Vue
                 {
                     let res: Result = await CoinTool.rawTransaction(this.toaddress, this.asset, this.amount);
                     mui.toast(res.info);
+                    let his: History = new History();
+                    his.address = this.toaddress;
+                    his.asset = this.asset;
+                    his.value = this.amount;
+                    his.txtype = "in";
+                    his.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date())
+                    his.txid = res.info;
+                    this.txs = [ his ].concat(this.txs);
                 }
             }
         } catch (error)
