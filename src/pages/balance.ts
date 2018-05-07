@@ -65,41 +65,26 @@ export default class balance extends Vue
     this.neoasset.gas = 0;
     if (balances) //余额不唯空
     {
-      balances.map(item => item.names = CoinTool.assetID2name[ item.asset ]); //将列表的余额资产名称赋值
-      this.balances = balances; //塞入页面modual
       let sum1 = Neo.Fixed8.parse(clamis[ "gas" ].toFixed(8));
       let sum2 = Neo.Fixed8.parse(clamis2[ "gas" ].toFixed(8));
       let sum = sum1.add(sum2).toString()
       this.neoasset.claim = sum;   //塞入claim
-      this.balances.forEach //取NEO 和GAS
-        (
-        (balance) =>
-        {
-          if (balance.asset == CoinTool.id_NEO)
-          {
-            this.neoasset.neo = balance.balance;
-          }
-          if (balance.asset == CoinTool.id_GAS)
-          {
-            this.neoasset.gas = balance.balance;
-          }
-        });
     }
-    if (nep5balances)
-    {
-      for (let index = 0; index < nep5balances.length; index++)
+    balances.forEach //取NEO 和GAS
+      (
+      (balance) =>
       {
-        const nep5 = nep5balances[ index ];
-        var nep5b: BalanceInfo = new BalanceInfo();
-        let id = nep5.assetid.replace("0x", "");
-        id = id.substring(0, 4) + '...' + id.substring(id.length - 4);
-        nep5b.asset = nep5.assetid;
-        nep5b.balance = nep5.balance;
-        nep5b.names = nep5.symbol + "(" + id + ")";
-        nep5b.type = "nep5";
-        this.balances.push(nep5b);
-      }
-    }
+        if (balance.asset == CoinTool.id_NEO)
+        {
+          this.neoasset.neo = balance.balance;
+        }
+        if (balance.asset == CoinTool.id_GAS)
+        {
+          this.neoasset.gas = balance.balance;
+        }
+      });
+
+    this.balances = await BalanceInfo.getBalancesByArr(balances, nep5balances);
     StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
   }
 

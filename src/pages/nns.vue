@@ -11,7 +11,8 @@
             <span>{{network}}</span>
           </span>
         </div>
-        <button class="btn btn-nel btn-big" @click="nnsRegister">Register</button>
+        <button class="btn btn-nel btn-big" @click="nnsRegister" v-if="btn_register">Register</button>
+        <spinner-wrap style="margin-left:20px" v-else></spinner-wrap>
         <div style="padding-left:50px">
           <span>{{errmsg}}</span>
         </div>
@@ -51,7 +52,7 @@
             <button class="btn-nel btn-verify btn-disabled" v-if="alert_resolver_disable">Confirm</button>
             <button class="btn-nel btn-verify " v-else @click="setresolve()">Confirm</button>
           </div>
-          <spinner-wrap v-else style="height: 56px; width: 141px; padding:0px; margin-left:20px"></spinner-wrap>
+          <spinner-wrap v-else style="margin-left:20px"></spinner-wrap>
           <!-- <div v-else class="icon-verify"></div> -->
         </div>
       </div>

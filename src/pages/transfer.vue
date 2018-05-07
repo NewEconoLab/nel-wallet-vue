@@ -84,7 +84,9 @@
                         <div class="time">
                             <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">
                                 {{tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)}}
-                            </a> &nbsp;{{tx.time}}</div>
+                            </a> &nbsp;{{tx.time}}
+                            <div v-if="tx.waiting">(Waiting)</div>
+                        </div>
                     </div>
                 </div>
             </div>

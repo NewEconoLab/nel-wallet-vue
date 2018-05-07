@@ -215,8 +215,10 @@ export class WWW
         var r = json[ "result" ]
         return r;
     }
-    static async delnnsinfo(address: string, domain: string)
+    static async delnnsinfo(domain: string)
     {
+
+
     }
 
 

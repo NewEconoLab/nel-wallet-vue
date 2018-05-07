@@ -1,5 +1,5 @@
 <template>
-    <div class="spinner-wrap" :class="isbig?'height: 56px; width: 138px;':'width: 46px;height: 18px;'">
+    <div class="spinner-wrap" :class="isbig?'spinner-big':''">
         <div class="spinner">
             <div class="spinner-container container1">
                 <div class="circle1"></div>
@@ -42,17 +42,20 @@ export default class Spinner extends Vue {
 .spinner-wrap {
   display: inline-block;
   background-color: #198cee;
-  padding: 12px 23px;
+  padding: 12px 37px;
   border-radius: 5px;
   vertical-align: middle;
   box-sizing: content-box;
   text-align: center;
 }
+.spinner-big {
+  padding: 19px 60px;
+}
 .spinner {
   width: 20px;
   height: 20px;
   position: relative;
-  margin-left: 13px;
+  //margin-left: 13px;
 }
 
 .container1 > div,

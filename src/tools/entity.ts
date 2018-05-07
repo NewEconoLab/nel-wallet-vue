@@ -1,4 +1,5 @@
 import { StorageTool } from "./storagetool";
+import { CoinTool } from "./cointool";
 
 export class LoginInfo
 {
@@ -76,6 +77,32 @@ export class BalanceInfo
         }
         return arr;
 
+    }
+
+    static getBalancesByArr(balances, nep5balances)
+    {
+        let balancearr: BalanceInfo[] = [];
+        if (balances) //余额不唯空
+        {
+            balances.map(item => item.names = CoinTool.assetID2name[ item.asset ]); //将列表的余额资产名称赋值
+            balancearr = balances; //塞入页面modual
+        }
+        if (nep5balances)
+        {
+            for (let index = 0; index < nep5balances.length; index++)
+            {
+                const nep5 = nep5balances[ index ];
+                var nep5b: BalanceInfo = new BalanceInfo();
+                let id = nep5.assetid.replace("0x", "");
+                id = id.substring(0, 4) + '...' + id.substring(id.length - 4);
+                nep5b.asset = nep5.assetid;
+                nep5b.balance = nep5.balance;
+                nep5b.names = nep5.symbol + "(" + id + ")";
+                nep5b.type = "nep5";
+                balancearr.push(nep5b);
+            }
+        }
+        return balancearr;
     }
 }
 

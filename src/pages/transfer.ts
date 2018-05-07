@@ -1,7 +1,7 @@
 import { WWW } from '../tools/wwwtool';
 import { CoinTool } from '../tools/cointool';
 import { neotools } from '../tools/neotools';
-import { LoginInfo, BalanceInfo, Result, NeoAsset, Transactionforaddr, Transaction, History } from '../tools/entity';
+import { LoginInfo, BalanceInfo, Result, NeoAsset, Transactionforaddr, Transaction, History, Nep5Balance } from '../tools/entity';
 import { StorageTool } from '../tools/storagetool';
 import WalletLayout from "../layouts/wallet.vue";
 import axios from "axios"
@@ -56,6 +56,7 @@ export default class transfer extends Vue
             this.history();
         }
     }
+
     cutPage(btn: string)
     {
         btn == "next" ? this.txpage++ : (this.txpage <= 1 ? this.txpage = 1 : this.txpage--);
@@ -69,6 +70,16 @@ export default class transfer extends Vue
         this.balance = this.balances[ n ];
         this.verify_Amount();
     }
+
+    async updateBalances()
+    {
+        let currcountAddr = LoginInfo.getCurrentAddress();
+        var balances = await WWW.api_getBalance(currcountAddr) as BalanceInfo[];
+        var nep5balances = await WWW.api_getnep5Balance(currcountAddr) as Nep5Balance[];
+        this.balances = BalanceInfo.getBalancesByArr(balances, nep5balances);
+        StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
+    }
+
     async verify_addr()
     {
         let isDomain = NNSTool.verifyDomain(this.target);
@@ -125,10 +136,15 @@ export default class transfer extends Vue
                     his.asset = this.asset;
                     his.value = this.amount;
                     his.txtype = "in";
+                    his[ "waiting" ] = true;
                     his.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
                     his.assetname = this.balance.names;
                     his.txid = res.info;
                     this.txs = [ his ].concat(this.txs);
+                    let num = parseFloat(this.balance.balance + "");
+                    let bear = num - parseFloat(this.amount);
+                    console.log(bear);
+                    this.balance.balance = bear;
                 }
             }
         } catch (error)
@@ -171,7 +187,7 @@ export default class transfer extends Vue
                         let assetname = "";
                         const vin = vins[ 0 ];
                         let asset = vin[ "asset" ];
-                        let amount = vin[ "value" ];
+                        let amount = value[ asset ];
                         let address = vin[ "address" ];
                         if (assetType == "utxo")
                         {
