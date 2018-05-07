@@ -125,7 +125,8 @@ export default class transfer extends Vue
                     his.asset = this.asset;
                     his.value = this.amount;
                     his.txtype = "in";
-                    his.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date())
+                    his.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
+                    his.assetname = this.balance.names;
                     his.txid = res.info;
                     this.txs = [ his ].concat(this.txs);
                 }
