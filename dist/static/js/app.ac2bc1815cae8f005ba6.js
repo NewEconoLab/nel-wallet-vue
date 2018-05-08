@@ -10,14 +10,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var Spinner = __webpack_require__("8Qnm");
 var Spinner_default = /*#__PURE__*/__webpack_require__.n(Spinner);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-5d31591e","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Spinner.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner-wrap",class:_vm.isbig?'height: 56px; width: 138px;':'width: 46px;height: 18px;'},[_vm._m(0,false,false)])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-29aeb9e9","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Spinner.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner-wrap",class:_vm.isbig?'spinner-big':''},[_vm._m(0,false,false)])}
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner"},[_c('div',{staticClass:"spinner-container container1"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container2"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container3"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_Spinner = (esExports);
 // CONCATENATED MODULE: ./src/components/Spinner.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("a3T9")
+  __webpack_require__("ppRR")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -29,7 +29,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-5d31591e"
+var __vue_scopeId__ = "data-v-29aeb9e9"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -168,55 +168,44 @@ var balance = /** @class */ (function (_super) {
     balance.prototype.getBalances = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var balances, clamis, clamis2, nep5balances, sum1, sum2, sum, index, nep5, nep5b, id;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var balances, clamis, clamis2, nep5balances, sum1, sum2, sum, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         cointool_1.CoinTool.initAllAsset();
                         return [4 /*yield*/, wwwtool_1.WWW.api_getBalance(this.currentAddress)];
                     case 1:
-                        balances = _a.sent();
+                        balances = _b.sent();
                         return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(this.currentAddress, 0)];
                     case 2:
-                        clamis = _a.sent();
+                        clamis = _b.sent();
                         return [4 /*yield*/, wwwtool_1.WWW.api_getclaimgas(this.currentAddress, 1)];
                     case 3:
-                        clamis2 = _a.sent();
+                        clamis2 = _b.sent();
                         return [4 /*yield*/, wwwtool_1.WWW.api_getnep5Balance(this.currentAddress)];
                     case 4:
-                        nep5balances = _a.sent();
+                        nep5balances = _b.sent();
                         this.neoasset.neo = 0;
                         this.neoasset.gas = 0;
                         if (balances) {
-                            balances.map(function (item) { return item.names = cointool_1.CoinTool.assetID2name[item.asset]; }); //将列表的余额资产名称赋值
-                            this.balances = balances; //塞入页面modual
                             sum1 = Neo.Fixed8.parse(clamis["gas"].toFixed(8));
                             sum2 = Neo.Fixed8.parse(clamis2["gas"].toFixed(8));
                             sum = sum1.add(sum2).toString();
                             this.neoasset.claim = sum; //塞入claim
-                            this.balances.forEach //取NEO 和GAS
-                            (function (balance) {
-                                if (balance.asset == cointool_1.CoinTool.id_NEO) {
-                                    _this.neoasset.neo = balance.balance;
-                                }
-                                if (balance.asset == cointool_1.CoinTool.id_GAS) {
-                                    _this.neoasset.gas = balance.balance;
-                                }
-                            });
                         }
-                        if (nep5balances) {
-                            for (index = 0; index < nep5balances.length; index++) {
-                                nep5 = nep5balances[index];
-                                nep5b = new entity_1.BalanceInfo();
-                                id = nep5.assetid.replace("0x", "");
-                                id = id.substring(0, 4) + '...' + id.substring(id.length - 4);
-                                nep5b.asset = nep5.assetid;
-                                nep5b.balance = nep5.balance;
-                                nep5b.names = nep5.symbol + "(" + id + ")";
-                                nep5b.type = "nep5";
-                                this.balances.push(nep5b);
+                        balances.forEach //取NEO 和GAS
+                        (function (balance) {
+                            if (balance.asset == cointool_1.CoinTool.id_NEO) {
+                                _this.neoasset.neo = balance.balance;
                             }
-                        }
+                            if (balance.asset == cointool_1.CoinTool.id_GAS) {
+                                _this.neoasset.gas = balance.balance;
+                            }
+                        });
+                        _a = this;
+                        return [4 /*yield*/, entity_1.BalanceInfo.getBalancesByArr(balances, nep5balances)];
+                    case 5:
+                        _a.balances = _b.sent();
                         storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
                         return [2 /*return*/];
                 }
@@ -814,7 +803,7 @@ var WWW = /** @class */ (function () {
             });
         });
     };
-    WWW.delnnsinfo = function (address, domain) {
+    WWW.delnnsinfo = function (domain) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/];
@@ -961,6 +950,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var storagetool_1 = __webpack_require__("5LD5");
+var cointool_1 = __webpack_require__("pLPz");
 var LoginInfo = /** @class */ (function () {
     function LoginInfo() {
     }
@@ -1020,6 +1010,27 @@ var BalanceInfo = /** @class */ (function () {
             }
         }
         return arr;
+    };
+    BalanceInfo.getBalancesByArr = function (balances, nep5balances) {
+        var balancearr = [];
+        if (balances) {
+            balances.map(function (item) { return item.names = cointool_1.CoinTool.assetID2name[item.asset]; }); //将列表的余额资产名称赋值
+            balancearr = balances; //塞入页面modual
+        }
+        if (nep5balances) {
+            for (var index = 0; index < nep5balances.length; index++) {
+                var nep5 = nep5balances[index];
+                var nep5b = new BalanceInfo();
+                var id = nep5.assetid.replace("0x", "");
+                id = id.substring(0, 4) + '...' + id.substring(id.length - 4);
+                nep5b.asset = nep5.assetid;
+                nep5b.balance = nep5.balance;
+                nep5b.names = nep5.symbol + "(" + id + ")";
+                nep5b.type = "nep5";
+                balancearr.push(nep5b);
+            }
+        }
+        return balancearr;
     };
     return BalanceInfo;
 }());
@@ -1253,13 +1264,6 @@ exports.default = Spinner;
 
 /***/ }),
 
-/***/ "C+5A":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "D8AQ":
 /***/ (function(module, exports) {
 
@@ -1277,14 +1281,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var nns = __webpack_require__("cfoD");
 var nns_default = /*#__PURE__*/__webpack_require__.n(nns);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-cdb48970","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:_vm.domainerr?'input-err':'input-success'},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('span',[_vm._v(_vm._s(_vm.network))])])]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"50px"}},[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v("My Neo Name")])]),_vm._v(" "),_vm._l((_vm.domainarr),function(domain){return _c('div',{key:domain.index,staticClass:"form-inline"},[_c('span',{staticClass:"domainname"},[_vm._v("\n        "+_vm._s(domain.domainname)+"\n      ")]),_vm._v(" "),_c('br'),_vm._v(" "),(!domain.resolver&&domain.resolver=='')?_c('span',{staticClass:"msg-null"},[_vm._v("\n        ( not configured )\n      ")]):_vm._e(),_vm._v(" "),(domain.resolver)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Resolver : "+_vm._s(domain.resolver)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),(domain.mapping)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Mapping : "+_vm._s(domain.mapping)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),_c('span',{staticClass:"msg-resolver"},[_vm._v("( Expiration Time : "+_vm._s(domain.time)+")")]),_vm._v(" "),_c('span',{staticClass:"domainname"}),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",staticStyle:{"float":"right","margin-right":"50px"},on:{"click":function($event){_vm.resolve(domain)}}},[_vm._v("Edit")])])})],2),_vm._v(" "),_c('v-alert',{ref:"alert"},[_c('div',{staticClass:"content content-file"},[_c('span',{staticClass:"content-des"},[_vm._v("Neo Name : "+_vm._s(_vm.alert_domain))]),_vm._v(" "),_c('span',{staticClass:"content-msg"})]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Resolver : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg warning-msg"},[_vm._v("( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )")]),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text","disabled":_vm.alert_resolver_disable?'disable':''},domProps:{"value":_vm.alert_contract}}),_vm._v(" "),(_vm.alert_resolve)?_c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify ",on:{"click":function($event){_vm.setresolve()}}},[_vm._v("Confirm")])]):_c('spinner-wrap',{staticStyle:{"height":"56px","width":"141px","padding":"0px","margin-left":"20px"}})],1)]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Mapping : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg"}),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_addr),expression:"alert_addr"}],staticClass:"input-ico ",attrs:{"type":"text","disabled":_vm.alert_mapping_disable?'disable':''},domProps:{"value":(_vm.alert_addr)},on:{"input":function($event){if($event.target.composing){ return; }_vm.alert_addr=$event.target.value}}}),_vm._v(" "),_c('div',{staticClass:"icon-verify",staticStyle:{"display":"none"}}),_vm._v(" "),_c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify btn-disabled",on:{"click":function($event){_vm.configResolve()}}},[_vm._v("Confirm")])])])])])],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1a8c6bec","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:_vm.domainerr?'input-err':'input-success'},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('span',[_vm._v(_vm._s(_vm.network))])])]),_vm._v(" "),(_vm.btn_register)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]):_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"50px"}},[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])],1),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v("My Neo Name")])]),_vm._v(" "),_vm._l((_vm.domainarr),function(domain){return _c('div',{key:domain.index,staticClass:"form-inline"},[_c('span',{staticClass:"domainname"},[_vm._v("\n        "+_vm._s(domain.domainname)+"\n      ")]),_vm._v(" "),_c('br'),_vm._v(" "),(!domain.resolver&&domain.resolver=='')?_c('span',{staticClass:"msg-null"},[_vm._v("\n        ( not configured )\n      ")]):_vm._e(),_vm._v(" "),(domain.resolver)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Resolver : "+_vm._s(domain.resolver)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),(domain.mapping)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Mapping : "+_vm._s(domain.mapping)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),_c('span',{staticClass:"msg-resolver"},[_vm._v("( Expiration Time : "+_vm._s(domain.time)+")")]),_vm._v(" "),_c('span',{staticClass:"domainname"}),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",staticStyle:{"float":"right","margin-right":"50px"},on:{"click":function($event){_vm.resolve(domain)}}},[_vm._v("Edit")])])})],2),_vm._v(" "),_c('v-alert',{ref:"alert"},[_c('div',{staticClass:"content content-file"},[_c('span',{staticClass:"content-des"},[_vm._v("Neo Name : "+_vm._s(_vm.alert_domain))]),_vm._v(" "),_c('span',{staticClass:"content-msg"})]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Resolver : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg warning-msg"},[_vm._v("( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )")]),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text","disabled":"disable"},domProps:{"value":_vm.alert_contract}}),_vm._v(" "),(_vm.alert_resolve)?_c('div',{staticClass:"btn-verify-warp"},[(_vm.alert_resolver_disable)?_c('button',{staticClass:"btn-nel btn-verify btn-disabled"},[_vm._v("Confirm")]):_c('button',{staticClass:"btn-nel btn-verify ",on:{"click":function($event){_vm.setresolve()}}},[_vm._v("Confirm")])]):_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}})],1)]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Mapping : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg"}),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_addr),expression:"alert_addr"}],staticClass:"input-ico ",attrs:{"type":"text"},domProps:{"value":(_vm.alert_addr)},on:{"input":function($event){if($event.target.composing){ return; }_vm.alert_addr=$event.target.value}}}),_vm._v(" "),_c('div',{staticClass:"icon-verify",staticStyle:{"display":"none"}}),_vm._v(" "),_c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify",on:{"click":function($event){_vm.configResolve()}}},[_vm._v("Confirm")])])])])])],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_nns = (esExports);
 // CONCATENATED MODULE: ./src/pages/nns.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("oifs")
+  __webpack_require__("WEtW")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1295,7 +1299,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-cdb48970"
+var __vue_scopeId__ = "data-v-1a8c6bec"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -2193,6 +2197,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "WEtW":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "YRcM":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2318,13 +2329,6 @@ exports.default = FeatureComponent;
 
 /***/ }),
 
-/***/ "a3T9":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "ar5l":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2409,7 +2413,7 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.queryDomainInfo = function (doamin) {
         return __awaiter(this, void 0, void 0, function () {
-            var domainarr, subdomain, nnshash, doamininfo, have, timestamp, copare, owner;
+            var domainarr, subdomain, nnshash, doamininfo, owner;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2419,17 +2423,6 @@ var NNSTool = /** @class */ (function () {
                         return [4 /*yield*/, NNSTool.getOwnerInfo(nnshash, entity_1.Consts.baseContract.hexToBytes().reverse())];
                     case 1:
                         doamininfo = _a.sent();
-                        console.log(doamininfo.ttl);
-                        have = false;
-                        if (doamininfo.ttl) {
-                            timestamp = new Date().getTime();
-                            copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(doamininfo.ttl).multiply(1000));
-                            // let copare: number = new Neo.BigInteger(timestamp).compareTo(doamininfo.ttl.multiply(1000));
-                            if (copare < 0) {
-                                // console.log('域名已到期');
-                                have = true;
-                            }
-                        }
                         owner = doamininfo.owner.toHexString();
                         // return address;
                         return [2 /*return*/, doamininfo];
@@ -2942,6 +2935,7 @@ var Nnsmanage = /** @class */ (function (_super) {
         _this.nnsstr = "";
         _this.domainerr = false;
         _this.errmsg = "";
+        _this.btn_register = true;
         _this.alert_addr = "";
         _this.alert_domain = "";
         _this.alert_contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
@@ -2966,7 +2960,7 @@ var Nnsmanage = /** @class */ (function (_super) {
     };
     Nnsmanage.prototype.verifyDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var regStr, re, domains;
+            var regStr, re, domains, timestamp, copare;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2980,9 +2974,17 @@ var Nnsmanage = /** @class */ (function (_super) {
                     case 1: return [4 /*yield*/, nnstool_1.NNSTool.queryDomainInfo(this.nnsstr + ".test")];
                     case 2:
                         domains = _a.sent();
-                        if (domains) {
-                            this.domainerr = true;
-                            mui.toast("The current domain name is registered : ");
+                        if (domains.register && domains.ttl) {
+                            timestamp = new Date().getTime();
+                            copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(domains.ttl).multiply(1000));
+                            // let copare: number = new Neo.BigInteger(timestamp).compareTo(doamininfo.ttl.multiply(1000));
+                            if (copare < 0) {
+                                // console.log('域名已到期');
+                            }
+                            else {
+                                this.domainerr = true;
+                                mui.toast("The current domain name is registered : ");
+                            }
                         }
                         else {
                             this.domainerr = false;
@@ -2996,25 +2998,31 @@ var Nnsmanage = /** @class */ (function (_super) {
     };
     Nnsmanage.prototype.nnsRegister = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, res_1;
+            var res, res_1, height;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!!this.domainerr) return [3 /*break*/, 4];
+                        if (!!this.domainerr) return [3 /*break*/, 6];
                         return [4 /*yield*/, nnstool_1.NNSTool.registerDomain(this.nnsstr)];
                     case 1:
                         res = _a.sent();
                         if (!res.err) return [3 /*break*/, 2];
                         console.error(res.info);
-                        return [3 /*break*/, 4];
+                        return [3 /*break*/, 6];
                     case 2: return [4 /*yield*/, wwwtool_1.WWW.setnnsinfo(entity_1.LoginInfo.getCurrentAddress(), this.nnsstr + ".test", 0)];
                     case 3:
                         res_1 = _a.sent();
-                        if (res_1 == "suc") {
-                            mui.alert("Domain name registration contract has been issued, please see ");
-                        }
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        if (!(res_1 == "suc")) return [3 /*break*/, 6];
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 4:
+                        height = _a.sent();
+                        storagetool_1.StorageTool.setStorage("current-height", height.toString());
+                        this.btn_register = false;
+                        return [4 /*yield*/, this.awaitHeight("register")];
+                    case 5:
+                        _a.sent();
+                        _a.label = 6;
+                    case 6: return [2 /*return*/];
                 }
             });
         });
@@ -3083,11 +3091,12 @@ var Nnsmanage = /** @class */ (function (_super) {
                         }
                         name = this.alert_domainmsg.domainname;
                         this.alert_domain = name;
+                        this.alert_addr = this.alert_domainmsg.mapping;
                         // this.$refs[ "alert" ][ "domainname" ] = domain;
                         // this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
                         // this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();
                         this.$refs["alert"]["show"] = true;
-                        return [4 /*yield*/, this.awaitHeight()];
+                        return [4 /*yield*/, this.awaitHeight("resolve")];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -3112,7 +3121,9 @@ var Nnsmanage = /** @class */ (function (_super) {
                     case 2:
                         height = _a.sent();
                         storagetool_1.StorageTool.setStorage("current-height", height.toString());
-                        this.awaitHeight();
+                        return [4 /*yield*/, this.awaitHeight("resolve")];
+                    case 3:
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -3134,7 +3145,7 @@ var Nnsmanage = /** @class */ (function (_super) {
             });
         });
     };
-    Nnsmanage.prototype.awaitHeight = function () {
+    Nnsmanage.prototype.awaitHeight = function (type) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             var oldheight, currentheight;
@@ -3146,11 +3157,14 @@ var Nnsmanage = /** @class */ (function (_super) {
                     case 1:
                         currentheight = _a.sent();
                         if (oldheight < currentheight) {
-                            this.alert_resolve = true;
+                            if (type == "resolve")
+                                this.alert_resolve = true;
+                            if (type == "register")
+                                this.btn_register = true;
                             return [2 /*return*/];
                         }
                         return [4 /*yield*/, setTimeout(function () {
-                                _this.awaitHeight();
+                                _this.awaitHeight(type);
                             }, 15000)];
                     case 2:
                         _a.sent();
@@ -3336,6 +3350,26 @@ var transfer = /** @class */ (function (_super) {
         this.balance = this.balances[n];
         this.verify_Amount();
     };
+    transfer.prototype.updateBalances = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var currcountAddr, balances, nep5balances;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        currcountAddr = entity_1.LoginInfo.getCurrentAddress();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getBalance(currcountAddr)];
+                    case 1:
+                        balances = _a.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getnep5Balance(currcountAddr)];
+                    case 2:
+                        nep5balances = _a.sent();
+                        this.balances = entity_1.BalanceInfo.getBalancesByArr(balances, nep5balances);
+                        storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     transfer.prototype.verify_addr = function () {
         return __awaiter(this, void 0, void 0, function () {
             var isDomain, isAddress, addr;
@@ -3386,7 +3420,7 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.send = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, res, error_1;
+            var res, res, his, num, bear, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3403,6 +3437,20 @@ var transfer = /** @class */ (function (_super) {
                     case 3:
                         res = _a.sent();
                         mui.toast(res.info);
+                        his = new entity_1.History();
+                        his.address = this.toaddress;
+                        his.asset = this.asset;
+                        his.value = this.amount;
+                        his.txtype = "in";
+                        his["waiting"] = true;
+                        his.time = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
+                        his.assetname = this.balance.names;
+                        his.txid = res.info;
+                        this.txs = [his].concat(this.txs);
+                        num = parseFloat(this.balance.balance + "");
+                        bear = num - parseFloat(this.amount);
+                        console.log(bear);
+                        this.balance.balance = bear;
                         _a.label = 4;
                     case 4: return [3 /*break*/, 6];
                     case 5:
@@ -3451,7 +3499,7 @@ var transfer = /** @class */ (function (_super) {
                         assetname = "";
                         vin = vins[0];
                         asset = vin["asset"];
-                        amount = vin["value"];
+                        amount = value[asset];
                         address = vin["address"];
                         if (!(assetType == "utxo")) return [3 /*break*/, 4];
                         assetname = cointool_1.CoinTool.assetID2name[asset];
@@ -3730,13 +3778,6 @@ exports.default = Settings;
 
 /***/ }),
 
-/***/ "oifs":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "owRU":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3747,14 +3788,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var transfer = __webpack_require__("f3HO");
 var transfer_default = /*#__PURE__*/__webpack_require__.n(transfer);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1994bb1e","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.target),expression:"target"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":"Please enter an address or domain name "},domProps:{"value":(_vm.target)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.target=$event.target.value},_vm.verify_addr]}})]),_vm._v(" "),(_vm.isDomain)?_c('p',[_vm._v(_vm._s(_vm.toaddress))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(" Send "+_vm._s(tx.txtype == 'out'?'form':'to')+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_c('a',{attrs:{"href":'https://scan.nel.group/#testnet/transaction/'+tx.txid,"target":"_blank"}},[_vm._v(_vm._s(tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)))]),_vm._v("  "+_vm._s(tx.time))])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1f25c24e","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Transfer")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v("Asset：")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names + " available" : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Address:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.target),expression:"target"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":"Please enter an address or domain name "},domProps:{"value":(_vm.target)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.target=$event.target.value},_vm.verify_addr]}})]),_vm._v(" "),(_vm.isDomain)?_c('p',[_vm._v(_vm._s(_vm.toaddress))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   Your adress is incorrect.")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v("Amount:")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v("Details")]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v("Send")])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("History")])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(" Send "+_vm._s(tx.txtype == 'out'?'form':'to')+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_c('a',{attrs:{"href":'https://scan.nel.group/#testnet/transaction/'+tx.txid,"target":"_blank"}},[_vm._v("\n                            "+_vm._s(tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4))+"\n                        ")]),_vm._v("  "+_vm._s(tx.time)+"\n                        "),(tx.waiting)?_c('div',[_vm._v("(Waiting)")]):_vm._e()])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_transfer = (esExports);
 // CONCATENATED MODULE: ./src/pages/transfer.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("C+5A")
+  __webpack_require__("t4/y")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -3765,7 +3806,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-1994bb1e"
+var __vue_scopeId__ = "data-v-1f25c24e"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -4257,6 +4298,13 @@ module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1cHgiIGhlaWdodD0i
 
 /***/ }),
 
+/***/ "ppRR":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "shbj":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4308,6 +4356,13 @@ var Valert = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Valert;
 
+
+/***/ }),
+
+/***/ "t4/y":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
