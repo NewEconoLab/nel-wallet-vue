@@ -23,6 +23,10 @@ export class StorageTool
     {
         return sessionStorage.getItem(key);
     }
+    static delStorage(key: string)
+    {
+        sessionStorage.removeItem(key);
+    }
     static async heightRefresh()
     {
         let oldheight = StorageTool.getStorage("block-height");
@@ -55,3 +59,4 @@ export class StaticStore
         StaticStore.choiceAsset = asset;
     }
 }
+

@@ -61,6 +61,7 @@ export default class balance extends Vue
     var clamis = await WWW.api_getclaimgas(this.currentAddress, 0);
     var clamis2 = await WWW.api_getclaimgas(this.currentAddress, 1);
     var nep5balances = await WWW.api_getnep5Balance(this.currentAddress) as Nep5Balance[];
+    let height = await WWW.api_getHeight();
     this.neoasset.neo = 0;
     this.neoasset.gas = 0;
     if (balances) //余额不唯空
@@ -84,7 +85,7 @@ export default class balance extends Vue
         }
       });
 
-    this.balances = await BalanceInfo.getBalancesByArr(balances, nep5balances);
+    this.balances = await BalanceInfo.getBalancesByArr(balances, nep5balances, height);
     StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
   }
 

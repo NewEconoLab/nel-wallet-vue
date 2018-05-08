@@ -394,11 +394,12 @@ export class NNSTool
     }
 
 
-    //#region 域名转hash算法
-    //域名转hash算法
-    //aaa.bb.test =>{"test","bb","aa"}
+
     /**
-     * 域名转hash
+     * 域名转hash    
+     * #region 域名转hash算法
+     * 域名转hash算法
+     * aaa.bb.test =>{"test","bb","aa"}
      * @param domain 域名
      */
     static nameHash(domain: string): Uint8Array

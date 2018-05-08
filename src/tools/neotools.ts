@@ -10,15 +10,12 @@ export class neotools
     public static verifyPublicKey(publicKey: string)
     {
         var array: Uint8Array = Neo.Cryptography.Base58.decode(publicKey);
-        //var hexstr = array.toHexString();
-        //var salt = array.subarray(0, 1);
-        //var hash = array.subarray(1, 1 + 20);
         var check = array.subarray(21, 21 + 4); //
 
         var checkdata = array.subarray(0, 21);//
         var hashd = Neo.Cryptography.Sha256.computeHash(checkdata);//
         hashd = Neo.Cryptography.Sha256.computeHash(hashd);//
-        var hashd = hashd.slice(0, 4);//
+        var hashd = hashd.slice(0, 4);//    
         var checked = new Uint8Array(hashd);//
 
         var error = false;

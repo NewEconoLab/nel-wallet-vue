@@ -52,6 +52,7 @@ export default class transfer extends Vue
             var choose = StorageTool.getStorage("transfer_choose");
             this.asset = (choose == null ? this.balances[ 0 ].asset : choose);
             var n: number = this.balances.findIndex(b => b.asset == this.asset);
+            n = n < 0 ? 0 : n;
             this.balance = this.balances[ n ];
             this.history();
         }
@@ -76,7 +77,8 @@ export default class transfer extends Vue
         let currcountAddr = LoginInfo.getCurrentAddress();
         var balances = await WWW.api_getBalance(currcountAddr) as BalanceInfo[];
         var nep5balances = await WWW.api_getnep5Balance(currcountAddr) as Nep5Balance[];
-        this.balances = BalanceInfo.getBalancesByArr(balances, nep5balances);
+        let height = await WWW.api_getHeight();
+        this.balances = BalanceInfo.getBalancesByArr(balances, nep5balances, height);
         StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
     }
 
@@ -126,7 +128,25 @@ export default class transfer extends Vue
                 {
                     let res = await CoinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount);
                     if (!res[ "err" ])
+                    {
                         mui.toast("Your transaction has been sent, please check it later");
+                        let his: History = new History();
+                        his.address = this.toaddress;
+                        his.asset = this.asset;
+                        his.value = this.amount;
+                        his.txtype = "in";
+                        his[ "waiting" ] = true;
+                        his.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
+                        his.assetname = this.balance.names;
+                        his.txid = res.info;
+                        this.txs = [ his ].concat(this.txs);
+                        let num = parseFloat(this.balance.balance + "");
+                        let bear = num - parseFloat(this.amount);
+                        this.balance.balance = bear;
+                        var height = await WWW.api_getHeight();
+                        BalanceInfo.setBalanceSotre(this.balance, height);
+                        History.setHistoryStore(his, height);
+                    }
                 } else
                 {
                     let res: Result = await CoinTool.rawTransaction(this.toaddress, this.asset, this.amount);
@@ -145,6 +165,9 @@ export default class transfer extends Vue
                     let bear = num - parseFloat(this.amount);
                     console.log(bear);
                     this.balance.balance = bear;
+                    var height = await WWW.api_getHeight();
+                    BalanceInfo.setBalanceSotre(this.balance, height);
+                    History.setHistoryStore(his, height);
                 }
             }
         } catch (error)
@@ -178,8 +201,6 @@ export default class transfer extends Vue
                 let time: number = tx[ "blocktime" ].includes("$date") ? JSON.parse(tx[ "blocktime" ])[ "$date" ] : parseInt(tx[ "blocktime" ] + "000");
                 let date: string = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
 
-                // if (txtype == "InvocationTransaction")
-                // continue;
                 if (type == "out")
                 {
                     if (vins && vins.length == 1)

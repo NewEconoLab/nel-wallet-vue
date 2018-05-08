@@ -79,12 +79,24 @@ export class BalanceInfo
 
     }
 
-    static getBalancesByArr(balances, nep5balances)
+    static getBalancesByArr(balances, nep5balances, height: number)
     {
         let balancearr: BalanceInfo[] = [];
         if (balances) //余额不唯空
         {
-            balances.map(item => item.names = CoinTool.assetID2name[ item.asset ]); //将列表的余额资产名称赋值
+            balances.map(
+                (item) =>
+                {
+                    item.names = CoinTool.assetID2name[ item.asset ];
+                    let a = StorageTool.getStorage(item.asset);
+                    if (a)
+                    {
+                        let obj = JSON.parse(a)
+                        let h = obj[ "height" ];
+                        height - h > 1 ? StorageTool.delStorage(item.asset) : item.balance = obj[ "balance" ][ "balance" ];
+                    }
+                }
+            ); //将列表的余额资产名称赋值
             balancearr = balances; //塞入页面modual
         }
         if (nep5balances)
@@ -104,6 +116,13 @@ export class BalanceInfo
         }
         return balancearr;
     }
+
+    static setBalanceSotre(balance: BalanceInfo, height: number)
+    {
+        StorageTool.setStorage(balance.asset, JSON.stringify({ height, balance }))
+        console.log(StorageTool.getStorage(balance.asset));
+    }
+
 }
 
 export class Nep5Balance
@@ -283,7 +302,14 @@ export class History
     address: string;
     assetname: string;
     txtype: string;
-    time: string; txid: string;
+    time: string;
+    txid: string;
+
+    static setHistoryStore(history: History, height: number)
+    {
+        StorageTool.setStorage(history.txid, JSON.stringify({ height, history }));
+    }
+
 }
 export class Claim
 {

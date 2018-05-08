@@ -78,10 +78,10 @@ export default class Nnsmanage extends Vue
                 if (copare < 0)
                 {
                     // console.log('域名已到期');
+                    this.domainerr = true;
                 } else
                 {
-                    this.domainerr = true;
-                    mui.toast("The current domain name is registered : ");
+                    // mui.toast("The current domain name is registered : ");
                 }
             } else
             {
@@ -95,22 +95,31 @@ export default class Nnsmanage extends Vue
     {
         if (!this.domainerr)
         {
-
-            let res = await NNSTool.registerDomain(this.nnsstr);
-            if (res.err)
+            try
             {
-                console.error(res.info);
-            } else
-            {
-                let res = await WWW.setnnsinfo(LoginInfo.getCurrentAddress(), this.nnsstr + ".test", 0);
-                if (res == "suc")
+                let res = await NNSTool.registerDomain(this.nnsstr);
+                if (res.err)
                 {
-                    // mui.alert("Domain name registration contract has been issued, please see ")
-                    let height = await WWW.api_getHeight();
-                    StorageTool.setStorage("current-height", height.toString());
-                    this.btn_register = false;
-                    await this.awaitHeight("register");
+                    console.error(res.info);
+                } else
+                {
+                    let delres = await WWW.delnnsinfo(this.nnsstr + ".test");
+                    if (delres == "suc")
+                    {
+                        let res = await WWW.setnnsinfo(LoginInfo.getCurrentAddress(), this.nnsstr + ".test", 0);
+                        if (res == "suc")
+                        {
+                            // mui.alert("Domain name registration contract has been issued, please see ")
+                            let height = await WWW.api_getHeight();
+                            StorageTool.setStorage("current-height", height.toString());
+                            this.btn_register = false;
+                            await this.awaitHeight("register");
+                        }
+                    }
                 }
+            } catch (error)
+            {
+                mui.alert(error.message);
             }
         }
     }
@@ -147,11 +156,10 @@ export default class Nnsmanage extends Vue
                     }
                     this.domainarr.push(dommsg);
                 }
-
             }
-            // console.log(this.domainarr);
         }
     }
+
     async resolve(msg)
     {
         this.alert_domainmsg = msg;
@@ -159,14 +167,8 @@ export default class Nnsmanage extends Vue
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
         this.alert_addr = this.alert_domainmsg.mapping;
-        // this.$refs[ "alert" ][ "domainname" ] = domain;
-        // this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
-        // this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();
         this.$refs[ "alert" ][ "show" ] = true;
         await this.awaitHeight("resolve");
-        // let arr = domain.split('.');
-        // let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
-        // NNSTool.resolve("address", nnshash, "");
     }
 
     async setresolve()
@@ -198,7 +200,10 @@ export default class Nnsmanage extends Vue
             if (type == "resolve")
                 this.alert_resolve = true;
             if (type == "register")
+            {
                 this.btn_register = true;
+                this.getDomainsByAddr()
+            }
             return;
         }
         await setTimeout(() =>

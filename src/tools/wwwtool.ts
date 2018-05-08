@@ -217,8 +217,13 @@ export class WWW
     }
     static async delnnsinfo(domain: string)
     {
-
-
+        var str = WWW.makeRpcUrl(WWW.apiaggr, "delnnsinfo", domain);
+        var result = await fetch(str, { "method": "get" });
+        var json = await result.json();
+        if (json[ "result" ] == null)
+            return null;
+        var r = json[ "result" ][ 0 ][ "result" ]
+        return r;
     }
 
 

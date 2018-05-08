@@ -321,7 +321,7 @@ export class CoinTool
         var res: Result = new Result();
         var result = await WWW.api_postRawTransaction(data);
         res.err = !result;
-        res.info = "成功";
+        res.info = result[ "txid" ];
         return res;
     }
 
