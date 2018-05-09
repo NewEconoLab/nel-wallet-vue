@@ -40,6 +40,7 @@ export default class transfer extends Vue
         this.amount = "";
         this.asset = "";
         this.txpage = 1;
+        Neo.Cryptography.RandomNumberGenerator.startCollectors();
     }
     mounted() 
     {
@@ -55,6 +56,7 @@ export default class transfer extends Vue
             n = n < 0 ? 0 : n;
             this.balance = this.balances[ n ];
             this.history();
+            this.awaitHeight();
         }
     }
 
@@ -146,6 +148,11 @@ export default class transfer extends Vue
                         var height = await WWW.api_getHeight();
                         BalanceInfo.setBalanceSotre(this.balance, height);
                         History.setHistoryStore(his, height);
+                        StorageTool.setStorage("current-height", height + "");
+                    }
+                    else
+                    {
+                        mui.alert("Transaction failure");
                     }
                 } else
                 {
@@ -168,6 +175,7 @@ export default class transfer extends Vue
                     var height = await WWW.api_getHeight();
                     BalanceInfo.setBalanceSotre(this.balance, height);
                     History.setHistoryStore(his, height);
+                    StorageTool.setStorage("current-height", height + "");
                 }
             }
         } catch (error)
@@ -180,12 +188,18 @@ export default class transfer extends Vue
         await CoinTool.initAllAsset();
         var currentAddress = LoginInfo.getCurrentAddress();
         var res = await WWW.gettransbyaddress(currentAddress, 5, this.txpage);
+        var h = await WWW.api_getHeight();
         res = res ? res : []; //将空值转为长度0的数组
         this.txpage == 1 && res.length > 5 ? this.cutshow = false : this.cutshow = true;
+        History.delHistoryStoreByHeight(h);
+        let his = History.getHistoryStore();
         if (res.length > 0)
         {
-
             this.txs = [];
+            if (his.length)
+            {
+                his.map(hi => { this.txs.push(hi.history) });
+            }
             for (let index = 0; index < res.length; index++)
             {
                 const tx = res[ index ];
@@ -316,4 +330,21 @@ export default class transfer extends Vue
         this.txpage > 1 && res == 0 ? this.txpage-- : this.txpage;   //判断是否到最后一页
 
     }
+
+    async awaitHeight()
+    {
+        let str = StorageTool.getStorage("current-height");
+        let currentheight = await WWW.api_getHeight();
+        let oldheight = currentheight;
+        str ? oldheight = parseInt(str) : StorageTool.setStorage("current-height", currentheight + "");
+        if (currentheight - oldheight >= 2)
+        {
+            await this.history()
+        }
+        setTimeout(() =>
+        {
+            this.awaitHeight();
+        }, 15000);
+    }
+
 }

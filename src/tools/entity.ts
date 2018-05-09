@@ -87,6 +87,7 @@ export class BalanceInfo
             balances.map(
                 (item) =>
                 {
+
                     item.names = CoinTool.assetID2name[ item.asset ];
                     let a = StorageTool.getStorage(item.asset);
                     if (a)
@@ -307,9 +308,35 @@ export class History
 
     static setHistoryStore(history: History, height: number)
     {
-        StorageTool.setStorage(history.txid, JSON.stringify({ height, history }));
+        let arr = this.getHistoryStore();
+        arr.push({ height, history })
+        StorageTool.setStorage("history-txs", JSON.stringify(arr));
     }
 
+    static getHistoryStore(): Array<any>
+    {
+        let str = StorageTool.getStorage("history-txs");
+        let arr = !!str ? JSON.parse(str) : [];
+        return arr;
+    }
+
+    static delHistoryStoreByHeight(height: number)
+    {
+        let arr = this.getHistoryStore();
+        if (arr.length > 0)
+        {
+            let newarr = [];
+            arr.map(his =>
+            {
+                let h = parseInt(his.height);
+                if (height - h < 2)
+                {
+                    newarr.push(his);
+                }
+            });
+            StorageTool.setStorage("history-txs", JSON.stringify(newarr));
+        }
+    }
 }
 export class Claim
 {

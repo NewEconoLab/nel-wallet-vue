@@ -320,7 +320,7 @@ export class CoinTool
 
         var res: Result = new Result();
         var result = await WWW.api_postRawTransaction(data);
-        res.err = !result;
+        res.err = !result[ "sendrawtransactionresult" ];
         res.info = result[ "txid" ];
         return res;
     }
@@ -382,9 +382,16 @@ export class CoinTool
 
         var sb = new ThinNeo.ScriptBuilder();
         var scriptaddress = asset.hexToBytes().reverse();
+        //生成随机数
+        let random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues<Uint8Array>(new Uint8Array(32));
+        let random_int = Neo.BigInteger.fromUint8Array(random_uint8);
+        //塞入随机数
+        sb.EmitPushNumber(random_int);
+        sb.Emit(ThinNeo.OpCode.DROP);
+        //塞值
         sb.EmitParamJson([ "(address)" + address, "(address)" + tatgeraddr, "(integer)" + intv ]);//第二个参数是个数组
-        sb.EmitPushString("transfer");//第一个参数
-        sb.EmitAppCall(scriptaddress);  //资产合约
+        sb.EmitPushString("transfer");
+        sb.EmitAppCall(scriptaddress);
         var result = await CoinTool.contractInvokeTrans_attributes(sb.ToArray())
         return result;
     }
