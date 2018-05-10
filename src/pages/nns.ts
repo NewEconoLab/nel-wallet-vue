@@ -31,6 +31,7 @@ export default class Nnsmanage extends Vue
     alert_domainmsg: Domainmsg;
     alert_resolver_disable: boolean;
     alert_mapping_disable: boolean;
+    alert_resolver_state: number;
     alert_config_state: number;
     btn_register: boolean;
 
@@ -49,6 +50,7 @@ export default class Nnsmanage extends Vue
         this.alert_resolver_disable = false;
         this.alert_mapping_disable = false;
         this.alert_config_state = 0;
+        this.alert_resolver_state = 0;
         this.domainarr = new Array<Domainmsg>();
         Neo.Cryptography.RandomNumberGenerator.startCollectors();
     }
@@ -171,7 +173,8 @@ export default class Nnsmanage extends Vue
     async resolve(msg)
     {
         this.alert_domainmsg = msg;
-        if (this.alert_domainmsg.resolver) { this.alert_resolver_disable = true }
+        if (this.alert_domainmsg.resolver) { this.alert_resolver_disable = true; this.alert_resolver_state = 0 }
+        else { this.alert_resolver_disable = false }
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
         this.alert_addr = this.alert_domainmsg.mapping;
@@ -186,8 +189,7 @@ export default class Nnsmanage extends Vue
         let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         let contract = this.alert_contract.hexToBytes().reverse();
         let res = await NNSTool.setResolve(nnshash, contract);
-        let height = await WWW.api_getHeight();
-        StorageTool.setStorage("current-height", height.toString());
+        this.alert_resolver_state = 1;
         await this.awaitHeight("resolve");
     }
 
@@ -210,14 +212,15 @@ export default class Nnsmanage extends Vue
         if (oldheight < currentheight)
         {
             if (type == "resolve")
-                this.alert_resolver_disable = true;
+                this.alert_resolver_state = 2;
             if (type == "setResolve")
                 this.alert_config_state = 2;
             if (type == "register")
             {
                 this.btn_register = true;
-                this.getDomainsByAddr()
+                this.getDomainsByAddr();
             }
+            sessionStorage.removeItem("current-height");
             return;
 
         }

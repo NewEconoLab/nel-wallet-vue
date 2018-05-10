@@ -48,11 +48,14 @@
         <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
         <div class="input-warp">
           <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
-          <div class="btn-verify-warp" v-if="alert_resolve">
-            <button class="btn-nel btn-verify btn-disabled" v-if="alert_resolver_disable">Confirm</button>
-            <button class="btn-nel btn-verify " v-else @click="setresolve()">Confirm</button>
+          <div class="btn-verify-warp" v-if="alert_resolver_disable">
+            <button class="btn-nel btn-verify btn-disabled">Confirm</button>
           </div>
-          <spinner-wrap v-else style="margin-left:20px"></spinner-wrap>
+          <div v-else class="btn-verify-warp">
+            <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">Confirm</button>
+            <spinner-wrap v-if="alert_resolver_state==1"></spinner-wrap>
+            <span v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
+          </div>
           <!-- <div v-else class="icon-verify"></div> -->
         </div>
       </div>
