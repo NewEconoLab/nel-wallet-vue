@@ -91,7 +91,6 @@ export default class balance extends Vue
 
   async toClaimGas()
   {
-    this.$refs[ "spinner" ][ "isbig" ] = false;
     if (Neo.Fixed8.parse(this.neoasset.claim).compareTo(Neo.Fixed8.Zero) > 0)
     {
       if (this.neoasset.neo > 0)

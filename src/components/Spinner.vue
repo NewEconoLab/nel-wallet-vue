@@ -23,18 +23,18 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: {}
 })
 export default class Spinner extends Vue {
-  isbig = true;
+  @Prop({ default: true })
+  isbig: boolean;
+
   constructor() {
     super();
   }
-
   mounted() {}
 }
 </script>

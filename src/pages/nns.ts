@@ -97,6 +97,7 @@ export default class Nnsmanage extends Vue
 
     async nnsRegister()
     {
+        this.verifyDomain();
         if (!this.domainerr)
         {
             try

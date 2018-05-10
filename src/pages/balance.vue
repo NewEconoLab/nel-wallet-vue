@@ -22,7 +22,7 @@
             <span style="margin-right: 17px;">GAS available to claim : {{neoasset.claim}}</span>
             <button class="btn btn-nel" v-if="neoasset.claim!='0'&&claimbtn" @click="toClaimGas">Claim</button>
             <span v-if="!claimbtn">
-              <spinner-wrap ref="spinner"></spinner-wrap>
+              <spinner-wrap :isbig="false"></spinner-wrap>
             </span>
             <span class="loadmsg">&nbsp;{{loadmsg}}</span>
           </div>
