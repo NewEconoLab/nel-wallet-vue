@@ -31,6 +31,7 @@ export default class Nnsmanage extends Vue
     alert_domainmsg: Domainmsg;
     alert_resolver_disable: boolean;
     alert_mapping_disable: boolean;
+    alert_config_state: number;
     btn_register: boolean;
 
     constructor() 
@@ -47,6 +48,7 @@ export default class Nnsmanage extends Vue
         this.alert_resolve = true;
         this.alert_resolver_disable = false;
         this.alert_mapping_disable = false;
+        this.alert_config_state = 0;
         this.domainarr = new Array<Domainmsg>();
         Neo.Cryptography.RandomNumberGenerator.startCollectors();
     }
@@ -195,23 +197,28 @@ export default class Nnsmanage extends Vue
         let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         // this.alert_addr = this.alert_addr ? this.alert_addr : LoginInfo.getCurrentAddress();
         let res = await NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
+        this.alert_config_state = 1;
+        await this.awaitHeight("setResolve");
     }
 
     async awaitHeight(type: string)
     {
-        let oldheight = parseInt(StorageTool.getStorage("current-height"));
+        let str = StorageTool.getStorage("current-height");
         let currentheight = await WWW.api_getHeight();
+        let oldheight = currentheight;
+        str ? oldheight = parseInt(str) : StorageTool.setStorage("current-height", currentheight + "");
         if (oldheight < currentheight)
         {
             if (type == "resolve")
-                this.alert_resolve = true;
+                this.alert_resolver_disable = true;
+            if (type == "setResolve")
+                this.alert_config_state = 2;
             if (type == "register")
             {
                 this.btn_register = true;
                 this.getDomainsByAddr()
             }
             return;
-
 
         }
         await setTimeout(() =>

@@ -63,7 +63,9 @@
           <input type="text" v-model="alert_addr" class="input-ico ">
           <div class="icon-verify" style="display:none;"></div>
           <div class="btn-verify-warp">
-            <button class="btn-nel btn-verify" @click="configResolve()">Confirm</button>
+            <span v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
+            <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">Confirm</button>
+            <spinner-wrap v-if="alert_config_state==1"></spinner-wrap>
           </div>
         </div>
       </div>

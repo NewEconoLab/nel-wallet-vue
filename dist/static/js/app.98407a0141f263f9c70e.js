@@ -60,6 +60,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "2V9Y":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "2xXY":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1339,14 +1346,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var nns = __webpack_require__("cfoD");
 var nns_default = /*#__PURE__*/__webpack_require__.n(nns);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1a8c6bec","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:_vm.domainerr?'input-err':'input-success'},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('span',[_vm._v(_vm._s(_vm.network))])])]),_vm._v(" "),(_vm.btn_register)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]):_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"50px"}},[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])],1),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v("My Neo Name")])]),_vm._v(" "),_vm._l((_vm.domainarr),function(domain){return _c('div',{key:domain.index,staticClass:"form-inline"},[_c('span',{staticClass:"domainname"},[_vm._v("\n        "+_vm._s(domain.domainname)+"\n      ")]),_vm._v(" "),_c('br'),_vm._v(" "),(!domain.resolver&&domain.resolver=='')?_c('span',{staticClass:"msg-null"},[_vm._v("\n        ( not configured )\n      ")]):_vm._e(),_vm._v(" "),(domain.resolver)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Resolver : "+_vm._s(domain.resolver)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),(domain.mapping)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Mapping : "+_vm._s(domain.mapping)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),_c('span',{staticClass:"msg-resolver"},[_vm._v("( Expiration Time : "+_vm._s(domain.time)+")")]),_vm._v(" "),_c('span',{staticClass:"domainname"}),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",staticStyle:{"float":"right","margin-right":"50px"},on:{"click":function($event){_vm.resolve(domain)}}},[_vm._v("Edit")])])})],2),_vm._v(" "),_c('v-alert',{ref:"alert"},[_c('div',{staticClass:"content content-file"},[_c('span',{staticClass:"content-des"},[_vm._v("Neo Name : "+_vm._s(_vm.alert_domain))]),_vm._v(" "),_c('span',{staticClass:"content-msg"})]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Resolver : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg warning-msg"},[_vm._v("( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )")]),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text","disabled":"disable"},domProps:{"value":_vm.alert_contract}}),_vm._v(" "),(_vm.alert_resolve)?_c('div',{staticClass:"btn-verify-warp"},[(_vm.alert_resolver_disable)?_c('button',{staticClass:"btn-nel btn-verify btn-disabled"},[_vm._v("Confirm")]):_c('button',{staticClass:"btn-nel btn-verify ",on:{"click":function($event){_vm.setresolve()}}},[_vm._v("Confirm")])]):_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}})],1)]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Mapping : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg"}),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_addr),expression:"alert_addr"}],staticClass:"input-ico ",attrs:{"type":"text"},domProps:{"value":(_vm.alert_addr)},on:{"input":function($event){if($event.target.composing){ return; }_vm.alert_addr=$event.target.value}}}),_vm._v(" "),_c('div',{staticClass:"icon-verify",staticStyle:{"display":"none"}}),_vm._v(" "),_c('div',{staticClass:"btn-verify-warp"},[_c('button',{staticClass:"btn-nel btn-verify",on:{"click":function($event){_vm.configResolve()}}},[_vm._v("Confirm")])])])])])],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-5ab73748","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/nns.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Register Neo Name")])]),_vm._v(" "),_c('div',{staticClass:"form-inline"},[_c('div',{staticClass:"input-group nns-register",class:_vm.domainerr?'input-err':'input-success'},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nnsstr),expression:"nnsstr"}],staticClass:"nel",attrs:{"type":"text","placeholder":"type a name"},domProps:{"value":(_vm.nnsstr)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.nnsstr=$event.target.value},_vm.verifyDomain]}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon nel "},[_c('span',[_vm._v(_vm._s(_vm.network))])])]),_vm._v(" "),(_vm.btn_register)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.nnsRegister}},[_vm._v("Register")]):_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"50px"}},[_c('span',[_vm._v(_vm._s(_vm.errmsg))])])],1),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v("My Neo Name")])]),_vm._v(" "),_vm._l((_vm.domainarr),function(domain){return _c('div',{key:domain.index,staticClass:"form-inline"},[_c('span',{staticClass:"domainname"},[_vm._v("\n        "+_vm._s(domain.domainname)+"\n      ")]),_vm._v(" "),_c('br'),_vm._v(" "),(!domain.resolver&&domain.resolver=='')?_c('span',{staticClass:"msg-null"},[_vm._v("\n        ( not configured )\n      ")]):_vm._e(),_vm._v(" "),(domain.resolver)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Resolver : "+_vm._s(domain.resolver)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),(domain.mapping)?_c('span',{staticClass:"msg-resolver"},[_vm._v("( Adress Mapping : "+_vm._s(domain.mapping)+")")]):_vm._e(),_vm._v(" "),_c('br'),_vm._v(" "),_c('span',{staticClass:"msg-resolver"},[_vm._v("( Expiration Time : "+_vm._s(domain.time)+")")]),_vm._v(" "),_c('span',{staticClass:"domainname"}),_vm._v(" "),_c('button',{staticClass:"btn btn-nel",staticStyle:{"float":"right","margin-right":"50px"},on:{"click":function($event){_vm.resolve(domain)}}},[_vm._v("Edit")])])})],2),_vm._v(" "),_c('v-alert',{ref:"alert"},[_c('div',{staticClass:"content content-file"},[_c('span',{staticClass:"content-des"},[_vm._v("Neo Name : "+_vm._s(_vm.alert_domain))]),_vm._v(" "),_c('span',{staticClass:"content-msg"})]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Resolver : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg warning-msg"},[_vm._v("( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )")]),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{staticClass:"input-ico input-disabled",attrs:{"type":"text","disabled":"disable"},domProps:{"value":_vm.alert_contract}}),_vm._v(" "),(_vm.alert_resolve)?_c('div',{staticClass:"btn-verify-warp"},[(_vm.alert_resolver_disable)?_c('button',{staticClass:"btn-nel btn-verify btn-disabled"},[_vm._v("Confirm")]):_c('button',{staticClass:"btn-nel btn-verify ",on:{"click":function($event){_vm.setresolve()}}},[_vm._v("Confirm")])]):_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}})],1)]),_vm._v(" "),_c('div',{staticClass:"content content-verify"},[_c('span',{staticClass:"content-des"},[_vm._v("Adress Mapping : ")]),_vm._v(" "),_c('span',{staticClass:"content-msg"}),_vm._v(" "),_c('div',{staticClass:"input-warp"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_addr),expression:"alert_addr"}],staticClass:"input-ico ",attrs:{"type":"text"},domProps:{"value":(_vm.alert_addr)},on:{"input":function($event){if($event.target.composing){ return; }_vm.alert_addr=$event.target.value}}}),_vm._v(" "),_c('div',{staticClass:"icon-verify",staticStyle:{"display":"none"}}),_vm._v(" "),_c('div',{staticClass:"btn-verify-warp"},[(_vm.alert_config_state==2)?_c('span',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e(),_vm._v(" "),(_vm.alert_config_state==0)?_c('button',{staticClass:"btn-nel btn-verify",on:{"click":function($event){_vm.configResolve()}}},[_vm._v("Confirm")]):_vm._e(),_vm._v(" "),(_vm.alert_config_state==1)?_c('spinner-wrap'):_vm._e()],1)])])])],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_nns = (esExports);
 // CONCATENATED MODULE: ./src/pages/nns.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("WEtW")
+  __webpack_require__("2V9Y")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1357,7 +1364,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-1a8c6bec"
+var __vue_scopeId__ = "data-v-5ab73748"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -2252,13 +2259,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "WEtW":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "YRcM":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3002,6 +3002,7 @@ var Nnsmanage = /** @class */ (function (_super) {
         _this.alert_resolve = true;
         _this.alert_resolver_disable = false;
         _this.alert_mapping_disable = false;
+        _this.alert_config_state = 0;
         _this.domainarr = new Array();
         Neo.Cryptography.RandomNumberGenerator.startCollectors();
         return _this;
@@ -3212,6 +3213,10 @@ var Nnsmanage = /** @class */ (function (_super) {
                         return [4 /*yield*/, nnstool_1.NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver)];
                     case 1:
                         res = _a.sent();
+                        this.alert_config_state = 1;
+                        return [4 /*yield*/, this.awaitHeight("setResolve")];
+                    case 2:
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -3220,17 +3225,21 @@ var Nnsmanage = /** @class */ (function (_super) {
     Nnsmanage.prototype.awaitHeight = function (type) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var oldheight, currentheight;
+            var str, currentheight, oldheight;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        oldheight = parseInt(storagetool_1.StorageTool.getStorage("current-height"));
+                        str = storagetool_1.StorageTool.getStorage("current-height");
                         return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
                     case 1:
                         currentheight = _a.sent();
+                        oldheight = currentheight;
+                        str ? oldheight = parseInt(str) : storagetool_1.StorageTool.setStorage("current-height", currentheight + "");
                         if (oldheight < currentheight) {
                             if (type == "resolve")
-                                this.alert_resolve = true;
+                                this.alert_resolver_disable = true;
+                            if (type == "setResolve")
+                                this.alert_config_state = 2;
                             if (type == "register") {
                                 this.btn_register = true;
                                 this.getDomainsByAddr();
@@ -3532,6 +3541,7 @@ var transfer = /** @class */ (function (_super) {
                         num = parseFloat(this.balance.balance + "");
                         bear = num - parseFloat(this.amount);
                         this.balance.balance = bear;
+                        this.amount = "";
                         return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
                     case 2:
                         height = _a.sent();
@@ -3559,7 +3569,7 @@ var transfer = /** @class */ (function (_super) {
                         this.txs = [his].concat(this.txs);
                         num = parseFloat(this.balance.balance + "");
                         bear = num - parseFloat(this.amount);
-                        console.log(bear);
+                        this.amount = "";
                         this.balance.balance = bear;
                         return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
                     case 7:

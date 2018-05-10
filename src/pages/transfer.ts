@@ -145,6 +145,7 @@ export default class transfer extends Vue
                         let num = parseFloat(this.balance.balance + "");
                         let bear = num - parseFloat(this.amount);
                         this.balance.balance = bear;
+                        this.amount = "";
                         var height = await WWW.api_getHeight();
                         BalanceInfo.setBalanceSotre(this.balance, height);
                         History.setHistoryStore(his, height);
@@ -170,7 +171,7 @@ export default class transfer extends Vue
                     this.txs = [ his ].concat(this.txs);
                     let num = parseFloat(this.balance.balance + "");
                     let bear = num - parseFloat(this.amount);
-                    console.log(bear);
+                    this.amount = "";
                     this.balance.balance = bear;
                     var height = await WWW.api_getHeight();
                     BalanceInfo.setBalanceSotre(this.balance, height);
