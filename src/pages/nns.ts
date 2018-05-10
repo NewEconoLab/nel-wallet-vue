@@ -48,12 +48,16 @@ export default class Nnsmanage extends Vue
         this.alert_resolver_disable = false;
         this.alert_mapping_disable = false;
         this.domainarr = new Array<Domainmsg>();
+        Neo.Cryptography.RandomNumberGenerator.startCollectors();
     }
 
     async mounted()
     {
         await NNSTool.initRootDomain()
         this.getDomainsByAddr();
+        // this.$refs[ "wrap" ][ "isbig" ] = true;
+        // this.$refs[ "wrap-register" ][ "isbig" ] = true;
+        // console.log()
     }
 
     async verifyDomain()
@@ -127,6 +131,7 @@ export default class Nnsmanage extends Vue
     async getDomainsByAddr()
     {
         let res = await WWW.getnnsinfo(LoginInfo.getCurrentAddress());
+        this.domainarr = new Array<Domainmsg>();
         for (const i in res)
         {
             if (res.hasOwnProperty(i))
@@ -205,6 +210,8 @@ export default class Nnsmanage extends Vue
                 this.getDomainsByAddr()
             }
             return;
+
+
         }
         await setTimeout(() =>
         {

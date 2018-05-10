@@ -62,11 +62,17 @@ export class NNSTool
         var address = LoginInfo.getCurrentAddress();
         var sb = new ThinNeo.ScriptBuilder();
         var scriptaddress = NNSTool.root_test.register;
+        //生成随机数
+        let random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues<Uint8Array>(new Uint8Array(32));
+        let random_int = Neo.BigInteger.fromUint8Array(random_uint8);
+        //塞入随机数
+        sb.EmitPushNumber(random_int);
+        sb.Emit(ThinNeo.OpCode.DROP);
         sb.EmitParamJson([ "(addr)" + address, "(bytes)" + nnshash.toHexString(), "(str)" + doamin ]);//第二个参数是个数组
         sb.EmitPushString("requestSubDomain");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
-        var res = await CoinTool.contractInvokeTrans(data);
+        var res = await CoinTool.contractInvokeTrans_attributes(data);
         if (!res.err)
         {
             // WWW.setnnsinfo(address,doamin,);

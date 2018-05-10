@@ -1,38 +1,40 @@
 <template>
-    <div class="spinner-wrap" :class="isbig?'spinner-big':''">
-        <div class="spinner">
-            <div class="spinner-container container1">
-                <div class="circle1"></div>
-                <div class="circle2"></div>
-                <div class="circle3"></div>
-                <div class="circle4"></div>
-            </div>
-            <div class="spinner-container container2">
-                <div class="circle1"></div>
-                <div class="circle2"></div>
-                <div class="circle3"></div>
-                <div class="circle4"></div>
-            </div>
-            <div class="spinner-container container3">
-                <div class="circle1"></div>
-                <div class="circle2"></div>
-                <div class="circle3"></div>
-                <div class="circle4"></div>
-            </div>
-        </div>
+  <div class="spinner-wrap" :class="isbig?'spinner-big':''">
+    <div class="spinner">
+      <div class="spinner-container container1">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+      </div>
+      <div class="spinner-container container2">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+      </div>
+      <div class="spinner-container container3">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+      </div>
     </div>
+  </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
 
-@Component({})
+@Component({
+  components: {}
+})
 export default class Spinner extends Vue {
+  isbig = true;
   constructor() {
     super();
   }
 
-  isbig = false;
   mounted() {}
 }
 </script>

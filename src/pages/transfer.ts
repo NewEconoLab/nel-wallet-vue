@@ -56,7 +56,7 @@ export default class transfer extends Vue
             n = n < 0 ? 0 : n;
             this.balance = this.balances[ n ];
             this.history();
-            this.awaitHeight();
+            // this.awaitHeight();
         }
     }
 
@@ -339,12 +339,14 @@ export default class transfer extends Vue
         str ? oldheight = parseInt(str) : StorageTool.setStorage("current-height", currentheight + "");
         if (currentheight - oldheight >= 2)
         {
-            await this.history()
+            await this.history();
+            sessionStorage.removeItem("current-height");
+            return;
         }
         setTimeout(() =>
         {
             this.awaitHeight();
-        }, 15000);
+        }, 5000);
     }
 
 }
