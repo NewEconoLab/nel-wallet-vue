@@ -175,6 +175,7 @@ export default class Nnsmanage extends Vue
         this.alert_domainmsg = msg;
         if (this.alert_domainmsg.resolver) { this.alert_resolver_disable = true; this.alert_resolver_state = 0 }
         else { this.alert_resolver_disable = false }
+        this.alert_config_state = 0;
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
         this.alert_addr = this.alert_domainmsg.mapping;
@@ -212,22 +213,29 @@ export default class Nnsmanage extends Vue
         if (oldheight < currentheight)
         {
             if (type == "resolve")
+            {
                 this.alert_resolver_state = 2;
+                this.getDomainsByAddr();
+            }
             if (type == "setResolve")
+            {
                 this.alert_config_state = 2;
+                this.getDomainsByAddr();
+            }
             if (type == "register")
             {
                 this.btn_register = true;
                 this.getDomainsByAddr();
             }
             sessionStorage.removeItem("current-height");
+
             return;
 
         }
         await setTimeout(() =>
         {
             this.awaitHeight(type);
-        }, 15000);
+        }, 5000);
     }
 
 }

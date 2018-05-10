@@ -3163,6 +3163,7 @@ var Nnsmanage = /** @class */ (function (_super) {
                         else {
                             this.alert_resolver_disable = false;
                         }
+                        this.alert_config_state = 0;
                         name = this.alert_domainmsg.domainname;
                         this.alert_domain = name;
                         this.alert_addr = this.alert_domainmsg.mapping;
@@ -3231,10 +3232,14 @@ var Nnsmanage = /** @class */ (function (_super) {
                         oldheight = currentheight;
                         str ? oldheight = parseInt(str) : storagetool_1.StorageTool.setStorage("current-height", currentheight + "");
                         if (oldheight < currentheight) {
-                            if (type == "resolve")
+                            if (type == "resolve") {
                                 this.alert_resolver_state = 2;
-                            if (type == "setResolve")
+                                this.getDomainsByAddr();
+                            }
+                            if (type == "setResolve") {
                                 this.alert_config_state = 2;
+                                this.getDomainsByAddr();
+                            }
                             if (type == "register") {
                                 this.btn_register = true;
                                 this.getDomainsByAddr();
@@ -3244,7 +3249,7 @@ var Nnsmanage = /** @class */ (function (_super) {
                         }
                         return [4 /*yield*/, setTimeout(function () {
                                 _this.awaitHeight(type);
-                            }, 15000)];
+                            }, 5000)];
                     case 2:
                         _a.sent();
                         return [2 /*return*/];
