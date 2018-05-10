@@ -10,14 +10,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var Spinner = __webpack_require__("8Qnm");
 var Spinner_default = /*#__PURE__*/__webpack_require__.n(Spinner);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-29aeb9e9","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Spinner.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-6ea9bb36","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Spinner.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner-wrap",class:_vm.isbig?'spinner-big':''},[_vm._m(0,false,false)])}
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner"},[_c('div',{staticClass:"spinner-container container1"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container2"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container3"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})])])}]
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_Spinner = (esExports);
 // CONCATENATED MODULE: ./src/components/Spinner.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("ppRR")
+  __webpack_require__("z7mJ")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -29,7 +29,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-29aeb9e9"
+var __vue_scopeId__ = "data-v-6ea9bb36"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -168,7 +168,7 @@ var balance = /** @class */ (function (_super) {
     balance.prototype.getBalances = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var balances, clamis, clamis2, nep5balances, sum1, sum2, sum, _a;
+            var balances, clamis, clamis2, nep5balances, height, sum1, sum2, sum, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -185,6 +185,9 @@ var balance = /** @class */ (function (_super) {
                         return [4 /*yield*/, wwwtool_1.WWW.api_getnep5Balance(this.currentAddress)];
                     case 4:
                         nep5balances = _b.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 5:
+                        height = _b.sent();
                         this.neoasset.neo = 0;
                         this.neoasset.gas = 0;
                         if (balances) {
@@ -203,8 +206,8 @@ var balance = /** @class */ (function (_super) {
                             }
                         });
                         _a = this;
-                        return [4 /*yield*/, entity_1.BalanceInfo.getBalancesByArr(balances, nep5balances)];
-                    case 5:
+                        return [4 /*yield*/, entity_1.BalanceInfo.getBalancesByArr(balances, nep5balances, height)];
+                    case 6:
                         _a.balances = _b.sent();
                         storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
                         return [2 /*return*/];
@@ -805,8 +808,22 @@ var WWW = /** @class */ (function () {
     };
     WWW.delnnsinfo = function (domain) {
         return __awaiter(this, void 0, void 0, function () {
+            var str, result, json, r;
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        str = WWW.makeRpcUrl(WWW.apiaggr, "delnnsinfo", domain);
+                        return [4 /*yield*/, fetch(str, { "method": "get" })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        if (json["result"] == null)
+                            return [2 /*return*/, null];
+                        r = json["result"][0]["result"];
+                        return [2 /*return*/, r];
+                }
             });
         });
     };
@@ -879,6 +896,9 @@ var StorageTool = /** @class */ (function () {
     };
     StorageTool.getStorage = function (key) {
         return sessionStorage.getItem(key);
+    };
+    StorageTool.delStorage = function (key) {
+        sessionStorage.removeItem(key);
     };
     StorageTool.heightRefresh = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -1011,10 +1031,18 @@ var BalanceInfo = /** @class */ (function () {
         }
         return arr;
     };
-    BalanceInfo.getBalancesByArr = function (balances, nep5balances) {
+    BalanceInfo.getBalancesByArr = function (balances, nep5balances, height) {
         var balancearr = [];
         if (balances) {
-            balances.map(function (item) { return item.names = cointool_1.CoinTool.assetID2name[item.asset]; }); //将列表的余额资产名称赋值
+            balances.map(function (item) {
+                item.names = cointool_1.CoinTool.assetID2name[item.asset];
+                var a = storagetool_1.StorageTool.getStorage(item.asset);
+                if (a) {
+                    var obj = JSON.parse(a);
+                    var h = obj["height"];
+                    height - h > 1 ? storagetool_1.StorageTool.delStorage(item.asset) : item.balance = obj["balance"]["balance"];
+                }
+            }); //将列表的余额资产名称赋值
             balancearr = balances; //塞入页面modual
         }
         if (nep5balances) {
@@ -1031,6 +1059,10 @@ var BalanceInfo = /** @class */ (function () {
             }
         }
         return balancearr;
+    };
+    BalanceInfo.setBalanceSotre = function (balance, height) {
+        storagetool_1.StorageTool.setStorage(balance.asset, JSON.stringify({ height: height, balance: balance }));
+        console.log(storagetool_1.StorageTool.getStorage(balance.asset));
     };
     return BalanceInfo;
 }());
@@ -1167,6 +1199,29 @@ exports.Transactionforaddr = Transactionforaddr;
 var History = /** @class */ (function () {
     function History() {
     }
+    History.setHistoryStore = function (history, height) {
+        var arr = this.getHistoryStore();
+        arr.push({ height: height, history: history });
+        storagetool_1.StorageTool.setStorage("history-txs", JSON.stringify(arr));
+    };
+    History.getHistoryStore = function () {
+        var str = storagetool_1.StorageTool.getStorage("history-txs");
+        var arr = !!str ? JSON.parse(str) : [];
+        return arr;
+    };
+    History.delHistoryStoreByHeight = function (height) {
+        var arr = this.getHistoryStore();
+        if (arr.length > 0) {
+            var newarr_1 = [];
+            arr.map(function (his) {
+                var h = parseInt(his.height);
+                if (height - h < 2) {
+                    newarr_1.push(his);
+                }
+            });
+            storagetool_1.StorageTool.setStorage("history-txs", JSON.stringify(newarr_1));
+        }
+    };
     return History;
 }());
 exports.History = History;
@@ -1242,7 +1297,7 @@ var Spinner = /** @class */ (function (_super) {
     __extends(Spinner, _super);
     function Spinner() {
         var _this = _super.call(this) || this;
-        _this.isbig = true;
+        _this.isbig = false;
         return _this;
     }
     Spinner.prototype.mounted = function () { };
@@ -1905,14 +1960,11 @@ var neotools = /** @class */ (function () {
      */
     neotools.verifyPublicKey = function (publicKey) {
         var array = Neo.Cryptography.Base58.decode(publicKey);
-        //var hexstr = array.toHexString();
-        //var salt = array.subarray(0, 1);
-        //var hash = array.subarray(1, 1 + 20);
         var check = array.subarray(21, 21 + 4); //
         var checkdata = array.subarray(0, 21); //
         var hashd = Neo.Cryptography.Sha256.computeHash(checkdata); //
         hashd = Neo.Cryptography.Sha256.computeHash(hashd); //
-        var hashd = hashd.slice(0, 4); //
+        var hashd = hashd.slice(0, 4); //    
         var checked = new Uint8Array(hashd); //
         var error = false;
         for (var i = 0; i < 4; i++) {
@@ -2790,11 +2842,11 @@ var NNSTool = /** @class */ (function () {
             });
         });
     };
-    //#region 域名转hash算法
-    //域名转hash算法
-    //aaa.bb.test =>{"test","bb","aa"}
     /**
      * 域名转hash
+     * #region 域名转hash算法
+     * 域名转hash算法
+     * aaa.bb.test =>{"test","bb","aa"}
      * @param domain 域名
      */
     NNSTool.nameHash = function (domain) {
@@ -2980,10 +3032,10 @@ var Nnsmanage = /** @class */ (function (_super) {
                             // let copare: number = new Neo.BigInteger(timestamp).compareTo(doamininfo.ttl.multiply(1000));
                             if (copare < 0) {
                                 // console.log('域名已到期');
+                                this.domainerr = true;
                             }
                             else {
-                                this.domainerr = true;
-                                mui.toast("The current domain name is registered : ");
+                                // mui.toast("The current domain name is registered : ");
                             }
                         }
                         else {
@@ -2998,31 +3050,43 @@ var Nnsmanage = /** @class */ (function (_super) {
     };
     Nnsmanage.prototype.nnsRegister = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, res_1, height;
+            var res, delres, res_1, height, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!!this.domainerr) return [3 /*break*/, 6];
-                        return [4 /*yield*/, nnstool_1.NNSTool.registerDomain(this.nnsstr)];
+                        if (!!this.domainerr) return [3 /*break*/, 10];
+                        _a.label = 1;
                     case 1:
+                        _a.trys.push([1, 9, , 10]);
+                        return [4 /*yield*/, nnstool_1.NNSTool.registerDomain(this.nnsstr)];
+                    case 2:
                         res = _a.sent();
-                        if (!res.err) return [3 /*break*/, 2];
+                        if (!res.err) return [3 /*break*/, 3];
                         console.error(res.info);
-                        return [3 /*break*/, 6];
-                    case 2: return [4 /*yield*/, wwwtool_1.WWW.setnnsinfo(entity_1.LoginInfo.getCurrentAddress(), this.nnsstr + ".test", 0)];
-                    case 3:
-                        res_1 = _a.sent();
-                        if (!(res_1 == "suc")) return [3 /*break*/, 6];
-                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                        return [3 /*break*/, 8];
+                    case 3: return [4 /*yield*/, wwwtool_1.WWW.delnnsinfo(this.nnsstr + ".test")];
                     case 4:
+                        delres = _a.sent();
+                        if (!(delres == "suc")) return [3 /*break*/, 8];
+                        return [4 /*yield*/, wwwtool_1.WWW.setnnsinfo(entity_1.LoginInfo.getCurrentAddress(), this.nnsstr + ".test", 0)];
+                    case 5:
+                        res_1 = _a.sent();
+                        if (!(res_1 == "suc")) return [3 /*break*/, 8];
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 6:
                         height = _a.sent();
                         storagetool_1.StorageTool.setStorage("current-height", height.toString());
                         this.btn_register = false;
                         return [4 /*yield*/, this.awaitHeight("register")];
-                    case 5:
+                    case 7:
                         _a.sent();
-                        _a.label = 6;
-                    case 6: return [2 /*return*/];
+                        _a.label = 8;
+                    case 8: return [3 /*break*/, 10];
+                    case 9:
+                        error_1 = _a.sent();
+                        mui.alert(error_1.message);
+                        return [3 /*break*/, 10];
+                    case 10: return [2 /*return*/];
                 }
             });
         });
@@ -3092,9 +3156,6 @@ var Nnsmanage = /** @class */ (function (_super) {
                         name = this.alert_domainmsg.domainname;
                         this.alert_domain = name;
                         this.alert_addr = this.alert_domainmsg.mapping;
-                        // this.$refs[ "alert" ][ "domainname" ] = domain;
-                        // this.$refs[ "alert" ][ "contractaddr" ] = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
-                        // this.$refs[ "alert" ][ "address" ] = LoginInfo.getCurrentAddress();
                         this.$refs["alert"]["show"] = true;
                         return [4 /*yield*/, this.awaitHeight("resolve")];
                     case 1:
@@ -3159,8 +3220,10 @@ var Nnsmanage = /** @class */ (function (_super) {
                         if (oldheight < currentheight) {
                             if (type == "resolve")
                                 this.alert_resolve = true;
-                            if (type == "register")
+                            if (type == "register") {
                                 this.btn_register = true;
+                                this.getDomainsByAddr();
+                            }
                             return [2 /*return*/];
                         }
                         return [4 /*yield*/, setTimeout(function () {
@@ -3322,6 +3385,7 @@ var transfer = /** @class */ (function (_super) {
         _this.amount = "";
         _this.asset = "";
         _this.txpage = 1;
+        Neo.Cryptography.RandomNumberGenerator.startCollectors();
         return _this;
     }
     transfer.prototype.mounted = function () {
@@ -3334,8 +3398,10 @@ var transfer = /** @class */ (function (_super) {
             var choose = storagetool_1.StorageTool.getStorage("transfer_choose");
             this.asset = (choose == null ? this.balances[0].asset : choose);
             var n = this.balances.findIndex(function (b) { return b.asset == _this.asset; });
+            n = n < 0 ? 0 : n;
             this.balance = this.balances[n];
             this.history();
+            this.awaitHeight();
         }
     };
     transfer.prototype.cutPage = function (btn) {
@@ -3352,7 +3418,7 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.updateBalances = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var currcountAddr, balances, nep5balances;
+            var currcountAddr, balances, nep5balances, height;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3363,7 +3429,10 @@ var transfer = /** @class */ (function (_super) {
                         return [4 /*yield*/, wwwtool_1.WWW.api_getnep5Balance(currcountAddr)];
                     case 2:
                         nep5balances = _a.sent();
-                        this.balances = entity_1.BalanceInfo.getBalancesByArr(balances, nep5balances);
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 3:
+                        height = _a.sent();
+                        this.balances = entity_1.BalanceInfo.getBalancesByArr(balances, nep5balances, height);
                         storagetool_1.StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
                         return [2 /*return*/];
                 }
@@ -3420,21 +3489,44 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.send = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, res, his, num, bear, error_1;
+            var res, his, num, bear, height, res, his, num, bear, height, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 5, , 6]);
-                        if (!(this.verify_addr() && this.verify_Amount())) return [3 /*break*/, 4];
-                        if (!(!!this.balance["type"] && this.balance.type == "nep5")) return [3 /*break*/, 2];
+                        _a.trys.push([0, 9, , 10]);
+                        if (!(this.verify_addr() && this.verify_Amount())) return [3 /*break*/, 8];
+                        if (!(!!this.balance["type"] && this.balance.type == "nep5")) return [3 /*break*/, 5];
                         return [4 /*yield*/, cointool_1.CoinTool.nep5Transaction(entity_1.LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount)];
                     case 1:
                         res = _a.sent();
-                        if (!res["err"])
-                            mui.toast("Your transaction has been sent, please check it later");
+                        if (!!res["err"]) return [3 /*break*/, 3];
+                        mui.toast("Your transaction has been sent, please check it later");
+                        his = new entity_1.History();
+                        his.address = this.toaddress;
+                        his.asset = this.asset;
+                        his.value = this.amount;
+                        his.txtype = "in";
+                        his["waiting"] = true;
+                        his.time = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
+                        his.assetname = this.balance.names;
+                        his.txid = res.info;
+                        this.txs = [his].concat(this.txs);
+                        num = parseFloat(this.balance.balance + "");
+                        bear = num - parseFloat(this.amount);
+                        this.balance.balance = bear;
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 2:
+                        height = _a.sent();
+                        entity_1.BalanceInfo.setBalanceSotre(this.balance, height);
+                        entity_1.History.setHistoryStore(his, height);
+                        storagetool_1.StorageTool.setStorage("current-height", height + "");
                         return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.toaddress, this.asset, this.amount)];
                     case 3:
+                        mui.alert("Transaction failure");
+                        _a.label = 4;
+                    case 4: return [3 /*break*/, 8];
+                    case 5: return [4 /*yield*/, cointool_1.CoinTool.rawTransaction(this.toaddress, this.asset, this.amount)];
+                    case 6:
                         res = _a.sent();
                         mui.toast(res.info);
                         his = new entity_1.History();
@@ -3451,20 +3543,27 @@ var transfer = /** @class */ (function (_super) {
                         bear = num - parseFloat(this.amount);
                         console.log(bear);
                         this.balance.balance = bear;
-                        _a.label = 4;
-                    case 4: return [3 /*break*/, 6];
-                    case 5:
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 7:
+                        height = _a.sent();
+                        entity_1.BalanceInfo.setBalanceSotre(this.balance, height);
+                        entity_1.History.setHistoryStore(his, height);
+                        storagetool_1.StorageTool.setStorage("current-height", height + "");
+                        _a.label = 8;
+                    case 8: return [3 /*break*/, 10];
+                    case 9:
                         error_1 = _a.sent();
                         mui.alert("-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction ");
-                        return [3 /*break*/, 6];
-                    case 6: return [2 /*return*/];
+                        return [3 /*break*/, 10];
+                    case 10: return [2 /*return*/];
                 }
             });
         });
     };
     transfer.prototype.history = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var currentAddress, res, index, tx, txid, vins, type, vouts, value, txtype, assetType, blockindex, time, date, assetname, vin, asset, amount, address, nep5, history, arr, currcount, _a, _b, _i, index_1, i, out, address, amount, asset, assetname, nep5, n, assets, _c, _d, _e, asset, amount, assetname, nep5, assets, address, data, asset, amount, history;
+            var _this = this;
+            var currentAddress, res, h, his, index, tx, txid, vins, type, vouts, value, txtype, assetType, blockindex, time, date, assetname, vin, asset, amount, address, nep5, history, arr, currcount, _a, _b, _i, index_1, i, out, address, amount, asset, assetname, nep5, n, assets, _c, _d, _e, asset, amount, assetname, nep5, assets, address, data, asset, amount, history;
             return __generator(this, function (_f) {
                 switch (_f.label) {
                     case 0: return [4 /*yield*/, cointool_1.CoinTool.initAllAsset()];
@@ -3474,14 +3573,22 @@ var transfer = /** @class */ (function (_super) {
                         return [4 /*yield*/, wwwtool_1.WWW.gettransbyaddress(currentAddress, 5, this.txpage)];
                     case 2:
                         res = _f.sent();
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 3:
+                        h = _f.sent();
                         res = res ? res : []; //将空值转为长度0的数组
                         this.txpage == 1 && res.length > 5 ? this.cutshow = false : this.cutshow = true;
-                        if (!(res.length > 0)) return [3 /*break*/, 23];
+                        entity_1.History.delHistoryStoreByHeight(h);
+                        his = entity_1.History.getHistoryStore();
+                        if (!(res.length > 0)) return [3 /*break*/, 24];
                         this.txs = [];
+                        if (his.length) {
+                            his.map(function (hi) { _this.txs.push(hi.history); });
+                        }
                         index = 0;
-                        _f.label = 3;
-                    case 3:
-                        if (!(index < res.length)) return [3 /*break*/, 23];
+                        _f.label = 4;
+                    case 4:
+                        if (!(index < res.length)) return [3 /*break*/, 24];
                         tx = res[index];
                         txid = tx["txid"];
                         txid = txid.replace('0x', '');
@@ -3494,22 +3601,22 @@ var transfer = /** @class */ (function (_super) {
                         blockindex = tx["blockindex"];
                         time = tx["blocktime"].includes("$date") ? JSON.parse(tx["blocktime"])["$date"] : parseInt(tx["blocktime"] + "000");
                         date = timetool_1.DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
-                        if (!(type == "out")) return [3 /*break*/, 8];
-                        if (!(vins && vins.length == 1)) return [3 /*break*/, 7];
+                        if (!(type == "out")) return [3 /*break*/, 9];
+                        if (!(vins && vins.length == 1)) return [3 /*break*/, 8];
                         assetname = "";
                         vin = vins[0];
                         asset = vin["asset"];
                         amount = value[asset];
                         address = vin["address"];
-                        if (!(assetType == "utxo")) return [3 /*break*/, 4];
+                        if (!(assetType == "utxo")) return [3 /*break*/, 5];
                         assetname = cointool_1.CoinTool.assetID2name[asset];
-                        return [3 /*break*/, 6];
-                    case 4: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
-                    case 5:
+                        return [3 /*break*/, 7];
+                    case 5: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
+                    case 6:
                         nep5 = _f.sent();
                         assetname = nep5["name"];
-                        _f.label = 6;
-                    case 6:
+                        _f.label = 7;
+                    case 7:
                         history = new entity_1.History();
                         history.time = date;
                         history.txid = txid;
@@ -3518,18 +3625,18 @@ var transfer = /** @class */ (function (_super) {
                         history.value = amount;
                         history.txtype = type;
                         this.txs.push(history);
-                        _f.label = 7;
-                    case 7: return [3 /*break*/, 22];
-                    case 8:
+                        _f.label = 8;
+                    case 8: return [3 /*break*/, 23];
+                    case 9:
                         arr = {};
                         currcount = 0;
                         _a = [];
                         for (_b in vouts)
                             _a.push(_b);
                         _i = 0;
-                        _f.label = 9;
-                    case 9:
-                        if (!(_i < _a.length)) return [3 /*break*/, 15];
+                        _f.label = 10;
+                    case 10:
+                        if (!(_i < _a.length)) return [3 /*break*/, 16];
                         index_1 = _a[_i];
                         i = parseInt(index_1);
                         out = vouts[i];
@@ -3537,16 +3644,16 @@ var transfer = /** @class */ (function (_super) {
                         amount = out["value"];
                         asset = out["asset"];
                         assetname = "";
-                        if (!(address != currentAddress)) return [3 /*break*/, 13];
-                        if (!(assetType == "utxo")) return [3 /*break*/, 10];
+                        if (!(address != currentAddress)) return [3 /*break*/, 14];
+                        if (!(assetType == "utxo")) return [3 /*break*/, 11];
                         assetname = cointool_1.CoinTool.assetID2name[asset];
-                        return [3 /*break*/, 12];
-                    case 10: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
-                    case 11:
+                        return [3 /*break*/, 13];
+                    case 11: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
+                    case 12:
                         nep5 = _f.sent();
                         assetname = nep5["name"];
-                        _f.label = 12;
-                    case 12:
+                        _f.label = 13;
+                    case 13:
                         n = out["n"];
                         if (arr[address] && arr[address][assetname]) {
                             arr[address][assetname] += amount;
@@ -3556,43 +3663,43 @@ var transfer = /** @class */ (function (_super) {
                             assets[assetname] = amount;
                             arr[address] = assets;
                         }
-                        return [3 /*break*/, 14];
-                    case 13:
-                        currcount++;
-                        _f.label = 14;
+                        return [3 /*break*/, 15];
                     case 14:
-                        _i++;
-                        return [3 /*break*/, 9];
+                        currcount++;
+                        _f.label = 15;
                     case 15:
-                        if (!(currcount == vouts.length)) return [3 /*break*/, 21];
+                        _i++;
+                        return [3 /*break*/, 10];
+                    case 16:
+                        if (!(currcount == vouts.length)) return [3 /*break*/, 22];
                         _c = [];
                         for (_d in value)
                             _c.push(_d);
                         _e = 0;
-                        _f.label = 16;
-                    case 16:
-                        if (!(_e < _c.length)) return [3 /*break*/, 21];
+                        _f.label = 17;
+                    case 17:
+                        if (!(_e < _c.length)) return [3 /*break*/, 22];
                         asset = _c[_e];
-                        if (!value.hasOwnProperty(asset)) return [3 /*break*/, 20];
+                        if (!value.hasOwnProperty(asset)) return [3 /*break*/, 21];
                         amount = value[asset];
                         assetname = "";
-                        if (!(assetType == "utxo")) return [3 /*break*/, 17];
+                        if (!(assetType == "utxo")) return [3 /*break*/, 18];
                         assetname = cointool_1.CoinTool.assetID2name[asset];
-                        return [3 /*break*/, 19];
-                    case 17: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
-                    case 18:
+                        return [3 /*break*/, 20];
+                    case 18: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
+                    case 19:
                         nep5 = _f.sent();
                         assetname = nep5["name"];
-                        _f.label = 19;
-                    case 19:
+                        _f.label = 20;
+                    case 20:
                         assets = {};
                         assets[assetname] = amount;
                         arr[currentAddress] = assets;
-                        _f.label = 20;
-                    case 20:
-                        _e++;
-                        return [3 /*break*/, 16];
+                        _f.label = 21;
                     case 21:
+                        _e++;
+                        return [3 /*break*/, 17];
+                    case 22:
                         for (address in arr) {
                             if (arr.hasOwnProperty(address)) {
                                 data = arr[address];
@@ -3611,14 +3718,41 @@ var transfer = /** @class */ (function (_super) {
                                 }
                             }
                         }
-                        _f.label = 22;
-                    case 22:
-                        index++;
-                        return [3 /*break*/, 3];
+                        _f.label = 23;
                     case 23:
+                        index++;
+                        return [3 /*break*/, 4];
+                    case 24:
                         //分页判断
                         res.length < 5 ? this.nextpage = false : this.nextpage = true; //判断是否是最后一页
                         this.txpage > 1 && res == 0 ? this.txpage-- : this.txpage; //判断是否到最后一页
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    transfer.prototype.awaitHeight = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var str, currentheight, oldheight;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        str = storagetool_1.StorageTool.getStorage("current-height");
+                        return [4 /*yield*/, wwwtool_1.WWW.api_getHeight()];
+                    case 1:
+                        currentheight = _a.sent();
+                        oldheight = currentheight;
+                        str ? oldheight = parseInt(str) : storagetool_1.StorageTool.setStorage("current-height", currentheight + "");
+                        if (!(currentheight - oldheight >= 2)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.history()];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        setTimeout(function () {
+                            _this.awaitHeight();
+                        }, 15000);
                         return [2 /*return*/];
                 }
             });
@@ -4194,8 +4328,8 @@ var CoinTool = /** @class */ (function () {
                         return [4 /*yield*/, wwwtool_1.WWW.api_postRawTransaction(data)];
                     case 1:
                         result = _a.sent();
-                        res.err = !result;
-                        res.info = "成功";
+                        res.err = !result["sendrawtransactionresult"];
+                        res.info = result["txid"];
                         return [2 /*return*/, res];
                 }
             });
@@ -4253,7 +4387,7 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.nep5Transaction = function (address, tatgeraddr, asset, amount) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, decimals, numarr, v, i, bnum, intv, sb, scriptaddress, result;
+            var res, decimals, numarr, v, i, bnum, intv, sb, scriptaddress, random_uint8, random_int, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, wwwtool_1.WWW.getNep5Asset(asset)];
@@ -4269,9 +4403,15 @@ var CoinTool = /** @class */ (function () {
                         intv = bnum.multiply(v).toString();
                         sb = new ThinNeo.ScriptBuilder();
                         scriptaddress = asset.hexToBytes().reverse();
+                        random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues(new Uint8Array(32));
+                        random_int = Neo.BigInteger.fromUint8Array(random_uint8);
+                        //塞入随机数
+                        sb.EmitPushNumber(random_int);
+                        sb.Emit(ThinNeo.OpCode.DROP);
+                        //塞值
                         sb.EmitParamJson(["(address)" + address, "(address)" + tatgeraddr, "(integer)" + intv]); //第二个参数是个数组
-                        sb.EmitPushString("transfer"); //第一个参数
-                        sb.EmitAppCall(scriptaddress); //资产合约
+                        sb.EmitPushString("transfer");
+                        sb.EmitAppCall(scriptaddress);
                         return [4 /*yield*/, CoinTool.contractInvokeTrans_attributes(sb.ToArray())];
                     case 2:
                         result = _a.sent();
@@ -4295,13 +4435,6 @@ exports.CoinTool = CoinTool;
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE1IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0OSAoNTEwMDIpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0i5rWP6KeI5ZmoNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9ImJsb2Nrcy1oYW5nb3ZlciIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTY1OC4wMDAwMDAsIC0xMTY1LjAwMDAwMCkiIGZpbGw9IiNGRkZGRkYiPgogICAgICAgICAgICA8ZyBpZD0ic3d0aWNoIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTAuMDAwMDAwLCAxMTU0LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9Ikdyb3VwLTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUxLjAwMDAwMCwgMC4wMDAwMDApIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjUuMjc2MzkzMiwxMi4xNzEwMzk0IEwzMS42NTgzNTkyLDI0LjkzNDk3MTUgQzMxLjkwNTM0ODUsMjUuNDI4OTUgMzEuNzA1MTI0MSwyNi4wMjk2MjMgMzEuMjExMTQ1NiwyNi4yNzY2MTIzIEMzMS4wNzIyOTAyLDI2LjM0NjA0IDMwLjkxOTE3NzEsMjYuMzgyMTg1MSAzMC43NjM5MzIsMjYuMzgyMTg1MSBMMTgsMjYuMzgyMTg1MSBDMTcuNDQ3NzE1MywyNi4zODIxODUxIDE3LDI1LjkzNDQ2OTggMTcsMjUuMzgyMTg1MSBDMTcsMjUuMjI2OTQgMTcuMDM2MTQ1MSwyNS4wNzM4MjY5IDE3LjEwNTU3MjgsMjQuOTM0OTcxNSBMMjMuNDg3NTM4OCwxMi4xNzEwMzk0IEMyMy43MzQ1MjgxLDExLjY3NzA2MSAyNC4zMzUyMDExLDExLjQ3NjgzNjYgMjQuODI5MTc5NiwxMS43MjM4MjU5IEMyNS4wMjI3MDcsMTEuODIwNTg5NiAyNS4xNzk2Mjk1LDExLjk3NzUxMiAyNS4yNzYzOTMyLDEyLjE3MTAzOTQgWiIgaWQ9IlRyaWFuZ2xlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC4zODIwNzYsIDE5LjAwMDExMCkgcm90YXRlKDkwLjAwMDAwMCkgdHJhbnNsYXRlKC0yNC4zODIwNzYsIC0xOS4wMDAxMTApICI+PC9wYXRoPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4="
-
-/***/ }),
-
-/***/ "ppRR":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -4424,6 +4557,13 @@ window.addEventListener('popstate', function () {
     app.currentRoute = window.location.hash;
 });
 
+
+/***/ }),
+
+/***/ "z7mJ":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 
