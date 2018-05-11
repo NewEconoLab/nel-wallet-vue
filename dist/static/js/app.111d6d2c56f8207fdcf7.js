@@ -2691,7 +2691,7 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.setResolve = function (nnshash, resolverhash) {
         return __awaiter(this, void 0, void 0, function () {
-            var current, hash, hashstr, nnshashstr, resolvestr, scriptaddress, sb, data, res;
+            var current, hash, hashstr, nnshashstr, resolvestr, scriptaddress, sb, random_uint8, random_int, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2702,6 +2702,11 @@ var NNSTool = /** @class */ (function () {
                         resolvestr = resolverhash.reverse().toHexString();
                         scriptaddress = entity_1.Consts.baseContract.hexToBytes().reverse();
                         sb = new ThinNeo.ScriptBuilder();
+                        random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues(new Uint8Array(32));
+                        random_int = Neo.BigInteger.fromUint8Array(random_uint8);
+                        //塞入随机数
+                        sb.EmitPushNumber(random_int);
+                        sb.Emit(ThinNeo.OpCode.DROP);
                         sb.EmitParamJson([
                             "(hex160)0x" + hashstr,
                             "(hex256)0x" + nnshashstr,
@@ -2711,7 +2716,7 @@ var NNSTool = /** @class */ (function () {
                         sb.EmitAppCall(scriptaddress);
                         data = sb.ToArray();
                         console.log(data.toHexString());
-                        return [4 /*yield*/, cointool_1.CoinTool.contractInvokeTrans(data)];
+                        return [4 /*yield*/, cointool_1.CoinTool.contractInvokeTrans_attributes(data)];
                     case 1:
                         res = _a.sent();
                         return [2 /*return*/, res];
@@ -2721,7 +2726,7 @@ var NNSTool = /** @class */ (function () {
     };
     NNSTool.setResolveData = function (nnshash, str, resolve) {
         return __awaiter(this, void 0, void 0, function () {
-            var namehash, current, hash, hashstr, nnshashstr, scriptaddress, sb, data, res;
+            var namehash, current, hash, hashstr, nnshashstr, scriptaddress, sb, random_uint8, random_int, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2731,6 +2736,11 @@ var NNSTool = /** @class */ (function () {
                         nnshashstr = nnshash.reverse().toHexString();
                         scriptaddress = resolve.hexToBytes();
                         sb = new ThinNeo.ScriptBuilder();
+                        random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues(new Uint8Array(32));
+                        random_int = Neo.BigInteger.fromUint8Array(random_uint8);
+                        //塞入随机数
+                        sb.EmitPushNumber(random_int);
+                        sb.Emit(ThinNeo.OpCode.DROP);
                         sb.EmitParamJson([
                             "(hex160)0x" + hashstr,
                             "(hex256)0x" + nnshashstr,
@@ -2741,7 +2751,7 @@ var NNSTool = /** @class */ (function () {
                         sb.EmitPushString("setResolveData");
                         sb.EmitAppCall(scriptaddress);
                         data = sb.ToArray();
-                        return [4 /*yield*/, cointool_1.CoinTool.contractInvokeTrans(data)];
+                        return [4 /*yield*/, cointool_1.CoinTool.contractInvokeTrans_attributes(data)];
                     case 1:
                         res = _a.sent();
                         return [2 /*return*/];
@@ -3157,8 +3167,8 @@ var Nnsmanage = /** @class */ (function (_super) {
                     case 0:
                         this.alert_domainmsg = msg;
                         if (this.alert_domainmsg.resolver) {
-                            this.alert_resolver_disable = true;
-                            this.alert_resolver_state = 0;
+                            this.alert_resolver_disable = false;
+                            this.alert_resolver_state = 2;
                         }
                         else {
                             this.alert_resolver_disable = false;
@@ -3231,26 +3241,25 @@ var Nnsmanage = /** @class */ (function (_super) {
                         currentheight = _a.sent();
                         oldheight = currentheight;
                         str ? oldheight = parseInt(str) : storagetool_1.StorageTool.setStorage("current-height", currentheight + "");
-                        if (oldheight < currentheight) {
-                            if (type == "resolve") {
-                                this.alert_resolver_state = 2;
-                                this.getDomainsByAddr();
-                            }
-                            if (type == "setResolve") {
-                                this.alert_config_state = 2;
-                                this.getDomainsByAddr();
-                            }
-                            if (type == "register") {
-                                this.btn_register = true;
-                                this.getDomainsByAddr();
-                            }
-                            sessionStorage.removeItem("current-height");
-                            return [2 /*return*/];
+                        if (!(oldheight < currentheight)) return [3 /*break*/, 3];
+                        if (type == "resolve") {
+                            this.alert_resolver_state = 2;
                         }
-                        return [4 /*yield*/, setTimeout(function () {
-                                _this.awaitHeight(type);
-                            }, 5000)];
+                        if (type == "setResolve") {
+                            this.alert_config_state = 2;
+                        }
+                        if (type == "register") {
+                            this.btn_register = true;
+                        }
+                        sessionStorage.removeItem("current-height");
+                        return [4 /*yield*/, this.getDomainsByAddr()];
                     case 2:
+                        _a.sent();
+                        return [2 /*return*/];
+                    case 3: return [4 /*yield*/, setTimeout(function () {
+                            _this.awaitHeight(type);
+                        }, 5000)];
+                    case 4:
                         _a.sent();
                         return [2 /*return*/];
                 }

@@ -269,6 +269,11 @@ export class NNSTool
         var scriptaddress = Consts.baseContract.hexToBytes().reverse();
 
         var sb = new ThinNeo.ScriptBuilder();
+        let random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues<Uint8Array>(new Uint8Array(32));
+        let random_int = Neo.BigInteger.fromUint8Array(random_uint8);
+        //塞入随机数
+        sb.EmitPushNumber(random_int);
+        sb.Emit(ThinNeo.OpCode.DROP);
         sb.EmitParamJson([
             "(hex160)0x" + hashstr,
             "(hex256)0x" + nnshashstr,
@@ -278,7 +283,7 @@ export class NNSTool
         var data = sb.ToArray();
         console.log(data.toHexString());
 
-        let res = await CoinTool.contractInvokeTrans(data);
+        let res = await CoinTool.contractInvokeTrans_attributes(data);
         return res;
     }
 
@@ -292,6 +297,11 @@ export class NNSTool
         var scriptaddress = resolve.hexToBytes();
 
         var sb = new ThinNeo.ScriptBuilder();
+        let random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues<Uint8Array>(new Uint8Array(32));
+        let random_int = Neo.BigInteger.fromUint8Array(random_uint8);
+        //塞入随机数
+        sb.EmitPushNumber(random_int);
+        sb.Emit(ThinNeo.OpCode.DROP);
         sb.EmitParamJson([
             "(hex160)0x" + hashstr,
             "(hex256)0x" + nnshashstr,
@@ -303,7 +313,7 @@ export class NNSTool
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
         // console.log(data.toHexString())
-        let res = await CoinTool.contractInvokeTrans(data);
+        let res = await CoinTool.contractInvokeTrans_attributes(data);
         return;
     }
 
