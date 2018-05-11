@@ -173,8 +173,8 @@ export default class Nnsmanage extends Vue
     async resolve(msg)
     {
         this.alert_domainmsg = msg;
-        if (this.alert_domainmsg.resolver) { this.alert_resolver_disable = false; this.alert_resolver_state = 2 }
-        else { this.alert_resolver_disable = false }
+        if (this.alert_domainmsg.resolver) { this.alert_resolver_state = 2 }
+        else { this.alert_resolver_state = 0 }
         this.alert_config_state = 0;
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
