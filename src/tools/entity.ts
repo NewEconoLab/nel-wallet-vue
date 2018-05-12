@@ -382,4 +382,5 @@ export class Domainmsg
     resolver: string;
     mapping: string;
     time: string;
+    await: boolean;
 }

@@ -59,9 +59,6 @@ export default class Nnsmanage extends Vue
     {
         await NNSTool.initRootDomain()
         this.getDomainsByAddr();
-        // this.$refs[ "wrap" ][ "isbig" ] = true;
-        // this.$refs[ "wrap-register" ][ "isbig" ] = true;
-        // console.log()
     }
 
     async verifyDomain()
@@ -112,6 +109,7 @@ export default class Nnsmanage extends Vue
                     console.error(res.info);
                 } else
                 {
+                    this.btn_register = false;
                     let delres = await WWW.delnnsinfo(this.nnsstr + ".test");
                     if (delres == "suc")
                     {
@@ -121,7 +119,8 @@ export default class Nnsmanage extends Vue
                             // mui.alert("Domain name registration contract has been issued, please see ")
                             let height = await WWW.api_getHeight();
                             StorageTool.setStorage("current-height", height.toString());
-                            this.btn_register = false;
+
+                            // StorageTool.setStorage("await-register", JSON.stringify({ height: this.nnsstr + ".test" }));
                             await this.awaitHeight("register");
                         }
                     }
@@ -133,41 +132,53 @@ export default class Nnsmanage extends Vue
         }
     }
 
+    //获得域名列表
     async getDomainsByAddr()
     {
         let res = await WWW.getnnsinfo(LoginInfo.getCurrentAddress());
-        this.domainarr = new Array<Domainmsg>();
+        let arr = new Array<Domainmsg>();
         for (const i in res)
         {
             if (res.hasOwnProperty(i))
             {
                 const n = parseInt(i)
                 const domain = res[ n ];
-                let dommsg = new Domainmsg();
-                dommsg.domainname = domain[ "name" ];
-                let msg = await NNSTool.queryDomainInfo(domain[ 'name' ]);
-                if (msg)
-                {
-                    let timestamp = new Date().getTime();
-                    let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
-
-                    dommsg.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
-                    if (msg[ "resolver" ])
-                    {
-                        let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
-                        let resolver_str = resolver.toHexString();
-                        let addr = await NNSTool.resolveData(domain[ "name" ]);
-                        dommsg.mapping = addr;
-                        dommsg.resolver = resolver_str;
-                    } else
-                    {
-                        dommsg.resolver = "";
-                        dommsg.mapping = "";
-                    }
-                    this.domainarr.push(dommsg);
-                }
+                let msg = await this.queryDomainInfo(domain[ "name" ]);
+                arr.push(msg);
             }
         }
+        this.domainarr = arr.reverse();
+    }
+
+    async queryDomainInfo(domain: string)
+    {
+
+        let dommsg = new Domainmsg();
+        dommsg.domainname = domain;
+        let msg = await NNSTool.queryDomainInfo(domain);
+        if (msg.ttl)
+        {
+            let timestamp = new Date().getTime();
+            let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
+            dommsg.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
+            dommsg.await = false;
+            if (msg[ "resolver" ])
+            {
+                let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
+                let resolver_str = resolver.toHexString();
+                let addr = await NNSTool.resolveData(domain);
+                dommsg.mapping = addr;
+                dommsg.resolver = resolver_str;
+            } else
+            {
+                dommsg.resolver = "";
+                dommsg.mapping = "";
+            }
+        } else
+        {
+            dommsg.await = true;
+        }
+        return dommsg;
     }
 
     async resolve(msg)
@@ -180,7 +191,7 @@ export default class Nnsmanage extends Vue
         this.alert_domain = name;
         this.alert_addr = this.alert_domainmsg.mapping;
         this.$refs[ "alert" ][ "show" ] = true;
-        await this.awaitHeight("resolve");
+        // await this.awaitHeight("resolve");
     }
 
     async setresolve()
@@ -222,6 +233,9 @@ export default class Nnsmanage extends Vue
             }
             if (type == "register")
             {
+                let msg = await this.queryDomainInfo(this.nnsstr + ".test")
+                if (msg.await)
+                    this.awaitHeight(type);
                 this.btn_register = true;
             }
             sessionStorage.removeItem("current-height");

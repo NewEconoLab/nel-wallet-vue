@@ -33,7 +33,7 @@
         <br>
         <span class="msg-resolver" v-if="domain.mapping">( Adress Mapping : {{domain.mapping}})</span>
         <br>
-        <span class="msg-resolver">( Expiration Time : {{domain.time}})</span>
+        <span class="msg-resolver">( Expiration Time : {{domain.time}}) {{domain.await?"Waiting":""}}</span>
         <span class="domainname"></span>
         <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain)">Edit</button>
       </div>
