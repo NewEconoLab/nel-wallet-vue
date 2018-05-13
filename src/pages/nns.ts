@@ -183,6 +183,11 @@ export default class NNS extends Vue
         }
         sessionStorage.setItem("domain-status", JSON.stringify(state ? state : {}));
         this.domainarr = arr.reverse();
+        if (this.alert_domain)
+        {
+            (!!state[ this.alert_domain ] && !!state[ this.alert_domain ][ "await_resolver" ]) ? this.alert_resolver_state = 1 : this.alert_resolver_state = 2;
+            (!!state[ this.alert_domain ] && !!state[ this.alert_domain ][ "await_mapping" ]) ? this.alert_config_state = 1 : this.alert_config_state = 0;
+        }
     }
 
     /**
