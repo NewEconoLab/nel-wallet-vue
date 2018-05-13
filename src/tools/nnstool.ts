@@ -1,4 +1,4 @@
-import { DomainInfo, Consts, RootDomainInfo, LoginInfo, Result } from './entity';
+import { DomainInfo, Consts, RootDomainInfo, LoginInfo, Result, DomainStatus } from './entity';
 import { WWW } from "./wwwtool";
 import { CoinTool } from './cointool';
 import { StorageTool } from './storagetool';
@@ -475,6 +475,7 @@ export class NNSTool
             return true;
         }
     }
+
     static verifyAddr(addr)
     {
         var reg = /^[a-zA-Z0-9]{34,34}$/
@@ -486,6 +487,18 @@ export class NNSTool
         {
             return true;
         }
+    }
+
+    static domainStatus: DomainStatus;
+
+    static setDomainStatus()
+    {
+
+    }
+
+    static initStatus()
+    {
+        NNSTool.domainStatus = DomainStatus.getStatus();
     }
 
 }

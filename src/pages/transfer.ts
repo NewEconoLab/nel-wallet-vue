@@ -239,7 +239,7 @@ export default class transfer extends Vue
                         history.txid = txid;
                         history.assetname = assetname;
                         history.address = address;
-                        history.value = amount;
+                        history.value = parseFloat(amount).toString();
                         history.txtype = type;
                         this.txs.push(history);
                     }
@@ -316,7 +316,7 @@ export default class transfer extends Vue
                                     history.txid = txid;
                                     history.assetname = asset;
                                     history.address = address;
-                                    history.value = amount;
+                                    history.value = parseFloat(amount).toString();
                                     history.txtype = type;
                                     this.txs.push(history);
                                 }

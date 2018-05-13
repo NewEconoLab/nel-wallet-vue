@@ -26,14 +26,14 @@
           {{domain.domainname}}
         </span>
         <br>
-        <span class="msg-null" v-if="!domain.resolver&&domain.resolver==''">
+        <!-- <span class="msg-null" v-if="!domain.resolver&&domain.resolver==''">
           ( not configured )
-        </span>
-        <span class="msg-resolver" v-if="domain.resolver">( Adress Resolver : {{domain.resolver}})</span>
+        </span> -->
+        <span class="msg-resolver">( Adress Resolver : {{domain.await_resolver?"Waiting":domain.resolver}})</span>
         <br>
-        <span class="msg-resolver" v-if="domain.mapping">( Adress Mapping : {{domain.mapping}})</span>
+        <span class="msg-resolver">( Adress Mapping : {{domain.await_mapping?"Waiting":domain.mapping}})</span>
         <br>
-        <span class="msg-resolver">( Expiration Time : {{domain.time}}) {{domain.await?"Waiting":""}}</span>
+        <span class="msg-resolver">( Expiration Time : {{domain.time}} {{domain.await?"Waiting":""}})</span>
         <span class="domainname"></span>
         <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain)">Edit</button>
       </div>

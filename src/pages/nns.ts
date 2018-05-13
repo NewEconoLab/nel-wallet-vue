@@ -3,7 +3,7 @@ import Component from "vue-class-component";
 import WalletLayout from "../layouts/wallet.vue";
 import { NNSTool } from "../tools/nnstool";
 import { WWW } from "../tools/wwwtool";
-import { LoginInfo, Domainmsg, DomainInfo, Consts } from "../tools/entity";
+import { LoginInfo, Domainmsg, DomainInfo, Consts, DomainStatus } from "../tools/entity";
 import Valert from "../components/Valert.vue";
 import Spinner from "../components/Spinner.vue";
 import { StorageTool } from "../tools/storagetool";
@@ -17,7 +17,7 @@ declare const mui;
         "spinner-wrap": Spinner
     }
 })
-export default class Nnsmanage extends Vue 
+export default class NNS extends Vue 
 {
     network: string;
     nnsstr: string;
@@ -57,10 +57,15 @@ export default class Nnsmanage extends Vue
 
     async mounted()
     {
-        await NNSTool.initRootDomain()
+        await NNSTool.initRootDomain();
+        NNSTool.initStatus();
         this.getDomainsByAddr();
+        this.awaitHeight();
     }
 
+    /**
+     * 校验域名
+     */
     async verifyDomain()
     {
         this.nnsstr = this.nnsstr.trim();
@@ -96,6 +101,9 @@ export default class Nnsmanage extends Vue
         }
     }
 
+    /**
+     * 
+     */
     async nnsRegister()
     {
         this.verifyDomain();
@@ -117,11 +125,11 @@ export default class Nnsmanage extends Vue
                         if (res == "suc")
                         {
                             // mui.alert("Domain name registration contract has been issued, please see ")
-                            let height = await WWW.api_getHeight();
-                            StorageTool.setStorage("current-height", height.toString());
-
-                            // StorageTool.setStorage("await-register", JSON.stringify({ height: this.nnsstr + ".test" }));
-                            await this.awaitHeight("register");
+                            let state = new DomainStatus();
+                            state.await_register = true;
+                            state.domainname = this.nnsstr + ".test";
+                            DomainStatus.setStatus(state);
+                            this.getDomainsByAddr();
                         }
                     }
                 }
@@ -132,27 +140,57 @@ export default class Nnsmanage extends Vue
         }
     }
 
-    //获得域名列表
+    /**
+     * 获得域名列表
+     */
     async getDomainsByAddr()
     {
         let res = await WWW.getnnsinfo(LoginInfo.getCurrentAddress());
         let arr = new Array<Domainmsg>();
+        let state = DomainStatus.getStatus();
         for (const i in res)
         {
             if (res.hasOwnProperty(i))
             {
                 const n = parseInt(i)
                 const domain = res[ n ];
+                let a = state[ domain[ "name" ] ] ? state[ domain[ "name" ] ] as DomainStatus : new DomainStatus();
                 let msg = await this.queryDomainInfo(domain[ "name" ]);
+                if (a.await_resolver)
+                {
+                    if (a.resolver == msg.resolver)
+                    {
+                        a.await_resolver = false;
+                        msg.await_resolver = false;
+                    } else
+                    {
+                        msg.await_resolver = true;
+                    }
+                }
+                if (a.await_mapping)
+                {
+                    if (a.mapping == msg.mapping)
+                    {
+                        a.await_mapping = false;
+                        msg.await_mapping = false;
+                    } else
+                    {
+                        msg.await_mapping = true;
+                    }
+                }
                 arr.push(msg);
             }
         }
+        sessionStorage.setItem("domain-status", JSON.stringify(state ? state : {}));
         this.domainarr = arr.reverse();
     }
 
+    /**
+     * 
+     * @param domain 查询域名信息
+     */
     async queryDomainInfo(domain: string)
     {
-
         let dommsg = new Domainmsg();
         dommsg.domainname = domain;
         let msg = await NNSTool.queryDomainInfo(domain);
@@ -160,8 +198,9 @@ export default class Nnsmanage extends Vue
         {
             let timestamp = new Date().getTime();
             let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
+            copare < 0 ? dommsg.isExpiration = true : dommsg.isExpiration = false;
             dommsg.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
-            dommsg.await = false;
+            dommsg.await_resolver = false;
             if (msg[ "resolver" ])
             {
                 let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
@@ -176,17 +215,32 @@ export default class Nnsmanage extends Vue
             }
         } else
         {
-            dommsg.await = true;
+            dommsg.await_resolver = true;
         }
         return dommsg;
     }
 
-    async resolve(msg)
+    /**
+     * 
+     * @param msg 信息详情
+     */
+    async resolve(msg: Domainmsg)
     {
         this.alert_domainmsg = msg;
-        if (this.alert_domainmsg.resolver) { this.alert_resolver_state = 2 }
-        else { this.alert_resolver_state = 0 }
-        this.alert_config_state = 0;
+        if (msg.resolver && !msg.await_resolver)
+        { this.alert_resolver_state = 2 }
+
+        if (msg.await_resolver)
+        { this.alert_resolver_state = 1 }
+
+        if (!msg.resolver && !msg.await_resolver)
+        { this.alert_resolver_state = 0 }
+
+        if (msg.await_mapping)
+            this.alert_config_state = 1;
+        else
+            this.alert_config_state = 0;
+
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
         this.alert_addr = this.alert_domainmsg.mapping;
@@ -194,17 +248,29 @@ export default class Nnsmanage extends Vue
         // await this.awaitHeight("resolve");
     }
 
+    /**
+     * 注册解析器
+     */
     async setresolve()
     {
         this.alert_resolve = false;
+        this.alert_resolver_state = 1;
         let arr = this.alert_domain.split(".");
         let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
         let contract = this.alert_contract.hexToBytes().reverse();
         let res = await NNSTool.setResolve(nnshash, contract);
-        this.alert_resolver_state = 1;
-        await this.awaitHeight("resolve");
+        let state = new DomainStatus();
+        state.await_resolver = true;
+        state.domainname = this.alert_domain;
+        state.resolver = this.alert_contract.hexToBytes().reverse().toHexString();
+        DomainStatus.setStatus(state);
+        this.getDomainsByAddr();
+        // await this.awaitHeight("resolve");
     }
 
+    /**
+     * 设置解析地址
+     */
     async configResolve()
     {
         let arr = this.alert_domain.split(".");
@@ -212,10 +278,16 @@ export default class Nnsmanage extends Vue
         // this.alert_addr = this.alert_addr ? this.alert_addr : LoginInfo.getCurrentAddress();
         let res = await NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
         this.alert_config_state = 1;
-        await this.awaitHeight("setResolve");
+        let state = new DomainStatus();
+        state.await_mapping = true;
+        state.domainname = this.alert_domain;
+        state.mapping = this.alert_addr;
+        DomainStatus.setStatus(state);
+        this.getDomainsByAddr();
+        // await this.awaitHeight("setResolve");
     }
 
-    async awaitHeight(type: string)
+    async awaitHeight()
     {
         let str = StorageTool.getStorage("current-height");
         let currentheight = await WWW.api_getHeight();
@@ -223,29 +295,52 @@ export default class Nnsmanage extends Vue
         str ? oldheight = parseInt(str) : StorageTool.setStorage("current-height", currentheight + "");
         if (oldheight < currentheight)
         {
-            if (type == "resolve")
-            {
-                this.alert_resolver_state = 2;
-            }
-            if (type == "setResolve")
-            {
-                this.alert_config_state = 2;
-            }
-            if (type == "register")
-            {
-                let msg = await this.queryDomainInfo(this.nnsstr + ".test")
-                if (msg.await)
-                    this.awaitHeight(type);
-                this.btn_register = true;
-            }
-            sessionStorage.removeItem("current-height");
-            await this.getDomainsByAddr();
-            return;
+            this.getDomainsByAddr();
+            oldheight++;
+            StorageTool.setStorage("current-height", oldheight + "");
         }
         await setTimeout(() =>
         {
-            this.awaitHeight(type);
+            this.awaitHeight();
         }, 5000);
     }
 
+    /**
+     * 
+     * @param type 
+     */
+    // async awaitHeight(type: string)
+    // {
+    //     let str = StorageTool.getStorage("current-height");
+    //     let currentheight = await WWW.api_getHeight();
+    //     let oldheight = currentheight;
+    //     str ? oldheight = parseInt(str) : StorageTool.setStorage("current-height", currentheight + "");
+    //     if (oldheight < currentheight)
+    //     {
+    //         if (type == "resolve")
+    //         {
+    //             this.alert_resolver_state = 2;
+    //         }
+    //         if (type == "setResolve")
+    //         {
+    //             this.alert_config_state = 2;
+    //         }
+    //         if (type == "register")
+    //         {
+    //             let msg = await this.queryDomainInfo(this.nnsstr + ".test")
+    //             if (msg.await_resolver)
+    //                 this.awaitHeight(type);
+    //             this.btn_register = true;
+    //         }
+    //         sessionStorage.removeItem("current-height");
+    //         await this.getDomainsByAddr();
+    //         return;
+    //     }
+    //     await setTimeout(() =>
+    //     {
+    //         this.awaitHeight(type);
+    //     }, 5000);
+    // }
+
 }
+

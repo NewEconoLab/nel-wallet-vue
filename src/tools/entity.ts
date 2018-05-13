@@ -382,5 +382,45 @@ export class Domainmsg
     resolver: string;
     mapping: string;
     time: string;
-    await: boolean;
+    isExpiration: boolean;
+    await_resolver: boolean;
+    await_mapping: boolean;
+    await_register: boolean;
+}
+
+export class DomainStatus
+{
+    domainname: string;
+    resolver: string;
+    mapping: string;
+    await_mapping: boolean;
+    await_register: boolean;
+    await_resolver: boolean;
+
+    static setStatus(domain: DomainStatus)
+    {
+        let str = sessionStorage.getItem("domain-status")
+        var arr = {};
+        if (str)
+        {
+            arr = JSON.parse(str);
+            let msg = arr[ domain.domainname ] as DomainStatus;
+            msg ? msg : msg = new DomainStatus();
+            domain.await_mapping ? msg[ "await_mapping" ] = domain.await_mapping : "";
+            domain.await_register ? msg[ "await_register" ] = domain.await_register : "";
+            domain.await_resolver ? msg[ "await_resolver" ] = domain.await_resolver : "";
+            domain.mapping ? msg[ "mapping" ] = domain.mapping : "";
+            domain.resolver ? msg[ "resolver" ] = domain.resolver.replace("0x", "") : "";
+            arr[ domain.domainname ] = msg;
+        } else
+        {
+            arr[ domain.domainname ] = domain;
+        }
+        sessionStorage.setItem("domain-status", JSON.stringify(arr));
+    }
+    static getStatus()
+    {
+        let str = sessionStorage.getItem("domain-status");
+        return str ? JSON.parse(sessionStorage.getItem("domain-status")) : {};
+    }
 }
