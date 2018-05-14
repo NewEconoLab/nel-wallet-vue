@@ -1,17 +1,17 @@
 <template>
-    <div class="bubble-box">
-        <div class="bubble-png">
-            <img src="../../static/img/gift.png" alt="">
-        </div>
-        <div class="bubble-msg">You get a reward of 50 NNCs ！</div>
-        <div class="help-icon">
-            <img src="../../static/img/wenhao.png" alt="">
-            <div class="help-msg">
-                You will be rewarded with 200 NNCs on Mainnet for the first time you map your wallet address to an ending in ".test " name successfully. 
-                <div class="triangle-box"></div>
-            </div>
-        </div>
+  <div class="bubble-box">
+    <div class="bubble-png">
+      <img src="../../static/img/gift.png" alt="">
     </div>
+    <div class="bubble-msg">You get a reward of 50 NNCs ！</div>
+    <div class="help-icon">
+      <img src="../../static/img/wenhao.png" alt="">
+      <div class="help-msg">
+        You will be rewarded with 50 NNCs on Mainnet for the first time you map your wallet address to an ending in ".test " name successfully.
+        <div class="triangle-box"></div>
+      </div>
+    </div>
+  </div>
 </template>
 <style lang="less" scoped>
 .bubble-box {

@@ -190,7 +190,7 @@ export default class NNS extends Vue
             if (!!state[ this.alert_domain ])
             {
                 (!!state[ this.alert_domain ][ "await_resolver" ]) ? this.alert_resolver_state = 1 : this.alert_resolver_state = 2;
-                (!!state[ this.alert_domain ][ "await_mapping" ]) ? this.alert_config_state = 1 : this.alert_config_state = 0;
+                (!!state[ this.alert_domain ][ "await_mapping" ]) ? this.alert_config_state = 1 : this.alert_config_state = 2;
             }
         }
     }
@@ -225,7 +225,7 @@ export default class NNS extends Vue
             }
         } else
         {
-            dommsg.await_resolver = true;
+            dommsg.await_register = true;
             dommsg.isExpiration = false;
         }
         return dommsg;
@@ -247,10 +247,16 @@ export default class NNS extends Vue
         if (!msg.resolver && !msg.await_resolver)
         { this.alert_resolver_state = 0 }
 
+        if (msg.mapping && !msg.await_mapping)
+        {
+            this.alert_config_state = 2;
+        }
         if (msg.await_mapping)
+        {
             this.alert_config_state = 1;
-        else
-            this.alert_config_state = 0;
+        }
+        if (!msg.mapping && !msg.await_mapping)
+        { this.alert_resolver_state = 0 }
 
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
@@ -316,42 +322,6 @@ export default class NNS extends Vue
         }, 5000);
     }
 
-    /**
-     * 
-     * @param type 
-     */
-    // async awaitHeight(type: string)
-    // {
-    //     let str = StorageTool.getStorage("current-height");
-    //     let currentheight = await WWW.api_getHeight();
-    //     let oldheight = currentheight;
-    //     str ? oldheight = parseInt(str) : StorageTool.setStorage("current-height", currentheight + "");
-    //     if (oldheight < currentheight)
-    //     {
-    //         if (type == "resolve")
-    //         {
-    //             this.alert_resolver_state = 2;
-    //         }
-    //         if (type == "setResolve")
-    //         {
-    //             this.alert_config_state = 2;
-    //         }
-    //         if (type == "register")
-    //         {
-    //             let msg = await this.queryDomainInfo(this.nnsstr + ".test")
-    //             if (msg.await_resolver)
-    //                 this.awaitHeight(type);
-    //             this.btn_register = true;
-    //         }
-    //         sessionStorage.removeItem("current-height");
-    //         await this.getDomainsByAddr();
-    //         return;
-    //     }
-    //     await setTimeout(() =>
-    //     {
-    //         this.awaitHeight(type);
-    //     }, 5000);
-    // }
 
 }
 

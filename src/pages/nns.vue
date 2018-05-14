@@ -22,20 +22,25 @@
         <bubble-wrap></bubble-wrap>
       </div>
       <div class="form-inline" v-for="domain in domainarr" :key="domain.index">
-        <span class="domainname">
-          {{domain.domainname}}
-        </span>
-        <br>
         <!-- <span class="msg-null" v-if="!domain.resolver&&domain.resolver==''">
           ( not configured )
         </span> -->
-        <span class="msg-resolver" v-if="domain.resolver||domain.await_resolver">( Adress Resolver : {{domain.await_resolver?"Waiting":domain.resolver}}) <br></span>
-
-        <span class="msg-resolver" v-if="domain.mapping||domain.await_mapping">( Adress Mapping : {{domain.await_mapping?"Waiting":domain.mapping}})<br></span>
-
-        <span class="msg-resolver">( Expiration Time : {{domain.time}} {{domain.await?"Waiting":""}}) {{domain.isExpiration?"(Expiration)":""}}</span>
-        <span class="domainname"></span>
-        <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain)">Edit</button>
+        <div class="row">
+          <div class="col-md-10">
+            <span class="domainname">
+              {{domain.domainname}}
+            </span>
+            <br>
+            <span class="msg-resolver">( Adress Resolver : {{domain.resolver}}) <br></span>
+            <span class="msg-resolver">( Adress Mapping : {{domain.mapping}})<br></span>
+            <span class="msg-resolver">( Expiration Time : {{domain.time}})
+            </span>
+            <span class="msg-resolver state-lable">{{domain.isExpiration?"(Expiration)":""}} {{domain.await_register?"(Waiting)":""}}</span>
+          </div>
+          <div class="col-md-2">
+            <button v-if="!domain.await_register" class="btn btn-nel" @click="resolve(domain)">Edit</button>
+          </div>
+        </div>
       </div>
     </div>
     <v-alert ref="alert">
@@ -51,8 +56,10 @@
           <div class="btn-verify-warp">
             <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">Confirm</button>
             <spinner-wrap v-if="alert_resolver_state==1"></spinner-wrap>
-            <span v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
+            <button class="btn-nel btn-verify " v-if="alert_resolver_state==2" @click="setresolve()">Resetting </button>
           </div>
+          <span v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
+          </span>
           <!-- <div v-else class="icon-verify"></div> -->
         </div>
       </div>
@@ -63,10 +70,11 @@
           <input type="text" v-model="alert_addr" class="input-ico ">
           <div class="icon-verify" style="display:none;"></div>
           <div class="btn-verify-warp">
-            <span v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
             <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">Confirm</button>
+            <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">Resetting</button>
             <spinner-wrap v-if="alert_config_state==1"></spinner-wrap>
           </div>
+          <span v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
         </div>
       </div>
     </v-alert>
@@ -137,6 +145,9 @@
   color: #ffffff;
   line-height: 14px;
   padding-left: 50px;
+}
+.state-lable {
+  color: darkgoldenrod;
 }
 
 h4 {
