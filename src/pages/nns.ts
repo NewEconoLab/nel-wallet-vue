@@ -6,6 +6,7 @@ import { WWW } from "../tools/wwwtool";
 import { LoginInfo, Domainmsg, DomainInfo, Consts, DomainStatus } from "../tools/entity";
 import Valert from "../components/Valert.vue";
 import Spinner from "../components/Spinner.vue";
+import Bubble from "../components/bubble.vue";
 import { StorageTool } from "../tools/storagetool";
 import { DateTool } from "../tools/timetool";
 
@@ -14,7 +15,8 @@ declare const mui;
     components: {
         "wallet-layout": WalletLayout,
         "v-alert": Valert,
-        "spinner-wrap": Spinner
+        "spinner-wrap": Spinner,
+        "bubble-wrap": Bubble
     }
 })
 export default class NNS extends Vue 

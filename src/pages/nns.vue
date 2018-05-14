@@ -20,6 +20,7 @@
 
       <div class="title">
         <span>My Neo Name</span>
+        <bubble-wrap></bubble-wrap>
       </div>
       <div class="form-inline" v-for="domain in domainarr" :key="domain.index">
         <span class="domainname">
