@@ -103,7 +103,7 @@ export default class Valert extends Vue {
             display: inline-block;
             vertical-align: middle;
             .btn-verify {
-              padding: 19px 35px;
+              padding: 19px 25px;
             }
             .btn-disabled {
               background: #77bcf6;

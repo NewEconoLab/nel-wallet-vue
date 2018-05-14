@@ -52,14 +52,15 @@
         <span class="content-des">Adress Resolver : </span>
         <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
         <div class="input-warp">
+          <span v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
+          </span>
+          <span v-else style="padding-left:30px"></span>
           <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
           <div class="btn-verify-warp">
             <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">Confirm</button>
             <spinner-wrap v-if="alert_resolver_state==1"></spinner-wrap>
             <button class="btn-nel btn-verify " v-if="alert_resolver_state==2" @click="setresolve()">Resetting </button>
           </div>
-          <span v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
-          </span>
           <!-- <div v-else class="icon-verify"></div> -->
         </div>
       </div>
@@ -67,6 +68,8 @@
         <span class="content-des">Adress Mapping : </span>
         <span class="content-msg"></span>
         <div class="input-warp">
+          <span v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
+          <span v-else style="width:30px"></span>
           <input type="text" v-model="alert_addr" class="input-ico ">
           <div class="icon-verify" style="display:none;"></div>
           <div class="btn-verify-warp">
@@ -74,7 +77,6 @@
             <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">Resetting</button>
             <spinner-wrap v-if="alert_config_state==1"></spinner-wrap>
           </div>
-          <span v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
         </div>
       </div>
     </v-alert>
