@@ -189,8 +189,12 @@ export default class NNS extends Vue
         {
             if (!!state[ this.alert_domain ])
             {
-                (!!state[ this.alert_domain ][ "await_resolver" ]) ? this.alert_resolver_state = 1 : this.alert_resolver_state = 2;
-                (!!state[ this.alert_domain ][ "await_mapping" ]) ? this.alert_config_state = 1 : this.alert_config_state = 2;
+                let isMappingAwait = !!state[ this.alert_domain ][ "await_mapping" ];
+                let isMapping = !!state[ this.alert_domain ][ "mapping" ];
+                let isResolverAwait = !!state[ this.alert_domain ][ "await_resolver" ];
+                let isResolver = !!state[ this.alert_domain ][ "resolver" ];
+                isResolverAwait ? this.alert_resolver_state = 1 : isResolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
+                isMappingAwait ? this.alert_config_state = 1 : (isMapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
             }
         }
     }
@@ -238,29 +242,20 @@ export default class NNS extends Vue
     async resolve(msg: Domainmsg)
     {
         this.alert_domainmsg = msg;
-        if (msg.resolver && !msg.await_resolver)
-        { this.alert_resolver_state = 2 }
-
-        if (msg.await_resolver)
-        { this.alert_resolver_state = 1 }
-
-        if (!msg.resolver && !msg.await_resolver)
-        { this.alert_resolver_state = 0 }
-
-        if (msg.mapping && !msg.await_mapping)
-        {
-            this.alert_config_state = 2;
-        }
-        if (msg.await_mapping)
-        {
-            this.alert_config_state = 1;
-        }
-        if (!msg.mapping && !msg.await_mapping)
-        { this.alert_resolver_state = 0 }
-
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
         this.alert_addr = this.alert_domainmsg.mapping;
+
+        if (!!msg)
+        {
+            let isMappingAwait = !!msg[ "await_mapping" ];
+            let isMapping = !!msg[ "mapping" ];
+            let isResolverAwait = !!msg[ "await_resolver" ];
+            let isResolver = !!msg[ "resolver" ];
+            isResolverAwait ? this.alert_resolver_state = 1 : isResolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
+            isMappingAwait ? this.alert_config_state = 1 : (isMapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
+        }
+
         this.$refs[ "alert" ][ "show" ] = true;
         // await this.awaitHeight("resolve");
     }

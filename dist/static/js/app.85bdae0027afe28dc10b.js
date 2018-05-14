@@ -3224,7 +3224,7 @@ var NNS = /** @class */ (function (_super) {
      */
     NNS.prototype.getDomainsByAddr = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, arr, state, _a, _b, _i, i, n, domain, a, msg;
+            var res, arr, state, _a, _b, _i, i, n, domain, a, msg, isMappingAwait, isMapping, isResolverAwait, isResolver;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0: return [4 /*yield*/, wwwtool_1.WWW.getnnsinfo(entity_1.LoginInfo.getCurrentAddress())];
@@ -3275,8 +3275,12 @@ var NNS = /** @class */ (function (_super) {
                         this.domainarr = arr.reverse();
                         if (this.alert_domain) {
                             if (!!state[this.alert_domain]) {
-                                (!!state[this.alert_domain]["await_resolver"]) ? this.alert_resolver_state = 1 : this.alert_resolver_state = 2;
-                                (!!state[this.alert_domain]["await_mapping"]) ? this.alert_config_state = 1 : this.alert_config_state = 2;
+                                isMappingAwait = !!state[this.alert_domain]["await_mapping"];
+                                isMapping = !!state[this.alert_domain]["mapping"];
+                                isResolverAwait = !!state[this.alert_domain]["await_resolver"];
+                                isResolver = !!state[this.alert_domain]["resolver"];
+                                isResolverAwait ? this.alert_resolver_state = 1 : isResolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
+                                isMappingAwait ? this.alert_config_state = 1 : (isMapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
                             }
                         }
                         return [2 /*return*/];
@@ -3334,30 +3338,20 @@ var NNS = /** @class */ (function (_super) {
      */
     NNS.prototype.resolve = function (msg) {
         return __awaiter(this, void 0, void 0, function () {
-            var name;
+            var name, isMappingAwait, isMapping, isResolverAwait, isResolver;
             return __generator(this, function (_a) {
                 this.alert_domainmsg = msg;
-                if (msg.resolver && !msg.await_resolver) {
-                    this.alert_resolver_state = 2;
-                }
-                if (msg.await_resolver) {
-                    this.alert_resolver_state = 1;
-                }
-                if (!msg.resolver && !msg.await_resolver) {
-                    this.alert_resolver_state = 0;
-                }
-                if (msg.mapping && !msg.await_mapping) {
-                    this.alert_config_state = 2;
-                }
-                if (msg.await_mapping) {
-                    this.alert_config_state = 1;
-                }
-                if (!msg.mapping && !msg.await_mapping) {
-                    this.alert_resolver_state = 0;
-                }
                 name = this.alert_domainmsg.domainname;
                 this.alert_domain = name;
                 this.alert_addr = this.alert_domainmsg.mapping;
+                if (!!msg) {
+                    isMappingAwait = !!msg["await_mapping"];
+                    isMapping = !!msg["mapping"];
+                    isResolverAwait = !!msg["await_resolver"];
+                    isResolver = !!msg["resolver"];
+                    isResolverAwait ? this.alert_resolver_state = 1 : isResolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
+                    isMappingAwait ? this.alert_config_state = 1 : (isMapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
+                }
                 this.$refs["alert"]["show"] = true;
                 return [2 /*return*/];
             });
