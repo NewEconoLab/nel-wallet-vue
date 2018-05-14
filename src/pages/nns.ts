@@ -187,8 +187,11 @@ export default class NNS extends Vue
         this.domainarr = arr.reverse();
         if (this.alert_domain)
         {
-            (!!state[ this.alert_domain ] && !!state[ this.alert_domain ][ "await_resolver" ]) ? this.alert_resolver_state = 1 : this.alert_resolver_state = 2;
-            (!!state[ this.alert_domain ] && !!state[ this.alert_domain ][ "await_mapping" ]) ? this.alert_config_state = 1 : this.alert_config_state = 0;
+            if (!!state[ this.alert_domain ])
+            {
+                (!!state[ this.alert_domain ][ "await_resolver" ]) ? this.alert_resolver_state = 1 : this.alert_resolver_state = 2;
+                (!!state[ this.alert_domain ][ "await_mapping" ]) ? this.alert_config_state = 1 : this.alert_config_state = 0;
+            }
         }
     }
 
@@ -205,7 +208,7 @@ export default class NNS extends Vue
         {
             let timestamp = new Date().getTime();
             let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
-            copare < 0 ? dommsg.isExpiration = true : dommsg.isExpiration = false;
+            copare < 0 ? dommsg.isExpiration = false : dommsg.isExpiration = true;
             dommsg.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
             dommsg.await_resolver = false;
             if (msg[ "resolver" ])
@@ -223,6 +226,7 @@ export default class NNS extends Vue
         } else
         {
             dommsg.await_resolver = true;
+            dommsg.isExpiration = false;
         }
         return dommsg;
     }

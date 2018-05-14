@@ -11,8 +11,7 @@
             <span>{{network}}</span>
           </span>
         </div>
-        <button class="btn btn-nel btn-big" @click="nnsRegister" v-if="btn_register">Register</button>
-        <spinner-wrap style="margin-left:20px" v-else></spinner-wrap>
+        <button class="btn btn-nel btn-big" @click="nnsRegister">Register</button>
         <div style="padding-left:50px">
           <span>{{errmsg}}</span>
         </div>
@@ -30,11 +29,11 @@
         <!-- <span class="msg-null" v-if="!domain.resolver&&domain.resolver==''">
           ( not configured )
         </span> -->
-        <span class="msg-resolver">( Adress Resolver : {{domain.await_resolver?"Waiting":domain.resolver}})</span>
-        <br>
-        <span class="msg-resolver">( Adress Mapping : {{domain.await_mapping?"Waiting":domain.mapping}})</span>
-        <br>
-        <span class="msg-resolver">( Expiration Time : {{domain.time}} {{domain.await?"Waiting":""}})</span>
+        <span class="msg-resolver" v-if="domain.resolver||domain.await_resolver">( Adress Resolver : {{domain.await_resolver?"Waiting":domain.resolver}}) <br></span>
+
+        <span class="msg-resolver" v-if="domain.mapping||domain.await_mapping">( Adress Mapping : {{domain.await_mapping?"Waiting":domain.mapping}})<br></span>
+
+        <span class="msg-resolver">( Expiration Time : {{domain.time}} {{domain.await?"Waiting":""}}) {{domain.isExpiration?"(Expiration)":""}}</span>
         <span class="domainname"></span>
         <button class="btn btn-nel" style="float:right;margin-right:50px" @click="resolve(domain)">Edit</button>
       </div>
