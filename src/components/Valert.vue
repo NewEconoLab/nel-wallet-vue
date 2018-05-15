@@ -81,7 +81,7 @@ export default class Valert extends Vue {
           .input-ico {
             padding: 20px;
             height: 56px;
-            width: 700px;
+            width: 600px;
             margin-bottom: 0;
             vertical-align: middle;
           }

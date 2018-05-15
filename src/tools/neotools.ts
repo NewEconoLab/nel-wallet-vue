@@ -3,8 +3,20 @@ import { Result, LoginInfo } from './entity';
 export class neotools
 {
     constructor() { }
+
     /**
-     * verifyPublicKey 验证公钥
+     * verifyAddress
+     * @param addr
+     */
+    public static verifyAddress(addr: string): boolean
+    {
+        var verify = /^[a-zA-Z0-9]{34,34}$/;
+        var res: boolean = verify.test(addr) ? neotools.verifyPublicKey(addr) : verify.test(addr);
+        return res;
+    }
+
+    /**
+     * verifyPublicKey 验证地址
      * @param publicKey 公钥
      */
     public static verifyPublicKey(publicKey: string)

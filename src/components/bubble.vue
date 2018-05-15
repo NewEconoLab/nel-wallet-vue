@@ -1,9 +1,11 @@
 <template>
   <div class="bubble-box">
     <div class="bubble-png">
-      <img src="../../static/img/gift.png" alt="">
+      <img src="../../static/img/gift-disable.png" v-if="isdisable" alt="">
+      <img src='../../static/img/gift.png' v-else alt="">
     </div>
-    <div class="bubble-msg">You get a reward of 50 NNCs ！</div>
+    <div class="bubble-msg" :class="isdisable?'disable':''" @click="eventCut()">
+      {{isdisable?'Register your domain name and collect the reward.':'You get a reward of 50 NNCs ！'}}</div>
     <div class="help-icon">
       <img src="../../static/img/wenhao.png" alt="">
       <div class="help-msg">
@@ -13,6 +15,36 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { LoginInfo } from "../tools/entity";
+
+@Component({
+  components: {}
+})
+export default class Bubble extends Vue {
+  @Prop({ default: true })
+  isdisable: boolean;
+
+  constructor() {
+    super();
+  }
+  mounted() {}
+
+  eventCut() {
+    console.log("aa");
+
+    if (!this.isdisable) {
+      window.open(
+        "../../static/event/index.html?walletAddress=" +
+          LoginInfo.getCurrentAddress()
+      );
+    }
+  }
+}
+</script>
+
+
 <style lang="less" scoped>
 .bubble-box {
   display: inline-block;
@@ -29,8 +61,14 @@
     }
   }
   .bubble-msg {
+    &.disable {
+      background: #b2b2b2;
+      color: #ffffff;
+      border: 2px solid #7d7d7d;
+      border-radius: 5px;
+    }
     display: inline-block;
-    width: 240px;
+    width: auto;
     padding: 11px 11px 11px 25px;
     font-size: 12px;
     color: #ffffff;
@@ -79,3 +117,4 @@
   }
 }
 </style>
+ 

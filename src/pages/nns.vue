@@ -11,15 +11,18 @@
             <span>{{network}}</span>
           </span>
         </div>
-        <button class="btn btn-nel btn-big" @click="nnsRegister">Register</button>
-        <div style="padding-left:50px">
+        <button class="btn btn-nel btn-big" @click="nnsRegister" v-if="btn_register">Register</button>
+        <spinner-wrap v-else style="margin-left:20px"></spinner-wrap>
+        <div class="err-color" style="padding-left:50px;padding-top:10px;">
           <span>{{errmsg}}</span>
         </div>
       </div>
 
       <div class="title">
         <span>My Neo Name</span>
-        <bubble-wrap></bubble-wrap>
+        <div style="display:inline-block">
+          <bubble-wrap :isdisable="receive_disable"></bubble-wrap>
+        </div>
       </div>
       <div class="form-inline" v-for="domain in domainarr" :key="domain.index">
         <!-- <span class="msg-null" v-if="!domain.resolver&&domain.resolver==''">
@@ -52,32 +55,29 @@
         <span class="content-des">Adress Resolver : </span>
         <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
         <div class="input-warp">
+          <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
           <span v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
           </span>
-          <span v-else style="padding-left:30px"></span>
-          <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
           <div class="btn-verify-warp">
             <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">Confirm</button>
             <spinner-wrap v-if="alert_resolver_state==1"></spinner-wrap>
             <button class="btn-nel btn-verify " v-if="alert_resolver_state==2" @click="setresolve()">Resetting </button>
           </div>
-          <!-- <div v-else class="icon-verify"></div> -->
         </div>
       </div>
       <div class="content content-verify">
         <span class="content-des">Adress Mapping : </span>
         <span class="content-msg"></span>
         <div class="input-warp">
+          <input type="text" v-model="alert_addr" class="input-ico" :class="mapping_err=='0'?'input-success':mapping_err=='1'?'input-err':''" @input="verifyMappingAddress">
           <span v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
-          <span v-else style="width:30px"></span>
-          <input type="text" v-model="alert_addr" class="input-ico ">
-          <div class="icon-verify" style="display:none;"></div>
           <div class="btn-verify-warp">
             <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">Confirm</button>
             <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">Resetting</button>
             <spinner-wrap v-if="alert_config_state==1"></spinner-wrap>
           </div>
         </div>
+        <div v-if="mapping_err=='1'" class="err-color">Please enter the correct format of the address </div>
       </div>
     </v-alert>
   </wallet-layout>
@@ -92,6 +92,9 @@
 }
 .input-success {
   box-shadow: 0 0 3px 0 rgba(45, 222, 79, 0.5);
+}
+.err-color {
+  color: #ff6a6a;
 }
 .container .form-inline {
   background: #454f60;

@@ -9,6 +9,7 @@ import Spinner from "../components/Spinner.vue";
 import Bubble from "../components/bubble.vue";
 import { StorageTool } from "../tools/storagetool";
 import { DateTool } from "../tools/timetool";
+import { neotools } from "../tools/neotools";
 
 declare const mui;
 @Component({
@@ -26,6 +27,8 @@ export default class NNS extends Vue
     domainerr: boolean;
     errmsg: string;
     domainarr: Domainmsg[];
+    verifyDomainNumber: number;
+    mapping_err: string;
     alert_domain: string;
     alert_addr: string;
     alert_contract: string;
@@ -36,6 +39,7 @@ export default class NNS extends Vue
     alert_resolver_state: number;
     alert_config_state: number;
     btn_register: boolean;
+    receive_disable: boolean;
 
     constructor() 
     {
@@ -43,8 +47,11 @@ export default class NNS extends Vue
         this.network = ".test";
         this.nnsstr = "";
         this.domainerr = false;
+        this.receive_disable = true;
+        this.mapping_err = "";
         this.errmsg = "";
         this.btn_register = true;
+        this.verifyDomainNumber = 0;
         this.alert_addr = "";
         this.alert_domain = "";
         this.alert_contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
@@ -71,28 +78,24 @@ export default class NNS extends Vue
     async verifyDomain()
     {
         this.nnsstr = this.nnsstr.trim();
-        var regStr = "^([a-zA-Z0-9-])";
-        var re = new RegExp(regStr); //创建正则表达式对象 
-        //var re=/^([a-zA-Z0-9-]+\\.){1,}(com|net|edu|miz|biz|cn|cc)$/; 
-        if (!re.exec(this.nnsstr))
-        { //验证输入的字符串是否符合规则 
-            this.domainerr = true;
-            this.errmsg = "Please enter a domain name in the correct format ";
-            return;
-        } else
+        let verify = /^[a-zA-Z0-9]{1,32}$/;
+        if (verify.test(this.nnsstr))
         {
+
             let domains = await NNSTool.queryDomainInfo(this.nnsstr + ".test")
             if (domains.register && domains.ttl)
             {
                 var timestamp = new Date().getTime();
                 let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(domains.ttl).multiply(1000));
-                // let copare: number = new Neo.BigInteger(timestamp).compareTo(doamininfo.ttl.multiply(1000));
                 if (copare < 0)
                 {
                     // console.log('域名已到期');
+                    this.errmsg = "The domain name has been registered ";
                     this.domainerr = true;
                 } else
                 {
+                    this.errmsg = "";
+                    this.domainerr = false;
                     // mui.toast("The current domain name is registered : ");
                 }
             } else
@@ -100,12 +103,23 @@ export default class NNS extends Vue
                 this.domainerr = false;
                 this.errmsg = "";
             }
+        } else
+        {
+            //验证输入的字符串是否符合规则 
+            this.domainerr = true;
+            this.errmsg = "Please enter a domain name in the correct format ";
+            return;
         }
     }
 
-    /**
-     * 
-     */
+    verifyMappingAddress()
+    {
+        let res = neotools.verifyAddress(this.alert_addr);
+        res ? this.mapping_err = "0" : this.mapping_err = "1";
+        return res;
+    }
+
+
     async nnsRegister()
     {
         this.verifyDomain();
@@ -119,19 +133,18 @@ export default class NNS extends Vue
                     console.error(res.info);
                 } else
                 {
-                    this.btn_register = false;
+                    let state = new DomainStatus();
+                    state.await_register = true;
+                    state.domainname = this.nnsstr + ".test";
+                    DomainStatus.setStatus(state);
                     let delres = await WWW.delnnsinfo(this.nnsstr + ".test");
                     if (delres == "suc")
                     {
                         let res = await WWW.setnnsinfo(LoginInfo.getCurrentAddress(), this.nnsstr + ".test", 0);
                         if (res == "suc")
                         {
-                            // mui.alert("Domain name registration contract has been issued, please see ")
-                            let state = new DomainStatus();
-                            state.await_register = true;
-                            state.domainname = this.nnsstr + ".test";
-                            DomainStatus.setStatus(state);
                             this.getDomainsByAddr();
+                            this.btn_register = true;
                         }
                     }
                 }
@@ -210,6 +223,7 @@ export default class NNS extends Vue
         let msg = await NNSTool.queryDomainInfo(domain);
         if (msg.ttl)
         {
+            this.receive_disable = false;
             let timestamp = new Date().getTime();
             let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
             copare < 0 ? dommsg.isExpiration = false : dommsg.isExpiration = true;
@@ -245,6 +259,7 @@ export default class NNS extends Vue
         let name = this.alert_domainmsg.domainname;
         this.alert_domain = name;
         this.alert_addr = this.alert_domainmsg.mapping;
+        this.mapping_err = "";
 
         if (!!msg)
         {
@@ -285,17 +300,20 @@ export default class NNS extends Vue
      */
     async configResolve()
     {
-        let arr = this.alert_domain.split(".");
-        let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
-        // this.alert_addr = this.alert_addr ? this.alert_addr : LoginInfo.getCurrentAddress();
-        let res = await NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
-        this.alert_config_state = 1;
-        let state = new DomainStatus();
-        state.await_mapping = true;
-        state.domainname = this.alert_domain;
-        state.mapping = this.alert_addr;
-        DomainStatus.setStatus(state);
-        this.getDomainsByAddr();
+        if (this.verifyMappingAddress())
+        {
+            let arr = this.alert_domain.split(".");
+            let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+            // this.alert_addr = this.alert_addr ? this.alert_addr : LoginInfo.getCurrentAddress();
+            let res = await NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
+            this.alert_config_state = 1;
+            let state = new DomainStatus();
+            state.await_mapping = true;
+            state.domainname = this.alert_domain;
+            state.mapping = this.alert_addr;
+            DomainStatus.setStatus(state);
+            this.getDomainsByAddr();
+        }
         // await this.awaitHeight("setResolve");
     }
 
