@@ -54,8 +54,6 @@
                             </div>
                         </div>
                         <div class="col-sm-3 mess">
-                            <!-- <p v-if="addrerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; Your adress is incorrect.</p>
-                            <p v-if="addrerr=='false'"><img src="../../static/img/correct.svg" alt=""></p> -->
                         </div>
                     </div>
                     <div class="col-sm-12" style="padding-top:30px;">
