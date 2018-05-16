@@ -465,7 +465,7 @@ export class NNSTool
     static verifyDomain(domain)
     {
         //check domain valid
-        var reg = /^(.+\.)(test|[a-z][a-z])$/;
+        var reg = /^(.+\.)(test|TEST|[a-z][a-z])$/;
         if (!reg.test(domain))
         {
             return false;

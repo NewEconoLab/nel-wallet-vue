@@ -90,6 +90,7 @@ export default class transfer extends Vue
         let isAddress = NNSTool.verifyAddr(this.target);
         if (isDomain)
         {
+            this.target = this.target.toLowerCase();
             let addr = await NNSTool.resolveData(this.target);
             if (addr)
             {
@@ -99,9 +100,9 @@ export default class transfer extends Vue
             }
             else
             {
-                this.toaddress="";
+                this.toaddress = "";
                 this.addrerr = 'true'; return false;
-                
+
             }
         }
         else if (isAddress)
@@ -109,13 +110,14 @@ export default class transfer extends Vue
             if (neotools.verifyPublicKey(this.target))
             {
                 this.toaddress = this.target;
-                this.addrerr = 'false'; 
+                this.addrerr = 'false';
                 return true;
             }
         }
-        else { 
-            this.addrerr = 'true';  
-            this.toaddress="";
+        else
+        {
+            this.addrerr = 'true';
+            this.toaddress = "";
             return false;
         }
     }

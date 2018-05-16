@@ -77,6 +77,7 @@ export default class NNS extends Vue
      */
     async verifyDomain()
     {
+        this.nnsstr = this.nnsstr.toLowerCase();
         this.nnsstr = this.nnsstr.trim();
         let verify = /^[a-zA-Z0-9]{1,32}$/;
         if (verify.test(this.nnsstr))

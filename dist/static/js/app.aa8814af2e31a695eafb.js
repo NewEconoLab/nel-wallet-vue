@@ -3072,7 +3072,7 @@ var NNSTool = /** @class */ (function () {
     };
     NNSTool.verifyDomain = function (domain) {
         //check domain valid
-        var reg = /^(.+\.)(test|[a-z][a-z])$/;
+        var reg = /^(.+\.)(test|TEST|[a-z][a-z])$/;
         if (!reg.test(domain)) {
             return false;
         }
@@ -3221,6 +3221,7 @@ var NNS = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        this.nnsstr = this.nnsstr.toLowerCase();
                         this.nnsstr = this.nnsstr.trim();
                         verify = /^[a-zA-Z0-9]{1,32}$/;
                         if (!verify.test(this.nnsstr)) return [3 /*break*/, 2];
@@ -3749,6 +3750,7 @@ var transfer = /** @class */ (function (_super) {
                         isDomain = nnstool_1.NNSTool.verifyDomain(this.target);
                         isAddress = nnstool_1.NNSTool.verifyAddr(this.target);
                         if (!isDomain) return [3 /*break*/, 2];
+                        this.target = this.target.toLowerCase();
                         return [4 /*yield*/, nnstool_1.NNSTool.resolveData(this.target)];
                     case 1:
                         addr = _a.sent();
