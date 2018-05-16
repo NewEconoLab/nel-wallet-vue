@@ -3752,6 +3752,7 @@ var transfer = /** @class */ (function (_super) {
                             return [2 /*return*/, true];
                         }
                         else {
+                            this.toaddress = "";
                             this.addrerr = 'true';
                             return [2 /*return*/, false];
                         }
@@ -3766,6 +3767,7 @@ var transfer = /** @class */ (function (_super) {
                         }
                         else {
                             this.addrerr = 'true';
+                            this.toaddress = "";
                             return [2 /*return*/, false];
                         }
                         _a.label = 3;

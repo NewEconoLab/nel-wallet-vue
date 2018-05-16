@@ -99,7 +99,9 @@ export default class transfer extends Vue
             }
             else
             {
+                this.toaddress="";
                 this.addrerr = 'true'; return false;
+                
             }
         }
         else if (isAddress)
@@ -107,10 +109,15 @@ export default class transfer extends Vue
             if (neotools.verifyPublicKey(this.target))
             {
                 this.toaddress = this.target;
-                this.addrerr = 'false'; return true;
+                this.addrerr = 'false'; 
+                return true;
             }
         }
-        else { this.addrerr = 'true'; return false; }
+        else { 
+            this.addrerr = 'true';  
+            this.toaddress="";
+            return false;
+        }
     }
     verify_Amount()
     {
