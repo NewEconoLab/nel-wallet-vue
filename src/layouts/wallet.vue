@@ -6,26 +6,26 @@
           <ul class="nav navbar-nav navbar-left">
             <li>
               <v-link ref="balance" href="#balance">
-                <span :class="[balance]"></span> Balance
+                <span :class="[balance]"></span> {{$t('banlance.banlance')}}
               </v-link>
             </li>
             <li>
               <v-link ref="transfer" href="#transfer">
-                <span :class="[transfer]"></span> Transfer
+                <span :class="[transfer]"></span> {{$t('transfer.transfer')}}
               </v-link>
             </li>
             <li>
               <v-link ref="nns" href="#nns">
-                <span :class="[nns]"></span> NNS
+                <span :class="[nns]"></span> {{$t('nns.nns')}}
               </v-link>
             </li>
             <li>
               <v-link ref="setting" href="#settings">
-                <span :class="[setting]"></span> Settings
+                <span :class="[setting]"></span> {{$t('setting.settings')}}
               </v-link>
             </li>
           </ul>
-          <div class="blockheight">Block Height：{{blockheight}}</div>
+          <div class="blockheight">{{$t('navbar.blockheight')}}：{{blockheight}}</div>
         </div>
         <!--/.nav-collapse -->
       </div>

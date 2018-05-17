@@ -5,11 +5,11 @@
       <img src='../../static/img/gift.png' v-else alt="">
     </div>
     <div class="bubble-msg" :class="isdisable?'disable':''" @click="eventCut()">
-      {{isdisable?'Register your domain name and collect the reward.':'You get a reward of 50 NNCs ！'}}</div>
+      {{isdisable?$t('nns.msg3'):$t('nns.msg1')}}</div>
     <div class="help-icon">
       <img src="../../static/img/wenhao.png" alt="">
       <div class="help-msg">
-        You will be rewarded with 50 NNCs on Mainnet for the first time you map your wallet address to an ending in ".test " name successfully.
+        {{$t('nns.msg2')}}
         <div class="triangle-box"></div>
       </div>
     </div>

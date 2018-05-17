@@ -2,16 +2,16 @@
   <wallet-layout>
     <div class="container ">
       <div class="title">
-        <span>Register Neo Name</span>
+        <span>{{$t('nns.title1')}}</span>
       </div>
       <div class="form-inline">
         <div class="input-group nns-register" v-bind:class="domainerr?'input-err':'input-success'">
-          <input @input="verifyDomain" type="text" class="nel" v-model="nnsstr" placeholder="type a name">
+          <input @input="verifyDomain" type="text" class="nel" v-model="nnsstr" :placeholder="$t('nns.placeholder1')">
           <span class="input-group-addon nel ">
             <span>{{network}}</span>
           </span>
         </div>
-        <button class="btn btn-nel btn-big" @click="nnsRegister" v-if="btn_register">Register</button>
+        <button class="btn btn-nel btn-big" @click="nnsRegister" v-if="btn_register">{{$t('nns.register')}}</button>
         <spinner-wrap v-else style="margin-left:20px"></spinner-wrap>
         <div class="err-color" style="padding-left:50px;padding-top:10px;">
           <span>{{errmsg}}</span>
@@ -19,7 +19,7 @@
       </div>
 
       <div class="title">
-        <span>My Neo Name</span>
+        <span>{{$t('nns.title2')}}</span>
         <div style="display:inline-block">
           <bubble-wrap :isdisable="receive_disable"></bubble-wrap>
         </div>
@@ -34,50 +34,50 @@
               {{domain.domainname}}
             </span>
             <br>
-            <span class="msg-resolver">( Adress Resolver : {{domain.resolver}}) <br></span>
-            <span class="msg-resolver">( Adress Mapping : {{domain.mapping}})<br></span>
-            <span class="msg-resolver">( Expiration Time : {{domain.time}})
+            <span class="msg-resolver">( {{$t('nns.text1')}} : {{domain.resolver}}) <br></span>
+            <span class="msg-resolver">( {{$t('nns.text2')}} : {{domain.mapping}})<br></span>
+            <span class="msg-resolver">( {{$t('nns.text3')}} : {{domain.time}})
             </span>
-            <span class="msg-resolver state-lable">{{domain.isExpiration?"(Expiration)":""}} {{domain.await_register?"(Waiting)":""}}</span>
+            <span class="msg-resolver state-lable">{{domain.isExpiration?"("+$t('nns.text4')+")":""}} {{domain.await_register?"("+$t('nns.waiting')+")":""}}</span>
           </div>
           <div class="col-md-2">
-            <button v-if="!domain.await_register" class="btn btn-nel" @click="resolve(domain)">Edit</button>
+            <button v-if="!domain.await_register" class="btn btn-nel" @click="resolve(domain)">{{$t('nns.edit')}}</button>
           </div>
         </div>
       </div>
     </div>
     <v-alert ref="alert">
       <div class="content content-file">
-        <span class="content-des">Neo Name : {{alert_domain}}</span>
+        <span class="content-des">{{$t('nns.alerttitle1')}} : {{alert_domain}}</span>
         <span class="content-msg"></span>
       </div>
       <div class="content content-verify">
-        <span class="content-des">Adrress Resolver : </span>
-        <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to map your adress. )</span>
+        <span class="content-des">{{$t('nns.alerttitle2')}} : </span>
+        <span class="content-msg warning-msg">( {{$t('nns.alertmessage1')}} )</span>
         <div class="input-warp">
           <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
           <span class="correct-icon" v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
           </span>
           <div class="btn-verify-warp">
-            <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">Confirm</button>
+            <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">{{$t('btn.bnt1')}}</button>
             <spinner-wrap v-if="alert_resolver_state==1"></spinner-wrap>
-            <button class="btn-nel btn-verify " v-if="alert_resolver_state==2" @click="setresolve()">Reset</button>
+            <button class="btn-nel btn-verify " v-if="alert_resolver_state==2" @click="setresolve()">{{$t('btn.bnt2')}}</button>
           </div>
         </div>
       </div>
       <div class="content content-verify">
-        <span class="content-des">Adrress Mapping : </span>
+        <span class="content-des">{{$t('nns.alerttitle3')}} : </span>
         <span class="content-msg"></span>
         <div class="input-warp">
           <input type="text" v-model="alert_addr" class="input-ico" :class="mapping_err=='0'?'input-success':mapping_err=='1'?'input-err':''" @input="verifyMappingAddress">
           <span class="correct-icon" v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
           <div class="btn-verify-warp" style="margin-left:25px">
-            <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">Confirm</button>
-            <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">Reset</button>
+            <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">{{$t('btn.bnt1')}}</button>
+            <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">{{$t('btn.btn2')}}</button>
             <spinner-wrap v-if="alert_config_state==1"></spinner-wrap>
           </div>
         </div>
-        <div v-if="mapping_err=='1'" class="err-color">Please enter the correct format of the address </div>
+        <div v-if="mapping_err=='1'" class="err-color">{{$t('nns.alertmessage2')}} </div>
       </div>
     </v-alert>
   </wallet-layout>

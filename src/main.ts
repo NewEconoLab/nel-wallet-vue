@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import VueI18n from 'vue-i18n'
+import cn from "./language/cn"
+import en from "./language/en"
 import Home from './pages/home.vue'
 import About from './pages/about.vue'
 import Login from './pages/login.vue'
@@ -10,13 +13,28 @@ import Settings from './pages/settings.vue';
 import { CoinTool } from './tools/cointool';
 import { StorageTool } from './tools/storagetool';
 
+Vue.use(VueI18n);
 // const notFound = () => import('./pages/404.vue');
 declare var require: (filename, resolve) => any;
 Vue.config.productionTip = false
 const notFound = Vue.component('notFound', (resolve) => require([ './pages/404.vue' ], resolve));
+let language = sessionStorage.getItem("language");
+!!language ? language : language = 'en';
+/*---------使用语言包-----------*/
+const i18n = new VueI18n({
+    locale: language,    // 语言标识
+    messages: {
+        'cn': cn,   // 中文语言包
+        'en': en    // 英文语言包
+    },
+});
+// i18n.locale = language;
+// app.$i18n.locale = language;
+
 
 var app = new Vue({
     el: '#app',
+    i18n,
     data: {
         currentRoute: window.location.hash
     },

@@ -6,25 +6,25 @@
         <div class="container-left">
           <div class="container-icon"><img src="../../static/img/NeoLogo.svg" alt=""></div>
           <div class="container-title" @click="cutModual('nep6')" :class="{'active':!(moudle_generate||moudle_download)}">
-            <span ref="login">Login</span>
+            <span ref="login">{{$t("login.login")}}</span>
           </div>
           <div class="container-title" @click="cutModual('generate')" :class="{'active':(moudle_generate || moudle_download)}">
-            <span ref="login">Generate</span>
+            <span ref="login">{{$t("generate.generate")}}</span>
           </div>
         </div>
         <div class="container-right">
           <div v-if="moudle_nep6" class="nep6-imp">
             <div class="title-login">
               <span>
-                Login your wallet
+                {{$t("login.title")}}
               </span>
             </div>
             <div class="input-login">
               <div class="input-group nel-input-blg">
-                <input type="text" class="form-control" placeholder="Select keystore file. " disabled="true" v-model="filename">
+                <input type="text" class="form-control" :placeholder="$t('login.selectplaceholder')" disabled="true" v-model="filename">
                 <span class="input-group-addon">
                   <button class="btn btn-nel fileinput-button">
-                    <span>Select</span>
+                    <span>{{$t("login.selectbtn")}}</span>
                     <input type="file" @change="fileChange">
                   </button>
                 </span>
@@ -32,103 +32,103 @@
             </div>
             <div class="input-login" style="padding-top:40px;">
               <div class="input-group nel-input-blg">
-                <input class="form-control" placeholder="Enter password. " type="password" v-model="password">
+                <input class="form-control" :placeholder="$t('login.passwordholder')" type="password" v-model="password">
                 <span class="input-group-addon">
                   <button class="btn btn-nel fileinput-button" @click="login('nep6')">
-                    Login
+                    {{$t("login.login")}}
                   </button>
                 </span>
               </div>
             </div>
             <div style="height:36px;padding-top:80px;padding-bottom:30px; text-align:center">
               <hr width="80%" color="#987cb9">
-              <div class="hr-more">or you can</div>
+              <div class="hr-more">{{$t("login.cutlinemsg")}}</div>
             </div>
             <div style="width:417px; margin:0 auto; padding-top:30px">
-              <button class="btn btn-nel btn-import" @click="cutModual('wif')">Import key from WIF String </button>
+              <button class="btn btn-nel btn-import" @click="cutModual('wif')">{{$t("login.wifmsg")}}</button>
             </div>
             <div style="width:417px; margin:0 auto; padding-top:20px;padding-bottom: 5.9%;">
-              <button class="btn btn-nel btn-import" @click="cutModual('nep2')">Import key from nep2 String </button>
+              <button class="btn btn-nel btn-import" @click="cutModual('nep2')">{{$t("login.nep2msg")}}</button>
             </div>
           </div>
           <div v-if="moudle_wif" class="wif_imp">
             <div class="title-login">
-              <span>WIF Private Key</span>
+              <span>{{$t("wif.title")}}</span>
             </div>
-            <div class="nel-input-blg"><input type="text" placeholder="Enter your private key. " v-model="wif"></div>
+            <div class="nel-input-blg"><input type="text" :placeholder="$t('wif.wifplaceholder')" v-model="wif"></div>
             <div class="login-btn">
-              <button class="btn btn-nel btn-import" @click="login('wif')">Login</button>
+              <button class="btn btn-nel btn-import" @click="login('wif')">{{$t("login.login")}}</button>
             </div>
             <div class="back">
-              <a @click="cutModual('nep6')">&lt; Back</a>
+              <a @click="cutModual('nep6')">&lt; {{$t("wif.back")}}</a>
             </div>
           </div>
           <div v-if="moudle_nep2" class="nep2_imp">
             <div class="title-login">
               <span>Nep2</span>
             </div>
-            <div class="nel-input-blg"><input type="text" placeholder="Enter your Nep2. " v-model="nep2"></div>
-            <div class="nel-input-blg"><input type="password" placeholder="Enter password. " v-model="nep2pwd"></div>
+            <div class="nel-input-blg"><input type="text" :placeholder="$t('nep2.placeholder')" v-model="nep2"></div>
+            <div class="nel-input-blg"><input type="password" :placeholder="$t('nep2.password')" v-model="nep2pwd"></div>
             <div class="login-btn">
-              <button class="btn btn-nel btn-import" @click="login('nep2')">Login</button>
+              <button class="btn btn-nel btn-import" @click="login('nep2')">{{$t("login.login")}}</button>
             </div>
             <div class="back">
-              <a @click="cutModual('nep6')">&lt; Back</a>
+              <a @click="cutModual('nep6')">&lt; {{$t("wif.back")}}</a>
             </div>
           </div>
           <div class="generate" v-if="moudle_generate">
             <div class="title-login">
-              <span>Generate a new wallet</span>
+              <span>{{$t("generate.title")}}</span>
             </div>
             <div :class="nameerr!=''?( nameerr == 'true' ?'err':'success') :''">
-              <div class="nel-input-blg"><input type="text" placeholder="Name your wallet. " @input="verifyName" @blur="verifyName" v-model="walletname">
+              <div class="nel-input-blg"><input type="text" :placeholder="$t('generate.name')" @input="verifyName" @blur="verifyName" v-model="walletname">
               </div>
               <div class="message">
-                <p v-if="nameerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; Wallet name cannot be empty.</p>
-                <p v-if="nameerr=='false'"><img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; Verification pass. </p>
+                <p v-if="nameerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; {{$t('generate.nameempty')}}</p>
+                <p v-if="nameerr=='false'"><img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; {{$t('generate.namepass')}}</p>
               </div>
             </div>
             <div :class="pwderr!=''?( pwderr == 'true' ?'err':'success') :''">
               <div class="nel-input-blg">
-                <input type="password" placeholder="Enter password. " @input="verifypwd" @blur="verifypwd" v-model="walletpwd">
+                <input type="password" :placeholder="$t('generate.password')" @input="verifypwd" @blur="verifypwd" v-model="walletpwd">
               </div>
               <div class="message">
                 <p v-if="pwderr=='true'">
                   <img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; {{pwdmsg}}
                 </p>
                 <p v-if="pwderr=='false'">
-                  <img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; Verification pass.
+                  <img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; {{$t('generate.namepass')}}
                 </p>
               </div>
             </div>
             <div :class="confirmerr!=''?( confirmerr == 'true' ?'err':'success') :''">
               <div class="nel-input-blg">
-                <input type="password" placeholder="Confirm password. " @input="verifyConfirm" @blur="verifyConfirm" v-model="confirmpwd">
+                <input type="password" :placeholder="$t('generate.passwordagain')" @input="verifyConfirm" @blur="verifyConfirm" v-model="confirmpwd">
               </div>
               <div class="message">
                 <p v-if="confirmerr=='true'">
-                  <img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; Please enter the same password as above.
+                  <img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; {{$t('generate.pwderrmsg3')}}
                 </p>
                 <p v-if="confirmerr=='false'">
-                  <img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; Verification pass.
+                  <img src="../../static/img/correct.svg" alt="">&nbsp;&nbsp; {{$t('generate.namepass')}}
                 </p>
               </div>
             </div>
             <div class="login-btn">
-              <button class="btn btn-nel btn-import" @click="generate()">Generate</button>
+              <button class="btn btn-nel btn-import" @click="generate()">{{$t("generate.generate")}}</button>
             </div>
           </div>
           <div class="generate download" v-if="moudle_download">
             <div class="title-login">
-              <span>Your keystore file has been created.</span>
+              <span>{{$t("generate.createmsg")}}</span>
             </div>
-            <p class="guide">You can click the ‘download’ button to save your keystore file!</p>
+            <p class="guide">{{$t("generate.downloadmsg")}}</p>
             <div class="login-btn">
-              <a class="btn btn-nel btn-import" :download="download_name" :href="download_href">Download</a>
+              <a class="btn btn-nel btn-import" :download="download_name" :href="download_href">{{$t("generate.download")}}</a>
             </div>
             <div class="remind">
-              <p class="title-remind">Do not lose it!</p>
-              <p class="content-remind">It can’t be recovered if you lose it.</p>
+              <p class="title-remind">{{$t("generate.msg")}}</p>
+              <p class="content-remind">{{$t("generate.msg2")}}</p>
             </div>
           </div>
         </div>

@@ -43,7 +43,7 @@ export default class Settings extends Vue
         wallet.accounts = [];
         wallet.accounts[ 0 ] = new ThinNeo.nep6account();
         wallet.accounts[ 0 ].address = LoginInfo.getCurrentAddress();
-        mui.prompt('Set the password ', 'Enter your password ', 'Create a wallet', [ 'cancel', 'confirm' ], (e) =>
+        mui.prompt("" + this.$t("setting.msg3"), "" + this.$t("setting.msg4"), "" + this.$t("setting.msg5"), [ "" + this.$t("btn.btn7"), "" + this.$t("btn.btn1") ], (e) =>
         {
             if (e.index == 1)
             {

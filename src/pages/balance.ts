@@ -96,16 +96,16 @@ export default class balance extends Vue
       if (this.neoasset.neo > 0)
       {
         this.claimbtn = false;
-        this.loadmsg = "Sending NEO to account address…";
+        this.loadmsg = "" + this.$t("balance.msg1");
         let res = await CoinTool.rawTransaction(this.currentAddress, CoinTool.id_NEO, this.neoasset.neo.toString());
         if (res.info)
         {
-          this.loadmsg = "Waiting for confirmation of transfer…";
+          this.loadmsg = "" + this.$t("balance.msg2");
           this.queryNEOTx(res.info);
         }
       } else
       {
-        this.loadmsg = "Claiming GAS…";
+        this.loadmsg = "" + this.$t("balance.msg3");
         let res = await CoinTool.claimGas();
         if (res[ "sendrawtransactionresult" ])
         {
@@ -126,7 +126,7 @@ export default class balance extends Vue
         this.queryNEOTx(txid);
         return;
       }
-      this.loadmsg = "Claiming GAS…";
+      this.loadmsg = "" + this.$t("balance.msg3");
       let result = await CoinTool.claimGas();
       if (result[ "sendrawtransactionresult" ])
       {
@@ -143,7 +143,7 @@ export default class balance extends Vue
       var res = await WWW.getrawtransaction(txid);
       if (res)
       {
-        this.loadmsg = "Your GAS claim is successful!";
+        this.loadmsg = "" + this.$t("balance.msg4");
         this.claimbtn = true;
         this.getBalances();
         return;

@@ -140,7 +140,7 @@ export default class transfer extends Vue
                     let res = await CoinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount);
                     if (!res[ "err" ])
                     {
-                        mui.toast("Your transaction has been sent, please check it later");
+                        mui.toast("" + this.$t("transfer.msg2"));
                         let his: History = new History();
                         his.address = this.toaddress;
                         his.asset = this.asset;
@@ -162,7 +162,7 @@ export default class transfer extends Vue
                     }
                     else
                     {
-                        mui.alert("Transaction failure");
+                        mui.alert("" + this.$t("transfer.msg3"));
                     }
                 } else
                 {
@@ -190,7 +190,7 @@ export default class transfer extends Vue
             }
         } catch (error)
         {
-            mui.alert("-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction ");
+            mui.alert("" + this.$t("transfer.msg4"));
         }
     }
     async history()

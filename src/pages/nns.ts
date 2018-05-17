@@ -91,7 +91,7 @@ export default class NNS extends Vue
                 if (copare < 0)
                 {
                     // console.log('域名已到期');
-                    this.errmsg = "The domain name has been registered ";
+                    this.errmsg = "" + this.$t("nns.err1");
                     this.domainerr = true;
                 } else
                 {
@@ -108,7 +108,7 @@ export default class NNS extends Vue
         {
             //验证输入的字符串是否符合规则 
             this.domainerr = true;
-            this.errmsg = "Please enter a domain name in the correct format ";
+            this.errmsg = "" + this.$t("nns.alermessage2");
             return;
         }
     }

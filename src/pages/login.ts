@@ -80,7 +80,7 @@ export default class login extends Vue
 
   async login(type: string)
   {
-    mui.toast("Be patient and wait for patience ...");
+    mui.toast("" + this.$t("toast.msg1"));
     if (type == "nep6")
     {
       neotools.nep6Load(this.wallet, this.password)
@@ -89,12 +89,12 @@ export default class login extends Vue
           var loginarray: LoginInfo[] = res.info as LoginInfo[];
           StorageTool.setLoginArr(loginarray);
           LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
-          mui.toast('Authentication passed, entering your account ^_^ ...', { duration: 'long', type: 'div' })
+          mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
           window.location.hash = "#balance";
         })
         .catch((e) =>
         {
-          mui.alert(">_< !!! The login failure error message is as follows:" + e);
+          mui.alert("" + this.$t("toast.msg3") + e);
         })
     }
     if (type == "wif")
@@ -102,7 +102,7 @@ export default class login extends Vue
       var res = neotools.wifDecode(this.wif);
       if (res.err)
       {
-        mui.toast(">_< !!! Please enter the correct string ")
+        mui.toast("" + this.$t("toast.msg4"))
       } else
       {
         var loginarray: LoginInfo[] = new Array<LoginInfo>();
@@ -110,7 +110,7 @@ export default class login extends Vue
         loginarray.push(login);
         StorageTool.setLoginArr(loginarray);
         LoginInfo.setCurrentAddress(login.address);
-        mui.toast('Authentication passed, entering your account ^_^ ...', { duration: 'long', type: 'div' })
+        mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
         window.location.hash = "#balance";
       }
     }
@@ -119,7 +119,7 @@ export default class login extends Vue
       var res = await neotools.nep2ToWif(this.nep2, this.nep2pwd);
       if (res.err)
       {
-        mui.toast(">_< !!! Please enter the correct string ")
+        mui.toast("" + this.$t("toast.msg4"))
       } else
       {
         var loginarray: LoginInfo[] = new Array<LoginInfo>();
@@ -127,7 +127,7 @@ export default class login extends Vue
         loginarray.push(login);
         StorageTool.setLoginArr(loginarray);
         LoginInfo.setCurrentAddress(login.address);
-        mui.toast('Authentication passed, entering your account ^_^ ...', { duration: 'long', type: 'div' })
+        mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
         window.location.hash = "#balance";
       }
     }
@@ -180,14 +180,14 @@ export default class login extends Vue
     if (this.walletpwd.length < 8)
     {
       this.pwderr = 'true';
-      this.pwdmsg = "Please enter a password of at least eight characters";
+      this.pwdmsg = '' + this.$t("generate.pwderrmsg1");
       return false;
     }
     var reg = new RegExp(/^(?![^a-zA-Z]+$)(?!\D+$)/);
     if (!reg.test(this.walletpwd))
     {
       this.pwderr = 'true';
-      this.pwdmsg = "Use at least one character and one number ";
+      this.pwdmsg = '' + this.$t("generate.pwderrmsg2");
       return false;
     } else
     {
