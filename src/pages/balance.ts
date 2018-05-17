@@ -42,7 +42,7 @@ export default class balance extends Vue
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
     this.getBalances();
-    setInterval(() => { this.getBalances() }, 30000)
+    // setInterval(() => { this.getBalances() }, 30000)
   }
 
   addressSwitch()
@@ -133,7 +133,7 @@ export default class balance extends Vue
         let txid = result[ "txid" ];
         this.queryClaimTx(txid);
       }
-    }, 20000);
+    }, 30000);
   }
 
   async queryClaimTx(txid)

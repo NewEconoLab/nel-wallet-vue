@@ -69,7 +69,7 @@ export default class NNS extends Vue
         await NNSTool.initRootDomain();
         NNSTool.initStatus();
         this.getDomainsByAddr();
-        this.awaitHeight();
+        // this.awaitHeight();
     }
 
     /**

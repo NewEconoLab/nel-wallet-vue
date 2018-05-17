@@ -161,10 +161,9 @@ var balance = /** @class */ (function (_super) {
     }
     // Component method
     balance.prototype.mounted = function () {
-        var _this = this;
         this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
         this.getBalances();
-        setInterval(function () { _this.getBalances(); }, 30000);
+        // setInterval(() => { this.getBalances() }, 30000)
     };
     balance.prototype.addressSwitch = function () {
         entity_1.LoginInfo.setCurrentAddress(this.chooseAddress);
@@ -281,7 +280,7 @@ var balance = /** @class */ (function (_super) {
                                 return [2 /*return*/];
                         }
                     });
-                }); }, 20000);
+                }); }, 30000);
                 return [2 /*return*/];
             });
         });
@@ -3199,7 +3198,6 @@ var NNS = /** @class */ (function (_super) {
                         _a.sent();
                         nnstool_1.NNSTool.initStatus();
                         this.getDomainsByAddr();
-                        this.awaitHeight();
                         return [2 /*return*/];
                 }
             });
@@ -4067,7 +4065,6 @@ var transfer = /** @class */ (function (_super) {
                     case 3:
                         setTimeout(function () {
                             _this.awaitHeight();
-                            6;
                         }, 30000);
                         return [2 /*return*/];
                 }
