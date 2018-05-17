@@ -52,8 +52,8 @@
         <span class="content-msg"></span>
       </div>
       <div class="content content-verify">
-        <span class="content-des">Adress Resolver : </span>
-        <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
+        <span class="content-des">Adrress Resolver : </span>
+        <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to map your adress. )</span>
         <div class="input-warp">
           <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
           <span class="correct-icon" v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
@@ -66,7 +66,7 @@
         </div>
       </div>
       <div class="content content-verify">
-        <span class="content-des">Adress Mapping : </span>
+        <span class="content-des">Adrress Mapping : </span>
         <span class="content-msg"></span>
         <div class="input-warp">
           <input type="text" v-model="alert_addr" class="input-ico" :class="mapping_err=='0'?'input-success':mapping_err=='1'?'input-err':''" @input="verifyMappingAddress">

@@ -149,7 +149,7 @@ export default class balance extends Vue
         return;
       }
       this.queryClaimTx(txid);
-    }, 20000);
+    }, 30000);
   }
 
   toTransfer(asset: string)

@@ -355,8 +355,8 @@ export default class transfer extends Vue
         }
         setTimeout(() =>
         {
-            this.awaitHeight();
-        }, 9000);
+            this.awaitHeight(); 6
+        }, 30000);
     }
 
 }

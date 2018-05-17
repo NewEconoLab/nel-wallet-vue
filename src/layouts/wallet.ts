@@ -57,7 +57,7 @@ export default class FeatureComponent extends Vue
             {
                 this.blockheight = res;
             });
-        setTimeout(() => { this.getHeight() }, 15000);
+        setTimeout(() => { this.getHeight() }, 30000);
     }
 
 }

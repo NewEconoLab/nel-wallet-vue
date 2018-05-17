@@ -341,7 +341,7 @@ export default class NNS extends Vue
         await setTimeout(() =>
         {
             this.awaitHeight();
-        }, 9000);
+        }, 30000);
     }
 
 
