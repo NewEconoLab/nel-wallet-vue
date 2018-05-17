@@ -56,7 +56,7 @@
         <span class="content-msg warning-msg">( It is the official adress resolver , you have to confirm this adress resolver first to mapping your adress. )</span>
         <div class="input-warp">
           <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
-          <span v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
+          <span class="correct-icon" v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
           </span>
           <div class="btn-verify-warp">
             <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">Confirm</button>
@@ -70,8 +70,8 @@
         <span class="content-msg"></span>
         <div class="input-warp">
           <input type="text" v-model="alert_addr" class="input-ico" :class="mapping_err=='0'?'input-success':mapping_err=='1'?'input-err':''" @input="verifyMappingAddress">
-          <span v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
-          <div class="btn-verify-warp">
+          <span class="correct-icon" v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
+          <div class="btn-verify-warp" style="margin-left:25px">
             <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">Confirm</button>
             <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">Resetting</button>
             <spinner-wrap v-if="alert_config_state==1"></spinner-wrap>
@@ -87,6 +87,11 @@
 </script>
 
 <style scoped>
+.correct-icon {
+  position: absolute;
+  top: 17px;
+  left: 614px;
+}
 .input-err {
   box-shadow: 0 0 3px 0 rgba(255, 106, 106, 0.5);
 }

@@ -201,15 +201,23 @@ export default class NNS extends Vue
         this.domainarr = arr.reverse();
         if (this.alert_domain)
         {
-            if (!!state[ this.alert_domain ])
+            arr.map((dom) =>
             {
-                let isMappingAwait = !!state[ this.alert_domain ][ "await_mapping" ];
-                let isMapping = !!state[ this.alert_domain ][ "mapping" ];
-                let isResolverAwait = !!state[ this.alert_domain ][ "await_resolver" ];
-                let isResolver = !!state[ this.alert_domain ][ "resolver" ];
-                isResolverAwait ? this.alert_resolver_state = 1 : isResolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
-                isMappingAwait ? this.alert_config_state = 1 : (isMapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
-            }
+                if (dom.domainname == this.alert_domain)
+                {
+                    dom.await_resolver ? this.alert_resolver_state = 1 : !!dom.resolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
+                    dom.await_mapping ? this.alert_config_state = 1 : (!!dom.mapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
+                }
+            });
+            // if (!!state[ this.alert_domain ])
+            // {
+            //     let isMappingAwait = !!state[ this.alert_domain ][ "await_mapping" ];
+            //     let isMapping = !!state[ this.alert_domain ][ "mapping" ];
+            //     let isResolverAwait = !!state[ this.alert_domain ][ "await_resolver" ];
+            //     let isResolver = !!state[ this.alert_domain ][ "resolver" ];
+            //     isResolverAwait ? this.alert_resolver_state = 1 : isResolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
+            //     isMappingAwait ? this.alert_config_state = 1 : (isMapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
+            // }
         }
     }
 

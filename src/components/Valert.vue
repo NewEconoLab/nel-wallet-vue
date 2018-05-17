@@ -78,12 +78,14 @@ export default class Valert extends Vue {
         }
         .input-warp {
           margin-top: 20px;
+          position: relative;
           .input-ico {
             padding: 20px;
             height: 56px;
             width: 600px;
             margin-bottom: 0;
             vertical-align: middle;
+            margin-right: 25px;
           }
           .input-disabled {
             cursor: not-allowed;
@@ -104,6 +106,7 @@ export default class Valert extends Vue {
             vertical-align: middle;
             .btn-verify {
               padding: 19px 25px;
+              width: 140px;
             }
             .btn-disabled {
               background: #77bcf6;
