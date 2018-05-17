@@ -3530,7 +3530,7 @@ var NNS = /** @class */ (function (_super) {
                         }
                         return [4 /*yield*/, setTimeout(function () {
                                 _this.awaitHeight();
-                            }, 5000)];
+                            }, 9000)];
                     case 2:
                         _a.sent();
                         return [2 /*return*/];
@@ -4067,7 +4067,7 @@ var transfer = /** @class */ (function (_super) {
                     case 3:
                         setTimeout(function () {
                             _this.awaitHeight();
-                        }, 5000);
+                        }, 9000);
                         return [2 /*return*/];
                 }
             });
