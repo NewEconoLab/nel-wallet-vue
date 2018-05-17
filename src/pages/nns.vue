@@ -61,7 +61,7 @@
           <div class="btn-verify-warp">
             <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">Confirm</button>
             <spinner-wrap v-if="alert_resolver_state==1"></spinner-wrap>
-            <button class="btn-nel btn-verify " v-if="alert_resolver_state==2" @click="setresolve()">Resetting </button>
+            <button class="btn-nel btn-verify " v-if="alert_resolver_state==2" @click="setresolve()">Reset</button>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@
           <span class="correct-icon" v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
           <div class="btn-verify-warp" style="margin-left:25px">
             <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">Confirm</button>
-            <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">Resetting</button>
+            <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">Reset</button>
             <spinner-wrap v-if="alert_config_state==1"></spinner-wrap>
           </div>
         </div>
