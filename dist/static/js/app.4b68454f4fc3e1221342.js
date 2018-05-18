@@ -3240,7 +3240,7 @@ var NNS = /** @class */ (function (_super) {
                     case 2:
                         //验证输入的字符串是否符合规则 
                         this.domainerr = true;
-                        this.errmsg = "" + this.$t("nns.alermessage2");
+                        this.errmsg = "" + this.$t("nns.alertmessage2");
                         return [2 /*return*/];
                     case 3: return [2 /*return*/];
                 }

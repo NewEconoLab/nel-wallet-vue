@@ -108,7 +108,7 @@ export default class NNS extends Vue
         {
             //验证输入的字符串是否符合规则 
             this.domainerr = true;
-            this.errmsg = "" + this.$t("nns.alermessage2");
+            this.errmsg = "" + this.$t("nns.alertmessage2");
             return;
         }
     }
