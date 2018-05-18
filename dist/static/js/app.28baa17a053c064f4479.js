@@ -3301,14 +3301,16 @@ var NNS = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, wwwtool_1.WWW.getnnsinfo(entity_1.LoginInfo.getCurrentAddress())];
                     case 1:
                         res = _c.sent();
-                        arrdomain = res.map(function (dom) { return dom + ".test"; });
+                        arrdomain = res ? res.map(function (dom) { return dom + ".test"; }) : [];
                         arr = new Array();
                         state = entity_1.DomainStatus.getStatus();
                         // state = JSON.parse(JSON.stringify(state));
-                        for (key in state) {
-                            if (state.hasOwnProperty(key)) {
-                                inculde = arrdomain.includes(key);
-                                inculde ? "" : arrdomain.push(key);
+                        if (state) {
+                            for (key in state) {
+                                if (state.hasOwnProperty(key)) {
+                                    inculde = arrdomain.includes(key);
+                                    inculde ? "" : arrdomain.push(key);
+                                }
                             }
                         }
                         _a = [];
