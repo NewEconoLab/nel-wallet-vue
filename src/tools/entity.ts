@@ -421,6 +421,8 @@ export class DomainStatus
     static getStatus()
     {
         let str = sessionStorage.getItem("domain-status");
-        return str ? JSON.parse(sessionStorage.getItem("domain-status")) : {};
+        let obj = {};
+        str ? obj = JSON.parse(sessionStorage.getItem("domain-status")) : {};
+        return obj;
     }
 }

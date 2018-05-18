@@ -138,16 +138,8 @@ export default class NNS extends Vue
                     state.await_register = true;
                     state.domainname = this.nnsstr + ".test";
                     DomainStatus.setStatus(state);
-                    let delres = await WWW.delnnsinfo(this.nnsstr + ".test");
-                    if (delres == "suc")
-                    {
-                        let res = await WWW.setnnsinfo(LoginInfo.getCurrentAddress(), this.nnsstr + ".test", 0);
-                        if (res == "suc")
-                        {
-                            this.getDomainsByAddr();
-                            this.btn_register = true;
-                        }
-                    }
+                    this.getDomainsByAddr();
+                    this.btn_register = true;
                 }
             } catch (error)
             {
@@ -162,16 +154,26 @@ export default class NNS extends Vue
     async getDomainsByAddr()
     {
         let res = await WWW.getnnsinfo(LoginInfo.getCurrentAddress());
+        let arrdomain = res.map(dom => { return dom + ".test" });
         let arr = new Array<Domainmsg>();
-        let state = DomainStatus.getStatus();
-        for (const i in res)
+        let state = DomainStatus.getStatus() as DomainStatus;
+        // state = JSON.parse(JSON.stringify(state));
+        for (let key in state)
         {
-            if (res.hasOwnProperty(i))
+            if (state.hasOwnProperty(key))
+            {
+                let inculde = arrdomain.includes(key);
+                inculde ? "" : arrdomain.push(key);
+            }
+        }
+        for (const i in arrdomain)
+        {
+            if (arrdomain.hasOwnProperty(i))
             {
                 const n = parseInt(i)
-                const domain = res[ n ];
-                let a = state[ domain[ "name" ] ] ? state[ domain[ "name" ] ] as DomainStatus : new DomainStatus();
-                let msg = await this.queryDomainInfo(domain[ "name" ]);
+                const domain = arrdomain[ n ];
+                let a = state[ domain ] ? state[ domain ] as DomainStatus : new DomainStatus();
+                let msg = await this.queryDomainInfo(domain);
                 if (a.await_resolver)
                 {
                     if (a.resolver == msg.resolver)

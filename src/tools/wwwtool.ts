@@ -205,9 +205,9 @@ export class WWW
         return r;
     }
     //获取地址下所有的域名
-    static async getnnsinfo(address: string)
+    static async getnnsinfo(address: string): Promise<string[]>
     {
-        var str = WWW.makeRpcUrl(WWW.apiaggr, "getnnsinfo", address);
+        var str = WWW.makeRpcUrl(WWW.apiaggr, "getdomainbyaddress2", address);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
         if (json[ "result" ] == null)

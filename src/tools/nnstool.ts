@@ -498,7 +498,7 @@ export class NNSTool
 
     static initStatus()
     {
-        NNSTool.domainStatus = DomainStatus.getStatus();
+        NNSTool.domainStatus = DomainStatus.getStatus() as DomainStatus;
     }
 
 }
