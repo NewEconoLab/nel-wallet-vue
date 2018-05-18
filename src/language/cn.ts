@@ -108,7 +108,7 @@ export default {
         text2: "地址映射",
         text3: "域名到期时间",
         text4: "已到期",
-        waiting: "等待",
+        waiting: "等待NEO区块高度更新后，尝试刷新页面",
         edit: "编辑",
         alerttitle: "编辑信息",
         alerttitle1: "注册Neo域名",

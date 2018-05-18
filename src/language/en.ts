@@ -108,7 +108,7 @@ export default {
         text2: "Address mapping",
         text3: "Expiration Time",
         text4: "Expiration",
-        waiting: "Waiting",
+        waiting: "Try to refresh the page after the NEO block height is updated.",
         edit: "Edit",
         alerttitle: "Edit information",
         alerttitle1: "Neo Name",
