@@ -1,7 +1,7 @@
 <template>
   <div class="alert-box" v-if="show">
     <div class="alert-warp">
-      <div class="alert-title">Edit information</div>
+      <div class="alert-title">{{$t('nns.alerttitle')}}</div>
       <div class="alert-content">
         <slot></slot>
       </div>

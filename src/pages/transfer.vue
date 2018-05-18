@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4" style="padding-top:20px;">
-                            <span> &nbsp;&nbsp;&nbsp;&nbsp; {{balance.balance}} {{balance.names ? balance.names + " available" : ""}} </span>
+                            <span> &nbsp;&nbsp;&nbsp;&nbsp; {{balance.balance}} {{balance.names ? balance.names +" "+ $t('transfer.msg5') : ""}} </span>
                         </div>
                     </div>
                     <div class="col-sm-12" :class="addrerr!=''?(addrerr == 'true' ?'err':'success') :''">
@@ -35,7 +35,7 @@
                         </label>
                         <div class="col-sm-7">
                             <div style="padding-top:30px;">
-                                <input type="text" v-model="target" class="nel-input big" placeholder="Please enter an address or domain name " @input="verify_addr">
+                                <input type="text" v-model="target" class="nel-input big" :placeholder="$t('transfer.placeholder') " @input="verify_addr">
                             </div>
                             <p v-if="isDomain">{{toaddress}}</p>
                         </div>
@@ -78,7 +78,7 @@
                     <div v-for="tx in txs" class="history" :key="tx.index">
                         <div class="number" :class="tx.txtype">
                             {{tx.txtype == 'out'?'+ ':'- '}}{{tx.value}}&nbsp;{{tx.assetname}}</div>
-                        <div class="address"> {{$t('transfer.send')}} {{tx.txtype == 'out'?'form':'to'}} : {{tx.address}}</div>
+                        <div class="address">{{tx.txtype == 'out'?$t('transfer.from'):$t('transfer.to')}} : {{tx.address}}</div>
                         <div class="time">
                             <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">
                                 {{tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)}}

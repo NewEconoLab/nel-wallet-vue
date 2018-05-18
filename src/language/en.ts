@@ -12,13 +12,13 @@ export default {
         toggle: "Toggle navigation"
     },
     btn: {
-        btn1: "Confirm",
-        btn2: "Reset",
-        btn3: "Close",
-        btn4: "Transfer",
-        btn5: "Switch",
-        btn6: "Claim",
-        btn7: "Cancel"
+        confirm: "Confirm",
+        reset: "Reset",
+        close: "Close",
+        transfer: "Transfer",
+        switch: "Switch",
+        claim: "Claim",
+        cancel: "Cancel"
     },
     toast: {
         msg1: "Be patient and wait for patience ...",
@@ -64,8 +64,8 @@ export default {
         msg: "Do not lose it!",
         msg2: "It can’t be recovered if you lose it."
     },
-    banlance: {
-        banlance: "Balance",
+    balance: {
+        balance: "Balance",
         title1: "NEO Balance",
         title2: "Key Address",
         title3: "GAS available to claim",
@@ -85,10 +85,14 @@ export default {
         title4: "History",
         msg1: "Your adress is incorrect.",
         send: "Send",
+        from: "from",
+        to: "to",
         details: "Details",
+        placeholder: "Please enter an address or domain name",
         msg2: "Your transaction has been sent, please check it later",
         msg3: "Transaction failure",
         msg4: "-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction.",
+        msg5: "available"
     },
     nns: {
         nns: "NNS",
@@ -106,11 +110,12 @@ export default {
         text4: "Expiration",
         waiting: "Waiting",
         edit: "Edit",
+        alerttitle: "Edit information",
         alerttitle1: "Neo Name",
         alerttitle2: "Adrress Resolver",
         alerttitle3: "Adrress Mapping",
-        alermessage1: "It is the official adress resolver , you have to confirm this adress resolver first to map your adress.",
-        alermessage2: "Please enter the correct format of the address.",
+        alertmessage1: "It is the official adress resolver , you have to confirm this adress resolver first to map your adress.",
+        alertmessage2: "Please enter the correct format of the address.",
     },
     setting: {
         settings: "Settings",

@@ -12,13 +12,13 @@ export default {
         toggle: "切换导航"
     },
     btn: {
-        btn1: "提交",
-        btn2: "重置",
-        btn3: "关闭",
-        btn4: "转账",
-        btn5: "切换",
-        btn6: "提取",
-        btn7: "取消",
+        confirm: "提交",
+        reset: "重置",
+        close: "关闭",
+        transfer: "转账",
+        switch: "切换",
+        claim: "提取",
+        cancel: "取消",
     },
     toast: {
         msg1: "请耐心等待...",
@@ -64,8 +64,8 @@ export default {
         msg: "不要丢失它!",
         msg2: "如果你失去了它，它是无法恢复的。"
     },
-    banlance: {
-        banlance: "资产",
+    balance: {
+        balance: "资产",
         title1: "NEO 资产余额",
         title2: "当前地址",
         title3: "可提取的GAS",
@@ -85,10 +85,14 @@ export default {
         title4: "历史记录",
         msg1: "您的地址不正确",
         send: "发送",
+        from: "来自",
+        to: "发往",
         details: "详情",
+        placeholder: "请输入地址或域名",
         msg2: "您的交易已发送，请稍后查验",
         msg3: "交易失败",
         msg4: "您没有足够的utxo进行交易，请等待高度变化后再尝试下笔交易",
+        msg5: "可用"
     },
     nns: {
         nns: "NNS",
@@ -104,15 +108,14 @@ export default {
         text2: "地址映射",
         text3: "域名到期时间",
         text4: "已到期",
-        text5: "等待",
+        waiting: "等待",
         edit: "编辑",
+        alerttitle: "编辑信息",
         alerttitle1: "注册Neo域名",
         alerttitle2: "地址解析器",
         alerttitle3: "地址映射",
-        alermessage1: "这是官方地址解析器，你必须先确认此地址解析器才能映射你的地址。",
-        alermessage2: "请输入正确格式的地址",
-        alertbtn1: "提交",
-        alertbtn2: "重置",
+        alertmessage1: "这是官方地址解析器，你必须先确认此地址解析器才能映射你的地址。",
+        alertmessage2: "请输入正确格式的地址",
     },
     setting: {
         settings: "设置",

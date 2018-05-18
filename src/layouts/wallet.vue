@@ -6,7 +6,7 @@
           <ul class="nav navbar-nav navbar-left">
             <li>
               <v-link ref="balance" href="#balance">
-                <span :class="[balance]"></span> {{$t('banlance.banlance')}}
+                <span :class="[balance]"></span> {{$t('balance.balance')}}
               </v-link>
             </li>
             <li>
