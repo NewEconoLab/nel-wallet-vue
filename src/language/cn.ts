@@ -78,7 +78,7 @@ export default {
         msg4: "Gas提取成功!"
     },
     transfer: {
-        transfer: "交易",
+        transfer: "转账",
         title1: "资产",
         title2: "地址",
         title3: "余额",
