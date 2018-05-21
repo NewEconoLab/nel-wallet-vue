@@ -1,10 +1,10 @@
 <template>
   <div class="bubble-box">
     <div class="bubble-png">
-      <img src="../../static/img/gift-disable.png" v-if="isdisable" alt="">
-      <img src='../../static/img/gift.png' v-else alt="">
+      <img src="../../static/img/gift-disable.png"  alt="">
+      <!-- <img src='../../static/img/gift.png' v-else alt=""> -->
     </div>
-    <div class="bubble-msg" :class="isdisable?'disable':''" @click="eventCut()">
+    <div class="bubble-msg disable">
       {{isdisable?$t('nns.msg3'):$t('nns.msg1')}}</div>
     <div class="help-icon">
       <img src="../../static/img/wenhao.png" alt="">
@@ -32,14 +32,13 @@ export default class Bubble extends Vue {
   mounted() {}
 
   eventCut() {
-    console.log("aa");
 
-    if (!this.isdisable) {
-      window.open(
-        "../../static/event/index.html?walletAddress=" +
-          LoginInfo.getCurrentAddress()
-      );
-    }
+    // if (!this.isdisable) {
+    //   window.open(
+    //     "../../static/event/index.html?walletAddress=" +
+    //       LoginInfo.getCurrentAddress()
+    //   );
+    // }
   }
 }
 </script>

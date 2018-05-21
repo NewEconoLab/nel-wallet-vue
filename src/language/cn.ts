@@ -100,7 +100,7 @@ export default {
         placeholder1: "输入名称",
         register: "注册",
         title2: "我的NEO域名",
-        msg1: "你将获得50个NNC",
+        msg1: "活动已结束，谢谢大家的参与。",
         msg2: '我们将会在NNS在主网上线后的一个月内给予你主网钱包50NNC的奖励！',
         msg3: "注册你的域名并收集奖励。",
         err1: "当前域名已经被注册。",

@@ -100,7 +100,7 @@ export default {
         placeholder1: "enter a name",
         register: "Register",
         title2: "My Neo Name",
-        msg1: "You get a reward of 50 NNCs",
+        msg1: "The testing has ended. Thanks for your participation. ",
         msg2: 'You will be rewarded with 50 NNCs on Mainnet for the first time you map your wallet address to an ending in ".test"  name successfully.',
         msg3: "Register your domain name and collect the reward.",
         err1: "The domain name has been registered.",
