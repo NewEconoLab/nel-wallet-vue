@@ -5,7 +5,7 @@
       <!-- <img src='../../static/img/gift.png' v-else alt=""> -->
     </div>
     <div class="bubble-msg disable">
-      {{isdisable?$t('nns.msg3'):$t('nns.msg1')}}</div>
+      {{$t('nns.msg1')}}</div>
     <div class="help-icon">
       <img src="../../static/img/wenhao.png" alt="">
       <div class="help-msg">
@@ -32,7 +32,6 @@ export default class Bubble extends Vue {
   mounted() {}
 
   eventCut() {
-
     // if (!this.isdisable) {
     //   window.open(
     //     "../../static/event/index.html?walletAddress=" +
