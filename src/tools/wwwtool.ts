@@ -6,8 +6,6 @@ export class WWW
     static apiaggr: string = "https://apiaggr.nel.group/api/testnet";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
-        if (url[ url.length - 1 ] != '/')
-            url = url + "/";
         var urlout = url + "?jsonrpc=2.0&id=1&method=" + method + "&params=[";
         for (var i = 0; i < _params.length; i++)
         {
@@ -139,7 +137,7 @@ export class WWW
             return 0;
         return r[ 0 ];
     }
-
+    //获得提币的交易体
     static async api_getclaimtxhex(address: string): Promise<string>
     {
         var str = WWW.makeRpcUrl(WWW.api, "getclaimtxhex", address);
@@ -150,7 +148,7 @@ export class WWW
             return "";
         return r[ 0 ][ "claimtxhex" ];
     }
-
+    //获得高度
     static async  rpc_getHeight()
     {
         var str = WWW.makeRpcUrl(WWW.api, "getblockcount");
@@ -160,7 +158,7 @@ export class WWW
         var height = parseInt(r as string) - 1;
         return height;
     }
-
+    //调用storage合约
     static async  rpc_getStorage(scripthash: Uint8Array, key: Uint8Array): Promise<string>
     {
         var str = WWW.makeRpcUrl(WWW.api, "getstorage", scripthash.toHexString(), key.toHexString());
@@ -171,7 +169,7 @@ export class WWW
         var r = json[ "result" ] as string;
         return r;
     }
-
+    //调用invoke合约
     static async rpc_getInvokescript(scripthash: Uint8Array): Promise<any>
     {
         var str = WWW.makeRpcUrl(WWW.api, "invokescript", scripthash.toHexString());
@@ -182,6 +180,7 @@ export class WWW
         var r = json[ "result" ][ 0 ]
         return r;
     }
+    //获得交易详情
     static async getrawtransaction(txid: string)
     {
         var str = WWW.makeRpcUrl(WWW.api, "getrawtransaction", txid);
@@ -214,16 +213,6 @@ export class WWW
         if (json[ "result" ] == null)
             return null;
         var r = json[ "result" ]
-        return r;
-    }
-    static async delnnsinfo(domain: string)
-    {
-        var str = WWW.makeRpcUrl(WWW.apiaggr, "delnnsinfo", domain);
-        var result = await fetch(str, { "method": "get" });
-        var json = await result.json();
-        if (json[ "result" ] == null)
-            return null;
-        var r = json[ "result" ][ 0 ][ "result" ]
         return r;
     }
 
