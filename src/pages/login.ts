@@ -1,4 +1,4 @@
-import { Result } from './../tools/entity';
+import { Result, WalletOtcgo } from './../tools/entity';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import MainLayout from "../layouts/Main.vue";
@@ -23,7 +23,9 @@ export default class login extends Vue
   Message: string = "hello world";
   file: File;
   wallet: ThinNeo.nep6wallet = new ThinNeo.nep6wallet();
+  otcgo: WalletOtcgo = new WalletOtcgo();
   reader: FileReader;
+  isotc: boolean = false;
   filename: string = "";
   password: string = "";
   nep2: string = "";
@@ -51,7 +53,14 @@ export default class login extends Vue
     this.reader.onload = () =>
     {
       var walletstr = this.reader.result as string;
-      this.wallet.fromJsonStr(walletstr);
+      let isotc = !walletstr.includes("accounts");
+      if (isotc)
+      {
+        this.otcgo.fromJsonStr(walletstr);
+      } else
+      {
+        this.wallet.fromJsonStr(walletstr);
+      }
     }
     //初始化隨機數生成器
     //該隨機數生成器的原理是收集鼠標事件，所以早點打開，效果好
@@ -78,10 +87,9 @@ export default class login extends Vue
     }
   }
 
-  async login(type: string)
+  loginFile()
   {
-    mui.toast("" + this.$t("toast.msg1"));
-    if (type == "nep6")
+    if (!!this.wallet.accounts)
     {
       neotools.nep6Load(this.wallet, this.password)
         .then((res: Result) =>
@@ -96,6 +104,58 @@ export default class login extends Vue
         {
           mui.alert("" + this.$t("toast.msg3") + e);
         })
+    }
+    if (!!this.otcgo.address)
+    {
+      this.otcgo.otcgoDecrypt(this.password);
+      var loginarray: LoginInfo[] = new Array<LoginInfo>();
+      loginarray.push(new LoginInfo());
+      loginarray[ 0 ].address = this.otcgo.address;
+      loginarray[ 0 ].prikey = this.otcgo.prikey;
+      loginarray[ 0 ].pubkey = this.otcgo.pubkey;
+
+      StorageTool.setLoginArr(loginarray);
+      LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
+      mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
+      window.location.hash = "#balance";
+    }
+  }
+
+  async login(type: string)
+  {
+    mui.toast("" + this.$t("toast.msg1"));
+    if (type == "nep6")
+    {
+      if (this.isotc)
+      {
+        neotools.nep6Load(this.wallet, this.password)
+          .then((res: Result) =>
+          {
+            var loginarray: LoginInfo[] = res.info as LoginInfo[];
+            StorageTool.setLoginArr(loginarray);
+            LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
+            mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
+            window.location.hash = "#balance";
+          })
+          .catch((e) =>
+          {
+            mui.alert("" + this.$t("toast.msg3") + e);
+          })
+      }
+      if (this.otcgo)
+      {
+        this.otcgo.otcgoDecrypt(this.password);
+        var loginarray: LoginInfo[] = new Array<LoginInfo>();
+        loginarray.push(new LoginInfo());
+        loginarray[ 0 ].address = this.otcgo.address;
+        loginarray[ 0 ].prikey = this.otcgo.prikey;
+        loginarray[ 0 ].pubkey = this.otcgo.pubkey;
+
+        StorageTool.setLoginArr(loginarray);
+        LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
+        mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
+        window.location.hash = "#balance";
+      }
     }
     if (type == "wif")
     {
@@ -263,12 +323,13 @@ export default class login extends Vue
     }
   }
 
-  wifImport()
+  loginOtcgo(enkey: string, pwd: string)
   {
-  }
-  nep2Import()
-  {
-
+    let pwd_hex = ThinNeo.Helper.String2Bytes("11111111");
+    let enkey_hex = ThinNeo.Helper.String2Bytes("U2FsdGVkX19U3uRrPsZa6v+TpODtJlm5+xky90uan6zP773Bash+BIoAIh37DDs5AyXTRf3LeOE0l51TTic0MhPrnX9uhkcZMq1j63eLHBSAUQAbPt6SdrmRbirddZAZ");
+    let res = ThinNeo.Helper.Aes256Decrypt_u8(enkey_hex, pwd_hex);
+    let key = ThinNeo.Helper.GetWifFromPrivateKey(res);
+    console.log(res);
   }
 
 }

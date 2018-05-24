@@ -160,30 +160,38 @@ export class neotools
             var istart = 0;
             let res = new Result();
             let arr: any[] = new Array<any>();
-            // getkey = async (keyindex: number) => {
-            for (let keyindex = 0; keyindex < wallet.accounts.length; keyindex++)
+            if (wallet.accounts)
             {
-                let account = wallet.accounts[ keyindex ];
-                if (account.nep2key == null)
+                for (let keyindex = 0; keyindex < wallet.accounts.length; keyindex++)
                 {
-                    continue;
+                    let account = wallet.accounts[ keyindex ];
+                    if (account.nep2key == null)
+                    {
+                        continue;
+                    }
+                    try
+                    {
+                        let result: Result = await neotools.getPriKeyfromAccount(wallet.scrypt, password, account);
+                        // console.log("getpkformacc:" + result);
+                        arr.push(result.info);
+                    } catch (error)
+                    {
+                        console.error(error);
+                        res.err = true;
+                        res.info = error;
+                        return res;
+                    }
                 }
-                try
-                {
-                    let result: Result = await neotools.getPriKeyfromAccount(wallet.scrypt, password, account);
-                    // console.log("getpkformacc:" + result);
-                    arr.push(result.info);
-                } catch (error)
-                {
-                    console.error(error);
-                    res.err = true;
-                    res.info = error;
-                    return res;
-                }
+                res.err = false;
+                res.info = arr;
+                return res;
+            } else
+            {
+
             }
-            res.err = false;
-            res.info = arr;
-            return res;
+            // getkey = async (keyindex: number) => {
+
+
         }
         catch (e)
         {

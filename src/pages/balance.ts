@@ -70,20 +70,21 @@ export default class balance extends Vue
       let sum2 = Neo.Fixed8.parse(clamis2[ "gas" ].toFixed(8));
       let sum = sum1.add(sum2).toString()
       this.neoasset.claim = sum;   //塞入claim
+      balances.forEach //取NEO 和GAS
+        (balance =>
+        {
+          if (balance.asset == CoinTool.id_NEO)
+          {
+            this.neoasset.neo = balance.balance;
+          }
+          if (balance.asset == CoinTool.id_GAS)
+          {
+            this.neoasset.gas = balance.balance;
+          }
+        });
     }
-    balances.forEach //取NEO 和GAS
-      (
-      (balance) =>
-      {
-        if (balance.asset == CoinTool.id_NEO)
-        {
-          this.neoasset.neo = balance.balance;
-        }
-        if (balance.asset == CoinTool.id_GAS)
-        {
-          this.neoasset.gas = balance.balance;
-        }
-      });
+
+
 
     this.balances = await BalanceInfo.getBalancesByArr(balances, nep5balances, height);
     StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));

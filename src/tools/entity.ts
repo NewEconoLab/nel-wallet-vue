@@ -426,3 +426,31 @@ export class DomainStatus
         return obj;
     }
 }
+
+export class WalletOtcgo
+{
+    address: string;
+    publicKey: string;
+    publicKeyCompressed: string;
+    privateKeyEncrypted: string;
+    pubkey: Uint8Array;
+    prikey: Uint8Array;
+
+    fromJsonStr(str: string)
+    {
+        let json = JSON.parse(str);
+        let otcgo: WalletOtcgo = new WalletOtcgo();
+        this.address = json[ "address" ];
+        this.publicKey = json[ "publicKey" ];
+        this.publicKeyCompressed = json[ "publicKeyCompressed" ];
+        this.privateKeyEncrypted = json[ "privateKeyEncrypted" ];
+    }
+
+    otcgoDecrypt(pwd: string)
+    {
+        let pwd_hex = ThinNeo.Helper.String2Bytes(pwd);
+        let enkey_hex = ThinNeo.Helper.String2Bytes(this.privateKeyEncrypted);
+        this.prikey = ThinNeo.Helper.Aes256Decrypt_u8(enkey_hex, pwd_hex);
+        this.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(this.prikey);
+    }
+}

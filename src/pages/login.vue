@@ -34,7 +34,7 @@
               <div class="input-group nel-input-blg">
                 <input class="form-control" :placeholder="$t('login.passwordholder')" type="password" v-model="password">
                 <span class="input-group-addon">
-                  <button class="btn btn-nel fileinput-button" @click="login('nep6')">
+                  <button class="btn btn-nel fileinput-button" @click="loginFile">
                     {{$t("login.login")}}
                   </button>
                 </span>
