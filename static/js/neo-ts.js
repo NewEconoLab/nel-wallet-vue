@@ -2234,13 +2234,13 @@ var ThinNeo;
             };
             scrypt.onload = function ()
             {
-                console.log("scrypt.onload");
+                // console.log("scrypt.onload");
                 scrypt_loaded = true;
                 ready();
             };
             scrypt.oncomplete = function (dk)
             {
-                console.log('done', scrypt.binToHex(dk));
+                // console.log('done', scrypt.binToHex(dk));
                 var u8dk = new Uint8Array(dk);
                 var derivedhalf1 = u8dk.subarray(0, 32);
                 var derivedhalf2 = u8dk.subarray(32, 64);
@@ -2275,7 +2275,7 @@ var ThinNeo;
             };
             scrypt.onprogress = function (percent)
             {
-                console.log('onprogress');
+                // console.log('onprogress');
             };
             scrypt.onready = function ()
             {
