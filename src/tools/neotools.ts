@@ -152,7 +152,7 @@ export class neotools
     /**
      * nep6Load
      */
-    public static async nep6Load(wallet: ThinNeo.nep6wallet, password: string): Promise<Result>
+    public static async nep6Load(wallet: ThinNeo.nep6wallet, password: string): Promise<LoginInfo[]>
     {
         try
         {
@@ -174,28 +174,22 @@ export class neotools
                         let result: Result = await neotools.getPriKeyfromAccount(wallet.scrypt, password, account);
                         // console.log("getpkformacc:" + result);
                         arr.push(result.info);
+                        return arr;
                     } catch (error)
                     {
-                        console.error(error);
-                        res.err = true;
-                        res.info = error;
-                        return res;
+                        throw error;
                     }
                 }
-                res.err = false;
-                res.info = arr;
-                return res;
             } else
             {
+                throw console.error("The account cannot be empty");
 
             }
-            // getkey = async (keyindex: number) => {
-
-
         }
         catch (e)
         {
-            console.error(e);
+            throw e.result;
+
         }
         // });
         // return promise;

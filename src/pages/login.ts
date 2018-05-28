@@ -87,24 +87,22 @@ export default class login extends Vue
     }
   }
 
-  loginFile()
+  async loginFile()
   {
     mui.toast("" + this.$t("toast.msg1"));
     if (!!this.wallet.accounts)
     {
-      neotools.nep6Load(this.wallet, this.password)
-        .then((res: Result) =>
-        {
-          var loginarray: LoginInfo[] = res.info as LoginInfo[];
-          StorageTool.setLoginArr(loginarray);
-          LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
-          mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
-          window.location.hash = "#balance";
-        })
-        .catch((e) =>
-        {
-          mui.alert("" + this.$t("toast.msg3") + e);
-        })
+      try
+      {
+        let loginarray = await neotools.nep6Load(this.wallet, this.password) as LoginInfo[];
+        StorageTool.setLoginArr(loginarray);
+        LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
+        mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
+        window.location.hash = "#balance";
+      } catch (error)
+      {
+        mui.alert("" + this.$t("toast.msg3") + error);
+      }
     }
     if (!!this.otcgo.address)
     {
