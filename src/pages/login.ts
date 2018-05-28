@@ -62,8 +62,8 @@ export default class login extends Vue
         this.wallet.fromJsonStr(walletstr);
       }
     }
-    //初始化隨機數生成器
-    //該隨機數生成器的原理是收集鼠標事件，所以早點打開，效果好
+    //初始化随机数生成器
+    //该随机数生成器原理是，手机鼠标事件，所以早点打开效果好
     Neo.Cryptography.RandomNumberGenerator.startCollectors();
   }
 
@@ -89,6 +89,7 @@ export default class login extends Vue
 
   loginFile()
   {
+    mui.toast("" + this.$t("toast.msg1"));
     if (!!this.wallet.accounts)
     {
       neotools.nep6Load(this.wallet, this.password)
@@ -121,77 +122,45 @@ export default class login extends Vue
     }
   }
 
-  async login(type: string)
+  async loginWif()
   {
     mui.toast("" + this.$t("toast.msg1"));
-    if (type == "nep6")
+    var res = neotools.wifDecode(this.wif);
+    if (res.err)
     {
-      if (this.isotc)
-      {
-        neotools.nep6Load(this.wallet, this.password)
-          .then((res: Result) =>
-          {
-            var loginarray: LoginInfo[] = res.info as LoginInfo[];
-            StorageTool.setLoginArr(loginarray);
-            LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
-            mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
-            window.location.hash = "#balance";
-          })
-          .catch((e) =>
-          {
-            mui.alert("" + this.$t("toast.msg3") + e);
-          })
-      }
-      if (this.otcgo)
-      {
-        this.otcgo.otcgoDecrypt(this.password);
-        var loginarray: LoginInfo[] = new Array<LoginInfo>();
-        loginarray.push(new LoginInfo());
-        loginarray[ 0 ].address = this.otcgo.address;
-        loginarray[ 0 ].prikey = this.otcgo.prikey;
-        loginarray[ 0 ].pubkey = this.otcgo.pubkey;
-
-        StorageTool.setLoginArr(loginarray);
-        LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
-        mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
-        window.location.hash = "#balance";
-      }
-    }
-    if (type == "wif")
+      mui.toast("" + this.$t("toast.msg4"))
+    } else
     {
-      var res = neotools.wifDecode(this.wif);
-      if (res.err)
-      {
-        mui.toast("" + this.$t("toast.msg4"))
-      } else
-      {
-        var loginarray: LoginInfo[] = new Array<LoginInfo>();
-        var login: LoginInfo = res.info;
-        loginarray.push(login);
-        StorageTool.setLoginArr(loginarray);
-        LoginInfo.setCurrentAddress(login.address);
-        mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
-        window.location.hash = "#balance";
-      }
-    }
-    if (type == "nep2")
-    {
-      var res = await neotools.nep2ToWif(this.nep2, this.nep2pwd);
-      if (res.err)
-      {
-        mui.toast("" + this.$t("toast.msg4"))
-      } else
-      {
-        var loginarray: LoginInfo[] = new Array<LoginInfo>();
-        var login: LoginInfo = res.info;
-        loginarray.push(login);
-        StorageTool.setLoginArr(loginarray);
-        LoginInfo.setCurrentAddress(login.address);
-        mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
-        window.location.hash = "#balance";
-      }
+      var loginarray: LoginInfo[] = new Array<LoginInfo>();
+      var login: LoginInfo = res.info;
+      loginarray.push(login);
+      StorageTool.setLoginArr(loginarray);
+      LoginInfo.setCurrentAddress(login.address);
+      mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
+      window.location.hash = "#balance";
     }
   }
+
+  async loginNep2()
+  {
+    mui.toast("" + this.$t("toast.msg1"));
+    var res = await neotools.nep2ToWif(this.nep2, this.nep2pwd);
+    if (res.err)
+    {
+      mui.toast("" + this.$t("toast.msg4"))
+    } else
+    {
+      var loginarray: LoginInfo[] = new Array<LoginInfo>();
+      var login: LoginInfo = res.info;
+      loginarray.push(login);
+      StorageTool.setLoginArr(loginarray);
+      LoginInfo.setCurrentAddress(login.address);
+      mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
+      window.location.hash = "#balance";
+    }
+  }
+
+  loginNeodun() { }
 
   cutModual(page: string)
   {
@@ -321,15 +290,6 @@ export default class login extends Vue
         }
       });
     }
-  }
-
-  loginOtcgo(enkey: string, pwd: string)
-  {
-    let pwd_hex = ThinNeo.Helper.String2Bytes("11111111");
-    let enkey_hex = ThinNeo.Helper.String2Bytes("U2FsdGVkX19U3uRrPsZa6v+TpODtJlm5+xky90uan6zP773Bash+BIoAIh37DDs5AyXTRf3LeOE0l51TTic0MhPrnX9uhkcZMq1j63eLHBSAUQAbPt6SdrmRbirddZAZ");
-    let res = ThinNeo.Helper.Aes256Decrypt_u8(enkey_hex, pwd_hex);
-    let key = ThinNeo.Helper.GetWifFromPrivateKey(res);
-    console.log(res);
   }
 
 }

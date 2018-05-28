@@ -57,7 +57,7 @@
             </div>
             <div class="nel-input-blg"><input type="text" :placeholder="$t('wif.wifplaceholder')" v-model="wif"></div>
             <div class="login-btn">
-              <button class="btn btn-nel btn-import" @click="login('wif')">{{$t("login.login")}}</button>
+              <button class="btn btn-nel btn-import" @click="loginWif">{{$t("login.login")}}</button>
             </div>
             <div class="back">
               <a @click="cutModual('nep6')">&lt; {{$t("wif.back")}}</a>
@@ -70,7 +70,7 @@
             <div class="nel-input-blg"><input type="text" :placeholder="$t('nep2.placeholder')" v-model="nep2"></div>
             <div class="nel-input-blg"><input type="password" :placeholder="$t('nep2.password')" v-model="nep2pwd"></div>
             <div class="login-btn">
-              <button class="btn btn-nel btn-import" @click="login('nep2')">{{$t("login.login")}}</button>
+              <button class="btn btn-nel btn-import" @click="loginNep2">{{$t("login.login")}}</button>
             </div>
             <div class="back">
               <a @click="cutModual('nep6')">&lt; {{$t("wif.back")}}</a>
