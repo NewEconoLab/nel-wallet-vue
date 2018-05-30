@@ -14,6 +14,7 @@ export default class FeatureComponent extends Vue
 {
     balance: string;
     transfer: string;
+    nnsneo: string;
     nns: string;
     setting: string;
     blockheight: number;
@@ -21,6 +22,7 @@ export default class FeatureComponent extends Vue
     {
         super();
         this.balance = "";
+        this.nnsneo = "";
         this.nns = "";
         this.transfer = "";
         this.setting = "";
@@ -35,6 +37,9 @@ export default class FeatureComponent extends Vue
         this.transfer = this.$refs[ "transfer" ][ "isActive" ]
             ? "icon-transfer-select"
             : "icon-transfer-unselect";
+        this.nnsneo = this.$refs[ "nnsneo" ][ "isActive" ]
+            ? "icon-nnsneo-select"
+            : "icon-nnsneo-unselect";
         this.nns = this.$refs[ "nns" ][ "isActive" ]
             ? "icon-nns-select"
             : "icon-nns-unselect";

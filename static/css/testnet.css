@@ -452,6 +452,7 @@ table>tbody>tr {
 .btn-nel.btn-big {
     height: 56px;
     width: 138px;
+    padding: 0;
     margin-left: 20px;
 }
 

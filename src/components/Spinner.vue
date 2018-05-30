@@ -51,7 +51,7 @@ export default class Spinner extends Vue {
   text-align: center;
 }
 .spinner-big {
-  padding: 19px 60px;
+  padding: 18px 60px;
 }
 .spinner {
   width: 20px;

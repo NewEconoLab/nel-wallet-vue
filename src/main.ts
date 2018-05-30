@@ -8,6 +8,7 @@ import Login from './pages/login.vue'
 import Balance from './pages/balance.vue'
 import Wallet from './layouts/wallet.vue'
 import Transfer from './pages/transfer.vue';
+import NNSNeo from './pages/nnsneo.vue';
 import NNS from './pages/nns.vue';
 import Settings from './pages/settings.vue';
 import { CoinTool } from './tools/cointool';
@@ -49,6 +50,8 @@ var app = new Vue({
                     return Login;
                 case "#transfer":
                     return Transfer;
+                case "#nnsneo":
+                    return NNSNeo;
                 case "#nns":
                     return NNS;
                 case "#settings":
