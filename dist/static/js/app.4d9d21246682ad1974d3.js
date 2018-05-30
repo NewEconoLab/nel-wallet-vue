@@ -53,7 +53,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "1lnH":
+/***/ "0LJk":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -963,6 +963,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var storagetool_1 = __webpack_require__("5LD5");
 var cointool_1 = __webpack_require__("pLPz");
+var jsrsasign_1 = __webpack_require__("Ri6o");
+///<reference path="./crypto-js.d.ts"/>
 var LoginInfo = /** @class */ (function () {
     function LoginInfo() {
     }
@@ -1290,10 +1292,43 @@ var WalletOtcgo = /** @class */ (function () {
         this.privateKeyEncrypted = json["privateKeyEncrypted"];
     };
     WalletOtcgo.prototype.otcgoDecrypt = function (pwd) {
-        var pwd_hex = ThinNeo.Helper.String2Bytes(pwd);
-        var enkey_hex = ThinNeo.Helper.String2Bytes(this.privateKeyEncrypted);
-        this.prikey = ThinNeo.Helper.Aes256Decrypt_u8(enkey_hex, pwd_hex);
-        this.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(this.prikey);
+        try {
+            this.privatekey = CryptoJS.AES.decrypt(this.privateKeyEncrypted, pwd).toString(CryptoJS.enc.Utf8);
+            this.prikey = this.privatekey.hexToBytes();
+            this.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(this.prikey);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+    // 签名
+    WalletOtcgo.prototype.doSign = function (prvkey, msg) {
+        var sig = new jsrsasign_1.KJUR.crypto.Signature({ 'alg': 'SHA256withECDSA' });
+        sig.initSign({
+            'ecprvhex': prvkey,
+            'eccurvename': 'secp256r1'
+        });
+        sig.updateString(msg);
+        return sig.sign();
+    };
+    WalletOtcgo.prototype.doVerify = function (pubkey, msg, sigval) {
+        var sig = new jsrsasign_1.KJUR.crypto.Signature({
+            'alg': 'SHA256withECDSA',
+            'prov': 'cryptojs/jsrsa'
+        });
+        sig.initVerifyByPublicKey({
+            'ecpubhex': pubkey,
+            'eccurvename': 'secp256r1'
+        });
+        sig.updateString(msg);
+        return sig.verify(sigval);
+    };
+    WalletOtcgo.prototype.doValidatePwd = function () {
+        if (this.prikey.length === 0)
+            return false;
+        var msg = 'aaa';
+        var sigval = this.doSign(this.privatekey, msg);
+        return this.doVerify(this.publicKey, msg, sigval);
     };
     return WalletOtcgo;
 }());
@@ -1635,9 +1670,11 @@ var login = /** @class */ (function (_super) {
             var walletstr = _this.reader.result;
             var isotc = !walletstr.includes("accounts");
             if (isotc) {
+                _this.wallet.accounts = undefined;
                 _this.otcgo.fromJsonStr(walletstr);
             }
             else {
+                _this.otcgo.address = undefined;
                 _this.wallet.fromJsonStr(walletstr);
             }
         };
@@ -1661,10 +1698,14 @@ var login = /** @class */ (function (_super) {
     };
     login.prototype.loginFile = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var loginarray_1, error_1, loginarray;
+            var loginarray_1, error_1, result, loginarray;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (!this.filename) {
+                            mui.alert("" + this.$t("toast.msg3"));
+                            return [2 /*return*/];
+                        }
                         mui.toast("" + this.$t("toast.msg1"));
                         if (!!!this.wallet.accounts) return [3 /*break*/, 4];
                         _a.label = 1;
@@ -1680,20 +1721,31 @@ var login = /** @class */ (function (_super) {
                         return [3 /*break*/, 4];
                     case 3:
                         error_1 = _a.sent();
-                        mui.alert("" + this.$t("toast.msg3") + error_1);
+                        mui.alert("" + this.$t("toast.msg3"));
                         return [3 /*break*/, 4];
                     case 4:
                         if (!!this.otcgo.address) {
-                            this.otcgo.otcgoDecrypt(this.password);
-                            loginarray = new Array();
-                            loginarray.push(new entity_2.LoginInfo());
-                            loginarray[0].address = this.otcgo.address;
-                            loginarray[0].prikey = this.otcgo.prikey;
-                            loginarray[0].pubkey = this.otcgo.pubkey;
-                            storagetool_1.StorageTool.setLoginArr(loginarray);
-                            entity_2.LoginInfo.setCurrentAddress(loginarray[0].address);
-                            mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' });
-                            window.location.hash = "#balance";
+                            try {
+                                this.otcgo.otcgoDecrypt(this.password);
+                                result = this.otcgo.doValidatePwd();
+                                if (result) {
+                                    loginarray = new Array();
+                                    loginarray.push(new entity_2.LoginInfo());
+                                    loginarray[0].address = this.otcgo.address;
+                                    loginarray[0].prikey = this.otcgo.prikey;
+                                    loginarray[0].pubkey = this.otcgo.pubkey;
+                                    storagetool_1.StorageTool.setLoginArr(loginarray);
+                                    entity_2.LoginInfo.setCurrentAddress(loginarray[0].address);
+                                    mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' });
+                                    window.location.hash = "#balance";
+                                }
+                                else {
+                                    mui.alert("" + this.$t("toast.msg3"));
+                                }
+                            }
+                            catch (error) {
+                                mui.alert("" + this.$t("toast.msg3"));
+                            }
                         }
                         return [2 /*return*/];
                 }
@@ -1893,14 +1945,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var login = __webpack_require__("ILH5");
 var login_default = /*#__PURE__*/__webpack_require__.n(login);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-628b07e7","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/login.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('div',{staticStyle:{"height":"180px"}}),_vm._v(" "),_c('div',{staticClass:"container-box"},[_c('div',{staticClass:"row login-container"},[_c('div',{staticClass:"container-left"},[_c('div',{staticClass:"container-icon"},[_c('img',{attrs:{"src":__webpack_require__("4+Dl"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':!(_vm.moudle_generate||_vm.moudle_download)},on:{"click":function($event){_vm.cutModual('nep6')}}},[_c('span',{ref:"login"},[_vm._v(_vm._s(_vm.$t("login.login")))])]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':(_vm.moudle_generate || _vm.moudle_download)},on:{"click":function($event){_vm.cutModual('generate')}}},[_c('span',{ref:"login"},[_vm._v(_vm._s(_vm.$t("generate.generate")))])])]),_vm._v(" "),_c('div',{staticClass:"container-right"},[(_vm.moudle_nep6)?_c('div',{staticClass:"nep6-imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("\n              "+_vm._s(_vm.$t("login.title"))+"\n            ")])]),_vm._v(" "),_c('div',{staticClass:"input-login"},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filename),expression:"filename"}],staticClass:"form-control",attrs:{"type":"text","placeholder":_vm.$t('login.selectplaceholder'),"disabled":"true"},domProps:{"value":(_vm.filename)},on:{"input":function($event){if($event.target.composing){ return; }_vm.filename=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button"},[_c('span',[_vm._v(_vm._s(_vm.$t("login.selectbtn")))]),_vm._v(" "),_c('input',{attrs:{"type":"file"},on:{"change":_vm.fileChange}})])])])]),_vm._v(" "),_c('div',{staticClass:"input-login",staticStyle:{"padding-top":"40px"}},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.password),expression:"password"}],staticClass:"form-control",attrs:{"placeholder":_vm.$t('login.passwordholder'),"type":"password"},domProps:{"value":(_vm.password)},on:{"input":function($event){if($event.target.composing){ return; }_vm.password=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button",on:{"click":_vm.loginFile}},[_vm._v("\n                  "+_vm._s(_vm.$t("login.login"))+"\n                ")])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"36px","padding-top":"80px","padding-bottom":"30px","text-align":"center"}},[_c('hr',{attrs:{"width":"80%","color":"#987cb9"}}),_vm._v(" "),_c('div',{staticClass:"hr-more"},[_vm._v(_vm._s(_vm.$t("login.cutlinemsg")))])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"30px"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('wif')}}},[_vm._v(_vm._s(_vm.$t("login.wifmsg")))])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"20px","padding-bottom":"5.9%"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('nep2')}}},[_vm._v(_vm._s(_vm.$t("login.nep2msg")))])])]):_vm._e(),_vm._v(" "),(_vm.moudle_wif)?_c('div',{staticClass:"wif_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v(_vm._s(_vm.$t("wif.title")))])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.wif),expression:"wif"}],attrs:{"type":"text","placeholder":_vm.$t('wif.wifplaceholder')},domProps:{"value":(_vm.wif)},on:{"input":function($event){if($event.target.composing){ return; }_vm.wif=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":_vm.loginWif}},[_vm._v(_vm._s(_vm.$t("login.login")))])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< "+_vm._s(_vm.$t("wif.back")))])])]):_vm._e(),_vm._v(" "),(_vm.moudle_nep2)?_c('div',{staticClass:"nep2_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Nep2")])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2),expression:"nep2"}],attrs:{"type":"text","placeholder":_vm.$t('nep2.placeholder')},domProps:{"value":(_vm.nep2)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2pwd),expression:"nep2pwd"}],attrs:{"type":"password","placeholder":_vm.$t('nep2.password')},domProps:{"value":(_vm.nep2pwd)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2pwd=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":_vm.loginNep2}},[_vm._v(_vm._s(_vm.$t("login.login")))])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< "+_vm._s(_vm.$t("wif.back")))])])]):_vm._e(),_vm._v(" "),(_vm.moudle_generate)?_c('div',{staticClass:"generate"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v(_vm._s(_vm.$t("generate.title")))])]),_vm._v(" "),_c('div',{class:_vm.nameerr!=''?( _vm.nameerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletname),expression:"walletname"}],attrs:{"type":"text","placeholder":_vm.$t('generate.name')},domProps:{"value":(_vm.walletname)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletname=$event.target.value},_vm.verifyName],"blur":_vm.verifyName}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.nameerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.nameempty')))]):_vm._e(),_vm._v(" "),(_vm.nameerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.namepass')))]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.pwderr!=''?( _vm.pwderr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletpwd),expression:"walletpwd"}],attrs:{"type":"password","placeholder":_vm.$t('generate.password')},domProps:{"value":(_vm.walletpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletpwd=$event.target.value},_vm.verifypwd],"blur":_vm.verifypwd}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.pwderr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.pwdmsg)+"\n              ")]):_vm._e(),_vm._v(" "),(_vm.pwderr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.namepass'))+"\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.confirmerr!=''?( _vm.confirmerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.confirmpwd),expression:"confirmpwd"}],attrs:{"type":"password","placeholder":_vm.$t('generate.passwordagain')},domProps:{"value":(_vm.confirmpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.confirmpwd=$event.target.value},_vm.verifyConfirm],"blur":_vm.verifyConfirm}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.confirmerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.pwderrmsg3'))+"\n              ")]):_vm._e(),_vm._v(" "),(_vm.confirmerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.namepass'))+"\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.generate()}}},[_vm._v(_vm._s(_vm.$t("generate.generate")))])])]):_vm._e(),_vm._v(" "),(_vm.moudle_download)?_c('div',{staticClass:"generate download"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v(_vm._s(_vm.$t("generate.createmsg")))])]),_vm._v(" "),_c('p',{staticClass:"guide"},[_vm._v(_vm._s(_vm.$t("generate.downloadmsg")))]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('a',{staticClass:"btn btn-nel btn-import",attrs:{"download":_vm.download_name,"href":_vm.download_href}},[_vm._v(_vm._s(_vm.$t("generate.download")))])]),_vm._v(" "),_c('div',{staticClass:"remind"},[_c('p',{staticClass:"title-remind"},[_vm._v(_vm._s(_vm.$t("generate.msg")))]),_vm._v(" "),_c('p',{staticClass:"content-remind"},[_vm._v(_vm._s(_vm.$t("generate.msg2")))])])]):_vm._e()])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-ce5512f6","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/login.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('div',{staticStyle:{"height":"180px"}}),_vm._v(" "),_c('div',{staticClass:"container-box"},[_c('div',{staticClass:"row login-container"},[_c('div',{staticClass:"container-left"},[_c('div',{staticClass:"container-icon"},[_c('img',{attrs:{"src":__webpack_require__("4+Dl"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':!(_vm.moudle_generate||_vm.moudle_download)},on:{"click":function($event){_vm.cutModual('nep6')}}},[_c('span',{ref:"login"},[_vm._v(_vm._s(_vm.$t("login.login")))])]),_vm._v(" "),_c('div',{staticClass:"container-title",class:{'active':(_vm.moudle_generate || _vm.moudle_download)},on:{"click":function($event){_vm.cutModual('generate')}}},[_c('span',{ref:"login"},[_vm._v(_vm._s(_vm.$t("generate.generate")))])])]),_vm._v(" "),_c('div',{staticClass:"container-right"},[(_vm.moudle_nep6)?_c('div',{staticClass:"nep6-imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("\n              "+_vm._s(_vm.$t("login.title"))+"\n            ")])]),_vm._v(" "),_c('div',{staticClass:"input-login"},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filename),expression:"filename"}],staticClass:"form-control",attrs:{"type":"text","placeholder":_vm.$t('login.selectplaceholder'),"disabled":"true"},domProps:{"value":(_vm.filename)},on:{"input":function($event){if($event.target.composing){ return; }_vm.filename=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button"},[_c('span',[_vm._v(_vm._s(_vm.$t("login.selectbtn")))]),_vm._v(" "),_c('input',{attrs:{"type":"file"},on:{"change":_vm.fileChange}})])])])]),_vm._v(" "),_c('div',{staticClass:"input-login",staticStyle:{"padding-top":"40px"}},[_c('div',{staticClass:"input-group nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.password),expression:"password"}],staticClass:"form-control",attrs:{"placeholder":_vm.$t('login.passwordholder'),"type":"password"},domProps:{"value":(_vm.password)},on:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.loginFile($event)},"input":function($event){if($event.target.composing){ return; }_vm.password=$event.target.value}}}),_vm._v(" "),_c('span',{staticClass:"input-group-addon"},[_c('button',{staticClass:"btn btn-nel fileinput-button",on:{"click":_vm.loginFile}},[_vm._v("\n                  "+_vm._s(_vm.$t("login.login"))+"\n                ")])])])]),_vm._v(" "),_c('div',{staticStyle:{"height":"36px","padding-top":"80px","padding-bottom":"30px","text-align":"center"}},[_c('hr',{attrs:{"width":"80%","color":"#987cb9"}}),_vm._v(" "),_c('div',{staticClass:"hr-more"},[_vm._v(_vm._s(_vm.$t("login.cutlinemsg")))])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"30px"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('wif')}}},[_vm._v(_vm._s(_vm.$t("login.wifmsg")))])]),_vm._v(" "),_c('div',{staticStyle:{"width":"417px","margin":"0 auto","padding-top":"20px","padding-bottom":"5.9%"}},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.cutModual('nep2')}}},[_vm._v(_vm._s(_vm.$t("login.nep2msg")))])])]):_vm._e(),_vm._v(" "),(_vm.moudle_wif)?_c('div',{staticClass:"wif_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v(_vm._s(_vm.$t("wif.title")))])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.wif),expression:"wif"}],attrs:{"type":"text","placeholder":_vm.$t('wif.wifplaceholder')},domProps:{"value":(_vm.wif)},on:{"input":function($event){if($event.target.composing){ return; }_vm.wif=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":_vm.loginWif}},[_vm._v(_vm._s(_vm.$t("login.login")))])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< "+_vm._s(_vm.$t("wif.back")))])])]):_vm._e(),_vm._v(" "),(_vm.moudle_nep2)?_c('div',{staticClass:"nep2_imp"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v("Nep2")])]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2),expression:"nep2"}],attrs:{"type":"text","placeholder":_vm.$t('nep2.placeholder')},domProps:{"value":(_vm.nep2)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.nep2pwd),expression:"nep2pwd"}],attrs:{"type":"password","placeholder":_vm.$t('nep2.password')},domProps:{"value":(_vm.nep2pwd)},on:{"input":function($event){if($event.target.composing){ return; }_vm.nep2pwd=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":_vm.loginNep2}},[_vm._v(_vm._s(_vm.$t("login.login")))])]),_vm._v(" "),_c('div',{staticClass:"back"},[_c('a',{on:{"click":function($event){_vm.cutModual('nep6')}}},[_vm._v("< "+_vm._s(_vm.$t("wif.back")))])])]):_vm._e(),_vm._v(" "),(_vm.moudle_generate)?_c('div',{staticClass:"generate"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v(_vm._s(_vm.$t("generate.title")))])]),_vm._v(" "),_c('div',{class:_vm.nameerr!=''?( _vm.nameerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletname),expression:"walletname"}],attrs:{"type":"text","placeholder":_vm.$t('generate.name')},domProps:{"value":(_vm.walletname)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletname=$event.target.value},_vm.verifyName],"blur":_vm.verifyName}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.nameerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.nameempty')))]):_vm._e(),_vm._v(" "),(_vm.nameerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.namepass')))]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.pwderr!=''?( _vm.pwderr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.walletpwd),expression:"walletpwd"}],attrs:{"type":"password","placeholder":_vm.$t('generate.password')},domProps:{"value":(_vm.walletpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.walletpwd=$event.target.value},_vm.verifypwd],"blur":_vm.verifypwd}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.pwderr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.pwdmsg)+"\n              ")]):_vm._e(),_vm._v(" "),(_vm.pwderr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.namepass'))+"\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{class:_vm.confirmerr!=''?( _vm.confirmerr == 'true' ?'err':'success') :''},[_c('div',{staticClass:"nel-input-blg"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.confirmpwd),expression:"confirmpwd"}],attrs:{"type":"password","placeholder":_vm.$t('generate.passwordagain')},domProps:{"value":(_vm.confirmpwd)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.confirmpwd=$event.target.value},_vm.verifyConfirm],"blur":_vm.verifyConfirm}})]),_vm._v(" "),_c('div',{staticClass:"message"},[(_vm.confirmerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.pwderrmsg3'))+"\n              ")]):_vm._e(),_vm._v(" "),(_vm.confirmerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v("   "+_vm._s(_vm.$t('generate.namepass'))+"\n              ")]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('button',{staticClass:"btn btn-nel btn-import",on:{"click":function($event){_vm.generate()}}},[_vm._v(_vm._s(_vm.$t("generate.generate")))])])]):_vm._e(),_vm._v(" "),(_vm.moudle_download)?_c('div',{staticClass:"generate download"},[_c('div',{staticClass:"title-login"},[_c('span',[_vm._v(_vm._s(_vm.$t("generate.createmsg")))])]),_vm._v(" "),_c('p',{staticClass:"guide"},[_vm._v(_vm._s(_vm.$t("generate.downloadmsg")))]),_vm._v(" "),_c('div',{staticClass:"login-btn"},[_c('a',{staticClass:"btn btn-nel btn-import",attrs:{"download":_vm.download_name,"href":_vm.download_href}},[_vm._v(_vm._s(_vm.$t("generate.download")))])]),_vm._v(" "),_c('div',{staticClass:"remind"},[_c('p',{staticClass:"title-remind"},[_vm._v(_vm._s(_vm.$t("generate.msg")))]),_vm._v(" "),_c('p',{staticClass:"content-remind"},[_vm._v(_vm._s(_vm.$t("generate.msg2")))])])]):_vm._e()])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_login = (esExports);
 // CONCATENATED MODULE: ./src/pages/login.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("1lnH")
+  __webpack_require__("0LJk")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1911,7 +1963,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-628b07e7"
+var __vue_scopeId__ = "data-v-ce5512f6"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -4355,10 +4407,10 @@ exports.default = {
         cancel: "Cancel"
     },
     toast: {
-        msg1: "Be patient and wait for patience ...",
+        msg1: "Landing ...",
         msg2: "Authentication passed...",
-        msg3: ">_< !!! The login failure error message is as follows:",
-        msg4: ">_< !!! Please enter the correct string"
+        msg3: "Login failed. Please check your password or file",
+        msg4: "Please enter the correct string"
     },
     login: {
         login: "Login",
@@ -5048,10 +5100,10 @@ exports.default = {
         cancel: "取消",
     },
     toast: {
-        msg1: "请耐心等待...",
-        msg2: "身份验证通过...",
-        msg3: ">_< !!! 登陆错误信息如下：",
-        msg4: ">_< !!! 请输入正确的字符串"
+        msg1: "登陆中...",
+        msg2: "登陆成功...",
+        msg3: "登陆失败，请重新尝试",
+        msg4: "请输入正确的字符串"
     },
     login: {
         login: "登陆",

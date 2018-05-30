@@ -32,7 +32,7 @@
             </div>
             <div class="input-login" style="padding-top:40px;">
               <div class="input-group nel-input-blg">
-                <input class="form-control" :placeholder="$t('login.passwordholder')" type="password" v-model="password">
+                <input class="form-control" :placeholder="$t('login.passwordholder')" type="password" v-model="password" @keyup.enter="loginFile">
                 <span class="input-group-addon">
                   <button class="btn btn-nel fileinput-button" @click="loginFile">
                     {{$t("login.login")}}

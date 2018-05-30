@@ -56,9 +56,11 @@ export default class login extends Vue
       let isotc = !walletstr.includes("accounts");
       if (isotc)
       {
+        this.wallet.accounts = undefined;
         this.otcgo.fromJsonStr(walletstr);
       } else
       {
+        this.otcgo.address = undefined;
         this.wallet.fromJsonStr(walletstr);
       }
     }
@@ -89,6 +91,11 @@ export default class login extends Vue
 
   async loginFile()
   {
+    if (!this.filename)
+    {
+      mui.alert("" + this.$t("toast.msg3"));
+      return;
+    }
     mui.toast("" + this.$t("toast.msg1"));
     if (!!this.wallet.accounts)
     {
@@ -101,22 +108,36 @@ export default class login extends Vue
         window.location.hash = "#balance";
       } catch (error)
       {
-        mui.alert("" + this.$t("toast.msg3") + error);
+        mui.alert("" + this.$t("toast.msg3"));
       }
     }
     if (!!this.otcgo.address)
     {
-      this.otcgo.otcgoDecrypt(this.password);
-      var loginarray: LoginInfo[] = new Array<LoginInfo>();
-      loginarray.push(new LoginInfo());
-      loginarray[ 0 ].address = this.otcgo.address;
-      loginarray[ 0 ].prikey = this.otcgo.prikey;
-      loginarray[ 0 ].pubkey = this.otcgo.pubkey;
+      try
+      {
+        this.otcgo.otcgoDecrypt(this.password);
+        const result = this.otcgo.doValidatePwd();
+        if (result)
+        {
+          var loginarray: LoginInfo[] = new Array<LoginInfo>();
+          loginarray.push(new LoginInfo());
+          loginarray[ 0 ].address = this.otcgo.address;
+          loginarray[ 0 ].prikey = this.otcgo.prikey;
+          loginarray[ 0 ].pubkey = this.otcgo.pubkey;
 
-      StorageTool.setLoginArr(loginarray);
-      LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
-      mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
-      window.location.hash = "#balance";
+          StorageTool.setLoginArr(loginarray);
+          LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
+          mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
+          window.location.hash = "#balance";
+        } else
+        {
+          mui.alert("" + this.$t("toast.msg3"));
+        }
+      } catch (error)
+      {
+        mui.alert("" + this.$t("toast.msg3"));
+      }
+
     }
   }
 

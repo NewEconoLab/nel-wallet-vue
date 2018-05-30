@@ -21,10 +21,10 @@ export default {
         cancel: "Cancel"
     },
     toast: {
-        msg1: "Be patient and wait for patience ...",
+        msg1: "Landing ...",
         msg2: "Authentication passed...",
-        msg3: ">_< !!! The login failure error message is as follows:",
-        msg4: ">_< !!! Please enter the correct string"
+        msg3: "Login failed. Please check your password or file",
+        msg4: "Please enter the correct string"
     },
     login: {
         login: "Login",

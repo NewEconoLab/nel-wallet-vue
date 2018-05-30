@@ -1,5 +1,7 @@
 import { StorageTool } from "./storagetool";
 import { CoinTool } from "./cointool";
+import { KJUR } from 'jsrsasign';
+///<reference path="./crypto-js.d.ts"/>
 
 export class LoginInfo
 {
@@ -24,6 +26,7 @@ export class LoginInfo
         var arr: LoginInfo[] = [];
         for (var i = 0; i < obj.length; i++)
         {
+
             arr.push(new LoginInfo());
             var str: string = obj[ i ].prikey;
             var str2: string = obj[ i ].pubkey;
@@ -431,6 +434,7 @@ export class WalletOtcgo
 {
     address: string;
     publicKey: string;
+    privatekey: string;
     publicKeyCompressed: string;
     privateKeyEncrypted: string;
     pubkey: Uint8Array;
@@ -448,9 +452,48 @@ export class WalletOtcgo
 
     otcgoDecrypt(pwd: string)
     {
-        let pwd_hex = ThinNeo.Helper.String2Bytes(pwd);
-        let enkey_hex = ThinNeo.Helper.String2Bytes(this.privateKeyEncrypted);
-        this.prikey = ThinNeo.Helper.Aes256Decrypt_u8(enkey_hex, pwd_hex);
-        this.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(this.prikey);
+        try
+        {
+            this.privatekey = CryptoJS.AES.decrypt(this.privateKeyEncrypted, pwd).toString(CryptoJS.enc.Utf8);
+            this.prikey = this.privatekey.hexToBytes();
+            this.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(this.prikey);
+        } catch (error)
+        {
+            console.log(error)
+        }
     }
+    // 签名
+    doSign(prvkey, msg)
+    {
+        const sig = new KJUR.crypto.Signature({ 'alg': 'SHA256withECDSA' })
+        sig.initSign({
+            'ecprvhex': prvkey,
+            'eccurvename': 'secp256r1'
+        })
+        sig.updateString(msg)
+        return sig.sign()
+    }
+
+    doVerify(pubkey, msg, sigval)
+    {
+        const sig = new KJUR.crypto.Signature({
+            'alg': 'SHA256withECDSA',
+            'prov': 'cryptojs/jsrsa'
+        })
+        sig.initVerifyByPublicKey({
+            'ecpubhex': pubkey,
+            'eccurvename': 'secp256r1'
+        })
+        sig.updateString(msg)
+        return sig.verify(sigval)
+    }
+
+    doValidatePwd()
+    {
+        if (this.prikey.length === 0) return false
+        const msg = 'aaa';
+        const sigval = this.doSign(this.privatekey, msg)
+        return this.doVerify(this.publicKey, msg, sigval)
+    }
+
 }
