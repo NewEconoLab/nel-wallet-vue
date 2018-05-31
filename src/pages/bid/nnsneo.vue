@@ -3,14 +3,14 @@
     <div class="container ">
         <div class="title-menu">
             <ul class="menu-box">
-                <li class="active">Neo Name Auction</li>
-                <li>SGas Exchange</li>
-                <li class="active">My Neo Name</li>
-                <li>Bonus</li>
+                <li class="active" @click="showType = 1">Neo Name Auction</li>
+                <li @click="showType = 2">SGas Exchange</li>
+                <li @click="showType = 3">My Neo Name</li>
+                <li @click="showType = 4">Bonus</li>
             </ul>
         </div>
         <div class="content-box">
-            <neoname-auction></neoname-auction>
+            <neo-auction v-if="showType == 1"></neo-auction>
         </div>
     </div>
   </wallet-layout>

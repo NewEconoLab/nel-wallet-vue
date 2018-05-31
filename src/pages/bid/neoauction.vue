@@ -1,6 +1,6 @@
 <template>
     <div class="box-warp">
-        <div class="page-one">
+        <div class="page-one" v-if="!auctionPage">
             <div class="title">
                 <span>Neo Name Auction</span>
             </div>
@@ -9,16 +9,16 @@
                     <input type="text" placeholder="type a name">
                     <span>.neo</span>
                 </div>
-                <button class="btn btn-nel btn-big" >Open Auction</button>
+                <button class="btn btn-nel btn-big" @click="auctionShow = !auctionShow">Open Auction</button>
                 <spinner-wrap  style="margin-left:20px"></spinner-wrap>
                 <button class="btn btn-nel btn-big btn-disable" disabled="disabled">New Bid</button>
                 <span class="waiting-msg">We're sending a transacton,please wait patiently...</span>
                 <div class="msg-box">
-                    <img src="../../static/img/correct.svg" alt="">
+                    <img src="../../../static/img/correct.svg" alt="">
                     <span>bunnyrepublic is available.</span>
                     <span>///bunnyrepublic is being auctioned.</span>
                 </div>
-                <div class="msg-box err-msg">
+                <div class="msg-box status-ended">
                     <span>Please enter the domain according to the format.</span>
                     <span>///This domain name has already been auctioned off by others.</span>
                 </div>
@@ -27,7 +27,7 @@
                 <span>My Auction</span>
                 <div class="seach-box">
                     <input type="search" name="" id="" placeholder="Search by domain">
-                    <img src="../../static/img/seach.png" alt="">
+                    <img src="../../../static/img/seach.png" alt="">
                 </div>
             </div>
             <div class="form-box mbottom">
@@ -54,11 +54,11 @@
                         Current bidder : <span class="bidder-me">Me （ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span>
                     </div>
                     <div class="msg-time">
-                        Bid opening time : <span>2018/05/24 16:00:00</span>
+                        Bid start time : <span>2018/05/24 16:00:00</span>
                     </div>
                 </div>
                 <div class="btn-right">
-                    <button class="btn btn-nel btn-bid" >Bid</button>
+                    <button class="btn btn-nel btn-bid" @click="auctionPage = !auctionPage">Bid</button>
                     <button class="btn btn-nel btn-bid" >Get domain</button>
                     <button class="btn btn-nel btn-bid" >Recover SGas</button>
                     <button class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
@@ -66,28 +66,61 @@
                 </div>
             </div>
         </div>
+        <auction-info v-if="auctionPage" @onBack="onBack"></auction-info>
+        <div class="auction-wrap" v-if="auctionShow">
+          <div class="auction-box">
+            <div class="auction-title">Auction</div>
+            <div class="wrap-msg">
+              <div class="domain-name">Domain : Bennyrepublic1234.test</div>
+              <div class="auction-status">Status : <span class="status-being">Fixed period （ 47:56:30 ）</span> </div>
+              <div class="auction-price">Highest bid price : 9 SGas</div>
+            </div>
+            <div class="wrap-msg">
+              <div class="my-bid">
+                <span>Raise my bid : </span>
+                <input class="bid-input" type="text" placeholder="Enter a raise">
+              </div>
+              <div class="my-bid">
+                Your cumulative bid : <span class="status-ended">0</span> SGas
+              </div>
+            </div>
+            <div class="tips-msg">
+              Tips : The minimum value for each increase is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful.
+            </div>
+            <div class="btn-bid-box">
+              <button class="btn btn-nel btn-big btn-disable" disabled="disabled" >Bid</button>
+            </div>
+            <div class="auction-close">
+              <!-- <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> -->
+              <span aria-hidden="true" @click="auctionShow = !auctionShow">&times;</span>
+            </div>
+          </div>
+        </div>
     </div>
 </template>
-<script lang="ts">
-import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
-import Valert from "../components/Valert.vue";
-import Spinner from "../components/Spinner.vue";
-@Component({
-  components: {
-    "v-alert": Valert,
-    "spinner-wrap": Spinner
-  }
-})
-export default class NeoNameAuction extends Vue {
-  constructor() {
-    super();
-  }
-}
+<script lang="ts" src="./neoauction.ts">
 </script>
 <style lang="less" scoped>
 .box-warp {
   width: 100%;
+  .status-being {
+    color: #2dde4f;
+  }
+  .status-random {
+    color: #f5a158;
+  }
+  .status-ended {
+    color: #ff6a6a;
+  }
+  .bidder-me {
+    color: #198cee;
+  }
+  button {
+    &.btn-disable {
+      background: #77bcf6;
+      opacity: 1;
+    }
+  }
   .page-one {
     .title {
       .seach-box {
@@ -141,12 +174,11 @@ export default class NeoNameAuction extends Vue {
           line-height: 16px;
           font-size: 16px;
           margin: 0 auto;
-        }
-      }
-      button {
-        &.btn-disable {
-          background: #77bcf6;
-          opacity: 1;
+          &::-webkit-input-placeholder {
+            font-size: 14px;
+            color: #c5c5c5;
+            line-height: 14px;
+          }
         }
       }
       .waiting-msg {
@@ -164,8 +196,6 @@ export default class NeoNameAuction extends Vue {
           margin-right: 10px;
           vertical-align: middle;
         }
-        &.err-msg {
-        }
       }
       .msg-list {
         font-size: 14px;
@@ -178,18 +208,6 @@ export default class NeoNameAuction extends Vue {
         }
         .msg-neoname {
           font-size: 16px;
-        }
-        .status-being {
-          color: #2dde4f;
-        }
-        .status-random {
-          color: #f5a158;
-        }
-        .status-ended {
-          color: #ff6a6a;
-        }
-        .bidder-me {
-          color: #198cee;
         }
       }
       .btn-right {
@@ -213,6 +231,73 @@ export default class NeoNameAuction extends Vue {
     }
     .mbottom {
       margin-bottom: 20px;
+    }
+  }
+
+  .auction-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    z-index: 1030;
+    .auction-box {
+      background: #454f60;
+      padding: 30px 50px 50px 50px;
+      width: 1000px;
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -moz-transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 5px;
+      font-size: 16px;
+      .auction-title {
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+      .wrap-msg {
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #b2b2b2;
+        div {
+          margin-bottom: 10px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          .bid-input {
+            width: 680px;
+            height: 56px;
+            background: none;
+            border: 1px solid #b2b2b2;
+            border-radius: 5px;
+            &::-webkit-input-placeholder {
+              font-size: 16px;
+              color: #c5c5c5;
+            }
+          }
+        }
+      }
+      .tips-msg {
+        font-size: 14px;
+        color: #c5c5c5;
+        margin-bottom: 30px;
+      }
+      .btn-bid-box {
+        text-align: center;
+      }
+      .auction-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+      }
     }
   }
 }

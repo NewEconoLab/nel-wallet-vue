@@ -8,7 +8,7 @@ import Login from './pages/login.vue'
 import Balance from './pages/balance.vue'
 import Wallet from './layouts/wallet.vue'
 import Transfer from './pages/transfer.vue';
-import NNSNeo from './pages/nnsneo.vue';
+import NNSNeo from './pages/bid/nnsneo.vue';
 import NNS from './pages/nns.vue';
 import Settings from './pages/settings.vue';
 import { CoinTool } from './tools/cointool';
