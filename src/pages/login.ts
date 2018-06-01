@@ -1,11 +1,9 @@
-import { Result, WalletOtcgo } from './../tools/entity';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import MainLayout from "../layouts/Main.vue";
-import { neotools } from "./../tools/neotools";
-import { StorageTool } from '../tools/storagetool';
-import { LoginInfo } from './../tools/entity';
 import VLink from "../components/VLink.vue";
+import { WalletOtcgo, LoginInfo } from "../tools/entity";
+import { tools } from "../tools/importpack";
 /// <reference path="../tools/neo-ts.d.ts"/>
 
 declare const mui;
@@ -71,7 +69,7 @@ export default class login extends Vue
 
   mounted()
   {
-    if (StorageTool.getLoginArr().length > 0)
+    if (tools.storagetool.getLoginArr().length > 0)
     {
       sessionStorage.clear();
     }
@@ -101,8 +99,8 @@ export default class login extends Vue
     {
       try
       {
-        let loginarray = await neotools.nep6Load(this.wallet, this.password) as LoginInfo[];
-        StorageTool.setLoginArr(loginarray);
+        let loginarray = await tools.neotool.nep6Load(this.wallet, this.password) as LoginInfo[];
+        tools.storagetool.setLoginArr(loginarray);
         LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
         mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
         window.location.hash = "#balance";
@@ -125,7 +123,7 @@ export default class login extends Vue
           loginarray[ 0 ].prikey = this.otcgo.prikey;
           loginarray[ 0 ].pubkey = this.otcgo.pubkey;
 
-          StorageTool.setLoginArr(loginarray);
+          tools.storagetool.setLoginArr(loginarray);
           LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
           mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
           window.location.hash = "#balance";
@@ -144,7 +142,7 @@ export default class login extends Vue
   async loginWif()
   {
     mui.toast("" + this.$t("toast.msg1"));
-    var res = neotools.wifDecode(this.wif);
+    var res = tools.neotool.wifDecode(this.wif);
     if (res.err)
     {
       mui.toast("" + this.$t("toast.msg4"))
@@ -153,7 +151,7 @@ export default class login extends Vue
       var loginarray: LoginInfo[] = new Array<LoginInfo>();
       var login: LoginInfo = res.info;
       loginarray.push(login);
-      StorageTool.setLoginArr(loginarray);
+      tools.storagetool.setLoginArr(loginarray);
       LoginInfo.setCurrentAddress(login.address);
       mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
       window.location.hash = "#balance";
@@ -163,7 +161,7 @@ export default class login extends Vue
   async loginNep2()
   {
     mui.toast("" + this.$t("toast.msg1"));
-    var res = await neotools.nep2ToWif(this.nep2, this.nep2pwd);
+    var res = await tools.neotool.nep2ToWif(this.nep2, this.nep2pwd);
     if (res.err)
     {
       mui.toast("" + this.$t("toast.msg4"))
@@ -172,7 +170,7 @@ export default class login extends Vue
       var loginarray: LoginInfo[] = new Array<LoginInfo>();
       var login: LoginInfo = res.info;
       loginarray.push(login);
-      StorageTool.setLoginArr(loginarray);
+      tools.storagetool.setLoginArr(loginarray);
       LoginInfo.setCurrentAddress(login.address);
       mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
       window.location.hash = "#balance";
