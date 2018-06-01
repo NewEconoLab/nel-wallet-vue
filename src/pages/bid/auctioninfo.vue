@@ -12,6 +12,33 @@
             <div class="bidder">Current bidder  : <span class="bidder-me">Me（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
             <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">8</span>  SGas</div>     
         </div>
+        <div>
+          <div class="title">
+              <span>Get my domain</span>
+          </div>
+          <div class="form-box">
+              <div class="neoname"> BunnyRepublic.neo</div>
+              <div class="tips">Tips : When you successfully get your domain,You can edit it in My Neo Name.</div>
+              <div class="btn-center">
+                <button class="btn btn-nel btn-bid" >Get domain</button>
+                <button class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
+              </div>  
+          </div>
+        </div>
+        <div>
+          <div class="title">
+            <span>Recover SGas</span>
+        </div>
+        <div class="form-box">
+            <div class="cumulative-msg">My cumulative bid  : 10 SGas</div>
+            <div class="fee-msg">Fee : 0.5 SGas</div>
+            <div class="remain-msg">Remaining SGas : 9.5 SGas</div>
+            <div class="btn-center">
+              <button class="btn btn-nel btn-bid" >Recover SGas</button>
+              <button class="btn btn-nel btn-bid btn-disable" disabled>Recovering SGas...</button>
+            </div> 
+        </div>
+        </div>
         <div class="title">
             <span>Raise my bid</span>
         </div>
@@ -143,7 +170,31 @@
         height: 38px;
       }
     }
-    .time-box {
+    .neoname {
+      text-align: center;
+      font-size: 24px;
+    }
+    .tips {
+      margin-top: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: #c5c5c5;
+    }
+    .btn-center {
+      text-align: center;
+    }
+    .cumulative-msg {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .fee-msg,
+    .remain-msg {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .remain-msg {
+      margin-bottom: 50px;
     }
   }
 }

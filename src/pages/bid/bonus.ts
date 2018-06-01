@@ -9,15 +9,11 @@ import { tools } from "../../tools/importpack";
         "spinner-wrap": Spinner
     }
 })
-export default class AuctionInfo extends Vue
+export default class Bonus extends Vue
 {
 
     constructor()
     {
         super();
-    }
-    onBack()
-    {
-        this.$emit('onBack');
     }
 }

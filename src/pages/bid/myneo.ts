@@ -9,15 +9,14 @@ import { tools } from "../../tools/importpack";
         "spinner-wrap": Spinner
     }
 })
-export default class AuctionInfo extends Vue
+export default class MyNeo extends Vue
 {
-
+    isShowEdit: boolean;
     constructor()
     {
         super();
+        this.isShowEdit = false;
     }
-    onBack()
-    {
-        this.$emit('onBack');
-    }
+
+
 }

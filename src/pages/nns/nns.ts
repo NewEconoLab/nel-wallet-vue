@@ -1,15 +1,11 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../../layouts/wallet.vue";
-import { NNSTool } from "../../tools/nnstool";
-import { WWW } from "../../tools/wwwtool";
 import { LoginInfo, Domainmsg, DomainInfo, Consts, DomainStatus } from "../../tools/entity";
 import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
 import Bubble from "../../components/bubble.vue";
-import { StorageTool } from "../../tools/storagetool";
-import { DateTool } from "../../tools/timetool";
-import { neotools } from "../../tools/neotools";
+import { tools } from "../../tools/importpack";
 
 declare const mui;
 @Component({
@@ -66,8 +62,8 @@ export default class NNS extends Vue
 
     async mounted()
     {
-        await NNSTool.initRootDomain();
-        NNSTool.initStatus();
+        await tools.nnstool.initRootDomain();
+        tools.nnstool.initStatus();
         this.getDomainsByAddr();
         // this.awaitHeight();
     }
@@ -83,7 +79,7 @@ export default class NNS extends Vue
         if (verify.test(this.nnsstr))
         {
 
-            let domains = await NNSTool.queryDomainInfo(this.nnsstr + ".test")
+            let domains = await tools.nnstool.queryDomainInfo(this.nnsstr + ".test")
             if (domains.register && domains.ttl)
             {
                 var timestamp = new Date().getTime();
@@ -115,7 +111,7 @@ export default class NNS extends Vue
 
     verifyMappingAddress()
     {
-        let res = neotools.verifyAddress(this.alert_addr);
+        let res = tools.neotool.verifyAddress(this.alert_addr);
         res ? this.mapping_err = "0" : this.mapping_err = "1";
         return res;
     }
@@ -128,7 +124,7 @@ export default class NNS extends Vue
         {
             try
             {
-                let res = await NNSTool.registerDomain(this.nnsstr);
+                let res = await tools.nnstool.registerDomain(this.nnsstr);
                 if (res.err)
                 {
                     console.error(res.info);
@@ -153,7 +149,7 @@ export default class NNS extends Vue
      */
     async getDomainsByAddr()
     {
-        let res = await WWW.getnnsinfo(LoginInfo.getCurrentAddress());
+        let res = await tools.wwwtool.getnnsinfo(LoginInfo.getCurrentAddress());
         let arrdomain = res ? res.map(dom => { return dom + ".test" }) : [];
         let arr = new Array<Domainmsg>();
         let state = DomainStatus.getStatus() as DomainStatus;
@@ -234,20 +230,20 @@ export default class NNS extends Vue
     {
         let dommsg = new Domainmsg();
         dommsg.domainname = domain;
-        let msg = await NNSTool.queryDomainInfo(domain);
+        let msg = await tools.nnstool.queryDomainInfo(domain);
         if (msg.ttl)
         {
             this.receive_disable = false;
             let timestamp = new Date().getTime();
             let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
             copare < 0 ? dommsg.isExpiration = false : dommsg.isExpiration = true;
-            dommsg.time = DateTool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
+            dommsg.time = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
             dommsg.await_resolver = false;
             if (msg[ "resolver" ])
             {
                 let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
                 let resolver_str = resolver.toHexString();
-                let addr = await NNSTool.resolveData(domain);
+                let addr = await tools.nnstool.resolveData(domain);
                 dommsg.mapping = addr;
                 dommsg.resolver = resolver_str;
             } else
@@ -297,9 +293,9 @@ export default class NNS extends Vue
         this.alert_resolve = false;
         this.alert_resolver_state = 1;
         let arr = this.alert_domain.split(".");
-        let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+        let nnshash: Uint8Array = tools.nnstool.nameHashArray(arr);
         let contract = this.alert_contract.hexToBytes().reverse();
-        let res = await NNSTool.setResolve(nnshash, contract);
+        let res = await tools.nnstool.setResolve(nnshash, contract);
         let state = new DomainStatus();
         state.await_resolver = true;
         state.domainname = this.alert_domain;
@@ -317,9 +313,9 @@ export default class NNS extends Vue
         if (this.verifyMappingAddress())
         {
             let arr = this.alert_domain.split(".");
-            let nnshash: Uint8Array = NNSTool.nameHashArray(arr);
+            let nnshash: Uint8Array = tools.nnstool.nameHashArray(arr);
             // this.alert_addr = this.alert_addr ? this.alert_addr : LoginInfo.getCurrentAddress();
-            let res = await NNSTool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
+            let res = await tools.nnstool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
             this.alert_config_state = 1;
             let state = new DomainStatus();
             state.await_mapping = true;
@@ -333,15 +329,15 @@ export default class NNS extends Vue
 
     async awaitHeight()
     {
-        let str = StorageTool.getStorage("current-height");
-        let currentheight = await WWW.api_getHeight();
+        let str = tools.storagetool.getStorage("current-height");
+        let currentheight = await tools.wwwtool.api_getHeight();
         let oldheight = currentheight;
-        str ? oldheight = parseInt(str) : StorageTool.setStorage("current-height", currentheight + "");
+        str ? oldheight = parseInt(str) : tools.storagetool.setStorage("current-height", currentheight + "");
         if (oldheight < currentheight)
         {
             this.getDomainsByAddr();
             oldheight++;
-            StorageTool.setStorage("current-height", oldheight + "");
+            tools.storagetool.setStorage("current-height", oldheight + "");
         }
         await setTimeout(() =>
         {

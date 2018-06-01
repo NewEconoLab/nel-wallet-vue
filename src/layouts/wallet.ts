@@ -2,8 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import MainLayout from "./Main.vue";
 import VLink from "../components/VLink.vue";
-import { WWW } from "../tools/wwwtool";
-import { StorageTool } from "../tools/storagetool";
+import { tools } from "../tools/importpack";
 @Component({
     components: {
         VLink,
@@ -48,7 +47,7 @@ export default class FeatureComponent extends Vue
             : "icon-setting-unselect";
 
         this.getHeight()
-        let arr = StorageTool.getLoginArr();
+        let arr = tools.storagetool.getLoginArr();
         if (arr.length == 0)
         {
             window.location.hash = "#login";
@@ -57,7 +56,7 @@ export default class FeatureComponent extends Vue
 
     async getHeight()
     {
-        WWW.api_getHeight()
+        tools.wwwtool.api_getHeight()
             .then((res) =>
             {
                 this.blockheight = res;

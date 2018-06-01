@@ -3,14 +3,17 @@
     <div class="container ">
         <div class="title-menu">
             <ul class="menu-box">
-                <li class="active" @click="showType = 1">Neo Name Auction</li>
-                <li @click="showType = 2">SGas Exchange</li>
-                <li @click="showType = 3">My Neo Name</li>
-                <li @click="showType = 4">Bonus</li>
+                <li :class="{'active' : showType == 1}" @click="showType = 1">Neo Name Auction</li>
+                <li :class="{'active' : showType == 2}" @click="showType = 2">SGas Exchange</li>
+                <li :class="{'active' : showType == 3}" @click="showType = 3">My Neo Name</li>
+                <li :class="{'active' : showType == 4}" @click="showType = 4">Bonus</li>
             </ul>
         </div>
         <div class="content-box">
             <neo-auction v-if="showType == 1"></neo-auction>
+            <exchange v-if="showType == 2"></exchange>
+            <my-neo v-if="showType == 3"></my-neo>
+            <bonus v-if="showType == 4"></bonus>
         </div>
     </div>
   </wallet-layout>

@@ -16,7 +16,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import Spinner from "./Spinner.vue";
-import { NNSTool } from "../tools/nnstool";
+import { tools } from "../tools/importpack";
 import { Consts, LoginInfo } from "../tools/entity";
 
 @Component({

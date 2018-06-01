@@ -1,11 +1,9 @@
-import { CoinTool } from '../../tools/cointool';
 import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance } from '../../tools/entity';
-import { StorageTool } from '../../tools/storagetool';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import WalletLayout from "../../layouts/wallet.vue";
 import Spinner from "../../components/Spinner.vue";
-import { WWW } from '../../tools/wwwtool';
+import { tools } from "../../tools/importpack";
 
 declare const mui;
 
@@ -35,7 +33,7 @@ export default class balance extends Vue
     this.neoasset.neo = 0;
     this.neoasset.claim = '';
     this.chooseAddressarr = new Array();
-    this.chooseAddressarr = StorageTool.getLoginArr();
+    this.chooseAddressarr = tools.storagetool.getLoginArr();
   }
   // Component method
   mounted()
@@ -55,13 +53,13 @@ export default class balance extends Vue
   //获取余额
   async getBalances()
   {
-    CoinTool.initAllAsset();
+    tools.coinTool.initAllAsset();
     //获得balance列表
-    var balances = await WWW.api_getBalance(this.currentAddress) as BalanceInfo[];
-    var clamis = await WWW.api_getclaimgas(this.currentAddress, 0);
-    var clamis2 = await WWW.api_getclaimgas(this.currentAddress, 1);
-    var nep5balances = await WWW.api_getnep5Balance(this.currentAddress) as Nep5Balance[];
-    let height = await WWW.api_getHeight();
+    var balances = await tools.wwwtool.api_getBalance(this.currentAddress) as BalanceInfo[];
+    var clamis = await tools.wwwtool.api_getclaimgas(this.currentAddress, 0);
+    var clamis2 = await tools.wwwtool.api_getclaimgas(this.currentAddress, 1);
+    var nep5balances = await tools.wwwtool.api_getnep5Balance(this.currentAddress) as Nep5Balance[];
+    let height = await tools.wwwtool.api_getHeight();
     this.neoasset.neo = 0;
     this.neoasset.gas = 0;
     if (balances) //余额不唯空
@@ -73,11 +71,11 @@ export default class balance extends Vue
       balances.forEach //取NEO 和GAS
         (balance =>
         {
-          if (balance.asset == CoinTool.id_NEO)
+          if (balance.asset == tools.coinTool.id_NEO)
           {
             this.neoasset.neo = balance.balance;
           }
-          if (balance.asset == CoinTool.id_GAS)
+          if (balance.asset == tools.coinTool.id_GAS)
           {
             this.neoasset.gas = balance.balance;
           }
@@ -87,7 +85,7 @@ export default class balance extends Vue
 
 
     this.balances = await BalanceInfo.getBalancesByArr(balances, nep5balances, height);
-    StorageTool.setStorage("balances_asset", JSON.stringify(this.balances));
+    tools.storagetool.setStorage("balances_asset", JSON.stringify(this.balances));
   }
 
   async toClaimGas()
@@ -98,7 +96,7 @@ export default class balance extends Vue
       {
         this.claimbtn = false;
         this.loadmsg = "" + this.$t("balance.msg1");
-        let res = await CoinTool.rawTransaction(this.currentAddress, CoinTool.id_NEO, this.neoasset.neo.toString());
+        let res = await tools.coinTool.rawTransaction(this.currentAddress, tools.coinTool.id_NEO, this.neoasset.neo.toString());
         if (res.info)
         {
           this.loadmsg = "" + this.$t("balance.msg2");
@@ -107,7 +105,7 @@ export default class balance extends Vue
       } else
       {
         this.loadmsg = "" + this.$t("balance.msg3");
-        let res = await CoinTool.claimGas();
+        let res = await tools.coinTool.claimGas();
         if (res[ "sendrawtransactionresult" ])
         {
           let txid = res[ "txid" ];
@@ -121,14 +119,14 @@ export default class balance extends Vue
   {
     setTimeout(async () =>
     {
-      let res = await WWW.getrawtransaction(txid);
+      let res = await tools.wwwtool.getrawtransaction(txid);
       if (!res)
       {
         this.queryNEOTx(txid);
         return;
       }
       this.loadmsg = "" + this.$t("balance.msg3");
-      let result = await CoinTool.claimGas();
+      let result = await tools.coinTool.claimGas();
       if (result[ "sendrawtransactionresult" ])
       {
         let txid = result[ "txid" ];
@@ -141,7 +139,7 @@ export default class balance extends Vue
   {
     setTimeout(async () =>
     {
-      var res = await WWW.getrawtransaction(txid);
+      var res = await tools.wwwtool.getrawtransaction(txid);
       if (res)
       {
         this.loadmsg = "" + this.$t("balance.msg4");
@@ -155,7 +153,7 @@ export default class balance extends Vue
 
   toTransfer(asset: string)
   {
-    StorageTool.setStorage("transfer_choose", asset);
+    tools.storagetool.setStorage("transfer_choose", asset);
     window.location.hash = "#transfer";
   }
 

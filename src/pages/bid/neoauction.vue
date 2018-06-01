@@ -91,7 +91,6 @@
               <button class="btn btn-nel btn-big btn-disable" disabled="disabled" >Bid</button>
             </div>
             <div class="auction-close">
-              <!-- <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> -->
               <span aria-hidden="true" @click="auctionShow = !auctionShow">&times;</span>
             </div>
           </div>

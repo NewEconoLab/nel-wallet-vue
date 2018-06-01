@@ -70,7 +70,7 @@
 import VLink from "../components/VLink.vue";
 import Component from "vue-class-component";
 import Vue from "vue";
-import { StorageTool } from "../tools/storagetool";
+import { tools } from "../tools/importpack";
 @Component({
   components: {
     VLink
