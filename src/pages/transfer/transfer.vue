@@ -40,8 +40,8 @@
                             <p v-if="isDomain">{{toaddress}}</p>
                         </div>
                         <div class="col-sm-3 mess">
-                            <p v-if="addrerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp;{{$t('transfer.msg1')}} </p>
-                            <p v-if="addrerr=='false'"><img src="../../static/img/correct.svg" alt=""></p>
+                            <p v-if="addrerr=='true'"><img src="../../../static/img/wrong.svg" alt="">&nbsp;&nbsp;{{$t('transfer.msg1')}} </p>
+                            <p v-if="addrerr=='false'"><img src="../../../static/img/correct.svg" alt=""></p>
                         </div>
                     </div>
                     <div class="col-sm-12" :class="amounterr!=''?(amounterr == 'true' ?'err':'success') :''">
@@ -90,11 +90,11 @@
             </div>
             <div class="page" v-if="cutshow">
                 <div class="page-previous" :class="txpage<=1?'disabled':''" @click="cutPage('pre')">
-                    <img src="../../static/img/lefttrangle.svg" alt="">
+                    <img src="../../../static/img/lefttrangle.svg" alt="">
                 </div>
                 <div style="width:1px;"></div>
                 <div class="page-next" :class="nextpage?'':'disabled'" @click="cutPage('next')">
-                    <img src="../../static/img/righttrangle.svg" alt="">
+                    <img src="../../../static/img/righttrangle.svg" alt="">
                 </div>
             </div>
         </div>

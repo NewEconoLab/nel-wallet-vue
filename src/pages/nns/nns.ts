@@ -1,15 +1,15 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import WalletLayout from "../layouts/wallet.vue";
-import { NNSTool } from "../tools/nnstool";
-import { WWW } from "../tools/wwwtool";
-import { LoginInfo, Domainmsg, DomainInfo, Consts, DomainStatus } from "../tools/entity";
-import Valert from "../components/Valert.vue";
-import Spinner from "../components/Spinner.vue";
-import Bubble from "../components/bubble.vue";
-import { StorageTool } from "../tools/storagetool";
-import { DateTool } from "../tools/timetool";
-import { neotools } from "../tools/neotools";
+import WalletLayout from "../../layouts/wallet.vue";
+import { NNSTool } from "../../tools/nnstool";
+import { WWW } from "../../tools/wwwtool";
+import { LoginInfo, Domainmsg, DomainInfo, Consts, DomainStatus } from "../../tools/entity";
+import Valert from "../../components/Valert.vue";
+import Spinner from "../../components/Spinner.vue";
+import Bubble from "../../components/bubble.vue";
+import { StorageTool } from "../../tools/storagetool";
+import { DateTool } from "../../tools/timetool";
+import { neotools } from "../../tools/neotools";
 
 declare const mui;
 @Component({

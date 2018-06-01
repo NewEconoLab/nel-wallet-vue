@@ -2,15 +2,13 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import cn from "./language/cn"
 import en from "./language/en"
-import Home from './pages/home.vue'
-import About from './pages/about.vue'
 import Login from './pages/login.vue'
-import Balance from './pages/balance.vue'
+import Balance from './pages/balance/balance.vue'
 import Wallet from './layouts/wallet.vue'
-import Transfer from './pages/transfer.vue';
+import Transfer from './pages/transfer/transfer.vue';
 import NNSNeo from './pages/bid/nnsneo.vue';
-import NNS from './pages/nns.vue';
-import Settings from './pages/settings.vue';
+import NNS from './pages/nns/nns.vue';
+import Settings from './pages/setting/settings.vue';
 import { CoinTool } from './tools/cointool';
 import { StorageTool } from './tools/storagetool';
 

@@ -56,7 +56,7 @@
         <span class="content-msg warning-msg">( {{$t('nns.alertmessage1')}} )</span>
         <div class="input-warp">
           <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
-          <span class="correct-icon" v-if="alert_resolver_state==2"> <img src="../../static/img/correct.svg" alt="">
+          <span class="correct-icon" v-if="alert_resolver_state==2"> <img src="../../../static/img/correct.svg" alt="">
           </span>
           <div class="btn-verify-warp">
             <button class="btn-nel btn-verify " v-if="alert_resolver_state==0" @click="setresolve()">{{$t('btn.confirm')}}</button>
@@ -70,7 +70,7 @@
         <span class="content-msg"></span>
         <div class="input-warp">
           <input type="text" v-model="alert_addr" class="input-ico" :class="mapping_err=='0'?'input-success':mapping_err=='1'?'input-err':''" @input="verifyMappingAddress">
-          <span class="correct-icon" v-if="alert_config_state==2"> <img src="../../static/img/correct.svg" alt=""></span>
+          <span class="correct-icon" v-if="alert_config_state==2"> <img src="../../../static/img/correct.svg" alt=""></span>
           <div class="btn-verify-warp" style="margin-left:25px">
             <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">{{$t('btn.confirm')}}</button>
             <button v-if="alert_config_state==2" class="btn-nel btn-verify" @click="configResolve()">{{$t('btn.reset')}}</button>

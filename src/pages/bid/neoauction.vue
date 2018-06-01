@@ -36,7 +36,7 @@
                         BunnyRepublic.neo
                     </div>
                     <div class="msg-status">
-                        Status : <span class="status-being">Fixed period （ 47:56:30 ）</span>
+                        Status : <span class="status-being">Fixed period</span>
                     </div>
                     <div class="msg-status">
                         Status : <span class="status-random">Random period</span>

@@ -1,11 +1,11 @@
-import { CoinTool } from './../tools/cointool';
-import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance } from './../tools/entity';
-import { StorageTool } from './../tools/storagetool';
+import { CoinTool } from '../../tools/cointool';
+import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance } from '../../tools/entity';
+import { StorageTool } from '../../tools/storagetool';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import WalletLayout from "../layouts/wallet.vue";
-import Spinner from "../components/Spinner.vue";
-import { WWW } from '../tools/wwwtool';
+import WalletLayout from "../../layouts/wallet.vue";
+import Spinner from "../../components/Spinner.vue";
+import { WWW } from '../../tools/wwwtool';
 
 declare const mui;
 

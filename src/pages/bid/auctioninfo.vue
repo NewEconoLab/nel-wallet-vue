@@ -6,7 +6,7 @@
         </div>
         <div class="form-box">
             <div class="filename">Domain : Bennyrepublic1234.test</div>
-            <div class="status">Status : <span class="status-being">Fixed period （ 47:56:30 ）</span> </div>
+            <div class="status">Status : <span class="status-being">Fixed period </span> </div>
             <div class="highest-price">Highest bid price : 9 SGas</div>   
             <div class="bidder">Current bidder  : <span>Other people（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
             <div class="bidder">Current bidder  : <span class="bidder-me">Me（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
@@ -36,7 +36,7 @@
             <span>Timeline</span>
         </div>
         <div class="form-box">
-            <div class="time">sdfasf</div>
+            <div class="time-box">sdfasf</div>
         </div>
     </div>
 </template>
@@ -142,6 +142,8 @@
         width: 150px;
         height: 38px;
       }
+    }
+    .time-box {
     }
   }
 }

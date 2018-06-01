@@ -16,12 +16,12 @@
             </li>
             <li>
               <v-link ref="nnsneo" href="#nnsneo">
-                <span :class="[nnsneo]"></span> NNS(.neo)
+                <span :class="[nns]"></span> {{$t('nns.nns')}}(.neo)
               </v-link>
             </li>
             <li>
               <v-link ref="nns" href="#nns">
-                <span :class="[nns]"></span> {{$t('nns.nns')}}
+                <span :class="[nns]"></span> {{$t('nns.nns')}}(.test)
               </v-link>
             </li>
             <li>

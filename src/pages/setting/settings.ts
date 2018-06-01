@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import WalletLayout from "../layouts/wallet.vue";
-import { LoginInfo } from "../tools/entity";
+import WalletLayout from "../../layouts/wallet.vue";
+import { LoginInfo } from "../../tools/entity";
 
 declare const mui;
 @Component({
