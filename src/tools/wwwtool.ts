@@ -225,6 +225,14 @@ export class WWW
         var r = json[ "result" ][ 0 ][ "result" ]
         return r;
     }
-
+    //nns（.neo） start
+    static async api_getBidListByAddress(address: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getbidlistbyaddress", address);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
 
 }

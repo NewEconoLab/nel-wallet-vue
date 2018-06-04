@@ -5,11 +5,13 @@
             <div class="goback" @click="onBack">&lt;&lt;&lt;Go back</div>
         </div>
         <div class="form-box">
-            <div class="filename">Domain : Bennyrepublic1234.test</div>
-            <div class="status">Status : <span class="status-being">Fixed period </span> </div>
-            <div class="highest-price">Highest bid price : 9 SGas</div>   
-            <div class="bidder">Current bidder  : <span>Other people（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
-            <div class="bidder">Current bidder  : <span class="bidder-me">Me（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
+            <div class="filename">Domain : {{item.domain}}.neo</div>
+            <div class="status" v-if="item.auctionState=='Fixed period'">Status : <span class="status-being">Fixed period</span> </div>
+            <div class="status" v-if="item.auctionState=='Random period'">Status : <span class="status-random">Random period</span> </div>
+            <div class="status" v-if="item.auctionState=='Ended'">Status : <span class="status-ended">Ended</span> </div>
+            <div class="highest-price">Highest bid price : {{item.maxPrice}} SGas</div>   
+            <div class="bidder" v-if="item.maxBuyer != address">Current bidder  : <span>Other people（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
+            <div class="bidder" v-if="item.maxBuyer == address">Current bidder  : <span class="bidder-me">Me（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
             <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">8</span>  SGas</div>     
         </div>
         <div>
@@ -167,6 +169,7 @@
             <button class="btn btn-nel">View more</button>
           </div>
         </div>
+        
     </div>
 </template>
 <script lang="ts" src="./auctioninfo.ts">
@@ -477,7 +480,7 @@
           position: absolute;
           left: -331px;
           top: -50%;
-          margin-top: 10px;
+          margin-top: 5px;
           box-sizing: border-box;
 
           &:after {
@@ -501,6 +504,7 @@
           p {
             font-size: 14px;
             color: #ffffff;
+            margin: 5px 0;
           }
 
           em {

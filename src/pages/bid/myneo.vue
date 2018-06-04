@@ -5,7 +5,7 @@
         </div>
         <div class="form-box">
             <div class="neoname">
-                Bennyrepublic.test
+                Bennyrepublic.neo
             </div>
             <div class="addr-resolver">( Address resolver : d80ed0bd889b503739a8cf783a8ddcb37a5a9979bde1c00701e894f519c36964 )</div>
             <div class="addr-mapping">( Address mapping : AQxtGCx8PEhLUAQ3cfztRq5ykTXraBcohZ )</div>
@@ -21,7 +21,7 @@
           <div class="edit-box">
             <div class="edit-title">Edit information</div>
             <div class="edit-content">
-                <div class="edit-name">Neo Name : Bennyrepublic1234.test</div>
+                <div class="edit-name">Neo Name : Bennyrepublic1234.neo</div>
                 <div class="edit-input">
                     <div class="input-msg">
                         Address Resolver :

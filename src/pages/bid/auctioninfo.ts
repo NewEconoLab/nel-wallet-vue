@@ -11,10 +11,11 @@ import { tools } from "../../tools/importpack";
 })
 export default class AuctionInfo extends Vue
 {
-
+    @Prop() item: any;
     constructor()
     {
         super();
+        console.log(this.item);
     }
     onBack()
     {

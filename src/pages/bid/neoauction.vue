@@ -30,48 +30,49 @@
                     <img src="../../../static/img/seach.png" alt="">
                 </div>
             </div>
-            <div class="form-box mbottom">
+            <div class="form-box mbottom" v-if="myAuctionList" v-for="(item,index) in myAuctionList" :key="index">
                 <div class="msg-list">
                     <div class="msg-neoname">
-                        BunnyRepublic.neo
+                        {{item.domain}}.neo
                     </div>
-                    <div class="msg-status">
+                    <div class="msg-status" v-if="item.auctionState=='Fixed period'">
                         Status : <span class="status-being">Fixed period</span>
                     </div>
-                    <div class="msg-status">
+                    <div class="msg-status" v-if="item.auctionState=='Random period'">
                         Status : <span class="status-random">Random period</span>
                     </div>
-                    <div class="msg-status">
+                    <div class="msg-status" v-if="item.auctionState=='Ended'">
                         Status : <span class="status-ended">Ended</span>
                     </div>
                     <div class="msg-price">
-                        Last auction price : <span>10 SGas</span> 
+                        Last auction price : <span>{{item.maxPrice}}</span> SGas
                     </div>
-                    <div class="msg-bidder">
-                        Current bidder : <span>Other people （ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span>
+                    <div class="msg-bidder" v-if="item.maxBuyer != address">
+                        Current bidder : <span>Other people （ {{item.maxBuyer}} ）</span>
                     </div>
-                    <div class="msg-bidder">
-                        Current bidder : <span class="bidder-me">Me （ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span>
+                    <div class="msg-bidder" v-if="item.maxBuyer == address">
+                        Current bidder : <span class="bidder-me">Me （{{address}}} ）</span>
                     </div>
                     <div class="msg-time">
-                        Bid start time : <span>2018/05/24 16:00:00</span>
+                        Bid start time : <span>{{item.startAuctionTime}}</span>
                     </div>
                 </div>
                 <div class="btn-right">
-                    <button class="btn btn-nel btn-bid" @click="auctionPage = !auctionPage">Bid</button>
-                    <button class="btn btn-nel btn-bid" >Get domain</button>
-                    <button class="btn btn-nel btn-bid" >Recover SGas</button>
-                    <button class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
-                    <button class="btn btn-nel btn-bid btn-disable" disabled>Recoverring SGas...</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Fixed period' || item.auctionState=='Random period'" @click="onGoBidInfo(item)">Bid</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Get domain</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Recover SGas</button>
+                    <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Getting domain...</button>
+                    <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Recoverring SGas...</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Received</button>
                 </div>
             </div>
         </div>
-        <auction-info v-if="auctionPage" @onBack="onBack"></auction-info>
+        <auction-info v-if="auctionPage" @onBack="onBack" :item="domainInfo"></auction-info>
         <div class="auction-wrap" v-if="auctionShow">
           <div class="auction-box">
             <div class="auction-title">Auction</div>
             <div class="wrap-msg">
-              <div class="domain-name">Domain : Bennyrepublic1234.test</div>
+              <div class="domain-name">Domain : Bennyrepublic1234.neo</div>
               <div class="auction-status">Status : <span class="status-being">Fixed period （ 47:56:30 ）</span> </div>
               <div class="auction-price">Highest bid price : 9 SGas</div>
             </div>
@@ -219,7 +220,7 @@
           font-size: 18px;
           width: 150px;
           height: 38px;
-          &.btn-disable {
+          &.btn-smallsize {
             font-size: 14px;
           }
         }
