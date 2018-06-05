@@ -59,10 +59,10 @@
                 </div>
                 <div class="btn-right">
                     <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Fixed period' || item.auctionState=='Random period'" @click="onGoBidInfo(item)">Bid</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Get domain</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Recover SGas</button>
-                    <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Getting domain...</button>
-                    <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Recoverring SGas...</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="onGoBidInfo(item)">Get domain</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="onGoBidInfo(item)">Recover SGas</button>
+                    <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'"  @click="onGoBidInfo(item)">Getting domain...</button>
+                    <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'"  @click="onGoBidInfo(item)">Recoverring SGas...</button>
                     <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Received</button>
                 </div>
             </div>

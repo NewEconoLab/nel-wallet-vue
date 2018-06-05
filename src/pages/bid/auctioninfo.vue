@@ -10,11 +10,11 @@
             <div class="status" v-if="item.auctionState=='Random period'">Status : <span class="status-random">Random period</span> </div>
             <div class="status" v-if="item.auctionState=='Ended'">Status : <span class="status-ended">Ended</span> </div>
             <div class="highest-price">Highest bid price : {{item.maxPrice}} SGas</div>   
-            <div class="bidder" v-if="item.maxBuyer != address">Current bidder  : <span>Other people（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
-            <div class="bidder" v-if="item.maxBuyer == address">Current bidder  : <span class="bidder-me">Me（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
-            <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">{{item.currentPrice}}</span>  SGas</div>     
+            <div class="bidder" v-if="item.maxBuyer != address">Current bidder  : <span>Other people（ {{item.maxBuyer}} ）</span> </div>
+            <div class="bidder" v-if="item.maxBuyer == address">Current bidder  : <span class="bidder-me">Me（ {{item.maxBuyer}} ）</span> </div>
+            <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">{{item.mybidprice}}</span>  SGas</div>     
         </div>
-        <div>
+        <div v-if="item.auctionState=='Ended' && item.maxBuyer == address">
           <div class="title">
               <span>Get my domain</span>
           </div>
@@ -27,19 +27,19 @@
               </div>  
           </div>
         </div>
-        <div>
+        <div v-if="item.auctionState=='Ended' && item.maxBuyer != address">
           <div class="title">
-            <span>Recover SGas</span>
-        </div>
-        <div class="form-box">
-            <div class="cumulative-msg">My cumulative bid  : 10 SGas</div>
-            <div class="fee-msg">Fee : 0.5 SGas</div>
-            <div class="remain-msg">Remaining SGas : 9.5 SGas</div>
-            <div class="btn-center">
-              <button class="btn btn-nel btn-bid" >Recover SGas</button>
-              <button class="btn btn-nel btn-bid btn-disable" disabled>Recovering SGas...</button>
-            </div> 
-        </div>
+              <span>Recover SGas</span>
+          </div>
+          <div class="form-box">
+              <div class="cumulative-msg">My cumulative bid  : 10 SGas</div>
+              <div class="fee-msg">Fee : 0.5 SGas</div>
+              <div class="remain-msg">Remaining SGas : 9.5 SGas</div>
+              <div class="btn-center">
+                <button class="btn btn-nel btn-bid" >Recover SGas</button>
+                <button class="btn btn-nel btn-bid btn-disable" disabled>Recovering SGas...</button>
+              </div> 
+          </div>
         </div>
         <div class="title">
             <span>Raise my bid</span>
@@ -48,12 +48,12 @@
             <div>
                 <div class="input-msg">Raise my bid : </div>
                 <div class="input-box" >
-                    <input type="text" placeholder="Enter a raise">
+                    <input type="number" placeholder="Enter a raise" @input="myBidInput">
                     <span>SGas</span>
                 </div>
                 <div class="err-msg status-ended">Only 90 SGas is available.</div>
             </div>
-            <div class="my-sgas">My cumulative bid will be : <span class="status-ended">8</span> SGas</div>
+            <div class="my-sgas">My cumulative bid will be : <span class="status-ended">{{myBidPrice}}</span> SGas</div>
             <div class="tips-msg">
                 Tips : The minimum value for your raise is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful. 
             </div>
@@ -108,65 +108,20 @@
           <!-- timeling-wrapper start -->
           <div class="timeling-wrapper">
             <div class="first"></div>
-            <div class="list">
+            <div class="list" v-for="(item,index) in bidDetailList" :key="index">
               <div class="line"></div>
               <div class="infos">
-                <span>2018/05/24 10:30:21</span>
-                <p>Other people（AYMa...tquh）</p>
-                <em>Price：9 SGas</em>
-              </div>
-            </div>
-
-            <div class="list">
-              <div class="line"></div>
-              <div class="infos">
-                <span>2018/05/24 10:30:21</span>
-                <p>Other people（AYMa...tquh）</p>
-                <em>Price：9 SGas</em>
-              </div>
-            </div>
-
-            <div class="list">
-              <div class="line"></div>
-              <div class="infos">
-                <span>2018/05/24 10:30:21</span>
-                <p>Other people（AYMa...tquh）</p>
-                <em>Price：9 SGas</em>
-              </div>
-            </div>
-
-            <div class="list">
-              <div class="line"></div>
-              <div class="infos">
-                <span>2018/05/24 10:30:21</span>
-                <p>Other people（AYMa...tquh）</p>
-                <em>Price：9 SGas</em>
-              </div>
-            </div>
-
-
-            <div class="list">
-              <div class="line"></div>
-              <div class="infos">
-                <span>2018/05/24 10:30:21</span>
-                <p>Other people（AYMa...tquh）</p>
-                <em>Price：9 SGas</em>
-              </div>
-            </div>
-
-
-            <div class="list">
-              <div class="line"></div>
-              <div class="infos">
-                <span>2018/05/24 10:30:21</span>
-                <p>Other people（AYMa...tquh）</p>
-                <em>Price：9 SGas</em>
+                <span>{{item.addPriceTime}}</span>
+                <p v-if="!item.maxBuyer">Auction Opened</p>
+                <p v-if="item.maxBuyer != address && item.maxBuyer">Other people（ <span>{{item.maxBuyer}}</span>  ）</p>
+                <p class="bidder-me" v-if="item.maxBuyer == address">Me（ <span>{{item.maxBuyer}}</span> ）</p>
+                <em v-if="item.maxBuyer!=''">Price：{{item.maxPrice}} SGas</em>
               </div>
             </div>
           </div>
           <!-- timeling-wrapper end -->
           <div class="viewmore">
-            <button class="btn btn-nel">View more</button>
+            <button class="btn btn-nel" v-if="btnShowmore" @click="getMoreBidDetail">View more</button>
           </div>
         </div>
         
@@ -473,16 +428,16 @@
         }
 
         .infos {
-          width: 305px;
+          width: 325px;
           background: #151a1e;
           color: #fff;
           padding: 15px 20px;
           position: absolute;
-          left: -331px;
+          left: -350px;
           top: -50%;
           margin-top: 5px;
           box-sizing: border-box;
-
+          border-radius: 5px;
           &:after {
             width: 0;
             height: 0;
@@ -498,25 +453,29 @@
 
           span {
             font-size: 12px;
-            color: #ffffff;
           }
 
           p {
             font-size: 14px;
             color: #ffffff;
             margin: 5px 0;
+            &.bidder-me {
+              color: #198cee;
+            }
+            span {
+              font-size: 12px;
+            }
           }
 
           em {
             font-style: normal;
             font-size: 14px;
-            color: #ffffff;
           }
         }
 
         &:nth-of-type(2n-1) {
           .infos {
-            right: -331px;
+            right: -350px;
             left: initial;
 
             &:after {

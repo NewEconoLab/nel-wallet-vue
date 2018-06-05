@@ -26,21 +26,20 @@ export default class NeoAuction extends Vue
         this.auctionPage = false;
         this.myAuctionList = [];
         this.domainInfo = [];
-        this.address = tools.storagetool.getStorage("current-address");
+        // this.address = tools.storagetool.getStorage("current-address");
+        this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
         console.log(this.address)
-        this.getBidList('AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM');
+        this.getBidList(this.address);
     }
 
     async getBidList(address)
     {
         let res = await tools.wwwtool.api_getBidListByAddress(address);
-        console.log(res)
         if (res)
         {
             for (let i in res)
             {
-                res[ i ].startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(res[ i ].startAuctionTime * 1000));;
-                console.log(res[ i ].startAuctionTime)
+                res[ i ].startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(res[ i ].startAuctionTime * 1000));
             }
             this.myAuctionList = res;
             console.log(this.myAuctionList);
