@@ -226,5 +226,14 @@ export class WWW
         return r;
     }
 
+    static async api_getcontractstate(scriptaddr: string)
+    {
+        var str = WWW.makeRpcUrl(WWW.api, "getcontractstate", scriptaddr);
+        var value = await fetch(str, { "method": "get" });
+        var json = await value.json();
+        var r = json[ "result" ][ 0 ];
+        return r;
+    }
+
 
 }

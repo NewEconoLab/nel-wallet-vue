@@ -87,7 +87,6 @@ export class BalanceInfo
             balances.map(
                 (item) =>
                 {
-
                     item.names = tools.coinTool.assetID2name[ item.asset ];
                     let a = tools.storagetool.getStorage(item.asset);
                     if (a)
