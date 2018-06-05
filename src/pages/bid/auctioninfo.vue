@@ -12,7 +12,7 @@
             <div class="highest-price">Highest bid price : {{item.maxPrice}} SGas</div>   
             <div class="bidder" v-if="item.maxBuyer != address">Current bidder  : <span>Other people（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
             <div class="bidder" v-if="item.maxBuyer == address">Current bidder  : <span class="bidder-me">Me（ AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh ）</span> </div>
-            <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">8</span>  SGas</div>     
+            <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">{{item.currentPrice}}</span>  SGas</div>     
         </div>
         <div>
           <div class="title">
