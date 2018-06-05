@@ -53,7 +53,7 @@
                 </div>
                 <div class="err-msg status-ended">Only 90 SGas is available.</div>
             </div>
-            <div class="my-sgas">My cumulative bid will be : <span class="status-ended">{{myBidPrice}}</span> SGas</div>
+            <div class="my-sgas">My cumulative bid will be : <span class="status-ended">{{updatePrice}}</span> SGas</div>
             <div class="tips-msg">
                 Tips : The minimum value for your raise is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful. 
             </div>

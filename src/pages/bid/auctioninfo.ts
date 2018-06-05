@@ -12,7 +12,8 @@ import { tools } from "../../tools/importpack";
 export default class AuctionInfo extends Vue
 {
     address: string;
-    myBidPrice: number;
+    myBidPrice: string;
+    updatePrice: string;
     bidDetailList: any;
     currentpage: number;
     pagesize: number;
@@ -24,6 +25,7 @@ export default class AuctionInfo extends Vue
         // this.address = tools.storagetool.getStorage("current-address");
         this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
         this.myBidPrice = this.item.mybidprice;
+        this.updatePrice = this.myBidPrice;
         console.log(this.item);
         this.bidDetailList = [];
         this.currentpage = 1;
@@ -39,8 +41,12 @@ export default class AuctionInfo extends Vue
         let res = this.checkInput(price);
         if (res)
         {
-            this.myBidPrice = ((parseFloat(this.item.mybidprice) + parseFloat(price)) * 10) / 10;
-            console.log(parseFloat(this.item.mybidprice) + "+" + parseFloat(price))
+            let bidPrice = Neo.Fixed8.parse(this.myBidPrice + "");
+            let sum = bidPrice.add(Neo.Fixed8.parse(price + ""));
+            this.updatePrice = sum.toString();
+            //this.myBidPrice = ((parseFloat(this.item.mybidprice) + parseFloat(price)) * 10) / 10;
+            console.log(bidPrice + "+" + Neo.Fixed8.parse(price + ""))
+            console.log(this.updatePrice)
         }
     }
     checkInput(price)
