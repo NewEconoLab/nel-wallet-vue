@@ -49,7 +49,7 @@ export default class Valert extends Vue {
   .alert-warp {
     background: #fff;
     padding: 30px 50px 0 50px;
-    width: 1000px;
+    width: 80%;
     color: #333;
     position: absolute;
     top: 50%;
@@ -82,7 +82,7 @@ export default class Valert extends Vue {
           .input-ico {
             padding: 20px;
             height: 56px;
-            width: 600px;
+            width: 60%;
             margin-bottom: 0;
             vertical-align: middle;
             margin-right: 25px;

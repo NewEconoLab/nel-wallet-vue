@@ -126,20 +126,21 @@
       margin-bottom: 50px;
       display: flex;
       .spent-box {
-        width: 450px;
+        //width: 450px;
+        flex: 1;
         position: relative;
         .spent-msg {
           margin-bottom: 20px;
         }
         .spent-input {
-          width: 450px;
+          width: 100%;
           height: 56px;
           position: relative;
           background: #6d7480;
           border: 1px solid #b2b2b2;
           border-radius: 5px;
           input {
-            width: 400px;
+            width: 80%;
             height: 100%;
             background: none;
             border: none;
@@ -175,20 +176,21 @@
         }
       }
       .receive-box {
-        width: 450px;
+        flex: 1;
+        //width: 450px;
         position: relative;
         .receive-msg {
           margin-bottom: 20px;
         }
         .receive-input {
-          width: 450px;
+          width: 100%;
           height: 56px;
           position: relative;
           background: #6d7480;
           border: 1px solid #b2b2b2;
           border-radius: 5px;
           input {
-            width: 400px;
+            width: 80%;
             height: 100%;
             background: none;
             border: none;

@@ -116,7 +116,7 @@
     .edit-box {
       background: #454f60;
       padding: 30px 50px 50px 50px;
-      width: 1000px;
+      width: 80%;
       color: #fff;
       position: absolute;
       top: 50%;
@@ -150,7 +150,7 @@
           .input-box {
             margin-top: 20px;
             input {
-              width: 700px;
+              width: 68%;
               height: 56px;
               background: none;
               border: 1px solid #b2b2b2;

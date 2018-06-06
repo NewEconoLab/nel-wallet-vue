@@ -56,7 +56,6 @@ export default class AuctionInfo extends Vue
         {
             return false;
         }
-
         return true;
     }
     async getBidDetail(domain, currentpage, pagesize)

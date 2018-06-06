@@ -52,10 +52,12 @@
   padding-left: 0px;
   padding-right: 0px;
 }
+.navbar {
+  border: none;
+}
 .navbar-wallet {
   padding-top: 51px;
   background-color: #454f60;
-  height: 132px;
 }
 .navbar-wallet .navbar-collapse {
   padding-top: 30px;

@@ -28,8 +28,8 @@
         <!-- <span class="msg-null" v-if="!domain.resolver&&domain.resolver==''">
           ( not configured )
         </span> -->
-        <div class="row">
-          <div class="col-md-10">
+        <!-- <div class="row"> -->
+          <div class="left-box">
             <span class="domainname">
               {{domain.domainname}}
             </span>
@@ -40,10 +40,10 @@
             </span>
             <span class="msg-resolver state-lable">{{domain.isExpiration?"("+$t('nns.text4')+")":""}} {{domain.await_register?"("+$t('nns.waiting')+")":""}}</span>
           </div>
-          <div class="col-md-2">
+          <div class="right-box">
             <button v-if="!domain.await_register" class="btn btn-nel" @click="resolve(domain)">{{$t('nns.edit')}}</button>
           </div>
-        </div>
+        <!-- </div> -->
       </div>
     </div>
     <v-alert ref="alert">
@@ -107,6 +107,13 @@
   padding-bottom: 60px;
   border-radius: 5px;
   margin-bottom: 20px;
+  position: relative;
+}
+.right-box {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  margin-top: -19px;
 }
 .nns-register {
   background: #454f60;
