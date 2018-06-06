@@ -15,7 +15,7 @@ export default class Exchange extends Vue
         this.transcount = "";
     }
 
-    exChange()
+    async exChange()
     {
         if (this.changeSGas)
         {
@@ -23,7 +23,7 @@ export default class Exchange extends Vue
         {
             try
             {
-                let txid = tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
+                let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
                 console.log(txid);
 
             } catch (error)

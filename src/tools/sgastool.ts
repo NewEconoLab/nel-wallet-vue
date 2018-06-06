@@ -15,7 +15,7 @@ export default class SgasTool
 
         var utxos_assets = await tools.coinTool.getassets();
 
-        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(new Uint8Array(tools.coinTool.id_SGAS.bits.buffer));
+        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
 
         try
         {
