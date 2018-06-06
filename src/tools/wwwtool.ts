@@ -234,6 +234,22 @@ export class WWW
         var r = json[ "result" ][ 0 ];
         return r;
     }
-
+    //nns（.neo） start
+    static async api_getBidListByAddress(address: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getbidlistbyaddress", address);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+    static async api_getBidDetail(domain: string, currentpage: number, pagesize: number)
+    {
+        var postdata = WWW.makeRpcPostBody("getbiddetailbydomain", domain, currentpage, pagesize);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
 
 }

@@ -493,3 +493,14 @@ export class WalletOtcgo
     }
 
 }
+export class MyAuction
+{
+    auctionSpentTime: string;
+    auctionState: string;
+    blockindex: string;
+    domain: string;
+    maxBuyer: string;
+    maxPrice: string;
+    owner: string;
+    startAuctionTime: number;
+}

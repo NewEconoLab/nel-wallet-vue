@@ -25,7 +25,7 @@ export default class NNSNeo extends Vue
     constructor()
     {
         super();
-        this.showType = 3;
+        this.showType = 1;
     }
 
     mounted() { }
