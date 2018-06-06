@@ -16,17 +16,17 @@
                     <span>Exchange SGas for Gas</span>
                 </div>
             </div>
-            <div class="trans-box" v-if="!changeSGas">
+            <div class="trans-box">
                 <div class="spent-box">
                     <div class="spent-msg">
                         Amount you will spent : 
                     </div>
-                    <div class="spent-input">
-                        <input type="text" placeholder="0">
-                        <span>Gas</span>
+                   <div class="spent-input">
+                        <input type="number" placeholder="0" v-model="transcount">
+                        <span>{{changeSGas?"SGas":"Gas"}}</span>
                     </div>
                     <div class="spent-tip">
-                        It will cost you <span>0</span> Gas. ( you currently have <span class="ff6">2900</span>  Gas. )///It will cost you 100 SGas . ( you currently have 2900 SGas. )
+                       It will cost you <span>0</span> Gas. ( you currently have <span class="ff6">2900</span>  Gas. )///It will cost you 100 SGas . ( you currently have 2900 SGas. )
                     </div>
                 </div>
                 <div class="guid-img">
@@ -37,45 +37,16 @@
                         Amount you will receive :  
                     </div>
                     <div class="receive-input">
-                        <input type="text" placeholder="Amount">
-                        <span>SGas</span>
+                        <input type="number" placeholder="Amount" v-model="transcount">
+                        <span>{{changeSGas?"Gas":"SGas"}}</span>
                     </div>
                     <div class="receive-tip">
-                        You will have <span>200</span> SGas. ( You currently have <span>100</span> SGas. )
-                    </div>
-                </div>
-            </div>
-            <div class="trans-box" v-if="changeSGas">
-                <div class="spent-box">
-                    <div class="spent-msg">
-                        Amount you will spent : 
-                    </div>
-                    <div class="spent-input">
-                        <input type="text" placeholder="0">
-                        <span>SGas</span>
-                    </div>
-                    <div class="spent-tip">
-                        It will cost you <span>0</span> Gas. ( you currently have <span class="ff6">2900</span>  Gas. )///It will cost you 100 SGas . ( you currently have 2900 SGas. )
-                    </div>
-                </div>
-                <div class="guid-img">
-                    <img src="../../../static/img/guiding.png" alt="guiding.png">
-                </div>
-                <div class="receive-box">
-                    <div class="receive-msg">
-                        Amount you will receive :  
-                    </div>
-                    <div class="receive-input">
-                        <input type="text" placeholder="Amount">
-                        <span>Gas</span>
-                    </div>
-                    <div class="receive-tip">
-                        You will have <span>200</span> SGas. ( You currently have <span>100</span> SGas. )
+                       You will have <span>200</span> SGas. ( You currently have <span>100</span> SGas. )
                     </div>
                 </div>
             </div>
             <div class="btn-right">
-                <button class="btn btn-nel btn-big">Exchange</button>
+                <button class="btn btn-nel btn-big" @click="exChange()">Exchange</button>
             </div>
         </div>
     </div>

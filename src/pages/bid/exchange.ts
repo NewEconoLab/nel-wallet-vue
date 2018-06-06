@@ -7,9 +7,31 @@ import { tools } from "../../tools/importpack";
 export default class Exchange extends Vue
 {
     changeSGas: boolean;
+    transcount: string;
     constructor()
     {
         super();
         this.changeSGas = false;
+        this.transcount = "";
     }
+
+    exChange()
+    {
+        if (this.changeSGas)
+        {
+        } else
+        {
+            try
+            {
+                let txid = tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
+                console.log(txid);
+
+            } catch (error)
+            {
+                console.error(error);
+
+            }
+        }
+    }
+
 }

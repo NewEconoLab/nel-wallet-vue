@@ -9,13 +9,14 @@ import SgasTool from "./sgastool";
 
 export namespace tools
 {
-    export let coinTool = CoinTool;
-    export let neotool = neotools;
-    export let nnstool = NNSTool;
-    export let storagetool = StorageTool;
-    export let wwwtool = WWW;
-    export let timetool = DateTool;
-    export let contract = Contract;
-    export let sgastoll = SgasTool;
+
+    export let coinTool = CoinTool;         //构造交易，UTXO排序
+    export let neotool = neotools;          //NEO的算法工具类
+    export let nnstool = NNSTool;           //nns域名处理工具类
+    export let storagetool = StorageTool;   //sessionStory
+    export let wwwtool = WWW;               //api请求工具类
+    export let timetool = DateTool;         //时间工具类
+    export let contract = Contract;         //智能合约调用方法封装
+    export let sgastool = SgasTool;         //Sgas兑换方法
 
 }

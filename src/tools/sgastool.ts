@@ -8,14 +8,13 @@ export default class SgasTool
      * gas -> sgas
      * @param wallet_transcount 兑换的数量
      */
-    private async makeMintTokenTransaction(wallet_transcount)
+    static async makeMintTokenTransaction(wallet_transcount)
     {
 
         var login = LoginInfo.getCurrentLogin();
 
         var utxos_assets = await tools.coinTool.getassets();
 
-        var scriptaddress = tools.coinTool.id_SGAS;
         var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(new Uint8Array(tools.coinTool.id_SGAS.bits.buffer));
 
         try
@@ -28,17 +27,11 @@ export default class SgasTool
             return;
         }
 
-        var sb = new ThinNeo.ScriptBuilder();
-        //Parameter inversion 
-        sb.EmitParamJson([]);//Parameter list 
-        sb.EmitPushString("mintTokens");//Method
-        sb.EmitAppCall(scriptaddress);  //Asset contract 
-
         var tran: any = makeTranRes.info.tran;
 
         tran.type = ThinNeo.TransactionType.InvocationTransaction;
         tran.extdata = new ThinNeo.InvokeTransData();
-        (tran.extdata).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "minTokens", []).clone();
+        (tran.extdata).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "minTokens", []);
         (tran.extdata).gas = Neo.Fixed8.fromNumber(1.0);
 
         var msg = tran.GetMessage();
@@ -55,7 +48,7 @@ export default class SgasTool
             if (r[ 'txid' ])
             {
                 console.log("成功");
-                return r;
+                return r[ 'txid' ];
             }
             else
             {
@@ -74,7 +67,7 @@ export default class SgasTool
      * sgas -> gas
      * @param wallet_transcount 兑换数量
      */
-    private async makeRefundTransaction(wallet_transcount)
+    static async makeRefundTransaction(wallet_transcount)
     {
         // 查询SGAS余额
         // this.makeRefundTransaction_info(1);
