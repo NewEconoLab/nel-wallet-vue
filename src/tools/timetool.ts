@@ -1,5 +1,5 @@
 
-export class DateTool
+export default class DateTool
 {
     /**************************************时间格式化处理************************************/
     static dateFtt(fmt, date)   

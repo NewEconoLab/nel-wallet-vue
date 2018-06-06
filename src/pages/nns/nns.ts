@@ -210,15 +210,6 @@ export default class NNS extends Vue
                     dom.await_mapping ? this.alert_config_state = 1 : (!!dom.mapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
                 }
             });
-            // if (!!state[ this.alert_domain ])
-            // {
-            //     let isMappingAwait = !!state[ this.alert_domain ][ "await_mapping" ];
-            //     let isMapping = !!state[ this.alert_domain ][ "mapping" ];
-            //     let isResolverAwait = !!state[ this.alert_domain ][ "await_resolver" ];
-            //     let isResolver = !!state[ this.alert_domain ][ "resolver" ];
-            //     isResolverAwait ? this.alert_resolver_state = 1 : isResolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
-            //     isMappingAwait ? this.alert_config_state = 1 : (isMapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
-            // }
         }
     }
 
@@ -292,10 +283,8 @@ export default class NNS extends Vue
     {
         this.alert_resolve = false;
         this.alert_resolver_state = 1;
-        let arr = this.alert_domain.split(".");
-        let nnshash: Uint8Array = tools.nnstool.nameHashArray(arr);
         let contract = this.alert_contract.hexToBytes().reverse();
-        let res = await tools.nnstool.setResolve(nnshash, contract);
+        let res = await tools.nnstool.setResolve(this.alert_domain, contract);
         let state = new DomainStatus();
         state.await_resolver = true;
         state.domainname = this.alert_domain;
@@ -312,10 +301,7 @@ export default class NNS extends Vue
     {
         if (this.verifyMappingAddress())
         {
-            let arr = this.alert_domain.split(".");
-            let nnshash: Uint8Array = tools.nnstool.nameHashArray(arr);
-            // this.alert_addr = this.alert_addr ? this.alert_addr : LoginInfo.getCurrentAddress();
-            let res = await tools.nnstool.setResolveData(nnshash, this.alert_addr, this.alert_domainmsg.resolver);
+            let res = await tools.nnstool.setResolveData(this.alert_domain, this.alert_addr, this.alert_domainmsg.resolver);
             this.alert_config_state = 1;
             let state = new DomainStatus();
             state.await_mapping = true;

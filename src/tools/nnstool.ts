@@ -18,7 +18,7 @@ export class NNSTool
         // test.roothash = await NNSTool.getRootNameHash();
         test.roothash = NNSTool.nameHash("test");
         test.rootname = "test";
-        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
+        var scriptaddress = Consts.baseContract;
         var domain = await NNSTool.getOwnerInfo(test.roothash, scriptaddress);
         test.owner = domain.owner;
         test.register = domain.register;
@@ -36,9 +36,9 @@ export class NNSTool
         var domainarr: string[] = doamin.split('.');
         var subdomain: string = domainarr[ 0 ];
         // let rootdomain: string = domainarr.pop();    //返回根域名并删除
-        var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
+        var nnshash: Neo.Uint256 = NNSTool.nameHashArray(domainarr);
         // let address = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
-        let doamininfo = await NNSTool.getOwnerInfo(nnshash, Consts.baseContract.hexToBytes().reverse());
+        let doamininfo = await NNSTool.getOwnerInfo(nnshash, Consts.baseContract);
 
         // let info = await NNSTool.getNameInfo(nnshash)
         var owner = doamininfo.owner.toHexString();
@@ -52,10 +52,7 @@ export class NNSTool
      */
     static async registerDomain(doamin: string)
     {
-        // var domainarr: string[] = doamin.split('.');
-        // var subdomain: string = domainarr[ 0 ];
-        // domainarr.push(NNSTool.root_test.rootname);
-        var nnshash: Uint8Array = NNSTool.nameHash(NNSTool.root_test.rootname);
+        var nnshash: Neo.Uint256 = NNSTool.nameHash(NNSTool.root_test.rootname);
         // let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         var address = LoginInfo.getCurrentAddress();
         var sb = new ThinNeo.ScriptBuilder();
@@ -66,7 +63,7 @@ export class NNSTool
         //塞入随机数
         sb.EmitPushNumber(random_int);
         sb.Emit(ThinNeo.OpCode.DROP);
-        sb.EmitParamJson([ "(addr)" + address, "(bytes)" + nnshash.toHexString(), "(str)" + doamin ]);//第二个参数是个数组
+        sb.EmitParamJson([ "(addr)" + address, "(hex256)" + nnshash.toString(), "(str)" + doamin ]);//第二个参数是个数组
         sb.EmitPushString("requestSubDomain");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
@@ -91,7 +88,7 @@ export class NNSTool
 
         sb.EmitParamJson(JSON.parse("[]"));
         sb.EmitPushString("rootName");
-        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
+        var scriptaddress = Consts.baseContract;
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
 
@@ -137,7 +134,7 @@ export class NNSTool
 
         sb.EmitParamJson(JSON.parse("[]"));
         sb.EmitPushString("rootNameHash");
-        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
+        var scriptaddress = Consts.baseContract;
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
 
@@ -165,14 +162,10 @@ export class NNSTool
     }
 
     //返回域名详情
-    static async getOwnerInfo(domain: Uint8Array, scriptaddress: Uint8Array): Promise<DomainInfo>
+    static async getOwnerInfo(domain: Neo.Uint256, scriptaddress: Neo.Uint160): Promise<DomainInfo>
     {
         let info: DomainInfo = new DomainInfo();
-        var sb = new ThinNeo.ScriptBuilder();
-        sb.EmitParamJson([ "(bytes)" + domain.toHexString() ]);//第二个参数是个数组
-        sb.EmitPushString("getOwnerInfo");
-        sb.EmitAppCall(scriptaddress);
-        var data = sb.ToArray();
+        var data = tools.contract.buildScript(scriptaddress, "getOwnerInfo", [ "(hex256)" + domain.toString() ]);
 
         let result = await tools.wwwtool.rpc_getInvokescript(data);
 
@@ -237,34 +230,21 @@ export class NNSTool
 
     }
 
-    //返回域名hash
-    static async getNameHash(domain: string): Promise<Uint8Array>
-    {
-        let namehash: Uint8Array
-        var domainarr: string[] = domain.split('.');
-        var subdomain: string = domainarr[ 0 ];
-        var root: string = await NNSTool.getRootName();
-        domainarr.shift();
-        domainarr.push(root)
-        var nnshash: Uint8Array = NNSTool.nameHashArray(domainarr);
-
-        return nnshash;
-    }
-
     /**
      * 生成解析器
      * @param protocol 
      * @param nnshash 
      * @param scriptaddress 
      */
-    static async setResolve(nnshash: Uint8Array, resolverhash: Uint8Array): Promise<Result>
+    static async setResolve(domain: string, resolverhash: Uint8Array): Promise<Result>
     {
         let current = LoginInfo.getCurrentLogin();
         let hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
         let hashstr = hash.reverse().toHexString();
-        let nnshashstr = nnshash.reverse().toHexString();
+        let arr = domain.split(".");
+        let nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(arr);
         let resolvestr = resolverhash.reverse().toHexString();
-        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
+        var scriptaddress = Consts.baseContract;
 
         var sb = new ThinNeo.ScriptBuilder();
         let random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues<Uint8Array>(new Uint8Array(32));
@@ -273,9 +253,9 @@ export class NNSTool
         sb.EmitPushNumber(random_int);
         sb.Emit(ThinNeo.OpCode.DROP);
         sb.EmitParamJson([
-            "(hex160)0x" + hashstr,
-            "(hex256)0x" + nnshashstr,
-            "(hex160)0x" + resolvestr ]);//第二个参数是个数组
+            "(hex160)" + hashstr,
+            "(hex256)" + nnshash.toString(),
+            "(hex160)" + resolvestr ]);//第二个参数是个数组
         sb.EmitPushString("owner_SetResolver");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
@@ -285,13 +265,13 @@ export class NNSTool
         return res;
     }
 
-    static async setResolveData(nnshash: Uint8Array, str: string, resolve: string)
+    static async setResolveData(domain: string, str: string, resolve: string)
     {
-        let namehash: Uint8Array
         let current = LoginInfo.getCurrentLogin();
         let hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
         let hashstr = hash.reverse().toHexString();
-        let nnshashstr = nnshash.reverse().toHexString();
+        let arr = domain.split(".");
+        let nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(arr);
         var scriptaddress = resolve.hexToBytes();
 
         var sb = new ThinNeo.ScriptBuilder();
@@ -301,8 +281,8 @@ export class NNSTool
         sb.EmitPushNumber(random_int);
         sb.Emit(ThinNeo.OpCode.DROP);
         sb.EmitParamJson([
-            "(hex160)0x" + hashstr,
-            "(hex256)0x" + nnshashstr,
+            "(hex160)" + hashstr,
+            "(hex256)" + nnshash.toString(),
             "(str)1",
             "(str)addr",
             "(str)" + str
@@ -317,15 +297,15 @@ export class NNSTool
 
     static async resolveData(domain: string)
     {
-        var scriptaddress = Consts.baseContract.hexToBytes().reverse();
+        var scriptaddress = Consts.baseContract;
         let arr = domain.split(".");
         let nnshash = NNSTool.nameHashArray(arr);
-        let nnshashstr = nnshash.reverse().toHexString();
+        let nnshashstr = nnshash;
 
         var sb = new ThinNeo.ScriptBuilder();
         sb.EmitParamJson([
             "(str)addr",
-            "(hex256)0x" + nnshashstr,
+            "(hex256)" + nnshashstr,
             "(str)1"
         ]);
         sb.EmitPushString("resolve");
@@ -364,50 +344,6 @@ export class NNSTool
     //解析域名完整模式
     static async resolveFull(protocol: string, nameArray: string[]) { }
 
-    /**
-     * 获得所有者
-     * @param nnshash 根域名hash
-     * @param subdomain 二级域名
-     * @param scriptaddress scriptaddress
-     */
-    static async getSubOwner(nnshash: Uint8Array, subdomain: string, scriptaddress: Uint8Array): Promise<string>
-    {
-        let owner: string = "";
-        var sb = new ThinNeo.ScriptBuilder();
-        //var scriptaddress = Consts.registerContract.hexToBytes().reverse();
-        sb.EmitParamJson([ "(bytes)" + nnshash.toHexString(), "(str)" + subdomain ]);//第二个参数是个数组
-        sb.EmitPushString("getSubOwner");
-        sb.EmitAppCall(scriptaddress);
-        var data = sb.ToArray();
-
-        let result = await tools.wwwtool.rpc_getInvokescript(data);
-
-        try
-        {
-            var state = result.state as string;
-            // info2.textContent = "";
-            if (state.includes("HALT, BREAK"))
-            {
-                // info2.textContent += "Succ\n";
-                var stack = result.stack as any[];
-                //find name 他的type 有可能是string 或者ByteArray
-                if (stack[ 0 ].type == "ByteArray")
-                {
-                    if (stack[ 0 ].value as string != "00")
-                    {
-                        owner = ThinNeo.Helper.GetAddressFromScriptHash((stack[ 0 ].value as string).hexToBytes());
-                    }
-                }
-            }
-        }
-        catch (e)
-        {
-            console.log(e);
-        }
-        return owner;
-    }
-
-
 
     /**
      * 域名转hash    
@@ -416,12 +352,11 @@ export class NNSTool
      * aaa.bb.test =>{"test","bb","aa"}
      * @param domain 域名
      */
-    static nameHash(domain: string): Uint8Array
+    static nameHash(domain: string): Neo.Uint256
     {
         var domain_bytes = ThinNeo.Helper.String2Bytes(domain);
         var hashd = Neo.Cryptography.Sha256.computeHash(domain_bytes);
-        var namehash = new Uint8Array(hashd);
-        return namehash.clone();
+        return new Neo.Uint256(hashd);
     }
 
     /**
@@ -429,7 +364,7 @@ export class NNSTool
      * @param roothash  根域名hash
      * @param subdomain 子域名
      */
-    static nameHashSub(roothash: Uint8Array, subdomain: string): Uint8Array
+    static nameHashSub(roothash: Neo.Uint256, subdomain: string): Neo.Uint256
     {
         var bs: Uint8Array = ThinNeo.Helper.String2Bytes(subdomain);
         if (bs.length == 0)
@@ -437,21 +372,20 @@ export class NNSTool
 
         var domain = Neo.Cryptography.Sha256.computeHash(bs);
         var domain_bytes = new Uint8Array(domain);
-        var domainUint8arry = domain_bytes.concat(roothash);
+        var domainUint8arry = domain_bytes.concat(new Uint8Array(roothash.bits.buffer));
 
         var sub = Neo.Cryptography.Sha256.computeHash(domainUint8arry);
-        var sub_bytes = new Uint8Array(sub);
-        return sub_bytes.clone();
+        return new Neo.Uint256(sub);
     }
 
     /**
      * 返回一组域名的最终hash
      * @param domainarray 域名倒叙的数组
      */
-    static nameHashArray(domainarray: string[]): Uint8Array
+    static nameHashArray(domainarray: string[]): Neo.Uint256
     {
         domainarray.reverse();
-        var hash: Uint8Array = NNSTool.nameHash(domainarray[ 0 ]);
+        var hash: Neo.Uint256 = NNSTool.nameHash(domainarray[ 0 ]);
         for (var i = 1; i < domainarray.length; i++)
         {
             hash = NNSTool.nameHashSub(hash, domainarray[ i ]);
