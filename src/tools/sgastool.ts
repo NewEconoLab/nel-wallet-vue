@@ -15,7 +15,9 @@ export default class SgasTool
 
         var utxos_assets = await tools.coinTool.getassets();
 
-        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS.toArray());
+        console.log(nepAddress);
+
 
         try
         {
@@ -29,17 +31,22 @@ export default class SgasTool
 
         var tran: any = makeTranRes.info.tran;
 
+
+        var sb = new ThinNeo.ScriptBuilder();
+        //Parameter inversion 
+        sb.EmitParamJson([]);//Parameter list 
+        sb.EmitPushString("mintTokens");//Method
+        sb.EmitAppCall(tools.coinTool.id_SGAS.toArray());  //Asset contract 
+
         tran.type = ThinNeo.TransactionType.InvocationTransaction;
         tran.extdata = new ThinNeo.InvokeTransData();
-        (tran.extdata).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "minTokens", []);
+        // (tran.extdata).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);  
+        (tran.extdata).script = sb.ToArray();
         (tran.extdata).gas = Neo.Fixed8.fromNumber(1.0);
 
         var msg = tran.GetMessage();
         var signdata = ThinNeo.Helper.Sign(msg, login.prikey);
         tran.AddWitness(signdata, login.pubkey, login.address);
-
-        var txid = tran.GetHash().clone().reverse().toHexString();
-
         var data = tran.GetRawData();
         var r = await tools.wwwtool.api_postRawTransaction(data);
 

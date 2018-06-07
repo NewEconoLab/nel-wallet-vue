@@ -8,6 +8,7 @@ declare namespace Neo
         compareTo(other: UintVariable): number;
         equals(other: UintVariable): boolean;
         toString(): string;
+        toArray(): Uint8Array;
     }
 }
 declare namespace Neo
@@ -45,14 +46,14 @@ declare namespace Neo
         constructor(value: number | string | ArrayBuffer | Uint8Array);
         static add(x: number | BigInteger, y: number | BigInteger): BigInteger;
         add(other: number | BigInteger): BigInteger;
-        private static addTo;
+        private static addTo(x, y, r);
         bitLength(): number;
-        private static bitLengthInternal;
-        private clamp;
+        private static bitLengthInternal(w);
+        private clamp();
         static compare(x: number | BigInteger, y: number | BigInteger): number;
-        private static compareAbs;
+        private static compareAbs(x, y);
         compareTo(other: number | BigInteger): number;
-        private static create;
+        private static create(sign, bits, clamp?);
         static divide(x: number | BigInteger, y: number | BigInteger): BigInteger;
         divide(other: number | BigInteger): BigInteger;
         static divRem(x: number | BigInteger, y: number | BigInteger):
@@ -63,13 +64,13 @@ declare namespace Neo
         static equals(x: number | BigInteger, y: number | BigInteger): boolean;
         equals(other: number | BigInteger): boolean;
         static fromString(str: string, radix?: number): BigInteger;
-        private fromString;
+        private fromString(str, radix?);
         static fromUint8Array(arr: Uint8Array, sign?: number, littleEndian?: boolean): BigInteger;
         static fromUint8ArrayAutoSign(arr: Uint8Array, littleEndian?: boolean): BigInteger;
-        private fromUint8Array;
-        private fromUint64;
-        private static getActualLength;
-        private static getDoubleParts;
+        private fromUint8Array(arr, sign?, littleEndian?);
+        private fromUint64(i, sign);
+        private static getActualLength(arr);
+        private static getDoubleParts(dbl);
         getLowestSetBit(): number;
         isEven(): boolean;
         isZero(): boolean;
@@ -82,7 +83,7 @@ declare namespace Neo
         modPow(exponent: number | BigInteger, modulus: number | BigInteger): BigInteger;
         static multiply(x: number | BigInteger, y: number | BigInteger): BigInteger;
         multiply(other: number | BigInteger): BigInteger;
-        private static multiplyTo;
+        private static multiplyTo(x, y, r, offset?);
         negate(): BigInteger;
         static parse(str: string): BigInteger;
         static pow(value: number | BigInteger, exponent: number): BigInteger;
@@ -94,7 +95,7 @@ declare namespace Neo
         sign(): number;
         static subtract(x: number | BigInteger, y: number | BigInteger): BigInteger;
         subtract(other: number | BigInteger): BigInteger;
-        private static subtractTo;
+        private static subtractTo(x, y, r?);
         testBit(n: number): boolean;
         toInt32(): number;
         toString(radix?: number): string;
@@ -169,7 +170,7 @@ declare enum PromiseState
 {
     pending = 0,
     fulfilled = 1,
-    rejected = 2
+    rejected = 2,
 }
 declare class NeoPromise<T> implements PromiseLike<T> {
     private _state;
@@ -183,10 +184,10 @@ declare class NeoPromise<T> implements PromiseLike<T> {
     constructor(executor: PromiseExecutor<T>);
     static all(iterable: NeoPromise<any>[]): NeoPromise<any[]>;
     catch<TResult>(onRejected: Func<any, TResult | PromiseLike<TResult>>): PromiseLike<TResult>;
-    private checkState;
-    private reject;
+    private checkState();
+    private reject(reason);
     static reject(reason: any): PromiseLike<any>;
-    private resolve;
+    private resolve(value);
     static resolve<T>(value: T | PromiseLike<T>): PromiseLike<T>;
     then<TResult>(onFulfilled?: Func<T, TResult | PromiseLike<TResult>>, onRejected?: Func<any, TResult | PromiseLike<TResult>>): PromiseLike<TResult>;
 }
@@ -233,7 +234,7 @@ declare namespace Neo.Cryptography
         private _lastCipherblock;
         readonly mode: string;
         constructor(key: ArrayBuffer | ArrayBufferView, iv: ArrayBuffer | ArrayBufferView);
-        private static convertToInt32;
+        private static convertToInt32(bytes);
         decrypt(ciphertext: ArrayBuffer | ArrayBufferView): ArrayBuffer;
         decryptBlock(ciphertext: Uint8Array, plaintext: Uint8Array): void;
         encrypt(plaintext: ArrayBuffer | ArrayBufferView): ArrayBuffer;
@@ -270,7 +271,7 @@ declare namespace Neo.Cryptography
     class ECDsaCryptoKey extends CryptoKey
     {
         publicKey: ECPoint;
-        privateKey?: Uint8Array;
+        privateKey: Uint8Array;
         constructor(publicKey: ECPoint, privateKey?: Uint8Array);
     }
 }
@@ -295,14 +296,14 @@ declare namespace Neo.Cryptography
     {
         private key;
         constructor(key: ECDsaCryptoKey);
-        private static calculateE;
+        private static calculateE(n, message);
         static generateKey(curve: ECCurve):
             {
                 privateKey: ECDsaCryptoKey;
                 publicKey: ECDsaCryptoKey;
             };
         sign(message: ArrayBuffer | ArrayBufferView): ArrayBuffer;
-        private static sumOfTwoMultiplies;
+        private static sumOfTwoMultiplies(P, k, Q, l);
         verify(message: ArrayBuffer | ArrayBufferView, signature: ArrayBuffer | ArrayBufferView): boolean;
     }
 }
@@ -317,7 +318,7 @@ declare namespace Neo.Cryptography
         compareTo(other: ECFieldElement): number;
         divide(other: ECFieldElement): ECFieldElement;
         equals(other: ECFieldElement): boolean;
-        private static fastLucasSequence;
+        private static fastLucasSequence(p, P, Q, k);
         multiply(other: ECFieldElement): ECFieldElement;
         negate(): ECFieldElement;
         sqrt(): ECFieldElement;
@@ -336,7 +337,7 @@ declare namespace Neo.Cryptography
         static add(x: ECPoint, y: ECPoint): ECPoint;
         compareTo(other: ECPoint): number;
         static decodePoint(encoded: Uint8Array, curve: ECCurve): ECPoint;
-        private static decompressPoint;
+        private static decompressPoint(yTilde, X1, curve);
         static deserializeFrom(reader: IO.BinaryReader, curve: ECCurve): ECPoint;
         encodePoint(commpressed: boolean): Uint8Array;
         equals(other: ECPoint): boolean;
@@ -348,7 +349,7 @@ declare namespace Neo.Cryptography
         static subtract(x: ECPoint, y: ECPoint): ECPoint;
         toString(): string;
         twice(): ECPoint;
-        private static windowNaf;
+        private static windowNaf(width, k);
     }
 }
 declare namespace Neo.Cryptography
@@ -360,15 +361,15 @@ declare namespace Neo.Cryptography
         private static _started;
         private static _stopped;
         private static _key;
-        private static addEntropy;
+        private static addEntropy(data, strength);
         static getRandomValues<T extends Int8Array | Uint8ClampedArray | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array>(array: T): T;
-        private static getWeakRandomValues;
-        private static processDeviceMotionEvent;
-        private static processEvent;
-        private static processMouseEvent;
-        private static processTouchEvent;
+        private static getWeakRandomValues(array);
+        private static processDeviceMotionEvent(event);
+        private static processEvent(event);
+        private static processMouseEvent(event);
+        private static processTouchEvent(event);
         static startCollectors(): void;
-        private static stopCollectors;
+        private static stopCollectors();
     }
 }
 interface String
@@ -397,15 +398,15 @@ declare namespace Neo.Cryptography
         private static sr;
         private static hl;
         private static hr;
-        private static bytesToWords;
-        private static wordsToBytes;
-        private static processBlock;
-        private static f1;
-        private static f2;
-        private static f3;
-        private static f4;
-        private static f5;
-        private static rotl;
+        private static bytesToWords(bytes);
+        private static wordsToBytes(words);
+        private static processBlock(H, M, offset);
+        private static f1(x, y, z);
+        private static f2(x, y, z);
+        private static f3(x, y, z);
+        private static f4(x, y, z);
+        private static f5(x, y, z);
+        private static rotl(x, n);
         static computeHash(data: ArrayBuffer | ArrayBufferView): ArrayBuffer;
     }
 }
@@ -415,13 +416,13 @@ declare namespace Neo.Cryptography
     {
         private static K;
         static computeHash(data: ArrayBuffer | ArrayBufferView): ArrayBuffer;
-        private static ROTR;
-        private static Σ0;
-        private static Σ1;
-        private static σ0;
-        private static σ1;
-        private static Ch;
-        private static Maj;
+        private static ROTR(n, x);
+        private static Σ0(x);
+        private static Σ1(x);
+        private static σ0(x);
+        private static σ1(x);
+        private static Ch(x, y, z);
+        private static Maj(x, y, z);
     }
 }
 declare namespace Neo.IO
@@ -441,7 +442,7 @@ declare namespace Neo.IO
         constructor(input: Stream);
         canRead(): number;
         close(): void;
-        private fillBuffer;
+        private fillBuffer(buffer, count);
         read(buffer: ArrayBuffer, index: number, count: number): number;
         readBoolean(): boolean;
         readByte(): number;
@@ -521,7 +522,7 @@ declare namespace Neo.IO
     {
         Begin = 0,
         Current = 1,
-        End = 2
+        End = 2,
     }
     abstract class Stream
     {
@@ -558,11 +559,11 @@ declare namespace Neo.IO
         canSeek(): boolean;
         canWrite(): boolean;
         capacity(): number;
-        private findBuffer;
+        private findBuffer(position);
         length(): number;
         position(): number;
         read(buffer: ArrayBuffer, offset: number, count: number): number;
-        private readInternal;
+        private readInternal(dst, srcPos);
         seek(offset: number, origin: SeekOrigin): number;
         setLength(value: number): void;
         toArray(): ArrayBuffer;
@@ -584,7 +585,7 @@ declare namespace Neo.IO.Caching
         None = 0,
         Added = 1,
         Changed = 2,
-        Deleted = 3
+        Deleted = 3,
     }
 }
 declare namespace Neo.IO.Caching
@@ -711,7 +712,7 @@ declare namespace ThinNeo
         RegisterTransaction = 64,
         ContractTransaction = 128,
         PublishTransaction = 208,
-        InvocationTransaction = 209
+        InvocationTransaction = 209,
     }
     enum TransactionAttributeUsage
     {
@@ -752,7 +753,7 @@ declare namespace ThinNeo
         Remark12 = 252,
         Remark13 = 253,
         Remark14 = 254,
-        Remark15 = 255
+        Remark15 = 255,
     }
     class Attribute
     {
@@ -926,7 +927,7 @@ declare module ThinNeo
         NEWSTRUCT = 198,
         SWITCH = 208,
         THROW = 240,
-        THROWIFNOT = 241
+        THROWIFNOT = 241,
     }
 }
 declare module ThinNeo.Compiler
@@ -963,7 +964,7 @@ declare module ThinNeo.Compiler
         None = 0,
         ByteArray = 1,
         String = 2,
-        Addr = 3
+        Addr = 3,
     }
     class Op
     {
