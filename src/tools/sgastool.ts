@@ -15,10 +15,11 @@ export default class SgasTool
 
         var utxos_assets = await tools.coinTool.getassets();
 
-        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS.toArray());
-        console.log(nepAddress);
+        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        console.log(tools.coinTool.id_SGAS.toArray());
+        console.log("0xe52a08c20986332ad8dccf9ded38cc493878064a".hexToBytes().reverse());
 
-
+        console.log(new Uint8Array(tools.coinTool.id_SGAS.bits.buffer));
         try
         {
             var makeTranRes: Result = tools.coinTool.makeTran(utxos_assets, nepAddress, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(wallet_transcount));
@@ -30,13 +31,11 @@ export default class SgasTool
         }
 
         var tran: any = makeTranRes.info.tran;
-
-
         var sb = new ThinNeo.ScriptBuilder();
         //Parameter inversion 
         sb.EmitParamJson([]);//Parameter list 
         sb.EmitPushString("mintTokens");//Method
-        sb.EmitAppCall(tools.coinTool.id_SGAS.toArray());  //Asset contract 
+        sb.EmitAppCall("0xe52a08c20986332ad8dccf9ded38cc493878064a".hexToBytes().reverse());  //Asset contract 
 
         tran.type = ThinNeo.TransactionType.InvocationTransaction;
         tran.extdata = new ThinNeo.InvokeTransData();
