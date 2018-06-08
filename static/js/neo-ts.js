@@ -66,6 +66,9 @@ var Neo;
                 s += ((this._bits[i >>> 5] >>> (i % 32)) & 0xf).toString(16);
             return s;
         };
+        UintVariable.prototype.toArray = function () {
+            return new Uint8Array(this._bits.buffer).reverse();
+        };
         return UintVariable;
     }());
     Neo.UintVariable = UintVariable;
