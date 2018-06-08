@@ -5,9 +5,13 @@ export class CoinTool
 {
     static readonly id_GAS: string = "0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
     static readonly id_NEO: string = "0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
-    static readonly id_SGAS: Neo.Uint160 = Neo.Uint160.parse('4ac464f84f50d3f902c2f0ca1658bfaa454ddfbf');
+    static readonly id_SGAS: Neo.Uint160 = Neo.Uint160.parse('e52a08c20986332ad8dccf9ded38cc493878064a');
     static assetID2name: { [ id: string ]: string } = {};
     static name2assetID: { [ id: string ]: string } = {};
+
+    /**
+     * @method 初始化资产
+     */
     static async initAllAsset()
     {
         var allassets = await tools.wwwtool.api_getAllAssets();
@@ -44,7 +48,8 @@ export class CoinTool
     }
 
     /**
-     * 获得utxos
+     * @method 获得可用的utxo
+     * @returns 筛选排序后的utxo
      */
     static async getassets(): Promise<{ [ id: string ]: UTXO[] }>
     {
