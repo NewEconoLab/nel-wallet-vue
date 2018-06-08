@@ -204,10 +204,10 @@ export class WWW
         return r;
     }
     //获取地址下所有的域名
-    static async getnnsinfo(address: string): Promise<string[]>
+    static async getnnsinfo(...params): Promise<string[]>
     {
-
-        var postdata = WWW.makeRpcPostBody("getdomainbyaddress2", address);
+        // let data = params.join(',');
+        var postdata = WWW.makeRpcPostBody("getdomainbyaddress2", ...params);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         if (json[ "result" ] == null)
