@@ -19,6 +19,9 @@ export default class Exchange extends Vue
     {
         if (this.changeSGas)
         {
+            let txid = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
+            console.log(txid);
+
         } else
         {
             try

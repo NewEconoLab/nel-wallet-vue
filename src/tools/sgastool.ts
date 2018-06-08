@@ -13,44 +13,18 @@ export default class SgasTool
      */
     static async makeMintTokenTransaction(transcount)
     {
-
+        //获得登陆信息
         var login = LoginInfo.getCurrentLogin();
-
-        var utxos_assets = await tools.coinTool.getassets();
-
-        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);
+        //获得sgas的合约地址
+        var sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
         try
         {
-            var makeTranRes: Result = tools.coinTool.makeTran(utxos_assets, nepAddress, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
-        }
-        catch (e)
+            let txid = tools.contract.contractInvokeTrans(script, sgasaddr, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
+            return txid;
+        } catch (error)
         {
-            throw "not sufficient funds;";
-
-        }
-
-        var tran: any = makeTranRes.info.tran;
-
-        //Parameter inversion 
-        tran.type = ThinNeo.TransactionType.InvocationTransaction;
-        tran.extdata = new ThinNeo.InvokeTransData();
-        (tran.extdata).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);
-        (tran.extdata).gas = Neo.Fixed8.fromNumber(1.0);
-
-        var msg = tran.GetMessage();
-        var signdata = ThinNeo.Helper.Sign(msg, login.prikey);
-        tran.AddWitness(signdata, login.pubkey, login.address);
-        var data = tran.GetRawData();
-        var r = await tools.wwwtool.api_postRawTransaction(data);
-
-        if (!!r && r[ 'txid' ])
-        {
-            console.log("成功");
-            return r[ 'txid' ];
-        }
-        else
-        {
-            throw "交易出错";
+            throw error;
         }
     }
 
@@ -62,19 +36,18 @@ export default class SgasTool
     static async makeRefundTransaction(transcount)
     {
         // 查询SGAS余额
-
-        var scriptaddress = tools.coinTool.id_SGAS;
-
         var login = LoginInfo.getCurrentLogin();
 
         //获取sgas合约地址的资产列表
         var utxos_assets = await tools.coinTool.getsgasAssets();
+        //筛选出sgas合约地址的gas的utxo
         var us = utxos_assets[ tools.coinTool.id_GAS ];
         if (us == undefined)
         {
             return;
         }
 
+        //接口等待提供
         //检查sgas地址拥有的gas的utxo是否有被标记过
         for (var i = us.length - 1; i >= 0; i--)
         {
@@ -83,25 +56,14 @@ export default class SgasTool
                 continue;
             }
 
-            let script = null;
-
-            var sb = new ThinNeo.ScriptBuilder();
-            sb.EmitParamJson([ "(hex256)" + us[ i ].txid.toString() ]);
-            sb.EmitPushString("getRefundTarget");
-            sb.EmitAppCall(scriptaddress);
-
-            script = sb.ToArray();
-
-            var data = sb.ToArray();
-            var r = await tools.wwwtool.rpc_getInvokescript(data);
+            let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "getRefundTarget", [ "(hex256)" + us[ i ].txid.toString() ]);
+            var r = await tools.wwwtool.rpc_getInvokescript(script);
             if (r)
             {
-                // console.log('[gameplay][makeRefundTransaction][ ' + eventId + ' ]getRefundTarget.r ===========> ', r)
                 var stack = r[ 'stack' ];
                 var value = stack[ 0 ][ "value" ].toString();
                 if (value.length > 0)
                 {
-                    // console.log('[gameplay][makeRefundTransaction][ ' + eventId + ' ]getRefundTarget.r.delete.i ============> ', i);
                     delete us[ i ];
                 }
             }
@@ -109,7 +71,7 @@ export default class SgasTool
         //sgas 自己给自己转账   用来生成一个utxo  合约会把这个utxo标记给发起的地址使用
         try
         {
-            var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(new Uint8Array(tools.coinTool.id_SGAS.bits.buffer));
+            var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
             var makeTranRes: Result = tools.coinTool.makeTran(utxos_assets, nepAddress, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
         }
         catch (e)
@@ -122,22 +84,12 @@ export default class SgasTool
         if (r && r[ 'script' ])
         {
             var sgasScript = r[ 'script' ].hexToBytes();
-
             var scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(login.address)
 
-            var sb = new ThinNeo.ScriptBuilder();
-            sb.EmitParamJson([ "(bytes)" + scriptHash.toHexString() ]);
-            sb.EmitPushString("refund");
-            sb.EmitAppCall(scriptaddress);
-
             var tran: any = makeTranRes.info.tran;
-
-
-            // console.log('[pay][makeRefundTransaction]getcontractstate, makeTranRes.tran =============> ', tran);
-
             tran.type = ThinNeo.TransactionType.InvocationTransaction;
             tran.extdata = new ThinNeo.InvokeTransData();
-            (tran.extdata).script = sb.ToArray();
+            (tran.extdata).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "refund", [ "(bytes)" + scriptHash.toHexString() ]);
 
             //附加鉴证
             tran.attributes = new Array<ThinNeo.Attribute>(1);
@@ -145,7 +97,7 @@ export default class SgasTool
             tran.attributes[ 0 ].usage = ThinNeo.TransactionAttributeUsage.Script;
             tran.attributes[ 0 ].data = scriptHash; // ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
 
-            sb = new ThinNeo.ScriptBuilder();
+            let sb = new ThinNeo.ScriptBuilder();
             sb.EmitPushString("whatever")
             sb.EmitPushNumber(new Neo.BigInteger(250));
             tran.AddWitnessScript(sgasScript, sb.ToArray());
@@ -153,43 +105,25 @@ export default class SgasTool
             //做提款人的签名
             var signdata = ThinNeo.Helper.Sign(tran.GetMessage(), login.prikey);
             tran.AddWitness(signdata, login.pubkey, login.address);
-
-            var txid = tran.GetHash().clone().reverse().toHexString();
             var trandata = tran.GetRawData();
 
             // 发送交易请求
-            // this.makeRefundTransaction_info(3)
-
             r = await tools.wwwtool.api_postRawTransaction(trandata);
 
-            if (r)
+            if (!!r && r[ "txid" ])
             {
-                if (r.txid)
-                {
-
-                    //ApiTool.addUserWalletLog(this.user.info.uid, this.user.info.token, r.txid, this.user.info.wallet, CoinTool.id_SGAS)
-
-                    // 等待交易确认
-                    // this.makeRefundTransaction_info(4)
-
-                    // this.makeRefundTransaction_confirm(r.txid)
-                }
-                else
-                {
-                    // this.makeRefundTransaction_error("提取合约执行失败！")
-                }
-
-                console.log("[pay][makeRefundTransaction]提取请求结果 =============> ", r);
+                SgasTool.makeRefundTransaction_confirm(r[ 'txid' ], transcount)
+                return r[ "txid" ];
             }
             else
             {
-                // this.makeRefundTransaction_error("发送提取交易失败！请检查网络，稍候重试！")
+                throw "Transaction send failed";
             }
 
         }
         else
         {
-            // this.makeRefundTransaction_error("获取提取合约失败！")
+            throw "Contract acquisition failure";
         }
 
 
@@ -201,7 +135,7 @@ export default class SgasTool
      * @param txid 兑换gas的交易id
      * @param transcount 兑换数量 
      */
-    private async makeRefundTransaction_confirm(txid, transcount)
+    static async makeRefundTransaction_confirm(txid, transcount)
     {
         var r = await tools.wwwtool.getrawtransaction(txid);
         if (r)
@@ -212,7 +146,7 @@ export default class SgasTool
             utxo.addr = LoginInfo.getCurrentAddress();
             utxo.txid = txid;
             utxo.asset = tools.coinTool.id_GAS;
-            utxo.count = Neo.Fixed8.parse(transcount);
+            utxo.count = Neo.Fixed8.parse(transcount.toString());
             utxo.n = 0;
 
             //把这个txid里的utxo[0]的value转给自己
@@ -230,7 +164,7 @@ export default class SgasTool
     }
 
 
-    private async makeRefundTransaction_toGas_confirm(txid)
+    static async makeRefundTransaction_toGas_confirm(txid)
     {
         var r = await tools.wwwtool.getrawtransaction(txid);
         if (r)
@@ -253,7 +187,7 @@ export default class SgasTool
      * @param utxo 兑换gas的utxo
      * @param transcount 兑换的数量
      */
-    private async makeRefundTransaction_tranGas(utxo, transcount)
+    static async makeRefundTransaction_tranGas(utxo, transcount)
     {
         // 生成转换请求
         var utxos_assets = {}
@@ -286,13 +220,11 @@ export default class SgasTool
             sb.EmitPushNumber(new Neo.BigInteger(0));
             sb.EmitPushNumber(new Neo.BigInteger(0));
             tran.AddWitnessScript(sgasScript, sb.ToArray());
-
-            var txid = tran.GetHash().clone().reverse().toHexString();
             var trandata = tran.GetRawData();
 
             // 发送转换请求
             r = await tools.wwwtool.api_postRawTransaction(trandata);
-            if (r)
+            if (!!r && !!r[ "txid" ])
             {
                 // this.makeRefundTransaction_info(7)
                 this.makeRefundTransaction_toGas_confirm(r.txid)

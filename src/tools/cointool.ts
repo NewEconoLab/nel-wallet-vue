@@ -405,17 +405,14 @@ export class CoinTool
     }
 
     /**
-     * 获得utxos
+     * @method 获得Sgas账户下的utxo
      */
     static async getsgasAssets(): Promise<{ [ id: string ]: UTXO[] }>
     {
         //获得高度
         var height = await tools.wwwtool.api_getHeight();
-        var scriptHash = ThinNeo.Helper.GetAddressFromScriptHash(new Uint8Array(this.id_SGAS.bits.buffer))
+        var scriptHash = ThinNeo.Helper.GetAddressFromScriptHash(this.id_SGAS);
         var utxos = await tools.wwwtool.api_getUTXO(scriptHash);   //获得utxo
-
-        // console.log('getsgasAssets.utxos')
-        // console.log(utxos)
 
         var olds = OldUTXO.getOldutxos();       //获得以标记的utxo(交易过的utxo 存储在本地的标记)
         var olds2 = new Array<OldUTXO>();       //
