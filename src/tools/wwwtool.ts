@@ -98,9 +98,27 @@ export class WWW
         return r;
     }
 
+    /**
+     * @method 获得nep5资产信息
+     * @param asset 资产id
+     */
     static async getNep5Asset(asset: string)
     {
         var postdata = WWW.makeRpcPostBody("getnep5asset", asset);
+        var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ][ 0 ];
+        return r;
+    }
+
+    /**
+     * 跟地址获取nep资产id对应的余额
+     * @param asset 资产id
+     * @param address 地址
+     */
+    static async getnep5balanceofaddress(asset: string, address: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getnep5balanceofaddress", asset, address);
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         var r = json[ "result" ][ 0 ];
