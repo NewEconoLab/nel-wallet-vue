@@ -26,7 +26,7 @@
                         <span>{{changeSGas?"SGas":"Gas"}}</span>
                     </div>
                     <div class="spent-tip">
-                       It will cost you <span>0</span> Gas. ( you currently have <span class="ff6">2900</span>  Gas. )///It will cost you 100 SGas . ( you currently have 2900 SGas. )
+                       It will cost you <span>{{transcount?transcount:0}}</span> Gas. ( you currently have <span :class="{'ff6' : transcount > myGas}">{{myGas}}</span>  Gas. )
                     </div>
                 </div>
                 <div class="guid-img">
@@ -46,8 +46,13 @@
                 </div>
             </div>
             <div class="btn-right">
-                <button class="btn btn-nel btn-big" @click="exChange()">Exchange</button>
+                <button class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > myGas)}" :disabled="transcount > myGas">Exchange</button>
             </div>
+        </div>
+        <div class="form-box">
+          <div class="tran-history">
+            
+          </div>
         </div>
     </div>
 </template>
@@ -58,12 +63,20 @@
   .ff6 {
     color: #ff6a6a;
   }
+  button {
+    &.btn-disable {
+      background: #77bcf6;
+      opacity: 1;
+      cursor: not-allowed;
+    }
+  }
   .form-box {
     background: #454f60;
     border-radius: 5px;
     padding: 50px;
     position: relative;
     font-size: 16px;
+    margin-bottom: 20px;
     .exchange-sgas {
       width: 600px;
       display: flex;

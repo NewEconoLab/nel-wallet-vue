@@ -51,7 +51,7 @@
                         Current bidder : <span>Other people （ {{item.maxBuyer}} ）</span>
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer == address">
-                        Current bidder : <span class="bidder-me">Me （{{address}}} ）</span>
+                        Current bidder : <span class="bidder-me">Me （ {{address}} ）</span>
                     </div>
                     <div class="msg-time">
                         Bid start time : <span>{{item.startAuctionTime}}</span>
