@@ -76,7 +76,7 @@ export default class Contract
         let count = have ? param[ 3 ] : Neo.Fixed8.Zero;
         //获得utxo,构造交易
         var utxos = await tools.coinTool.getassets();
-        let tranmsg = tools.coinTool.makeTran(utxos, current.address, assetid, count);
+        let tranmsg = tools.coinTool.makeTran(utxos, addr, assetid, count);
         let tran: ThinNeo.Transaction = tranmsg.info[ 'tran' ];
         //Parameter inversion 
         tran.type = ThinNeo.TransactionType.InvocationTransaction;
