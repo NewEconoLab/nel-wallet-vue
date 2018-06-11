@@ -5,12 +5,12 @@
         </div>
         <div class="form-box">
             <div class="exchange-sgas">
-                <div class="choose-wrap choose-left" :class="{'active':!changeSGas}" @click="changeSGas=false">
+                <div class="choose-wrap choose-left" :class="{'active':!changeSGas}" @click="exchangeTranType(false)">
                     <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png" v-if="!changeSGas">
                     <img src="../../../static/img/sgas-gray.png" alt="sgas-gray.png" v-if="changeSGas">
                     <span>Exchange Gas for SGas</span>
                 </div>
-                <div class="choose-wrap choose-right" :class="{'active':changeSGas}" @click="changeSGas = true">
+                <div class="choose-wrap choose-right" :class="{'active':changeSGas}" @click="exchangeTranType(true)">
                     <img src="../../../static/img/gas-nomal.png" alt="gas-nomal.png" v-if="changeSGas">
                     <img src="../../../static/img/gas-gray.png" alt="gas-gray.png" v-if="!changeSGas">
                     <span>Exchange SGas for Gas</span>
@@ -22,11 +22,11 @@
                         Amount you will spent : 
                     </div>
                    <div class="spent-input">
-                        <input type="number" placeholder="0" v-model="transcount">
+                        <input type="number" placeholder="0" v-model="transcount" @input="exchangeCount">
                         <span>{{changeSGas?"SGas":"Gas"}}</span>
                     </div>
                     <div class="spent-tip">
-                       It will cost you <span>{{transcount?transcount:0}}</span> Gas. ( you currently have <span :class="{'ff6' : transcount > myGas}">{{myGas}}</span>  Gas. )
+                       It will cost you <span>{{transcount?transcount:0}}</span> Gas. ( you currently have <span :class="{'ff6' : transcount > exMaxcount}">{{changeSGas?mySGas:myGas}}</span>  Gas. )
                     </div>
                 </div>
                 <div class="guid-img">
@@ -37,21 +37,23 @@
                         Amount you will receive :  
                     </div>
                     <div class="receive-input">
-                        <input type="number" placeholder="Amount" v-model="transcount">
+                        <input type="number" placeholder="Amount" v-model="transcount" disabled>
                         <span>{{changeSGas?"Gas":"SGas"}}</span>
                     </div>
                     <div class="receive-tip">
-                       You will have <span>200</span> SGas. ( You currently have <span>100</span> SGas. )
+                       You will have <span>{{excount}}</span> SGas. ( You currently have <span>{{changeSGas?myGas:mySGas}}</span> SGas. )
                     </div>
                 </div>
             </div>
             <div class="btn-right">
-                <button class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > myGas)}" :disabled="transcount > myGas">Exchange</button>
+                <button class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > exMaxcount && !exchangebtn)}" :disabled="transcount > exMaxcount && !exchangebtn">Exchange</button>
             </div>
         </div>
-        <div class="form-box">
-          <div class="tran-history">
-            
+        <div class="form-box tran-list">
+          <h3 class="tran-title">Waiting for transaction records</h3>
+          <div class="tran-history" id="addtranlist">            
+            <p>Exchange Gas for SGas：1 Gas, TXID: 0x8f7b1cbd2c0bd7757895f8353d02714ad693cba841e706d8e4cbef9207e142fc</p>
+            <p>Exchange Gas for SGas：1 Gas, TXID: 0x8f7b1cbd2c0bd7757895f8353d02714ad693cba841e706d8e4cbef9207e142fc</p>
           </div>
         </div>
     </div>
@@ -170,7 +172,7 @@
           width: 100%;
           height: 56px;
           position: relative;
-          background: #6d7480;
+          background: #454f60;
           border: 1px solid #b2b2b2;
           border-radius: 5px;
           input {
@@ -203,6 +205,18 @@
     .btn-right {
       text-align: right;
     }
+    .tran-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .tran-history {
+      p {
+        color: #fff;
+      }
+    }
+  }
+  .tran-list {
+    padding: 15px 60px;
   }
 }
 </style>
