@@ -6,6 +6,7 @@ import { WWW } from "./wwwtool";
 import DateTool from "./timetool";
 import Contract from "./contract";
 import SgasTool from "./sgastool";
+import NNSSell from "./nnssell";
 
 export namespace tools
 {
@@ -18,5 +19,6 @@ export namespace tools
     export let timetool = DateTool;         //时间工具类
     export let contract = Contract;         //智能合约调用方法封装
     export let sgastool = SgasTool;         //Sgas兑换方法
+    export let nnssell = NNSSell;
 
 }

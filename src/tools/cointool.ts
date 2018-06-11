@@ -186,6 +186,18 @@ export class CoinTool
         return res;
     }
 
+
+    /**
+     * 构造并发送交易
+     * @param {ThinNeo.Transaction} tran 
+     * @param {string} randomStr
+     */
+    static async signAndSend(tran: ThinNeo.Transaction)
+    {
+
+        return;
+    }
+
     /**
      * utxo转账方法
      * @param targetaddr 转入的地址

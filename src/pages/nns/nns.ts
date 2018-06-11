@@ -62,7 +62,7 @@ export default class NNS extends Vue
 
     async mounted()
     {
-        await tools.nnstool.initRootDomain();
+        await tools.nnstool.initRootDomain("test");
         tools.nnstool.initStatus();
         this.getDomainsByAddr();
         // this.awaitHeight();
@@ -232,8 +232,7 @@ export default class NNS extends Vue
             dommsg.await_resolver = false;
             if (msg[ "resolver" ])
             {
-                let resolver: Uint8Array = msg[ "resolver" ] as Uint8Array;
-                let resolver_str = resolver.toHexString();
+                let resolver_str = (msg[ "resolver" ] as Neo.Uint256).toString();
                 let addr = await tools.nnstool.resolveData(domain);
                 dommsg.mapping = addr;
                 dommsg.resolver = resolver_str;

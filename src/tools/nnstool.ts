@@ -8,23 +8,27 @@ import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result } f
 export class NNSTool
 {
     static root_test: RootDomainInfo;
+    static root_neo: RootDomainInfo;
 
     /**
      * @method 初始化根域名信息
      */
-    static async initRootDomain()
+    static async initRootDomain(root: string)
     {
         var test = new RootDomainInfo();
-        // test.roothash = await NNSTool.getRootNameHash();
-        test.roothash = NNSTool.nameHash("test");
-        test.rootname = "test";
+        test.roothash = NNSTool.nameHash(root);
+        test.rootname = root;
         var scriptaddress = Consts.baseContract;
         var domain = await NNSTool.getOwnerInfo(test.roothash, scriptaddress);
         test.owner = domain.owner;
         test.register = domain.register;
         test.resolver = domain.resolver;
         test.ttl = domain.ttl;
-        NNSTool.root_test = test;
+
+        //判断根域名进行初始化
+        root == "test" ? tools.nnstool.root_test = test : tools.nnstool.root_neo = test;
+        console.log(tools.nnstool.root_neo);
+
     }
 
     /**
@@ -34,14 +38,14 @@ export class NNSTool
     static async queryDomainInfo(doamin: string)
     {
         var domainarr: string[] = doamin.split('.');
-        var subdomain: string = domainarr[ 0 ];
+        // var subdomain: string = domainarr[ 0 ];
         // let rootdomain: string = domainarr.pop();    //返回根域名并删除
         var nnshash: Neo.Uint256 = NNSTool.nameHashArray(domainarr);
         // let address = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         let doamininfo = await NNSTool.getOwnerInfo(nnshash, Consts.baseContract);
 
         // let info = await NNSTool.getNameInfo(nnshash)
-        var owner = doamininfo.owner.toHexString();
+        // var owner = doamininfo.owner.toHexString();
         // return address;
         return doamininfo;
     }
@@ -183,15 +187,15 @@ export class NNSTool
                 var stack = stackarr[ 0 ].value as any[];
                 if (stack[ 0 ].type == "ByteArray")
                 {
-                    info.owner = (stack[ 0 ].value as string).hexToBytes();
+                    info.owner = Neo.Uint160.parse(stack[ 0 ].value as string);
                 }
                 if (stack[ 1 ].type == "ByteArray")
                 {
-                    info.register = (stack[ 1 ].value as string).hexToBytes();
+                    info.register = Neo.Uint256.parse(stack[ 1 ].value as string);
                 }
                 if (stack[ 2 ].type == "ByteArray")
                 {
-                    info.resolver = (stack[ 2 ].value as string).hexToBytes();
+                    info.resolver = Neo.Uint256.parse(stack[ 2 ].value as string);
                 }
                 if (stack[ 3 ].type == "Integer")
                 {

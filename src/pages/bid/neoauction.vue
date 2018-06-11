@@ -6,10 +6,10 @@
             </div>
             <div class="form-box ptop">
                 <div class="input-box" >
-                    <input type="text" placeholder="type a name">
+                    <input type="text" placeholder="type a name" v-model="domain">
                     <span>.neo</span>
                 </div>
-                <button class="btn btn-nel btn-big" @click="auctionShow = !auctionShow">Open Auction</button>
+                <button class="btn btn-nel btn-big" @click="openAuction">Open Auction</button>
                 <spinner-wrap  style="margin-left:20px"></spinner-wrap>
                 <button class="btn btn-nel btn-big btn-disable" disabled="disabled">New Bid</button>
                 <span class="waiting-msg">We're sending a transacton,please wait patiently...</span>

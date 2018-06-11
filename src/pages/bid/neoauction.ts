@@ -19,6 +19,7 @@ export default class NeoAuction extends Vue
     address: string;
     myAuctionList: MyAuction[] = [];
     domainInfo: MyAuction[] = [];
+    domain: string;
     constructor()
     {
         super();
@@ -26,9 +27,9 @@ export default class NeoAuction extends Vue
         this.auctionPage = false;
         this.myAuctionList = [];
         this.domainInfo = [];
+        this.domain = "";
         // this.address = tools.storagetool.getStorage("current-address");
         this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
-        console.log(this.address)
         this.getBidList(this.address);
     }
 
@@ -54,5 +55,11 @@ export default class NeoAuction extends Vue
     onBack()
     {
         this.auctionPage = false;
+    }
+
+    openAuction()
+    {
+        tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        this.auctionShow = !this.auctionShow;
     }
 }
