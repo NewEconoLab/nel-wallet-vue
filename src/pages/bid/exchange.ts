@@ -7,15 +7,14 @@ import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance } from '../../too
 })
 export default class Exchange extends Vue
 {
-    currentAddress: string = "";
-    changeSGas: boolean;
-    transcount: string;
-    myGas: number;
-    mySGas: number;
-    excount: string;
-    exMaxcount: number;
-    exchangebtn: boolean;
-    exchangeList: any;
+    currentAddress: string = "";   //获取当前地址
+    changeSGas: boolean;           //控制SGas与Gas的转换
+    transcount: string;            //交易金额
+    myGas: number;                 //拥有的Gas
+    mySGas: number;                //拥有的SGas
+    exMaxcount: number;            //当前能转换的最高金额
+    exchangebtn: boolean;          //转换按钮的控制 默认false不可点击
+    exchangeList: any;             //一条交易数据的缓存
 
     constructor()
     {
@@ -25,12 +24,10 @@ export default class Exchange extends Vue
         this.transcount = "";
         this.myGas = 0;
         this.mySGas = 0;
-        this.excount = "0";
         this.exMaxcount = 0;
         this.exchangebtn = false;
-        this.exchangeList = [];
+        this.exchangeList = null;
         tools.coinTool.initAllAsset();
-        this.getExchangeCount(0, 0);
     }
 
     mounted()
@@ -38,19 +35,20 @@ export default class Exchange extends Vue
         this.currentAddress = LoginInfo.getCurrentAddress();
         this.getMyGas();
         this.getMySGas();
+        this.isShowTranLog();
     }
-    exchangeTranType(flag: boolean)
+    //切换转换模式
+    exchangeTranType()
     {
-        this.changeSGas = flag;
-        if (flag)
-        {
-            this.exMaxcount = this.mySGas;
-        } else
-        {
-            this.exMaxcount = this.myGas;
-        }
+        this.transcount = "";
+        this.changeSGas = !this.changeSGas;
+        this.changeSGas ? this.exMaxcount = this.mySGas : this.exMaxcount = this.myGas;
+        this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
     }
 
+    /**
+     * 获取当前地址的Gas
+     */
     async getMyGas()
     {
         //获得balance列表
@@ -70,37 +68,16 @@ export default class Exchange extends Vue
                 });
         }
     }
-
+    /**
+     * 获取当前地址的SGas
+     */
     async getMySGas()
     {
         let res = await tools.wwwtool.getnep5balanceofaddress('0x' + tools.coinTool.id_SGAS.toString(), this.currentAddress);
         console.log(res);
         if (res && res.nep5balance)
         {
-            this.mySGas = res.nep5balance;
-        }
-    }
-
-    getExchangeCount(myGas, mySGas)
-    {
-        if (this.transcount)
-        {
-            if (this.changeSGas)
-            {
-                //this.excount = myGas + this.transcount != '' ? parseFloat(this.transcount) : 0;
-                let price = Neo.Fixed8.parse(myGas + "");
-                let sum = price.add(Neo.Fixed8.parse(this.transcount));
-                this.excount = sum.toString();
-            } else
-            {
-                //this.excount = parseFloat(mySGas) + this.transcount != '' ? parseFloat(this.transcount) : 0;
-                let price = Neo.Fixed8.parse(mySGas + "");
-                let sum = price.add(Neo.Fixed8.parse(this.transcount));
-                this.excount = sum.toString();
-            }
-        } else
-        {
-            this.excount = '0';
+            this.mySGas = parseFloat(res.nep5balance);
         }
     }
 
@@ -108,11 +85,19 @@ export default class Exchange extends Vue
     {
         if (this.transcount)
         {
-            this.getExchangeCount(this.myGas, this.mySGas);
+            if (!/^0|^\.\d/.test(this.transcount) || /^0\.[0-9]/.test(this.transcount))
+            {
+                this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
+            } else
+            {
+                this.exchangebtn = false;
+            }
+
         } else
         {
-            this.getExchangeCount(0, 0);
+            this.exchangebtn = false;
         }
+
     }
 
     async exChange()
@@ -121,20 +106,18 @@ export default class Exchange extends Vue
         {
             let txid = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
             console.log(txid);
-
+            let tranObj = { 'trancount': this.transcount, 'txid': txid };
+            tools.storagetool.setStorage('exchangelist', JSON.stringify(tranObj));
+            this.isShowTranLog();
         } else
         {
             try
             {
                 let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
                 console.log(txid);
-                let tranObj = { 'trancount': this.transcount, 'txid': txid };
-                this.exchangeList.push(tranObj);
-                console.log(this.exchangeList);
-                tools.storagetool.setStorage('exchangelist', JSON.stringify(this.exchangeList));
-                let checkTran = this.checkTranisOK(txid);
-                console.log(checkTran);
-
+                let tranObj = { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' };
+                tools.storagetool.setStorage('exchangelist', JSON.stringify(tranObj));
+                this.isShowTranLog();
             } catch (error)
             {
                 console.error(error);
@@ -144,11 +127,17 @@ export default class Exchange extends Vue
 
     async checkTranisOK(txid: string)
     {
+        this.exchangebtn = false;
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (res)
         {
             console.log(res);
-            return res;
+            tools.storagetool.delStorage('exchangelist');
+            this.exchangebtn = true;
+            this.transcount = "";
+            this.getMyGas();
+            this.getMySGas();
+            this.exchangeList = null;
         } else
         {
             setTimeout(async () =>
@@ -156,6 +145,16 @@ export default class Exchange extends Vue
                 this.checkTranisOK(txid);
                 console.log(res);
             }, 10000);
+        }
+    }
+
+    isShowTranLog()
+    {
+        this.exchangeList = tools.storagetool.getStorage('exchangelist');
+        if (this.exchangeList)
+        {
+            this.exchangeList = JSON.parse(this.exchangeList);
+            this.checkTranisOK(this.exchangeList.txid);
         }
     }
 
