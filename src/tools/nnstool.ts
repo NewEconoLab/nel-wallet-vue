@@ -1,5 +1,5 @@
 import { tools } from "./importpack";
-import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result } from "./entity";
+import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result, NNSResult, ResultItem, DataType } from "./entity";
 
 /**
  * @name NEONameServiceTool
@@ -181,54 +181,32 @@ export class NNSTool
             {
                 // info2.textContent += "Succ\n";
             }
+            let rest = new NNSResult();
+            rest.textInfo = result;
             var stackarr = result[ "stack" ] as any[];
+            let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[ 0 ].subItem;
+
             if (stackarr[ 0 ].type == "Array")
             {
-                var stack = stackarr[ 0 ].value as any[];
-                if (stack[ 0 ].type == "ByteArray")
-                {
-                    info.owner = Neo.Uint160.parse(stack[ 0 ].value as string);
-                }
-                if (stack[ 1 ].type == "ByteArray")
-                {
-                    info.register = Neo.Uint256.parse(stack[ 1 ].value as string);
-                }
-                if (stack[ 2 ].type == "ByteArray")
-                {
-                    info.resolver = Neo.Uint256.parse(stack[ 2 ].value as string);
-                }
-                if (stack[ 3 ].type == "Integer")
-                {
-                    info.ttl = new Neo.BigInteger(stack[ 3 ].value as string).toString();
+                // var stack = stackarr[ 0 ].value as any[];
+                info.owner = stack[ 0 ].AsHash160();
+                info.register = stack[ 1 ].AsHash160();
+                info.resolver = stack[ 2 ].AsHash160();
+                info.ttl = stack[ 3 ].AsInteger().toString();
 
-                } if (stack[ 3 ].type = "ByteArray")
-                {
-                    let bt = (stack[ 3 ].value as string).hexToBytes();
-                    info.ttl = Neo.BigInteger.fromUint8ArrayAutoSign(bt.clone()).toString();
-                } if (stack[ 4 ].type = "ByteArray")
-                {
-                    let parentOwner = (stack[ 5 ].value as string).hexToBytes();
-                } if (stack[ 5 ].type = "String")
-                {
-                    let domainstr = stack[ 5 ].value as string;
-                } if (stack[ 6 ].type = "ByteArray")
-                {
-                    let parentHash = (stack[ 6 ].value as string).hexToBytes();
-                } if (stack[ 7 ].type = "ByteArray")
-                {
-                    let bt = (stack[ 7 ].value as string).hexToBytes();
-                    let root = Neo.BigInteger.fromUint8ArrayAutoSign(bt);
-                }
-                if (stack[ 7 ].type = "Integer")
-                {
-                    let a = new Neo.BigInteger(stack[ 7 ].value as string);
-                }
+                // let parentOwner = (stack[ 5 ].value as string).hexToBytes();
+                // let domainstr = stack[ 5 ].value as string;
+                // let parentHash = (stack[ 6 ].value as string).hexToBytes();
+                // let bt = (stack[ 7 ].value as string).hexToBytes();
+                // let root = Neo.BigInteger.fromUint8ArrayAutoSign(bt);
+                // let a = new Neo.BigInteger(stack[ 7 ].value as string);
             }
         }
         catch (e)
         {
+            console.error(e);
+
         }
-        // console.log(info);
 
         return info;
 

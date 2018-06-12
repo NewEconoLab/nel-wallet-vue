@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "buffer": "^5.1.0",
     "jsrsasign": "^7.2.2",
     "less": "^3.0.2",
     "less-loader": "^4.1.0",

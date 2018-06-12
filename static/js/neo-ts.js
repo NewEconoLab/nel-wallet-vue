@@ -304,15 +304,15 @@ var Neo;
                 ? (w < 1 << 3 ? (w < 1 << 1
                     ? (w < 1 << 0 ? (w < 0 ? 32 : 0) : 1)
                     : (w < 1 << 2 ? 2 : 3)) : (w < 1 << 5
-                    ? (w < 1 << 4 ? 4 : 5)
-                    : (w < 1 << 6 ? 6 : 7)))
+                        ? (w < 1 << 4 ? 4 : 5)
+                        : (w < 1 << 6 ? 6 : 7)))
                 : (w < 1 << 11
                     ? (w < 1 << 9 ? (w < 1 << 8 ? 8 : 9) : (w < 1 << 10 ? 10 : 11))
                     : (w < 1 << 13 ? (w < 1 << 12 ? 12 : 13) : (w < 1 << 14 ? 14 : 15)))) : (w < 1 << 23 ? (w < 1 << 19
-                ? (w < 1 << 17 ? (w < 1 << 16 ? 16 : 17) : (w < 1 << 18 ? 18 : 19))
-                : (w < 1 << 21 ? (w < 1 << 20 ? 20 : 21) : (w < 1 << 22 ? 22 : 23))) : (w < 1 << 27
-                ? (w < 1 << 25 ? (w < 1 << 24 ? 24 : 25) : (w < 1 << 26 ? 26 : 27))
-                : (w < 1 << 29 ? (w < 1 << 28 ? 28 : 29) : (w < 1 << 30 ? 30 : 31)))));
+                        ? (w < 1 << 17 ? (w < 1 << 16 ? 16 : 17) : (w < 1 << 18 ? 18 : 19))
+                        : (w < 1 << 21 ? (w < 1 << 20 ? 20 : 21) : (w < 1 << 22 ? 22 : 23))) : (w < 1 << 27
+                            ? (w < 1 << 25 ? (w < 1 << 24 ? 24 : 25) : (w < 1 << 26 ? 26 : 27))
+                            : (w < 1 << 29 ? (w < 1 << 28 ? 28 : 29) : (w < 1 << 30 ? 30 : 31)))));
         };
         BigInteger.prototype.clamp = function () {
             var l = this._bits.length;
@@ -2323,91 +2323,103 @@ var Neo;
         }
         if (window.crypto.subtle == null) {
             window.crypto.subtle = {
-                decrypt: function (algorithm, key, data) { return new NeoPromise(function (resolve, reject) {
-                    if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || !algorithm.iv || algorithm.iv.byteLength != 16 || data.byteLength % 16 != 0) {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        var aes = new Cryptography.Aes(key.export(), algorithm.iv);
-                        resolve(aes.decrypt(data));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
+                decrypt: function (algorithm, key, data) {
+                    return new NeoPromise(function (resolve, reject) {
+                        if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || !algorithm.iv || algorithm.iv.byteLength != 16 || data.byteLength % 16 != 0) {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try {
+                            var aes = new Cryptography.Aes(key.export(), algorithm.iv);
+                            resolve(aes.decrypt(data));
+                        }
+                        catch (e) {
+                            reject(e);
+                        }
+                    });
+                },
                 deriveBits: null,
                 deriveKey: null,
-                digest: function (algorithm, data) { return new NeoPromise(function (resolve, reject) {
-                    if (getAlgorithmName(algorithm) != "SHA-256") {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        resolve(Cryptography.Sha256.computeHash(data));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
-                encrypt: function (algorithm, key, data) { return new NeoPromise(function (resolve, reject) {
-                    if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || !algorithm.iv || algorithm.iv.byteLength != 16) {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        var aes = new Cryptography.Aes(key.export(), algorithm.iv);
-                        resolve(aes.encrypt(data));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
-                exportKey: function (format, key) { return new NeoPromise(function (resolve, reject) {
-                    if (format != "jwk" || !(key instanceof Cryptography.AesCryptoKey)) {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        var k = key;
-                        resolve({
-                            alg: "A256CBC",
-                            ext: true,
-                            k: k.export().base64UrlEncode(),
-                            key_ops: k.usages,
-                            kty: "oct"
-                        });
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
-                generateKey: function (algorithm, extractable, keyUsages) { return new NeoPromise(function (resolve, reject) {
-                    if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || (algorithm.length != 128 && algorithm.length != 192 && algorithm.length != 256)) {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        resolve(Cryptography.AesCryptoKey.create(algorithm.length));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
-                importKey: function (format, keyData, algorithm, extractable, keyUsages) { return new NeoPromise(function (resolve, reject) {
-                    if ((format != "raw" && format != "jwk") || getAlgorithmName(algorithm) != "AES-CBC") {
-                        reject(new RangeError());
-                        return;
-                    }
-                    try {
-                        if (format == "jwk")
-                            keyData = keyData.k.base64UrlDecode();
-                        resolve(Cryptography.AesCryptoKey.import(keyData));
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }); },
+                digest: function (algorithm, data) {
+                    return new NeoPromise(function (resolve, reject) {
+                        if (getAlgorithmName(algorithm) != "SHA-256") {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try {
+                            resolve(Cryptography.Sha256.computeHash(data));
+                        }
+                        catch (e) {
+                            reject(e);
+                        }
+                    });
+                },
+                encrypt: function (algorithm, key, data) {
+                    return new NeoPromise(function (resolve, reject) {
+                        if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || !algorithm.iv || algorithm.iv.byteLength != 16) {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try {
+                            var aes = new Cryptography.Aes(key.export(), algorithm.iv);
+                            resolve(aes.encrypt(data));
+                        }
+                        catch (e) {
+                            reject(e);
+                        }
+                    });
+                },
+                exportKey: function (format, key) {
+                    return new NeoPromise(function (resolve, reject) {
+                        if (format != "jwk" || !(key instanceof Cryptography.AesCryptoKey)) {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try {
+                            var k = key;
+                            resolve({
+                                alg: "A256CBC",
+                                ext: true,
+                                k: k.export().base64UrlEncode(),
+                                key_ops: k.usages,
+                                kty: "oct"
+                            });
+                        }
+                        catch (e) {
+                            reject(e);
+                        }
+                    });
+                },
+                generateKey: function (algorithm, extractable, keyUsages) {
+                    return new NeoPromise(function (resolve, reject) {
+                        if (typeof algorithm === "string" || algorithm.name != "AES-CBC" || (algorithm.length != 128 && algorithm.length != 192 && algorithm.length != 256)) {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try {
+                            resolve(Cryptography.AesCryptoKey.create(algorithm.length));
+                        }
+                        catch (e) {
+                            reject(e);
+                        }
+                    });
+                },
+                importKey: function (format, keyData, algorithm, extractable, keyUsages) {
+                    return new NeoPromise(function (resolve, reject) {
+                        if ((format != "raw" && format != "jwk") || getAlgorithmName(algorithm) != "AES-CBC") {
+                            reject(new RangeError());
+                            return;
+                        }
+                        try {
+                            if (format == "jwk")
+                                keyData = keyData.k.base64UrlDecode();
+                            resolve(Cryptography.AesCryptoKey.import(keyData));
+                        }
+                        catch (e) {
+                            reject(e);
+                        }
+                    });
+                },
                 sign: null,
                 unwrapKey: null,
                 verify: null,
@@ -2561,7 +2573,7 @@ var Neo;
             }
             RIPEMD160.bytesToWords = function (bytes) {
                 var words = [];
-                for (var i = 0, b = 0; i < bytes.length; i++, b += 8) {
+                for (var i = 0, b = 0; i < bytes.length; i++ , b += 8) {
                     words[b >>> 5] |= bytes[i] << (24 - b % 32);
                 }
                 return words;
