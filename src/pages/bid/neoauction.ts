@@ -4,7 +4,7 @@ import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
 import AuctionInfo from "./auctioninfo.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction } from "../../tools/entity";
+import { MyAuction, SellDomainInfo } from "../../tools/entity";
 @Component({
     components: {
         "v-alert": Valert,
@@ -20,9 +20,11 @@ export default class NeoAuction extends Vue
     myAuctionList: MyAuction[] = [];
     domainInfo: MyAuction[] = [];
     domain: string;
+    btn_start: number;
     constructor()
     {
         super();
+        this.btn_start = 1;
         this.auctionShow = false;
         this.auctionPage = false;
         this.myAuctionList = [];
@@ -46,6 +48,7 @@ export default class NeoAuction extends Vue
             console.log(this.myAuctionList);
         }
     }
+
     onGoBidInfo(item)
     {
         this.auctionPage = !this.auctionPage
@@ -57,9 +60,18 @@ export default class NeoAuction extends Vue
         this.auctionPage = false;
     }
 
-    openAuction()
+    async openAuction()
     {
-        tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        this.btn_start = 0;
+
         this.auctionShow = !this.auctionShow;
+    }
+
+    async queryDomainState()
+    {
+        let state: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        let sellstate = (state.startBlockSelling.compareTo(Neo.BigInteger.Zero));
+        let endstate = state.endBlock.compareTo(Neo.BigInteger.Zero);
+        sellstate ? (endstate ? this.btn_start = 3 : this.btn_start = 2) : this.btn_start = 1;
     }
 }

@@ -24,9 +24,9 @@ export default class Contract
      * invokeTrans 方式调用合约塞入attributes
      * @param script 合约的script
      */
-    static async contractInvokeTrans_attributes(appCall: Neo.Uint160, method: string, param: string[])
+    static async contractInvokeTrans_attributes(script: Uint8Array)
     {
-        let script = this.buildScript(appCall, method, param);
+        // let script = this.buildScript(appCall, method, param);
         let current: LoginInfo = LoginInfo.getCurrentLogin();
         var addr = current.address;
         var tran: ThinNeo.Transaction = new ThinNeo.Transaction();

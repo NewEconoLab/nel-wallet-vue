@@ -6,12 +6,13 @@
             </div>
             <div class="form-box ptop">
                 <div class="input-box" >
-                    <input type="text" placeholder="type a name" v-model="domain">
+                    <input type="text" placeholder="type a name" v-model="domain" @input="queryDomainState">
                     <span>.neo</span>
                 </div>
-                <button class="btn btn-nel btn-big" @click="openAuction">Open Auction</button>
-                <spinner-wrap  style="margin-left:20px"></spinner-wrap>
-                <button class="btn btn-nel btn-big btn-disable" disabled="disabled">New Bid</button>
+                <spinner-wrap v-if="btn_start==0" style="margin-left:20px"></spinner-wrap>
+                <button v-if="btn_start==1" class="btn btn-nel btn-big" @click="openAuction">Open Auction</button>
+                <button v-if="btn_start==2" class="btn btn-nel btn-big">New Bid</button>
+                <button v-if="btn_start==3" class="btn btn-nel btn-big btn-disable" disabled="disabled">New Bid</button>
                 <span class="waiting-msg">We're sending a transacton,please wait patiently...</span>
                 <div class="msg-box">
                     <img src="../../../static/img/correct.svg" alt="">
