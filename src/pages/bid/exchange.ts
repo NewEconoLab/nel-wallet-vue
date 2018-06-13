@@ -1,9 +1,12 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance } from '../../tools/entity';
 @Component({
-    components: {}
+    components: {
+        "spinner-wrap": Spinner,
+    }
 })
 export default class Exchange extends Vue
 {
@@ -15,11 +18,11 @@ export default class Exchange extends Vue
     exMaxcount: number;            //当前能转换的最高金额
     exchangebtn: boolean;          //转换按钮的控制 默认false不可点击
     exchangeList: any;             //一条交易数据的缓存
+    isCheckingTran: boolean;        //是否交易中
 
     constructor()
     {
         super();
-
         this.changeSGas = false;
         this.transcount = "";
         this.myGas = 0;
@@ -27,6 +30,7 @@ export default class Exchange extends Vue
         this.exMaxcount = 0;
         this.exchangebtn = false;
         this.exchangeList = null;
+        this.isCheckingTran = false;
         tools.coinTool.initAllAsset();
     }
 
@@ -80,7 +84,9 @@ export default class Exchange extends Vue
             this.mySGas = parseFloat(res.nep5balance);
         }
     }
-
+    /**
+     * 交易金额的输入确认
+     */
     exchangeCount()
     {
         if (this.transcount)
@@ -99,7 +105,9 @@ export default class Exchange extends Vue
         }
 
     }
-
+    /**
+     * exchange提交
+     */
     async exChange()
     {
         if (this.changeSGas)
@@ -125,15 +133,20 @@ export default class Exchange extends Vue
         }
     }
 
+    /**
+     * 等待转账确认
+     * @param txid 交易id
+     */
     async checkTranisOK(txid: string)
     {
         this.exchangebtn = false;
+        this.isCheckingTran = true;
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (res)
         {
             console.log(res);
             tools.storagetool.delStorage('exchangelist');
-            this.exchangebtn = true;
+            this.isCheckingTran = false;
             this.transcount = "";
             this.getMyGas();
             this.getMySGas();
@@ -147,7 +160,7 @@ export default class Exchange extends Vue
             }, 10000);
         }
     }
-
+    /**转账记录 */
     isShowTranLog()
     {
         this.exchangeList = tools.storagetool.getStorage('exchangelist');
