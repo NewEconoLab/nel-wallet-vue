@@ -83,12 +83,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="spent-tip ff6" v-if="transcount > exMaxcount">
-                  Insufficient balance. 
-              </div>
-            </div>            
+                
+            </div>  
+            <div class="spent-tip ff6" v-if="transcount > exMaxcount">
+              Insufficient balance. 
+            </div>          
             <div class="btn-right">
-                <button class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > exMaxcount || !exchangebtn)}" :disabled="transcount > exMaxcount || !exchangebtn">Exchange</button>
+                <button v-if="!isCheckingTran" class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > exMaxcount || !exchangebtn)}" :disabled="transcount > exMaxcount || !exchangebtn">Exchange</button>
+                <spinner-wrap v-if="isCheckingTran" style="margin-left:20px"></spinner-wrap>
             </div>
         </div>
         <div class="form-box tran-list" v-if="exchangeList">
@@ -130,7 +132,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 70%;
+        width: 85%;
         height: 75px;
         margin-right: 20px;
         .choose-wrap {
@@ -181,11 +183,15 @@
     }
     .trans-box {
       margin-top: 50px;
-      margin-bottom: 50px;
+      width: 85%;
+      display: flex;
       .spent-box {
-        display: inline-block;
-        width: 45%;
-        margin-right: 30px;
+        flex: 1;
+        width: 48%;
+        margin-right: 15px;
+        &:last-child {
+          margin-right: 0;
+        }
         .spent-msg {
           margin-bottom: 20px;
         }
@@ -235,16 +241,17 @@
           }
         }
       }
-      .spent-tip {
-        font-size: 12px;
-        color: #ff6a6a;
-        line-height: 12px;
-        margin-top: 10px;
-      }
     }
-
+    .spent-tip {
+      font-size: 12px;
+      color: #ff6a6a;
+      line-height: 12px;
+      margin-top: 10px;
+    }
     .btn-right {
+      margin-top: 50px;
       text-align: right;
+      width: 85%;
     }
     .tran-title {
       text-align: center;
