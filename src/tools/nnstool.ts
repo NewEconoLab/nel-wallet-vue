@@ -26,7 +26,7 @@ export class NNSTool
         test.ttl = domain.ttl;
 
         //判断根域名进行初始化
-        root == "test" ? tools.nnstool.root_test = test : tools.nnstool.root_neo = test;
+        root == "test" ? NNSTool.root_test = test : NNSTool.root_neo = test;
         console.log(tools.nnstool.root_neo);
 
     }
@@ -193,6 +193,9 @@ export class NNSTool
                 info.register = stack[ 1 ].AsHash160();
                 info.resolver = stack[ 2 ].AsHash160();
                 info.ttl = stack[ 3 ].AsInteger().toString();
+                console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
+                console.log("owner : " + info.owner.toString());
+
 
                 // let parentOwner = (stack[ 5 ].value as string).hexToBytes();
                 // let domainstr = stack[ 5 ].value as string;

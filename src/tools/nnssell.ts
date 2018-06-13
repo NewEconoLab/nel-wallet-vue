@@ -13,6 +13,9 @@ export default class NNSSell
         await tools.nnstool.initRootDomain("neo");
         var domainarr: string[] = domain.split('.');
         var nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(domainarr);
+
+        console.log(tools.nnstool.root_neo.register.toString() + ": register");
+
         let data = tools.contract.buildScript(tools.nnstool.root_neo.register, "getSellingStateByFullhash", [ "(hex256)" + nnshash.toString() ]);
 
         let result = await tools.wwwtool.rpc_getInvokescript(data);
@@ -22,28 +25,24 @@ export default class NNSSell
         {
             var state = result.state as string;
             // info2.textContent = "";
-            if (!state.includes("HALT, BREAK"))
+            if (state.includes("FAULT, BREAK"))
             {
-                throw "error";
+                throw "FAULT, BREAK";
             }
             let rest = new NNSResult();
             rest.textInfo = result;
             var stackarr = result[ "stack" ] as any[];
-            let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[ 0 ].subItem;
-
-            if (stack.length >= 8)
-            {
-                // var stack = stackarr[ 0 ].value as any[];
-                info.owner = stack[ 0 ].AsHash160();
-                info.register = stack[ 1 ].AsHash160();
-                info.resolver = stack[ 2 ].AsHash160();
-                info.ttl = stack[ 3 ].AsInteger().toString();
-                info.startBlockSelling = stack[ 4 ].AsInteger();
-                info.endBlock = stack[ 5 ].AsInteger();
-                info.maxPrice = stack[ 6 ].AsInteger();
-                info.maxBuyer = stack[ 7 ].AsHash160();
-                info.lastBlock = stack[ 8 ].AsInteger();
-            }
+            let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[ 0 ].subItem
+            // var stack = stackarr[ 0 ].value as any[];
+            let id = stack[ 0 ].AsHash256();
+            let parenthash = stack[ 1 ].AsHash256();
+            let domain = stack[ 2 ].AsString();
+            info.ttl = stack[ 3 ].AsInteger().toString();
+            info.startBlockSelling = stack[ 4 ].AsInteger();
+            info.endBlock = stack[ 5 ].AsInteger();
+            info.maxPrice = stack[ 6 ].AsInteger();
+            info.maxBuyer = stack[ 7 ].AsHash160();
+            info.lastBlock = stack[ 8 ].AsInteger();
             return info;
 
         }
@@ -110,9 +109,26 @@ export default class NNSSell
      * 竞标加价
      * @param domain 域名
      */
-    static async addprice(domain)
+    static async addprice(domain: string)
     {
+        let nnshash = tools.nnstool.nameHashArray(domain.split('.'));
         let addressto = ThinNeo.Helper.GetAddressFromScriptHash(tools.nnstool.root_neo.register);
         let address = LoginInfo.getCurrentAddress();
+    }
+
+    /**
+     * 取回存储器下的sgas
+     */
+    getMoneyBack()
+    {
+
+    }
+
+    /**
+     * 
+     */
+    getsellingdomain()
+    {
+
     }
 }

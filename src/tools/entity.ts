@@ -555,7 +555,7 @@ export class ResultItem
         }
         else if (type === DataType.ByteArray)
         {
-            item.data = (value as string).hexToBytes();
+            item.data = (value as string).hexToBytes()
         }
         else if (type === DataType.Integer)
         {
@@ -596,6 +596,7 @@ export class ResultItem
     {
         if (this.data.length === 0)
             return null;
+        console.log(new Neo.Uint160(this.data.buffer).toString());
         return new Neo.Uint160(this.data.buffer);
     }
 
@@ -603,7 +604,7 @@ export class ResultItem
     {
         if (this.data.length === 0)
             return null;
-        return new Neo.Uint256(this.data.buffer);
+        return new Neo.Uint256(this.data.buffer)
     }
     public AsBoolean(): boolean
     {
