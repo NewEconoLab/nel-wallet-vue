@@ -150,7 +150,8 @@ export default class NNS extends Vue
     async getDomainsByAddr()
     {
         let res = await tools.wwwtool.getnnsinfo(LoginInfo.getCurrentAddress());
-        let arrdomain = res ? res.map(dom => { return dom + ".test" }) : [];
+        console.log(res);
+        let arrdomain = res ? res.map(dom => { return dom[ "domain" ] }) : [];
         let arr = new Array<Domainmsg>();
         let state = DomainStatus.getStatus() as DomainStatus;
         // state = JSON.parse(JSON.stringify(state));

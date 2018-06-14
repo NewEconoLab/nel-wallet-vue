@@ -112,7 +112,6 @@ export default class SgasTool
 
             if (!!r && r[ "txid" ])
             {
-                SgasTool.makeRefundTransaction_confirm(r[ 'txid' ], transcount)
                 return r[ "txid" ];
             }
             else
@@ -127,59 +126,6 @@ export default class SgasTool
         }
 
 
-    }
-
-
-    /**
-     * 
-     * @param txid 兑换gas的交易id
-     * @param transcount 兑换数量 
-     */
-    static async makeRefundTransaction_confirm(txid, transcount)
-    {
-        var r = await tools.wwwtool.getrawtransaction(txid);
-        if (r)
-        {
-            // 已经确认
-            //tx的第一个utxo就是给自己的
-            var utxo: UTXO = new UTXO();
-            utxo.addr = LoginInfo.getCurrentAddress();
-            utxo.txid = txid;
-            utxo.asset = tools.coinTool.id_GAS;
-            utxo.count = Neo.Fixed8.parse(transcount.toString());
-            utxo.n = 0;
-
-            //把这个txid里的utxo[0]的value转给自己
-            this.makeRefundTransaction_tranGas(utxo, transcount.toString())
-
-        }
-        else
-        {
-            // 未确认, 5s后再执行
-            setTimeout(() =>
-            {
-                this.makeRefundTransaction_confirm(txid, transcount)
-            }, 3000)
-        }
-    }
-
-
-    static async makeRefundTransaction_toGas_confirm(txid)
-    {
-        var r = await tools.wwwtool.getrawtransaction(txid);
-        if (r)
-        {
-            // 已经确认
-            // 转换成功
-        }
-        else
-        {
-            // 未确认, 5s后再执行
-            setTimeout(() =>
-            {
-                this.makeRefundTransaction_toGas_confirm(txid)
-            }, 3000)
-        }
     }
 
     /**
@@ -227,7 +173,12 @@ export default class SgasTool
             if (!!r && !!r[ "txid" ])
             {
                 // this.makeRefundTransaction_info(7)
-                this.makeRefundTransaction_toGas_confirm(r.txid)
+                let list = ''
+                let tranlist = tools.storagetool.getStorage('exchangelist');
+                tranlist = tranlist.replace('[', '').replace(']', '');
+                let tranObj = JSON.stringify({ 'trancount': transcount, 'txid': r.txid, 'trantype': 'SGas' });
+                list = '[' + tranlist + ',' + tranObj + ']';
+                localStorage.setItem('exchangelist', list);
             }
             else
             {

@@ -95,9 +95,9 @@
         </div>
         <div class="form-box tran-list" v-if="exchangeList">
           <h3 class="tran-title">Waiting for transaction records</h3>
-          <div class="tran-history">            
-            <p >Exchange Gas for SGas：{{exchangeList.trancount}} {{exchangeList.trantype}}, TXID: {{exchangeList.txid}}</p>
-            <p v-if="exchangeList.trantype == 'SGas'">Exchange SGas for Gas：{{exchangeList.trancount}} {{exchangeList.trantype}}, TXID: {{exchangeList.txid}}</p>
+          <div class="tran-history" v-for="(item,index) in exchangeList" :key="index">            
+            <p v-if="item.trantype == 'Gas'">Exchange Gas for SGas：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
+            <p v-if="item.trantype == 'SGas'">Exchange SGas for Gas：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
           </div>
         </div>
     </div>
@@ -212,6 +212,7 @@
             color: #ff6966;
             width: 15px;
             margin-left: 20px;
+            margin-top: -5px;
             img {
               width: 100%;
             }
