@@ -120,7 +120,6 @@ export class BalanceInfo
     static setBalanceSotre(balance: BalanceInfo, height: number)
     {
         tools.storagetool.setStorage(balance.asset, JSON.stringify({ height, balance }))
-        console.log(tools.storagetool.getStorage(balance.asset));
     }
 
 }
@@ -280,6 +279,7 @@ export class DomainInfo
  */
 export class SellDomainInfo extends DomainInfo
 {
+    id: Neo.Uint256;
     startBlockSelling: Neo.BigInteger;
     endBlock: Neo.BigInteger;
     maxPrice: Neo.BigInteger;
@@ -476,7 +476,7 @@ export class WalletOtcgo
             this.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(this.prikey);
         } catch (error)
         {
-            console.log(error)
+            console.error(error);
         }
     }
     // 签名
@@ -542,7 +542,6 @@ export class ResultItem
     public static FromJson(type: string, value: any): ResultItem
     {
         let item: ResultItem = new ResultItem();
-        console.log(value);
         if (type === DataType.Array)
         {
             item.subItem = []//new ResultItem[(value as Array<any>).length];
@@ -596,7 +595,6 @@ export class ResultItem
     {
         if (this.data.length === 0)
             return null;
-        console.log(new Neo.Uint160(this.data.buffer).toString());
         return new Neo.Uint160(this.data.buffer);
     }
 

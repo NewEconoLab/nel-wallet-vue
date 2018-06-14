@@ -12,14 +12,9 @@ export default class NNSSell
         // tools.nnstool.initRootDomain(domainarr.reverse[ 0 ]);
         var domainarr: string[] = domain.split('.');
         var nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(domainarr);
-
-        console.log(tools.nnstool.root_neo.register.toString() + ": register");
-
         let data = tools.contract.buildScript(tools.nnstool.root_neo.register, "getSellingStateByFullhash", [ "(hex256)" + nnshash.toString() ]);
-
         let result = await tools.wwwtool.rpc_getInvokescript(data);
         let info = new SellDomainInfo();
-
         try
         {
             var state = result.state as string;
@@ -32,8 +27,7 @@ export default class NNSSell
             rest.textInfo = result;
             var stackarr = result[ "stack" ] as any[];
             let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[ 0 ].subItem
-            // var stack = stackarr[ 0 ].value as any[];
-            let id = stack[ 0 ].AsHash256();
+            info.id = stack[ 0 ].AsHash256();
             let parenthash = stack[ 1 ].AsHash256();
             let domain = stack[ 2 ].AsString();
             info.ttl = stack[ 3 ].AsInteger().toString();
@@ -117,11 +111,29 @@ export default class NNSSell
      * 竞标加价
      * @param domain 域名
      */
-    static async addprice(domain: string)
+    static async addprice(domain: string, amount: number)
     {
-        let nnshash = tools.nnstool.nameHashArray(domain.split('.'));
-        let addressto = ThinNeo.Helper.GetAddressFromScriptHash(tools.nnstool.root_neo.register);
-        let address = LoginInfo.getCurrentAddress();
+        var v = 1;
+        for (var i = 0; i < 8; i++)
+            v *= 10;
+        var bnum = new Neo.BigInteger(amount.toFixed().replace(".", ""));
+        var intv = bnum.multiply(v).toString();
+
+        let info = await this.getSellingStateByDomain(domain);
+        let who = new Neo.Uint160(
+            ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress
+                (
+                LoginInfo.getCurrentAddress()
+                ).buffer
+        );
+
+        let data = tools.contract.buildScript(
+            tools.nnstool.root_neo.register,
+            "addPrice",
+            [ "(hex160)" + who.toString(), "(hex256)" + info.id.toString(), "(int)" + intv ]
+        );
+        let res = await tools.contract.contractInvokeTrans_attributes(data);
+        return res;
     }
 
     /**

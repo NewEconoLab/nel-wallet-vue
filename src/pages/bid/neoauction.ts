@@ -4,7 +4,7 @@ import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
 import AuctionInfo from "./auctioninfo.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction, SellDomainInfo } from "../../tools/entity";
+import { MyAuction, SellDomainInfo, LoginInfo } from "../../tools/entity";
 @Component({
     components: {
         "v-alert": Valert,
@@ -30,8 +30,9 @@ export default class NeoAuction extends Vue
         this.myAuctionList = [];
         this.domainInfo = [];
         this.domain = "";
+        this.address = LoginInfo.getCurrentAddress();
         // this.address = tools.storagetool.getStorage("current-address");
-        this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
+        // this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
         this.getBidList(this.address);
 
     }
@@ -44,13 +45,14 @@ export default class NeoAuction extends Vue
     async getBidList(address)
     {
         let res = await tools.wwwtool.api_getBidListByAddress(address);
+        let list = res[ 0 ][ "list" ];
         if (res)
         {
-            for (let i in res)
+            for (let i in list)
             {
-                res[ i ].startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(res[ i ].startAuctionTime * 1000));
+                list[ i ].startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(list[ i ].startAuctionTime * 1000));
             }
-            this.myAuctionList = res;
+            this.myAuctionList = list;
             console.log(this.myAuctionList);
         }
     }
@@ -66,12 +68,35 @@ export default class NeoAuction extends Vue
         this.auctionPage = false;
     }
 
+    addBid()
+    {
+        this.auctionShow = !this.auctionShow;
+    }
+
     async openAuction()
     {
         this.btn_start = 0;
         let res = await tools.nnssell.wantbuy(this.domain);
-        console.log(res);
+        await this.openAuction_confirm(res[ "info" ]);
         // this.auctionShow = !this.auctionShow;
+    }
+
+    async openAuction_confirm(txid: string)
+    {
+        let res = await tools.wwwtool.getrawtransaction(txid);
+        if (!!res)
+        {
+            this.btn_start = 2;
+            this.auctionShow = !this.auctionShow;
+            return;
+        }
+        else
+        {
+            setTimeout(() =>
+            {
+                this.openAuction_confirm(txid);
+            }, 5000)
+        }
     }
 
     async queryDomainState()
@@ -81,4 +106,5 @@ export default class NeoAuction extends Vue
         let endstate = state.endBlock.compareTo(Neo.BigInteger.Zero);
         sellstate ? (endstate ? this.btn_start = 3 : this.btn_start = 2) : this.btn_start = 1;
     }
+
 }

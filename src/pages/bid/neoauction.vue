@@ -11,7 +11,7 @@
                 </div>
                 <spinner-wrap v-if="btn_start==0" style="margin-left:20px"></spinner-wrap>
                 <button v-if="btn_start==1" class="btn btn-nel btn-big" @click="openAuction">Open Auction</button>
-                <button v-if="btn_start==2" class="btn btn-nel btn-big">New Bid</button>
+                <button v-if="btn_start==2" class="btn btn-nel btn-big" @click="addBid">New Bid</button>
                 <button v-if="btn_start==3" class="btn btn-nel btn-big btn-disable" disabled="disabled">New Bid</button>
                 <span class="waiting-msg">We're sending a transacton,please wait patiently...</span>
                 <div class="msg-box">
@@ -34,7 +34,7 @@
             <div class="form-box mbottom" v-if="myAuctionList" v-for="(item,index) in myAuctionList" :key="index">
                 <div class="msg-list">
                     <div class="msg-neoname">
-                        {{item.domain}}.neo
+                        {{item.domain}}
                     </div>
                     <div class="msg-status" v-if="item.auctionState=='Fixed period'">
                         Status : <span class="status-being">Fixed period</span>
