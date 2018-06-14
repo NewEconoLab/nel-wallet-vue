@@ -33,6 +33,12 @@ export default class NeoAuction extends Vue
         // this.address = tools.storagetool.getStorage("current-address");
         this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
         this.getBidList(this.address);
+
+    }
+
+    async mounted()
+    {
+        await tools.nnstool.initRootDomain("neo");
     }
 
     async getBidList(address)
@@ -63,8 +69,9 @@ export default class NeoAuction extends Vue
     async openAuction()
     {
         this.btn_start = 0;
-
-        this.auctionShow = !this.auctionShow;
+        let res = await tools.nnssell.wantbuy(this.domain);
+        console.log(res);
+        // this.auctionShow = !this.auctionShow;
     }
 
     async queryDomainState()
