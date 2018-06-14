@@ -10,7 +10,6 @@ export default class NNSSell
     static async getSellingStateByDomain(domain: string)
     {
         // tools.nnstool.initRootDomain(domainarr.reverse[ 0 ]);
-        await tools.nnstool.initRootDomain("neo");
         var domainarr: string[] = domain.split('.');
         var nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(domainarr);
 
@@ -90,14 +89,23 @@ export default class NNSSell
     /**
      * 欲购买
      */
-    static async wantbuy()
+    static async wantbuy(subname: string)
     {
         try
         {
+            let addr = LoginInfo.getCurrentAddress();
+            let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+
             let register = tools.nnstool.root_neo.register;
-            let data = tools.contract.buildScript(register, "getOwnerInfo", [ '(hex256)' + tools.nnstool.root_neo.roothash.toString() ]);
-            let res = await tools.wwwtool.rpc_getInvokescript(data);
-            console.log(res);
+            let param = [
+                '(hex160)' + who.toString(),
+                "(hex256)" + tools.nnstool.root_neo.roothash.toString(),
+                "(str)" + subname
+            ];
+
+            let data = tools.contract.buildScript(register, "wantBuy", param);
+            let res = await tools.contract.contractInvokeTrans_attributes(data);
+            return res
         } catch (error)
         {
             throw error;
