@@ -225,7 +225,7 @@ export class WWW
     static async getnnsinfo(...params): Promise<string[]>
     {
         // let data = params.join(',');
-        var postdata = WWW.makeRpcPostBody("getdomainbyaddress2", ...params);
+        var postdata = WWW.makeRpcPostBody("getdomainbyaddress", ...params);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         if (json[ "result" ] == null)

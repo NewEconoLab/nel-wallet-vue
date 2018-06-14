@@ -26,7 +26,7 @@ export default class MyNeo extends Vue
     }
     async getAllNeoName(address)
     {
-        let res = await tools.wwwtool.getnnsinfo(address, 'neo');
+        let res = await tools.wwwtool.getnnsinfo(address, '.neo');
         console.log(res);
     }
 

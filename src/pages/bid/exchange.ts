@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance } from '../../tools/entity';
+import { LoginInfo, BalanceInfo, UTXO } from '../../tools/entity';
 @Component({
     components: {
         "spinner-wrap": Spinner,
@@ -78,7 +78,6 @@ export default class Exchange extends Vue
     async getMySGas()
     {
         let res = await tools.wwwtool.getnep5balanceofaddress('0x' + tools.coinTool.id_SGAS.toString(), this.currentAddress);
-        console.log(res);
         if (res && res.nep5balance)
         {
             this.mySGas = parseFloat(res.nep5balance);
@@ -112,19 +111,21 @@ export default class Exchange extends Vue
     {
         if (this.changeSGas)
         {
+            this.isCheckingTran = true;
             let txid = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
             console.log(txid);
-            let tranObj = { 'trancount': this.transcount, 'txid': txid };
-            tools.storagetool.setStorage('exchangelist', JSON.stringify(tranObj));
+            let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' } ];
+            localStorage.setItem('exchangelist', JSON.stringify(tranObj));
             this.isShowTranLog();
         } else
         {
             try
             {
+                this.isCheckingTran = true;
                 let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
                 console.log(txid);
-                let tranObj = { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' };
-                tools.storagetool.setStorage('exchangelist', JSON.stringify(tranObj));
+                let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' } ];
+                localStorage.setItem('exchangelist', JSON.stringify(tranObj));
                 this.isShowTranLog();
             } catch (error)
             {
@@ -137,38 +138,77 @@ export default class Exchange extends Vue
      * 等待转账确认
      * @param txid 交易id
      */
-    async checkTranisOK(txid: string)
+    async checkTranisOK(txid: string, trantype: string)
     {
         this.exchangebtn = false;
         this.isCheckingTran = true;
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (res)
         {
-            console.log(res);
-            tools.storagetool.delStorage('exchangelist');
-            this.isCheckingTran = false;
-            this.transcount = "";
-            this.getMyGas();
-            this.getMySGas();
-            this.exchangeList = null;
+            if (trantype == "SGas")
+            {
+                // 已经确认
+                //tx的第一个utxo就是给自己的
+                let utxo: UTXO = new UTXO();
+                utxo.addr = LoginInfo.getCurrentAddress();
+                utxo.txid = txid;
+                utxo.asset = tools.coinTool.id_GAS;
+                utxo.count = Neo.Fixed8.parse(this.transcount.toString());
+                utxo.n = 0;
+
+                //把这个txid里的utxo[0]的value转给自己
+                await tools.sgastool.makeRefundTransaction_tranGas(utxo, this.transcount.toString());
+                this.exchangeList = tools.storagetool.getStorage('exchangelist');
+                this.exchangeList = JSON.parse(this.exchangeList);
+                this.checkAgainTranisOK(this.exchangeList[ 1 ].txid);
+            } else
+            {
+                this.isTranClose();
+            }
         } else
         {
             setTimeout(async () =>
             {
-                this.checkTranisOK(txid);
-                console.log(res);
+                this.checkTranisOK(txid, trantype);
             }, 10000);
         }
     }
+    async checkAgainTranisOK(txid: string)
+    {
+        this.exchangebtn = false;
+        this.isCheckingTran = true;
+        let res = await tools.wwwtool.getrawtransaction(txid);
+        if (res)
+        {
+            this.isTranClose();
+        } else
+        {
+            setTimeout(async () =>
+            {
+                this.checkAgainTranisOK(txid);
+            }, 10000);
+        }
+    }
+
     /**转账记录 */
     isShowTranLog()
     {
-        this.exchangeList = tools.storagetool.getStorage('exchangelist');
+        this.exchangeList = localStorage.getItem('exchangelist');
         if (this.exchangeList)
         {
             this.exchangeList = JSON.parse(this.exchangeList);
-            this.checkTranisOK(this.exchangeList.txid);
+            this.checkTranisOK(this.exchangeList[ 0 ].txid, this.exchangeList[ 0 ].trantype);
         }
+    }
+    /**交易结束 */
+    isTranClose()
+    {
+        tools.storagetool.delStorage('exchangelist');
+        this.isCheckingTran = false;
+        this.transcount = "";
+        this.getMyGas();
+        this.getMySGas();
+        this.exchangeList = null;
     }
 
 }
