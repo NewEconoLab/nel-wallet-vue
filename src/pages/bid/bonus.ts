@@ -11,9 +11,20 @@ import { tools } from "../../tools/importpack";
 })
 export default class Bonus extends Vue
 {
+    claimNum: string;
 
     constructor()
     {
         super();
+        this.claimNum = '';
+    }
+    async mounted()
+    {
+        let res = await tools.sgastool.canClaimCount();
+        this.claimNum = res;
+        console.log(res);
+    }
+    async getres()
+    {
     }
 }

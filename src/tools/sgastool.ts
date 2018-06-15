@@ -1,5 +1,5 @@
 import { tools } from "./importpack";
-import { LoginInfo, Result, UTXO } from "./entity";
+import { LoginInfo, Result, UTXO, ResultItem } from "./entity";
 
 /**
  * @name Sgas兑换Gas工具类
@@ -190,5 +190,41 @@ export default class SgasTool
             // this.makeRefundTransaction_error("获取转换合约失败！")
         }
 
+    }
+
+    static async canClaimCount()
+    {
+        // let addr = LoginInfo.getCurrentAddress();
+        // let script = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
+        // let scriptHash = ThinNeo.Helper.Bytes2String(script);
+
+        let who = new Neo.Uint160(
+            ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress
+                (
+                LoginInfo.getCurrentAddress()
+                ).buffer
+        );
+        let data = tools.contract.buildScript(tools.coinTool.dapp_nnc, "canClaimCount", [ "(hex160)" + who.toString() ]);
+        let res = await tools.wwwtool.rpc_getInvokescript(data);
+        let stack = res[ "stack" ][ 0 ]
+        let amount = ResultItem.FromJson(stack[ "type" ], stack[ "value" ]);
+        //console.log(amount.AsInteger().toString());
+
+        return amount.AsInteger().toString();
+    }
+
+    static async claim()
+    {
+        let who = new Neo.Uint160(
+            ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress
+                (
+                LoginInfo.getCurrentAddress()
+                ).buffer
+        );
+        let prikey = LoginInfo.getCurrentLogin().prikey;
+        let data = tools.contract.buildScript(tools.coinTool.dapp_nnc, "claim", [ "(hex160)" + who.toString() ]);
+        let res = await tools.contract.contractInvokeTrans_attributes(data);
+        console.log(res);
+        //prikey,Config.dapp_nnc, "claim", "(bytes)" + strhash
     }
 }
