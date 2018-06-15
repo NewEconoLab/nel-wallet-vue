@@ -5,8 +5,13 @@
         </div>
         <div class="form-box">
             <div class="bonus-msg">
-                <span>SGas available to claim : 0.12345678</span>
+                <span>SGas available to claim : {{claimNum}}</span>
                 <button class="btn btn-nel">Claim</button>
+                <spinner-wrap :isbig="false"></spinner-wrap>
+                <span class="wait-msg">Sending a transaction...</span>
+                <span class="wait-msg">Waiting for confirmation of transfer...</span>
+                <span class="wait-msg">SGas claiming...</span>
+                <span class="wait-msg">Your SGas claim is successful!</span>
             </div>
         </div>
         <div class="title">
@@ -31,6 +36,9 @@
         </div>
     </div>
 </template>
+<script lang="ts" src="./bonus.ts">
+</script>
+
 <style lang="less" scoped>
 .bonus-wrap {
   .dde {
@@ -47,6 +55,12 @@
       span {
         display: inline-block;
         margin-right: 30px;
+      }
+      .wait-msg{
+          margin-left:10px;
+          margin-right:0;
+          font-size:12px;
+          color:#7B7B7B;
       }
     }
     .history-box {
