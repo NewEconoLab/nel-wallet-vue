@@ -37,7 +37,6 @@ export default class NNSSell
             info.maxBuyer = stack[ 7 ].AsHash160();
             info.lastBlock = stack[ 8 ].AsInteger();
             return info;
-
         }
         catch (e)
         {

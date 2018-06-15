@@ -16,6 +16,7 @@ export default class NeoAuction extends Vue
 {
     auctionShow: boolean; //竞拍弹框
     auctionPage: boolean;//竞拍查看详情，默认
+    auctionMsg_alert: MyAuction;
     address: string;
     myAuctionList: MyAuction[] = [];
     domainInfo: MyAuction[] = [];
@@ -31,8 +32,6 @@ export default class NeoAuction extends Vue
         this.domainInfo = [];
         this.domain = "";
         this.address = LoginInfo.getCurrentAddress();
-        // this.address = tools.storagetool.getStorage("current-address");
-        // this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
         this.getBidList(this.address);
 
     }
@@ -68,8 +67,16 @@ export default class NeoAuction extends Vue
         this.auctionPage = false;
     }
 
-    addBid()
+    async addBid()
     {
+        let msg = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        let auction = new MyAuction();
+        let time = await tools.wwwtool.api_getBlockInfo(msg.startBlockSelling.toInt32());
+        auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
+        auction.maxBuyer = msg.maxBuyer.toString();
+        auction.maxPrice = msg.maxPrice.toString();
+        auction.domain = this.domain + ".neo";
+        this.auctionMsg_alert = auction;
         this.auctionShow = !this.auctionShow;
     }
 
@@ -77,6 +84,13 @@ export default class NeoAuction extends Vue
     {
         this.btn_start = 0;
         let res = await tools.nnssell.wantbuy(this.domain);
+        let auction = new MyAuction();
+        auction.domain = this.domain + ".neo";
+
+        auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
+        auction.auctionState = "watting";
+        auction.maxPrice = "0";
+        this.myAuctionList.unshift(auction)
         await this.openAuction_confirm(res[ "info" ]);
         // this.auctionShow = !this.auctionShow;
     }

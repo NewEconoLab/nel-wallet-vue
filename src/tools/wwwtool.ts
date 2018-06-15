@@ -58,12 +58,12 @@ export class WWW
     }
     static async api_getBlockInfo(index: number)
     {
-        var str = WWW.makeRpcUrl(WWW.api, "getblocktime");
+        var str = WWW.makeRpcUrl(WWW.api, "getblocktime", index);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
         var r = json[ "result" ];
-        var height = parseInt(r[ 0 ][ "blockcount" ] as string) - 1;
-        return height;
+        var time = parseInt(r[ 0 ][ "time" ] as string);
+        return time;
     }
     static async api_getAllAssets()
     {

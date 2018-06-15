@@ -73,9 +73,9 @@
           <div class="auction-box">
             <div class="auction-title">Auction</div>
             <div class="wrap-msg">
-              <div class="domain-name">Domain : Bennyrepublic1234.neo</div>
+              <div class="domain-name">Domain : {{auctionMsg_alert.domain}}</div>
               <div class="auction-status">Status : <span class="status-being">Fixed period （ 47:56:30 ）</span> </div>
-              <div class="auction-price">Highest bid price : 9 SGas</div>
+              <div class="auction-price">Highest bid price : {{auctionMsg_alert.maxPrice}} SGas</div>
             </div>
             <div class="wrap-msg">
               <div class="my-bid">
