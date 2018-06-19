@@ -47,7 +47,7 @@ export default class Exchange extends Vue
         this.transcount = "";
         this.changeSGas = !this.changeSGas;
         this.changeSGas ? this.exMaxcount = this.mySGas : this.exMaxcount = this.myGas;
-        this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
+        this.exchangeList ? this.exchangebtn = true : this.exchangebtn = false;
     }
 
     /**
@@ -138,7 +138,7 @@ export default class Exchange extends Vue
      * 等待转账确认
      * @param txid 交易id
      */
-    async checkTranisOK(txid: string, trantype: string)
+    async checkTranisOK(txid: string, trancount: string, trantype: string)
     {
         this.exchangebtn = false;
         this.isCheckingTran = true;
@@ -153,12 +153,13 @@ export default class Exchange extends Vue
                 utxo.addr = LoginInfo.getCurrentAddress();
                 utxo.txid = txid;
                 utxo.asset = tools.coinTool.id_GAS;
-                utxo.count = Neo.Fixed8.parse(this.transcount.toString());
+                utxo.count = Neo.Fixed8.parse(trancount.toString());
                 utxo.n = 0;
 
                 //把这个txid里的utxo[0]的value转给自己
-                await tools.sgastool.makeRefundTransaction_tranGas(utxo, this.transcount.toString());
-                this.exchangeList = tools.storagetool.getStorage('exchangelist');
+                await tools.sgastool.makeRefundTransaction_tranGas(utxo, trancount.toString());
+                // console.log("restxid: " + restxid);
+                this.exchangeList = localStorage.getItem('exchangelist');
                 this.exchangeList = JSON.parse(this.exchangeList);
                 this.checkAgainTranisOK(this.exchangeList[ 1 ].txid);
             } else
@@ -169,7 +170,7 @@ export default class Exchange extends Vue
         {
             setTimeout(async () =>
             {
-                this.checkTranisOK(txid, trantype);
+                this.checkTranisOK(txid, trancount, trantype);
             }, 10000);
         }
     }
@@ -197,7 +198,7 @@ export default class Exchange extends Vue
         if (this.exchangeList)
         {
             this.exchangeList = JSON.parse(this.exchangeList);
-            this.checkTranisOK(this.exchangeList[ 0 ].txid, this.exchangeList[ 0 ].trantype);
+            this.checkTranisOK(this.exchangeList[ 0 ].txid, this.exchangeList[ 0 ].trancount, this.exchangeList[ 0 ].trantype);
         }
     }
     /**交易结束 */

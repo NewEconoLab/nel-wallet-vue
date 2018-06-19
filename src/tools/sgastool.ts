@@ -174,7 +174,7 @@ export default class SgasTool
             {
                 // this.makeRefundTransaction_info(7)
                 let list = ''
-                let tranlist = tools.storagetool.getStorage('exchangelist');
+                let tranlist = localStorage.getItem('exchangelist');
                 tranlist = tranlist.replace('[', '').replace(']', '');
                 let tranObj = JSON.stringify({ 'trancount': transcount, 'txid': r.txid, 'trantype': 'SGas' });
                 list = '[' + tranlist + ',' + tranObj + ']';
