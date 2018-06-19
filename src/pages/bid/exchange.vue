@@ -53,7 +53,7 @@
             <div class="trans-box">
                 <div class="spent-box">
                   <div class="spent-msg">
-                    Amount you will spent : 
+                    Amount you will spend : 
                   </div>
                   <div class="spent-input">
                     <div class="img-icon">

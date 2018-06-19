@@ -6,7 +6,7 @@
         <div class="form-box">
             <div class="bonus-msg">
                 <span>SGas available to claim : {{claimNum}}</span>
-                <button class="btn btn-nel">Claim</button>
+                <button class="btn btn-nel" @click="getClaim">Claim</button>
                 <spinner-wrap :isbig="false"></spinner-wrap>
                 <span class="wait-msg">Sending a transaction...</span>
                 <span class="wait-msg">Waiting for confirmation of transfer...</span>

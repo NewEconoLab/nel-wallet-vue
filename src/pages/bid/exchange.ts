@@ -203,7 +203,7 @@ export default class Exchange extends Vue
     /**交易结束 */
     isTranClose()
     {
-        tools.storagetool.delStorage('exchangelist');
+        localStorage.removeItem("exchangelist");
         this.isCheckingTran = false;
         this.transcount = "";
         this.getMyGas();

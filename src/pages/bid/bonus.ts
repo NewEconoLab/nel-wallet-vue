@@ -27,4 +27,9 @@ export default class Bonus extends Vue
     async getres()
     {
     }
+    async getClaim()
+    {
+        let res = await tools.sgastool.claim();
+        console.log(res);
+    }
 }

@@ -44,9 +44,10 @@ export default class NeoAuction extends Vue
     async getBidList(address)
     {
         let res = await tools.wwwtool.api_getBidListByAddress(address);
-        let list = res[ 0 ][ "list" ];
+
         if (res)
         {
+            let list = res[ 0 ][ "list" ];
             for (let i in list)
             {
                 list[ i ].startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(list[ i ].startAuctionTime * 1000));
