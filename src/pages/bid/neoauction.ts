@@ -17,6 +17,7 @@ export default class NeoAuction extends Vue
     auctionShow: boolean; //竞拍弹框
     auctionPage: boolean;//竞拍查看详情，默认
     auctionMsg_alert: MyAuction;
+    alert_myBid: string;
     address: string;
     myAuctionList: MyAuction[] = [];
     domainInfo: MyAuction[] = [];
@@ -31,6 +32,7 @@ export default class NeoAuction extends Vue
         this.myAuctionList = [];
         this.domainInfo = [];
         this.domain = "";
+        this.alert_myBid = "";
         this.address = LoginInfo.getCurrentAddress();
         this.getBidList(this.address);
 
@@ -81,6 +83,13 @@ export default class NeoAuction extends Vue
         this.auctionShow = !this.auctionShow;
     }
 
+    async bidDomain()
+    {
+        console.log(this.alert_myBid);
+        let res = await tools.nnssell.rechargeReg(this.alert_myBid);
+        this.recharg_confirm(res.info);
+    }
+
     async openAuction()
     {
         this.btn_start = 0;
@@ -91,7 +100,9 @@ export default class NeoAuction extends Vue
         auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
         auction.auctionState = "watting";
         auction.maxPrice = "0";
-        this.myAuctionList.unshift(auction)
+        this.myAuctionList.unshift(auction);
+        console.log(JSON.stringify(auction));
+        tools.storagetool.setStorage("auction-await", JSON.stringify(auction));
         await this.openAuction_confirm(res[ "info" ]);
         // this.auctionShow = !this.auctionShow;
     }
@@ -110,6 +121,25 @@ export default class NeoAuction extends Vue
             setTimeout(() =>
             {
                 this.openAuction_confirm(txid);
+            }, 5000)
+        }
+    }
+
+
+
+    async recharg_confirm(txid: string)
+    {
+        let res = await tools.wwwtool.getrawtransaction(txid);
+        if (!!res)
+        {
+            tools.nnssell.addprice(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber());
+            return;
+        }
+        else
+        {
+            setTimeout(() =>
+            {
+                this.recharg_confirm(txid);
             }, 5000)
         }
     }
