@@ -74,7 +74,7 @@ export default class NeoAuction extends Vue
         let auction = new MyAuction();
         let time = await tools.wwwtool.api_getBlockInfo(msg.startBlockSelling.toInt32());
         auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
-        auction.maxBuyer = msg.maxBuyer.toString();
+        auction.maxBuyer = msg.maxBuyer ? msg.maxBuyer.toString() : "";
         auction.maxPrice = msg.maxPrice.toString();
         auction.domain = this.domain + ".neo";
         this.auctionMsg_alert = auction;
