@@ -209,6 +209,17 @@ export class WWW
         var r = json[ "result" ][ 0 ]
         return r;
     }
+    //获取nep5的交易详情
+    static async getnep5transferbytxid(txid: string)
+    {
+        var str = WWW.makeRpcUrl(WWW.api, "getnep5transferbytxid", txid);
+        var result = await fetch(str, { "method": "get" });
+        var json = await result.json();
+        if (!json[ "result" ])
+            return null;
+        var r = json[ "result" ][ 0 ]
+        return r;
+    }
 
     //注册域名时塞值
     static async setnnsinfo(address: string, name: string, time: number)

@@ -221,10 +221,10 @@ export default class SgasTool
                 LoginInfo.getCurrentAddress()
                 ).buffer
         );
-        let prikey = LoginInfo.getCurrentLogin().prikey;
         let data = tools.contract.buildScript(tools.coinTool.dapp_nnc, "claim", [ "(hex160)" + who.toString() ]);
-        let res = await tools.contract.contractInvokeTrans_attributes(data);
+        let res = await tools.contract.contractInvokeTrans(data);
         console.log(res);
+        return res;
         //prikey,Config.dapp_nnc, "claim", "(bytes)" + strhash
     }
 }

@@ -57,7 +57,6 @@ export default class Exchange extends Vue
     {
         //获得balance列表
         var balances = await tools.wwwtool.api_getBalance(this.currentAddress) as BalanceInfo[];
-        let height = await tools.wwwtool.api_getHeight();
         this.myGas = 0;
         if (balances) //余额不唯空
         {

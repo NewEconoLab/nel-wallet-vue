@@ -18,7 +18,8 @@ export default class MyNeo extends Vue
     {
         super();
         this.isShowEdit = false;
-        this.currentAddress = LoginInfo.getCurrentAddress();
+        // this.currentAddress = LoginInfo.getCurrentAddress();
+        this.currentAddress = 'AHDV7M54NHukq8f76QQtBTbrCqKJrBH9UF';
     }
     mounted()
     {
