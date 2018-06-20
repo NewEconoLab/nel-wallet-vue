@@ -256,7 +256,7 @@ export class UTXO
 export class Consts
 {
     // static baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";0x954f285a93eed7b4aed9396a7806a5812f1a5950;0x537758fbe85505801faa7d7d7b75b37686ad7e2d;
-    static readonly baseContract = Neo.Uint160.parse("537758fbe85505801faa7d7d7b75b37686ad7e2d");
+    static readonly baseContract = Neo.Uint160.parse("31f0f24160c2158704ecb09ecfd0ab7d2f25d035");
     static readonly registerContract = Neo.Uint160.parse("d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c");
     // static domainContract = '954f285a93eed7b4aed9396a7806a5812f1a5950';
 }
