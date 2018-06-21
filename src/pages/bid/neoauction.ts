@@ -92,6 +92,9 @@ export default class NeoAuction extends Vue
 
     async openAuction()
     {
+        let storage = tools.storagetool.getStorage("auction-await");
+        console.log(storage);
+
         this.btn_start = 0;
         let res = await tools.nnssell.wantbuy(this.domain);
         let auction = new MyAuction();
