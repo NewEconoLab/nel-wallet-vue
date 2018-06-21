@@ -623,142 +623,75 @@ export class NNSResult
     public value: any; //不管什么类型统一转byte[]
 }
 
-export class OpCode
+export class PageUtil
 {
-    // Constants
-    PUSH0 = 0x00 // An empty array of bytes is pushed onto the stack.
-    PUSHF = 0x00
-    PUSHBYTES1 = 0x01 // 0x01-0x4B The next opcode bytes is data to be pushed onto the stack
-    PUSHBYTES75 = 0x4B
-    PUSHDATA1 = 0x4C // The next byte contains the number of bytes to be pushed onto the stack.
-    PUSHDATA2 = 0x4D // The next two bytes contain the number of bytes to be pushed onto the stack.
-    PUSHDATA4 = 0x4E // The next four bytes contain the number of bytes to be pushed onto the stack.
-    PUSHM1 = 0x4F // The number -1 is pushed onto the stack.
-    PUSH1 = 0x51 // The number 1 is pushed onto the stack.
-    PUSH2 = 0x52 // The number 2 is pushed onto the stack.
-    PUSH3 = 0x53 // The number 3 is pushed onto the stack.
-    PUSH4 = 0x54 // The number 4 is pushed onto the stack.
-    PUSH5 = 0x55 // The number 5 is pushed onto the stack.
-    PUSH6 = 0x56 // The number 6 is pushed onto the stack.
-    PUSH7 = 0x57 // The number 7 is pushed onto the stack.
-    PUSH8 = 0x58 // The number 8 is pushed onto the stack.
-    PUSH9 = 0x59 // The number 9 is pushed onto the stack.
-    PUSH10 = 0x5A // The number 10 is pushed onto the stack.
-    PUSH11 = 0x5B // The number 11 is pushed onto the stack.
-    PUSH12 = 0x5C // The number 12 is pushed onto the stack.
-    PUSH13 = 0x5D // The number 13 is pushed onto the stack.
-    PUSH14 = 0x5E // The number 14 is pushed onto the stack.
-    PUSH15 = 0x5F // The number 15 is pushed onto the stack.
-    PUSH16 = 0x60 // The number 16 is pushed onto the stack.
+    private _currentPage: number;// 当前页
+    private _pageSize: number;// 每页大小
+    private _totalCount: number;// 总记录数
+    private _totalPage: number;// 总页数
 
-
-    // Flow control
-    NOP = 0x61 // Does nothing.
-    JMP = 0x62
-    JMPIF = 0x63
-    JMPIFNOT = 0x64
-    CALL = 0x65
-    RET = 0x66
-    APPCALL = 0x67
-    SYSCALL = 0x68
-    TAILCALL = 0x69
-
-
-    // Stack
-    DUPFROMALTSTACK = 0x6
-    TOALTSTACK = 0x6 // Puts the input onto the top of the alt stack. Removes it from the main stack.
-    FROMALTSTACK = 0x6 // Puts the input onto the top of the main stack. Removes it from the alt stack.
-    XDROP = 0x6
-    XSWAP = 0x7
-    XTUCK = 0x7
-    DEPTH = 0x7 // Puts the number of stack items onto the stack.
-    DROP = 0x7 // Removes the top stack item.
-    DUP = 0x7 // Duplicates the top stack item.
-    NIP = 0x7 // Removes the second-to-top stack item.
-    OVER = 0x7 // Copies the second-to-top stack item to the top.
-    PICK = 0x7 // The item n back in the stack is copied to the top.
-    ROLL = 0x7 // The item n back in the stack is moved to the top.
-    ROT = 0x7 // The top three items on the stack are rotated to the left.
-    SWAP = 0x7 // The top two items on the stack are swapped.
-    TUCK = 0x7 // The item at the top of the stack is copied and inserted before the second-to-top item.
-
-
-    // Splice
-    CAT = 0x7 // Concatenates two strings.
-    SUBSTR = 0x7 // Returns a section of a string.
-    LEFT = 0x8 // Keeps only characters left of the specified point in a string.
-    RIGHT = 0x8 // Keeps only characters right of the specified point in a string.
-    SIZE = 0x8 // Returns the length of the input string.
-
-
-    // Bitwise logic
-    INVERT = 0x8 // Flips all of the bits in the input.
-    AND = 0x8 // Boolean and between each bit in the inputs.
-    OR = 0x8 // Boolean or between each bit in the inputs.
-    XOR = 0x8 // Boolean exclusive or between each bit in the inputs.
-    EQUAL = 0x8 // Returns 1 if the inputs are exactly equal, 0 otherwise.
-    //OP_EQUALVERIFY = 0x88, // Same as OP_EQUAL, but runs OP_VERIFY afterward.
-    //OP_RESERVED1 = 0x89, // Transaction is invalid unless occuring in an unexecuted OP_IF branch
-    //OP_RESERVED2 = 0x8A, // Transaction is invalid unless occuring in an unexecuted OP_IF branch
-
-
-    // Arithmetic
-    // Note: Arithmetic inputs are limited to signed 32-bit integers, but may overflow their output.
-    INC = 0x8 // 1 is added to the input.
-    DEC = 0x8 // 1 is subtracted from the input.
-    SIGN = 0x8
-    NEGATE = 0x8 // The sign of the input is flipped.
-    ABS = 0x9 // The input is made positive.
-    NOT = 0x9 // If the input is 0 or 1, it is flipped. Otherwise the output will be 0.
-    NZ = 0x9 // Returns 0 if the input is 0. 1 otherwise.
-    ADD = 0x9 // a is added to b.
-    SUB = 0x9 // b is subtracted from a.
-    MUL = 0x9 // a is multiplied by b.
-    DIV = 0x9 // a is divided by b.
-    MOD = 0x9 // Returns the remainder after dividing a by b.
-    SHL = 0x9 // Shifts a left b bits, preserving sign.
-    SHR = 0x9 // Shifts a right b bits, preserving sign.
-    BOOLAND = 0x9 // If both a and b are not 0, the output is 1. Otherwise 0.
-    BOOLOR = 0x9 // If a or b is not 0, the output is 1. Otherwise 0.
-    NUMEQUAL = 0x9 // Returns 1 if the numbers are equal, 0 otherwise.
-    NUMNOTEQUAL = 0x9 // Returns 1 if the numbers are not equal, 0 otherwise.
-    LT = 0x9 // Returns 1 if a is less than b, 0 otherwise.
-    GT = 0xA // Returns 1 if a is greater than b, 0 otherwise.
-    LTE = 0xA // Returns 1 if a is less than or equal to b, 0 otherwise.
-    GTE = 0xA // Returns 1 if a is greater than or equal to b, 0 otherwise.
-    MIN = 0xA // Returns the smaller of a and b.
-    MAX = 0xA // Returns the larger of a and b.
-    WITHIN = 0xA // Returns 1 if x is within the specified range (left-inclusive), 0 otherwise.
-
-
-    // Crypto
-    //RIPEMD160 = 0xA6, // The input is hashed using RIPEMD-160.
-    SHA1 = 0xA7 // The input is hashed using SHA-1.
-    SHA256 = 0xA8 // The input is hashed using SHA-256.
-    HASH160 = 0xA9
-    HASH256 = 0xAA
-    //因为这个hash函数可能仅仅是csharp 编译时专用的
-    CSHARPSTRHASH32 = 0xAB
-    //这个是JAVA专用的
-    JAVAHASH32 = 0xAD
-
-    CHECKSIG = 0xAC
-    CHECKMULTISIG = 0xAE
-
-
-    // Array
-    ARRAYSIZE = 0xC0
-    PACK = 0xC1
-    UNPACK = 0xC2
-    PICKITEM = 0xC3
-    SETITEM = 0xC4
-    NEWARRAY = 0xC5 //用作引用類型
-    NEWSTRUCT = 0xC6 //用作值類型
-
-    SWITCH = 0xD0
-
-    // Exceptions
-    THROW = 0xF0
-    THROWIFNOT = 0xF1
+    /**
+     * 
+     * @param total 总记录数
+     * @param pageSize 每页条数
+     */
+    constructor(total: number, pageSize: number)
+    {
+        this._currentPage = 1;
+        this._totalCount = total;
+        this._pageSize = pageSize;
+        this._totalPage = total % pageSize == 0 ? total / pageSize : Math.ceil((total / pageSize));
+    };
+    /**
+     * currentPage 返回当前页码
+     */
+    public get currentPage()
+    {
+        this._totalPage = this.totalCount % this.pageSize == 0 ? this.totalCount / this.pageSize : Math.ceil((this.totalCount / this.pageSize));
+        return this._currentPage;
+    }
+    /**
+     * 
+     */
+    public set currentPage(currentPage: number)
+    {
+        this._currentPage = currentPage;
+    }
+    /**
+     * pageSize 每页条数
+     */
+    public get pageSize()
+    {
+        return this._pageSize;
+    }
+    /**
+     * set count
+     */
+    public set pageSize(pageSize: number)
+    {
+        this._pageSize = pageSize;
+    }
+    /**
+     * pageSize 每页条数
+     */
+    public get totalCount()
+    {
+        return this._totalCount;
+    }
+    /**
+     * set count
+     */
+    public set totalCount(totalCount: number)
+    {
+        this._totalCount = totalCount;
+    }
+    /**
+ * pageSize 总页数
+ */
+    public get totalPage()
+    {
+        this._totalPage = this._totalCount % this._pageSize == 0 ? this._totalCount / this._pageSize : Math.ceil(this._totalCount / this._pageSize);
+        return this._totalPage;
+    }
 }
 

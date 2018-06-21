@@ -280,5 +280,14 @@ export class WWW
         var r = json[ "result" ];
         return r;
     }
+    //获取bonus的历史纪录数据
+    static async api_getbonushistbyaddress(address: string, currentpage: number, pagesize: number)
+    {
+        var postdata = WWW.makeRpcPostBody("getbonushistbyaddress", address, currentpage, pagesize);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ][ 0 ];
+        return r;
+    }
 
 }

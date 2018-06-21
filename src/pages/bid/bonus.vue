@@ -6,7 +6,7 @@
         <div class="form-box">
             <div class="bonus-msg">
                 <span>SGas available to claim : {{claimNum}}</span>
-                <button class="btn btn-nel"  @click="getClaim" v-if="!isClaim">Claim</button>
+                <button class="btn btn-nel" :class="{'btn-disabled':(claimNum || claimNum=='0')}" :disabled="(claimNum || claimNum=='0')"  @click="getClaim" v-if="!isClaim">Claim</button>
                 <spinner-wrap :isbig="false" v-if="isClaim"></spinner-wrap>
                 <span class="wait-msg" v-if="isClaim && claimState==1">Sending a transaction...</span>
                 <span class="wait-msg" v-if="isClaim && claimState==2">Waiting for confirmation of transfer...</span>
@@ -18,30 +18,21 @@
             <span>History</span>
         </div>
         <div class="form-box">
-            <div class="history-wrap">
+            <div class="history-box" v-if="isClaim">Waiting for confirmation of transfer...</div>
+            <div class="history-wrap" v-for="(item,index) in historyList" :key="index">
                 <div class="history-box">
-                    <div class="history-number dde">+ 20 SGas</div>
+                    <div class="history-number dde">+ {{item.value}} SGas</div>
                     <hr>
-                    <div class="history-time">12:38:10 2018-02-24</div>
-                </div>
-                <div class="history-box">
-                    <div class="history-number dde">+ 20 SGas</div>
-                    <hr>
-                    <div class="history-time">12:38:10 2018-02-24</div>
-                </div>
-                <div class="history-box">
-                    <div class="history-number dde">+ 20 SGas</div>
-                    <hr>
-                    <div class="history-time">12:38:10 2018-02-24</div>
+                    <div class="history-time">{{item.blocktime}}</div>
                 </div>
             </div>
-            <div class="page-msg">History 1 to 5 of 8</div>
-            <div class="page">
-                <div class="page-previous">
+            <div class="page-msg" v-if="isPage">{{pageMsg}}</div>
+            <div class="page" v-if="isPage">
+                <div class="page-previous" @click="previous">
                     <img src="../../../static/img/lefttrangle.svg" alt="">
                 </div>
                 <div style="width:1px;"></div>
-                <div class="page-next">
+                <div class="page-next" @click="next">
                     <img src="../../../static/img/righttrangle.svg" alt="">
                 </div>
             </div>
@@ -81,21 +72,19 @@
       opacity: 1;
       cursor: not-allowed;
     }
-    .history-wrap {
-      .history-box {
-        background: #454f60;
-        border: 1px solid #b2b2b2;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 20px;
-        .history-number {
-          margin-bottom: 15px;
-          font-size: 20px;
-        }
-        .history-time {
-          margin-top: 10px;
-          font-size: 12px;
-        }
+    .history-box {
+      background: #454f60;
+      border: 1px solid #b2b2b2;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      .history-number {
+        margin-bottom: 15px;
+        font-size: 20px;
+      }
+      .history-time {
+        margin-top: 10px;
+        font-size: 12px;
       }
     }
 
