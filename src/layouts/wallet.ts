@@ -26,6 +26,7 @@ export default class FeatureComponent extends Vue
         this.transfer = "";
         this.setting = "";
         this.blockheight = 0;
+        Neo.Cryptography.RandomNumberGenerator.startCollectors();
     }
 
     mounted()
