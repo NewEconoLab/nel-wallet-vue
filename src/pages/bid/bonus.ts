@@ -43,17 +43,21 @@ export default class Bonus extends Vue
     {
         let res = await tools.wwwtool.api_getbonushistbyaddress(address, 1, 5);
         let list = res.list;
-        for (let i in list)
+        if (list.length)
         {
-            list[ i ].blocktime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(list[ i ].blocktime * 1000));
+            for (let i in list)
+            {
+                list[ i ].blocktime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(list[ i ].blocktime * 1000));
+            }
+            this.historyList = list;
+            let count = res.count;
+            this.isPage = true
+            count > 5 ? this.isPage = true : this.isPage = false;
+            this.pageUtil = new PageUtil(count, 5);
+            // this.pageUtil = new PageUtil(20, 5);
+            this.pageMsg = "History " + this.pageUtil.currentPage + " to 5 of " + this.pageUtil.totalCount;
         }
-        this.historyList = list;
-        let count = res.count;
-        this.isPage = true
-        count > 5 ? this.isPage = true : this.isPage = false;
-        this.pageUtil = new PageUtil(count, 5);
-        // this.pageUtil = new PageUtil(20, 5);
-        this.pageMsg = "History " + this.pageUtil.currentPage + " to 5 of " + this.pageUtil.totalCount;
+
     }
     //获取claimNumber
     async getClaimNum()

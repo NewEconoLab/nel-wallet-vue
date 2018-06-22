@@ -1,7 +1,7 @@
 <template>
     <div class="exchange-box">
         <div class="title">
-            <span>SGas Exchange</span>
+            <span>{{$t('exchange.title')}}</span>
         </div>
         <div class="form-box">
             <div class="exchange-sgas">
@@ -10,7 +10,7 @@
                     <img src="../../../static/img/gas-nomal.png" alt="gas-nomal.png">
                     <div class="change-type">
                       <span>Gas</span>
-                      <p>Balance: <span>{{myGas}}</span></p>
+                      <p>{{$t('exchange.balance')}}: <span>{{myGas}}</span></p>
                     </div>
                 </div>
                 <div class="guid-img">
@@ -20,7 +20,7 @@
                     <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png">
                     <div class="change-type">
                       <span>SGas</span>
-                      <p>Balance: <span>{{mySGas}}</span></p>
+                      <p>{{$t('exchange.balance')}}: <span>{{mySGas}}</span></p>
                     </div>
                 </div>
               </div>
@@ -29,7 +29,7 @@
                     <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png" >
                     <div class="change-type">
                       <span>SGas</span>
-                      <p>Balance: <span>{{mySGas}}</span></p>
+                      <p>{{$t('exchange.balance')}}: <span>{{mySGas}}</span></p>
                     </div>
                 </div>
                 <div class="guid-img">
@@ -39,7 +39,7 @@
                     <img src="../../../static/img/gas-nomal.png" alt="gas-nomal.png">
                     <div class="change-type">
                       <span>Gas</span>
-                      <p>Balance: <span>{{myGas}}</span></p>
+                      <p>{{$t('exchange.balance')}}: <span>{{myGas}}</span></p>
                     </div>
                 </div>
               </div>
@@ -48,12 +48,12 @@
               </div>
             </div>
             <div class="sgas-tip">
-              Tips：SGAS is a NEP5 token，which is bound with NEO’s GAS at the ratio of 1:1 and they can be converted with each other freely.
+              {{$t('exchange.tips')}}
             </div>
             <div class="trans-box">
                 <div class="spent-box">
                   <div class="spent-msg">
-                    Amount you will spend : 
+                    {{$t('exchange.spend')}} 
                   </div>
                   <div class="spent-input">
                     <div class="img-icon">
@@ -69,14 +69,14 @@
                 </div>
                 <div class="spent-box">
                   <div class="spent-msg">
-                    Amount you will receive :  
+                    {{$t('exchange.receive')}}  
                   </div>
                   <div class="spent-input disable-input">
                     <div class="img-icon">
                       <img src="../../../static/img/minus.png" alt="minus.png">
                     </div>
                     <div class="input-icon">
-                      <input type="number" placeholder="Amount" v-model="transcount" disabled>
+                      <input type="number" :placeholder="$t('exchange.amount')" v-model="transcount" disabled>
                     </div>
                     <div class="msg-icon">
                       {{changeSGas?"Gas":"SGas"}}
@@ -86,18 +86,18 @@
                 
             </div>  
             <div class="spent-tip ff6" v-if="transcount > exMaxcount">
-              Insufficient balance. 
+              {{$t('exchange.warnmsg')}} 
             </div>          
             <div class="btn-right">
-                <button v-if="!isCheckingTran" class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > exMaxcount || !exchangebtn)}" :disabled="transcount > exMaxcount || !exchangebtn">Exchange</button>
+                <button v-if="!isCheckingTran" class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > exMaxcount || !exchangebtn)}" :disabled="transcount > exMaxcount || !exchangebtn">{{$t('btn.exchange')}}</button>
                 <spinner-wrap v-if="isCheckingTran" style="margin-left:20px"></spinner-wrap>
             </div>
         </div>
         <div class="form-box tran-list" v-if="exchangeList">
-          <h3 class="tran-title">Waiting for transaction records</h3>
+          <h3 class="tran-title">{{$t('exchange.waittitle')}}</h3>
           <div class="tran-history" v-for="(item,index) in exchangeList" :key="index">            
-            <p v-if="item.trantype == 'Gas'">Exchange Gas for SGas：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
-            <p v-if="item.trantype == 'SGas'">Exchange SGas for Gas：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
+            <p v-if="item.trantype == 'Gas'">{{$t('exchange.tosgas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
+            <p v-if="item.trantype == 'SGas'">{{$t('exchange.togas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
           </div>
         </div>
     </div>

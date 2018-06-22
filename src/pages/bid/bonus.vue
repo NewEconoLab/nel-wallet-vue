@@ -1,24 +1,24 @@
 <template>
     <div class="bonus-wrap">
         <div class="title">
-            <span>Bouns</span>
+            <span>{{$t('bonus.title1')}}</span>
         </div>
         <div class="form-box">
             <div class="bonus-msg">
-                <span>SGas available to claim : {{claimNum}}</span>
-                <button class="btn btn-nel" :class="{'btn-disabled':(claimNum || claimNum=='0')}" :disabled="(claimNum || claimNum=='0')"  @click="getClaim" v-if="!isClaim">Claim</button>
+                <span>{{$t('bonus.msg')}} : {{claimNum}}</span>
+                <button class="btn btn-nel" :class="{'btn-disabled':(claimNum || claimNum=='0')}" :disabled="(claimNum || claimNum=='0')"  @click="getClaim" v-if="!isClaim">{{$t('btn.claim')}}</button>
                 <spinner-wrap :isbig="false" v-if="isClaim"></spinner-wrap>
-                <span class="wait-msg" v-if="isClaim && claimState==1">Sending a transaction...</span>
-                <span class="wait-msg" v-if="isClaim && claimState==2">Waiting for confirmation of transfer...</span>
-                <span class="wait-msg" v-if="isClaim && claimState==3">SGas claiming...</span>
-                <span class="wait-msg" v-if="claimState==4">Your SGas claim is successful!</span>
+                <span class="wait-msg" v-if="isClaim && claimState==1">{{$t('bonus.wait1')}}</span>
+                <span class="wait-msg" v-if="isClaim && claimState==2">{{$t('bonus.wait2')}}</span>
+                <span class="wait-msg" v-if="isClaim && claimState==3">{{$t('bonus.wait3')}}</span>
+                <span class="wait-msg" v-if="claimState==4">{{$t('bonus.wait4')}}</span>
             </div>
         </div>
-        <div class="title">
-            <span>History</span>
+        <div class="title" v-if="historyList">
+            <span>{{$t('bonus.title2')}}</span>
         </div>
-        <div class="form-box">
-            <div class="history-box" v-if="isClaim">Waiting for confirmation of transfer...</div>
+        <div class="form-box" v-if="historyList">
+            <div class="history-box" v-if="isClaim">{{$t('bonus.wait2')}}</div>
             <div class="history-wrap" v-for="(item,index) in historyList" :key="index">
                 <div class="history-box">
                     <div class="history-number dde">+ {{item.value}} SGas</div>

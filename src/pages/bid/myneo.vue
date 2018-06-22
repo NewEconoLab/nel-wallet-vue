@@ -1,35 +1,34 @@
 <template>
     <div class="myneo-box">
         <div class="title">
-            <span>My Neo Name</span>
+            <span>{{$t('myneoname.title')}}</span>
         </div>
         <div class="form-box">
             <div class="neoname">
                 Bennyrepublic.neo
             </div>
-            <div class="addr-resolver">( Address resolver : d80ed0bd889b503739a8cf783a8ddcb37a5a9979bde1c00701e894f519c36964 )</div>
-            <div class="addr-mapping">( Address mapping : AQxtGCx8PEhLUAQ3cfztRq5ykTXraBcohZ )</div>
-            <div class="time-msg">( Expiration time : 2018/07/09 10:43:41 <span class="ff6">Expiring soon</span> )</div>
-            <div class="addr-resolver">( Address resolver : not configured )</div>
-            <div class="addr-mapping">( Address resolver : not configured )</div>
-            <div class="time-msg">( Expiration time : 2019/07/06 10:43:41 )</div>
+            <div class="addr-resolver">( {{$t('myneoname.resolver')}} : d80ed0bd889b503739a8cf783a8ddcb37a5a9979bde1c00701e894f519c36964 )</div>
+            <div class="addr-mapping">( {{$t('myneoname.mapping')}} : AQxtGCx8PEhLUAQ3cfztRq5ykTXraBcohZ )</div>
+            <div class="time-msg">( {{$t('myneoname.time')}} : 2018/07/09 10:43:41 <span class="ff6">{{$t('myneoname.expiring')}}</span> )</div>
+            <div class="addr-resolver">( {{$t('myneoname.resolver')}} : {{$t('myneoname.notconfigure')}} )</div>
+            <div class="addr-mapping">( {{$t('myneoname.mapping')}} : {{$t('myneoname.notconfigure')}} )</div>
             <div class="btn-right">
-                <button class="btn btn-nel btn-bid" @click="isShowEdit=!isShowEdit">Edit</button>
+                <button class="btn btn-nel btn-bid" @click="isShowEdit=!isShowEdit">{{$t('btn.edit')}}</button>
             </div>
         </div>
         <div class="edit-wrap" v-if="isShowEdit">
           <div class="edit-box">
-            <div class="edit-title">Edit information</div>
+            <div class="edit-title">{{$t('myneoname.edittitle')}}</div>
             <div class="edit-content">
-                <div class="edit-name">Neo Name : Bennyrepublic1234.neo</div>
+                <div class="edit-name">{{$t('myneoname.neoname')}} : Bennyrepublic1234.neo</div>
                 <div class="edit-input">
                     <div class="input-msg">
-                        Address Resolver :
-                        <button class="btn btn-nel btn-input-reset">Reset</button>
+                        {{$t('myneoname.resolver')}} :
+                        <button class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
                     </div>
                     <div class="input-box">
                         <input type="text" class="readonly-input" readonly="readonly">
-                        <button class="btn btn-nel btn-big">Confirm</button>
+                        <button class="btn btn-nel btn-big">{{$t('btn.confirm')}}</button>
                         <div class="ok-img">
                             <img src="../../../static/img/correct.svg" alt="">
                         </div>
@@ -37,12 +36,12 @@
                 </div>
                 <div class="edit-input">
                     <div class="input-msg">
-                        Address Mapping :
-                        <button class="btn btn-nel btn-input-reset">Reset</button>
+                        {{$t('myneoname.mapping')}} :
+                        <button class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
                     </div>
                     <div class="input-box">
                         <input type="text">
-                        <button class="btn btn-nel btn-big btn-disable" disabled>Confirm</button>
+                        <button class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirm')}}</button>
                         <div class="ok-img">
                             <img src="../../../static/img/correct.svg" alt="">
                         </div>
@@ -50,11 +49,11 @@
                 </div>
                 <div class="edit-input">
                     <div class="input-msg">
-                        Expiration Time :
+                        {{$t('myneoname.time')}} :
                     </div>
                     <div class="input-box">
                         <input type="text" class="readonly-input" readonly="readonly">
-                        <button class="btn btn-nel btn-big">Renewal</button>
+                        <button class="btn btn-nel btn-big">{{$t('btn.renewal')}}</button>
                     </div>
                 </div>
             </div>
