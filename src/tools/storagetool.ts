@@ -18,6 +18,14 @@ export class StorageTool
     {
         sessionStorage.setItem(key, value)
     }
+    static storageArrayPush(key: string, value: any)
+    {
+        let arr = sessionStorage.getItem(key);
+        arr ? arr : arr = "[]";
+        let obj = JSON.parse(arr) as Array<any>;
+        obj.push(value);
+        sessionStorage.setItem(key, JSON.stringify(obj))
+    }
     static getStorage(key: string): string
     {
         return sessionStorage.getItem(key);

@@ -36,32 +36,35 @@
                     <div class="msg-neoname">
                         {{item.domain}}
                     </div>
-                    <div class="msg-status" v-if="item.auctionState=='Fixed period'">
+                    <div class="msg-status" v-if="item.auctionState==1">
                         Status : <span class="status-being">Fixed period</span>
                     </div>
-                    <div class="msg-status" v-if="item.auctionState=='Random period'">
+                    <div class="msg-status" v-if="item.auctionState==2">
                         Status : <span class="status-random">Random period</span>
                     </div>
-                    <div class="msg-status" v-if="item.auctionState=='Ended'">
+                    <div class="msg-status" v-if="item.auctionState==3">
+                        Status : <span class="status-random">Waiting</span>
+                    </div>
+                    <div class="msg-status" v-if="item.auctionState==0">
                         Status : <span class="status-ended">Ended</span>
                     </div>
                     <div class="msg-price">
                         Last auction price : <span>{{item.maxPrice}}</span> SGas
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer != address">
-                        Current bidder : <span>Other people （ {{item.maxBuyer}} ）</span>
+                        {{item.auctionState>0?"Current bidder":"Buyer " }} : <span>Other people （ {{item.maxBuyer}} ）</span>
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer == address">
-                        Current bidder : <span class="bidder-me">Me （ {{address}} ）</span>
+                        {{item.auctionState>0?"Current bidder":"Buyer " }}  : <span class="bidder-me">Me （ {{address}} ）</span>
                     </div>
                     <div class="msg-time">
                         Bid start time : <span>{{item.startAuctionTime}}</span>
                     </div>
                 </div>
                 <div class="btn-right">
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Fixed period' || item.auctionState=='Random period'" @click="onGoBidInfo(item)">Bid</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="onGoBidInfo(item)">Get domain</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="onGoBidInfo(item)">Recover SGas</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState>0&&item.auctionState<2" @click="onGoBidInfo(item)">Bid</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState==0 && item.endedState==1" @click="onGoBidInfo(item)">Get domain</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState==0 && item.endedState==2" @click="onGoBidInfo(item)">Recover SGas</button>
                     <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'"  @click="onGoBidInfo(item)">Getting domain...</button>
                     <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'"  @click="onGoBidInfo(item)">Recoverring SGas...</button>
                     <button class="btn btn-nel btn-bid" v-if="item.auctionState=='Ended'" @click="auctionPage = !auctionPage">Received</button>
@@ -83,7 +86,7 @@
                 <input class="bid-input" type="number" placeholder="Enter a raise" v-model="alert_myBid">
               </div>
               <div class="my-bid">
-                Your cumulative bid : <span class="status-ended">0</span> SGas
+                Your cumulative bid : <span class="status-ended">{{auctionMsg_alert.balanceOfSelling}}</span> SGas
               </div>
             </div>
             <div class="tips-msg">

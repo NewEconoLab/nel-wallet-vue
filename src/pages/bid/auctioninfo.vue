@@ -5,7 +5,7 @@
             <div class="goback" @click="onBack">&lt;&lt;&lt;Go back</div>
         </div>
         <div class="form-box">
-            <div class="filename">Domain : {{item.domain}}.neo</div>
+            <div class="filename">Domain : {{item.domain}}</div>
             <div class="status" v-if="item.auctionState=='Fixed period'">Status : <span class="status-being">Fixed period</span> </div>
             <div class="status" v-if="item.auctionState=='Random period'">Status : <span class="status-random">Random period</span> </div>
             <div class="status" v-if="item.auctionState=='Ended'">Status : <span class="status-ended">Ended</span> </div>
@@ -14,12 +14,12 @@
             <div class="bidder" v-if="item.maxBuyer == address">Current bidder  : <span class="bidder-me">Me（ {{item.maxBuyer}} ）</span> </div>
             <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">{{item.mybidprice}}</span>  SGas</div>     
         </div>
-        <div v-if="item.auctionState=='Ended' && item.maxBuyer == address">
+        <div v-if="item.auctionState==0 && item.maxBuyer == address">
           <div class="title">
               <span>Get my domain</span>
           </div>
           <div class="form-box">
-              <div class="neoname"> BunnyRepublic.neo</div>
+              <div class="neoname"> {{item.domain}}</div>
               <div class="neoname-tips">Tips : When you successfully get your domain,You can edit it in My Neo Name.</div>
               <div class="btn-center">
                 <button class="btn btn-nel btn-bid" >Get domain</button>
@@ -27,7 +27,7 @@
               </div>  
           </div>
         </div>
-        <div v-if="item.auctionState=='Ended' && item.maxBuyer != address">
+        <div v-if="item.auctionState==0 && item.maxBuyer != address">
           <div class="title">
               <span>Recover SGas</span>
           </div>

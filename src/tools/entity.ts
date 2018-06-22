@@ -285,6 +285,8 @@ export class SellDomainInfo extends DomainInfo
     maxPrice: Neo.BigInteger;
     lastBlock: Neo.BigInteger;
     maxBuyer: Neo.Uint160;
+    balanceOf: Neo.BigInteger;
+    balanceOfSelling: Neo.BigInteger;
     constructor()
     {
         super();
@@ -517,13 +519,15 @@ export class WalletOtcgo
 export class MyAuction
 {
     auctionSpentTime: string;
-    auctionState: string;
+    auctionState: number;
+    endedState: number;
     blockindex: string;
     domain: string;
     maxBuyer: string;
     maxPrice: string;
     owner: string;
     startAuctionTime: number;
+    balanceOfSelling: string;
 }
 export class DataType
 {

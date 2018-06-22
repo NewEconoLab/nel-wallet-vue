@@ -22,8 +22,8 @@ export default class AuctionInfo extends Vue
     constructor()
     {
         super();
-        // this.address = tools.storagetool.getStorage("current-address");
-        this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
+        this.address = tools.storagetool.getStorage("current-address");
+        // this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
         this.myBidPrice = this.item.mybidprice;
         this.updatePrice = this.myBidPrice;
         console.log(this.item);

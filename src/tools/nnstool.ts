@@ -27,7 +27,6 @@ export class NNSTool
 
         //判断根域名进行初始化
         root == "test" ? NNSTool.root_test = test : NNSTool.root_neo = test;
-        console.log(tools.nnstool.root_neo);
 
     }
 
