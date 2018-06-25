@@ -57,6 +57,175 @@ export class StorageTool
 
 }
 
+
+/**
+ * @class localStorage工具类
+ */
+export class LocalStoreTool
+{
+    //表名
+    public table: string;
+
+    //初始化对象
+    constructor(table: string)
+    {
+        this.table = table;
+    }
+
+    /**
+     * 添加数据
+     * @param key 
+     * @param value 
+     */
+    put(key: string, value: any)
+    {
+        let item = LocalStoreTool.getTable(this.table);
+        let obj = item ? item : {};
+        obj[ key ] = value;
+        localStorage.setItem(this.table, JSON.stringify(obj));
+    }
+
+    /**
+     * 查找数据
+     * @param key 
+     */
+    select(key: string)
+    {
+        let item = LocalStoreTool.getTable(this.table);
+        if (item)
+        {
+            return item[ key ];
+        } return undefined;
+    }
+
+    /**
+     * 删除数据
+     * @param key 
+     */
+    delete(key: string)
+    {
+        let item = LocalStoreTool.getTable(this.table);
+        if (item && item[ key ])
+        {
+            delete item[ key ];
+            localStorage.setItem(this.table, JSON.stringify(item));
+        }
+    }
+
+    /**
+     * 更新数据(其实put就可以了直接覆盖掉已有的数据)
+     * @param key 
+     * @param value 
+     */
+    update(key: string, value: any)
+    {
+        let item = LocalStoreTool.getTable(this.table);
+        if (item && item[ key ])
+        {
+            item[ key ] = value;
+        }
+    }
+
+    /**
+     * 获得整张表的数据
+     * @param table 
+     */
+    static getTable(table: string)
+    {
+        let item = localStorage.getItem(table);
+        if (item)
+        {
+            let obj = JSON.parse(item);
+            return obj;
+        }
+        return undefined;
+    }
+}
+
+/**
+ * @class sessionStorage工具类
+ */
+export class sessionStoreTool
+{
+    //表名
+    public table: string;
+
+    //初始化对象
+    constructor(table: string)
+    {
+        this.table = table;
+    }
+
+    /**
+     * 添加数据
+     * @param key 
+     * @param value 
+     */
+    put(key: string, value: any)
+    {
+        let item = sessionStoreTool.getTable(this.table);
+        let obj = item ? item : {};
+        obj[ key ] = value;
+        localStorage.setItem(this.table, JSON.stringify(obj));
+    }
+
+    /**
+     * 查找数据
+     * @param key 
+     */
+    select(key: string)
+    {
+        let item = sessionStoreTool.getTable(this.table);
+        if (item)
+        {
+            return item[ key ];
+        } return undefined;
+    }
+
+    /**
+     * 删除数据
+     * @param key 
+     */
+    delete(key: string)
+    {
+        let item = sessionStoreTool.getTable(this.table);
+        if (item && item[ key ])
+        {
+            delete item[ key ];
+            localStorage.setItem(this.table, JSON.stringify(item));
+        }
+    }
+
+    /**
+     * 更新数据(其实put就可以了直接覆盖掉已有的数据)
+     * @param key 
+     * @param value 
+     */
+    update(key: string, value: any)
+    {
+        let item = sessionStoreTool.getTable(this.table);
+        if (item && item[ key ])
+        {
+            item[ key ] = value;
+        }
+    }
+
+    /**
+     * 获得整张表的数据
+     * @param table 
+     */
+    static getTable(table: string)
+    {
+        let item = localStorage.getItem(table);
+        if (item)
+        {
+            let obj = JSON.parse(item);
+            return obj;
+        }
+        return undefined;
+    }
+}
+
 export class StaticStore
 {
     static choiceAsset: string = "";
