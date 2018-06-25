@@ -14,7 +14,9 @@ export default class NNSSell
         var nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(domainarr);
         let data = tools.contract.buildScript(tools.nnstool.root_neo.register, "getSellingStateByFullhash", [ "(hex256)" + nnshash.toString() ]);
         let result = await tools.wwwtool.rpc_getInvokescript(data);
+        let domainInfo: DomainInfo = await tools.nnstool.getOwnerInfo(nnshash, tools.nnstool.root_neo.register);
         let info = new SellDomainInfo();
+        info.copyDomainInfoToThis(domainInfo);
         try
         {
             var state = result.state as string;
@@ -36,6 +38,7 @@ export default class NNSSell
             info.maxPrice = stack[ 6 ].AsInteger();
             info.maxBuyer = stack[ 7 ].AsHash160();
             info.lastBlock = stack[ 8 ].AsInteger();
+
             return info;
         }
         catch (e)
@@ -125,12 +128,6 @@ export default class NNSSell
      */
     static async addprice(domain: string, amount: number)
     {
-        // var v = 1;
-        // for (var i = 0; i < 8; i++)
-        //     v *= 10;
-        // var bnum = new Neo.BigInteger(amount.toFixed().replace(".", ""));
-        // var intv = bnum.multiply(v).toString();
-
         let info = await this.getSellingStateByDomain(domain);
         let who = new Neo.Uint160(
             ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress
@@ -148,6 +145,80 @@ export default class NNSSell
         return res;
     }
 
+    static compareTime(time: number)
+    {
+        let currentTime = new Date().getTime();
+        let res = currentTime - time
+        let state: number = res > 1500000 ? 0 : res < 900000 ? 1 : 2;
+        return state;
+    }
+
+
+
+    /**
+     * 结束竞拍
+     * @param domain 域名
+     */
+    static async endSelling(id: string)
+    {
+        let addr = LoginInfo.getCurrentAddress();
+        let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+        let script = tools.contract.buildScript(
+            tools.nnstool.root_neo.register,
+            "endSelling",
+            [
+                "(hex160)" + who.toString(),
+                "(hex256)" + id
+            ]
+        );
+        let res = await tools.contract.contractInvokeTrans_attributes(script);
+        return res;
+    }
+
+    /**
+     * 获得领取域名
+     * @param domain 域名
+     */
+    static async getsellingdomain(id: string)
+    {
+        let addr = LoginInfo.getCurrentAddress();
+        let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+        let script = tools.contract.buildScript(
+            tools.nnstool.root_neo.register,
+            "getSellingDomain",
+            [
+                "(hex160)" + who.toString(),
+                "(hex256)" + id
+            ]
+        );
+        let res = tools.contract.contractInvokeTrans_attributes(script);
+        return res;
+    }
+
+    static async getMySellingDomain(domain)
+    {
+        let info = await tools.nnssell.getSellingStateByDomain(domain);
+        if (info.endBlock.compareTo(Neo.BigInteger.Zero))
+        {
+            let res = await this.endSelling(domain)
+            res.info
+        }
+        let addr = LoginInfo.getCurrentAddress();
+        let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+        let script = tools.contract.buildScript(
+            tools.nnstool.root_neo.register,
+            "getSellingDomain",
+            [
+                "(hex160)" + who.toString(),
+                "(hex256)" + info.id.toString()
+            ]
+        );
+        let res = tools.contract.contractInvokeTrans_attributes(script);
+        return res;
+    }
+
+
+
     /**
      * 取回存储器下的sgas
      */
@@ -156,11 +227,4 @@ export default class NNSSell
 
     }
 
-    /**
-     * 
-     */
-    getsellingdomain()
-    {
-
-    }
 }

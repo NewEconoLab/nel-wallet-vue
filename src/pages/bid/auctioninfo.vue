@@ -5,7 +5,7 @@
             <div class="goback" @click="onBack">&lt;&lt;&lt;Go back</div>
         </div>
         <div class="form-box">
-            <div class="filename">Domain : {{item.domain}}.neo</div>
+            <div class="filename">Domain : {{item.domain}}</div>
             <div class="status" v-if="item.auctionState=='Fixed period'">Status : <span class="status-being">Fixed period</span> </div>
             <div class="status" v-if="item.auctionState=='Random period'">Status : <span class="status-random">Random period</span> </div>
             <div class="status" v-if="item.auctionState=='Ended'">Status : <span class="status-ended">Ended</span> </div>
@@ -14,20 +14,21 @@
             <div class="bidder" v-if="item.maxBuyer == address">Current bidder  : <span class="bidder-me">Me（ {{item.maxBuyer}} ）</span> </div>
             <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">{{item.mybidprice}}</span>  SGas</div>     
         </div>
-        <div v-if="item.auctionState=='Ended' && item.maxBuyer == address">
+        <div v-if="item.auctionState==0 && item.maxBuyer == address">
           <div class="title">
               <span>Get my domain</span>
           </div>
           <div class="form-box">
-              <div class="neoname"> BunnyRepublic.neo</div>
+              <div class="neoname"> {{item.domain}}</div>
               <div class="neoname-tips">Tips : When you successfully get your domain,You can edit it in My Neo Name.</div>
               <div class="btn-center">
-                <button class="btn btn-nel btn-bid" >Get domain</button>
-                <button class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
+                <button v-if="state_getDomain==0" class="btn btn-nel btn-bid" @click="getDomain">Get domain</button>
+                <button v-if="state_getDomain==1" class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
+                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>Get domain</button>
               </div>  
           </div>
         </div>
-        <div v-if="item.auctionState=='Ended' && item.maxBuyer != address">
+        <div v-if="item.auctionState==0 && item.maxBuyer != address">
           <div class="title">
               <span>Recover SGas</span>
           </div>
@@ -58,7 +59,8 @@
                 Tips : The minimum value for your raise is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful. 
             </div>
             <div class="btn-bid-box">
-              <button class="btn btn-bid btn-disable" disabled="disabled" >Bid</button>
+              <!-- <button class="btn btn-bid btn-disable" disabled="disabled" >Bid</button> -->
+              <button class="btn btn-bid " @click="bidDomain" >Bid</button>
             </div>
         </div>
         <div class="title">
@@ -145,6 +147,9 @@
     color: #198cee;
   }
   button {
+    &.btn-bid {
+      background: #198cee;
+    }
     &.btn-disable {
       background: #77bcf6;
       opacity: 1;
