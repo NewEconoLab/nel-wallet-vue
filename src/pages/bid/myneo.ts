@@ -3,7 +3,7 @@ import { Component, Prop } from "vue-property-decorator";
 import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, Domainmsg, DomainInfo, Consts, DomainStatus } from "../../tools/entity";
+import { LoginInfo, Domainmsg, DomainInfo, DomainStatus } from "../../tools/entity";
 @Component({
     components: {
         "v-alert": Valert,

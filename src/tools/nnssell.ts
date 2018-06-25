@@ -1,6 +1,5 @@
 import { tools } from "./importpack";
 import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo } from "./entity";
-import { VM } from "./const";
 export default class NNSSell
 {
     /**
