@@ -223,7 +223,7 @@ export default class NNS extends Vue
         let dommsg = new Domainmsg();
         dommsg.domainname = domain;
         let msg = await tools.nnstool.queryDomainInfo(domain);
-        if (msg.ttl)
+        if (msg.ttl && msg.ttl != '0')
         {
             this.receive_disable = false;
             let timestamp = new Date().getTime();

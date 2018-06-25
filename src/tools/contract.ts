@@ -13,6 +13,22 @@ export default class Contract
     static buildScript(appCall: Neo.Uint160, method: string, param: string[]): Uint8Array
     {
         var sb = new ThinNeo.ScriptBuilder();
+
+        sb.EmitParamJson(param);//第二个参数是个数组
+        sb.EmitPushString(method);
+        sb.EmitAppCall(appCall);
+        return sb.ToArray();
+    }
+
+    /**
+     * @method buildScript 构建script
+     * @param appCall 合约地址
+     * @param method 方法名
+     * @param param 参数
+     */
+    static buildScript_random(appCall: Neo.Uint160, method: string, param: string[]): Uint8Array
+    {
+        var sb = new ThinNeo.ScriptBuilder();
         //生成随机数
         let random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues<Uint8Array>(new Uint8Array(32));
         let random_int = Neo.BigInteger.fromUint8Array(random_uint8);

@@ -112,7 +112,7 @@ export default class NNSSell
                 "(str)" + subname
             ];
 
-            let data = tools.contract.buildScript(register, "wantBuy", param);
+            let data = tools.contract.buildScript_random(register, "wantBuy", param);
             let res = await tools.contract.contractInvokeTrans_attributes(data);
             return res
         } catch (error)
@@ -136,7 +136,7 @@ export default class NNSSell
                 ).buffer
         );
 
-        let data = tools.contract.buildScript(
+        let data = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
             "addPrice",
             [ "(hex160)" + who.toString(), "(hex256)" + info.id.toString(), "(int)" + amount ]
@@ -163,7 +163,7 @@ export default class NNSSell
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
-        let script = tools.contract.buildScript(
+        let script = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
             "endSelling",
             [
@@ -183,7 +183,7 @@ export default class NNSSell
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
-        let script = tools.contract.buildScript(
+        let script = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
             "getSellingDomain",
             [
@@ -205,7 +205,7 @@ export default class NNSSell
         }
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
-        let script = tools.contract.buildScript(
+        let script = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
             "getSellingDomain",
             [

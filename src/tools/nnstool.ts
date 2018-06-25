@@ -10,6 +10,12 @@ export class NNSTool
     static root_test: RootDomainInfo;
     static root_neo: RootDomainInfo;
 
+    constructor()
+    {
+
+        Neo.Cryptography.RandomNumberGenerator.startCollectors();
+    }
+
     /**
      * @method 初始化根域名信息
      */
@@ -193,9 +199,6 @@ export class NNSTool
                 info.resolver = stack[ 2 ].AsHash160();
                 info.ttl = stack[ 3 ].AsInteger().toString();
                 // console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
-                console.log("owner : " + info.owner.toString());
-
-
                 // let parentOwner = (stack[ 5 ].value as string).hexToBytes();
                 // let domainstr = stack[ 5 ].value as string;
                 // let parentHash = (stack[ 6 ].value as string).hexToBytes();
