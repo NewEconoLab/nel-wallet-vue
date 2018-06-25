@@ -192,7 +192,7 @@ export class NNSTool
                 info.register = stack[ 1 ].AsHash160();
                 info.resolver = stack[ 2 ].AsHash160();
                 info.ttl = stack[ 3 ].AsInteger().toString();
-                console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
+                // console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
                 console.log("owner : " + info.owner.toString());
 
 

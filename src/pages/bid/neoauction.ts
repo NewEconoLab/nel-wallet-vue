@@ -29,6 +29,7 @@ export default class NeoAuction extends Vue
         this.btn_start = 1;
         this.auctionShow = false;
         this.auctionPage = false;
+        this.auctionMsg_alert = new MyAuction();
         this.myAuctionList = [];
         this.domainInfo = [];
         this.domain = "";
@@ -125,12 +126,6 @@ export default class NeoAuction extends Vue
         auction.maxBuyer = msg.maxBuyer ? msg.maxBuyer.toString() : "";
         auction.maxPrice = msg.maxPrice.toString();
         auction.domain = this.domain + ".neo";
-        // let script1 = tools.contract.buildScript(
-        //     tools.nnstool.root_neo.register,
-        //     "balanceOf",
-        //     [ "(addr)" + who ]
-        // );
-        // let res1 = await tools.wwwtool.rpc_getInvokescript(script1);
         let script2 = tools.contract.buildScript(
             tools.nnstool.root_neo.register,
             "balanceOfSelling",

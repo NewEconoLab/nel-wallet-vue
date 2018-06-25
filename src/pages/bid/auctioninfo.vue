@@ -22,8 +22,9 @@
               <div class="neoname"> {{item.domain}}</div>
               <div class="neoname-tips">Tips : When you successfully get your domain,You can edit it in My Neo Name.</div>
               <div class="btn-center">
-                <button class="btn btn-nel btn-bid" >Get domain</button>
-                <button class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
+                <button v-if="state_getDomain==0" class="btn btn-nel btn-bid" @click="getDomain">Get domain</button>
+                <button v-if="state_getDomain==1" class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
+                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>Get domain</button>
               </div>  
           </div>
         </div>
@@ -58,7 +59,8 @@
                 Tips : The minimum value for your raise is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful. 
             </div>
             <div class="btn-bid-box">
-              <button class="btn btn-bid btn-disable" disabled="disabled" >Bid</button>
+              <!-- <button class="btn btn-bid btn-disable" disabled="disabled" >Bid</button> -->
+              <button class="btn btn-bid " @click="bidDomain" >Bid</button>
             </div>
         </div>
         <div class="title">
@@ -145,6 +147,9 @@
     color: #198cee;
   }
   button {
+    &.btn-bid {
+      background: #198cee;
+    }
     &.btn-disable {
       background: #77bcf6;
       opacity: 1;

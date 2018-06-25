@@ -291,6 +291,13 @@ export class SellDomainInfo extends DomainInfo
     {
         super();
     }
+    copyDomainInfoToThis(info: DomainInfo)
+    {
+        this.owner = info.owner;
+        this.ttl = info.ttl;
+        this.register = info.register;
+        this.resolver = info.resolver;
+    }
 }
 
 export class RootDomainInfo extends DomainInfo

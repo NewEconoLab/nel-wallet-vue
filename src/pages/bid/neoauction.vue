@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="btn-right">
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState>0&&item.auctionState<2" @click="onGoBidInfo(item)">Bid</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState>0&&item.auctionState<=2" @click="onGoBidInfo(item)">Bid</button>
                     <button class="btn btn-nel btn-bid" v-if="item.auctionState==0 && item.endedState==1" @click="onGoBidInfo(item)">Get domain</button>
                     <button class="btn btn-nel btn-bid" v-if="item.auctionState==0 && item.endedState==2" @click="onGoBidInfo(item)">Recover SGas</button>
                     <button class="btn btn-nel btn-bid btn-smallsize" v-if="item.auctionState=='Ended'"  @click="onGoBidInfo(item)">Getting domain...</button>

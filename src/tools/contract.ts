@@ -25,6 +25,11 @@ export default class Contract
         return sb.ToArray();
     }
 
+    static async contractInvokeScript(appCall: Neo.Uint160, method: string, ...param: string[])
+    {
+        let data = this.buildScript(appCall, method, param);
+        return await tools.wwwtool.rpc_getInvokescript(data);
+    }
 
     /**
      * invokeTrans 方式调用合约塞入attributes
