@@ -10,10 +10,10 @@ declare const mui;
 
 @Component({
   components:
-    {
-      "main-layout": MainLayout,
-      "v-link": VLink
-    }
+  {
+    "main-layout": MainLayout,
+    "v-link": VLink
+  }
 })
 export default class login extends Vue 
 {
@@ -73,6 +73,17 @@ export default class login extends Vue
     {
       sessionStorage.clear();
     }
+    let test = new tools.localstoretool("test");
+    test.put("test1", { id: 1, value: 2 });
+    test.put("test2", { id: 2, value: 2 });
+    test.put("test3", { id: 3, value: 2 });
+    let res = test.select("test2");
+    console.log(res);
+    test.delete("test2");
+    test.put("test3", { id: 33333, value: "weili" });
+    console.log(tools.localstoretool.getTable("test"));
+
+
   }
 
   // Lifecycle hook
