@@ -222,7 +222,8 @@ export default {
         expiring: "Expiring soon",
         edittitle: "Edit information",
         neoname: "Neo Name",
-        notconfigure: "not configured"
+        notconfigure: "not configured",
+        expired: "Expired"
     },
     bonus: {
         title1: "Bonus",

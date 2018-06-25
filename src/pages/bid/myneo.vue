@@ -9,7 +9,8 @@
             </div>
             <div class="addr-resolver">( {{$t('myneoname.resolver')}} : {{item.resolver ? item.resolver : $t('myneoname.notconfigure')}} )</div>
             <div class="addr-mapping">( {{$t('myneoname.mapping')}} : {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
-            <div class="time-msg">( {{$t('myneoname.time')}} : {{item.ttl}} <span class="ff6">{{$t('myneoname.expiring')}}</span> )</div>
+            <div class="time-msg" v-if="!item.expired">( {{$t('myneoname.time')}} : {{item.ttl}} <span class="ff6" v-if="item.expiring">{{$t('myneoname.expiring')}}</span> )</div>
+            <div class="time-msg" v-if="item.expired">( {{$t('myneoname.time')}} :  <span class="ff6">{{$t('myneoname.expired')}}</span> )</div>
             <div class="btn-right">
                 <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
             </div>
@@ -26,7 +27,7 @@
                     </div>
                     <div class="input-box">
                         <input type="text" class="readonly-input" readonly="readonly" :value="domainInfo.resolver">
-                        <button class="btn btn-nel btn-big">{{$t('btn.confirm')}}</button>
+                        <button class="btn btn-nel btn-big" @click="setresolve">{{$t('btn.confirm')}}</button>
                         <div class="ok-img">
                             <img src="../../../static/img/correct.svg" alt="">
                         </div>
@@ -50,7 +51,7 @@
                         {{$t('myneoname.time')}} :
                     </div>
                     <div class="input-box">
-                        <input type="text" class="readonly-input" readonly="readonly" :value="domainInfo.ttl">
+                        <input type="text" class="readonly-input" readonly="readonly" :value="domainInfo.expired?$t('myneoname.expired'):domainInfo.ttl">
                         <button class="btn btn-nel btn-big">{{$t('btn.renewal')}}</button>
                     </div>
                 </div>

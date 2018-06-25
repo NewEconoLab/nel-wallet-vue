@@ -222,7 +222,8 @@ export default {
         expiring: "即将过期",
         edittitle: "编辑信息",
         neoname: "域名",
-        notconfigure: "未配置"
+        notconfigure: "未配置",
+        expired: "已过期"
     },
     bonus: {
         title1: "我的分红",

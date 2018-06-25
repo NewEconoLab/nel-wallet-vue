@@ -153,6 +153,7 @@ export default class NNS extends Vue
         console.log(res);
         let arrdomain = res ? res.map(dom => { return dom[ "domain" ] }) : [];
         let arr = new Array<Domainmsg>();
+        //从缓存取状态数据
         let state = DomainStatus.getStatus() as DomainStatus;
         // state = JSON.parse(JSON.stringify(state));
         if (state)
@@ -176,6 +177,7 @@ export default class NNS extends Vue
                 let msg = await this.queryDomainInfo(domain);
                 if (a.await_resolver)
                 {
+                    //与缓存进行对比
                     if (a.resolver == msg.resolver)
                     {
                         a.await_resolver = false;
