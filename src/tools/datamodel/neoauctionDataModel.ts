@@ -3,12 +3,13 @@ import { tools } from "../importpack";
 
 export class NeoaucionData
 {
-    static session = new tools.localstoretool("auction-openSession");
+    static session_open = new tools.localstoretool("auction-openSession");
+
     static async getBidList(address: string)
     {
         let res = await tools.wwwtool.api_getBidListByAddress(address);
         let arr = new Array<MyAuction>();
-        let obj = this.session.getList();
+        let obj = this.session_open.getList();
         let list = res[ 0 ][ "list" ] as Array<MyAuction>;
         if (res)
         {
@@ -21,9 +22,9 @@ export class NeoaucionData
                 {
                     element[ "endedState" ] = element.maxBuyer == address ? 1 : 2;
                 }
-                if (obj && obj[ element.domain ])
+                if (obj && obj[ element.domain ])   //判断域名在开标缓存中是否存在
                 {
-                    this.session.delete(element.domain);
+                    this.session_open.delete(element.domain);    //如果存在就删除该域名的缓存
                 }
             }
         }
@@ -32,28 +33,10 @@ export class NeoaucionData
             if (obj.hasOwnProperty(key))
             {
                 const element = obj[ key ] as MyAuction;
-                let domain = element[ "domain" ];
                 element.endedState = 0;
                 element.auctionState = 2;
                 element.maxBuyer = null;
                 element.maxPrice = '0';
-                // let state = await tools.nnssell.getSellingStateByDomain(domain);
-                // if (state.startBlockSelling.toInt32())
-                // {
-                //     let time = await tools.wwwtool.api_getBlockInfo(state.startBlockSelling.toInt32());
-                //     element.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
-                //     element.maxBuyer = state.maxBuyer ? ThinNeo.Helper.GetAddressFromScriptHash(state.maxBuyer) : null;
-                //     element.maxPrice = state.maxPrice.toString();
-                //     element.owner = state.owner ? state.owner.toString() : null;
-                //     let startTime = await tools.wwwtool.api_getBlockInfo(state.startBlockSelling.toInt32());
-                // element.auctionState = tools.nnssell.compareTime(startTime * 1000);
-
-                //     element.auctionState = tools.nnssell.compareTime(element.startAuctionTime * 1000);
-                //     if (element.auctionState == 0)
-                //     {
-                //         element[ "endedState" ] = element.maxBuyer == address ? 1 : 2;
-                //     }
-                // }
                 arr.push(element)
             }
         }
@@ -65,6 +48,13 @@ export class NeoaucionData
 
     static async setOpenSession(auction: MyAuction)
     {
-        this.session.put(auction.domain, auction);
+        this.session_open.put(auction.domain, auction);
+    }
+
+    static async setBidSession(auction: MyAuction, amount: string, txid: string)
+    {
+        let session_bid = new tools.localstoretool("bidInfo-" + auction.domain);
+        this.session_open.put(auction.domain, auction);
+        session_bid.put(txid, amount);
     }
 }

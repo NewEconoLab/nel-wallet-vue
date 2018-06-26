@@ -535,6 +535,7 @@ export class MyAuction
     owner: string;
     startAuctionTime: number;
     balanceOfSelling: string;
+    bidListSession: Object
 }
 export class DataType
 {

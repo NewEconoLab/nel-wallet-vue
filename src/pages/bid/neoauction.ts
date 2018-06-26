@@ -90,6 +90,7 @@ export default class NeoAuction extends Vue
     {
         let res = await tools.nnssell.rechargeReg(this.alert_myBid);
         this.recharg_confirm(res.info);
+        NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
     }
 
     async openAuction()
