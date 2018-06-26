@@ -26,6 +26,24 @@ export class NeoaucionData
                 {
                     this.session_open.delete(element.domain);    //如果存在就删除该域名的缓存
                 }
+                let bidlist = tools.localstoretool.getTable("bidInfo-" + element.domain)
+                if (bidlist && Object.keys(bidlist).length > 0)
+                {
+                    let bidSession = new tools.localstoretool("bidInfo-" + element.domain);
+                    for (const key in bidlist)
+                    {
+                        if (bidlist.hasOwnProperty(key))
+                        {
+                            const element = bidlist[ key ];
+                            let res = await tools.wwwtool.getrawtransaction(key);
+                            if (res)
+                            {
+                                bidSession.delete(key);
+                            }
+                        }
+                    }
+                    element.bidListSession = bidlist;
+                }
             }
         }
         for (const key in obj)
@@ -37,6 +55,24 @@ export class NeoaucionData
                 element.auctionState = 2;
                 element.maxBuyer = null;
                 element.maxPrice = '0';
+                let bidlist = tools.localstoretool.getTable("bidInfo-" + element.domain)
+                if (bidlist)
+                {
+                    let bidSession = new tools.localstoretool("bidInfo-" + element.domain);
+                    for (const key in bidlist)
+                    {
+                        if (bidlist.hasOwnProperty(key))
+                        {
+                            const element = bidlist[ key ];
+                            let res = await tools.wwwtool.getrawtransaction(key);
+                            if (res)
+                            {
+                                bidSession.delete(key);
+                            }
+                        }
+                    }
+                    element.bidListSession = bidlist;
+                }
                 arr.push(element)
             }
         }

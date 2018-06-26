@@ -51,7 +51,7 @@ export default class NNSSell
      * 注册器充值
      * @param amount 充值金额
      */
-    static async rechargeReg(amount: string)
+    static rechargeReg(amount: string)
     {
 
         var v = 1;
@@ -89,7 +89,7 @@ export default class NNSSell
         sb.EmitPushString("setmoneyin");
         sb.EmitAppCall(tools.nnstool.root_neo.register);
         let script = sb.ToArray();
-        let res = await tools.contract.contractInvokeTrans_attributes(script)
+        let res = tools.contract.buildInvokeTransData_attributes(script);
         // console.log(res);
         return res;
     }
@@ -217,6 +217,24 @@ export default class NNSSell
     }
 
 
+    static async getBalanceOf()
+    {
+        let addr = LoginInfo.getCurrentAddress();
+        let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+        let info = await tools.contract.contractInvokeScript(
+            tools.nnstool.root_neo.register, "balanceOf", "(hex160)" + who.toString()
+        );
+
+        var stackarr = info[ "stack" ] as any[];
+        let stack = ResultItem.FromJson(DataType.Array, stackarr);
+        let num = stack.subItem[ 0 ].AsInteger();
+        let res = parseFloat(num.toString()) / 100000000;
+        // let res = num.divide(100000000).toString();
+        // new Neo.Fixed8(num)
+        // let number = (Neo.Fixed8.parse(num.toString()).getData().toNumber()) / 100000000;
+        // console.log(res);
+        return res.toFixed(8);
+    }
 
     /**
      * 取回存储器下的sgas

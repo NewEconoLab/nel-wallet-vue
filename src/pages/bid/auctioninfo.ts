@@ -163,8 +163,8 @@ export default class AuctionInfo extends Vue
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (!!res)
         {
-            let res = await tools.nnssell.addprice(this.item.domain, Neo.Fixed8.parse(this.bidPrice).getData().toNumber());
-            let txid = res.info;
+            // let res = await tools.nnssell.addprice(this.item.domain, Neo.Fixed8.parse(this.bidPrice).getData().toNumber());
+            // let txid = res.info;
             this.bid_confirm(txid);
             return;
         }

@@ -29,6 +29,7 @@ export default class NeoAuction extends Vue
     isWithdraw: boolean;//退款
     isTopUp: boolean;//充值
     isshowToast: boolean;//是否显示toast
+    regBalance: string;
 
     constructor()
     {
@@ -46,11 +47,13 @@ export default class NeoAuction extends Vue
         this.isWithdraw = false;
         this.isTopUp = false;
         this.isshowToast = false;
+        this.regBalance = '0';
     }
 
     async mounted()
     {
         await tools.nnstool.initRootDomain("neo");
+        this.regBalance = await tools.nnssell.getBalanceOf();
     }
 
     async getBidList(address)
@@ -93,9 +96,14 @@ export default class NeoAuction extends Vue
 
     async bidDomain()
     {
-        let res = await tools.nnssell.rechargeReg(this.alert_myBid);
-        this.recharg_confirm(res.info);
-        NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
+        // let data1 = tools.nnssell.rechargeReg(this.alert_myBid);
+        let res = await tools.nnssell.addprice(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber());
+        // let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
+        if (!res.err)
+        {
+            NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
+            // this.recharg_confirm(res[ "txid" ], this.auctionMsg_alert.domain);
+        }
     }
 
     async openAuction()
@@ -131,24 +139,41 @@ export default class NeoAuction extends Vue
         }
     }
 
-    async recharg_confirm(txid: string)
-    {
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
-        {
-            console.log(res);
+    // async recharg_confirm(txid: string, domain: string)
+    // {
+    //     /**
+    //      * code:
+    //      * 0000:成功
+    //      * 3001:失败
+    //      * 3002:中断
+    //      * 3003:等待
+    //      * 3004:Not find data
+    //      */
+    //     let res = await tools.wwwtool.getrechargeandtransfer(txid);
+    //     let bidsession = new tools.localstoretool("bidInfo-" + domain);
+    //     switch (res[ 'errCode' ])
+    //     {
+    //         case "0000":
+    //             bidsession.delete(txid);
+    //             break;
+    //         case "3001":
 
-            tools.nnssell.addprice(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber());
-            return;
-        }
-        else
-        {
-            setTimeout(() =>
-            {
-                this.recharg_confirm(txid);
-            }, 5000)
-        }
-    }
+    //             break;
+    //         case "3002":
+
+    //             break;
+    //         case "3003":
+
+    //             setTimeout(() =>
+    //             {
+    //                 this.recharg_confirm(txid, domain);
+    //             }, 5000);
+
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
 
     async queryDomainState()
     {

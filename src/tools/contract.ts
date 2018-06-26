@@ -41,6 +41,35 @@ export default class Contract
         return sb.ToArray();
     }
 
+    static buildInvokeTransData_attributes(script: Uint8Array): Uint8Array
+    {
+        // let script = this.buildScript(appCall, method, param);
+        let current: LoginInfo = LoginInfo.getCurrentLogin();
+        var addr = current.address;
+        var tran: ThinNeo.Transaction = new ThinNeo.Transaction();
+        //合约类型
+        tran.inputs = [];
+        tran.outputs = [];
+        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+        tran.extdata = new ThinNeo.InvokeTransData();
+        //塞入脚本
+        (tran.extdata as ThinNeo.InvokeTransData).script = script;
+        tran.attributes = new Array<ThinNeo.Attribute>(1);
+        tran.attributes[ 0 ] = new ThinNeo.Attribute();
+        tran.attributes[ 0 ].usage = ThinNeo.TransactionAttributeUsage.Script;
+        tran.attributes[ 0 ].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
+
+        if (tran.witnesses == null)
+            tran.witnesses = [];
+        var msg = tran.GetMessage().clone();
+        var pubkey = current.pubkey.clone();
+        var prekey = current.prikey.clone();
+        var signdata = ThinNeo.Helper.Sign(msg, prekey);
+        tran.AddWitness(signdata, pubkey, addr);
+        var data: Uint8Array = tran.GetRawData();
+        return data
+    }
+
     static async contractInvokeScript(appCall: Neo.Uint160, method: string, ...param: string[])
     {
         let data = this.buildScript(appCall, method, param);

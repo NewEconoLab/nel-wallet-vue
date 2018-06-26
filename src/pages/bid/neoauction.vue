@@ -15,7 +15,7 @@
             <div class="form-box pall">
               <div class="msg-list">
                 <div class="sgas-count">
-                  <span>SGas</span><span class="num"> 0</span>
+                  <span>SGas</span><span class="num"> {{regBalance}}</span>
                 </div>
               </div>
               <div class="btn-right">
@@ -81,6 +81,9 @@
                     </div>
                     <div class="msg-time">
                         Bid start time : <span>{{item.startAuctionTime}}</span>
+                    </div>
+                    <div v-if="item.bidListSession" v-for="(value,key) in item.bidListSession" :key="key">
+                      {{value}}
                     </div>
                 </div>
                 <div class="btn-right">

@@ -290,4 +290,27 @@ export class WWW
         return r;
     }
 
+    /**
+     * 两笔交易提交给服务器发送
+     * @param data1 第一笔交易数据
+     * @param data2 第二笔交易数据
+     */
+    static async rechargeandtransfer(data1: Uint8Array, data2: Uint8Array)
+    {
+        var postdata = WWW.makeRpcPostBody("rechargeandtransfer", data1.toHexString(), data2.toHexString());
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ][ 0 ];
+        return r;
+    }
+
+    static async getrechargeandtransfer(txid: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getrechargeandtransfer", txid);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ][ 0 ];
+        return r;
+    }
+
 }
