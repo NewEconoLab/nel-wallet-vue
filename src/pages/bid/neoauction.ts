@@ -3,6 +3,7 @@ import { Component, Prop } from "vue-property-decorator";
 import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
 import AuctionInfo from "./auctioninfo.vue";
+import Toast from "../../components/toast.vue";
 import { tools } from "../../tools/importpack";
 import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
@@ -10,7 +11,8 @@ import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
     components: {
         "v-alert": Valert,
         "spinner-wrap": Spinner,
-        "auction-info": AuctionInfo
+        "auction-info": AuctionInfo,
+        "v-toast": Toast
     }
 })
 export default class NeoAuction extends Vue
@@ -26,6 +28,8 @@ export default class NeoAuction extends Vue
     btn_start: number;
     isWithdraw: boolean;//退款
     isTopUp: boolean;//充值
+    isshowToast: boolean;//是否显示toast
+
     constructor()
     {
         super();
@@ -41,6 +45,7 @@ export default class NeoAuction extends Vue
         this.getBidList(this.address);
         this.isWithdraw = false;
         this.isTopUp = false;
+        this.isshowToast = false;
     }
 
     async mounted()

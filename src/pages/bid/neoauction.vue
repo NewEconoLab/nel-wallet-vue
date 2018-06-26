@@ -155,6 +155,7 @@
               <div class="input-box">
                 <input type="text" placeholder="Amount">
                 <button class="btn btn-nel btn-big">Confirm</button>
+                <spinner-wrap style="margin-left:20px"></spinner-wrap>
               </div>
               <div class="status-ended err-msg">
                 Only 2000 SGas is available.
@@ -168,6 +169,36 @@
             </div>
           </div>
         </div>
+        <div class="withdraw-wrap" v-if="isWithdraw">
+          <div class="withdraw-box">
+            <div class="withdraw-title">
+              <span>Withdraw</span>
+            </div>
+            <div class="line-wrap">
+              <div class="line-msg">To :</div>
+              <div class="line-box">
+                <input type="text" value="Your Balance" class="readonly-input" disabled>
+              </div>
+            </div>
+            <div class="line-wrap">
+              <div class="line-msg">Amount:</div>
+              <div class="line-box">
+                <input type="text" placeholder="Amount">
+                <button class="btn btn-nel btn-big">Confirm</button>
+                <spinner-wrap style="margin-left:20px"></spinner-wrap>
+              </div>
+              <div class="status-ended err-msg">
+                2000 SGas is available.
+              </div>
+            </div>
+            <div class="withdraw-close" @click="isWithdraw=!isWithdraw">
+              <span aria-hidden="true" >&times;</span>
+            </div>
+          </div>
+        </div>
+        <!-- <v-toast type="error" msg="Top up failed ! And your 100 GAS has been exchanged into 100 SGAS !"></v-toast> -->
+        <v-toast type="success" msg="Successesfully toped up !" :isshow="isshowToast"></v-toast>
+        <!-- <v-toast type="error" msg="Operation failed !"></v-toast> -->
     </div>
 </template>
 <script lang="ts" src="./neoauction.ts">
@@ -516,6 +547,77 @@
         width: 87%;
       }
       .topup-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+      }
+    }
+  }
+  .withdraw-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    z-index: 1030;
+    .withdraw-box {
+      background: #454f60;
+      padding: 30px 50px 50px 50px;
+      width: 80%;
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -moz-transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 5px;
+      font-size: 16px;
+      .withdraw-title {
+        font-size: 20px;
+        color: #ffffff;
+      }
+      .line-wrap {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        .line-msg {
+          margin-bottom: 20px;
+        }
+        .line-box {
+          input {
+            width: 70%;
+            height: 56px;
+            background: none;
+            border: 1px solid #b2b2b2;
+            border-radius: 5px;
+            vertical-align: middle;
+            margin-bottom: 0;
+            margin-right: 10px;
+            color: #c5c5c5;
+            &.readonly-input {
+              background: #6d7480;
+            }
+          }
+          button {
+            vertical-align: middle;
+            margin-left: 0;
+            &.btn-disable {
+              background: #77bcf6;
+              opacity: 1;
+            }
+          }
+        }
+        .err-msg {
+          font-size: 12px;
+          margin-top: 10px;
+        }
+      }
+      .withdraw-close {
         position: absolute;
         top: 20px;
         right: 20px;
