@@ -24,6 +24,8 @@ export default class NeoAuction extends Vue
     domainInfo: MyAuction[] = [];
     domain: string;
     btn_start: number;
+    isWithdraw: boolean;//退款
+    isTopUp: boolean;//充值
     constructor()
     {
         super();
@@ -37,7 +39,8 @@ export default class NeoAuction extends Vue
         this.alert_myBid = "";
         this.address = LoginInfo.getCurrentAddress();
         this.getBidList(this.address);
-
+        this.isWithdraw = false;
+        this.isTopUp = false;
     }
 
     async mounted()
