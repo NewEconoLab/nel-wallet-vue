@@ -85,6 +85,11 @@ export class LocalStoreTool
         localStorage.setItem(this.table, JSON.stringify(obj));
     }
 
+    set(obj: {})
+    {
+        localStorage.setItem(this.table, JSON.stringify(obj));
+    }
+
     /**
      * 查找数据
      * @param key 
@@ -124,6 +129,11 @@ export class LocalStoreTool
         {
             item[ key ] = value;
         }
+    }
+
+    getList()
+    {
+        return LocalStoreTool.getTable(this.table);
     }
 
     /**

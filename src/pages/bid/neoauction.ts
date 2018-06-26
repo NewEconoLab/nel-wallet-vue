@@ -5,6 +5,7 @@ import Spinner from "../../components/Spinner.vue";
 import AuctionInfo from "./auctioninfo.vue";
 import { tools } from "../../tools/importpack";
 import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType } from "../../tools/entity";
+import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 @Component({
     components: {
         "v-alert": Valert,
@@ -46,64 +47,7 @@ export default class NeoAuction extends Vue
 
     async getBidList(address)
     {
-        let res = await tools.wwwtool.api_getBidListByAddress(address);
-        let arr = [];
-        let str = tools.storagetool.getStorage("auction-await");
-        arr = !!str ? JSON.parse(str) as Array<MyAuction> : [];
-
-        for (const key in arr)
-        {
-            if (arr.hasOwnProperty(key))
-            {
-                const element = arr[ key ];
-                // var ret1 = list.find((value, index, arr) =>
-                // {
-                //     return value.domain == element.domain;
-                // })
-                // if (ret1)
-                // {
-                // }
-                let domain = element[ "domain" ];
-                let state = await tools.nnssell.getSellingStateByDomain(domain);
-                if (state.startBlockSelling.toInt32())
-                {
-                    let time = await tools.wwwtool.api_getBlockInfo(state.startBlockSelling.toInt32());
-                    arr[ key ].startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
-                    arr[ key ].maxBuyer = state.maxBuyer ? ThinNeo.Helper.GetAddressFromScriptHash(state.maxBuyer) : null;
-                    arr[ key ].maxPrice = state.maxPrice.toString();
-                    arr[ key ].owner = state.owner ? state.owner.toString() : null;
-                    let startTime = await tools.wwwtool.api_getBlockInfo(state.startBlockSelling.toInt32());
-                    arr[ key ].auctionState = tools.nnssell.compareTime(startTime * 1000);
-
-                    arr[ key ].auctionState = tools.nnssell.compareTime(arr[ key ].startAuctionTime * 1000);
-                    if (arr[ key ].auctionState == 0)
-                    {
-                        arr[ key ][ "endedState" ] = arr[ key ].maxBuyer == this.address ? 1 : 2;
-                    }
-                    // arr[ key ].auctionState = status == 0 ? "Ended" : status == 1 ? "Fixed period" : "Random period";
-                    // let sellstate = (state.startBlockSelling.compareTo(Neo.BigInteger.Zero));
-                    // let endstate = state.endBlock.compareTo(Neo.BigInteger.Zero);
-
-                }
-                // arr[key].auctionState = 
-            }
-        }
-        if (res)
-        {
-            let list = res[ 0 ][ "list" ] as Array<MyAuction>;
-            for (let i in list)
-            {
-                list[ i ].auctionState = tools.nnssell.compareTime(list[ i ].startAuctionTime * 1000);
-                list[ i ].startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(list[ i ].startAuctionTime * 1000));
-                if (list[ i ].auctionState == 0)
-                {
-                    list[ i ][ "endedState" ] = list[ i ].maxBuyer == this.address ? 1 : 2;
-                }
-                // list[ i ].auctionState = status == 0 ? "Ended" : status == 1 ? "Fixed period" : "Random period";
-            }
-            this.myAuctionList = arr.concat(list);
-
-        }
+        this.myAuctionList = await NeoaucionData.getBidList(address);
     }
 
     onGoBidInfo(item)
@@ -151,13 +95,11 @@ export default class NeoAuction extends Vue
         let res = await tools.nnssell.wantbuy(this.domain);
         let auction = new MyAuction();
         auction.domain = this.domain + ".neo";
-
         auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
         auction.auctionState = 3;
         auction.maxPrice = "0";
         this.myAuctionList.unshift(auction);
-        console.log(JSON.stringify(auction));
-        tools.storagetool.storageArrayPush("auction-await", auction);
+        NeoaucionData.setOpenSession(auction);
         await this.openAuction_confirm(res[ "info" ]);
         // this.auctionShow = !this.auctionShow;
     }
