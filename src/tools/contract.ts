@@ -70,6 +70,40 @@ export default class Contract
         return data
     }
 
+    /**
+     * invokeTrans 调用合约，允许转账
+     * @param param[0]:script
+     * @param param[1]:address
+     * @param param[2]:assetid
+     * @param param[3]:count
+     */
+    static async buildInvokeTransData(...param: any[])
+    {
+        let current = LoginInfo.getCurrentLogin();
+        let script = param[ 0 ];
+        let have: boolean = param.length > 1;
+        //地址，资产id，交易数量。如果有指则用传值没有值则用默认值
+        let addr = have ? param[ 1 ] : current.address;
+        let assetid = have ? param[ 2 ] : tools.coinTool.id_GAS;
+        let count = have ? param[ 3 ] : Neo.Fixed8.Zero;
+        //获得utxo,构造交易
+        var utxos = await tools.coinTool.getassets();
+        let tranmsg = tools.coinTool.makeTran(utxos, addr, assetid, count);
+        let tran: ThinNeo.Transaction = tranmsg.info[ 'tran' ];
+        //Parameter inversion 
+        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+        tran.extdata = new ThinNeo.InvokeTransData();
+        //塞入脚本
+        (tran.extdata as ThinNeo.InvokeTransData).script = script;
+        (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(1.0);
+
+        var msg = tran.GetMessage();
+        var signdata = ThinNeo.Helper.Sign(msg, current.prikey);
+        tran.AddWitness(signdata, current.pubkey, current.address);
+        var data = tran.GetRawData();
+        return { data, tranmsg };
+    }
+
     static async contractInvokeScript(appCall: Neo.Uint160, method: string, ...param: string[])
     {
         let data = this.buildScript(appCall, method, param);

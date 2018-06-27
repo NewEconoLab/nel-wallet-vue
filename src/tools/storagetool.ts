@@ -85,6 +85,11 @@ export class LocalStoreTool
         localStorage.setItem(this.table, JSON.stringify(obj));
     }
 
+    push(key, value)
+    {
+
+    }
+
     set(obj: {})
     {
         localStorage.setItem(this.table, JSON.stringify(obj));

@@ -133,32 +133,17 @@
             </div>
             <div class="asset-wrap">
               <div class="asset-name">Asset :</div>
-              <div class="asset-select-box">
-                <div type="button" class="btn dropdown-toggle select-nel" id="assets" data-toggle="dropdown">
-                    <div class="select-title">Gas</div>
-                    <div class="select-caret">
-                        <span class="caret"></span>
-                    </div>
-                </div>
-                <ul class="dropdown-menu dropdown-nel" role="menu" aria-labelledby="assets">
-                    <li role="presentation" class="active">
-                        <a role="menuitem" tabindex="-1" >Gas</a>
-                    </li>
-                    <li role="presentation" >
-                        <a role="menuitem" tabindex="-1" >SGas</a>
-                    </li>
-                </ul>
-              </div>
+              <v-selected :list="selectList" @selected="onSelect"></v-selected>
               <div class="asset-available">
-                  <span>2000 Gas is available.</span>
+                  <span>{{alert_available}} is available.</span>
               </div>
             </div>
             <div class="amount-wrap">
               <div class="amount-msg">Amount:</div>
               <div class="input-box">
-                <input type="text" placeholder="Amount">
-                <button class="btn btn-nel btn-big">Confirm</button>
-                <spinner-wrap style="margin-left:20px"></spinner-wrap>
+                <input type="number" placeholder="Amount" v-model="alert_input" @input="verifToupAmount">
+                <button v-if="!alert_toup_wait" class="btn btn-nel btn-big" @click="gasToRecharge">Confirm</button>
+                <spinner-wrap v-if="alert_toup_wait" style="margin-left:20px"></spinner-wrap>
               </div>
               <div class="status-ended err-msg">
                 Only 2000 SGas is available.
@@ -456,57 +441,8 @@
       .asset-wrap {
         margin-top: 20px;
         .asset-name,
-        .asset-select-box,
         .asset-available {
           display: inline-block;
-        }
-        .asset-select-box {
-          margin-left: 25px;
-          margin-right: 25px;
-          position: relative;
-          .select-nel {
-            background: #198cee;
-            border-radius: 5px;
-            height: 56px;
-            margin: 0 auto;
-            padding: 0;
-          }
-          .select-disabled {
-            background: #77bcf6;
-            cursor: not-allowed;
-          }
-          .select-title {
-            padding-top: 15px;
-            float: left;
-            width: 110px;
-            font-family: PingFangSC-Medium;
-            font-size: 18px;
-            color: #ffffff;
-            line-height: 16px;
-          }
-          .select-caret {
-            width: 36px;
-            float: right;
-            background: #ffffff;
-            border-radius: 0 5px 5px 0;
-            height: 54px;
-            position: relative;
-            .caret {
-              // background: #198cee;
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              -moz-transform: translate(-50%, -50%);
-              -webkit-transform: translate(-50%, -50%);
-              -ms-transform: translate(-50%, -50%);
-              transform: translate(-50%, -50%);
-              width: 0;
-              height: 0;
-              border-left: 8px solid transparent;
-              border-right: 8px solid transparent;
-              border-top: 8px solid #198cee;
-            }
-          }
         }
       }
       .amount-wrap {

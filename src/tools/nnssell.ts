@@ -1,5 +1,5 @@
 import { tools } from "./importpack";
-import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo } from "./entity";
+import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO } from "./entity";
 export default class NNSSell
 {
     /**
@@ -47,19 +47,37 @@ export default class NNSSell
         }
     }
 
+    static async gasToRecharge(transcount: number)
+    {
+        let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);
+        //获得sgas的合约地址
+        var sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        try
+        {
+            let data1 = await tools.contract.buildInvokeTransData(script, sgasaddr, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
+            let data2 = tools.nnssell.rechargeReg(transcount.toFixed(8));
+            let res = await tools.wwwtool.rechargeandtransfer(data1.data, data2);
+            if (res[ 'errCode' ] == '0000')
+            {
+                var height = await tools.wwwtool.api_getHeight();
+                let txid = res[ 'txid' ];
+                let olds = data1.tranmsg.info[ 'oldarr' ] as OldUTXO[];
+                olds.map(old => old.height = height);
+                OldUTXO.oldutxosPush(olds);
+                return txid;
+            }
+        } catch (error)
+        {
+            throw error;
+        }
+    }
+
     /**
      * 注册器充值
      * @param amount 充值金额
      */
     static rechargeReg(amount: string)
     {
-
-        var v = 1;
-        for (var i = 0; i < 8; i++)
-            v *= 10;
-        var bnum = new Neo.BigInteger(amount.replace(".", ""));
-        var intv = bnum.multiply(v).toString();
-
         let addressto = ThinNeo.Helper.GetAddressFromScriptHash(tools.nnstool.root_neo.register);
         let address = LoginInfo.getCurrentAddress();
 
@@ -73,7 +91,7 @@ export default class NNSSell
         sb.EmitParamJson([
             "(addr)" + address,//from
             "(addr)" + addressto,//to
-            "(int)" + intv//value
+            "(int)" + amount.replace(".", "")//value
         ]);//参数倒序入
         sb.EmitPushString("transfer");//参数倒序入
         sb.EmitAppCall(tools.coinTool.id_SGAS);//nep5脚本
@@ -153,7 +171,6 @@ export default class NNSSell
     }
 
 
-
     /**
      * 结束竞拍
      * @param domain 域名
@@ -216,7 +233,6 @@ export default class NNSSell
         return res;
     }
 
-
     static async getBalanceOf()
     {
         let addr = LoginInfo.getCurrentAddress();
@@ -233,7 +249,7 @@ export default class NNSSell
         // new Neo.Fixed8(num)
         // let number = (Neo.Fixed8.parse(num.toString()).getData().toNumber()) / 100000000;
         // console.log(res);
-        return res.toFixed(8);
+        return res.toString();
     }
 
     /**

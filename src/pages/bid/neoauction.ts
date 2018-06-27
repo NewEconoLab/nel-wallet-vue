@@ -2,6 +2,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
+import Selected from "../../components/Selected.vue";
 import AuctionInfo from "./auctioninfo.vue";
 import Toast from "../../components/toast.vue";
 import { tools } from "../../tools/importpack";
@@ -12,7 +13,8 @@ import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
         "v-alert": Valert,
         "spinner-wrap": Spinner,
         "auction-info": AuctionInfo,
-        "v-toast": Toast
+        "v-toast": Toast,
+        "v-selected": Selected
     }
 })
 export default class NeoAuction extends Vue
@@ -30,6 +32,12 @@ export default class NeoAuction extends Vue
     isTopUp: boolean;//充值
     isshowToast: boolean;//是否显示toast
     regBalance: string;
+    selectList: Object;
+    alert_available: string;
+    assetlist: object;
+    alert_input: string;
+    alert_selection: string;
+    alert_toup_wait: number;
 
     constructor()
     {
@@ -48,12 +56,23 @@ export default class NeoAuction extends Vue
         this.isTopUp = false;
         this.isshowToast = false;
         this.regBalance = '0';
+        let SGas = tools.coinTool.id_SGAS.toString();
+        let Gas = tools.coinTool.id_GAS;
+        this.selectList = {}
+        this.selectList[ Gas ] = "Gas"
+        this.selectList[ SGas ] = "SGas";
+        this.alert_available = "";
+        this.assetlist = {};
+        this.alert_input = "";
+        this.alert_toup_wait = 0;
+
     }
 
     async mounted()
     {
         await tools.nnstool.initRootDomain("neo");
         this.regBalance = await tools.nnssell.getBalanceOf();
+        this.assetlist = await NeoaucionData.getAssetBalance();
     }
 
     async getBidList(address)
@@ -70,6 +89,23 @@ export default class NeoAuction extends Vue
     onBack()
     {
         this.auctionPage = false;
+    }
+
+    async onSelect(key)
+    {
+        let str = (key == tools.coinTool.id_GAS ? this.assetlist[ key ] + " Gas" : this.assetlist[ key ] + " SGas");
+        this.alert_available = str;
+        this.alert_selection = key
+    }
+
+    verifToupAmount()
+    {
+        let amount = Neo.Fixed8.parse(this.alert_input);
+        let balance = Neo.Fixed8.parse(this.assetlist[ this.alert_selection ] + "");
+        if (balance.compareTo(amount) < 0)
+        {
+            this.alert_input = balance.toString();
+        }
     }
 
     async addBid()
@@ -139,6 +175,72 @@ export default class NeoAuction extends Vue
         }
     }
 
+    async queryDomainState()
+    {
+        let state: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        let sellstate = (state.startBlockSelling.compareTo(Neo.BigInteger.Zero));
+        let endstate = state.endBlock.compareTo(Neo.BigInteger.Zero);
+        let startBlock = state.startBlockSelling.toString()
+        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(startBlock));
+        let currentTime = new Date().getTime();
+        let num = currentTime - startTime * 1000;
+        sellstate ? (endstate ? this.btn_start = 3 : (num > 1500000 ? this.btn_start = 3 : this.btn_start = 2)) : this.btn_start = 1;
+
+    }
+
+    async gasToRecharge()
+    {
+        let session_gas = new tools.localstoretool("recharge-gas");
+        let session_sgas = new tools.localstoretool("recharge-sas");
+        if (this.alert_selection == tools.coinTool.id_GAS)
+        {
+            let txid = await tools.nnssell.gasToRecharge(parseFloat(this.alert_input));
+            let amount = this.alert_input;
+            session_gas.put('gas', { txid, amount });
+            this.confirmRecharge(txid);
+        } else
+        {
+            let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_input).toFixed(8));
+            let res = await tools.wwwtool.api_postRawTransaction(data);
+            let txid = res[ "txid" ];
+            this.confirmRecharge_sgas(txid)
+        }
+    }
+
+
+    async confirmRecharge(txid: string)
+    {
+        let res = await tools.wwwtool.getrechargeandtransfer(txid);
+        if (res[ 'errCode' ] == '3003')
+        {
+            setTimeout(() =>
+            {
+                this.confirmRecharge(txid);
+            }, 50000)
+        } else
+        {
+
+        }
+        console.log(res);
+    }
+
+    async confirmRecharge_sgas(txid: string)
+    {
+        let res = await tools.wwwtool.getrawtransaction(txid);
+        if (res)
+        {
+
+        } else
+        {
+            setTimeout(() =>
+            {
+                this.confirmRecharge(txid);
+            }, 5000)
+        }
+        console.log(res);
+    }
+
+
     // async recharg_confirm(txid: string, domain: string)
     // {
     //     /**
@@ -174,18 +276,4 @@ export default class NeoAuction extends Vue
     //             break;
     //     }
     // }
-
-    async queryDomainState()
-    {
-        let state: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
-        let sellstate = (state.startBlockSelling.compareTo(Neo.BigInteger.Zero));
-        let endstate = state.endBlock.compareTo(Neo.BigInteger.Zero);
-        let startBlock = state.startBlockSelling.toString()
-        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(startBlock));
-        let currentTime = new Date().getTime();
-        let num = currentTime - startTime * 1000;
-        sellstate ? (endstate ? this.btn_start = 3 : (num > 1500000 ? this.btn_start = 3 : this.btn_start = 2)) : this.btn_start = 1;
-
-    }
-
 }

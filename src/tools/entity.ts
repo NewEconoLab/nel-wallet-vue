@@ -707,3 +707,4 @@ export class PageUtil
     }
 }
 
+export class NeoAuction_ToUp { }
