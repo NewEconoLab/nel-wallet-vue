@@ -26,8 +26,10 @@ export default class AuctionInfo extends Vue
         super();
         this.address = tools.storagetool.getStorage("current-address");
         // this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
-        this.myBidPrice = this.item.mybidprice;
-        this.updatePrice = this.myBidPrice;
+        // this.myBidPrice = this.item.mybidprice;
+        // this.updatePrice = this.myBidPrice;
+        this.myBidPrice = "";
+        this.updatePrice = "";
         console.log(this.item);
         this.bidDetailList = [];
         this.currentpage = 1;
@@ -35,6 +37,17 @@ export default class AuctionInfo extends Vue
         this.state_getDomain = 0;
         this.btnShowmore = true;
         this.getBidDetail(this.item.domain, this.currentpage, this.pagesize)
+    }
+
+    async mounted()
+    {
+        let info = await tools.nnssell.getSellingStateByDomain(this.item.domain);
+        console.log(ThinNeo.Helper.GetAddressFromScriptHash(info.owner));
+        if (info.owner.toString() == this.address)
+        {
+            alert("以领取")
+        }
+
     }
     myBidInput($event)
     {
@@ -51,7 +64,9 @@ export default class AuctionInfo extends Vue
             console.log(bidPrice + "+" + Neo.Fixed8.parse(price + ""))
             console.log(this.updatePrice)
         }
+
     }
+
     checkInput(price)
     {
         let reg = /^[0-9]+(.[0-9]{1})?$/;

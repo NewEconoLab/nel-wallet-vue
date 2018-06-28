@@ -185,7 +185,7 @@
           </div>
         </div>
         <!-- <v-toast type="error" msg="Top up failed ! And your 100 GAS has been exchanged into 100 SGAS !"></v-toast> -->
-        <v-toast type="success" msg="Successesfully toped up !" :isshow="isshowToast"></v-toast>
+        <v-toast ref="toast" ></v-toast>
         <!-- <v-toast type="error" msg="Operation failed !"></v-toast> -->
     </div>
 </template>

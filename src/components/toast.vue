@@ -9,13 +9,31 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component
 export default class Toast extends Vue {
-  @Prop() msg: string;
-  @Prop() type: string;
-  @Prop() isshow: boolean;
+  msg: string = "";
+  type: string = "";
+  isshow: boolean = false;
+
+  /**
+   * @method 显示弹框
+   * @param type 类型('success','error','')空则不显示
+   * @param msg 显示内容
+   * @param time 停留时间(单位:毫秒)5秒=5000
+   */
+  @Watch("opneToast")
+  isShow(type: string, msg: string, time: number) {
+    this.isshow = true;
+    this.type = type;
+    this.msg = msg;
+    setTimeout(() => {
+      this.isshow = false;
+      this.type = "";
+      this.msg = "";
+    }, time);
+  }
 }
 </script>
 

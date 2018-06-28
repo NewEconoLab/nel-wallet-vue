@@ -139,8 +139,14 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("sendrawtransaction", data.toHexString());
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ] as boolean;
-        return r;
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ] as boolean;
+            return r;
+        } else
+        {
+            throw json[ 'error' ];
+        }
     }
 
     static async api_getclaimgas(address: string, type: number)

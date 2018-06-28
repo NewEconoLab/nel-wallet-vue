@@ -38,6 +38,7 @@ export default class NeoAuction extends Vue
     alert_input: string;
     alert_selection: string;
     alert_toup_wait: number;
+    openToast: Function;
 
     constructor()
     {
@@ -54,7 +55,6 @@ export default class NeoAuction extends Vue
         this.getBidList(this.address);
         this.isWithdraw = false;
         this.isTopUp = false;
-        this.isshowToast = false;
         this.regBalance = '0';
         let SGas = tools.coinTool.id_SGAS.toString();
         let Gas = tools.coinTool.id_GAS;
@@ -73,6 +73,7 @@ export default class NeoAuction extends Vue
         await tools.nnstool.initRootDomain("neo");
         this.regBalance = await tools.nnssell.getBalanceOf();
         this.assetlist = await NeoaucionData.getAssetBalance();
+        this.openToast = this.$refs.toast[ "isShow" ];
     }
 
     async getBidList(address)
@@ -154,6 +155,7 @@ export default class NeoAuction extends Vue
         this.myAuctionList.unshift(auction);
         NeoaucionData.setOpenSession(auction);
         await this.openAuction_confirm(res[ "info" ]);
+        this.openToast("success", "开标成功请等待", 5000);
         // this.auctionShow = !this.auctionShow;
     }
 
@@ -192,18 +194,32 @@ export default class NeoAuction extends Vue
     {
         let session_gas = new tools.localstoretool("recharge-gas");
         let session_sgas = new tools.localstoretool("recharge-sas");
+        let amount = this.alert_input;
         if (this.alert_selection == tools.coinTool.id_GAS)
         {
             let txid = await tools.nnssell.gasToRecharge(parseFloat(this.alert_input));
-            let amount = this.alert_input;
-            session_gas.put('gas', { txid, amount });
+            session_gas.put(txid, amount);
             this.confirmRecharge(txid);
+            if (txid)
+            {
+            }
+            this.openToast("success", "Successesfully toped up ! 100 SGas will be in your auction account after 2 blocks are confirmed !", 4000);
+            this.isTopUp = false;
         } else
         {
-            let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_input).toFixed(8));
-            let res = await tools.wwwtool.api_postRawTransaction(data);
-            let txid = res[ "txid" ];
-            this.confirmRecharge_sgas(txid)
+            try
+            {
+                let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_input).toFixed(8));
+                let res = await tools.wwwtool.api_postRawTransaction(data);
+                let txid = res[ "txid" ];
+                session_sgas.put(txid, amount);
+                this.confirmRecharge_sgas(txid)
+                this.openToast("success", "Successesfully toped up ! 100 SGas will be in your auction account after a block is confirmed !", 4000);
+                this.isTopUp = false;
+            } catch (error)
+            {
+                this.openToast("error", "Successesfully toped up ! 100 SGas will be in your auction account after a block is confirmed !", 4000);
+            }
         }
     }
 

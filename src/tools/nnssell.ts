@@ -1,5 +1,5 @@
 import { tools } from "./importpack";
-import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO } from "./entity";
+import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts } from "./entity";
 export default class NNSSell
 {
     /**
@@ -13,7 +13,7 @@ export default class NNSSell
         var nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(domainarr);
         let data = tools.contract.buildScript(tools.nnstool.root_neo.register, "getSellingStateByFullhash", [ "(hex256)" + nnshash.toString() ]);
         let result = await tools.wwwtool.rpc_getInvokescript(data);
-        let domainInfo: DomainInfo = await tools.nnstool.getOwnerInfo(nnshash, tools.nnstool.root_neo.register);
+        let domainInfo: DomainInfo = await tools.nnstool.getOwnerInfo(nnshash, Consts.baseContract);
         let info = new SellDomainInfo();
         info.copyDomainInfoToThis(domainInfo);
         try
