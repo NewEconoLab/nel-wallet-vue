@@ -38,6 +38,7 @@ export default class NeoAuction extends Vue
     alert_input: string;
     alert_selection: string;
     alert_toup_wait: number;
+    alert_withdraw_input: string;
     openToast: Function;
 
     constructor()
@@ -65,6 +66,7 @@ export default class NeoAuction extends Vue
         this.assetlist = {};
         this.alert_input = "";
         this.alert_toup_wait = 0;
+        this.alert_withdraw_input = null;
 
     }
 
@@ -99,6 +101,37 @@ export default class NeoAuction extends Vue
         this.alert_selection = key
     }
 
+    /**
+     * 退回sgas
+     */
+    withdraw()
+    {
+        let amount = parseFloat(this.alert_withdraw_input);
+        let res = tools.nnssell.getMoneyBack(amount);
+        this.openToast("success", "退款成功", 3000);
+        console.log(res);
+
+    }
+
+    async withdrawConfirm(txid: string)
+    {
+        let res = await tools.wwwtool.getrawtransaction(txid);
+        if (!!res)
+        {
+            return;
+        }
+        else
+        {
+            setTimeout(() =>
+            {
+                this.openAuction_confirm(txid);
+            }, 5000)
+        }
+    }
+
+    /**
+     * 验证充值金额
+     */
     verifToupAmount()
     {
         let amount = Neo.Fixed8.parse(this.alert_input);
@@ -131,6 +164,9 @@ export default class NeoAuction extends Vue
         this.auctionShow = !this.auctionShow;
     }
 
+    /**
+     * 加价
+     */
     async bidDomain()
     {
         // let data1 = tools.nnssell.rechargeReg(this.alert_myBid);
@@ -143,6 +179,9 @@ export default class NeoAuction extends Vue
         }
     }
 
+    /**
+     * 开标
+     */
     async openAuction()
     {
         this.btn_start = 0;
@@ -159,6 +198,10 @@ export default class NeoAuction extends Vue
         // this.auctionShow = !this.auctionShow;
     }
 
+    /**
+     * 开标
+     * @param txid 交易id
+     */
     async openAuction_confirm(txid: string)
     {
         let res = await tools.wwwtool.getrawtransaction(txid);
@@ -177,6 +220,9 @@ export default class NeoAuction extends Vue
         }
     }
 
+    /**
+     * 查询域名状态
+     */
     async queryDomainState()
     {
         let state: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
@@ -190,6 +236,9 @@ export default class NeoAuction extends Vue
 
     }
 
+    /**
+     * gas->sgas->充值注册器
+     */
     async gasToRecharge()
     {
         let session_gas = new tools.localstoretool("recharge-gas");
@@ -223,7 +272,10 @@ export default class NeoAuction extends Vue
         }
     }
 
-
+    /**
+     * 等待交易确认
+     * @param txid 交易id
+     */
     async confirmRecharge(txid: string)
     {
         let res = await tools.wwwtool.getrechargeandtransfer(txid);
@@ -232,7 +284,7 @@ export default class NeoAuction extends Vue
             setTimeout(() =>
             {
                 this.confirmRecharge(txid);
-            }, 50000)
+            }, 5000)
         } else
         {
 
@@ -256,40 +308,4 @@ export default class NeoAuction extends Vue
         console.log(res);
     }
 
-
-    // async recharg_confirm(txid: string, domain: string)
-    // {
-    //     /**
-    //      * code:
-    //      * 0000:成功
-    //      * 3001:失败
-    //      * 3002:中断
-    //      * 3003:等待
-    //      * 3004:Not find data
-    //      */
-    //     let res = await tools.wwwtool.getrechargeandtransfer(txid);
-    //     let bidsession = new tools.localstoretool("bidInfo-" + domain);
-    //     switch (res[ 'errCode' ])
-    //     {
-    //         case "0000":
-    //             bidsession.delete(txid);
-    //             break;
-    //         case "3001":
-
-    //             break;
-    //         case "3002":
-
-    //             break;
-    //         case "3003":
-
-    //             setTimeout(() =>
-    //             {
-    //                 this.recharg_confirm(txid, domain);
-    //             }, 5000);
-
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
 }

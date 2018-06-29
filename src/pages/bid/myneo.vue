@@ -23,10 +23,10 @@
                 <div class="edit-input">
                     <div class="input-msg">
                         {{$t('myneoname.resolver')}} :
-                        <button class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
+                        <button v-if="!!domainInfo.resolver" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
                     </div>
                     <div class="input-box">
-                        <input type="text" class="readonly-input" readonly="readonly" :value="domainInfo.resolver">
+                        <input type="text" class="readonly-input" readonly="readonly" :value="set_contract">
                         <button class="btn btn-nel btn-big" @click="setresolve">{{$t('btn.confirm')}}</button>
                         <div class="ok-img">
                             <img src="../../../static/img/correct.svg" alt="">
@@ -36,7 +36,7 @@
                 <div class="edit-input">
                     <div class="input-msg">
                         {{$t('myneoname.mapping')}} :
-                        <button class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
+                        <button v-if="!!domainInfo.resolverAddress" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
                     </div>
                     <div class="input-box">
                         <input type="text" :value="domainInfo.resolverAddress">

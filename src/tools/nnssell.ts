@@ -255,9 +255,17 @@ export default class NNSSell
     /**
      * 取回存储器下的sgas
      */
-    getMoneyBack()
+    static async getMoneyBack(amount: number)
     {
-
+        let addr = LoginInfo.getCurrentAddress()
+        let transcount = amount.toFixed(8).replace(".", "");
+        let data = tools.contract.buildScript_random(
+            tools.nnstool.root_neo.register,
+            "getmoneyback",
+            [ "(addr)" + addr, "(int)" + transcount ]
+        )
+        let res = await tools.contract.contractInvokeTrans_attributes(data)
+        return res;
     }
 
 }
