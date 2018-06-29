@@ -42,6 +42,7 @@
               </div> 
           </div>
         </div>
+        <div v-if="item.auctionState>0">
         <div class="title">
             <span>Raise my bid</span>
         </div>
@@ -62,6 +63,7 @@
               <!-- <button class="btn btn-bid btn-disable" disabled="disabled" >Bid</button> -->
               <button class="btn btn-bid " @click="bidDomain" >Bid</button>
             </div>
+        </div>
         </div>
         <div class="title">
             <span>Timeline</span>

@@ -17,15 +17,17 @@ export default class MyNeo extends Vue
     neonameList: any;
     domainInfo: any;
     set_contract: string;
+    resovleAddr: string;
 
     constructor()
     {
         super();
         this.isShowEdit = false;
-        // this.currentAddress = LoginInfo.getCurrentAddress();
-        this.currentAddress = 'AHDV7M54NHukq8f76QQtBTbrCqKJrBH9UF';
+        this.currentAddress = LoginInfo.getCurrentAddress();
+        // this.currentAddress = 'AHDV7M54NHukq8f76QQtBTbrCqKJrBH9UF';
         this.neonameList = null;
         this.set_contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
+        this.resovleAddr = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
     }
     mounted()
     {
@@ -34,15 +36,10 @@ export default class MyNeo extends Vue
     async getAllNeoName(address)
     {
         let res = await tools.wwwtool.getnnsinfo(address, '.neo');
-        console.log(res);
         let arrdomain = res ? res.map(dom => { return dom[ "domain" ] }) : [];
-        console.log("arrdomain");
-        console.log(arrdomain);
         let arr = new Array<Domainmsg>();
         //从缓存取状态数据
         let state = DomainStatus.getStatus() as DomainStatus;
-        console.log("state----------");
-        console.log(state)
         // state = JSON.parse(JSON.stringify(state));
         if (state)
         {

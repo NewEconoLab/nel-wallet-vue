@@ -171,8 +171,8 @@
             <div class="line-wrap">
               <div class="line-msg">Amount:</div>
               <div class="line-box">
-                <input type="text" placeholder="Amount">
-                <button class="btn btn-nel btn-big">Confirm</button>
+                <input type="number" placeholder="Amount" v-model="alert_withdraw_input">
+                <button class="btn btn-nel btn-big" @click="withdraw">Confirm</button>
                 <spinner-wrap style="margin-left:20px"></spinner-wrap>
               </div>
               <div class="status-ended err-msg">
