@@ -19,7 +19,7 @@
                 </div>
               </div>
               <div class="btn-right">
-                    <button class="btn btn-nel btn-big" @click="isWithdraw=!isWithdraw">Withdraw</button>
+                    <button class="btn btn-nel btn-big" @click="openWithdraw">Withdraw</button>
                     <button class="btn btn-nel btn-big" @click="isTopUp=!isTopUp">Top Up</button>
                 </div> 
             </div>
@@ -157,7 +157,7 @@
             </div>
           </div>
         </div>
-        <div class="withdraw-wrap" v-if="isWithdraw">
+        <div class="withdraw-wrap" v-if="alert_withdraw.isShow">
           <div class="withdraw-box">
             <div class="withdraw-title">
               <span>Withdraw</span>
@@ -171,15 +171,15 @@
             <div class="line-wrap">
               <div class="line-msg">Amount:</div>
               <div class="line-box">
-                <input type="number" placeholder="Amount" v-model="alert_withdraw_input">
-                <button class="btn btn-nel btn-big" @click="withdraw">Confirm</button>
-                <spinner-wrap style="margin-left:20px"></spinner-wrap>
+                <input type="number" placeholder="Amount" v-model="alert_withdraw.input">
+                <spinner-wrap v-if="alert_withdraw.watting"></spinner-wrap>
+                <button v-else class="btn btn-nel btn-big" @click="withdraw">Confirm</button>
               </div>
               <div class="status-ended err-msg">
                 2000 SGas is available.
               </div>
             </div>
-            <div class="withdraw-close" @click="isWithdraw=!isWithdraw">
+            <div class="withdraw-close" @click="alert_withdraw.isShow=!alert_withdraw.isShow">
               <span aria-hidden="true" >&times;</span>
             </div>
           </div>

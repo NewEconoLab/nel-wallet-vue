@@ -246,7 +246,6 @@ export class NNSTool
         sb.EmitPushString("owner_SetResolver");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
-        console.log(data.toHexString());
 
         let res = await tools.coinTool.contractInvokeTrans_attributes(data);
         return res;
@@ -270,16 +269,16 @@ export class NNSTool
         sb.EmitParamJson([
             "(hex160)" + hashstr,
             "(hex256)" + nnshash.toString(),
-            "(str)1",
+            "(str)",
             "(str)addr",
             "(str)" + str
         ]);
         sb.EmitPushString("setResolveData");
-        sb.EmitAppCall(scriptaddress);
+        sb.EmitAppCall(scriptaddress.reverse());
         var data = sb.ToArray();
-        // console.log(data.toHexString())
+        console.log(data.toHexString())
         let res = await tools.coinTool.contractInvokeTrans_attributes(data);
-        return;
+        return res;
     }
 
     static async resolveData(domain: string)
@@ -293,7 +292,7 @@ export class NNSTool
         sb.EmitParamJson([
             "(str)addr",
             "(hex256)" + nnshashstr,
-            "(str)1"
+            "(str)" + ""
         ]);
         sb.EmitPushString("resolve");
         sb.EmitAppCall(scriptaddress);

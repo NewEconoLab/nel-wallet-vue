@@ -340,9 +340,14 @@ export class CoinTool
         var data: Uint8Array = tran.GetRawData();
 
         var res: Result = new Result();
+        console.log("---------------------------msg: " + msg + "---------");
+
+        console.log(data.toHexString())
         var result = await tools.wwwtool.api_postRawTransaction(data);
         res.err = !result[ "sendrawtransactionresult" ];
         res.info = result[ "txid" ];
+        console.log(res.info);
+
         return res;
     }
 

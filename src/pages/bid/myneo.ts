@@ -17,7 +17,7 @@ export default class MyNeo extends Vue
     neonameList: any;
     domainInfo: any;
     set_contract: string;
-    resovleAddr: string;
+    resolverAddress: string;
 
     constructor()
     {
@@ -26,8 +26,8 @@ export default class MyNeo extends Vue
         this.currentAddress = LoginInfo.getCurrentAddress();
         // this.currentAddress = 'AHDV7M54NHukq8f76QQtBTbrCqKJrBH9UF';
         this.neonameList = null;
-        this.set_contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
-        this.resovleAddr = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
+        this.set_contract = "cf0d21eaa1803f63704ddb06c373c22d815b7ca2";
+        this.resolverAddress = "";
     }
     mounted()
     {
@@ -40,7 +40,6 @@ export default class MyNeo extends Vue
         let arr = new Array<Domainmsg>();
         //从缓存取状态数据
         let state = DomainStatus.getStatus() as DomainStatus;
-        // state = JSON.parse(JSON.stringify(state));
         if (state)
         {
             for (let key in state)
@@ -54,53 +53,20 @@ export default class MyNeo extends Vue
         }
         for (const i in arrdomain)
         {
-            console.log(arrdomain[ i ]);
             if (arrdomain.hasOwnProperty(i))
             {
                 const n = parseInt(i)
                 const domain = arrdomain[ n ];
                 let a = state[ domain ] ? state[ domain ] as DomainStatus : new DomainStatus();
-                console.log("a-----------")
-                console.log(a);
-                if (a.await_resolver)
+                if (!a.await_resolver)
                 {
-                    //与缓存进行对比
-                    // if (a.resolver == msg.resolver)
-                    // { 
-                    //     a.await_resolver = false;
-                    //     msg.await_resolver = false;
-                    // } else
-                    // {
-                    //     msg.await_resolver = true;
-                    // }
+                    if (!a.await_mapping)
+                    {
+
+                    }
                 }
-                if (a.await_mapping)
-                {
-                    // if (a.mapping == msg.mapping)
-                    // {
-                    //     a.await_mapping = false;
-                    //     msg.await_mapping = false;
-                    // } else
-                    // {
-                    //     msg.await_mapping = true;
-                    // }
-                }
-                // arr.push(msg);
             }
         }
-        // sessionStorage.setItem("domain-status", JSON.stringify(state ? state : {}));
-        // this.domainarr = arr.reverse();
-        // if (this.alert_domain)
-        // {
-        //     arr.map((dom) =>
-        //     {
-        //         if (dom.domainname == this.alert_domain)
-        //         {
-        //             dom.await_resolver ? this.alert_resolver_state = 1 : !!dom.resolver ? this.alert_resolver_state = 2 : this.alert_resolver_state = 0;
-        //             dom.await_mapping ? this.alert_config_state = 1 : (!!dom.mapping ? this.alert_config_state = 2 : this.alert_config_state = 0);
-        //         }
-        //     });
-        // }
         let list = res;
         if (list.length)
         {
@@ -117,6 +83,12 @@ export default class MyNeo extends Vue
                 {
                     list[ i ][ "expiring" ] = false;
                     list[ i ][ "expired" ] = true;
+                }
+                if (list[ i ][ "resolver" ])
+                {
+
+                    let mapping = await tools.nnstool.resolveData(list[ i ][ 'domain' ]);
+                    list[ i ][ "resolverAddress" ] = mapping;
                 }
                 list[ i ][ "ttl" ] = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(res[ i ][ "ttl" ] * 1000));
             }
@@ -145,6 +117,7 @@ export default class MyNeo extends Vue
     {
         this.isShowEdit = !this.isShowEdit;
         this.domainInfo = item;
+        this.resolverAddress = item.resolverAddress;
     }
 
     /**
@@ -155,5 +128,15 @@ export default class MyNeo extends Vue
         let contract = this.set_contract.hexToBytes().reverse();
         let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
         console.log(res);
+    }
+
+    /**
+     * 映射地址
+     */
+    async mappingData()
+    {
+        let res = await tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver);
+        console.log(res);
+
     }
 }
