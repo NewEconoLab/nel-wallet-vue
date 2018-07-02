@@ -707,4 +707,27 @@ export class PageUtil
     }
 }
 
-export class NeoAuction_ToUp { }
+export class NeoAuction_ToUp
+{
+    input: string;
+    watting: boolean;
+    isShow: boolean;
+    constructor()
+    {
+        this.input = "";
+        this.watting = false;
+        this.isShow = false;
+    }
+}
+export class NeoAuction_Withdraw
+{
+    input: string;
+    watting: boolean;
+    isShow: boolean;
+    constructor()
+    {
+        this.input = "";
+        this.watting = false;
+        this.isShow = false;
+    }
+}

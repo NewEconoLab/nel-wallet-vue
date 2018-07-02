@@ -6,8 +6,9 @@ import Selected from "../../components/Selected.vue";
 import AuctionInfo from "./auctioninfo.vue";
 import Toast from "../../components/toast.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType } from "../../tools/entity";
+import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_ToUp } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
+import { LocalStoreTool } from "../../tools/storagetool";
 @Component({
     components: {
         "v-alert": Valert,
@@ -39,6 +40,9 @@ export default class NeoAuction extends Vue
     alert_selection: string;
     alert_toup_wait: number;
     alert_withdraw_input: string;
+    alert_withdraw: NeoAuction_Withdraw;
+    alert_ToUp: NeoAuction_ToUp;
+    sessionWatting: LocalStoreTool
     openToast: Function;
 
     constructor()
@@ -66,7 +70,8 @@ export default class NeoAuction extends Vue
         this.assetlist = {};
         this.alert_input = "";
         this.alert_toup_wait = 0;
-        this.alert_withdraw_input = null;
+        this.alert_withdraw = new NeoAuction_Withdraw();
+        this.sessionWatting = new LocalStoreTool("session_watting");
 
     }
 
@@ -104,12 +109,35 @@ export default class NeoAuction extends Vue
     /**
      * 退回sgas
      */
-    withdraw()
+    async withdraw()
     {
-        let amount = parseFloat(this.alert_withdraw_input);
-        let res = tools.nnssell.getMoneyBack(amount);
-        this.openToast("success", "退款成功", 3000);
-        console.log(res);
+        let amount = parseFloat(this.alert_withdraw.input);
+        this.alert_withdraw.watting = true;
+        let res = await tools.nnssell.getMoneyBack(amount);
+        if (!res.err)
+        {
+            this.sessionWatting.put("withdraw", res.info);
+            this.withdrawConfirm(res.info);
+        }
+    }
+
+    async openWithdraw()
+    {
+        let wat = this.sessionWatting.select("withdraw");
+        this.alert_withdraw.isShow = true;
+        if (wat)
+        {
+            let res = await tools.wwwtool.getrawtransaction(wat);
+            if (!!res)
+            {
+                this.alert_withdraw.watting = false;
+                this.sessionWatting.delete("withdraw");
+            } else
+            {
+                this.alert_withdraw.watting = true;
+                this.withdrawConfirm(wat);
+            }
+        }
 
     }
 
@@ -118,13 +146,16 @@ export default class NeoAuction extends Vue
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (!!res)
         {
+            this.openToast("success", "退款成功", 3000);
+            this.alert_withdraw.watting = false;
+            this.sessionWatting.delete("withdraw");
             return;
         }
         else
         {
             setTimeout(() =>
             {
-                this.openAuction_confirm(txid);
+                this.withdrawConfirm(txid);
             }, 5000)
         }
     }
@@ -242,7 +273,7 @@ export default class NeoAuction extends Vue
     async gasToRecharge()
     {
         let session_gas = new tools.localstoretool("recharge-gas");
-        let session_sgas = new tools.localstoretool("recharge-sas");
+        let session_sgas = new tools.localstoretool("recharge-sgas");
         let amount = this.alert_input;
         if (this.alert_selection == tools.coinTool.id_GAS)
         {
@@ -292,11 +323,16 @@ export default class NeoAuction extends Vue
         console.log(res);
     }
 
+    /**
+     * 等待sgas退币确认
+     * @param txid 交易id
+     */
     async confirmRecharge_sgas(txid: string)
     {
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (res)
         {
+            console.log(res);
 
         } else
         {

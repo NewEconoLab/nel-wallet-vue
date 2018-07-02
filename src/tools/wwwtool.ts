@@ -310,6 +310,10 @@ export class WWW
         return r;
     }
 
+    /**
+     * 查询合约调用状态
+     * @param txid 交易id
+     */
     static async getrechargeandtransfer(txid: string)
     {
         var postdata = WWW.makeRpcPostBody("getrechargeandtransfer", txid);
