@@ -87,7 +87,12 @@ export class LocalStoreTool
 
     push(key, value)
     {
-
+        let item = this.getList();
+        let list = item ? item : {};
+        let arr = (list[ key ] ? list[ key ] : []) as Array<any>;
+        arr.push(value);
+        list[ key ] = arr;
+        localStorage.setItem(this.table, JSON.stringify(list));
     }
 
     set(obj: {})

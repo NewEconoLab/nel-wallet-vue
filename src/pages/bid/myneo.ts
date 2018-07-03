@@ -68,7 +68,7 @@ export default class MyNeo extends Vue
             }
         }
         let list = res;
-        if (list.length)
+        if (list && list.length)
         {
             for (let i in list)
             {

@@ -91,6 +91,10 @@ export default class login extends Vue
     test.put("test3", { id: 33333, value: "weili" });
     console.log(new Date().getTime() + " over------------------------");
     console.log(tools.localstoretool.getTable("test"));
+    test.push("test6", obj[ "test1" ]);
+    test.push("test6", obj[ "test2" ]);
+    test.push("test6", obj[ "test3" ]);
+    test.push("test6", obj[ "test4" ]);
   }
 
   // Lifecycle hook

@@ -525,6 +525,7 @@ export class WalletOtcgo
 }
 export class MyAuction
 {
+    id: string;
     auctionSpentTime: string;
     auctionState: number;
     endedState: number;
@@ -535,7 +536,8 @@ export class MyAuction
     owner: string;
     startAuctionTime: number;
     balanceOfSelling: string;
-    bidListSession: Object
+    bidListSession: Object;
+    receivedState: number;
 }
 export class DataType
 {

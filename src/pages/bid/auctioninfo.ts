@@ -30,7 +30,6 @@ export default class AuctionInfo extends Vue
         // this.updatePrice = this.myBidPrice;
         this.myBidPrice = "";
         this.updatePrice = "";
-        console.log(this.item);
         this.bidDetailList = [];
         this.currentpage = 1;
         this.pagesize = 5;
@@ -42,12 +41,6 @@ export default class AuctionInfo extends Vue
     async mounted()
     {
         let info = await tools.nnssell.getSellingStateByDomain(this.item.domain);
-        console.log(ThinNeo.Helper.GetAddressFromScriptHash(info.owner));
-        if (info.owner.toString() == this.address)
-        {
-            alert("以领取")
-        }
-
     }
     myBidInput($event)
     {
@@ -81,10 +74,19 @@ export default class AuctionInfo extends Vue
     {
         this.state_getDomain = 1;
         let info = await tools.nnssell.getSellingStateByDomain(this.item.domain);
-        if (info.endBlock.compareTo(Neo.BigInteger.Zero) <= 0)
+
+        // let data1 = tools.nnssell.endSelling(info.id.toString());
+        // let data2 = tools.nnssell.getsellingdomain(info.id.toString());
+        // let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
+        // this.rechargConfirm(res[ 'txid' ], 1);
+
+        if (info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
         {
-            let res = await tools.nnssell.endSelling(info.id.toString());
-            this.endSelling_confirm(res.info, 1);
+            let data1 = tools.nnssell.endSelling(info.id.toString());
+            let data2 = tools.nnssell.getsellingdomain(info.id.toString());
+            let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
+            this.rechargConfirm(res[ 'txid' ], 1)
+
         } else
         {
             if (!!info.owner && info.owner.toString() == this.address)
@@ -93,38 +95,44 @@ export default class AuctionInfo extends Vue
                 return;
             } else
             {
-                let res = await tools.nnssell.getsellingdomain(info.id.toString());
-                this.endSelling_confirm(res.info, 2);
+                let data = await tools.nnssell.getsellingdomain(info.id.toString());
+                let res = await tools.wwwtool.api_postRawTransaction(data);
+                this.rechargConfirm(res[ "txid" ], 2);
             }
         }
 
     }
 
 
-    async endSelling_confirm(txid: string, method: number)
+    async rechargConfirm(txid: string, method: number)
     {
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
+        let res = null;
+        switch (method)
         {
-            switch (method)
-            {
-                case 1:
-                    this.getDomain();
-                    break;
-                case 2:
-                    this.state_getDomain = 2;
-                default:
-                    break;
-            }
-            return;
+            case 1:
+                res = await tools.wwwtool.getrechargeandtransfer(txid)
+                if (res[ 'errCode' ] == '3003')
+                {
+                } else
+                {
+                    return;
+                }
+                break;
+            case 2:
+                res = await tools.wwwtool.getrawtransaction(txid);
+                if (!!res)
+                {
+                    return
+                }
+            default:
+                break;
         }
-        else
+
+        setTimeout(() =>
         {
-            setTimeout(() =>
-            {
-                this.endSelling_confirm(txid, method);
-            }, 5000)
-        }
+            this.rechargConfirm(txid, method);
+        }, 5000)
+        return;
     }
 
     async getBidDetail(domain, currentpage, pagesize)

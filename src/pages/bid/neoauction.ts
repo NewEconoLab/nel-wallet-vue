@@ -231,6 +231,7 @@ export default class NeoAuction extends Vue
         // let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
         if (!res.err)
         {
+            this.openToast("success", "Successesfully BidDomain " + this.alert_myBid + "sgas ! ", 3000);
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
             // this.recharg_confirm(res[ "txid" ], this.auctionMsg_alert.domain);
         }

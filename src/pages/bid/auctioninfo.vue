@@ -14,7 +14,7 @@
             <div class="bidder" v-if="item.maxBuyer == address">Current bidder  : <span class="bidder-me">Me（ {{item.maxBuyer}} ）</span> </div>
             <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">{{item.mybidprice}}</span>  SGas</div>     
         </div>
-        <div v-if="item.auctionState==0 && item.maxBuyer == address">
+        <div v-if="item.auctionState==0 && item.maxBuyer == address&& item.receivedState==0">
           <div class="title">
               <span>Get my domain</span>
           </div>
@@ -24,11 +24,11 @@
               <div class="btn-center">
                 <button v-if="state_getDomain==0" class="btn btn-nel btn-bid" @click="getDomain">Get domain</button>
                 <button v-if="state_getDomain==1" class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
-                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>Get domain</button>
+                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>Get domain</button>  
               </div>  
           </div>
         </div>
-        <div v-if="item.auctionState==0 && item.maxBuyer != address">
+        <div v-if="item.auctionState==0 && item.maxBuyer != address && item.receivedState==0">
           <div class="title">
               <span>Recover SGas</span>
           </div>
