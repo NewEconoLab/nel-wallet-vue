@@ -20,7 +20,7 @@
               </div>
               <div class="btn-right">
                     <button class="btn btn-nel btn-big" @click="openWithdraw">Withdraw</button>
-                    <button class="btn btn-nel btn-big" @click="isTopUp=!isTopUp">Top Up</button>
+                    <button class="btn btn-nel btn-big" @click="openTopUp">Top Up</button>
                 </div> 
             </div>
             <div class="title">
@@ -126,7 +126,7 @@
             </div>
           </div>
         </div>
-        <div class="top-up-wrap" v-if="isTopUp">
+        <div class="top-up-wrap" v-if="alert_TopUp.isShow">
           <div class="top-up-box">
             <div class="topup-title">
               <span>Top Up</span>
@@ -141,9 +141,9 @@
             <div class="amount-wrap">
               <div class="amount-msg">Amount:</div>
               <div class="input-box">
-                <input type="number" placeholder="Amount" v-model="alert_input" @input="verifToupAmount">
-                <button v-if="!alert_toup_wait" class="btn btn-nel btn-big" @click="gasToRecharge">Confirm</button>
-                <spinner-wrap v-if="alert_toup_wait" style="margin-left:20px"></spinner-wrap>
+                <input type="number" placeholder="Amount" v-model="alert_TopUp.input" @input="verifToupAmount">
+                <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="gasToRecharge">Confirm</button>
+                <spinner-wrap v-else ></spinner-wrap>
               </div>
               <div class="status-ended err-msg">
                 Only 2000 SGas is available.
@@ -152,7 +152,7 @@
             <div class="topup-tips">
               Tips: When you are using Gas to recharge, before being recharged into your Auction Account, GAS will be automatically switched to SGas. The entire process takes two blocks of confirmation time. Please wait patiently. 
             </div>
-            <div class="topup-close" @click="isTopUp=!isTopUp">
+            <div class="topup-close" @click="alert_TopUp.isShow=!alert_TopUp.isShow">
               <span aria-hidden="true" >&times;</span>
             </div>
           </div>

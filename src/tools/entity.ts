@@ -707,7 +707,7 @@ export class PageUtil
     }
 }
 
-export class NeoAuction_ToUp
+export class NeoAuction_TopUp
 {
     input: string;
     watting: boolean;

@@ -6,7 +6,7 @@ import Selected from "../../components/Selected.vue";
 import AuctionInfo from "./auctioninfo.vue";
 import Toast from "../../components/toast.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_ToUp } from "../../tools/entity";
+import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 import { LocalStoreTool } from "../../tools/storagetool";
 @Component({
@@ -41,7 +41,7 @@ export default class NeoAuction extends Vue
     alert_toup_wait: number;
     alert_withdraw_input: string;
     alert_withdraw: NeoAuction_Withdraw;
-    alert_ToUp: NeoAuction_ToUp;
+    alert_TopUp: NeoAuction_TopUp;
     sessionWatting: LocalStoreTool
     openToast: Function;
 
@@ -71,6 +71,7 @@ export default class NeoAuction extends Vue
         this.alert_input = "";
         this.alert_toup_wait = 0;
         this.alert_withdraw = new NeoAuction_Withdraw();
+        this.alert_TopUp = new NeoAuction_TopUp();
         this.sessionWatting = new LocalStoreTool("session_watting");
 
     }
@@ -118,6 +119,31 @@ export default class NeoAuction extends Vue
         {
             this.sessionWatting.put("withdraw", res.info);
             this.withdrawConfirm(res.info);
+        }
+    }
+
+    async openTopUp()
+    {
+        this.alert_TopUp.isShow = true;
+        let gasRecharge = this.sessionWatting.select("recharge-gas");
+        let sgasRecharge = this.sessionWatting.select("recharge-sgas");
+        if (gasRecharge)
+        {
+            let txid = gasRecharge[ "txid" ];
+            this.confirmRecharge(txid);
+        }
+        if (sgasRecharge)
+        {
+            let amount = gasRecharge[ "amount" ];
+            let txid = gasRecharge[ "txid" ];
+            let res = await tools.wwwtool.getrawtransaction(txid);
+            if (!res)
+            {
+                this.assetlist[ tools.coinTool.id_SGAS.toString() ] = -amount;
+            } else
+            {
+                this.sessionWatting.delete("rescharge-sgas");
+            }
         }
     }
 
@@ -272,13 +298,12 @@ export default class NeoAuction extends Vue
      */
     async gasToRecharge()
     {
-        let session_gas = new tools.localstoretool("recharge-gas");
-        let session_sgas = new tools.localstoretool("recharge-sgas");
-        let amount = this.alert_input;
+        let amount = this.alert_TopUp.input;
+        this.alert_TopUp.watting = true;
         if (this.alert_selection == tools.coinTool.id_GAS)
         {
-            let txid = await tools.nnssell.gasToRecharge(parseFloat(this.alert_input));
-            session_gas.put(txid, amount);
+            let txid = await tools.nnssell.gasToRecharge(parseFloat(this.alert_TopUp.input));
+            this.sessionWatting.put("recharge-gas", { txid, amount });
             this.confirmRecharge(txid);
             if (txid)
             {
@@ -289,10 +314,10 @@ export default class NeoAuction extends Vue
         {
             try
             {
-                let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_input).toFixed(8));
+                let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8));
                 let res = await tools.wwwtool.api_postRawTransaction(data);
                 let txid = res[ "txid" ];
-                session_sgas.put(txid, amount);
+                this.sessionWatting.put("recharge-sgas", { txid, amount });
                 this.confirmRecharge_sgas(txid)
                 this.openToast("success", "Successesfully toped up ! 100 SGas will be in your auction account after a block is confirmed !", 4000);
                 this.isTopUp = false;
@@ -312,13 +337,17 @@ export default class NeoAuction extends Vue
         let res = await tools.wwwtool.getrechargeandtransfer(txid);
         if (res[ 'errCode' ] == '3003')
         {
+            this.alert_TopUp.watting = true
+            let amount = this.sessionWatting.select("recharge-gas")[ "amount" ];
+            // this.assetlist[ tools.coinTool.id_GAS ] -= parseFloat(amount);
             setTimeout(() =>
             {
                 this.confirmRecharge(txid);
             }, 5000)
         } else
         {
-
+            this.alert_TopUp.watting = false;
+            this.sessionWatting.delete("recharge-gas");
         }
         console.log(res);
     }
