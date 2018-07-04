@@ -37,7 +37,7 @@
               <div class="fee-msg">Fee : 0.5 SGas</div>
               <div class="remain-msg">Remaining SGas : 9.5 SGas</div>
               <div class="btn-center">
-                <button class="btn btn-nel btn-bid" >Recover SGas</button>
+                <button class="btn btn-nel btn-bid" @click="recoverSgas" >Recover SGas</button>
                 <button class="btn btn-nel btn-bid btn-disable" disabled>Recovering SGas...</button>
               </div> 
           </div>

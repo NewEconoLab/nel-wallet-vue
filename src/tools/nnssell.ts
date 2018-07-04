@@ -37,7 +37,7 @@ export default class NNSSell
             info.maxPrice = stack[ 6 ].AsInteger();
             info.maxBuyer = stack[ 7 ].AsHash160();
             info.lastBlock = stack[ 8 ].AsInteger();
-            info.balanceOfSelling = await this.getBalanceOfSeling(info.id)
+            // info.balanceOfSelling = await this.getBalanceOfSeling(info.id)
 
             return info;
         }
@@ -186,7 +186,7 @@ export default class NNSSell
     /**
      * 
      * @param time 
-     * @returns state(0:正在竞拍，1:随机时间,2:竞拍结束)
+     * @returns state(0:竞拍，2:随机时间,2:正在竞拍)
      */
     static compareTime(time: number)
     {

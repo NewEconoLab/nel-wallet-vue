@@ -42,6 +42,7 @@ export default class AuctionInfo extends Vue
     {
         let info = await tools.nnssell.getSellingStateByDomain(this.item.domain);
     }
+
     myBidInput($event)
     {
         let price = $event.target.value;
@@ -159,7 +160,18 @@ export default class AuctionInfo extends Vue
 
     async bidDomain()
     {
-        tools.nnssell.rechargeReg(this.bidPrice);
+        let amount = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
+        let res = await tools.nnssell.addprice(this.item.domain, amount);
+        console.log(res.err + " : " + res.info);
+
+    }
+
+    async recoverSgas()
+    {
+        let id = this.item.id;
+        let data = tools.nnssell.endSelling(id);
+        let res = await tools.wwwtool.api_postRawTransaction(data);
+        console.log(res);
 
     }
 

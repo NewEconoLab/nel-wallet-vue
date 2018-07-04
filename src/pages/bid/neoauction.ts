@@ -84,11 +84,19 @@ export default class NeoAuction extends Vue
         this.openToast = this.$refs.toast[ "isShow" ];
     }
 
+    /**
+     * 获得参与过竞拍的域名列表
+     * @param address 地址
+     */
     async getBidList(address)
     {
         this.myAuctionList = await NeoaucionData.getBidList(address);
     }
 
+    /**
+     * 显示竞拍详情
+     * @param item 域名的竞拍信息
+     */
     onGoBidInfo(item)
     {
         this.auctionPage = !this.auctionPage
@@ -100,6 +108,10 @@ export default class NeoAuction extends Vue
         this.auctionPage = false;
     }
 
+    /**
+     * 充值注册器时的资产选择
+     * @param key 资产id
+     */
     async onSelect(key)
     {
         let str = (key == tools.coinTool.id_GAS ? this.assetlist[ key ] + " Gas" : this.assetlist[ key ] + " SGas");
@@ -122,6 +134,9 @@ export default class NeoAuction extends Vue
         }
     }
 
+    /**
+     * 充值到注册器
+     */
     async openTopUp()
     {
         this.alert_TopUp.isShow = true;
@@ -134,8 +149,8 @@ export default class NeoAuction extends Vue
         }
         if (sgasRecharge)
         {
-            let amount = gasRecharge[ "amount" ];
-            let txid = gasRecharge[ "txid" ];
+            let amount = sgasRecharge[ "amount" ];
+            let txid = sgasRecharge[ "txid" ];
             let res = await tools.wwwtool.getrawtransaction(txid);
             if (!res)
             {
@@ -147,6 +162,9 @@ export default class NeoAuction extends Vue
         }
     }
 
+    /**
+     * 从注册器退币
+     */
     async openWithdraw()
     {
         let wat = this.sessionWatting.select("withdraw");
@@ -167,6 +185,10 @@ export default class NeoAuction extends Vue
 
     }
 
+    /**
+     * 注册器退币确认
+     * @param txid 交易id
+     */
     async withdrawConfirm(txid: string)
     {
         let res = await tools.wwwtool.getrawtransaction(txid);
@@ -199,6 +221,9 @@ export default class NeoAuction extends Vue
         }
     }
 
+    /**
+     * 显示加价弹框
+     */
     async addBid()
     {
         let msg = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
@@ -234,6 +259,10 @@ export default class NeoAuction extends Vue
             this.openToast("success", "Successesfully BidDomain " + this.alert_myBid + "sgas ! ", 3000);
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
             // this.recharg_confirm(res[ "txid" ], this.auctionMsg_alert.domain);
+        } else
+        {
+            console.log(res.info);
+
         }
     }
 
@@ -283,14 +312,31 @@ export default class NeoAuction extends Vue
      */
     async queryDomainState()
     {
-        let state: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
-        let sellstate = (state.startBlockSelling.compareTo(Neo.BigInteger.Zero));
-        let endstate = state.endBlock.compareTo(Neo.BigInteger.Zero);
-        let startBlock = state.startBlockSelling.toString()
-        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(startBlock));
-        let currentTime = new Date().getTime();
-        let num = currentTime - startTime * 1000;
-        sellstate ? (endstate ? this.btn_start = 3 : (num > 1500000 ? this.btn_start = 3 : this.btn_start = 2)) : this.btn_start = 1;
+        let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        //是否开始域名竞拍 0:未开始竞拍
+        let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
+        if (sellstate > 0)
+        {   //根据开标的区块高度获得开标的时间
+            let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
+            let state = tools.nnssell.compareTime(startTime * 1000);   //对比时间获得状态 0:竞拍结束，1：正在竞拍，2:随机时间
+            switch (state)
+            {
+                case 0:
+                    this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
+                    break;
+                case 1:
+                    this.btn_start = 2;
+                    break;
+                case 2:
+                    this.btn_start = 2;
+                    break;
+                default:
+                    break;
+            }
+        } else
+        {
+            this.btn_start = 1;
+        }
 
     }
 
