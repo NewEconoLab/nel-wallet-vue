@@ -81,7 +81,7 @@ export default class AuctionInfo extends Vue
         // let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
         // this.rechargConfirm(res[ 'txid' ], 1);
 
-        if (info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
+        if (!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
         {
             let data1 = tools.nnssell.endSelling(info.id.toString());
             let data2 = tools.nnssell.getsellingdomain(info.id.toString());
@@ -112,6 +112,8 @@ export default class AuctionInfo extends Vue
         {
             case 1:
                 res = await tools.wwwtool.getrechargeandtransfer(txid)
+                
+                
                 if (res[ 'errCode' ] == '3003')
                 {
                 } else

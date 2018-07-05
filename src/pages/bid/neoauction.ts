@@ -43,6 +43,8 @@ export default class NeoAuction extends Vue
     alert_withdraw: NeoAuction_Withdraw;
     alert_TopUp: NeoAuction_TopUp;
     sessionWatting: LocalStoreTool
+    myBalanceOfSelling: string;
+    canAdded: boolean;
     openToast: Function;
 
     constructor()
@@ -73,6 +75,8 @@ export default class NeoAuction extends Vue
         this.alert_withdraw = new NeoAuction_Withdraw();
         this.alert_TopUp = new NeoAuction_TopUp();
         this.sessionWatting = new LocalStoreTool("session_watting");
+        this.canAdded = false;
+        this.myBalanceOfSelling = "";
 
     }
 
@@ -231,19 +235,23 @@ export default class NeoAuction extends Vue
         let time = await tools.wwwtool.api_getBlockInfo(msg.startBlockSelling.toInt32());
         auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
         auction.maxBuyer = msg.maxBuyer ? msg.maxBuyer.toString() : "";
-        auction.maxPrice = msg.maxPrice.toString();
+        auction.maxPrice = msg.maxPrice.divide(100000000).toString();
         auction.domain = this.domain + ".neo";
-        let script2 = tools.contract.buildScript(
-            tools.nnstool.root_neo.register,
-            "balanceOfSelling",
-            [ "(addr)" + this.address, "(hex256)" + msg.id.toString() ]
-        );
-        let res2 = await tools.wwwtool.rpc_getInvokescript(script2);
-        let stack2 = ResultItem.FromJson(DataType.Array, res2[ "stack" ]).subItem[ 0 ];
-        auction.balanceOfSelling = stack2.AsInteger().toString()
-
+        auction.balanceOfSelling = msg.balanceOfSelling.divide(100000000).toString();
+        this.myBalanceOfSelling = auction.balanceOfSelling;
         this.auctionMsg_alert = auction;
         this.auctionShow = !this.auctionShow;
+    }
+
+    verifBidAmount()
+    {
+        let myBid = !!this.alert_myBid ? parseFloat(this.alert_myBid) : 0;
+        let amount = (parseFloat(this.auctionMsg_alert.balanceOfSelling) + myBid);
+        this.myBalanceOfSelling = amount.toString();
+        if (amount > parseFloat(this.auctionMsg_alert.maxPrice))
+        {
+            this.canAdded = true;
+        } else { this.canAdded = false; }
     }
 
     /**
@@ -295,7 +303,7 @@ export default class NeoAuction extends Vue
         if (!!res)
         {
             this.btn_start = 2;
-            this.auctionShow = !this.auctionShow;
+            this.addBid();
             return;
         }
         else

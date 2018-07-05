@@ -37,7 +37,10 @@ export default class NNSSell
             info.maxPrice = stack[ 6 ].AsInteger();
             info.maxBuyer = stack[ 7 ].AsHash160();
             info.lastBlock = stack[ 8 ].AsInteger();
-            // info.balanceOfSelling = await this.getBalanceOfSeling(info.id)
+            if (!!info.id)
+            {   //竞拍id不为空则查询域名下的余额
+                info.balanceOfSelling = await this.getBalanceOfSeling(info.id);
+            }
 
             return info;
         }

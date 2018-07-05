@@ -108,18 +108,18 @@
             <div class="wrap-msg">
               <div class="my-bid">
                 <span>Raise my bid : </span>
-                <input class="bid-input" type="number" placeholder="Enter a raise" v-model="alert_myBid">
+                <input class="bid-input" type="number" placeholder="Enter a raise" v-model="alert_myBid" @input="verifBidAmount">
               </div>
               <div class="my-bid">
-                Your cumulative bid : <span class="status-ended">{{auctionMsg_alert.balanceOfSelling}}</span> SGas
+                Your cumulative bid : <span class="status-ended">{{myBalanceOfSelling}}</span> SGas
               </div>
             </div>
             <div class="tips-msg">
               Tips : The minimum value for each increase is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful.
             </div>
             <div class="btn-bid-box">
-              <!-- <button class="btn btn-nel btn-big btn-disable" disabled="disabled" >Bid</button> -->
-              <button class="btn btn-nel btn-big" @click="bidDomain()" >Bid</button>
+              <button v-if="canAdded" class="btn btn-nel btn-big" @click="bidDomain()" >Bid</button>
+              <button v-else class="btn btn-nel btn-big btn-disable" disabled="disabled" >Bid</button>
             </div>
             <div class="auction-close">
               <span aria-hidden="true" @click="auctionShow = !auctionShow">&times;</span>
