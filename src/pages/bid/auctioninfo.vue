@@ -14,7 +14,7 @@
             <div class="bidder" v-if="item.maxBuyer == address">Current bidder  : <span class="bidder-me">Me（ {{item.maxBuyer}} ）</span> </div>
             <div class="my-bid-sgas">My cumulative bid  : <span class="status-ended">{{item.mybidprice}}</span>  SGas</div>     
         </div>
-        <div v-if="item.auctionState==0 && item.maxBuyer == address&& item.receivedState==0">
+        <div v-if="item.auctionState==0 && item.maxBuyer == address">
           <div class="title">
               <span>Get my domain</span>
           </div>
@@ -24,11 +24,11 @@
               <div class="btn-center">
                 <button v-if="state_getDomain==0" class="btn btn-nel btn-bid" @click="getDomain">Get domain</button>
                 <button v-if="state_getDomain==1" class="btn btn-nel btn-bid btn-disable" disabled>Getting domain...</button>
-                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>Get domain</button>  
+                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>Received</button>  
               </div>  
           </div>
         </div>
-        <div v-if="item.auctionState==0 && item.maxBuyer != address && item.receivedState==0">
+        <div v-if="item.auctionState==0 && item.maxBuyer != address">
           <div class="title">
               <span>Recover SGas</span>
           </div>
@@ -37,8 +37,9 @@
               <div class="fee-msg">Fee : 0.5 SGas</div>
               <div class="remain-msg">Remaining SGas : 9.5 SGas</div>
               <div class="btn-center">
-                <button class="btn btn-nel btn-bid" @click="recoverSgas" >Recover SGas</button>
-                <button class="btn btn-nel btn-bid btn-disable" disabled>Recovering SGas...</button>
+                <button v-if="state_recover==0" class="btn btn-nel btn-bid" @click="recoverSgas" >Recover SGas</button>
+                <button v-if="state_recover==1" class="btn btn-nel btn-bid btn-disable" disabled>Recovering SGas...</button>
+                <button v-if="state_recover==2" class="btn btn-nel btn-bid btn-disable" disabled>Received</button>  
               </div> 
           </div>
         </div>

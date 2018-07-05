@@ -95,6 +95,9 @@ export default class login extends Vue
     test.push("test6", obj[ "test2" ]);
     test.push("test6", obj[ "test3" ]);
     test.push("test6", obj[ "test4" ]);
+    test.delete("test6", 2);
+    console.log(test.select("test6"));
+
   }
 
   // Lifecycle hook

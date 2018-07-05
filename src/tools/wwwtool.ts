@@ -282,6 +282,7 @@ export class WWW
     {
         var postdata = WWW.makeRpcPostBody("getbiddetailbydomain", domain, currentpage, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        console.log("--------------------result: " + JSON.stringify(result));
         var json = await result.json();
         var r = json[ "result" ];
         return r;

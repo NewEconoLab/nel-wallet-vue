@@ -117,15 +117,32 @@ export class LocalStoreTool
      * 删除数据
      * @param key 
      */
-    delete(key: string)
+    delete(...param: any[])
     {
-        let item = LocalStoreTool.getTable(this.table);
-        if (item && item[ key ])
+        let item = this.getList();
+        let key = param[ 0 ] as string;
+        if (param.length == 1)
         {
-            delete item[ key ];
-            localStorage.setItem(this.table, JSON.stringify(item));
+            if (item && item[ key ])
+            {
+                delete item[ key ];
+                localStorage.setItem(this.table, JSON.stringify(item));
+            }
+        } else
+        {
+            let index = param[ 1 ] as number;
+            if (item && item[ key ])
+            {
+                let arr = [];
+                arr = item[ key ];
+                arr.splice(index, 1);
+                console.log(arr);
+                item[ key ] = arr;
+                localStorage.setItem(this.table, JSON.stringify(item));
+            }
         }
     }
+
 
     /**
      * 更新数据(其实put就可以了直接覆盖掉已有的数据)

@@ -527,7 +527,7 @@ export class MyAuction
 {
     id: string;
     auctionSpentTime: string;
-    auctionState: number;
+    auctionState: string;
     endedState: number;
     blockindex: string;
     domain: string;

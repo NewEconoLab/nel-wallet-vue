@@ -59,7 +59,6 @@ export default class NeoAuction extends Vue
         this.domain = "";
         this.alert_myBid = "";
         this.address = LoginInfo.getCurrentAddress();
-        this.getBidList(this.address);
         this.isWithdraw = false;
         this.isTopUp = false;
         this.regBalance = '0';
@@ -77,7 +76,7 @@ export default class NeoAuction extends Vue
         this.sessionWatting = new LocalStoreTool("session_watting");
         this.canAdded = false;
         this.myBalanceOfSelling = "";
-
+        tools.nnstool.initRootDomain("neo");
     }
 
     async mounted()
@@ -86,6 +85,7 @@ export default class NeoAuction extends Vue
         this.regBalance = await tools.nnssell.getBalanceOf();
         this.assetlist = await NeoaucionData.getAssetBalance();
         this.openToast = this.$refs.toast[ "isShow" ];
+        this.getBidList(this.address);
     }
 
     /**
@@ -284,7 +284,7 @@ export default class NeoAuction extends Vue
         let auction = new MyAuction();
         auction.domain = this.domain + ".neo";
         auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
-        auction.auctionState = 3;
+        auction.auctionState = '3';
         auction.maxPrice = "0";
         this.myAuctionList.unshift(auction);
         NeoaucionData.setOpenSession(auction);
@@ -324,7 +324,12 @@ export default class NeoAuction extends Vue
         //是否开始域名竞拍 0:未开始竞拍
         let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
         if (sellstate > 0)
-        {   //根据开标的区块高度获得开标的时间
+        {
+            if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
+            {
+                this.btn_start = 3;
+            }
+            //根据开标的区块高度获得开标的时间
             let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
             let state = tools.nnssell.compareTime(startTime * 1000);   //对比时间获得状态 0:竞拍结束，1：正在竞拍，2:随机时间
             switch (state)

@@ -2,6 +2,9 @@ import { tools } from "./importpack";
 import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts } from "./entity";
 export default class NNSSell
 {
+    constructor()
+    {
+    }
     /**
      * 获得竞拍域名详情
      * @param domain 域名
@@ -59,6 +62,7 @@ export default class NNSSell
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+
         let res = await tools.contract.contractInvokeScript(
             tools.nnstool.root_neo.register,
             "balanceOfSelling",
@@ -189,7 +193,7 @@ export default class NNSSell
     /**
      * 
      * @param time 
-     * @returns state(0:竞拍，2:随机时间,2:正在竞拍)
+     * @returns state(0:竞拍结束, 2:随机时间,2:正在竞拍)
      */
     static compareTime(time: number)
     {

@@ -3,6 +3,7 @@ import { Component, Prop } from "vue-property-decorator";
 import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
+import { LocalStoreTool } from "../../tools/storagetool";
 @Component({
     components: {
         "v-alert": Valert,
@@ -19,21 +20,29 @@ export default class AuctionInfo extends Vue
     currentpage: number;
     pagesize: number;
     state_getDomain: number;
+    state_recover: number;
+    session_bid: LocalStoreTool
     btnShowmore: boolean;
     @Prop() item: any;
     constructor()
     {
         super();
         this.address = tools.storagetool.getStorage("current-address");
-        // this.address = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfkTYQcM';
-        // this.myBidPrice = this.item.mybidprice;
-        // this.updatePrice = this.myBidPrice;
         this.myBidPrice = "";
         this.updatePrice = "";
         this.bidDetailList = [];
         this.currentpage = 1;
         this.pagesize = 5;
-        this.state_getDomain = 0;
+        this.session_bid = new LocalStoreTool("bidSession");
+        if (this.item.receivedState)
+        {
+            this.state_getDomain = 2;
+            this.state_recover = 2;
+        } else
+        {
+            this.state_getDomain = 0;
+            this.state_recover = 0;
+        }
         this.btnShowmore = true;
         this.getBidDetail(this.item.domain, this.currentpage, this.pagesize)
     }
@@ -41,6 +50,11 @@ export default class AuctionInfo extends Vue
     async mounted()
     {
         let info = await tools.nnssell.getSellingStateByDomain(this.item.domain);
+        if (this.item.receivedState)
+        {
+            this.state_getDomain = 2;
+            this.state_recover = 2;
+        }
     }
 
     myBidInput($event)
@@ -75,12 +89,6 @@ export default class AuctionInfo extends Vue
     {
         this.state_getDomain = 1;
         let info = await tools.nnssell.getSellingStateByDomain(this.item.domain);
-
-        // let data1 = tools.nnssell.endSelling(info.id.toString());
-        // let data2 = tools.nnssell.getsellingdomain(info.id.toString());
-        // let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
-        // this.rechargConfirm(res[ 'txid' ], 1);
-
         if (!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
         {
             let data1 = tools.nnssell.endSelling(info.id.toString());
@@ -112,8 +120,8 @@ export default class AuctionInfo extends Vue
         {
             case 1:
                 res = await tools.wwwtool.getrechargeandtransfer(txid)
-                
-                
+
+
                 if (res[ 'errCode' ] == '3003')
                 {
                 } else
@@ -140,6 +148,33 @@ export default class AuctionInfo extends Vue
 
     async getBidDetail(domain, currentpage, pagesize)
     {
+        this.session_bid = new LocalStoreTool("bidSession");
+        console.log(this.session_bid.getList());
+
+        if (this.session_bid)
+        {
+            let bidlist = this.session_bid.select(domain);
+            if (bidlist && Object.keys(bidlist).length > 0)
+            {
+                for (const index in bidlist)
+                {
+                    let i = parseInt(index);
+                    const amount = bidlist[ i ][ "amount" ];
+                    const txid = bidlist[ i ][ "txid" ];
+                    let txmsg = await tools.wwwtool.getrawtransaction(txid);
+                    if (txmsg)
+                    {
+                        this.session_bid.delete(domain, i);
+                    } else
+                    {
+                        let bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
+                        this.bidDetailList.push(bidmsg)
+                        bidmsg.maxBuyer = this.address;
+                        bidmsg.maxPrice = amount;
+                    }
+                }
+            }
+        }
         let res = await tools.wwwtool.api_getBidDetail(domain, currentpage, pagesize);
         if (res)
         {
@@ -162,9 +197,18 @@ export default class AuctionInfo extends Vue
 
     async bidDomain()
     {
-        let amount = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
-        let res = await tools.nnssell.addprice(this.item.domain, amount);
-        console.log(res.err + " : " + res.info);
+        try
+        {
+            let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
+            let res = await tools.nnssell.addprice(this.item.domain, count);
+            let txid = res.info;
+            let amount = this.bidPrice;
+            this.session_bid.push(this.item.domain, { txid, amount });
+        } catch (error)
+        {
+            console.log(error);
+
+        }
 
     }
 
