@@ -33,9 +33,9 @@
               <span>Recover SGas</span>
           </div>
           <div class="form-box">
-              <div class="cumulative-msg">My cumulative bid  : 10 SGas</div>
-              <div class="fee-msg">Fee : 0.5 SGas</div>
-              <div class="remain-msg">Remaining SGas : 9.5 SGas</div>
+              <div class="cumulative-msg">My cumulative bid  : {{balanceOfSelling}} SGas</div>
+              <div class="fee-msg">Fee : {{fee}} SGas</div>
+              <div class="remain-msg">Remaining SGas : {{remaining}} SGas</div>
               <div class="btn-center">
                 <button v-if="state_recover==0" class="btn btn-nel btn-bid" @click="recoverSgas" >Recover SGas</button>
                 <button v-if="state_recover==1" class="btn btn-nel btn-bid btn-disable" disabled>Recovering SGas...</button>
@@ -61,8 +61,9 @@
                 Tips : The minimum value for your raise is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful. 
             </div>
             <div class="btn-bid-box">
-              <!-- <button class="btn btn-bid btn-disable" disabled="disabled" >Bid</button> -->
-              <button class="btn btn-bid " @click="bidDomain" >Bid</button>
+              <button v-if="bidState==2" class="btn btn-bid btn-disable" disabled="disabled" >Bid</button>
+                <button v-if="bidState==1" class="btn btn-nel btn-bid btn-disable" disabled>Bid...</button>
+              <button v-if="bidState==0" class="btn btn-bid " @click="bidDomain" >Bid</button>
             </div>
         </div>
         </div>
@@ -118,7 +119,7 @@
               <div class="infos">
                 <span>{{item.addPriceTime}}</span>
                 <p v-if="!item.maxBuyer">Auction Opened</p>
-                <p v-if="item.maxBuyer != address && item.maxBuyer">Other people（ <span>{{item.maxBuyer}}</span>  ）</p>
+                <p style="font-size:12px;" v-if="item.maxBuyer != address && item.maxBuyer">Other people（ <span style="font-size:12px;">{{item.maxBuyer}}</span>  ）</p>
                 <p class="bidder-me" v-if="item.maxBuyer == address">Me（ <span>{{item.maxBuyer}}</span> ）</p>
                 <em v-if="item.maxBuyer!=''">Price：{{item.maxPrice}} SGas</em>
               </div>
@@ -129,7 +130,7 @@
             <button class="btn btn-nel" v-if="btnShowmore" @click="getMoreBidDetail">View more</button>
           </div>
         </div>
-        
+        <v-toast ref="toast" ></v-toast>
     </div>
 </template>
 <script lang="ts" src="./auctioninfo.ts">
@@ -436,14 +437,14 @@
         }
 
         .infos {
-          width: 325px;
+          width: 385px;
           background: #151a1e;
           color: #fff;
           padding: 15px 20px;
           position: absolute;
-          left: -350px;
+          left: -407px;
           top: -50%;
-          margin-top: 5px;
+          margin-top: 6px;
           box-sizing: border-box;
           border-radius: 5px;
           &:after {
@@ -483,7 +484,7 @@
 
         &:nth-of-type(2n-1) {
           .infos {
-            right: -350px;
+            right: -407px;
             left: initial;
 
             &:after {

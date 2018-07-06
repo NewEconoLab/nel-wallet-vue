@@ -290,6 +290,7 @@ export default class NeoAuction extends Vue
         NeoaucionData.setOpenSession(auction);
         await this.openAuction_confirm(res[ "info" ]);
         this.openToast("success", "开标成功请等待", 5000);
+        this.btn_start = 1;
         // this.auctionShow = !this.auctionShow;
     }
 
@@ -327,7 +328,8 @@ export default class NeoAuction extends Vue
         {
             if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
             {
-                this.btn_start = 3;
+                this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
+                return;
             }
             //根据开标的区块高度获得开标的时间
             let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));

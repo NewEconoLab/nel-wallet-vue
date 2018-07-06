@@ -1,12 +1,16 @@
+
+/// <reference path="../../tools/number.d.ts"/>
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import Valert from "../../components/Valert.vue";
+import Toast from "../../components/toast.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LocalStoreTool } from "../../tools/storagetool";
 @Component({
     components: {
         "v-alert": Valert,
+        "v-toast": Toast,
         "spinner-wrap": Spinner
     }
 })
@@ -23,6 +27,11 @@ export default class AuctionInfo extends Vue
     state_recover: number;
     session_bid: LocalStoreTool
     btnShowmore: boolean;
+    balanceOfSelling: number;
+    fee: number;
+    remaining: number;
+    bidState: number;
+    openToast: Function;
     @Prop() item: any;
     constructor()
     {
@@ -34,6 +43,10 @@ export default class AuctionInfo extends Vue
         this.currentpage = 1;
         this.pagesize = 5;
         this.session_bid = new LocalStoreTool("bidSession");
+        this.fee = 0
+        this.remaining = 0;
+        this.balanceOfSelling = 0;
+        this.bidState = 0;
         if (this.item.receivedState)
         {
             this.state_getDomain = 2;
@@ -44,17 +57,16 @@ export default class AuctionInfo extends Vue
             this.state_recover = 0;
         }
         this.btnShowmore = true;
-        this.getBidDetail(this.item.domain, this.currentpage, this.pagesize)
+        this.balanceOfSelling = this.item.mybidprice;
+        this.fee = accMul(this.balanceOfSelling, 0.05);
+        this.remaining = accSub(this.balanceOfSelling, this.fee);
+        this.getBidDetail(this.item.domain, this.currentpage, this.pagesize);
+
     }
 
-    async mounted()
+    mounted()
     {
-        let info = await tools.nnssell.getSellingStateByDomain(this.item.domain);
-        if (this.item.receivedState)
-        {
-            this.state_getDomain = 2;
-            this.state_recover = 2;
-        }
+        this.openToast = this.$refs.toast[ "isShow" ];
     }
 
     myBidInput($event)
@@ -95,7 +107,6 @@ export default class AuctionInfo extends Vue
             let data2 = tools.nnssell.getsellingdomain(info.id.toString());
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             this.rechargConfirm(res[ 'txid' ], 1)
-
         } else
         {
             if (!!info.owner && info.owner.toString() == this.address)
@@ -116,29 +127,34 @@ export default class AuctionInfo extends Vue
     async rechargConfirm(txid: string, method: number)
     {
         let res = null;
-        switch (method)
+        if (method == 1)
         {
-            case 1:
-                res = await tools.wwwtool.getrechargeandtransfer(txid)
-
-
-                if (res[ 'errCode' ] == '3003')
-                {
-                } else
-                {
+            res = await tools.wwwtool.getrechargeandtransfer(txid)
+            let code = res[ 'errCode' ];
+            switch (code)
+            {
+                case '0000':
+                    this.openToast("success", "域名获取成功", 3000);
+                    this.state_getDomain = 2;
                     return;
-                }
-                break;
-            case 2:
-                res = await tools.wwwtool.getrawtransaction(txid);
-                if (!!res)
-                {
-                    return
-                }
-            default:
-                break;
+                case '3001':
+                    this.state_getDomain = 1;
+                    return;
+                case '3002':
+                    this.state_getDomain = 1;
+                    return;
+            }
         }
-
+        if (method == 2)
+        {
+            res = await tools.wwwtool.getrawtransaction(txid);
+            if (!!res)
+            {
+                this.openToast("success", "域名获取成功", 3000);
+                this.state_getDomain = 2;
+                return
+            }
+        }
         setTimeout(() =>
         {
             this.rechargConfirm(txid, method);
@@ -149,8 +165,6 @@ export default class AuctionInfo extends Vue
     async getBidDetail(domain, currentpage, pagesize)
     {
         this.session_bid = new LocalStoreTool("bidSession");
-        console.log(this.session_bid.getList());
-
         if (this.session_bid)
         {
             let bidlist = this.session_bid.select(domain);
@@ -167,10 +181,12 @@ export default class AuctionInfo extends Vue
                         this.session_bid.delete(domain, i);
                     } else
                     {
+                        let nextBid = i == 0 ? parseFloat(this.bidDetailList[ i - 1 ][ 'maxPrice' ]) : 0;
                         let bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
                         this.bidDetailList.push(bidmsg)
                         bidmsg.maxBuyer = this.address;
-                        bidmsg.maxPrice = amount;
+                        bidmsg.maxPrice = (parseFloat(amount) + parseFloat(this.item.maxPrice) + nextBid).toString();
+
                     }
                 }
             }
@@ -204,6 +220,7 @@ export default class AuctionInfo extends Vue
             let txid = res.info;
             let amount = this.bidPrice;
             this.session_bid.push(this.item.domain, { txid, amount });
+            this.bid_confirm(txid);
         } catch (error)
         {
             console.log(error);
@@ -214,11 +231,11 @@ export default class AuctionInfo extends Vue
 
     async recoverSgas()
     {
+        this.bidState = 1;
         let id = this.item.id;
         let data = tools.nnssell.endSelling(id);
+        this.state_recover = 1;
         let res = await tools.wwwtool.api_postRawTransaction(data);
-        console.log(res);
-
     }
 
 
@@ -227,36 +244,18 @@ export default class AuctionInfo extends Vue
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (!!res)
         {
-            alert('加价成功');
+            this.bidState = 0;
             return;
         }
         else
         {
             setTimeout(() =>
             {
-                this.recharg_confirm(txid);
+                this.bid_confirm(txid);
             }, 5000)
         }
     }
 
-    async recharg_confirm(txid: string)
-    {
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
-        {
-            // let res = await tools.nnssell.addprice(this.item.domain, Neo.Fixed8.parse(this.bidPrice).getData().toNumber());
-            // let txid = res.info;
-            this.bid_confirm(txid);
-            return;
-        }
-        else
-        {
-            setTimeout(() =>
-            {
-                this.recharg_confirm(txid);
-            }, 5000)
-        }
-    }
 
     getMoreBidDetail()
     {

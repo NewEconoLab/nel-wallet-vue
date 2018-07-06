@@ -25,7 +25,6 @@ export class NeoaucionData
                 //根据余额和所有者判断当前账户是否领取过了域名或退币
                 if (element.auctionState == '0')
                 {
-                    element.balanceOfSelling = balanceOfSelling.toString();
                     let current = LoginInfo.getCurrentAddress();
                     if (element.maxBuyer == current)
                     {
@@ -53,6 +52,9 @@ export class NeoaucionData
                 element.auctionState = '3';
                 element.maxBuyer = null;
                 element.maxPrice = '0';
+                let info = await tools.nnssell.getSellingStateByDomain(element.domain);
+                console.log(info);
+
                 let bidSession = new tools.localstoretool("bidInfo-" + element.domain);
                 let bidlist = bidSession.getList();
                 if (bidlist)
