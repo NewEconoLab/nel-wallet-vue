@@ -53,13 +53,12 @@ export class NeoaucionData
                 element.maxBuyer = null;
                 element.maxPrice = '0';
                 let info = await tools.nnssell.getSellingStateByDomain(element.domain);
-                console.log(info);
                 if (info.startBlockSelling.compareTo(Neo.BigInteger.Zero) > 0)
                 {
                     if (info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0)
                     {
                         element.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
-                        element.maxPrice = info.maxPrice.toString();
+                        element.maxPrice = accDiv(parseInt(info.maxPrice.toString()), 100000000);
                     }
                     element.auctionState = '1';
                 }

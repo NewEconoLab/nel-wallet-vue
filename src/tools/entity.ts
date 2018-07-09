@@ -728,6 +728,8 @@ export class Process
         this.startTime = typeof start == "string" ? new Date(start as string).getTime() : start as number;
         this.date = tools.timetool.dateFtt("yyyy/MM/dd", new Date(this.startTime));
         this.time = tools.timetool.dateFtt("hh:mm:ss", new Date(this.startTime));
+        this.width = 0;
+        this.state = "";
         for (let i = 1; i <= 5; i++)
         {
             let element = { msg: "", date: "", time: "" };

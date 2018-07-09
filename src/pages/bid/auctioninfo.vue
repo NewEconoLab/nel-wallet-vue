@@ -51,10 +51,10 @@
             <div>
                 <div class="input-msg">Raise my bid : </div>
                 <div class="input-box" >
-                    <input type="number" placeholder="Enter a raise" @input="myBidInput">
+                    <input type="number" placeholder="Enter a raise" @input="myBidInput" v-model="myBidPrice">
                     <span>SGas</span>
                 </div>
-                <div class="err-msg status-ended">Only 90 SGas is available.</div>
+                <div class="err-msg status-ended">Only {{balanceOf}} SGas is available.</div>
             </div>
             <div class="my-sgas">My cumulative bid will be : <span class="status-ended">{{updatePrice}}</span> SGas</div>
             <div class="tips-msg">
@@ -75,16 +75,16 @@
           <div class="process-wrapper">
             <label>Status</label>
             <div class="process-box">
-              <div class="process long" :style="'width:'+process.width+'%'">
-                <div class="process-tips">Random period </div>
+              <div class="process long" :style="'width:'+width+'%'">
+                <div class="process-tips">{{process_state}} </div>
                 <!-- <div class="process-fff">
                   <img src="../../../static/img/going.png" alt="">
                 </div> -->
               </div>
-              <div class="starts">{{process.date}}
-                <br/>{{process.time}}</div>
+              <div class="starts">{{process_date}}
+                <br/>{{process_time}}</div>
 
-              <div v-for="days in process.timearr" :key="days.msg" class="days">
+              <div v-for="days in process_arr" :key="days.msg" class="days">
                 <em v-if="days.msg!=''">{{days.msg}}</em>
                 <span>{{days.date}}
                   <br/>{{days.time}}</span>

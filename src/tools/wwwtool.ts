@@ -282,7 +282,6 @@ export class WWW
     {
         var postdata = WWW.makeRpcPostBody("getbiddetailbydomain", domain, currentpage, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
-        console.log("--------------------result: " + JSON.stringify(result));
         var json = await result.json();
         var r = json[ "result" ];
         return r;
@@ -324,4 +323,19 @@ export class WWW
         return r;
     }
 
+
+
+    /**
+     * 我对域名的状态
+     * @param address 地址
+     * @param domain 域名
+     */
+    static async getDomainState(address: string, domain: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getdomainstate", address, domain);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ][ 0 ];
+        return r;
+    }
 }

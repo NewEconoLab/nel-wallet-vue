@@ -23,6 +23,7 @@ export default class MyNeo extends Vue
     resolverState: number;
     resolverSession: LocalStoreTool;
     mappingSession: LocalStoreTool;
+    renewalWatting: boolean;
 
     constructor()
     {
@@ -33,6 +34,7 @@ export default class MyNeo extends Vue
         this.set_contract = "cf0d21eaa1803f63704ddb06c373c22d815b7ca2";
         this.resolverSession = new LocalStoreTool("resolverSession");
         this.mappingSession = new LocalStoreTool("mappingSession");
+        this.renewalWatting = false;
         this.resolverAddress = "";
         this.mappingState = 0;
         this.resolverState = 0;
@@ -205,5 +207,40 @@ export default class MyNeo extends Vue
             this.setConfirm(txid, 2, this.domainInfo.domain);
         }
 
+    }
+
+    async renewalDomain()
+    {
+        let renewalsession = new tools.localstoretool("renewalsession");
+        let domain = this.domainInfo.domain;
+        let res = await tools.nnssell.renewDomain(domain);
+        if (res)
+        {
+            let txid = res[ "txid" ];
+            renewalsession.put(domain, { txid });
+            this.renewalConfirm(txid, domain);
+        }
+
+    }
+
+    async renewalConfirm(txid: string, domain: string)
+    {
+        let renewalsession = new tools.localstoretool("renewalsession");
+        let res = await tools.wwwtool.getrawtransaction(txid)
+        if (!!res)
+        {
+            let session = renewalsession.select(domain);
+            if (session)
+            {
+                renewalsession.delete(domain);
+            }
+        } else
+        {
+            this.renewalWatting = true;
+            setTimeout(() =>
+            {
+                this.renewalConfirm(txid, domain);
+            }, 5000);
+        }
     }
 }

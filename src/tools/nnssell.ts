@@ -300,4 +300,32 @@ export default class NNSSell
         return res;
     }
 
+    static async renewDomain(domain: string)
+    {
+        let addr = LoginInfo.getCurrentAddress();
+        let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+        let domainarr = domain.split(".").reverse();
+        let str = domainarr[ 1 ];
+        let roothash = tools.nnstool.nameHash(domainarr[ 0 ]);
+        let data = tools.contract.buildScript_random(
+            tools.nnstool.root_neo.register,
+            "renewDomain", [
+                "(hex160)" + who.toString(),
+                "(hex256)" + roothash.toString(),
+                "(str)" + str
+            ]);
+        try
+        {
+            let res = await tools.contract.contractInvokeTrans_attributes(data);
+            if (!res.err)
+            {
+                return res.info;
+            }
+        } catch (error)
+        {
+
+        }
+
+    }
+
 }

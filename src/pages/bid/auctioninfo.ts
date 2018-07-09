@@ -31,18 +31,24 @@ export default class AuctionInfo extends Vue
     session_getdomain: LocalStoreTool;
     btnShowmore: boolean;
     balanceOfSelling: number;
+    balanceOf: string;
     fee: number;
     remaining: number;
     bidState: number;
     openToast: Function;
     process: Process;
+    process_state: string;
+    process_date: string;
+    process_time: string;
+    width: number;
+    process_arr: Array<any>;
     @Prop() item: any;
     constructor()
     {
         super();
         this.address = tools.storagetool.getStorage("current-address");
         this.myBidPrice = "";
-        this.updatePrice = "";
+        this.updatePrice = this.item.mybidprice;
         this.bidDetailList = [];
         this.currentpage = 1;
         this.pagesize = 5;
@@ -52,6 +58,7 @@ export default class AuctionInfo extends Vue
         this.fee = 0
         this.remaining = 0;
         this.balanceOfSelling = 0;
+        this.balanceOf = '';
         this.bidState = 0;
         if (this.item.receivedState)
         {
@@ -63,31 +70,59 @@ export default class AuctionInfo extends Vue
             this.state_recover = 0;
         }
         this.btnShowmore = true;
-        this.balanceOfSelling = this.item.mybidprice;
         this.fee = accMul(this.balanceOfSelling, 0.05);
         this.remaining = accSub(this.balanceOfSelling, this.fee);
         this.process = new Process(this.item.startAuctionTime);
+        this.width = 0;
+        this.process_state = "";
+        this.process_date = "";
+        this.process_time = "";
+        this.process_arr = this.process.timearr;
+        console.log(this.process_arr);
+
     }
 
     async mounted()
     {
-        this.openToast = this.$refs.toast[ "isShow" ];
-        if (this.item.endblock && this.item.endblock != '')
+        this.session_bid = new LocalStoreTool("bidSession");
+        this.session_recover = new LocalStoreTool("recoverSession");
+        this.session_getdomain = new LocalStoreTool("getDomainSession");
+        let stateMsg = await tools.wwwtool.getDomainState(this.address, this.item.domain);
+        this.balanceOf = await tools.nnssell.getBalanceOf();
+        this.item.maxBuyer = stateMsg[ "maxBuyer" ];
+        this.item.maxPrice = stateMsg[ "maxPrice" ];
+        this.balanceOfSelling = stateMsg[ "mybidprice" ];
+        this.item.mybidprice = stateMsg[ "mybidprice" ];
+        this.fee = accMul(this.balanceOfSelling, 0.10);
+        this.remaining = accSub(this.balanceOfSelling, this.fee);
+        if (!!this.item.startAuctionTime && this.item.startAuctionTime != '')
         {
-            let currenttime = await tools.wwwtool.api_getBlockInfo(this.item.endblock);
-            let time = new Date(this.item.startAuctionTime).getTime();
-            let oldtime = accSub(currenttime, time);
-            let a = accDiv(oldtime, 5 * 5 * 60 * 1000);
-            let width = a >= 1 ? 100 : accMul(a, 100);
-            this.process.width = width;
-        } else
-        {
-            let currenttime = new Date().getTime()
-            let time = new Date(this.item.startAuctionTime).getTime();
-            let oldtime = accSub(currenttime, time);
-            let a = accDiv(oldtime, 5 * 5 * 60 * 1000);
-            let width = a >= 1 ? 100 : accMul(a, 100);
-            this.process.width = width;
+            this.process = new Process(this.item.startAuctionTime);
+            this.process_date = this.process.date;
+            this.process_time = this.process.time;
+            this.process_arr = this.process.timearr;
+            if (this.item[ 'endblock' ] && this.item[ 'endblock' ] != '')
+            {
+                let currenttime = await tools.wwwtool.api_getBlockInfo(this.item.endblock);
+                let time = new Date(this.item.startAuctionTime).getTime();
+                let oldtime = accSub(currenttime, time);
+                let a = accDiv(oldtime, 5 * 5 * 60 * 1000);
+                let width = a >= 1 ? 100 : accMul(a, 100);
+                this.width = width;
+                this.process_state = "Ended";
+            } else
+            {
+                let currenttime = new Date().getTime()
+                let time = new Date(this.item.startAuctionTime).getTime();
+                let state = tools.nnssell.compareTime(time);
+                console.log(this.process);
+
+                this.process_state = state == 0 ? "Ended" : state == 1 ? "Fixed period" : "Random period";
+                let oldtime = accSub(currenttime, time);
+                let a = accDiv(parseFloat(oldtime), 5 * 5 * 60 * 1000);
+                let width = a >= 1 ? 100 : accMul(parseFloat(a), 100);
+                this.width = parseInt(width);
+            }
         }
 
         this.getBidDetail(this.item.domain, this.currentpage, this.pagesize);
@@ -129,11 +164,20 @@ export default class AuctionInfo extends Vue
         let res = this.checkInput(price);
         if (res)
         {
-            let bidPrice = Neo.Fixed8.parse(this.myBidPrice + "");
-
+            let bidPrice = Neo.Fixed8.parse((this.item.mybidprice == '' ? 0 : this.item.mybidprice) + "");
+            let balance = Neo.Fixed8.parse(this.balanceOf);
             let sum = bidPrice.add(Neo.Fixed8.parse(price + ""));
             this.updatePrice = sum.toString();
-            //this.myBidPrice = ((parseFloat(this.item.mybidprice) + parseFloat(price)) * 10) / 10;
+
+            let result = balance.compareTo(sum);
+            if (result < 0)
+            {
+                this.bidState = 2;
+            } else
+            {
+                this.bidState = 0;
+            }
+            //this.myBidPrice = ((parseFloat(this.item.mybidprice) + parseFloat(price)) * 10) /3 10;
             console.log(bidPrice + "+" + Neo.Fixed8.parse(price + ""));
             console.log(this.updatePrice)
         }
@@ -183,6 +227,7 @@ export default class AuctionInfo extends Vue
 
     async rechargConfirm(txid: string, method: number, domain: string)
     {
+        this.openToast = this.$refs.toast[ "isShow" ];
         let res = null;
         if (method == 1)
         {
@@ -230,29 +275,26 @@ export default class AuctionInfo extends Vue
     async getBidDetail(domain, currentpage, pagesize)
     {
         this.session_bid = new LocalStoreTool("bidSession");
-        if (this.session_bid)
+        let bidlist = this.session_bid.select(domain);
+        if (bidlist && Object.keys(bidlist).length > 0)
         {
-            let bidlist = this.session_bid.select(domain);
-            if (bidlist && Object.keys(bidlist).length > 0)
+            for (const index in bidlist)
             {
-                for (const index in bidlist)
+                let i = parseInt(index);
+                const amount = bidlist[ i ][ "amount" ];
+                const txid = bidlist[ i ][ "txid" ];
+                let txmsg = await tools.wwwtool.getrawtransaction(txid);
+                if (txmsg)
                 {
-                    let i = parseInt(index);
-                    const amount = bidlist[ i ][ "amount" ];
-                    const txid = bidlist[ i ][ "txid" ];
-                    let txmsg = await tools.wwwtool.getrawtransaction(txid);
-                    if (txmsg)
-                    {
-                        this.session_bid.delete(domain, i);
-                    } else
-                    {
-                        let nextBid = i == 0 ? 0 : parseFloat(this.bidDetailList[ i - 1 ][ 'maxPrice' ]);
-                        let bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
-                        this.bidDetailList.push(bidmsg)
-                        bidmsg.maxBuyer = this.address;
-                        bidmsg.maxPrice = (parseFloat(amount) + parseFloat(this.item.maxPrice) + nextBid).toString();
+                    this.session_bid.delete(domain, i);
+                } else
+                {
+                    let nextBid = i == bidlist.length - 1 ? 0 : parseFloat(this.bidDetailList[ i + 1 ][ 'maxPrice' ]);
+                    let bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
+                    this.bidDetailList.push(bidmsg)
+                    bidmsg.maxBuyer = this.address;
+                    bidmsg.maxPrice = (parseFloat(amount) + parseFloat(this.item.maxPrice) + nextBid).toString();
 
-                    }
                 }
             }
         }
@@ -278,14 +320,16 @@ export default class AuctionInfo extends Vue
 
     async bidDomain()
     {
+        this.openToast = this.$refs.toast[ "isShow" ];
         try
         {
-            this.bidState = 1;
+            // this.bidState = 1;
             let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
             let res = await tools.nnssell.addprice(this.item.domain, count);
             let txid = res.info;
             let amount = this.bidPrice;
             this.session_bid.push(this.item.domain, { txid, amount });
+            this.openToast("success", "域名加价成功请等待区块确认", 3000);
             this.bid_confirm(txid, this.item.domain);
         } catch (error)
         {
@@ -330,7 +374,6 @@ export default class AuctionInfo extends Vue
 
     async bid_confirm(txid: string, domain: string)
     {
-        this.bidState = 1;
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (!!res)
         {
