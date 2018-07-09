@@ -217,11 +217,24 @@ export default class NeoAuction extends Vue
      */
     verifToupAmount()
     {
-        let amount = Neo.Fixed8.parse(this.alert_input);
+        let amount = Neo.Fixed8.parse(this.alert_TopUp.input);
         let balance = Neo.Fixed8.parse(this.assetlist[ this.alert_selection ] + "");
         if (balance.compareTo(amount) < 0)
         {
-            this.alert_input = balance.toString();
+            this.alert_TopUp.input = balance.toString();
+        }
+    }
+
+    /**
+     * 验证退款金额是否合法
+     */
+    verifWithdraw()
+    {
+        let amount = Neo.Fixed8.parse(this.alert_withdraw.input);
+        let balance = Neo.Fixed8.parse(this.regBalance);
+        if (balance.compareTo(amount) < 0)
+        {
+            this.alert_withdraw.input = balance.toString();
         }
     }
 
@@ -289,7 +302,7 @@ export default class NeoAuction extends Vue
         this.myAuctionList.unshift(auction);
         NeoaucionData.setOpenSession(auction);
         await this.openAuction_confirm(res[ "info" ]);
-        this.openToast("success", "开标成功请等待", 5000);
+        this.openToast("success", "开标成功请等待", 3000);
         this.btn_start = 1;
         // this.auctionShow = !this.auctionShow;
     }

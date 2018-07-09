@@ -144,7 +144,7 @@
                 <spinner-wrap v-else ></spinner-wrap>
               </div>
               <div class="status-ended err-msg">
-                Only 2000 SGas is available.
+                Only {{alert_available}} is available.
               </div>
             </div>
             <div class="topup-tips">
@@ -169,12 +169,12 @@
             <div class="line-wrap">
               <div class="line-msg">Amount:</div>
               <div class="line-box">
-                <input type="number" placeholder="Amount" v-model="alert_withdraw.input">
+                <input type="number" placeholder="Amount" v-model="alert_withdraw.input" @input="verifWithdraw">
                 <spinner-wrap v-if="alert_withdraw.watting"></spinner-wrap>
                 <button v-else class="btn btn-nel btn-big" @click="withdraw">Confirm</button>
               </div>
               <div class="status-ended err-msg">
-                2000 SGas is available.
+                {{regBalance}} SGas is available.
               </div>
             </div>
             <div class="withdraw-close" @click="alert_withdraw.isShow=!alert_withdraw.isShow">

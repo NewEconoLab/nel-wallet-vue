@@ -4,6 +4,7 @@ import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LoginInfo, Domainmsg, DomainInfo, DomainStatus } from "../../tools/entity";
+import { LocalStoreTool } from "../../tools/storagetool";
 @Component({
     components: {
         "v-alert": Valert,
@@ -18,16 +19,23 @@ export default class MyNeo extends Vue
     domainInfo: any;
     set_contract: string;
     resolverAddress: string;
+    mappingState: number;
+    resolverState: number;
+    resolverSession: LocalStoreTool;
+    mappingSession: LocalStoreTool;
 
     constructor()
     {
         super();
         this.isShowEdit = false;
         this.currentAddress = LoginInfo.getCurrentAddress();
-        // this.currentAddress = 'AHDV7M54NHukq8f76QQtBTbrCqKJrBH9UF';
         this.neonameList = null;
         this.set_contract = "cf0d21eaa1803f63704ddb06c373c22d815b7ca2";
+        this.resolverSession = new LocalStoreTool("resolverSession");
+        this.mappingSession = new LocalStoreTool("mappingSession");
         this.resolverAddress = "";
+        this.mappingState = 0;
+        this.resolverState = 0;
     }
     mounted()
     {
@@ -115,9 +123,56 @@ export default class MyNeo extends Vue
 
     onShowEdit(item)
     {
-        this.isShowEdit = !this.isShowEdit;
         this.domainInfo = item;
         this.resolverAddress = item.resolverAddress;
+        let sessionMap = this.mappingSession.select(item.domain);
+        let sessionRes = this.resolverSession.select(item.domain);
+        this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
+        this.resolverState = this.domainInfo.resolver ? 1 : 0;
+        if (sessionMap && sessionMap[ "txid" ])
+        {
+            let txid = sessionMap[ "txid" ];
+            let value = sessionMap[ "value" ];
+            this.resolverAddress = value;
+            this.setConfirm(txid, 2, item.domain);
+        }
+        if (sessionRes && sessionRes[ "txid" ])
+        {
+            let txid = sessionRes[ "txid" ];
+            this.setConfirm(txid, 1, item.domain);
+        }
+        this.isShowEdit = !this.isShowEdit;
+    }
+
+    async setConfirm(txid: string, medth: number, domain: string)
+    {
+        let res = await tools.wwwtool.getrawtransaction(txid);
+        if (!!res)
+        {
+            if (medth == 1)
+            {
+                this.resolverState = 1;
+                this.resolverSession.delete(domain)
+            }
+            if (medth == 2)
+            {
+                this.mappingState = 1;
+                this.mappingSession.delete(domain)
+            }
+        } else
+        {
+            if (medth == 1)
+            {
+                this.resolverState = 2;
+            } if (medth == 2)
+            {
+                this.mappingState = 2;
+            }
+            setTimeout(() =>
+            {
+                this.setConfirm(txid, medth, domain);
+            }, 5000);
+        }
     }
 
     /**
@@ -125,9 +180,15 @@ export default class MyNeo extends Vue
      */
     async setresolve()
     {
+        this.resolverState = 2;
         let contract = this.set_contract.hexToBytes().reverse();
         let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
-        console.log(res);
+        if (!res.err)
+        {
+            let txid = res.info;
+            this.resolverSession.put(this.domainInfo.domain, { txid, value: this.set_contract });
+            this.setConfirm(txid, 1, this.domainInfo.domain);
+        }
     }
 
     /**
@@ -135,8 +196,14 @@ export default class MyNeo extends Vue
      */
     async mappingData()
     {
+        this.mappingState = 2;
         let res = await tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver);
-        console.log(res);
+        if (!res.err)
+        {
+            let txid = res.info;
+            this.mappingSession.put(this.domainInfo.domain, { txid, value: this.resolverAddress });
+            this.setConfirm(txid, 2, this.domainInfo.domain);
+        }
 
     }
 }

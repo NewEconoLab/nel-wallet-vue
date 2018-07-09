@@ -54,7 +54,15 @@ export class NeoaucionData
                 element.maxPrice = '0';
                 let info = await tools.nnssell.getSellingStateByDomain(element.domain);
                 console.log(info);
-
+                if (info.startBlockSelling.compareTo(Neo.BigInteger.Zero) > 0)
+                {
+                    if (info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0)
+                    {
+                        element.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+                        element.maxPrice = info.maxPrice.toString();
+                    }
+                    element.auctionState = '1';
+                }
                 let bidSession = new tools.localstoretool("bidInfo-" + element.domain);
                 let bidlist = bidSession.getList();
                 if (bidlist)

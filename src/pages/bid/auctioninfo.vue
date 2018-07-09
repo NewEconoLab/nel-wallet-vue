@@ -75,37 +75,19 @@
           <div class="process-wrapper">
             <label>Status</label>
             <div class="process-box">
-              <div class="process long" style="width:70%">
+              <div class="process long" :style="'width:'+process.width+'%'">
                 <div class="process-tips">Random period </div>
                 <!-- <div class="process-fff">
                   <img src="../../../static/img/going.png" alt="">
                 </div> -->
               </div>
-              <div class="starts">2018/05/24
-                <br/>16:00:00</div>
+              <div class="starts">{{process.date}}
+                <br/>{{process.time}}</div>
 
-              <div class="days">
-                <em>Bid start time</em>
-                <span>2018/05/24
-                  <br/>16:00:00</span>
-              </div>
-              <div class="days">
-                <span>2018/05/24
-                  <br/>16:00:00</span>
-              </div>
-              <div class="days">
-                <em>Fixed period end time</em>
-                <span>2018/05/24
-                  <br/>16:00:00</span>
-              </div>
-              <div class="days">
-                <span>2018/05/24
-                  <br/>16:00:00</span>
-              </div>
-              <div class="days">
-                <em>Maximum end time of random period</em>
-                <span>2018/05/24
-                  <br/>16:00:00</span>
+              <div v-for="days in process.timearr" :key="days.msg" class="days">
+                <em v-if="days.msg!=''">{{days.msg}}</em>
+                <span>{{days.date}}
+                  <br/>{{days.time}}</span>
               </div>
             </div>
           </div>

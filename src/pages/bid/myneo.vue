@@ -23,12 +23,13 @@
                 <div class="edit-input">
                     <div class="input-msg">
                         {{$t('myneoname.resolver')}} :
-                        <button v-if="!!domainInfo.resolver" @click="setresolve" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
+                        <!-- <button v-if="!!domainInfo.resolver" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button> -->
                     </div>
                     <div class="input-box">
                         <input type="text" class="readonly-input" readonly="readonly" v-model="set_contract">
-                        <button v-if="!domainInfo.resolver" class="btn btn-nel btn-big" @click="setresolve">{{$t('btn.confirm')}}</button>
-                        <button v-else class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirm')}}</button>
+                        <button v-if="resolverState==0" class="btn btn-nel btn-big" @click="setresolve">{{$t('btn.confirm')}}</button>
+                        <button v-if="resolverState==1" class="btn btn-nel btn-big " @click="setresolve">{{$t('btn.reset')}}</button>
+                        <spinner-wrap v-if="resolverState==2"  style="margin-left:20px"></spinner-wrap>
                         <div class="ok-img">
                             <img src="../../../static/img/correct.svg" alt="">
                         </div>
@@ -37,12 +38,13 @@
                 <div class="edit-input">
                     <div class="input-msg">
                         {{$t('myneoname.mapping')}} :
-                        <button v-if="!!domainInfo.resolverAddress" @click="mappingData" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
+                        <!-- <button v-if="!!domainInfo.resolverAddress" @click="mappingReset" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button> -->
                     </div>
                     <div class="input-box">
                         <input type="text" v-model="resolverAddress">
-                        <button v-if="!!domainInfo.resolverAddress" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirm')}}</button>
-                        <button v-else class="btn btn-nel btn-big" @click="mappingData">{{$t('btn.confirm')}}</button>
+                        <button v-if="mappingState==0" class="btn btn-nel btn-big" @click="mappingData" >{{$t('btn.confirm')}}</button>
+                        <button v-if="mappingState==1" class="btn btn-nel btn-big" @click="mappingData">{{$t('btn.reset')}}</button>
+                        <spinner-wrap v-if="mappingState==2"  style="margin-left:20px"></spinner-wrap>
                         <div class="ok-img">
                             <img src="../../../static/img/correct.svg" alt="">
                         </div>
