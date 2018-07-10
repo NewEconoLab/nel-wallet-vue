@@ -56,8 +56,8 @@
                     </div>
                     <div class="input-box">
                         <input type="text" class="readonly-input" readonly="readonly" :value="domainInfo.expired?$t('myneoname.expired'):domainInfo.ttl">
-                        <button v-if="!domainInfo.expired &&!renewalWatting" class="btn btn-nel btn-big" @click="renewalDomain">{{$t('btn.renewal')}}</button>
-                        <button  v-if="domainInfo.expired &&!renewalWatting"  class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.renewal')}}</button>
+                        <button v-if="!domainInfo.expired&&!domainInfo.expiring &&!renewalWatting" class="btn btn-nel btn-big" @click="renewalDomain">{{$t('btn.renewal')}}</button>
+                        <button  v-if="(domainInfo.expired||domainInfo.expiring) &&!renewalWatting"  class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.renewal')}}</button>
                         <spinner-wrap v-if="renewalWatting"  style="margin-left:20px"></spinner-wrap>
                     </div>
                 </div>

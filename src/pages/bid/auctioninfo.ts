@@ -277,9 +277,23 @@ export default class AuctionInfo extends Vue
     {
 
         this.session_bid = new LocalStoreTool("bidSession");
-        let bidlist = this.session_bid.select(domain);
+        let bidlist = this.session_bid.select(domain) as Array<{ txid: string, amount: string }>;
         if (bidlist && Object.keys(bidlist).length > 0)
         {
+            console.log("-------------------------------排序前---------------------");
+
+            console.log(bidlist);
+            for (let n = 0; n < bidlist.length; n++)
+            {
+                if (n > 0)
+                {
+                    bidlist[ n ].amount = accAdd(parseFloat(bidlist[ n ].amount), parseFloat(bidlist[ n - 1 ].amount));
+                }
+            }
+            console.log("-------------------------------排序后---------------------");
+            console.log(bidlist);
+            bidlist = bidlist.reverse();
+
             for (const index in bidlist)
             {
                 let i = parseInt(index);
@@ -291,11 +305,11 @@ export default class AuctionInfo extends Vue
                     this.session_bid.delete(domain, i);
                 } else
                 {
-                    let nextBid = i == bidlist.length - 1 ? 0 : parseFloat(bidlist[ i + 1 ][ 'amount' ]);
+                    // let nextBid = i == bidlist.length - 1 ? 0 : parseFloat(bidlist[ i + 1 ][ 'amount' ]);
                     let bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
                     this.bidDetailList.push(bidmsg)
                     bidmsg.maxBuyer = this.address;
-                    bidmsg.maxPrice = (parseFloat(amount) + parseFloat(this.item.mybidprice) + nextBid).toString();
+                    bidmsg.maxPrice = (parseFloat(amount) + parseFloat(this.item.mybidprice)).toString();
 
                 }
             }
