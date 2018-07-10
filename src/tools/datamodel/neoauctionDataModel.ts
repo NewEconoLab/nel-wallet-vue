@@ -97,7 +97,7 @@ export class NeoaucionData
     static async setBidSession(auction: MyAuction, amount: string, txid: string)
     {
         let session_bid = new tools.localstoretool("bidSession");
-        session_bid.push(auction.domain, { txid, amount });
+        session_bid.put(auction.domain, { txid, amount }, txid);
         this.session_open.put(auction.domain, auction);
     }
 

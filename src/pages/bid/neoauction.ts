@@ -279,11 +279,48 @@ export default class NeoAuction extends Vue
         {
             this.openToast("success", "Successesfully BidDomain " + this.alert_myBid + "sgas ! ", 3000);
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
-            // this.recharg_confirm(res[ "txid" ], this.auctionMsg_alert.domain);
+            this.bidConfirm(res.info, this.auctionMsg_alert.domain);
         } else
         {
             console.log(res.info);
 
+        }
+    }
+
+    /**
+     * 加价信息确认
+     * @param txid 交易id
+     * @param domain 域名
+     */
+    async bidConfirm(txid: string, domain: string)
+    {
+        let session_bid = new tools.localstoretool("bidSession");
+        let res = await tools.wwwtool.getrawtransaction(txid);
+        if (!!res)
+        {
+            session_bid.delete(domain, txid);
+            let names = await tools.contract.getNotifyNames(txid);
+            let have = names.includes("addprice");
+            if (have)
+            {
+                this.openToast("success", "域名：" + domain + " 加价成功", 3000);
+                return;
+            }
+            if (names.length == 0)
+            {
+                this.openToast("error", "域名：" + domain + " 加价失败", 3000);
+                return;
+            }
+            if (names.includes("domainstate"))
+            {
+                this.openToast("error", "您结束了" + domain + " 的加价，本次加价未执行", 3000);
+            }
+        } else
+        {
+            setTimeout(() =>
+            {
+                this.bidConfirm(txid, domain)
+            }, 5000);
         }
     }
 

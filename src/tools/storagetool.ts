@@ -75,16 +75,36 @@ export class LocalStoreTool
     /**
      * 添加数据
      * @param key 
-     * @param value 
+     * @param value param[0]:value,param[1]:key
      */
-    put(key: string, value: any)
+    put(key: string, ...param: any[])
     {
-        let item = LocalStoreTool.getTable(this.table);
+        let value = param[ 0 ];   //第零位是value
+        let item = this.getList()
         let obj = item ? item : {};
-        obj[ key ] = value;
+        if (param.length == 1)
+        {
+            obj[ key ] = value;
+        } else
+        {
+            let index = param[ 1 ];
+            if (obj[ key ])
+            {
+                obj[ key ][ index ] = value;
+            } else
+            {
+                obj[ key ] = {};
+                obj[ key ][ index ] = value;
+            }
+        }
         localStorage.setItem(this.table, JSON.stringify(obj));
     }
 
+    /**
+     * 往key对应的对象里塞数据，如果有相同的值则，往数组中push
+     * @param key 
+     * @param value 
+     */
     push(key, value)
     {
         let item = this.getList();
@@ -114,8 +134,28 @@ export class LocalStoreTool
     }
 
     /**
+     * 根据下标删除对应缓存数组中的数据
+     * @param key 主键
+     * @param index 下标
+     */
+    deleteByIndex(key: string, index: number)
+    {
+        let item = this.getList();
+        if (item && item[ key ])
+        {
+            let arr = [];
+            arr = item[ key ];
+            arr.splice(index, 1);
+            console.log(arr);
+            item[ key ] = arr;
+            localStorage.setItem(this.table, JSON.stringify(item));
+        }
+    }
+
+    /**
      * 删除数据
-     * @param key 
+     * @param key key:param[0],要删除的列名
+     * @param index index:param[1] 要删除的字段名
      */
     delete(...param: any[])
     {
@@ -130,14 +170,10 @@ export class LocalStoreTool
             }
         } else
         {
-            let index = param[ 1 ] as number;
-            if (item && item[ key ])
+            let index = param[ 1 ] as string;
+            if (item && item[ key ] && item[ key ][ index ])
             {
-                let arr = [];
-                arr = item[ key ];
-                arr.splice(index, 1);
-                console.log(arr);
-                item[ key ] = arr;
+                delete item[ key ][ index ];
                 localStorage.setItem(this.table, JSON.stringify(item));
             }
         }

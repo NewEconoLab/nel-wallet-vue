@@ -126,7 +126,7 @@ export default class AuctionInfo extends Vue
             }
         }
 
-        this.getBidDetail(this.item.domain, this.currentpage, this.pagesize);
+        await this.getBidDetail(this.item.domain, this.currentpage, this.pagesize);
         let confirm_getDomain = this.session_getdomain.select(this.item.domain);
         let confirm_recover = this.session_recover.select(this.item.domain);
         let confirm_bid = this.session_bid.select(this.item.domain);
@@ -277,40 +277,44 @@ export default class AuctionInfo extends Vue
     {
 
         this.session_bid = new LocalStoreTool("bidSession");
-        let bidlist = this.session_bid.select(domain) as Array<{ txid: string, amount: string }>;
+        let bidlist = this.session_bid.select(domain);
         if (bidlist && Object.keys(bidlist).length > 0)
         {
             console.log("-------------------------------排序前---------------------");
-
-            console.log(bidlist);
-            for (let n = 0; n < bidlist.length; n++)
+            let arr = [];
+            for (const key in bidlist)
+            {
+                if (bidlist.hasOwnProperty(key))
+                {
+                    const element = bidlist[ key ];
+                    arr.push(element);
+                }
+            }
+            // arr = arr.reverse();
+            for (let n = 0; n < arr.length; n++)
             {
                 if (n > 0)
                 {
-                    bidlist[ n ].amount = accAdd(parseFloat(bidlist[ n ].amount), parseFloat(bidlist[ n - 1 ].amount));
+                    arr[ n ].amount = accAdd(parseFloat(arr[ n ].amount), parseFloat(arr[ n - 1 ].amount));
                 }
             }
-            console.log("-------------------------------排序后---------------------");
-            console.log(bidlist);
-            bidlist = bidlist.reverse();
-
-            for (const index in bidlist)
+            arr = arr.reverse();
+            console.log(arr);
+            for (const index in arr)
             {
                 let i = parseInt(index);
-                const amount = bidlist[ i ][ "amount" ];
-                const txid = bidlist[ i ][ "txid" ];
+                const amount = arr[ i ][ "amount" ];
+                const txid = arr[ i ][ "txid" ];
                 let txmsg = await tools.wwwtool.getrawtransaction(txid);
                 if (txmsg)
                 {
-                    this.session_bid.delete(domain, i);
+                    this.session_bid.delete(domain, txid);
                 } else
                 {
-                    // let nextBid = i == bidlist.length - 1 ? 0 : parseFloat(bidlist[ i + 1 ][ 'amount' ]);
                     let bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
                     this.bidDetailList.push(bidmsg)
                     bidmsg.maxBuyer = this.address;
-                    bidmsg.maxPrice = (parseFloat(amount) + parseFloat(this.item.mybidprice)).toString();
-
+                    bidmsg.maxPrice = accAdd(parseFloat(amount), parseFloat(this.item.mybidprice ? this.item.mybidprice : 0));
                 }
             }
         }
@@ -348,7 +352,7 @@ export default class AuctionInfo extends Vue
             let res = await tools.nnssell.addprice(this.item.domain, count);
             let txid = res.info;
             let amount = this.bidPrice;
-            this.session_bid.push(this.item.domain, { txid, amount });
+            this.session_bid.put(this.item.domain, { txid, amount }, txid);
             this.openToast("success", "域名加价成功请等待区块确认", 3000);
             this.bid_confirm(txid, this.item.domain);
         } catch (error)
@@ -392,21 +396,41 @@ export default class AuctionInfo extends Vue
         }
     }
 
+    /**
+     * 加价信息确认
+     * @param txid 交易id
+     * @param domain 域名
+     */
     async bid_confirm(txid: string, domain: string)
     {
+        this.openToast = this.$refs.toast[ "isShow" ];
+        let session_bid = new tools.localstoretool("bidSession");
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (!!res)
         {
-            this.bidState = 0;
-            this.session_bid.delete(domain);
-            return;
-        }
-        else
+            session_bid.delete(domain, txid);
+            let names = await tools.contract.getNotifyNames(txid);
+            let have = names.includes("addprice");
+            if (have)
+            {
+                this.openToast("success", "域名：" + domain + " 加价成功", 3000);
+                return;
+            }
+            if (names.length == 0)
+            {
+                this.openToast("error", "域名：" + domain + " 加价失败", 3000);
+                return;
+            }
+            if (names.includes("domainstate"))
+            {
+                this.openToast("error", "您结束了" + domain + " 的加价，本次加价未执行", 3000);
+            }
+        } else
         {
             setTimeout(() =>
             {
-                this.bid_confirm(txid, domain);
-            }, 5000)
+                this.bid_confirm(txid, domain)
+            }, 5000);
         }
     }
 

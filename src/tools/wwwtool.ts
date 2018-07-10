@@ -278,6 +278,12 @@ export class WWW
         var r = json[ "result" ];
         return r;
     }
+    /**
+     * 获得时间轴的域名详情
+     * @param domain 域名
+     * @param currentpage 当前页码
+     * @param pagesize 条数
+     */
     static async api_getBidDetail(domain: string, currentpage: number, pagesize: number)
     {
         var postdata = WWW.makeRpcPostBody("getbiddetailbydomain", domain, currentpage, pagesize);
@@ -286,7 +292,12 @@ export class WWW
         var r = json[ "result" ];
         return r;
     }
-    //获取bonus的历史纪录数据
+    /**
+     * 获得bonus 历史记录
+     * @param address 地址
+     * @param currentpage 当前页码
+     * @param pagesize 条数
+     */
     static async api_getbonushistbyaddress(address: string, currentpage: number, pagesize: number)
     {
         var postdata = WWW.makeRpcPostBody("getbonushistbyaddress", address, currentpage, pagesize);
@@ -324,7 +335,7 @@ export class WWW
     }
 
     /**
-     * 我对域名的状态
+     * 我的域名的状态
      * @param address 地址
      * @param domain 域名
      */
@@ -339,7 +350,7 @@ export class WWW
 
     static async getNotify(txid: string)
     {
-        var postdata = WWW.makeRpcPostBody("getnotify", "0x038a795122a2d14b450838bb02b212b5494252b25b5e054d4a34adc6d4fdfc3d");
+        var postdata = WWW.makeRpcPostBody("getnotify", txid);
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         var r = json[ "result" ][ 0 ];
