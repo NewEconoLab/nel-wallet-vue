@@ -30,7 +30,9 @@ export default {
         viewmore: "View more",
         edit: "Edit",
         renewal: "Renewal",
-        exchange: "Exchange"
+        exchange: "Exchange",
+        withdraw: "Withdraw",
+        topup: "Top up"
     },
     toast: {
         msg1: "Landing ...",
@@ -201,6 +203,19 @@ export default {
         endtimemsg: "Fixed period end time",
         randomtimemsg: "Random period start time",
         maxtimemsg: "Maximum end time of random period",
+        tipsmsg1: "Tips: Before the auction begins, you need to know 2 things:",
+        tipsmsg2: "The asset used for the auction is SGas, and you need to top up your Auction Account with SGas to use it.",
+        tipsmsg3: 'SGas needs to be redeemed with Gas at the rate of 1:1 in the "SGas Exchange" page, or you can use the top-up function directly in the Auction Account to convert the Gas in your Balance directly into SGas and top up your Auction Account with it.',
+        titleaccount: "Your Auction Account",
+        withdraw: "Withdraw",
+        topup: "Top up",
+        to: "To",
+        amount: "Amount",
+        asset: "Asset",
+        errmsg3: "is available.",
+        tipsmsg4: "Tips: When you are using Gas to recharge, before being recharged into your Auction Account, GAS will be automatically switched to SGas. The entire process takes two blocks of confirmation time. Please wait patiently. ",
+        yourbalance: "Your Balance",
+        waiting: "Waiting",
     },
     exchange: {
         title: "SGas Exchange",

@@ -30,7 +30,9 @@ export default {
         viewmore: "查看更多",
         edit: "编辑",
         renewal: "续约",
-        exchange: "兑换"
+        exchange: "兑换",
+        withdraw: "提取",
+        topup: "充值"
     },
     toast: {
         msg1: "登陆中...",
@@ -201,6 +203,19 @@ export default {
         endtimemsg: "确定期结束时间",
         randomtimemsg: "随机期开始时间",
         maxtimemsg: "随机期最大结束时间",
+        tipsmsg1: "注意：竞拍开始之前，你需要知道2件事:",
+        tipsmsg2: "竞拍所使用的资产是SGas，并且您需要将SGas充值进您的“竞拍账户”才能使用。",
+        tipsmsg3: 'SGas需要在“SGas兑换”页面中用Gas1:1兑换获得，或者您可以直接在“竞拍账户”中使用充值功能，将您账户中的Gas直接转换成SGas并直接充值进您的“竞拍账户”。',
+        titleaccount: "您的拍卖账户",
+        withdraw: "提取",
+        topup: "充值",
+        to: "提取到",
+        amount: "金额",
+        asset: "资产",
+        errmsg3: "是有效的",
+        tipsmsg4: "注意：当你在使用Gas进行充值时，充值进你的“拍卖账户”之前，他会自动转换成SGas，整个过程需要两个区块的确认时间，请耐心等待...",
+        yourbalance: "您的钱包账户",
+        waiting: "等待"
     },
     exchange: {
         title: "SGas兑换",
