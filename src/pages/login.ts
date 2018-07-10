@@ -74,29 +74,23 @@ export default class login extends Vue
       sessionStorage.clear();
     }
 
-    let test = new tools.localstoretool("test");
-    console.log(new Date().getTime() + " start------------------------");
-    let obj = {}
-    obj[ "test1" ] = { id: 1, value: 2 }
-    obj[ "test2" ] = { id: 2, value: 2 }
-    obj[ "test3" ] = { id: 3, value: 2 }
-    obj[ "test4" ] = { id: 4, value: 2 }
-    obj[ "test5" ] = { id: 5, value: 2 }
-    test.set(obj)
-    console.log(new Date().getTime() + " put------------------------");
-    let res = test.select("test2");
-    console.log(res);
-    test.delete("test2");
-    console.log(new Date().getTime() + " delete------------------------");
-    test.put("test3", { id: 33333, value: "weili" });
-    console.log(new Date().getTime() + " over------------------------");
-    console.log(tools.localstoretool.getTable("test"));
-    test.push("test6", obj[ "test1" ]);
-    test.push("test6", obj[ "test2" ]);
-    test.push("test6", obj[ "test3" ]);
-    test.push("test6", obj[ "test4" ]);
-    test.delete("test6", 2);
-    console.log(test.select("test6"));
+    let arr1 = [ 0, 1, 2, 3, 4, 5 ];
+    console.log(arr1);
+
+    for (const n in arr1)
+    {
+      if (arr1.hasOwnProperty(n))
+      {
+        const index = parseInt(n);
+        const val = arr1[ n ];
+        if (index > 0)
+        {
+          arr1[ index ] = val + arr1[ index - 1 ];
+        }
+      }
+    }
+    console.log(arr1);
+
 
   }
 
