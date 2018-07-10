@@ -73,23 +73,19 @@ export default class login extends Vue
     {
       sessionStorage.clear();
     }
+    console.log("-----------getNotifyNames");
 
-    let arr1 = [ 0, 1, 2, 3, 4, 5 ];
-    console.log(arr1);
-
-    for (const n in arr1)
-    {
-      if (arr1.hasOwnProperty(n))
+    tools.contract.getNotifyNames("")
+      .then(names =>
       {
-        const index = parseInt(n);
-        const val = arr1[ n ];
-        if (index > 0)
-        {
-          arr1[ index ] = val + arr1[ index - 1 ];
-        }
-      }
-    }
-    console.log(arr1);
+        let find = names.includes("addprice");
+        console.log("addprice in " + names.toString() + " is " + find);
+
+      })
+      .catch(error =>
+      {
+
+      })
 
 
   }

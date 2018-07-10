@@ -195,4 +195,21 @@ export default class Contract
         }
     }
 
+    /**
+     * 获得notify通知出去的名称
+     * @param txid 交易id
+     */
+    static async  getNotifyNames(txid: string): Promise<string[]>
+    {
+        let res = await tools.wwwtool.getNotify(txid);
+        let notifications = res[ "notifications" ] as Array<{ contract: string, state: { type: string, value: Array<{ type: string, value: string }> } }>;
+        let methodnames = [];
+        for (let index = 0; index < notifications.length; index++)
+        {
+            const value = notifications[ index ].state.value[ 0 ].value;
+            methodnames.push(ThinNeo.Helper.Bytes2String(value.hexToBytes()));
+        }
+        return methodnames;
+    }
+
 }
