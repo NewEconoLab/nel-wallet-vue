@@ -9,7 +9,7 @@
             </div>
             <div class="addr-resolver">( {{$t('myneoname.resolver')}} : {{item.resolver ? item.resolver : $t('myneoname.notconfigure')}} )</div>
             <div class="addr-mapping">( {{$t('myneoname.mapping')}} : {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
-            <div class="time-msg" v-if="!item.expired">( {{$t('myneoname.time')}} : {{item.ttl}} <span class="ff6" v-if="item.expiring">{{$t('myneoname.expiring')}}</span> )</div>
+            <div class="time-msg" v-if="!item.expired">( {{$t('myneoname.time')}} : {{item.ttl}} <span class="ff6" v-if="!item.expiring">{{$t('myneoname.expiring')}}</span> )</div>
             <div class="time-msg" v-if="item.expired">( {{$t('myneoname.time')}} :  <span class="ff6">{{$t('myneoname.expired')}}</span> )</div>
             <div class="btn-right">
                 <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
@@ -56,8 +56,8 @@
                     </div>
                     <div class="input-box">
                         <input type="text" class="readonly-input" readonly="readonly" :value="domainInfo.expired?$t('myneoname.expired'):domainInfo.ttl">
-                        <button v-if="domainInfo.expiring &&!renewalWatting" class="btn btn-nel btn-big" @click="renewalDomain">{{$t('btn.renewal')}}</button>
-                        <button  v-if="!domainInfo.expiring &&!renewalWatting"  class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.renewal')}}</button>
+                        <button v-if="!domainInfo.expired &&!renewalWatting" class="btn btn-nel btn-big" @click="renewalDomain">{{$t('btn.renewal')}}</button>
+                        <button  v-if="domainInfo.expired &&!renewalWatting"  class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.renewal')}}</button>
                         <spinner-wrap v-if="renewalWatting"  style="margin-left:20px"></spinner-wrap>
                     </div>
                 </div>

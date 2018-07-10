@@ -7,7 +7,7 @@ import Toast from "../../components/toast.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LocalStoreTool } from "../../tools/storagetool";
-import { Process, DomainInfo } from "../../tools/entity";
+import { Process } from "../../tools/entity";
 @Component({
     components: {
         "v-alert": Valert,
@@ -48,7 +48,7 @@ export default class AuctionInfo extends Vue
         super();
         this.address = tools.storagetool.getStorage("current-address");
         this.myBidPrice = "";
-        this.updatePrice = this.item.mybidprice;
+        this.updatePrice = !this.item.mybidprice ? 0 : this.item.mybidprice;
         this.bidDetailList = [];
         this.currentpage = 1;
         this.pagesize = 5;
@@ -87,6 +87,7 @@ export default class AuctionInfo extends Vue
         this.session_bid = new LocalStoreTool("bidSession");
         this.session_recover = new LocalStoreTool("recoverSession");
         this.session_getdomain = new LocalStoreTool("getDomainSession");
+        this.getSessionBidDetail(this.item.domain);
         let stateMsg = await tools.wwwtool.getDomainState(this.address, this.item.domain);
         this.balanceOf = await tools.nnssell.getBalanceOf();
         this.item.maxBuyer = stateMsg[ "maxBuyer" ];
@@ -272,8 +273,9 @@ export default class AuctionInfo extends Vue
         return;
     }
 
-    async getBidDetail(domain, currentpage, pagesize)
+    async  getSessionBidDetail(domain)
     {
+
         this.session_bid = new LocalStoreTool("bidSession");
         let bidlist = this.session_bid.select(domain);
         if (bidlist && Object.keys(bidlist).length > 0)
@@ -289,15 +291,19 @@ export default class AuctionInfo extends Vue
                     this.session_bid.delete(domain, i);
                 } else
                 {
-                    let nextBid = i == bidlist.length - 1 ? 0 : parseFloat(this.bidDetailList[ i + 1 ][ 'maxPrice' ]);
+                    let nextBid = i == bidlist.length - 1 ? 0 : parseFloat(bidlist[ i + 1 ][ 'amount' ]);
                     let bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
                     this.bidDetailList.push(bidmsg)
                     bidmsg.maxBuyer = this.address;
-                    bidmsg.maxPrice = (parseFloat(amount) + parseFloat(this.item.maxPrice) + nextBid).toString();
+                    bidmsg.maxPrice = (parseFloat(amount) + parseFloat(this.item.mybidprice) + nextBid).toString();
 
                 }
             }
         }
+    }
+
+    async getBidDetail(domain, currentpage, pagesize)
+    {
         let res = await tools.wwwtool.api_getBidDetail(domain, currentpage, pagesize);
         if (res)
         {

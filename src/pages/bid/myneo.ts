@@ -86,9 +86,9 @@ export default class MyNeo extends Vue
                 console.log(isshow);
                 if (!isshow)//未到期
                 {
-                    list[ i ][ "expiring" ] = isshow;
                     let expired = await this.checkExpirationSoon(list[ i ]);
-                    list[ i ][ "expired" ] = expired;
+                    list[ i ][ "expired" ] = isshow;
+                    list[ i ][ "expiring" ] = expired;
                 } else
                 {
                     list[ i ][ "expiring" ] = false;
@@ -117,10 +117,10 @@ export default class MyNeo extends Vue
     async checkExpirationSoon(domain: string)
     {
         let timestamp = new Date().getTime();
-        let copare = new Neo.BigInteger(domain[ "ttl" ]).compareTo(new Neo.BigInteger(timestamp).multiply(1000));
+        let copare = (new Neo.BigInteger(domain[ "ttl" ]).multiply(1000)).subtract(new Neo.BigInteger(timestamp));
         console.log(copare);
-        let threeMonth = (5 * 60 * 1000) * 90
-        return copare < threeMonth ? false : true;    //小于threeMonth即将过期false
+        let threeMonth = (5 * 60 * 1000) * 30;
+        return copare.compareTo(threeMonth) < 0 ? false : true;    //小于threeMonth即将过期false
     }
 
     onShowEdit(item)
