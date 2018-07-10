@@ -2,15 +2,14 @@
     <div class="box-warp">
         <div class="page-one" v-if="!auctionPage">
             <div class="tips-box">
-              Tips: Before the auction begins, you need to know 2 things:<br/>
+              {{$t('auction.tipsmsg1')}}<br/>
               <ol>
-                <li>The asset used for the auction is SGas, and you need to top up your Auction Account with SGas to use it.</li>
-                <li>SGas needs to be redeemed with Gas at the rate of 1:1 in the "SGas Exchange" page, or you can use the top-up function directly in the Auction Account  
-                  to convert the Gas in your Balance directly into SGas and top up your Auction Account with it.</li>
+                <li>{{$t('auction.tipsmsg2')}}</li>
+                <li>{{$t('auction.tipsmsg3')}}</li>
               </ol>
             </div>
             <div class="title">
-              <span>Your Auction Account</span>
+              <span>{{$t('auction.titleaccount')}}</span>
             </div>
             <div class="form-box pall">
               <div class="msg-list">
@@ -19,23 +18,23 @@
                 </div>
               </div>
               <div class="btn-right">
-                    <button class="btn btn-nel btn-big" @click="openWithdraw">Withdraw</button>
-                    <button class="btn btn-nel btn-big" @click="openTopUp">Top Up</button>
+                    <button class="btn btn-nel btn-big" @click="openWithdraw">{{$t('btn.withdraw')}}</button>
+                    <button class="btn btn-nel btn-big" @click="openTopUp">{{$t('btn.topup')}}</button>
                 </div> 
             </div>
             <div class="title">
-                <span>Neo Name Auction</span>
+                <span>{{$t('auction.title1')}}</span>
             </div>
             <div class="form-box ptop">
                 <div class="input-box" >
-                    <input type="text" placeholder="type a name" v-model="domain" @input="queryDomainState">
+                    <input type="text" :placeholder="$t('auction.entername')" v-model="domain" @input="queryDomainState">
                     <span>.neo</span>
                 </div>
                 <spinner-wrap v-if="btn_start==0" style="margin-left:20px"></spinner-wrap>
-                <button v-if="btn_start==1" class="btn btn-nel btn-big" @click="openAuction">Open Auction</button>
-                <button v-if="btn_start==2" class="btn btn-nel btn-big" @click="addBid">New Bid</button>
-                <button v-if="btn_start==3" class="btn btn-nel btn-big btn-disable" disabled="disabled">New Bid</button>
-                <span class="waiting-msg">We're sending a transacton,please wait patiently...</span>
+                <button v-if="btn_start==1" class="btn btn-nel btn-big" @click="openAuction">{{$t('btn.openauction')}}</button>
+                <button v-if="btn_start==2" class="btn btn-nel btn-big" @click="addBid">{{$t('btn.newbid')}}</button>
+                <button v-if="btn_start==3" class="btn btn-nel btn-big btn-disable" disabled="disabled">{{$t('btn.newbid')}}</button>
+                <span class="waiting-msg">{{$t('auction.sendingmsg')}}</span>
                 <div class="msg-box">
                     <img src="../../../static/img/correct.svg" alt="">
                     <span>bunnyrepublic is available.</span>
@@ -127,28 +126,28 @@
         <div class="top-up-wrap" v-if="alert_TopUp.isShow">
           <div class="top-up-box">
             <div class="topup-title">
-              <span>Top Up</span>
+              <span>{{$t('auction.topup')}}</span>
             </div>
             <div class="asset-wrap">
-              <div class="asset-name">Asset :</div>
+              <div class="asset-name">{{$t('auction.asset')}} :</div>
               <v-selected :list="selectList" @selected="onSelect"></v-selected>
               <div class="asset-available">
-                  <span>{{alert_available}} is available.</span>
+                  <span>{{alert_available}} {{$t('auction.errmsg3')}}</span>
               </div>
             </div>
             <div class="amount-wrap">
-              <div class="amount-msg">Amount:</div>
+              <div class="amount-msg">{{$t('auction.amount')}}:</div>
               <div class="input-box">
-                <input type="number" placeholder="Amount" v-model="alert_TopUp.input" @input="verifToupAmount">
-                <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="gasToRecharge">Confirm</button>
+                <input type="number" :placeholder="$t('auction.amount')" v-model="alert_TopUp.input" @input="verifToupAmount">
+                <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="gasToRecharge">{{$t('btn.confirm')}}</button>
                 <spinner-wrap v-else ></spinner-wrap>
               </div>
               <div class="status-ended err-msg">
-                Only {{alert_available}} is available.
+                {{$t('auction.errmsg1')}} {{alert_available}} {{$t('auction.errmsg3')}}.
               </div>
             </div>
             <div class="topup-tips">
-              Tips: When you are using Gas to recharge, before being recharged into your Auction Account, GAS will be automatically switched to SGas. The entire process takes two blocks of confirmation time. Please wait patiently. 
+              {{$t('auction.tipsmsg4')}}
             </div>
             <div class="topup-close" @click="alert_TopUp.isShow=!alert_TopUp.isShow">
               <span aria-hidden="true" >&times;</span>
@@ -158,23 +157,23 @@
         <div class="withdraw-wrap" v-if="alert_withdraw.isShow">
           <div class="withdraw-box">
             <div class="withdraw-title">
-              <span>Withdraw</span>
+              <span>{{$t('auction.withdraw')}}</span>
             </div>
             <div class="line-wrap">
-              <div class="line-msg">To :</div>
+              <div class="line-msg">{{$t('auction.to')}} :</div>
               <div class="line-box">
-                <input type="text" value="Your Balance" class="readonly-input" disabled>
+                <input type="text" :value="$t('auction.yourbalance')" class="readonly-input" disabled>
               </div>
             </div>
             <div class="line-wrap">
-              <div class="line-msg">Amount:</div>
+              <div class="line-msg">{{$t('auction.amount')}}:</div>
               <div class="line-box">
-                <input type="number" placeholder="Amount" v-model="alert_withdraw.input" @input="verifWithdraw">
+                <input type="number" :placeholder="$t('auction.amount')" v-model="alert_withdraw.input" @input="verifWithdraw">
                 <spinner-wrap v-if="alert_withdraw.watting"></spinner-wrap>
-                <button v-else class="btn btn-nel btn-big" @click="withdraw">Confirm</button>
+                <button v-else class="btn btn-nel btn-big" @click="withdraw">{{$t('btn.confirm')}}</button>
               </div>
               <div class="status-ended err-msg">
-                {{regBalance}} SGas is available.
+                {{regBalance}} SGas {{$t('auction.errmsg3')}}.
               </div>
             </div>
             <div class="withdraw-close" @click="alert_withdraw.isShow=!alert_withdraw.isShow">
