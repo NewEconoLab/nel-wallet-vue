@@ -37,18 +37,18 @@
                 <span class="waiting-msg">{{$t('auction.sendingmsg')}}</span>
                 <div class="msg-box">
                     <img src="../../../static/img/correct.svg" alt="">
-                    <span>bunnyrepublic is available.</span>
-                    <span>///bunnyrepublic is being auctioned.</span>
+                    <span>{{$t('auction.checkavailable')}}</span>
+                    <span>{{$t('auction.checkbeing')}}</span>
                 </div>
                 <div class="msg-box status-ended">
-                    <span>Please enter the domain according to the format.</span>
-                    <span>///This domain name has already been auctioned off by others.</span>
+                    <span>{{$t('auction.checkformat')}}</span>
+                    <span>{{$t('auction.checkbuyer')}}</span>
                 </div>
             </div>
             <div class="title">
-                <span>My Auction</span>
+                <span>{{$t('auction.title2')}}</span>
                 <div class="seach-box">
-                    <input type="search" name="" id="" placeholder="Search by domain">
+                    <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')">
                     <img src="../../../static/img/seach.png" alt="">
                 </div>
             </div>
@@ -58,65 +58,65 @@
                         {{item.domain}}
                     </div>
                     <div class="msg-status" v-if="item.auctionState==1">
-                        Status : <span class="status-being">Fixed period</span>
+                        {{$t('auction.status')}} : <span class="status-being">{{$t('auction.fixedperiod')}}</span>
                     </div>
                     <div class="msg-status" v-if="item.auctionState==2">
-                        Status : <span class="status-random">Random period</span>
+                        {{$t('auction.status')}} : <span class="status-random">{{$t('auction.randomperiod')}}</span>
                     </div>
                     <div class="msg-status" v-if="item.auctionState==3">
-                        Status : <span class="status-random">Waiting</span>
+                        {{$t('auction.status')}} : <span class="status-random">{{$t('auction.waiting')}}</span>
                     </div>
                     <div class="msg-status" v-if="item.auctionState==0">
-                        Status : <span class="status-ended">Ended</span>
+                        {{$t('auction.status')}} : <span class="status-ended">{{$t('auction.ended')}}</span>
                     </div>
                     <div class="msg-price">
-                        Last auction price : <span>{{item.maxPrice}}</span> SGas
+                        {{$t('auction.lastauctionprice')}} : <span>{{item.maxPrice}}</span> SGas
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer != address">
-                        {{item.auctionState>0?"Current bidder":"Buyer " }} : <span>Other people （ {{item.maxBuyer}} ）</span>
+                        {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }} : <span>{{$t('auction.other')}} （ {{item.maxBuyer}} ）</span>
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer == address">
-                        {{item.auctionState>0?"Current bidder":"Buyer " }}  : <span class="bidder-me">Me （ {{address}} ）</span>
+                        {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }}  : <span class="bidder-me">{{$t('auction.me')}} （ {{address}} ）</span>
                     </div>
                     <div class="msg-time">
-                        Bid start time : <span>{{item.startAuctionTime}}</span>
+                        {{$t('auction.bidstarttimemsg')}} : <span>{{item.startAuctionTime}}</span>
                     </div>
                     <div v-if="item.bidListSession" v-for="(value,key) in item.bidListSession" :key="key">
                       {{value}}
                     </div>
                 </div>
                 <div class="btn-right">
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='1'||item.auctionState=='2'" @click="onGoBidInfo(item)">Bid</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer==address && item.receivedState==0" @click="onGoBidInfo(item)">Get domain</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer!=address && item.receivedState==0" @click="onGoBidInfo(item)">Recover SGas</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.receivedState>0" @click="onGoBidInfo(item)">Received</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='1'||item.auctionState=='2'" @click="onGoBidInfo(item)">{{$t('btn.bid')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer==address && item.receivedState==0" @click="onGoBidInfo(item)">{{$t('btn.getdomain')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer!=address && item.receivedState==0" @click="onGoBidInfo(item)">{{$t('btn.recoversgas')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.receivedState>0" @click="onGoBidInfo(item)">{{$t('btn.received')}}</button>
                 </div>
             </div>
         </div>
         <auction-info v-if="auctionPage" @onBack="onBack" :item="domainInfo"></auction-info>
         <div class="auction-wrap" v-if="auctionShow">
           <div class="auction-box">
-            <div class="auction-title">Auction</div>
+            <div class="auction-title">{{$t('auction.acutiontitle')}}</div>
             <div class="wrap-msg">
-              <div class="domain-name">Domain : {{auctionMsg_alert.domain}}</div>
-              <div class="auction-status">Status : <span class="status-being">Fixed period （ 47:56:30 ）</span> </div>
-              <div class="auction-price">Highest bid price : {{auctionMsg_alert.maxPrice}} SGas</div>
+              <div class="domain-name">{{$t('auction.domain')}} : {{auctionMsg_alert.domain}}</div>
+              <div class="auction-status">{{$t('auction.status')}} : <span class="status-being">Fixed period （ 47:56:30 ）</span> </div>
+              <div class="auction-price">{{$t('auction.highest')}} : {{auctionMsg_alert.maxPrice}} SGas</div>
             </div>
             <div class="wrap-msg">
               <div class="my-bid">
-                <span>Raise my bid : </span>
-                <input class="bid-input" type="number" placeholder="Enter a raise" v-model="alert_myBid" @input="verifBidAmount">
+                <span>{{$t('auction.raisebid')}} : </span>
+                <input class="bid-input" type="number" :placeholder="$t('auction.enterbid')" v-model="alert_myBid" @input="verifBidAmount">
               </div>
               <div class="my-bid">
-                Your cumulative bid : <span class="status-ended">{{myBalanceOfSelling}}</span> SGas
+                {{$t('auction.yourbidmsg')}} : <span class="status-ended">{{myBalanceOfSelling}}</span> SGas
               </div>
             </div>
             <div class="tips-msg">
-              Tips : The minimum value for each increase is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful.
+              {{$t('auction.tips1')}}
             </div>
             <div class="btn-bid-box">
-              <button v-if="canAdded" class="btn btn-nel btn-big" @click="bidDomain()" >Bid</button>
-              <button v-else class="btn btn-nel btn-big btn-disable" disabled="disabled" >Bid</button>
+              <button v-if="canAdded" class="btn btn-nel btn-big" @click="bidDomain()" >{{$t('btn.bid')}}</button>
+              <button v-else class="btn btn-nel btn-big btn-disable" disabled="disabled" >{{$t('btn.bid')}}</button>
             </div>
             <div class="auction-close">
               <span aria-hidden="true" @click="auctionShow = !auctionShow">&times;</span>

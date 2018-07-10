@@ -215,6 +215,7 @@ export default {
         errmsg3: "is available.",
         tipsmsg4: "Tips: When you are using Gas to recharge, before being recharged into your Auction Account, GAS will be automatically switched to SGas. The entire process takes two blocks of confirmation time. Please wait patiently. ",
         yourbalance: "Your Balance",
+        waiting: "Waiting",
     },
     exchange: {
         title: "SGas Exchange",
