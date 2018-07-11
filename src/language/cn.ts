@@ -228,8 +228,8 @@ export default {
         failbid: "加价失败",
         failbid2: "此域名竞拍结束，本次加价未执行",
         successbid2: "成功加价",
-        successgetdomain: "域名获取成功",
-        failgetdomain: "域名获取失败",
+        successgetdomain: "域名领取成功",
+        failgetdomain: "域名领取失败",
     },
     exchange: {
         title: "SGas兑换",
