@@ -58,7 +58,7 @@ export class NeoaucionData
                     if (info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0)
                     {
                         element.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
-                        element.maxPrice = accDiv(parseInt(info.maxPrice.toString()), 100000000);
+                        element.maxPrice = accDiv(parseInt(info.maxPrice.toString()), 100000000).toString();
                     }
                     element.auctionState = '1';
                 }

@@ -128,9 +128,9 @@ export default class AuctionInfo extends Vue
 
                 this.process_state = state == 0 ? "" + this.$t('auction.ended') : state == 1 ? "" + this.$t('auction.fixedperiod') : "" + this.$t('auction.randomperiod');
                 let oldtime = accSub(currenttime, time);
-                let a = accDiv(parseFloat(oldtime), 5 * 5 * 60 * 1000);
-                let width = a >= 1 ? 100 : accMul(parseFloat(a), 100);
-                this.width = parseInt(width);
+                let a = accDiv(oldtime, 5 * 5 * 60 * 1000);
+                let width = a >= 1 ? 100 : accMul(a, 100);
+                this.width = parseInt(width.toString());
             }
         }
 
@@ -323,7 +323,7 @@ export default class AuctionInfo extends Vue
                     let bidmsg = { addPriceTime: "" + this.$t("auction.waitmsg1"), maxBuyer: '', maxPrice: '' };
                     this.bidDetailList.push(bidmsg)
                     bidmsg.maxBuyer = this.address;
-                    bidmsg.maxPrice = accAdd(parseFloat(amount), parseFloat(this.item.mybidprice ? this.item.mybidprice : 0));
+                    bidmsg.maxPrice = accAdd(parseFloat(amount), parseFloat(this.item.mybidprice ? this.item.mybidprice : 0)).toString();
                 }
             }
         }

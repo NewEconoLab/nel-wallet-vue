@@ -5,6 +5,7 @@ import VLink from "../components/VLink.vue";
 import { WalletOtcgo, LoginInfo } from "../tools/entity";
 import { tools } from "../tools/importpack";
 /// <reference path="../tools/neo-ts.d.ts"/>
+/// <reference path="../tools/number.ts"/>
 
 declare const mui;
 
