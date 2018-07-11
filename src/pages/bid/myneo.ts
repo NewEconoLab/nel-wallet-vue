@@ -217,6 +217,9 @@ export default class MyNeo extends Vue
         if (res)
         {
             let txid = res[ "txid" ];
+            console.log("--------------------------------------renewalDomain--------------------------------");
+            console.log(txid);
+
             renewalsession.put(domain, { txid });
             this.renewalConfirm(txid, domain);
         }

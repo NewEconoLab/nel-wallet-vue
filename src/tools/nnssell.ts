@@ -93,6 +93,9 @@ export default class NNSSell
                 olds.map(old => old.height = height);
                 OldUTXO.oldutxosPush(olds);
                 return txid;
+            } else
+            {
+                return undefined;
             }
         } catch (error)
         {
