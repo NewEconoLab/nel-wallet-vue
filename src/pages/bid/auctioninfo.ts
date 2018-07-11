@@ -90,6 +90,7 @@ export default class AuctionInfo extends Vue
         this.getSessionBidDetail(this.item.domain);
         let stateMsg = await tools.wwwtool.getDomainState(this.address, this.item.domain);
         this.balanceOf = await tools.nnssell.getBalanceOf();
+        this.balanceOf = !!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0';
         this.item.maxBuyer = stateMsg[ "maxBuyer" ];
         this.item.maxPrice = stateMsg[ "maxPrice" ];
         this.balanceOfSelling = stateMsg[ "mybidprice" ];
@@ -165,8 +166,9 @@ export default class AuctionInfo extends Vue
         let res = this.checkInput(price);
         if (res)
         {
-            let bidPrice = Neo.Fixed8.parse((this.item.mybidprice == '' ? 0 : this.item.mybidprice) + "");
-            let balance = Neo.Fixed8.parse(this.balanceOf);
+            let mybidprice = !!this.item.mybidprice && this.item.mybidprice != '' ? this.item.mybidprice : 0;
+            let bidPrice = Neo.Fixed8.parse(mybidprice + "");
+            let balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
             let sum = bidPrice.add(Neo.Fixed8.parse(price + ""));
             this.updatePrice = sum.toString();
 
