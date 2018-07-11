@@ -3,12 +3,14 @@ import WalletLayout from "../../layouts/wallet.vue";
 import axios from "axios"
 import Vue from "vue";
 import Component from "vue-class-component";
+import Toast from "../../components/toast.vue";
 import { tools } from "../../tools/importpack";
 
 declare const mui;
 @Component({
     components: {
-        "wallet-layout": WalletLayout
+        "wallet-layout": WalletLayout,
+        "v-toast": Toast
     }
 })
 export default class transfer extends Vue 
@@ -26,6 +28,7 @@ export default class transfer extends Vue
     nextpage: boolean = true;
     txpage: number;
     cutshow: boolean = true;
+    openToast: Function;
     constructor() 
     {
         super();
@@ -36,9 +39,11 @@ export default class transfer extends Vue
         this.asset = "";
         this.txpage = 1;
         Neo.Cryptography.RandomNumberGenerator.startCollectors();
+        // this.openToast = this.$refs.toast[ "isShow" ];
     }
     mounted() 
     {
+        this.openToast = this.$refs.toast[ "isShow" ];
         var str = tools.storagetool.getStorage("balances_asset");
         if (str == null)
             this.balances = new Array<BalanceInfo>();
@@ -162,7 +167,13 @@ export default class transfer extends Vue
                 } else
                 {
                     let res: Result = await tools.coinTool.rawTransaction(this.toaddress, this.asset, this.amount);
-                    mui.toast(res.info);
+                    if (res.err)
+                    {
+                        this.openToast("error", "交易失败 " + res.info, 3000);
+                    } else
+                    {
+                        this.openToast("success", "交易成功，请等待区块变化后确认是否到账", 3000);
+                    }
                     let his: History = new History();
                     his.address = this.toaddress;
                     his.asset = this.asset;

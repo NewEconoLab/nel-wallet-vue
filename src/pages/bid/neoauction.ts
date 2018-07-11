@@ -415,13 +415,16 @@ export default class NeoAuction extends Vue
         if (this.alert_selection == tools.coinTool.id_GAS)
         {
             let txid = await tools.nnssell.gasToRecharge(parseFloat(this.alert_TopUp.input));
-            this.sessionWatting.put("recharge-gas", { txid, amount });
-            this.confirmRecharge(txid);
             if (txid)
             {
+                this.sessionWatting.put("recharge-gas", { txid, amount });
+                this.confirmRecharge(txid);
+                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
+                this.isTopUp = false;
+            } else
+            {
+                this.openToast("error", "" + this.$t("auction.fail"), 4000);
             }
-            this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
-            this.isTopUp = false;
         } else
         {
             try
