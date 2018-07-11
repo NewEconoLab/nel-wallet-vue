@@ -19,6 +19,7 @@ export default class Exchange extends Vue
     exchangebtn: boolean;          //转换按钮的控制 默认false不可点击
     exchangeList: any;             //一条交易数据的缓存
     isCheckingTran: boolean;        //是否交易中
+    transmaxlength: number;          //input输入框的限制
 
     constructor()
     {
@@ -89,10 +90,19 @@ export default class Exchange extends Vue
     {
         if (this.transcount)
         {
+            console.log(this.transcount);
             if (!/^0|^\.\d/.test(this.transcount) || /^0\.[0-9]/.test(this.transcount))
             {
+                if (/\./.test(this.transcount))
+                {
+                    if (/\.\d{9}/.test(this.transcount))
+                    {
+                        this.transcount = this.transcount.substring(0, this.transcount.length - 1);
+                    }
+                }
                 this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
-            } else
+            }
+            else
             {
                 this.exchangebtn = false;
             }
