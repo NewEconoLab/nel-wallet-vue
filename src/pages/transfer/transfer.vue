@@ -97,7 +97,8 @@
                     <img src="../../../static/img/righttrangle.svg" alt="">
                 </div>
             </div>
-        </div>
+        </div>        
+        <v-toast ref="toast" ></v-toast>
     </wallet-layout>
 </template>
 
