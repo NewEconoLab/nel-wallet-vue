@@ -228,8 +228,8 @@ export default {
         failbid: "Raise failed!",
         failbid2: "Its auction has ended. Your raise is not executed.",
         successbid2: "Successesfully BidDomain",
-        successgetdomain: "Get domain successsfully",
-        failgetdomain: "Get domain failed",
+        successgetdomain: "Domain acquired",
+        failgetdomain: "Please click again to acquire domain"
     },
     exchange: {
         title: "SGas Exchange",
