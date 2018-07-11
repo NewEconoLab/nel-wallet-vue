@@ -5,6 +5,8 @@
  ** 返回值：arg1加上arg2的精确结果
  **/
 function accAdd(arg1, arg2) {
+    arg1 = (typeof arg1) == "number" ? arg1 : parseFloat(arg1);
+    arg2 = (typeof arg2) == "number" ? arg2 : parseFloat(arg2);
     var r1, r2, m, c;
     try {
         r1 = arg1.toString().split(".")[1].length;
@@ -48,6 +50,8 @@ Number.prototype.add = function (arg) {
  ** 返回值：arg1加上arg2的精确结果
  **/
 function accSub(arg1, arg2) {
+    arg1 = (typeof arg1) == "number" ? arg1 : parseFloat(arg1);
+    arg2 = (typeof arg2) == "number" ? arg2 : parseFloat(arg2);
     var r1, r2, m, n;
     try {
         r1 = arg1.toString().split(".")[1].length;
@@ -78,7 +82,9 @@ Number.prototype.sub = function (arg) {
  ** 返回值：arg1乘以 arg2的精确结果
  **/
 function accMul(arg1, arg2) {
-    var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
+    s1 = (typeof arg1) == "string" ? arg1 : arg1.toString();
+    s2 = (typeof arg2) == "string" ? arg2 : arg2.toString();
+    var m = 0;
     try {
         m += s1.split(".")[1].length;
     }
@@ -104,20 +110,22 @@ Number.prototype.mul = function (arg) {
  ** 返回值：arg1除以arg2的精确结果
  **/
 function accDiv(arg1, arg2) {
+    arg1 = (typeof arg1) == "string" ? arg1 : arg1.toString();
+    arg2 = (typeof arg2) == "string" ? arg2 : arg2.toString();
     var t1 = 0, t2 = 0, r1, r2;
     try {
-        t1 = arg1.toString().split(".")[1].length;
+        t1 = arg1.split(".")[1].length;
     }
     catch (e) {
     }
     try {
-        t2 = arg2.toString().split(".")[1].length;
+        t2 = arg2.split(".")[1].length;
     }
     catch (e) {
     }
     with (Math) {
-        r1 = Number(arg1.toString().replace(".", ""));
-        r2 = Number(arg2.toString().replace(".", ""));
+        r1 = Number(arg1.replace(".", ""));
+        r2 = Number(arg2.replace(".", ""));
         return (r1 / r2) * pow(10, t2 - t1);
     }
 }
