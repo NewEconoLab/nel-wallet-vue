@@ -3,10 +3,10 @@
     <div class="container ">
         <div class="title-menu">
             <ul class="menu-box">
-                <li :class="{'active' : showType == 1}" @click="showType = 1">{{$t('nnsneo.auction')}}</li>
-                <li :class="{'active' : showType == 2}" @click="showType = 2">{{$t('nnsneo.exchange')}}</li>
-                <li :class="{'active' : showType == 3}" @click="showType = 3">{{$t('nnsneo.myneoname')}}</li>
-                <li :class="{'active' : showType == 4}" @click="showType = 4">{{$t('nnsneo.bonus')}}</li>
+                <li :class="{'active' : showType == 1}" @click="switchRoute('auction')">{{$t('nnsneo.auction')}}</li>
+                <li :class="{'active' : showType == 2}" @click="switchRoute('exchange')">{{$t('nnsneo.exchange')}}</li>
+                <li :class="{'active' : showType == 3}" @click="switchRoute('myneoname')">{{$t('nnsneo.myneoname')}}</li>
+                <li :class="{'active' : showType == 4}" @click="switchRoute('bonus')">{{$t('nnsneo.bonus')}}</li>
             </ul>
         </div>
         <div class="content-box">

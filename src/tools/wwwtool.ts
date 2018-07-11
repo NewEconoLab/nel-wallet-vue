@@ -269,7 +269,11 @@ export class WWW
         var r = json[ "result" ][ 0 ];
         return r;
     }
-    //nns（.neo） start
+
+    /**
+     * 根据地址查询参与竞拍的域名列表
+     * @param address 要查询的地址
+     */
     static async api_getBidListByAddress(address: string)
     {
         var postdata = WWW.makeRpcPostBody("getbidlistbyaddress", address);

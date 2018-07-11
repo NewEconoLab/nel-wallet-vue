@@ -40,19 +40,34 @@ var app = new Vue({
     computed: {
         ViewComponent()
         {
-            switch (this.currentRoute)
+            let routeArray = (this.currentRoute as string).replace("#", "").split("/")
+            let route = routeArray[ 0 ];
+            let subroute = routeArray.length > 1 ? routeArray[ 1 ] : undefined;
+            switch (route)
             {
-                case "#balance":
+                case "balance":
                     return Balance;
-                case "#login":
+                case "login":
                     return Login;
-                case "#transfer":
+                case "transfer":
                     return Transfer;
-                case "#nnsneo":
+                case "nnsneo":
+                    //由于。。。。子路由的页面都嵌套进了NNSNeo.vue里进行切换，此处的二级路由跳转部分。等于没用。路由跳转部分在NNSNeo.ts里做控制
+                    // switch (subroute)
+                    // {
+                    //     case "auction":
+                    //         return NNSNeo;
+                    //     case "exchange":
+                    //         return NNSNeo;
+                    //     case "myneoname":
+                    //         return NNSNeo;
+                    //     case "bonus":
+                    //         return NNSNeo;
+                    // }
                     return NNSNeo;
-                case "#nns":
+                case "nns":
                     return NNS;
-                case "#settings":
+                case "settings":
                     return Settings;
             }
             return notFound;

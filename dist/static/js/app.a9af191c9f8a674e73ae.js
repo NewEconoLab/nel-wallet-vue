@@ -538,6 +538,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "3uYn":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "4+Dl":
 /***/ (function(module, exports) {
 
@@ -1167,7 +1174,10 @@ var WWW = /** @class */ (function () {
             });
         });
     };
-    //nns（.neo） start
+    /**
+     * 根据地址查询参与竞拍的域名列表
+     * @param address 要查询的地址
+     */
     WWW.api_getBidListByAddress = function (address) {
         return __awaiter(this, void 0, void 0, function () {
             var postdata, result, json, r;
@@ -3623,12 +3633,15 @@ var NeoAuction = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.nnssell.gasToRecharge(parseFloat(this.alert_TopUp.input))];
                     case 1:
                         txid = _a.sent();
-                        this.sessionWatting.put("recharge-gas", { txid: txid, amount: amount });
-                        this.confirmRecharge(txid);
                         if (txid) {
+                            this.sessionWatting.put("recharge-gas", { txid: txid, amount: amount });
+                            this.confirmRecharge(txid);
+                            this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
+                            this.isTopUp = false;
                         }
-                        this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
-                        this.isTopUp = false;
+                        else {
+                            this.openToast("error", "" + this.$t("auction.fail"), 4000);
+                        }
                         return [3 /*break*/, 6];
                     case 2:
                         _a.trys.push([2, 5, , 6]);
@@ -3777,9 +3790,46 @@ var NNSNeo = /** @class */ (function (_super) {
     function NNSNeo() {
         var _this = _super.call(this) || this;
         _this.showType = 1;
+        var routeArray = location.hash.replace("#", "").split("/");
+        var route = routeArray[0];
+        var subroute = routeArray.length > 1 ? routeArray[1] : undefined;
+        switch (subroute) {
+            case "auction":
+                _this.showType = 1;
+                break;
+            case "exchange":
+                _this.showType = 2;
+                break;
+            case "myneoname":
+                _this.showType = 3;
+                break;
+            case "bonus":
+                _this.showType = 4;
+                break;
+        }
         return _this;
     }
     NNSNeo.prototype.mounted = function () { };
+    NNSNeo.prototype.switchRoute = function (subroute) {
+        switch (subroute) {
+            case "auction":
+                this.showType = 1;
+                location.hash = "#nnsneo/auction";
+                break;
+            case "exchange":
+                this.showType = 2;
+                location.hash = "#nnsneo/exchange";
+                break;
+            case "myneoname":
+                this.showType = 3;
+                location.hash = "#nnsneo/myneoname";
+                break;
+            case "bonus":
+                this.showType = 4;
+                location.hash = "#nnsneo/bonus";
+                break;
+        }
+    };
     NNSNeo = __decorate([
         vue_class_component_1.default({
             components: {
@@ -4189,14 +4239,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var nnsneo = __webpack_require__("8L/I");
 var nnsneo_default = /*#__PURE__*/__webpack_require__.n(nnsneo);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0ad41fa0","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/nnsneo.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title-menu"},[_c('ul',{staticClass:"menu-box"},[_c('li',{class:{'active' : _vm.showType == 1},on:{"click":function($event){_vm.showType = 1}}},[_vm._v(_vm._s(_vm.$t('nnsneo.auction')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 2},on:{"click":function($event){_vm.showType = 2}}},[_vm._v(_vm._s(_vm.$t('nnsneo.exchange')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 3},on:{"click":function($event){_vm.showType = 3}}},[_vm._v(_vm._s(_vm.$t('nnsneo.myneoname')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 4},on:{"click":function($event){_vm.showType = 4}}},[_vm._v(_vm._s(_vm.$t('nnsneo.bonus')))])])]),_vm._v(" "),_c('div',{staticClass:"content-box"},[(_vm.showType == 1)?_c('neo-auction'):_vm._e(),_vm._v(" "),(_vm.showType == 2)?_c('exchange'):_vm._e(),_vm._v(" "),(_vm.showType == 3)?_c('my-neo'):_vm._e(),_vm._v(" "),(_vm.showType == 4)?_c('bonus'):_vm._e()],1)])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-75234536","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/nnsneo.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title-menu"},[_c('ul',{staticClass:"menu-box"},[_c('li',{class:{'active' : _vm.showType == 1},on:{"click":function($event){_vm.switchRoute('auction')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.auction')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 2},on:{"click":function($event){_vm.switchRoute('exchange')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.exchange')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 3},on:{"click":function($event){_vm.switchRoute('myneoname')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.myneoname')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 4},on:{"click":function($event){_vm.switchRoute('bonus')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.bonus')))])])]),_vm._v(" "),_c('div',{staticClass:"content-box"},[(_vm.showType == 1)?_c('neo-auction'):_vm._e(),_vm._v(" "),(_vm.showType == 2)?_c('exchange'):_vm._e(),_vm._v(" "),(_vm.showType == 3)?_c('my-neo'):_vm._e(),_vm._v(" "),(_vm.showType == 4)?_c('bonus'):_vm._e()],1)])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_nnsneo = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/nnsneo.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("ghzi")
+  __webpack_require__("3uYn")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -4207,7 +4257,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-0ad41fa0"
+var __vue_scopeId__ = "data-v-75234536"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -6156,6 +6206,8 @@ var MyNeo = /** @class */ (function (_super) {
                         res = _a.sent();
                         if (res) {
                             txid = res["txid"];
+                            console.log("--------------------------------------renewalDomain--------------------------------");
+                            console.log(txid);
                             renewalsession.put(domain, { txid: txid });
                             this.renewalConfirm(txid, domain);
                         }
@@ -7740,13 +7792,6 @@ exports.NNSTool = NNSTool;
 /***/ }),
 
 /***/ "cou+":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "ghzi":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -9495,7 +9540,7 @@ var NNSSell = /** @class */ (function () {
                         sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(importpack_1.tools.coinTool.id_SGAS);
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 6, , 7]);
+                        _a.trys.push([1, 7, , 8]);
                         return [4 /*yield*/, importpack_1.tools.contract.buildInvokeTransData(script, sgasaddr, importpack_1.tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount))];
                     case 2:
                         data1 = _a.sent();
@@ -9512,11 +9557,12 @@ var NNSSell = /** @class */ (function () {
                         olds.map(function (old) { return old.height = height; });
                         entity_1.OldUTXO.oldutxosPush(olds);
                         return [2 /*return*/, txid];
-                    case 5: return [3 /*break*/, 7];
-                    case 6:
+                    case 5: return [2 /*return*/, undefined];
+                    case 6: return [3 /*break*/, 8];
+                    case 7:
                         error_1 = _a.sent();
                         throw error_1;
-                    case 7: return [2 /*return*/];
+                    case 8: return [2 /*return*/];
                 }
             });
         });
@@ -10254,18 +10300,33 @@ var app = new vue_1.default({
     },
     computed: {
         ViewComponent: function () {
-            switch (this.currentRoute) {
-                case "#balance":
+            var routeArray = this.currentRoute.replace("#", "").split("/");
+            var route = routeArray[0];
+            var subroute = routeArray.length > 1 ? routeArray[1] : undefined;
+            switch (route) {
+                case "balance":
                     return balance_vue_1.default;
-                case "#login":
+                case "login":
                     return login_vue_1.default;
-                case "#transfer":
+                case "transfer":
                     return transfer_vue_1.default;
-                case "#nnsneo":
+                case "nnsneo":
+                    //由于。。。。子路由的页面都嵌套进了NNSNeo.vue里进行切换，此处的二级路由跳转部分。等于没用。路由跳转部分在NNSNeo.ts里做控制
+                    // switch (subroute)
+                    // {
+                    //     case "auction":
+                    //         return NNSNeo;
+                    //     case "exchange":
+                    //         return NNSNeo;
+                    //     case "myneoname":
+                    //         return NNSNeo;
+                    //     case "bonus":
+                    //         return NNSNeo;
+                    // }
                     return nnsneo_vue_1.default;
-                case "#nns":
+                case "nns":
                     return nns_vue_1.default;
-                case "#settings":
+                case "settings":
                     return settings_vue_1.default;
             }
             return notFound;
