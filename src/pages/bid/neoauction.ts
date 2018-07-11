@@ -8,7 +8,7 @@ import Toast from "../../components/toast.vue";
 import { tools } from "../../tools/importpack";
 import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
-import { LocalStoreTool } from "../../tools/storagetool";
+import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 @Component({
     components: {
         "v-alert": Valert,
@@ -42,7 +42,8 @@ export default class NeoAuction extends Vue
     alert_withdraw_input: string;
     alert_withdraw: NeoAuction_Withdraw;
     alert_TopUp: NeoAuction_TopUp;
-    sessionWatting: LocalStoreTool
+    sessionWatting: LocalStoreTool;
+    auctionPageSession: sessionStoreTool;
     myBalanceOfSelling: string;
     canAdded: boolean;
     openToast: Function;
@@ -74,6 +75,14 @@ export default class NeoAuction extends Vue
         this.alert_withdraw = new NeoAuction_Withdraw();
         this.alert_TopUp = new NeoAuction_TopUp();
         this.sessionWatting = new LocalStoreTool("session_watting");
+        this.auctionPageSession = new tools.localstoretool("auctionPage");
+        if (this.auctionPageSession.select("show"))
+        {
+            this.auctionPage = true;
+        } else
+        {
+            this.auctionPage = false;
+        }
         this.canAdded = false;
         this.myBalanceOfSelling = "";
         tools.nnstool.initRootDomain("neo");
@@ -103,12 +112,15 @@ export default class NeoAuction extends Vue
      */
     onGoBidInfo(item)
     {
-        this.auctionPage = !this.auctionPage
         this.domainInfo = item;
+        this.auctionPageSession.put("domain", item.domain)
+        this.auctionPageSession.put('show', true);
+        this.auctionPage = !this.auctionPage
     }
 
-    onBack()
+    onBack(domain: string)
     {
+        this.auctionPageSession.put('show', false);
         this.auctionPage = false;
     }
 

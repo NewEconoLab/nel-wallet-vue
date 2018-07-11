@@ -5,6 +5,8 @@ export default class DateTool
     /**************************************时间格式化处理************************************/
     static dateFtt(fmt, date)   
     { //author: meizz   
+        console.log(date);
+
         var o = {
             "M+": date.getMonth() + 1,                 //月份   
             "d+": date.getDate(),                    //日   

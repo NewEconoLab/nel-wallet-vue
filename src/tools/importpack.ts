@@ -1,7 +1,7 @@
 import { CoinTool } from "./cointool";
 import { neotools } from "./neotools";
 import { NNSTool } from "./nnstool";
-import { StorageTool, LocalStoreTool } from "./storagetool";
+import { StorageTool, LocalStoreTool, sessionStoreTool } from "./storagetool";
 import { WWW } from "./wwwtool";
 import DateTool from "./timetool";
 import Contract from "./contract";
@@ -21,5 +21,6 @@ export namespace tools
     export let sgastool = SgasTool;         //Sgas兑换方法
     export let nnssell = NNSSell;
     export let localstoretool = LocalStoreTool;
+    export let sessionstoretool = sessionStoreTool;
 
 }

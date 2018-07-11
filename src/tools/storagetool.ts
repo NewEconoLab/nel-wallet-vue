@@ -297,6 +297,10 @@ export class sessionStoreTool
         }
         return undefined;
     }
+    getList()
+    {
+        return sessionStoreTool.getTable(this.table);
+    }
 }
 
 export class StaticStore

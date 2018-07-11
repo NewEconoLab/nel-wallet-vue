@@ -1,7 +1,7 @@
-declare function accAdd(arg1: number, arg2: number): number;
-declare function accSub(arg1: number, arg2: number): number;
-declare function accMul(arg1: number, arg2: number): number;
-declare function accDiv(arg1: number, arg2: number): number;
+declare function accAdd(arg1: string | number, arg2: string | number): number;
+declare function accSub(arg1: string | number, arg2: string | number): number;
+declare function accMul(arg1: string | number, arg2: string | number): number;
+declare function accDiv(arg1: string | number, arg2: string | number): number;
 
 interface Number
 {

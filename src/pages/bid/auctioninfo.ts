@@ -7,7 +7,7 @@ import Toast from "../../components/toast.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LocalStoreTool } from "../../tools/storagetool";
-import { Process } from "../../tools/entity";
+import { Process, LoginInfo } from "../../tools/entity";
 @Component({
     components: {
         "v-alert": Valert,
@@ -46,9 +46,9 @@ export default class AuctionInfo extends Vue
     constructor()
     {
         super();
-        this.address = tools.storagetool.getStorage("current-address");
+        this.address = LoginInfo.getCurrentAddress();
         this.myBidPrice = "";
-        this.updatePrice = !this.item.mybidprice ? 0 : this.item.mybidprice;
+        this.updatePrice = "0";
         this.bidDetailList = [];
         this.currentpage = 1;
         this.pagesize = 5;
@@ -60,33 +60,30 @@ export default class AuctionInfo extends Vue
         this.balanceOfSelling = 0;
         this.balanceOf = '';
         this.bidState = 0;
-        if (this.item.receivedState)
-        {
-            this.state_getDomain = 2;
-            this.state_recover = 2;
-        } else
-        {
-            this.state_getDomain = 0;
-            this.state_recover = 0;
-        }
         this.btnShowmore = true;
-        this.fee = accMul(this.balanceOfSelling, 0.05);
-        this.remaining = accSub(this.balanceOfSelling, this.fee);
-        this.process = new Process(this.item.startAuctionTime);
+        this.fee = 0
+        this.remaining = 0
+        this.process = new Process(new Date().getTime());
         this.width = 0;
         this.process_state = "";
         this.process_date = "";
         this.process_time = "";
-        this.process_arr = this.process.timearr;
-        console.log(this.process_arr);
+        this.process_arr = [];
+        this.state_getDomain = 0;
+        this.state_recover = 0;
 
     }
 
     async mounted()
     {
+
+        let auctionMsg = new tools.sessionstoretool("auctionPage");
         this.session_bid = new LocalStoreTool("bidSession");
         this.session_recover = new LocalStoreTool("recoverSession");
         this.session_getdomain = new LocalStoreTool("getDomainSession");
+        console.log(auctionMsg.getList());
+
+        this.item.domain = auctionMsg.select("domain");
         this.getSessionBidDetail(this.item.domain);
         let stateMsg = {};
         try
@@ -96,12 +93,31 @@ export default class AuctionInfo extends Vue
         {
 
         }
+
+        let domain = auctionMsg.select("domain");
+        let info = await tools.nnssell.getSellingStateByDomain(domain);
+        this.item.maxPrice = accDiv(info.maxPrice.toString(), 10000000);
+        this.item.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+        let time = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
+        this.item.startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(time));
         this.balanceOf = await tools.nnssell.getBalanceOf();
         this.balanceOf = !!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0';
         this.item.maxBuyer = stateMsg[ "maxBuyer" ];
         this.item.maxPrice = stateMsg[ "maxPrice" ];
         this.balanceOfSelling = stateMsg[ "mybidprice" ];
         this.item.mybidprice = stateMsg[ "mybidprice" ];
+        this.item.receivedState = (info.endBlock.compareTo(0) > 0 || info.startBlockSelling.multiply(1000).compareTo(new Date().getTime()) < 0) ? (this.balanceOfSelling > 0 ? false : true) : true;
+
+        this.process = new Process(this.item.startAuctionTime);
+        if (this.item.receivedState)
+        {
+            this.state_getDomain = 2;
+            this.state_recover = 2;
+        } else
+        {
+            this.state_getDomain = 0;
+            this.state_recover = 0;
+        }
         this.fee = accMul(this.balanceOfSelling, 0.10);
         this.remaining = accSub(this.balanceOfSelling, this.fee);
         if (!!this.item.startAuctionTime && this.item.startAuctionTime != '')

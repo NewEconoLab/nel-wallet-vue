@@ -14,7 +14,7 @@
             <div class="bidder" v-if="item.maxBuyer == address">{{$t('auction.currentbidder')}} : <span class="bidder-me">{{$t('auction.me')}}（ {{item.maxBuyer}} ）</span> </div>
             <div class="my-bid-sgas">{{$t('auction.mybidmsg')}} : <span class="status-ended">{{item.mybidprice}}</span>  SGas</div>     
         </div>
-        <div v-if="item.auctionState==0 && item.maxBuyer == address">
+        <div v-if=" item.maxBuyer == address">
           <div class="title">
               <span>{{$t('auction.title6')}}</span>
           </div>
@@ -28,7 +28,7 @@
               </div>  
           </div>
         </div>
-        <div v-if="item.auctionState==0 && item.maxBuyer != address">
+        <div v-if="item.maxBuyer != address">
           <div class="title">
               <span>{{$t('auction.title7')}}</span>
           </div>
