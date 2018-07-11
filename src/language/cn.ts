@@ -215,7 +215,16 @@ export default {
         errmsg3: "是有效的",
         tipsmsg4: "注意：当你在使用Gas进行充值时，充值进你的“拍卖账户”之前，他会自动转换成SGas，整个过程需要两个区块的确认时间，请耐心等待...",
         yourbalance: "您的钱包账户",
-        waiting: "等待"
+        waiting: "等待",
+        successwithdraw: "提取成功 !",
+        successtopup: "充值成功!您的 ",
+        successtopup2: " 个Sgas将会在2个区块被确认后进入您的竞拍账户!",
+        failtopup: "充值失败 !你的",
+        failtopup2: "会被转换成",
+        fail: "操作失败 !",
+        auctionopen: "开标",
+        successbid: "加价成功",
+        failbid: "加价失败",
     },
     exchange: {
         title: "SGas兑换",

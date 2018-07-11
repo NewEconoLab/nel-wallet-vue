@@ -216,6 +216,16 @@ export default {
         tipsmsg4: "Tips: When you are using Gas to recharge, before being recharged into your Auction Account, GAS will be automatically switched to SGas. The entire process takes two blocks of confirmation time. Please wait patiently. ",
         yourbalance: "Your Balance",
         waiting: "Waiting",
+        successwithdraw: "Successesfully withdrawed !",
+        successtopup: "Successesfully toped up ! ",
+        successtopup2: " SGas will be in your auction account after 2 blocks are confirmed !",
+        failtopup: "Top up failed ! And your",
+        failtopup2: "has been exchanged into",
+        fail: "Operation failed !",
+        auctionopen: "Auction Opened",
+        successbid: "bid successesfully",
+        failbid: "bid failed",
+
     },
     exchange: {
         title: "SGas Exchange",
