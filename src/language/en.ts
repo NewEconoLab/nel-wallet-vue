@@ -236,7 +236,7 @@ export default {
         tosgas: "Exchange Gas for SGas",
         togas: "Exchange SGas for Gas",
         tips: "Tips：SGAS is a NEP5 token，which is bound with NEO’s GAS at the ratio of 1:1 and they can be converted with each other freely.",
-        spend: "Amount you will spent : ",
+        spend: "Amount you will spend : ",
         receive: "Amount you will receive : ",
         warnmsg: "Insufficient balance.",
         waittitle: "Waiting for transaction records",
