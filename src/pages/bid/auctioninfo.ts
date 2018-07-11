@@ -91,7 +91,6 @@ export default class AuctionInfo extends Vue
             stateMsg = await tools.wwwtool.getDomainState(this.address, this.item.domain);
         } catch (error)
         {
-
         }
 
         let domain = auctionMsg.select("domain");
