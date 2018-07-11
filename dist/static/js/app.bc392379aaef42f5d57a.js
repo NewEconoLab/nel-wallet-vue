@@ -485,13 +485,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "+nhb":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "0LJk":
 /***/ (function(module, exports) {
 
@@ -3362,7 +3355,7 @@ var NeoAuction = /** @class */ (function (_super) {
                     case 1:
                         res = _a.sent();
                         if (!!res) {
-                            this.openToast("success", "退款成功", 3000);
+                            this.openToast("success", "" + this.$t("auction.successwithdraw"), 3000);
                             this.alert_withdraw.watting = false;
                             this.sessionWatting.delete("withdraw");
                             return [2 /*return*/];
@@ -3449,7 +3442,7 @@ var NeoAuction = /** @class */ (function (_super) {
                         res = _a.sent();
                         // let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
                         if (!res.err) {
-                            this.openToast("success", "Successesfully BidDomain " + this.alert_myBid + "sgas ! ", 3000);
+                            this.openToast("success", "" + this.$t("auction.successbid2") + this.alert_myBid + "sgas ! ", 3000);
                             neoauctionDataModel_1.NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
                             this.bidConfirm(res.info, this.auctionMsg_alert.domain);
                         }
@@ -3484,15 +3477,15 @@ var NeoAuction = /** @class */ (function (_super) {
                         names = _a.sent();
                         have = names.includes("addprice");
                         if (have) {
-                            this.openToast("success", "域名：" + domain + " 加价成功", 3000);
+                            this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
                             return [2 /*return*/];
                         }
                         if (names.length == 0) {
-                            this.openToast("error", "域名：" + domain + " 加价失败", 3000);
+                            this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid"), 3000);
                             return [2 /*return*/];
                         }
                         if (names.includes("domainstate")) {
-                            this.openToast("error", "您结束了" + domain + " 的加价，本次加价未执行", 3000);
+                            this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid2"), 3000);
                         }
                         return [3 /*break*/, 4];
                     case 3:
@@ -3528,7 +3521,7 @@ var NeoAuction = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.openAuction_confirm(res["info"])];
                     case 2:
                         _a.sent();
-                        this.openToast("success", "开标成功请等待", 3000);
+                        this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
                         this.btn_start = 1;
                         return [2 /*return*/];
                 }
@@ -3625,7 +3618,7 @@ var NeoAuction = /** @class */ (function (_super) {
                         this.confirmRecharge(txid);
                         if (txid) {
                         }
-                        this.openToast("success", "Successesfully toped up ! 100 SGas will be in your auction account after 2 blocks are confirmed !", 4000);
+                        this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
                         this.isTopUp = false;
                         return [3 /*break*/, 6];
                     case 2:
@@ -3639,12 +3632,12 @@ var NeoAuction = /** @class */ (function (_super) {
                         txid = res["txid"];
                         this.sessionWatting.put("recharge-sgas", { txid: txid, amount: amount });
                         this.confirmRecharge_sgas(txid);
-                        this.openToast("success", "Successesfully toped up ! 100 SGas will be in your auction account after a block is confirmed !", 4000);
+                        this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
                         this.isTopUp = false;
                         return [3 /*break*/, 6];
                     case 5:
                         error_1 = _a.sent();
-                        this.openToast("error", "Successesfully toped up ! 100 SGas will be in your auction account after a block is confirmed !", 4000);
+                        this.openToast("error", "" + this.$t("auction.fail"), 4000);
                         return [3 /*break*/, 6];
                     case 6: return [2 /*return*/];
                 }
@@ -3658,25 +3651,35 @@ var NeoAuction = /** @class */ (function (_super) {
     NeoAuction.prototype.confirmRecharge = function (txid) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var res, amount;
+            var res, code, amount;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getrechargeandtransfer(txid)];
                     case 1:
                         res = _a.sent();
-                        if (res['errCode'] == '3003') {
-                            this.alert_TopUp.watting = true;
-                            amount = this.sessionWatting.select("recharge-gas")["amount"];
-                            // this.assetlist[ tools.coinTool.id_GAS ] -= parseFloat(amount);
-                            setTimeout(function () {
-                                _this.confirmRecharge(txid);
-                            }, 5000);
+                        code = res["errCode"];
+                        switch (code) {
+                            case '0000'://成功
+                                this.openToast("success", "" + this.$t("auction.successtop"), 3000);
+                                this.alert_TopUp.watting = false;
+                                this.sessionWatting.delete("recharge-gas");
+                                return [2 /*return*/];
+                            case '3001'://直接失败
+                                this.openToast("error", "" + this.$t("auction.fail"), 3000);
+                                this.alert_TopUp.watting = false;
+                                this.sessionWatting.delete("recharge-gas");
+                                return [2 /*return*/];
+                            case '3002'://gas->sgas成功 注册器充值失败
+                                this.openToast("error", "" + this.$t("auction.failtopup"), 3000);
+                                this.alert_TopUp.watting = false;
+                                this.sessionWatting.delete("recharge-gas");
+                                return [2 /*return*/];
                         }
-                        else {
-                            this.alert_TopUp.watting = false;
-                            this.sessionWatting.delete("recharge-gas");
-                        }
-                        console.log(res);
+                        this.alert_TopUp.watting = true;
+                        amount = this.sessionWatting.select("recharge-gas")["amount"];
+                        setTimeout(function () {
+                            _this.confirmRecharge(txid);
+                        }, 5000);
                         return [2 /*return*/];
                 }
             });
@@ -5721,6 +5724,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "MseV":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "N5E8":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5801,14 +5811,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var auctioninfo = __webpack_require__("mcrB");
 var auctioninfo_default = /*#__PURE__*/__webpack_require__.n(auctioninfo);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1a909d58","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/auctioninfo.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"page-two"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v("Auction Information")]),_vm._v(" "),_c('div',{staticClass:"goback",on:{"click":_vm.onBack}},[_vm._v("<<<Go back")])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"filename"},[_vm._v("Domain : "+_vm._s(_vm.item.domain))]),_vm._v(" "),(_vm.item.auctionState=='Fixed period')?_c('div',{staticClass:"status"},[_vm._v("Status : "),_c('span',{staticClass:"status-being"},[_vm._v("Fixed period")])]):_vm._e(),_vm._v(" "),(_vm.item.auctionState=='Random period')?_c('div',{staticClass:"status"},[_vm._v("Status : "),_c('span',{staticClass:"status-random"},[_vm._v("Random period")])]):_vm._e(),_vm._v(" "),(_vm.item.auctionState=='Ended')?_c('div',{staticClass:"status"},[_vm._v("Status : "),_c('span',{staticClass:"status-ended"},[_vm._v("Ended")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"highest-price"},[_vm._v("Highest bid price : "+_vm._s(_vm.item.maxPrice)+" SGas")]),_vm._v(" "),(_vm.item.maxBuyer != _vm.address)?_c('div',{staticClass:"bidder"},[_vm._v("Current bidder  : "),_c('span',[_vm._v("Other people（ "+_vm._s(_vm.item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(_vm.item.maxBuyer == _vm.address)?_c('div',{staticClass:"bidder"},[_vm._v("Current bidder  : "),_c('span',{staticClass:"bidder-me"},[_vm._v("Me（ "+_vm._s(_vm.item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"my-bid-sgas"},[_vm._v("My cumulative bid  : "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.item.mybidprice))]),_vm._v("  SGas")])]),_vm._v(" "),(_vm.item.auctionState==0 && _vm.item.maxBuyer == _vm.address)?_c('div',[_vm._m(0,false,false),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"neoname"},[_vm._v(" "+_vm._s(_vm.item.domain))]),_vm._v(" "),_c('div',{staticClass:"neoname-tips"},[_vm._v("Tips : When you successfully get your domain,You can edit it in My Neo Name.")]),_vm._v(" "),_c('div',{staticClass:"btn-center"},[(_vm.state_getDomain==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":_vm.getDomain}},[_vm._v("Get domain")]):_vm._e(),_vm._v(" "),(_vm.state_getDomain==1)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v("Getting domain...")]):_vm._e(),_vm._v(" "),(_vm.state_getDomain==2)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v("Received")]):_vm._e()])])]):_vm._e(),_vm._v(" "),(_vm.item.auctionState==0 && _vm.item.maxBuyer != _vm.address)?_c('div',[_vm._m(1,false,false),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"cumulative-msg"},[_vm._v("My cumulative bid  : "+_vm._s(_vm.balanceOfSelling)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"fee-msg"},[_vm._v("Fee : "+_vm._s(_vm.fee)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"remain-msg"},[_vm._v("Remaining SGas : "+_vm._s(_vm.remaining)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"btn-center"},[(_vm.state_recover==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":_vm.recoverSgas}},[_vm._v("Recover SGas")]):_vm._e(),_vm._v(" "),(_vm.state_recover==1)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v("Recovering SGas...")]):_vm._e(),_vm._v(" "),(_vm.state_recover==2)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v("Received")]):_vm._e()])])]):_vm._e(),_vm._v(" "),(_vm.item.auctionState>0)?_c('div',[_vm._m(2,false,false),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',[_c('div',{staticClass:"input-msg"},[_vm._v("Raise my bid : ")]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.myBidPrice),expression:"myBidPrice"}],attrs:{"type":"number","placeholder":"Enter a raise"},domProps:{"value":(_vm.myBidPrice)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.myBidPrice=$event.target.value},_vm.myBidInput]}}),_vm._v(" "),_c('span',[_vm._v("SGas")])]),_vm._v(" "),_c('div',{staticClass:"err-msg status-ended"},[_vm._v("Only "+_vm._s(_vm.balanceOf)+" SGas is available.")])]),_vm._v(" "),_c('div',{staticClass:"my-sgas"},[_vm._v("My cumulative bid will be : "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.updatePrice))]),_vm._v(" SGas")]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n            Tips : The minimum value for your raise is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful. \n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.bidState==2)?_c('button',{staticClass:"btn btn-bid btn-disable",attrs:{"disabled":"disabled"}},[_vm._v("Bid")]):_vm._e(),_vm._v(" "),(_vm.bidState==1)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v("Bid...")]):_vm._e(),_vm._v(" "),(_vm.bidState==0)?_c('button',{staticClass:"btn btn-bid ",on:{"click":_vm.bidDomain}},[_vm._v("Bid")]):_vm._e()])])]):_vm._e(),_vm._v(" "),_vm._m(3,false,false),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"process-wrapper"},[_c('label',[_vm._v("Status")]),_vm._v(" "),_c('div',{staticClass:"process-box"},[_c('div',{staticClass:"process long",style:('width:'+_vm.width+'%')},[_c('div',{staticClass:"process-tips"},[_vm._v(_vm._s(_vm.process_state)+" ")])]),_vm._v(" "),_c('div',{staticClass:"starts"},[_vm._v(_vm._s(_vm.process_date)+"\n            "),_c('br'),_vm._v(_vm._s(_vm.process_time))]),_vm._v(" "),_vm._l((_vm.process_arr),function(days){return _c('div',{key:days.msg,staticClass:"days"},[(days.msg!='')?_c('em',[_vm._v(_vm._s(days.msg))]):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(days.date)+"\n              "),_c('br'),_vm._v(_vm._s(days.time))])])})],2)]),_vm._v(" "),_c('div',{staticClass:"auction-tips"},[_vm._v("Tips : The auction is about going to random period, and it may end at any point during the random period.")]),_vm._v(" "),_c('div',{staticClass:"timeling-wrapper"},[_c('div',{staticClass:"first"}),_vm._v(" "),_vm._l((_vm.bidDetailList),function(item,index){return _c('div',{key:index,staticClass:"list"},[_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"infos"},[_c('span',[_vm._v(_vm._s(item.addPriceTime))]),_vm._v(" "),(!item.maxBuyer)?_c('p',[_vm._v("Auction Opened")]):_vm._e(),_vm._v(" "),(item.maxBuyer != _vm.address && item.maxBuyer)?_c('p',{staticStyle:{"font-size":"12px"}},[_vm._v("Other people（ "),_c('span',{staticStyle:{"font-size":"12px"}},[_vm._v(_vm._s(item.maxBuyer))]),_vm._v("  ）")]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('p',{staticClass:"bidder-me"},[_vm._v("Me（ "),_c('span',[_vm._v(_vm._s(item.maxBuyer))]),_vm._v(" ）")]):_vm._e(),_vm._v(" "),(item.maxBuyer!='')?_c('em',[_vm._v("Price："+_vm._s(item.maxPrice)+" SGas")]):_vm._e()])])})],2),_vm._v(" "),_c('div',{staticClass:"viewmore"},[(_vm.btnShowmore)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.getMoreBidDetail}},[_vm._v("View more")]):_vm._e()])]),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"title"},[_c('span',[_vm._v("Get my domain")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"title"},[_c('span',[_vm._v("Recover SGas")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"title"},[_c('span',[_vm._v("Raise my bid")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"title"},[_c('span',[_vm._v("Timeline")])])}]
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-4d183a43","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/auctioninfo.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"page-two"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title3')))]),_vm._v(" "),_c('div',{staticClass:"goback",on:{"click":_vm.onBack}},[_vm._v("<<<"+_vm._s(_vm.$t('auction.goback')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"filename"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+" : "+_vm._s(_vm.item.domain))]),_vm._v(" "),(_vm.item.auctionState=='Fixed period')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+" : "),_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))])]):_vm._e(),_vm._v(" "),(_vm.item.auctionState=='Random period')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+" : "),_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))])]):_vm._e(),_vm._v(" "),(_vm.item.auctionState=='Ended')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+" : "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"highest-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+" : "+_vm._s(_vm.item.maxPrice)+" SGas")]),_vm._v(" "),(_vm.item.maxBuyer != _vm.address)?_c('div',{staticClass:"bidder"},[_vm._v(_vm._s(_vm.$t('auction.currentbidder'))+" : "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+"（ "+_vm._s(_vm.item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(_vm.item.maxBuyer == _vm.address)?_c('div',{staticClass:"bidder"},[_vm._v(_vm._s(_vm.$t('auction.currentbidder'))+" : "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+"（ "+_vm._s(_vm.item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"my-bid-sgas"},[_vm._v(_vm._s(_vm.$t('auction.mybidmsg'))+" : "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.item.mybidprice))]),_vm._v("  SGas")])]),_vm._v(" "),(_vm.item.auctionState==0 && _vm.item.maxBuyer == _vm.address)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title6')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"neoname"},[_vm._v(" "+_vm._s(_vm.item.domain))]),_vm._v(" "),_c('div',{staticClass:"neoname-tips"},[_vm._v(_vm._s(_vm.$t('auction.getdomaintips')))]),_vm._v(" "),_c('div',{staticClass:"btn-center"},[(_vm.state_getDomain==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":_vm.getDomain}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(_vm.state_getDomain==1)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.gettingdomain')))]):_vm._e(),_vm._v(" "),(_vm.state_getDomain==2)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.received')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),(_vm.item.auctionState==0 && _vm.item.maxBuyer != _vm.address)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title7')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"cumulative-msg"},[_vm._v(_vm._s(_vm.$t('auction.mybidmsg'))+" : "+_vm._s(_vm.balanceOfSelling)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"fee-msg"},[_vm._v(_vm._s(_vm.$t('auction.fee'))+" : "+_vm._s(_vm.fee)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"remain-msg"},[_vm._v(_vm._s(_vm.$t('auction.remainingsgas'))+" : "+_vm._s(_vm.remaining)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"btn-center"},[(_vm.state_recover==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":_vm.recoverSgas}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(_vm.state_recover==1)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.recoveringsgas')))]):_vm._e(),_vm._v(" "),(_vm.state_recover==2)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.received')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),(_vm.item.auctionState>0)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title4')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',[_c('div',{staticClass:"input-msg"},[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+" : ")]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.myBidPrice),expression:"myBidPrice"}],attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid')},domProps:{"value":(_vm.myBidPrice)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.myBidPrice=$event.target.value},_vm.myBidInput]}}),_vm._v(" "),_c('span',[_vm._v("SGas")])]),_vm._v(" "),_c('div',{staticClass:"err-msg status-ended"},[_vm._v(_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.balanceOf)+" "+_vm._s(_vm.$t('auction.errmsg2')))])]),_vm._v(" "),_c('div',{staticClass:"my-sgas"},[_vm._v(_vm._s(_vm.$t('auction.mywillbid'))+" : "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.updatePrice))]),_vm._v(" SGas")]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.tips1'))+" \n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.bidState==2)?_c('button',{staticClass:"btn btn-bid btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(_vm.bidState==0)?_c('button',{staticClass:"btn btn-bid ",on:{"click":_vm.bidDomain}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title5')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"process-wrapper"},[_c('label',[_vm._v(_vm._s(_vm.$t('auction.status')))]),_vm._v(" "),_c('div',{staticClass:"process-box"},[_c('div',{staticClass:"process long",style:('width:'+_vm.width+'%')},[_c('div',{staticClass:"process-tips"},[_vm._v(_vm._s(_vm.process_state)+" ")])]),_vm._v(" "),_c('div',{staticClass:"starts"},[_vm._v(_vm._s(_vm.process_date)+"\n            "),_c('br'),_vm._v(_vm._s(_vm.process_time))]),_vm._v(" "),_vm._l((_vm.process_arr),function(days){return _c('div',{key:days.msg,staticClass:"days"},[(days.msg!='')?_c('em',[_vm._v(_vm._s(days.msg))]):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(days.date)+"\n              "),_c('br'),_vm._v(_vm._s(days.time))])])})],2)]),_vm._v(" "),_c('div',{staticClass:"auction-tips"},[_vm._v(_vm._s(_vm.$t('auction.timetips2')))]),_vm._v(" "),_c('div',{staticClass:"timeling-wrapper"},[_c('div',{staticClass:"first"}),_vm._v(" "),_vm._l((_vm.bidDetailList),function(item,index){return _c('div',{key:index,staticClass:"list"},[_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"infos"},[_c('span',[_vm._v(_vm._s(item.addPriceTime))]),_vm._v(" "),(!item.maxBuyer)?_c('p',[_vm._v(_vm._s(_vm.$t('auction.auctionopen')))]):_vm._e(),_vm._v(" "),(item.maxBuyer != _vm.address && item.maxBuyer)?_c('p',{staticStyle:{"font-size":"12px"}},[_vm._v(_vm._s(_vm.$t('auction.other'))+"（ "),_c('span',{staticStyle:{"font-size":"12px"}},[_vm._v(_vm._s(item.maxBuyer))]),_vm._v("  ）")]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('p',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+"（ "),_c('span',[_vm._v(_vm._s(item.maxBuyer))]),_vm._v(" ）")]):_vm._e(),_vm._v(" "),(item.maxBuyer!='')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.price'))+_vm._s(item.maxPrice)+" SGas")]):_vm._e()])])})],2),_vm._v(" "),_c('div',{staticClass:"viewmore"},[(_vm.btnShowmore)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.getMoreBidDetail}},[_vm._v(_vm._s(_vm.$t('btn.viewmore')))]):_vm._e()])]),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
+var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_auctioninfo = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/auctioninfo.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("+nhb")
+  __webpack_require__("MseV")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -5819,7 +5829,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-1a909d58"
+var __vue_scopeId__ = "data-v-4d183a43"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -8045,14 +8055,14 @@ var AuctionInfo = /** @class */ (function (_super) {
                         a = accDiv(oldtime, 5 * 5 * 60 * 1000);
                         width = a >= 1 ? 100 : accMul(a, 100);
                         this.width = width;
-                        this.process_state = "Ended";
+                        this.process_state = "" + this.$t('auction.ended');
                         return [3 /*break*/, 8];
                     case 7:
                         currenttime = new Date().getTime();
                         time = new Date(this.item.startAuctionTime).getTime();
                         state = importpack_1.tools.nnssell.compareTime(time);
                         console.log(this.process);
-                        this.process_state = state == 0 ? "Ended" : state == 1 ? "Fixed period" : "Random period";
+                        this.process_state = state == 0 ? "" + this.$t('auction.ended') : state == 1 ? "" + this.$t('auction.fixedperiod') : "" + this.$t('auction.randomperiod');
                         oldtime = accSub(currenttime, time);
                         a = accDiv(parseFloat(oldtime), 5 * 5 * 60 * 1000);
                         width = a >= 1 ? 100 : accMul(parseFloat(a), 100);
@@ -8177,17 +8187,17 @@ var AuctionInfo = /** @class */ (function (_super) {
                         code = res['errCode'];
                         switch (code) {
                             case '0000':
-                                this.openToast("success", "域名获取成功", 3000);
+                                this.openToast("success", "" + this.$t("auction.successgetdomain"), 3000);
                                 this.state_getDomain = 2;
                                 this.session_getdomain.delete(domain);
                                 return [2 /*return*/];
                             case '3001':
-                                this.openToast("success", "域名获取失败", 3000);
+                                this.openToast("error", "" + this.$t("auction.failgetdomain"), 3000);
                                 this.state_getDomain = 1;
                                 this.session_getdomain.delete(domain);
                                 return [2 /*return*/];
                             case '3002':
-                                this.openToast("success", "域名获取失败", 3000);
+                                this.openToast("error", "" + this.$t("auction.failgetdomain"), 3000);
                                 this.state_getDomain = 1;
                                 this.session_getdomain.delete(domain);
                                 return [2 /*return*/];
@@ -8200,7 +8210,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 3:
                         res = _a.sent();
                         if (!!res) {
-                            this.openToast("success", "域名获取成功", 3000);
+                            this.openToast("success", "" + this.$t("auction.successgetdomain"), 3000);
                             this.state_getDomain = 2;
                             this.session_getdomain.delete(domain);
                             return [2 /*return*/];
@@ -8259,7 +8269,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                             this.session_bid.delete(domain, txid);
                         }
                         else {
-                            bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
+                            bidmsg = { addPriceTime: "" + this.$t("auction.waitmsg1"), maxBuyer: '', maxPrice: '' };
                             this.bidDetailList.push(bidmsg);
                             bidmsg.maxBuyer = this.address;
                             bidmsg.maxPrice = accAdd(parseFloat(amount), parseFloat(this.item.mybidprice ? this.item.mybidprice : 0));
@@ -8315,7 +8325,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                         txid = res.info;
                         amount = this.bidPrice;
                         this.session_bid.put(this.item.domain, { txid: txid, amount: amount }, txid);
-                        this.openToast("success", "域名加价成功请等待区块确认", 3000);
+                        this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
                         this.bid_confirm(txid, this.item.domain);
                         return [3 /*break*/, 4];
                     case 3:
@@ -8400,15 +8410,15 @@ var AuctionInfo = /** @class */ (function (_super) {
                         names = _a.sent();
                         have = names.includes("addprice");
                         if (have) {
-                            this.openToast("success", "域名：" + domain + " 加价成功", 3000);
+                            this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
                             return [2 /*return*/];
                         }
                         if (names.length == 0) {
-                            this.openToast("error", "域名：" + domain + " 加价失败", 3000);
+                            this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid"), 3000);
                             return [2 /*return*/];
                         }
                         if (names.includes("domainstate")) {
-                            this.openToast("error", "您结束了" + domain + " 的加价，本次加价未执行", 3000);
+                            this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid2"), 3000);
                         }
                         return [3 /*break*/, 4];
                     case 3:
@@ -8699,7 +8709,7 @@ exports.default = {
         errmsg1: "Only",
         errmsg2: "SGas is available.",
         goback: "Go back",
-        waitmsg1: "（ Waiting for confirmation ）",
+        waitmsg1: "Waiting for confirmation",
         waitmsg2: "Your raise will be confirmed after the new block is generated. Please wait patiently...",
         getdomaintips: "Tips : When you successfully get your domain,You can edit it in My Neo Name.",
         waitgetdomain: "Your operation will be confirmed after the new block is generated. Please wait patiently...",
@@ -8725,6 +8735,20 @@ exports.default = {
         tipsmsg4: "Tips: When you are using Gas to recharge, before being recharged into your Auction Account, GAS will be automatically switched to SGas. The entire process takes two blocks of confirmation time. Please wait patiently. ",
         yourbalance: "Your Balance",
         waiting: "Waiting",
+        successwithdraw: "Successesfully withdrawed !",
+        successtop: "Successesfully toped up",
+        successtopup: "Successesfully toped up ! ",
+        successtopup2: " SGas will be in your auction account after 2 blocks are confirmed !",
+        failtopup: "Top up failed ! And your Gas has been exchanged into SGas",
+        fail: "Operation failed !",
+        auctionopen: "Auction Opened",
+        domainname: "Domain name",
+        successbid: "Raise succesful!",
+        failbid: "Raise failed!",
+        failbid2: "Its auction has ended. Your raise is not executed.",
+        successbid2: "Successesfully BidDomain",
+        successgetdomain: "Domain acquired",
+        failgetdomain: "Please click again to acquire domain"
     },
     exchange: {
         title: "SGas Exchange",
@@ -10097,7 +10121,7 @@ exports.default = {
         errmsg1: "您当前只有",
         errmsg2: "SGas.",
         goback: "返回",
-        waitmsg1: "（ 未确认 ）",
+        waitmsg1: "未确认",
         waitmsg2: "您的加价将会在新区块生成之后被确认，请耐心等待...",
         getdomaintips: "注意 : 当您成功领取域名后，您可以在“我的域名管理”中进行编辑。",
         waitgetdomain: "您的操作将会在新区块生成之后被确认，请耐心等待...",
@@ -10122,7 +10146,21 @@ exports.default = {
         errmsg3: "是有效的",
         tipsmsg4: "注意：当你在使用Gas进行充值时，充值进你的“拍卖账户”之前，他会自动转换成SGas，整个过程需要两个区块的确认时间，请耐心等待...",
         yourbalance: "您的钱包账户",
-        waiting: "等待"
+        waiting: "等待",
+        successwithdraw: "提取成功 !",
+        successtop: "充值成功",
+        successtopup: "充值成功!您的 ",
+        successtopup2: " 个Sgas将会在2个区块被确认后进入您的竞拍账户!",
+        failtopup: "充值失败 !你的Gas被转换成了SGas",
+        fail: "操作失败 !",
+        auctionopen: "开标",
+        domainname: "域名",
+        successbid: "加价成功",
+        failbid: "加价失败",
+        failbid2: "此域名竞拍结束，本次加价未执行",
+        successbid2: "成功加价",
+        successgetdomain: "域名领取成功",
+        failgetdomain: "域名领取失败"
     },
     exchange: {
         title: "SGas兑换",
