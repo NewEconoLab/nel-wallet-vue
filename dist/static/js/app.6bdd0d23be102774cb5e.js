@@ -7201,11 +7201,14 @@ var NeoaucionData = /** @class */ (function () {
     };
     NeoaucionData.setBidSession = function (auction, amount, txid) {
         return __awaiter(this, void 0, void 0, function () {
-            var session_bid;
+            var session_bid, domaininfo;
             return __generator(this, function (_a) {
                 session_bid = new importpack_1.tools.localstoretool("bidSession");
                 session_bid.put(auction.domain, { txid: txid, amount: amount }, txid);
-                this.session_open.put(auction.domain, auction);
+                domaininfo = this.session_open.select(auction.domain);
+                if (!domaininfo) {
+                    this.session_open.put(auction.domain, auction);
+                }
                 return [2 /*return*/];
             });
         });
@@ -7997,7 +8000,7 @@ var AuctionInfo = /** @class */ (function (_super) {
     }
     AuctionInfo.prototype.mounted = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var stateMsg, _a, currenttime, time, oldtime, a, width, currenttime, time, state, oldtime, a, width, confirm_getDomain, confirm_recover, confirm_bid, txid, res, txid, method, txid;
+            var stateMsg, stateMsg_1, error_1, _a, currenttime, time, oldtime, a, width, currenttime, time, state, oldtime, a, width, confirm_getDomain, confirm_recover, confirm_bid, txid, res, txid, method, txid;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -8005,27 +8008,37 @@ var AuctionInfo = /** @class */ (function (_super) {
                         this.session_recover = new storagetool_1.LocalStoreTool("recoverSession");
                         this.session_getdomain = new storagetool_1.LocalStoreTool("getDomainSession");
                         this.getSessionBidDetail(this.item.domain);
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getDomainState(this.address, this.item.domain)];
+                        stateMsg = {};
+                        _b.label = 1;
                     case 1:
-                        stateMsg = _b.sent();
+                        _b.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getDomainState(this.address, this.item.domain)];
+                    case 2:
+                        stateMsg_1 = _b.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_1 = _b.sent();
+                        return [3 /*break*/, 4];
+                    case 4:
                         _a = this;
                         return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
-                    case 2:
+                    case 5:
                         _a.balanceOf = _b.sent();
+                        this.balanceOf = !!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0';
                         this.item.maxBuyer = stateMsg["maxBuyer"];
                         this.item.maxPrice = stateMsg["maxPrice"];
                         this.balanceOfSelling = stateMsg["mybidprice"];
                         this.item.mybidprice = stateMsg["mybidprice"];
                         this.fee = accMul(this.balanceOfSelling, 0.10);
                         this.remaining = accSub(this.balanceOfSelling, this.fee);
-                        if (!(!!this.item.startAuctionTime && this.item.startAuctionTime != '')) return [3 /*break*/, 5];
+                        if (!(!!this.item.startAuctionTime && this.item.startAuctionTime != '')) return [3 /*break*/, 8];
                         this.process = new entity_1.Process(this.item.startAuctionTime);
                         this.process_date = this.process.date;
                         this.process_time = this.process.time;
                         this.process_arr = this.process.timearr;
-                        if (!(this.item['endblock'] && this.item['endblock'] != '')) return [3 /*break*/, 4];
+                        if (!(this.item['endblock'] && this.item['endblock'] != '')) return [3 /*break*/, 7];
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(this.item.endblock)];
-                    case 3:
+                    case 6:
                         currenttime = _b.sent();
                         time = new Date(this.item.startAuctionTime).getTime();
                         oldtime = accSub(currenttime, time);
@@ -8033,8 +8046,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         width = a >= 1 ? 100 : accMul(a, 100);
                         this.width = width;
                         this.process_state = "Ended";
-                        return [3 /*break*/, 5];
-                    case 4:
+                        return [3 /*break*/, 8];
+                    case 7:
                         currenttime = new Date().getTime();
                         time = new Date(this.item.startAuctionTime).getTime();
                         state = importpack_1.tools.nnssell.compareTime(time);
@@ -8044,17 +8057,17 @@ var AuctionInfo = /** @class */ (function (_super) {
                         a = accDiv(parseFloat(oldtime), 5 * 5 * 60 * 1000);
                         width = a >= 1 ? 100 : accMul(parseFloat(a), 100);
                         this.width = parseInt(width);
-                        _b.label = 5;
-                    case 5: return [4 /*yield*/, this.getBidDetail(this.item.domain, this.currentpage, this.pagesize)];
-                    case 6:
+                        _b.label = 8;
+                    case 8: return [4 /*yield*/, this.getBidDetail(this.item.domain, this.currentpage, this.pagesize)];
+                    case 9:
                         _b.sent();
                         confirm_getDomain = this.session_getdomain.select(this.item.domain);
                         confirm_recover = this.session_recover.select(this.item.domain);
                         confirm_bid = this.session_bid.select(this.item.domain);
-                        if (!confirm_recover) return [3 /*break*/, 8];
+                        if (!confirm_recover) return [3 /*break*/, 11];
                         txid = confirm_recover["txid"];
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 7:
+                    case 10:
                         res = _b.sent();
                         if (!!res) {
                             if (this.balanceOfSelling == 0) {
@@ -8064,8 +8077,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         else {
                             this.state_recover = 1;
                         }
-                        _b.label = 8;
-                    case 8:
+                        _b.label = 11;
+                    case 11:
                         if (confirm_getDomain) {
                             txid = confirm_getDomain["txid"];
                             method = confirm_getDomain["method"];
@@ -8085,8 +8098,9 @@ var AuctionInfo = /** @class */ (function (_super) {
         this.bidPrice = price;
         var res = this.checkInput(price);
         if (res) {
-            var bidPrice = Neo.Fixed8.parse((this.item.mybidprice == '' ? 0 : this.item.mybidprice) + "");
-            var balance = Neo.Fixed8.parse(this.balanceOf);
+            var mybidprice = !!this.item.mybidprice && this.item.mybidprice != '' ? this.item.mybidprice : 0;
+            var bidPrice = Neo.Fixed8.parse(mybidprice + "");
+            var balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
             var sum = bidPrice.add(Neo.Fixed8.parse(price + ""));
             this.updatePrice = sum.toString();
             var result = balance.compareTo(sum);
@@ -8286,7 +8300,7 @@ var AuctionInfo = /** @class */ (function (_super) {
     };
     AuctionInfo.prototype.bidDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var count, res, txid, amount, error_1;
+            var count, res, txid, amount, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -8305,8 +8319,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         this.bid_confirm(txid, this.item.domain);
                         return [3 /*break*/, 4];
                     case 3:
-                        error_1 = _a.sent();
-                        console.log(error_1);
+                        error_2 = _a.sent();
+                        console.log(error_2);
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -8315,7 +8329,7 @@ var AuctionInfo = /** @class */ (function (_super) {
     };
     AuctionInfo.prototype.recoverSgas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var id, data, res, txid, error_2;
+            var id, data, res, txid, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -8336,7 +8350,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                         }
                         return [3 /*break*/, 4];
                     case 3:
-                        error_2 = _a.sent();
+                        error_3 = _a.sent();
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }

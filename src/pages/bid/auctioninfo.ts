@@ -88,7 +88,14 @@ export default class AuctionInfo extends Vue
         this.session_recover = new LocalStoreTool("recoverSession");
         this.session_getdomain = new LocalStoreTool("getDomainSession");
         this.getSessionBidDetail(this.item.domain);
-        let stateMsg = await tools.wwwtool.getDomainState(this.address, this.item.domain);
+        let stateMsg = {};
+        try
+        {
+            let stateMsg = await tools.wwwtool.getDomainState(this.address, this.item.domain);
+        } catch (error)
+        {
+
+        }
         this.balanceOf = await tools.nnssell.getBalanceOf();
         this.balanceOf = !!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0';
         this.item.maxBuyer = stateMsg[ "maxBuyer" ];

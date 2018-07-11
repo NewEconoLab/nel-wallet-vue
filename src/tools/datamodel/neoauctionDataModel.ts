@@ -98,7 +98,11 @@ export class NeoaucionData
     {
         let session_bid = new tools.localstoretool("bidSession");
         session_bid.put(auction.domain, { txid, amount }, txid);
-        this.session_open.put(auction.domain, auction);
+        let domaininfo = this.session_open.select(auction.domain);
+        if (!domaininfo)
+        {
+            this.session_open.put(auction.domain, auction);
+        }
     }
 
     static async getAssetBalance()
