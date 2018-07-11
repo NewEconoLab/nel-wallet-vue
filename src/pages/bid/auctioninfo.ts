@@ -111,7 +111,7 @@ export default class AuctionInfo extends Vue
                 let a = accDiv(oldtime, 5 * 5 * 60 * 1000);
                 let width = a >= 1 ? 100 : accMul(a, 100);
                 this.width = width;
-                this.process_state = "Ended";
+                this.process_state = "" + this.$t('auction.ended');
             } else
             {
                 let currenttime = new Date().getTime()
@@ -119,7 +119,7 @@ export default class AuctionInfo extends Vue
                 let state = tools.nnssell.compareTime(time);
                 console.log(this.process);
 
-                this.process_state = state == 0 ? "Ended" : state == 1 ? "Fixed period" : "Random period";
+                this.process_state = state == 0 ? "" + this.$t('auction.ended') : state == 1 ? "" + this.$t('auction.fixedperiod') : "" + this.$t('auction.randomperiod');
                 let oldtime = accSub(currenttime, time);
                 let a = accDiv(parseFloat(oldtime), 5 * 5 * 60 * 1000);
                 let width = a >= 1 ? 100 : accMul(parseFloat(a), 100);
@@ -239,17 +239,17 @@ export default class AuctionInfo extends Vue
             switch (code)
             {
                 case '0000':
-                    this.openToast("success", "域名获取成功", 3000);
+                    this.openToast("success", "" + this.$t("auction.successgetdomain"), 3000);
                     this.state_getDomain = 2;
                     this.session_getdomain.delete(domain);
                     return;
                 case '3001':
-                    this.openToast("success", "域名获取失败", 3000);
+                    this.openToast("error", "" + this.$t("auction.failgetdomain"), 3000);
                     this.state_getDomain = 1;
                     this.session_getdomain.delete(domain);
                     return;
                 case '3002':
-                    this.openToast("success", "域名获取失败", 3000);
+                    this.openToast("error", "" + this.$t("auction.failgetdomain"), 3000);
                     this.state_getDomain = 1;
                     this.session_getdomain.delete(domain);
                     return;
@@ -261,7 +261,7 @@ export default class AuctionInfo extends Vue
             res = await tools.wwwtool.getrawtransaction(txid);
             if (!!res)
             {
-                this.openToast("success", "域名获取成功", 3000);
+                this.openToast("success", "" + this.$t("auction.successgetdomain"), 3000);
                 this.state_getDomain = 2;
                 this.session_getdomain.delete(domain);
                 return
@@ -313,7 +313,7 @@ export default class AuctionInfo extends Vue
                     this.session_bid.delete(domain, txid);
                 } else
                 {
-                    let bidmsg = { addPriceTime: 'Waiting for confirmation', maxBuyer: '', maxPrice: '' };
+                    let bidmsg = { addPriceTime: "" + this.$t("auction.waitmsg1"), maxBuyer: '', maxPrice: '' };
                     this.bidDetailList.push(bidmsg)
                     bidmsg.maxBuyer = this.address;
                     bidmsg.maxPrice = accAdd(parseFloat(amount), parseFloat(this.item.mybidprice ? this.item.mybidprice : 0));
@@ -355,7 +355,7 @@ export default class AuctionInfo extends Vue
             let txid = res.info;
             let amount = this.bidPrice;
             this.session_bid.put(this.item.domain, { txid, amount }, txid);
-            this.openToast("success", "域名加价成功请等待区块确认", 3000);
+            this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             this.bid_confirm(txid, this.item.domain);
         } catch (error)
         {
@@ -415,17 +415,17 @@ export default class AuctionInfo extends Vue
             let have = names.includes("addprice");
             if (have)
             {
-                this.openToast("success", "域名：" + domain + " 加价成功", 3000);
+                this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
                 return;
             }
             if (names.length == 0)
             {
-                this.openToast("error", "域名：" + domain + " 加价失败", 3000);
+                this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid"), 3000);
                 return;
             }
             if (names.includes("domainstate"))
             {
-                this.openToast("error", "您结束了" + domain + " 的加价，本次加价未执行", 3000);
+                this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid2"), 3000);
             }
         } else
         {

@@ -198,7 +198,7 @@ export default class NeoAuction extends Vue
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (!!res)
         {
-            this.openToast("success", this.$t("auction.successwithdraw"), 3000);
+            this.openToast("success", "" + this.$t("auction.successwithdraw"), 3000);
             this.alert_withdraw.watting = false;
             this.sessionWatting.delete("withdraw");
             return;
@@ -277,7 +277,7 @@ export default class NeoAuction extends Vue
         // let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
         if (!res.err)
         {
-            this.openToast("success", "Successesfully BidDomain " + this.alert_myBid + "sgas ! ", 3000);
+            this.openToast("success", "" + this.$t("auction.successbid2") + this.alert_myBid + "sgas ! ", 3000);
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
             this.bidConfirm(res.info, this.auctionMsg_alert.domain);
         } else
@@ -303,17 +303,17 @@ export default class NeoAuction extends Vue
             let have = names.includes("addprice");
             if (have)
             {
-                this.openToast("success", this.$t("auction.domain") + domain + " ：" + this.$t("auction.successbid"), 3000);
+                this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
                 return;
             }
             if (names.length == 0)
             {
-                this.openToast("error", this.$t("auction.domain") + domain + " ：" + this.$t("auction.failbid"), 3000);
+                this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid"), 3000);
                 return;
             }
             if (names.includes("domainstate"))
             {
-                this.openToast("error", this.$t("auction.domain") + domain + " ：" + " 的加价，本次加价未执行", 3000);
+                this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid2"), 3000);
             }
         } else
         {
@@ -339,7 +339,7 @@ export default class NeoAuction extends Vue
         this.myAuctionList.unshift(auction);
         NeoaucionData.setOpenSession(auction);
         await this.openAuction_confirm(res[ "info" ]);
-        this.openToast("success", this.$t("auction.sendingmsg"), 3000);
+        this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
         this.btn_start = 1;
         // this.auctionShow = !this.auctionShow;
     }
@@ -420,7 +420,7 @@ export default class NeoAuction extends Vue
             if (txid)
             {
             }
-            this.openToast("success", "Successesfully toped up ! " + amount + " SGas will be in your auction account after 2 blocks are confirmed !", 4000);
+            this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
             this.isTopUp = false;
         } else
         {
@@ -431,11 +431,11 @@ export default class NeoAuction extends Vue
                 let txid = res[ "txid" ];
                 this.sessionWatting.put("recharge-sgas", { txid, amount });
                 this.confirmRecharge_sgas(txid)
-                this.openToast("success", "Successesfully toped up ! 100 SGas will be in your auction account after a block is confirmed !", 4000);
+                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
                 this.isTopUp = false;
             } catch (error)
             {
-                this.openToast("error", "Successesfully toped up ! 100 SGas will be in your auction account after a block is confirmed !", 4000);
+                this.openToast("error", "" + this.$t("auction.fail"), 4000);
             }
         }
     }
@@ -451,17 +451,17 @@ export default class NeoAuction extends Vue
         switch (code)
         {
             case '0000':    //成功
-                this.openToast("success", "域名获取成功", 3000);
+                this.openToast("success", "" + this.$t("auction.successtop"), 3000);
                 this.alert_TopUp.watting = false;
                 this.sessionWatting.delete("recharge-gas");
                 return;
             case '3001':    //直接失败
-                this.openToast("error", "域名获取失败", 3000);
+                this.openToast("error", "" + this.$t("auction.fail"), 3000);
                 this.alert_TopUp.watting = false;
                 this.sessionWatting.delete("recharge-gas");
                 return;
             case '3002':    //gas->sgas成功 注册器充值失败
-                this.openToast("error", "", 3000);
+                this.openToast("error", "" + this.$t("auction.failtopup"), 3000);
                 this.alert_TopUp.watting = false;
                 this.sessionWatting.delete("recharge-gas");
                 return;
