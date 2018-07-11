@@ -3393,6 +3393,11 @@ var NeoAuction = /** @class */ (function (_super) {
      * 验证充值金额
      */
     NeoAuction.prototype.verifToupAmount = function () {
+        if (/\./.test(this.alert_TopUp.input)) {
+            if (/\.\d{9}/.test(this.alert_TopUp.input)) {
+                this.alert_TopUp.input = this.alert_TopUp.input.substring(0, this.alert_TopUp.input.length - 1);
+            }
+        }
         var amount = Neo.Fixed8.parse(this.alert_TopUp.input);
         var balance = Neo.Fixed8.parse(this.assetlist[this.alert_selection] + "");
         if (balance.compareTo(amount) < 0) {
@@ -3403,6 +3408,11 @@ var NeoAuction = /** @class */ (function (_super) {
      * 验证退款金额是否合法
      */
     NeoAuction.prototype.verifWithdraw = function () {
+        if (/\./.test(this.alert_withdraw.input)) {
+            if (/\.\d{9}/.test(this.alert_withdraw.input)) {
+                this.alert_withdraw.input = this.alert_withdraw.input.substring(0, this.alert_withdraw.input.length - 1);
+            }
+        }
         var amount = Neo.Fixed8.parse(this.alert_withdraw.input);
         var balance = Neo.Fixed8.parse(this.regBalance);
         if (balance.compareTo(amount) < 0) {
@@ -3438,6 +3448,13 @@ var NeoAuction = /** @class */ (function (_super) {
         });
     };
     NeoAuction.prototype.verifBidAmount = function () {
+        if (!!this.alert_myBid) {
+            if (/\./.test(this.alert_myBid)) {
+                if (/\.\d{2}/.test(this.alert_myBid)) {
+                    this.alert_myBid = this.alert_myBid.substring(0, this.alert_TopUp.input.length - 1);
+                }
+            }
+        }
         var myBid = !!this.alert_myBid ? parseFloat(this.alert_myBid) : 0;
         var amount = (parseFloat(this.auctionMsg_alert.balanceOfSelling) + myBid);
         this.myBalanceOfSelling = amount.toString();
@@ -4419,7 +4436,13 @@ var Exchange = /** @class */ (function (_super) {
      */
     Exchange.prototype.exchangeCount = function () {
         if (this.transcount) {
+            console.log(this.transcount);
             if (!/^0|^\.\d/.test(this.transcount) || /^0\.[0-9]/.test(this.transcount)) {
+                if (/\./.test(this.transcount)) {
+                    if (/\.\d{9}/.test(this.transcount)) {
+                        this.transcount = this.transcount.substring(0, this.transcount.length - 1);
+                    }
+                }
                 this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
             }
             else {
@@ -8809,7 +8832,7 @@ exports.default = {
         tosgas: "Exchange Gas for SGas",
         togas: "Exchange SGas for Gas",
         tips: "Tips：SGAS is a NEP5 token，which is bound with NEO’s GAS at the ratio of 1:1 and they can be converted with each other freely.",
-        spend: "Amount you will spent : ",
+        spend: "Amount you will spend : ",
         receive: "Amount you will receive : ",
         warnmsg: "Insufficient balance.",
         waittitle: "Waiting for transaction records",
