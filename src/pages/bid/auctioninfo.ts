@@ -138,8 +138,6 @@ export default class AuctionInfo extends Vue
                 let currenttime = new Date().getTime()
                 let time = new Date(this.item.startAuctionTime).getTime();
                 let state = tools.nnssell.compareTime(time);
-                console.log(this.process);
-
                 this.process_state = state == 0 ? "" + this.$t('auction.ended') : state == 1 ? "" + this.$t('auction.fixedperiod') : "" + this.$t('auction.randomperiod');
                 let oldtime = accSub(currenttime, time);
                 let a = accDiv(oldtime, 5 * 5 * 60 * 1000);

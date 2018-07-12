@@ -34,15 +34,20 @@
                 <button v-if="btn_start==1" class="btn btn-nel btn-big" @click="openAuction">{{$t('btn.openauction')}}</button>
                 <button v-if="btn_start==2" class="btn btn-nel btn-big" @click="addBid">{{$t('btn.newbid')}}</button>
                 <button v-if="btn_start==3" class="btn btn-nel btn-big btn-disable" disabled="disabled">{{$t('btn.newbid')}}</button>
-                <span class="waiting-msg">{{$t('auction.sendingmsg')}}</span>
-                <div class="msg-box">
+                <!-- <span class="waiting-msg">{{$t('auction.sendingmsg')}}</span> -->
+                <div v-if="checkState==1" class="msg-box status-being">
                     <img src="../../../static/img/correct.svg" alt="">
                     <span>{{$t('auction.checkavailable')}}</span>
+                </div>
+                <div v-if="checkState==2" class="msg-box status-being">
+                    <img src="../../../static/img/correct.svg" alt="">
                     <span>{{$t('auction.checkbeing')}}</span>
                 </div>
-                <div class="msg-box status-ended">
-                    <span>{{$t('auction.checkformat')}}</span>
+                <div v-if="checkState==3" class="msg-box status-ended">
                     <span>{{$t('auction.checkbuyer')}}</span>
+                </div>
+                <div v-if="checkState==4" class="msg-box status-ended">
+                    <span>{{$t('auction.checkformat')}}</span>
                 </div>
             </div>
             <div class="title">
@@ -142,7 +147,7 @@
                 <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="gasToRecharge">{{$t('btn.confirm')}}</button>
                 <spinner-wrap v-else ></spinner-wrap>
               </div>
-              <div class="status-ended err-msg">
+              <div v-if="alert_TopUp.error" class="status-ended err-msg">
                 {{$t('auction.errmsg1')}} {{alert_available}} {{$t('auction.errmsg3')}}.
               </div>
             </div>
@@ -172,7 +177,7 @@
                 <spinner-wrap v-if="alert_withdraw.watting"></spinner-wrap>
                 <button v-else class="btn btn-nel btn-big" @click="withdraw">{{$t('btn.confirm')}}</button>
               </div>
-              <div class="status-ended err-msg">
+              <div v-if="alert_withdraw.error" class="status-ended err-msg">
                 {{regBalance}} SGas {{$t('auction.errmsg3')}}.
               </div>
             </div>
@@ -282,7 +287,6 @@
         margin-top: 10px;
         height: 24px;
         font-size: 12px;
-        color: #2dde4f;
         img {
           width: 24px;
           height: 24px;
