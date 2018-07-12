@@ -7292,12 +7292,19 @@ var NeoaucionData = /** @class */ (function () {
                         sgas = importpack_1.tools.coinTool.id_SGAS.toString();
                         gas = importpack_1.tools.coinTool.id_GAS;
                         obj = {};
+                        console.log("----------------------getAssetBalance-------------------------");
+                        console.log("gas-------------------" + gas);
+                        console.log("sgas-------------------" + sgas);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(sgas, entity_1.LoginInfo.getCurrentAddress())];
                     case 1:
                         nep5 = _a.sent();
+                        console.log("-------------------nep5 ");
+                        console.log(nep5);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBalance(entity_1.LoginInfo.getCurrentAddress())];
                     case 2:
                         res = _a.sent();
+                        console.log("-------------------utxoBalance ");
+                        console.log(res);
                         balances = res;
                         balances.map(function (item, index, array) {
                             if (item.asset == gas) {
@@ -7307,6 +7314,8 @@ var NeoaucionData = /** @class */ (function () {
                         });
                         obj[gas] = balance;
                         obj[sgas] = nep5["nep5balance"];
+                        console.log("balanceObj----------");
+                        console.log(obj);
                         return [2 /*return*/, obj];
                 }
             });
@@ -7555,9 +7564,11 @@ var NNSTool = /** @class */ (function () {
                     case 0:
                         info = new entity_1.DomainInfo();
                         data = importpack_1.tools.contract.buildScript(scriptaddress, "getOwnerInfo", ["(hex256)" + domain.toString()]);
+                        console.log("------------------------------getOwnerInfo-----------------------");
                         return [4 /*yield*/, importpack_1.tools.wwwtool.rpc_getInvokescript(data)];
                     case 1:
                         result = _a.sent();
+                        console.log(result);
                         try {
                             state = result.state;
                             // info2.textContent = "";
@@ -7569,11 +7580,19 @@ var NNSTool = /** @class */ (function () {
                             stackarr = result["stack"];
                             stack = entity_1.ResultItem.FromJson(entity_1.DataType.Array, stackarr).subItem[0].subItem;
                             if (stackarr[0].type == "Array") {
+                                "------------info------------owner";
                                 // var stack = stackarr[ 0 ].value as any[];
                                 info.owner = stack[0].AsHash160();
+                                console.log(info.owner);
+                                "------------info------------register";
                                 info.register = stack[1].AsHash160();
+                                console.log(info.register);
+                                "------------info------------resolver";
                                 info.resolver = stack[2].AsHash160();
+                                console.log(info.resolver);
+                                "------------info------------ttl";
                                 info.ttl = stack[3].AsInteger().toString();
+                                console.log(info.ttl);
                                 // console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
                                 // let parentOwner = (stack[ 5 ].value as string).hexToBytes();
                                 // let domainstr = stack[ 5 ].value as string;
