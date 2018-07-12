@@ -736,13 +736,13 @@ export class Process
             switch (i)
             {
                 case 1:
-                    element.msg = "Bid start time"
+                    element.msg = "1"
                     break;
                 case 2:
-                    element.msg = "Fixed period end time"
+                    element.msg = "2"
                     break;
                 case 4:
-                    element.msg = "Maximum end time of random period"
+                    element.msg = "3"
                     break;
                 default:
                     break;

@@ -84,7 +84,9 @@
                 <br/>{{process_time}}</div>
 
               <div v-for="days in process_arr" :key="days.msg" class="days">
-                <em v-if="days.msg!=''">{{days.msg}}</em>
+                <em v-if="days.msg!=''&&days.msg=='1'">{{$t('auction.bidstarttimemsg')}}</em>
+                <em v-if="days.msg!=''&&days.msg=='2'">{{$t('auction.endtimemsg')}}</em>
+                <em v-if="days.msg!=''&&days.msg=='3'">{{$t('auction.maxtimemsg')}}</em>
                 <span>{{days.date}}
                   <br/>{{days.time}}</span>
               </div>
