@@ -598,7 +598,6 @@ var DateTool = /** @class */ (function () {
     }
     /**************************************时间格式化处理************************************/
     DateTool.dateFtt = function (fmt, date) {
-        console.log(date);
         var o = {
             "M+": date.getMonth() + 1,
             "d+": date.getDate(),
@@ -1607,14 +1606,14 @@ var sessionStoreTool = /** @class */ (function () {
         var item = sessionStoreTool.getTable(this.table);
         var obj = item ? item : {};
         obj[key] = value;
-        localStorage.setItem(this.table, JSON.stringify(obj));
+        sessionStorage.setItem(this.table, JSON.stringify(obj));
     };
     /**
      * 查找数据
      * @param key
      */
     sessionStoreTool.prototype.select = function (key) {
-        var item = sessionStoreTool.getTable(this.table);
+        var item = this.getList();
         if (item) {
             return item[key];
         }
@@ -1647,7 +1646,7 @@ var sessionStoreTool = /** @class */ (function () {
      * @param table
      */
     sessionStoreTool.getTable = function (table) {
-        var item = localStorage.getItem(table);
+        var item = sessionStorage.getItem(table);
         if (item) {
             var obj = JSON.parse(item);
             return obj;
@@ -3205,7 +3204,7 @@ var NeoAuction = /** @class */ (function (_super) {
         _this.alert_withdraw = new entity_1.NeoAuction_Withdraw();
         _this.alert_TopUp = new entity_1.NeoAuction_TopUp();
         _this.sessionWatting = new storagetool_1.LocalStoreTool("session_watting");
-        _this.auctionPageSession = new importpack_1.tools.localstoretool("auctionPage");
+        _this.auctionPageSession = new importpack_1.tools.sessionstoretool("auctionPage");
         if (_this.auctionPageSession.select("show")) {
             _this.auctionPage = true;
         }
@@ -8103,7 +8102,6 @@ var AuctionInfo = /** @class */ (function (_super) {
                         this.session_bid = new storagetool_1.LocalStoreTool("bidSession");
                         this.session_recover = new storagetool_1.LocalStoreTool("recoverSession");
                         this.session_getdomain = new storagetool_1.LocalStoreTool("getDomainSession");
-                        console.log(auctionMsg.getList());
                         this.item.domain = auctionMsg.select("domain");
                         this.getSessionBidDetail(this.item.domain);
                         stateMsg = {};
@@ -8127,7 +8125,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
                     case 6:
                         time = _b.sent();
-                        this.item.startAuctionTime = importpack_1.tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(time));
+                        this.item.startAuctionTime = importpack_1.tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(accMul(time, 1000)));
+                        this.process = new entity_1.Process(this.item.startAuctionTime);
                         _a = this;
                         return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
                     case 7:
@@ -8138,7 +8137,6 @@ var AuctionInfo = /** @class */ (function (_super) {
                         this.balanceOfSelling = stateMsg["mybidprice"];
                         this.item.mybidprice = stateMsg["mybidprice"];
                         this.item.receivedState = (info.endBlock.compareTo(0) > 0 || info.startBlockSelling.multiply(1000).compareTo(new Date().getTime()) < 0) ? (this.balanceOfSelling > 0 ? false : true) : true;
-                        this.process = new entity_1.Process(this.item.startAuctionTime);
                         if (this.item.receivedState) {
                             this.state_getDomain = 2;
                             this.state_recover = 2;
