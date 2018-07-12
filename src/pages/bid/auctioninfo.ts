@@ -105,7 +105,9 @@ export default class AuctionInfo extends Vue
         this.item.maxPrice = stateMsg[ "maxPrice" ];
         this.balanceOfSelling = stateMsg[ "mybidprice" ];
         this.item.mybidprice = stateMsg[ "mybidprice" ];
-        this.item.receivedState = (info.endBlock.compareTo(0) > 0 || info.startBlockSelling.multiply(1000).compareTo(new Date().getTime()) < 0) ? (this.balanceOfSelling > 0 ? false : true) : true;
+        this.bidPrice = '';
+        this.item.auctionState = (info.endBlock.compareTo(0) > 0 || Neo.BigInteger.parse("1500000").compareTo(accSub(new Date().getTime(), accMul(time, 1000))) < 0) ? 0 : 1;
+        this.item.receivedState = this.item.auctionState == 0 ? (this.balanceOfSelling > 0 ? false : true) : true;
 
         if (this.item.receivedState)
         {
@@ -178,17 +180,15 @@ export default class AuctionInfo extends Vue
         }
     }
 
-    myBidInput($event)
+    myBidInput()
     {
-        let price = $event.target.value;
-        this.bidPrice = price;
-        let res = this.checkInput(price);
+        let res = this.checkInput(this.bidPrice);
         if (res)
         {
             let mybidprice = !!this.item.mybidprice && this.item.mybidprice != '' ? this.item.mybidprice : 0;
             let bidPrice = Neo.Fixed8.parse(mybidprice + "");
             let balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
-            let sum = bidPrice.add(Neo.Fixed8.parse(price + ""));
+            let sum = bidPrice.add(Neo.Fixed8.parse(this.bidPrice + ""));
             this.updatePrice = sum.toString();
 
             let result = balance.compareTo(sum);
@@ -200,8 +200,13 @@ export default class AuctionInfo extends Vue
                 this.bidState = 0;
             }
             //this.myBidPrice = ((parseFloat(this.item.mybidprice) + parseFloat(price)) * 10) /3 10;
-            console.log(bidPrice + "+" + Neo.Fixed8.parse(price + ""));
+            console.log(bidPrice + "+" + Neo.Fixed8.parse(bidPrice + ""));
             console.log(this.updatePrice)
+        } else
+        {
+            this.bidPrice = parseFloat((parseFloat(this.bidPrice)).toFixed(1)).toString();
+            console.log(this.bidPrice);
+
         }
 
     }
