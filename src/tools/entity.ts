@@ -764,11 +764,13 @@ export class NeoAuction_TopUp
     input: string;
     watting: boolean;
     isShow: boolean;
+    error: boolean;
     constructor()
     {
         this.input = "";
         this.watting = false;
         this.isShow = false;
+        this.error = false;
     }
 }
 export class NeoAuction_Withdraw
@@ -776,10 +778,12 @@ export class NeoAuction_Withdraw
     input: string;
     watting: boolean;
     isShow: boolean;
+    error: boolean;
     constructor()
     {
         this.input = "";
         this.watting = false;
         this.isShow = false;
+        this.error = false;
     }
 }

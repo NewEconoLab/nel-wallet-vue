@@ -36,16 +36,14 @@ export default class NeoAuction extends Vue
     selectList: Object;
     alert_available: string;
     assetlist: object;
-    alert_input: string;
     alert_selection: string;
-    alert_toup_wait: number;
-    alert_withdraw_input: string;
     alert_withdraw: NeoAuction_Withdraw;
     alert_TopUp: NeoAuction_TopUp;
     sessionWatting: LocalStoreTool;
     auctionPageSession: sessionStoreTool;
     myBalanceOfSelling: string;
     canAdded: boolean;
+    checkState: number;
     openToast: Function;
 
     constructor()
@@ -60,8 +58,6 @@ export default class NeoAuction extends Vue
         this.domain = "";
         this.alert_myBid = "";
         this.address = LoginInfo.getCurrentAddress();
-        this.isWithdraw = false;
-        this.isTopUp = false;
         this.regBalance = '0';
         let SGas = tools.coinTool.id_SGAS.toString();
         let Gas = tools.coinTool.id_GAS;
@@ -70,8 +66,7 @@ export default class NeoAuction extends Vue
         this.selectList[ SGas ] = "SGas";
         this.alert_available = "";
         this.assetlist = {};
-        this.alert_input = "";
-        this.alert_toup_wait = 0;
+        this.checkState = 0;
         this.alert_withdraw = new NeoAuction_Withdraw();
         this.alert_TopUp = new NeoAuction_TopUp();
         this.sessionWatting = new LocalStoreTool("session_watting");
@@ -235,9 +230,14 @@ export default class NeoAuction extends Vue
         }
         let amount = Neo.Fixed8.parse(this.alert_TopUp.input);
         let balance = Neo.Fixed8.parse(this.assetlist[ this.alert_selection ] + "");
-        if (balance.compareTo(amount) < 0)
+
+        if (balance.compareTo(amount) <= 0)
         {
             this.alert_TopUp.input = balance.toString();
+            this.alert_TopUp.error = true;
+        } else
+        {
+            this.alert_TopUp.error = false;
         }
     }
 
@@ -252,9 +252,14 @@ export default class NeoAuction extends Vue
         }
         let amount = Neo.Fixed8.parse(this.alert_withdraw.input);
         let balance = Neo.Fixed8.parse(this.regBalance);
-        if (balance.compareTo(amount) < 0)
+
+        if (balance.compareTo(amount) <= 0)
         {
             this.alert_withdraw.input = balance.toString();
+            this.alert_withdraw.error = true;
+        } else
+        {
+            this.alert_withdraw.error = false;
         }
     }
 
@@ -300,9 +305,7 @@ export default class NeoAuction extends Vue
      */
     async bidDomain()
     {
-        // let data1 = tools.nnssell.rechargeReg(this.alert_myBid);
         let res = await tools.nnssell.addprice(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber());
-        // let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
         if (!res.err)
         {
             this.openToast("success", "" + this.$t("auction.successbid2") + this.alert_myBid + "sgas ! ", 3000);
@@ -399,14 +402,24 @@ export default class NeoAuction extends Vue
      */
     async queryDomainState()
     {
+        this.domain = this.domain.toLowerCase();
+        this.domain = this.domain.trim();
+        let verify = /^[a-zA-Z0-9]{1,32}$/;
+        if (!verify.test(this.domain))
+        {
+            this.checkState = 4;
+            this.btn_start = 3;
+            return;
+        }
         let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
         //是否开始域名竞拍 0:未开始竞拍
         let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
         if (sellstate > 0)
-        {
+        {   //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
             if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
             {
                 this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
+                this.checkState = this.btn_start;
                 return;
             }
             //根据开标的区块高度获得开标的时间
@@ -426,9 +439,11 @@ export default class NeoAuction extends Vue
                 default:
                     break;
             }
+            this.checkState = this.btn_start;
         } else
         {
             this.btn_start = 1;
+            this.checkState = this.btn_start;
         }
 
     }
