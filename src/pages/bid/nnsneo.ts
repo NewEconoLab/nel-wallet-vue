@@ -2,7 +2,6 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../../layouts/wallet.vue";
 import NeoAuction from "./neoauction.vue";
-import Exchange from "./exchange.vue";
 import MyNeo from "./myneo.vue";
 import Bonus from "./bonus.vue";
 import { LoginInfo } from "../../tools/entity";
@@ -13,7 +12,6 @@ declare const mui;
     components: {
         "wallet-layout": WalletLayout,
         "neo-auction": NeoAuction,
-        "exchange": Exchange,
         "my-neo": MyNeo,
         "bonus": Bonus
     }
@@ -34,9 +32,6 @@ export default class NNSNeo extends Vue
             case "auction":
                 this.showType = 1;
                 break;
-            case "exchange":
-                this.showType = 2;
-                break;
             case "myneoname":
                 this.showType = 3;
                 break;
@@ -55,10 +50,6 @@ export default class NNSNeo extends Vue
             case "auction":
                 this.showType = 1;
                 location.hash = "#nnsneo/auction";
-                break;
-            case "exchange":
-                this.showType = 2;
-                location.hash = "#nnsneo/exchange";
                 break;
             case "myneoname":
                 this.showType = 3;

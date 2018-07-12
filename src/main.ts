@@ -4,13 +4,11 @@ import cn from "./language/cn"
 import en from "./language/en"
 import Login from './pages/login.vue'
 import Balance from './pages/balance/balance.vue'
-import Wallet from './layouts/wallet.vue'
 import Transfer from './pages/transfer/transfer.vue';
+import Exchange from './pages/exchange/exchange.vue';
 import NNSNeo from './pages/bid/nnsneo.vue';
 import NNS from './pages/nns/nns.vue';
 import Settings from './pages/setting/settings.vue';
-import { CoinTool } from './tools/cointool';
-import { StorageTool } from './tools/storagetool';
 
 Vue.use(VueI18n);
 // const notFound = () => import('./pages/404.vue');
@@ -51,6 +49,8 @@ var app = new Vue({
                     return Login;
                 case "transfer":
                     return Transfer;
+                case "exchange":
+                    return Exchange;
                 case "nnsneo":
                     //由于。。。。子路由的页面都嵌套进了NNSNeo.vue里进行切换，此处的二级路由跳转部分。等于没用。路由跳转部分在NNSNeo.ts里做控制
                     // switch (subroute)

@@ -147,7 +147,6 @@ export default {
     },
     nnsneo: {
         auction: "域名竞拍",
-        exchange: "SGas兑换",
         myneoname: "我的域名管理",
         bonus: "我的分红"
     },

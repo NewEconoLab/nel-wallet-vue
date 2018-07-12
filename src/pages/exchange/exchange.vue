@@ -1,5 +1,6 @@
 <template>
-    <div class="exchange-box">
+  <wallet-layout>
+    <div class="container exchange-box">
         <div class="title">
             <span>{{$t('exchange.title')}}</span>
         </div>
@@ -101,6 +102,7 @@
           </div>
         </div>
     </div>
+  </wallet-layout>
 </template>
 <script lang="ts" src="./exchange.ts">
 </script>
@@ -123,6 +125,7 @@
     position: relative;
     font-size: 16px;
     margin-bottom: 20px;
+    color: #fff;
     .exchange-sgas {
       display: flex;
       align-items: center;

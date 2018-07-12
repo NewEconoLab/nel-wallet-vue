@@ -15,8 +15,13 @@
               </v-link>
             </li>
             <li>
+              <v-link ref="exchange" href="#exchange">
+                <span :class="[exchange]"></span> {{$t('exchange.title')}}
+              </v-link>
+            </li>
+            <li>
               <v-link ref="nnsneo" href="#nnsneo">
-                <span :class="[nns]"></span> {{$t('nns.nns')}}(.neo)
+                <span :class="[nnsneo]"></span> {{$t('nns.nns')}}(.neo)
               </v-link>
             </li>
             <li>
@@ -72,7 +77,7 @@
   border-radius: 5px 5px 0px 0px;
 }
 .navbar-wallet li {
-  width: 182px;
+  width: 165px;
   text-align: center;
 }
 </style>

@@ -1,10 +1,12 @@
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import Component from "vue-class-component";
+import WalletLayout from "../../layouts/wallet.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LoginInfo, BalanceInfo, UTXO } from '../../tools/entity';
 @Component({
     components: {
+        "wallet-layout": WalletLayout,
         "spinner-wrap": Spinner,
     }
 })

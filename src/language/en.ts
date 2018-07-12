@@ -147,7 +147,6 @@ export default {
     },
     nnsneo: {
         auction: "Neo Name Auction",
-        exchange: "SGas Exchange",
         myneoname: "My Neo Name",
         bonus: "Bonus"
     },
