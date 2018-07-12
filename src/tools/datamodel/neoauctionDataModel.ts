@@ -110,8 +110,19 @@ export class NeoaucionData
         let sgas = tools.coinTool.id_SGAS.toString();
         let gas = tools.coinTool.id_GAS;
         let obj = {}
+        console.log("----------------------getAssetBalance-------------------------");
+        console.log("gas-------------------" + gas);
+        console.log("sgas-------------------" + sgas);
+
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(sgas, LoginInfo.getCurrentAddress());
+        console.log("-------------------nep5 ");
+        console.log(nep5);
+
+
         let res = await tools.wwwtool.api_getBalance(LoginInfo.getCurrentAddress());
+        console.log("-------------------utxoBalance ");
+        console.log(res);
+
         let balances = res as Array<any>;
         let balance;
         balances.map((item, index, array) =>
@@ -124,6 +135,10 @@ export class NeoaucionData
         })
         obj[ gas ] = balance;
         obj[ sgas ] = nep5[ "nep5balance" ];
+        console.log("balanceObj----------");
+        console.log(obj);
+
+
         return obj;
         // obj[gas] = await tools.wwwtool.api_getBalance()
         // tools.coinTool.initAllAsset()

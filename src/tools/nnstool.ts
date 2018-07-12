@@ -175,8 +175,10 @@ export class NNSTool
     {
         let info: DomainInfo = new DomainInfo();
         var data = tools.contract.buildScript(scriptaddress, "getOwnerInfo", [ "(hex256)" + domain.toString() ]);
+        console.log("------------------------------getOwnerInfo-----------------------");
 
         let result = await tools.wwwtool.rpc_getInvokescript(data);
+        console.log(result);
 
         try
         {
@@ -193,11 +195,21 @@ export class NNSTool
 
             if (stackarr[ 0 ].type == "Array")
             {
+                "------------info------------owner"
                 // var stack = stackarr[ 0 ].value as any[];
                 info.owner = stack[ 0 ].AsHash160();
+                console.log(info.owner);
+
+                "------------info------------register"
                 info.register = stack[ 1 ].AsHash160();
+                console.log(info.register);
+                "------------info------------resolver"
                 info.resolver = stack[ 2 ].AsHash160();
+                console.log(info.resolver);
+                "------------info------------ttl"
                 info.ttl = stack[ 3 ].AsInteger().toString();
+                console.log(info.ttl);
+
                 // console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
                 // let parentOwner = (stack[ 5 ].value as string).hexToBytes();
                 // let domainstr = stack[ 5 ].value as string;
