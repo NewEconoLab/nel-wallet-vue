@@ -492,6 +492,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "1Mcy":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "2v9N":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -535,13 +542,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_Selected = __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "3uYn":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1670,13 +1670,6 @@ var StaticStore = /** @class */ (function () {
 }());
 exports.StaticStore = StaticStore;
 
-
-/***/ }),
-
-/***/ "5Tj+":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -3824,7 +3817,6 @@ var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
 var wallet_vue_1 = __webpack_require__("PPZq");
 var neoauction_vue_1 = __webpack_require__("jrmo");
-var exchange_vue_1 = __webpack_require__("IDhZ");
 var myneo_vue_1 = __webpack_require__("ogHy");
 var bonus_vue_1 = __webpack_require__("6M52");
 var NNSNeo = /** @class */ (function (_super) {
@@ -3838,9 +3830,6 @@ var NNSNeo = /** @class */ (function (_super) {
         switch (subroute) {
             case "auction":
                 _this.showType = 1;
-                break;
-            case "exchange":
-                _this.showType = 2;
                 break;
             case "myneoname":
                 _this.showType = 3;
@@ -3858,10 +3847,6 @@ var NNSNeo = /** @class */ (function (_super) {
                 this.showType = 1;
                 location.hash = "#nnsneo/auction";
                 break;
-            case "exchange":
-                this.showType = 2;
-                location.hash = "#nnsneo/exchange";
-                break;
             case "myneoname":
                 this.showType = 3;
                 location.hash = "#nnsneo/myneoname";
@@ -3877,7 +3862,6 @@ var NNSNeo = /** @class */ (function (_super) {
             components: {
                 "wallet-layout": wallet_vue_1.default,
                 "neo-auction": neoauction_vue_1.default,
-                "exchange": exchange_vue_1.default,
                 "my-neo": myneo_vue_1.default,
                 "bonus": bonus_vue_1.default
             }
@@ -4281,14 +4265,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var nnsneo = __webpack_require__("8L/I");
 var nnsneo_default = /*#__PURE__*/__webpack_require__.n(nnsneo);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-75234536","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/nnsneo.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title-menu"},[_c('ul',{staticClass:"menu-box"},[_c('li',{class:{'active' : _vm.showType == 1},on:{"click":function($event){_vm.switchRoute('auction')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.auction')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 2},on:{"click":function($event){_vm.switchRoute('exchange')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.exchange')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 3},on:{"click":function($event){_vm.switchRoute('myneoname')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.myneoname')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 4},on:{"click":function($event){_vm.switchRoute('bonus')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.bonus')))])])]),_vm._v(" "),_c('div',{staticClass:"content-box"},[(_vm.showType == 1)?_c('neo-auction'):_vm._e(),_vm._v(" "),(_vm.showType == 2)?_c('exchange'):_vm._e(),_vm._v(" "),(_vm.showType == 3)?_c('my-neo'):_vm._e(),_vm._v(" "),(_vm.showType == 4)?_c('bonus'):_vm._e()],1)])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-42c67861","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/nnsneo.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container "},[_c('div',{staticClass:"title-menu"},[_c('ul',{staticClass:"menu-box"},[_c('li',{class:{'active' : _vm.showType == 1},on:{"click":function($event){_vm.switchRoute('auction')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.auction')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 3},on:{"click":function($event){_vm.switchRoute('myneoname')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.myneoname')))]),_vm._v(" "),_c('li',{class:{'active' : _vm.showType == 4},on:{"click":function($event){_vm.switchRoute('bonus')}}},[_vm._v(_vm._s(_vm.$t('nnsneo.bonus')))])])]),_vm._v(" "),_c('div',{staticClass:"content-box"},[(_vm.showType == 1)?_c('neo-auction'):_vm._e(),_vm._v(" "),(_vm.showType == 3)?_c('my-neo'):_vm._e(),_vm._v(" "),(_vm.showType == 4)?_c('bonus'):_vm._e()],1)])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_nnsneo = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/nnsneo.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("3uYn")
+  __webpack_require__("1Mcy")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -4299,7 +4283,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-75234536"
+var __vue_scopeId__ = "data-v-42c67861"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -4312,316 +4296,6 @@ var Component = normalizeComponent(
 )
 
 /* harmony default export */ var pages_bid_nnsneo = __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ "DIR4":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__("/5sW");
-var vue_property_decorator_1 = __webpack_require__("EOM2");
-var Spinner_vue_1 = __webpack_require__("+jyM");
-var importpack_1 = __webpack_require__("VKSY");
-var entity_1 = __webpack_require__("6nHw");
-var Exchange = /** @class */ (function (_super) {
-    __extends(Exchange, _super);
-    function Exchange() {
-        var _this = _super.call(this) || this;
-        _this.currentAddress = ""; //获取当前地址
-        _this.changeSGas = false;
-        _this.transcount = "";
-        _this.myGas = 0;
-        _this.mySGas = 0;
-        _this.exMaxcount = 0;
-        _this.exchangebtn = false;
-        _this.exchangeList = null;
-        _this.isCheckingTran = false;
-        importpack_1.tools.coinTool.initAllAsset();
-        return _this;
-    }
-    Exchange.prototype.mounted = function () {
-        this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
-        this.getMyGas();
-        this.getMySGas();
-        this.isShowTranLog();
-    };
-    //切换转换模式
-    Exchange.prototype.exchangeTranType = function () {
-        this.transcount = "";
-        this.changeSGas = !this.changeSGas;
-        this.changeSGas ? this.exMaxcount = this.mySGas : this.exMaxcount = this.myGas;
-        this.exchangeList ? this.exchangebtn = true : this.exchangebtn = false;
-    };
-    /**
-     * 获取当前地址的Gas
-     */
-    Exchange.prototype.getMyGas = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var balances;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBalance(this.currentAddress)];
-                    case 1:
-                        balances = _a.sent();
-                        this.myGas = 0;
-                        if (balances) {
-                            balances.forEach //取GAS
-                            (function (balance) {
-                                if (balance.asset == importpack_1.tools.coinTool.id_GAS) {
-                                    _this.myGas = balance.balance;
-                                    _this.exMaxcount = _this.myGas;
-                                }
-                            });
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * 获取当前地址的SGas
-     */
-    Exchange.prototype.getMySGas = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress('0x' + importpack_1.tools.coinTool.id_SGAS.toString(), this.currentAddress)];
-                    case 1:
-                        res = _a.sent();
-                        if (res && res.nep5balance) {
-                            this.mySGas = parseFloat(res.nep5balance);
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * 交易金额的输入确认
-     */
-    Exchange.prototype.exchangeCount = function () {
-        if (this.transcount) {
-            console.log(this.transcount);
-            if (!/^0|^\.\d/.test(this.transcount) || /^0\.[0-9]/.test(this.transcount)) {
-                if (/\./.test(this.transcount)) {
-                    this.transcount = parseFloat((parseFloat(this.transcount)).toFixed(8)).toString();
-                }
-                this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
-            }
-            else {
-                this.exchangebtn = false;
-            }
-        }
-        else {
-            this.exchangebtn = false;
-        }
-    };
-    /**
-     * exchange提交
-     */
-    Exchange.prototype.exChange = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var txid, tranObj, txid, tranObj, error_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.changeSGas) return [3 /*break*/, 2];
-                        this.isCheckingTran = true;
-                        return [4 /*yield*/, importpack_1.tools.sgastool.makeRefundTransaction(parseFloat(this.transcount))];
-                    case 1:
-                        txid = _a.sent();
-                        console.log(txid);
-                        tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' }];
-                        localStorage.setItem('exchangelist', JSON.stringify(tranObj));
-                        this.isShowTranLog();
-                        return [3 /*break*/, 5];
-                    case 2:
-                        _a.trys.push([2, 4, , 5]);
-                        this.isCheckingTran = true;
-                        return [4 /*yield*/, importpack_1.tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount))];
-                    case 3:
-                        txid = _a.sent();
-                        console.log(txid);
-                        tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' }];
-                        localStorage.setItem('exchangelist', JSON.stringify(tranObj));
-                        this.isShowTranLog();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        error_1 = _a.sent();
-                        console.error(error_1);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * 等待转账确认
-     * @param txid 交易id
-     */
-    Exchange.prototype.checkTranisOK = function (txid, trancount, trantype) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var res, utxo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.exchangebtn = false;
-                        this.isCheckingTran = true;
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 1:
-                        res = _a.sent();
-                        if (!res) return [3 /*break*/, 5];
-                        if (!(trantype == "SGas")) return [3 /*break*/, 3];
-                        utxo = new entity_1.UTXO();
-                        utxo.addr = entity_1.LoginInfo.getCurrentAddress();
-                        utxo.txid = txid;
-                        utxo.asset = importpack_1.tools.coinTool.id_GAS;
-                        utxo.count = Neo.Fixed8.parse(trancount.toString());
-                        utxo.n = 0;
-                        //把这个txid里的utxo[0]的value转给自己
-                        return [4 /*yield*/, importpack_1.tools.sgastool.makeRefundTransaction_tranGas(utxo, trancount.toString())];
-                    case 2:
-                        //把这个txid里的utxo[0]的value转给自己
-                        _a.sent();
-                        // console.log("restxid: " + restxid);
-                        this.exchangeList = localStorage.getItem('exchangelist');
-                        this.exchangeList = JSON.parse(this.exchangeList);
-                        this.checkAgainTranisOK(this.exchangeList[1].txid);
-                        return [3 /*break*/, 4];
-                    case 3:
-                        this.isTranClose();
-                        _a.label = 4;
-                    case 4: return [3 /*break*/, 6];
-                    case 5:
-                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                this.checkTranisOK(txid, trancount, trantype);
-                                return [2 /*return*/];
-                            });
-                        }); }, 10000);
-                        _a.label = 6;
-                    case 6: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Exchange.prototype.checkAgainTranisOK = function (txid) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.exchangebtn = false;
-                        this.isCheckingTran = true;
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 1:
-                        res = _a.sent();
-                        if (res) {
-                            this.isTranClose();
-                        }
-                        else {
-                            setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    this.checkAgainTranisOK(txid);
-                                    return [2 /*return*/];
-                                });
-                            }); }, 10000);
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**转账记录 */
-    Exchange.prototype.isShowTranLog = function () {
-        this.exchangeList = localStorage.getItem('exchangelist');
-        if (this.exchangeList) {
-            this.exchangeList = JSON.parse(this.exchangeList);
-            this.checkTranisOK(this.exchangeList[0].txid, this.exchangeList[0].trancount, this.exchangeList[0].trantype);
-        }
-    };
-    /**交易结束 */
-    Exchange.prototype.isTranClose = function () {
-        localStorage.removeItem("exchangelist");
-        this.isCheckingTran = false;
-        this.transcount = "";
-        this.getMyGas();
-        this.getMySGas();
-        this.exchangeList = null;
-    };
-    Exchange = __decorate([
-        vue_property_decorator_1.Component({
-            components: {
-                "spinner-wrap": Spinner_vue_1.default,
-            }
-        }),
-        __metadata("design:paramtypes", [])
-    ], Exchange);
-    return Exchange;
-}(vue_1.default));
-exports.default = Exchange;
 
 
 /***/ }),
@@ -5314,51 +4988,6 @@ exports.default = Contract;
 
 /***/ }),
 
-/***/ "IDhZ":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-// EXTERNAL MODULE: ./node_modules/ts-loader!./src/pages/bid/exchange.ts
-var exchange = __webpack_require__("DIR4");
-var exchange_default = /*#__PURE__*/__webpack_require__.n(exchange);
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-208d51d3","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/exchange.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"exchange-box"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('exchange.title')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"exchange-sgas"},[(!_vm.changeSGas)?_c('div',{staticClass:"gas-sgas"},[_c('div',{staticClass:"choose-wrap wrap-left"},[_c('img',{attrs:{"src":__webpack_require__("Az9s"),"alt":"gas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("Gas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.myGas))])])])]),_vm._v(" "),_vm._m(0,false,false),_vm._v(" "),_c('div',{staticClass:"choose-wrap wrap-right"},[_c('img',{attrs:{"src":__webpack_require__("qrTz"),"alt":"sgas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("SGas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.mySGas))])])])])]):_vm._e(),_vm._v(" "),(_vm.changeSGas)?_c('div',{staticClass:"gas-sgas"},[_c('div',{staticClass:"choose-wrap wrap-left"},[_c('img',{attrs:{"src":__webpack_require__("qrTz"),"alt":"sgas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("SGas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.mySGas))])])])]),_vm._v(" "),_vm._m(1,false,false),_vm._v(" "),_c('div',{staticClass:"choose-wrap wrap-right"},[_c('img',{attrs:{"src":__webpack_require__("Az9s"),"alt":"gas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("Gas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.myGas))])])])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"exchange-img",on:{"click":_vm.exchangeTranType}},[_c('img',{attrs:{"src":__webpack_require__("JxTv"),"alt":"exchange.png"}})])]),_vm._v(" "),_c('div',{staticClass:"sgas-tip"},[_vm._v("\n          "+_vm._s(_vm.$t('exchange.tips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"trans-box"},[_c('div',{staticClass:"spent-box"},[_c('div',{staticClass:"spent-msg"},[_vm._v("\n                "+_vm._s(_vm.$t('exchange.spend'))+" \n              ")]),_vm._v(" "),_c('div',{staticClass:"spent-input"},[_vm._m(2,false,false),_vm._v(" "),_c('div',{staticClass:"input-icon"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.transcount),expression:"transcount"}],attrs:{"type":"number","placeholder":"0"},domProps:{"value":(_vm.transcount)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.transcount=$event.target.value},_vm.exchangeCount]}})]),_vm._v(" "),_c('div',{staticClass:"msg-icon"},[_vm._v("\n                  "+_vm._s(_vm.changeSGas?"SGas":"Gas")+"\n                ")])])]),_vm._v(" "),_c('div',{staticClass:"spent-box"},[_c('div',{staticClass:"spent-msg"},[_vm._v("\n                "+_vm._s(_vm.$t('exchange.receive'))+"  \n              ")]),_vm._v(" "),_c('div',{staticClass:"spent-input disable-input"},[_vm._m(3,false,false),_vm._v(" "),_c('div',{staticClass:"input-icon"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.transcount),expression:"transcount"}],attrs:{"type":"number","placeholder":_vm.$t('exchange.amount'),"disabled":""},domProps:{"value":(_vm.transcount)},on:{"input":function($event){if($event.target.composing){ return; }_vm.transcount=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"msg-icon"},[_vm._v("\n                  "+_vm._s(_vm.changeSGas?"Gas":"SGas")+"\n                ")])])])]),_vm._v(" "),(_vm.transcount > _vm.exMaxcount)?_c('div',{staticClass:"spent-tip ff6"},[_vm._v("\n          "+_vm._s(_vm.$t('exchange.warnmsg'))+" \n        ")]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(!_vm.isCheckingTran)?_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disable':(_vm.transcount > _vm.exMaxcount || !_vm.exchangebtn)},attrs:{"disabled":_vm.transcount > _vm.exMaxcount || !_vm.exchangebtn},on:{"click":function($event){_vm.exChange()}}},[_vm._v(_vm._s(_vm.$t('btn.exchange')))]):_vm._e(),_vm._v(" "),(_vm.isCheckingTran)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e()],1)]),_vm._v(" "),(_vm.exchangeList)?_c('div',{staticClass:"form-box tran-list"},[_c('h3',{staticClass:"tran-title"},[_vm._v(_vm._s(_vm.$t('exchange.waittitle')))]),_vm._v(" "),_vm._l((_vm.exchangeList),function(item,index){return _c('div',{key:index,staticClass:"tran-history"},[(item.trantype == 'Gas')?_c('p',[_vm._v(_vm._s(_vm.$t('exchange.tosgas'))+"："+_vm._s(item.trancount)+" "+_vm._s(item.trantype)+", TXID: "+_vm._s(item.txid))]):_vm._e(),_vm._v(" "),(item.trantype == 'SGas')?_c('p',[_vm._v(_vm._s(_vm.$t('exchange.togas'))+"："+_vm._s(item.trancount)+" "+_vm._s(item.trantype)+", TXID: "+_vm._s(item.txid))]):_vm._e()])})],2):_vm._e()])}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"guid-img"},[_c('img',{attrs:{"src":__webpack_require__("IjLt"),"alt":"guiding.png"}})])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"guid-img"},[_c('img',{attrs:{"src":__webpack_require__("IjLt"),"alt":"guiding.png"}})])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"img-icon"},[_c('img',{attrs:{"src":__webpack_require__("8Xo2"),"alt":"plus.png"}})])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"img-icon"},[_c('img',{attrs:{"src":__webpack_require__("aLFK"),"alt":"minus.png"}})])}]
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ var bid_exchange = (esExports);
-// CONCATENATED MODULE: ./src/pages/bid/exchange.vue
-function injectStyle (ssrContext) {
-  __webpack_require__("oW8f")
-}
-var normalizeComponent = __webpack_require__("VU/8")
-/* script */
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-208d51d3"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  exchange_default.a,
-  bid_exchange,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-
-/* harmony default export */ var pages_bid_exchange = __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
 /***/ "ILH5":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5757,6 +5386,13 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6
 /***/ }),
 
 /***/ "KN5F":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "Ld2K":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -6616,14 +6252,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var wallet = __webpack_require__("YRcM");
 var wallet_default = /*#__PURE__*/__webpack_require__.n(wallet);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2dfbc0f8","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{ref:"balance",attrs:{"href":"#balance"}},[_c('span',{class:[_vm.balance]}),_vm._v(" "+_vm._s(_vm.$t('balance.balance'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"transfer",attrs:{"href":"#transfer"}},[_c('span',{class:[_vm.transfer]}),_vm._v(" "+_vm._s(_vm.$t('transfer.transfer'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nnsneo",attrs:{"href":"#nnsneo"}},[_c('span',{class:[_vm.nns]}),_vm._v(" "+_vm._s(_vm.$t('nns.nns'))+"(.neo)\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nns",attrs:{"href":"#nns"}},[_c('span',{class:[_vm.nns]}),_vm._v(" "+_vm._s(_vm.$t('nns.nns'))+"(.test)\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"setting",attrs:{"href":"#settings"}},[_c('span',{class:[_vm.setting]}),_vm._v(" "+_vm._s(_vm.$t('setting.settings'))+"\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"blockheight"},[_vm._v(_vm._s(_vm.$t('navbar.blockheight'))+"："+_vm._s(_vm.blockheight))])])])]),_vm._v(" "),_vm._t("default")],2)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-69efc554","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{ref:"balance",attrs:{"href":"#balance"}},[_c('span',{class:[_vm.balance]}),_vm._v(" "+_vm._s(_vm.$t('balance.balance'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"transfer",attrs:{"href":"#transfer"}},[_c('span',{class:[_vm.transfer]}),_vm._v(" "+_vm._s(_vm.$t('transfer.transfer'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"exchange",attrs:{"href":"#exchange"}},[_c('span',{class:[_vm.exchange]}),_vm._v(" "+_vm._s(_vm.$t('exchange.title'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nnsneo",attrs:{"href":"#nnsneo"}},[_c('span',{class:[_vm.nnsneo]}),_vm._v(" "+_vm._s(_vm.$t('nns.nns'))+"(.neo)\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nns",attrs:{"href":"#nns"}},[_c('span',{class:[_vm.nns]}),_vm._v(" "+_vm._s(_vm.$t('nns.nns'))+"(.test)\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"setting",attrs:{"href":"#settings"}},[_c('span',{class:[_vm.setting]}),_vm._v(" "+_vm._s(_vm.$t('setting.settings'))+"\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"blockheight"},[_vm._v(_vm._s(_vm.$t('navbar.blockheight'))+"："+_vm._s(_vm.blockheight))])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_wallet = (esExports);
 // CONCATENATED MODULE: ./src/layouts/wallet.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("5Tj+")
+  __webpack_require__("XsKB")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -6868,6 +6504,318 @@ exports.default = Selected;
 
 /***/ }),
 
+/***/ "Uyb2":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("/5sW");
+var vue_class_component_1 = __webpack_require__("c+8m");
+var wallet_vue_1 = __webpack_require__("PPZq");
+var Spinner_vue_1 = __webpack_require__("+jyM");
+var importpack_1 = __webpack_require__("VKSY");
+var entity_1 = __webpack_require__("6nHw");
+var Exchange = /** @class */ (function (_super) {
+    __extends(Exchange, _super);
+    function Exchange() {
+        var _this = _super.call(this) || this;
+        _this.currentAddress = ""; //获取当前地址
+        _this.changeSGas = false;
+        _this.transcount = "";
+        _this.myGas = 0;
+        _this.mySGas = 0;
+        _this.exMaxcount = 0;
+        _this.exchangebtn = false;
+        _this.exchangeList = null;
+        _this.isCheckingTran = false;
+        importpack_1.tools.coinTool.initAllAsset();
+        return _this;
+    }
+    Exchange.prototype.mounted = function () {
+        this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
+        this.getMyGas();
+        this.getMySGas();
+        this.isShowTranLog();
+    };
+    //切换转换模式
+    Exchange.prototype.exchangeTranType = function () {
+        this.transcount = "";
+        this.changeSGas = !this.changeSGas;
+        this.changeSGas ? this.exMaxcount = this.mySGas : this.exMaxcount = this.myGas;
+        this.exchangeList ? this.exchangebtn = true : this.exchangebtn = false;
+    };
+    /**
+     * 获取当前地址的Gas
+     */
+    Exchange.prototype.getMyGas = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var balances;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBalance(this.currentAddress)];
+                    case 1:
+                        balances = _a.sent();
+                        this.myGas = 0;
+                        if (balances) {
+                            balances.forEach //取GAS
+                            (function (balance) {
+                                if (balance.asset == importpack_1.tools.coinTool.id_GAS) {
+                                    _this.myGas = balance.balance;
+                                    _this.exMaxcount = _this.myGas;
+                                }
+                            });
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 获取当前地址的SGas
+     */
+    Exchange.prototype.getMySGas = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress('0x' + importpack_1.tools.coinTool.id_SGAS.toString(), this.currentAddress)];
+                    case 1:
+                        res = _a.sent();
+                        if (res && res.nep5balance) {
+                            this.mySGas = parseFloat(res.nep5balance);
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 交易金额的输入确认
+     */
+    Exchange.prototype.exchangeCount = function () {
+        if (this.transcount) {
+            console.log(this.transcount);
+            if (!/^0|^\.\d/.test(this.transcount) || /^0\.[0-9]/.test(this.transcount)) {
+                if (/\./.test(this.transcount)) {
+                    this.transcount = parseFloat((parseFloat(this.transcount)).toFixed(8)).toString();
+                }
+                this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
+            }
+            else {
+                this.exchangebtn = false;
+            }
+        }
+        else {
+            this.exchangebtn = false;
+        }
+    };
+    /**
+     * exchange提交
+     */
+    Exchange.prototype.exChange = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var txid, tranObj, txid, tranObj, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.changeSGas) return [3 /*break*/, 2];
+                        this.isCheckingTran = true;
+                        return [4 /*yield*/, importpack_1.tools.sgastool.makeRefundTransaction(parseFloat(this.transcount))];
+                    case 1:
+                        txid = _a.sent();
+                        console.log(txid);
+                        tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' }];
+                        localStorage.setItem('exchangelist', JSON.stringify(tranObj));
+                        this.isShowTranLog();
+                        return [3 /*break*/, 5];
+                    case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        this.isCheckingTran = true;
+                        return [4 /*yield*/, importpack_1.tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount))];
+                    case 3:
+                        txid = _a.sent();
+                        console.log(txid);
+                        tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' }];
+                        localStorage.setItem('exchangelist', JSON.stringify(tranObj));
+                        this.isShowTranLog();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        error_1 = _a.sent();
+                        console.error(error_1);
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 等待转账确认
+     * @param txid 交易id
+     */
+    Exchange.prototype.checkTranisOK = function (txid, trancount, trantype) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var res, utxo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.exchangebtn = false;
+                        this.isCheckingTran = true;
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
+                    case 1:
+                        res = _a.sent();
+                        if (!res) return [3 /*break*/, 5];
+                        if (!(trantype == "SGas")) return [3 /*break*/, 3];
+                        utxo = new entity_1.UTXO();
+                        utxo.addr = entity_1.LoginInfo.getCurrentAddress();
+                        utxo.txid = txid;
+                        utxo.asset = importpack_1.tools.coinTool.id_GAS;
+                        utxo.count = Neo.Fixed8.parse(trancount.toString());
+                        utxo.n = 0;
+                        //把这个txid里的utxo[0]的value转给自己
+                        return [4 /*yield*/, importpack_1.tools.sgastool.makeRefundTransaction_tranGas(utxo, trancount.toString())];
+                    case 2:
+                        //把这个txid里的utxo[0]的value转给自己
+                        _a.sent();
+                        // console.log("restxid: " + restxid);
+                        this.exchangeList = localStorage.getItem('exchangelist');
+                        this.exchangeList = JSON.parse(this.exchangeList);
+                        this.checkAgainTranisOK(this.exchangeList[1].txid);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        this.isTranClose();
+                        _a.label = 4;
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
+                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                this.checkTranisOK(txid, trancount, trantype);
+                                return [2 /*return*/];
+                            });
+                        }); }, 10000);
+                        _a.label = 6;
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Exchange.prototype.checkAgainTranisOK = function (txid) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.exchangebtn = false;
+                        this.isCheckingTran = true;
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
+                    case 1:
+                        res = _a.sent();
+                        if (res) {
+                            this.isTranClose();
+                        }
+                        else {
+                            setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    this.checkAgainTranisOK(txid);
+                                    return [2 /*return*/];
+                                });
+                            }); }, 10000);
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**转账记录 */
+    Exchange.prototype.isShowTranLog = function () {
+        this.exchangeList = localStorage.getItem('exchangelist');
+        if (this.exchangeList) {
+            this.exchangeList = JSON.parse(this.exchangeList);
+            this.checkTranisOK(this.exchangeList[0].txid, this.exchangeList[0].trancount, this.exchangeList[0].trantype);
+        }
+    };
+    /**交易结束 */
+    Exchange.prototype.isTranClose = function () {
+        localStorage.removeItem("exchangelist");
+        this.isCheckingTran = false;
+        this.transcount = "";
+        this.getMyGas();
+        this.getMySGas();
+        this.exchangeList = null;
+    };
+    Exchange = __decorate([
+        vue_class_component_1.default({
+            components: {
+                "wallet-layout": wallet_vue_1.default,
+                "spinner-wrap": Spinner_vue_1.default,
+            }
+        }),
+        __metadata("design:paramtypes", [])
+    ], Exchange);
+    return Exchange;
+}(vue_1.default));
+exports.default = Exchange;
+
+
+/***/ }),
+
 /***/ "VKSY":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7011,6 +6959,13 @@ exports.default = Bubble;
 
 /***/ }),
 
+/***/ "XsKB":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "YRcM":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7081,6 +7036,7 @@ var FeatureComponent = /** @class */ (function (_super) {
     function FeatureComponent() {
         var _this = _super.call(this) || this;
         _this.balance = "";
+        _this.exchange = "";
         _this.nnsneo = "";
         _this.nns = "";
         _this.transfer = "";
@@ -7096,6 +7052,9 @@ var FeatureComponent = /** @class */ (function (_super) {
         this.transfer = this.$refs["transfer"]["isActive"]
             ? "icon-transfer-select"
             : "icon-transfer-unselect";
+        this.exchange = this.$refs["exchange"]["isActive"]
+            ? "icon-exchange-select"
+            : "icon-exchange-unselect";
         this.nnsneo = this.$refs["nnsneo"]["isActive"]
             ? "icon-nnsneo-select"
             : "icon-nnsneo-unselect";
@@ -7333,19 +7292,12 @@ var NeoaucionData = /** @class */ (function () {
                         sgas = importpack_1.tools.coinTool.id_SGAS.toString();
                         gas = importpack_1.tools.coinTool.id_GAS;
                         obj = {};
-                        console.log("----------------------getAssetBalance-------------------------");
-                        console.log("gas-------------------" + gas);
-                        console.log("sgas-------------------" + sgas);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(sgas, entity_1.LoginInfo.getCurrentAddress())];
                     case 1:
                         nep5 = _a.sent();
-                        console.log("-------------------nep5 ");
-                        console.log(nep5);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBalance(entity_1.LoginInfo.getCurrentAddress())];
                     case 2:
                         res = _a.sent();
-                        console.log("-------------------utxoBalance ");
-                        console.log(res);
                         balances = res;
                         balances.map(function (item, index, array) {
                             if (item.asset == gas) {
@@ -7355,8 +7307,6 @@ var NeoaucionData = /** @class */ (function () {
                         });
                         obj[gas] = balance;
                         obj[sgas] = nep5["nep5balance"];
-                        console.log("balanceObj----------");
-                        console.log(obj);
                         return [2 /*return*/, obj];
                 }
             });
@@ -7605,11 +7555,9 @@ var NNSTool = /** @class */ (function () {
                     case 0:
                         info = new entity_1.DomainInfo();
                         data = importpack_1.tools.contract.buildScript(scriptaddress, "getOwnerInfo", ["(hex256)" + domain.toString()]);
-                        console.log("------------------------------getOwnerInfo-----------------------");
                         return [4 /*yield*/, importpack_1.tools.wwwtool.rpc_getInvokescript(data)];
                     case 1:
                         result = _a.sent();
-                        console.log(result);
                         try {
                             state = result.state;
                             // info2.textContent = "";
@@ -7621,19 +7569,11 @@ var NNSTool = /** @class */ (function () {
                             stackarr = result["stack"];
                             stack = entity_1.ResultItem.FromJson(entity_1.DataType.Array, stackarr).subItem[0].subItem;
                             if (stackarr[0].type == "Array") {
-                                "------------info------------owner";
                                 // var stack = stackarr[ 0 ].value as any[];
                                 info.owner = stack[0].AsHash160();
-                                console.log(info.owner);
-                                "------------info------------register";
                                 info.register = stack[1].AsHash160();
-                                console.log(info.register);
-                                "------------info------------resolver";
                                 info.resolver = stack[2].AsHash160();
-                                console.log(info.resolver);
-                                "------------info------------ttl";
                                 info.ttl = stack[3].AsInteger().toString();
-                                console.log(info.ttl);
                                 // console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
                                 // let parentOwner = (stack[ 5 ].value as string).hexToBytes();
                                 // let domainstr = stack[ 5 ].value as string;
@@ -7854,6 +7794,51 @@ exports.NNSTool = NNSTool;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "eL9F":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./src/pages/exchange/exchange.ts
+var exchange = __webpack_require__("Uyb2");
+var exchange_default = /*#__PURE__*/__webpack_require__.n(exchange);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0c4ec18d","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/exchange/exchange.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container exchange-box"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('exchange.title')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"exchange-sgas"},[(!_vm.changeSGas)?_c('div',{staticClass:"gas-sgas"},[_c('div',{staticClass:"choose-wrap wrap-left"},[_c('img',{attrs:{"src":__webpack_require__("Az9s"),"alt":"gas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("Gas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.myGas))])])])]),_vm._v(" "),_c('div',{staticClass:"guid-img"},[_c('img',{attrs:{"src":__webpack_require__("IjLt"),"alt":"guiding.png"}})]),_vm._v(" "),_c('div',{staticClass:"choose-wrap wrap-right"},[_c('img',{attrs:{"src":__webpack_require__("qrTz"),"alt":"sgas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("SGas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.mySGas))])])])])]):_vm._e(),_vm._v(" "),(_vm.changeSGas)?_c('div',{staticClass:"gas-sgas"},[_c('div',{staticClass:"choose-wrap wrap-left"},[_c('img',{attrs:{"src":__webpack_require__("qrTz"),"alt":"sgas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("SGas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.mySGas))])])])]),_vm._v(" "),_c('div',{staticClass:"guid-img"},[_c('img',{attrs:{"src":__webpack_require__("IjLt"),"alt":"guiding.png"}})]),_vm._v(" "),_c('div',{staticClass:"choose-wrap wrap-right"},[_c('img',{attrs:{"src":__webpack_require__("Az9s"),"alt":"gas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("Gas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.myGas))])])])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"exchange-img",on:{"click":_vm.exchangeTranType}},[_c('img',{attrs:{"src":__webpack_require__("JxTv"),"alt":"exchange.png"}})])]),_vm._v(" "),_c('div',{staticClass:"sgas-tip"},[_vm._v("\n            "+_vm._s(_vm.$t('exchange.tips'))+"\n          ")]),_vm._v(" "),_c('div',{staticClass:"trans-box"},[_c('div',{staticClass:"spent-box"},[_c('div',{staticClass:"spent-msg"},[_vm._v("\n                  "+_vm._s(_vm.$t('exchange.spend'))+" \n                ")]),_vm._v(" "),_c('div',{staticClass:"spent-input"},[_c('div',{staticClass:"img-icon"},[_c('img',{attrs:{"src":__webpack_require__("8Xo2"),"alt":"plus.png"}})]),_vm._v(" "),_c('div',{staticClass:"input-icon"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.transcount),expression:"transcount"}],attrs:{"type":"number","placeholder":"0"},domProps:{"value":(_vm.transcount)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.transcount=$event.target.value},_vm.exchangeCount]}})]),_vm._v(" "),_c('div',{staticClass:"msg-icon"},[_vm._v("\n                    "+_vm._s(_vm.changeSGas?"SGas":"Gas")+"\n                  ")])])]),_vm._v(" "),_c('div',{staticClass:"spent-box"},[_c('div',{staticClass:"spent-msg"},[_vm._v("\n                  "+_vm._s(_vm.$t('exchange.receive'))+"  \n                ")]),_vm._v(" "),_c('div',{staticClass:"spent-input disable-input"},[_c('div',{staticClass:"img-icon"},[_c('img',{attrs:{"src":__webpack_require__("aLFK"),"alt":"minus.png"}})]),_vm._v(" "),_c('div',{staticClass:"input-icon"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.transcount),expression:"transcount"}],attrs:{"type":"number","placeholder":_vm.$t('exchange.amount'),"disabled":""},domProps:{"value":(_vm.transcount)},on:{"input":function($event){if($event.target.composing){ return; }_vm.transcount=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"msg-icon"},[_vm._v("\n                    "+_vm._s(_vm.changeSGas?"Gas":"SGas")+"\n                  ")])])])]),_vm._v(" "),(_vm.transcount > _vm.exMaxcount)?_c('div',{staticClass:"spent-tip ff6"},[_vm._v("\n            "+_vm._s(_vm.$t('exchange.warnmsg'))+" \n          ")]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(!_vm.isCheckingTran)?_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disable':(_vm.transcount > _vm.exMaxcount || !_vm.exchangebtn)},attrs:{"disabled":_vm.transcount > _vm.exMaxcount || !_vm.exchangebtn},on:{"click":function($event){_vm.exChange()}}},[_vm._v(_vm._s(_vm.$t('btn.exchange')))]):_vm._e(),_vm._v(" "),(_vm.isCheckingTran)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e()],1)]),_vm._v(" "),(_vm.exchangeList)?_c('div',{staticClass:"form-box tran-list"},[_c('h3',{staticClass:"tran-title"},[_vm._v(_vm._s(_vm.$t('exchange.waittitle')))]),_vm._v(" "),_vm._l((_vm.exchangeList),function(item,index){return _c('div',{key:index,staticClass:"tran-history"},[(item.trantype == 'Gas')?_c('p',[_vm._v(_vm._s(_vm.$t('exchange.tosgas'))+"："+_vm._s(item.trancount)+" "+_vm._s(item.trantype)+", TXID: "+_vm._s(item.txid))]):_vm._e(),_vm._v(" "),(item.trantype == 'SGas')?_c('p',[_vm._v(_vm._s(_vm.$t('exchange.togas'))+"："+_vm._s(item.trancount)+" "+_vm._s(item.trantype)+", TXID: "+_vm._s(item.txid))]):_vm._e()])})],2):_vm._e()])])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var exchange_exchange = (esExports);
+// CONCATENATED MODULE: ./src/pages/exchange/exchange.vue
+function injectStyle (ssrContext) {
+  __webpack_require__("Ld2K")
+}
+var normalizeComponent = __webpack_require__("VU/8")
+/* script */
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-0c4ec18d"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  exchange_default.a,
+  exchange_exchange,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+
+/* harmony default export */ var pages_exchange_exchange = __webpack_exports__["default"] = (Component.exports);
+
 
 /***/ }),
 
@@ -8586,13 +8571,6 @@ exports.default = AuctionInfo;
 
 /***/ }),
 
-/***/ "oW8f":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "ogHy":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -8793,7 +8771,6 @@ exports.default = {
     },
     nnsneo: {
         auction: "Neo Name Auction",
-        exchange: "SGas Exchange",
         myneoname: "My Neo Name",
         bonus: "Bonus"
     },
@@ -10213,7 +10190,6 @@ exports.default = {
     },
     nnsneo: {
         auction: "域名竞拍",
-        exchange: "SGas兑换",
         myneoname: "我的域名管理",
         bonus: "我的分红"
     },
@@ -10354,6 +10330,7 @@ var en_1 = __webpack_require__("pKg8");
 var login_vue_1 = __webpack_require__("Luci");
 var balance_vue_1 = __webpack_require__("v8qo");
 var transfer_vue_1 = __webpack_require__("Oz3I");
+var exchange_vue_1 = __webpack_require__("eL9F");
 var nnsneo_vue_1 = __webpack_require__("C0Cu");
 var nns_vue_1 = __webpack_require__("RN/i");
 var settings_vue_1 = __webpack_require__("hZlE");
@@ -10390,6 +10367,8 @@ var app = new vue_1.default({
                     return login_vue_1.default;
                 case "transfer":
                     return transfer_vue_1.default;
+                case "exchange":
+                    return exchange_vue_1.default;
                 case "nnsneo":
                     //由于。。。。子路由的页面都嵌套进了NNSNeo.vue里进行切换，此处的二级路由跳转部分。等于没用。路由跳转部分在NNSNeo.ts里做控制
                     // switch (subroute)

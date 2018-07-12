@@ -13,6 +13,7 @@ export default class FeatureComponent extends Vue
 {
     balance: string;
     transfer: string;
+    exchange: string;
     nnsneo: string;
     nns: string;
     setting: string;
@@ -21,6 +22,7 @@ export default class FeatureComponent extends Vue
     {
         super();
         this.balance = "";
+        this.exchange = "";
         this.nnsneo = "";
         this.nns = "";
         this.transfer = "";
@@ -37,6 +39,9 @@ export default class FeatureComponent extends Vue
         this.transfer = this.$refs[ "transfer" ][ "isActive" ]
             ? "icon-transfer-select"
             : "icon-transfer-unselect";
+        this.exchange = this.$refs[ "exchange" ][ "isActive" ]
+            ? "icon-exchange-select"
+            : "icon-exchange-unselect";
         this.nnsneo = this.$refs[ "nnsneo" ][ "isActive" ]
             ? "icon-nnsneo-select"
             : "icon-nnsneo-unselect";
