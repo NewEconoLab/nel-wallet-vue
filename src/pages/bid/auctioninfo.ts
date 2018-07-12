@@ -81,7 +81,6 @@ export default class AuctionInfo extends Vue
         this.session_bid = new LocalStoreTool("bidSession");
         this.session_recover = new LocalStoreTool("recoverSession");
         this.session_getdomain = new LocalStoreTool("getDomainSession");
-        console.log(auctionMsg.getList());
 
         this.item.domain = auctionMsg.select("domain");
         this.getSessionBidDetail(this.item.domain);
@@ -98,7 +97,8 @@ export default class AuctionInfo extends Vue
         this.item.maxPrice = accDiv(info.maxPrice.toString(), 10000000);
         this.item.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
         let time = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
-        this.item.startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(time));
+        this.item.startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(accMul(time, 1000)));
+        this.process = new Process(this.item.startAuctionTime);
         this.balanceOf = await tools.nnssell.getBalanceOf();
         this.balanceOf = !!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0';
         this.item.maxBuyer = stateMsg[ "maxBuyer" ];
@@ -107,7 +107,6 @@ export default class AuctionInfo extends Vue
         this.item.mybidprice = stateMsg[ "mybidprice" ];
         this.item.receivedState = (info.endBlock.compareTo(0) > 0 || info.startBlockSelling.multiply(1000).compareTo(new Date().getTime()) < 0) ? (this.balanceOfSelling > 0 ? false : true) : true;
 
-        this.process = new Process(this.item.startAuctionTime);
         if (this.item.receivedState)
         {
             this.state_getDomain = 2;

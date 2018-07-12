@@ -75,7 +75,7 @@ export default class NeoAuction extends Vue
         this.alert_withdraw = new NeoAuction_Withdraw();
         this.alert_TopUp = new NeoAuction_TopUp();
         this.sessionWatting = new LocalStoreTool("session_watting");
-        this.auctionPageSession = new tools.localstoretool("auctionPage");
+        this.auctionPageSession = new tools.sessionstoretool("auctionPage");
         if (this.auctionPageSession.select("show"))
         {
             this.auctionPage = true;

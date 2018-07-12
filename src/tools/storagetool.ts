@@ -239,7 +239,7 @@ export class sessionStoreTool
         let item = sessionStoreTool.getTable(this.table);
         let obj = item ? item : {};
         obj[ key ] = value;
-        localStorage.setItem(this.table, JSON.stringify(obj));
+        sessionStorage.setItem(this.table, JSON.stringify(obj));
     }
 
     /**
@@ -248,7 +248,7 @@ export class sessionStoreTool
      */
     select(key: string)
     {
-        let item = sessionStoreTool.getTable(this.table);
+        let item = this.getList()
         if (item)
         {
             return item[ key ];
@@ -289,7 +289,7 @@ export class sessionStoreTool
      */
     static getTable(table: string)
     {
-        let item = localStorage.getItem(table);
+        let item = sessionStorage.getItem(table);
         if (item)
         {
             let obj = JSON.parse(item);
