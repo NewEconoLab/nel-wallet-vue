@@ -95,10 +95,8 @@ export default class Exchange extends Vue
             {
                 if (/\./.test(this.transcount))
                 {
-                    if (/\.\d{9}/.test(this.transcount))
-                    {
-                        this.transcount = this.transcount.substring(0, this.transcount.length - 1);
-                    }
+                    let index = this.transcount.indexOf(".")
+                    this.transcount = this.transcount.substring(0, index + 9);
                 }
                 this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
             }

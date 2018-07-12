@@ -231,10 +231,8 @@ export default class NeoAuction extends Vue
     {
         if (/\./.test(this.alert_TopUp.input))
         {
-            if (/\.\d{9}/.test(this.alert_TopUp.input))
-            {
-                this.alert_TopUp.input = this.alert_TopUp.input.substring(0, this.alert_TopUp.input.length - 1);
-            }
+            let index = this.alert_TopUp.input.indexOf(".")
+            this.alert_TopUp.input = this.alert_TopUp.input.substring(0, index + 9);
         }
         let amount = Neo.Fixed8.parse(this.alert_TopUp.input);
         let balance = Neo.Fixed8.parse(this.assetlist[ this.alert_selection ] + "");
@@ -251,10 +249,8 @@ export default class NeoAuction extends Vue
     {
         if (/\./.test(this.alert_withdraw.input))
         {
-            if (/\.\d{9}/.test(this.alert_withdraw.input))
-            {
-                this.alert_withdraw.input = this.alert_withdraw.input.substring(0, this.alert_withdraw.input.length - 1);
-            }
+            let index = this.alert_withdraw.input.indexOf(".")
+            this.alert_withdraw.input = this.alert_withdraw.input.substring(0, index + 9);
         }
         let amount = Neo.Fixed8.parse(this.alert_withdraw.input);
         let balance = Neo.Fixed8.parse(this.regBalance);
@@ -288,10 +284,8 @@ export default class NeoAuction extends Vue
         {
             if (/\./.test(this.alert_myBid))
             {
-                if (/\.\d{2}/.test(this.alert_myBid))
-                {
-                    this.alert_myBid = this.alert_myBid.substring(0, this.alert_TopUp.input.length - 1);
-                }
+                let index = this.alert_myBid.indexOf(".")
+                this.alert_myBid = this.alert_myBid.substring(0, index + 9);
             }
         }
         let myBid = !!this.alert_myBid ? parseFloat(this.alert_myBid) : 0;
