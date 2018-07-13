@@ -51,7 +51,7 @@
             <div>
                 <div class="input-msg">{{$t('auction.raisebid')}} : </div>
                 <div class="input-box" >
-                    <input type="number" :placeholder="$t('auction.enterbid')" @input="myBidInput" v-model="bidPrice">
+                    <input type="number" :placeholder="$t('auction.enterbid')" v-model="bidPrice" @input="myBidInput">
                     <span>SGas</span>
                 </div>
                 <div class="err-msg status-ended">{{$t('auction.errmsg1')}} {{balanceOf}} {{$t('auction.errmsg2')}}</div>

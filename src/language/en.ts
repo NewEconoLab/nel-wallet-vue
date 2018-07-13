@@ -216,6 +216,7 @@ export default {
         yourbalance: "Your Balance",
         waiting: "Waiting",
         successwithdraw: "Successesfully withdrawed !",
+        successwithdraw2: "Sgas will be refunded to your address after one block !",
         successtop: "Successesfully toped up",
         successtopup: "Successesfully toped up ! ",
         successtopup2: " SGas will be in your auction account after 2 blocks are confirmed !",

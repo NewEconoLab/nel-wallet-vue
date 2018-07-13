@@ -71,6 +71,7 @@ export default class AuctionInfo extends Vue
         this.process_arr = [];
         this.state_getDomain = 0;
         this.state_recover = 0;
+        this.bidPrice = "";
 
     }
 
@@ -90,6 +91,7 @@ export default class AuctionInfo extends Vue
             stateMsg = await tools.wwwtool.getDomainState(this.address, this.item.domain);
         } catch (error)
         {
+
         }
 
         let domain = auctionMsg.select("domain");

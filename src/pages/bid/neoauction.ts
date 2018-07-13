@@ -29,8 +29,6 @@ export default class NeoAuction extends Vue
     domainInfo: MyAuction[] = [];
     domain: string;
     btn_start: number;
-    isWithdraw: boolean;//退款
-    isTopUp: boolean;//充值
     isshowToast: boolean;//是否显示toast
     regBalance: string;
     selectList: Object;
@@ -130,20 +128,6 @@ export default class NeoAuction extends Vue
         this.alert_selection = key
     }
 
-    /**
-     * 退回sgas
-     */
-    async withdraw()
-    {
-        let amount = parseFloat(this.alert_withdraw.input);
-        this.alert_withdraw.watting = true;
-        let res = await tools.nnssell.getMoneyBack(amount);
-        if (!res.err)
-        {
-            this.sessionWatting.put("withdraw", res.info);
-            this.withdrawConfirm(res.info);
-        }
-    }
 
     /**
      * 充值到注册器
@@ -194,6 +178,61 @@ export default class NeoAuction extends Vue
             }
         }
 
+    }
+
+    /**
+     * 退回sgas
+     */
+    async withdraw()
+    {
+        let amount = parseFloat(this.alert_withdraw.input);
+        this.alert_withdraw.watting = true;
+        let res = await tools.nnssell.getMoneyBack(amount);
+        if (!res.err)
+        {
+            this.openToast("success", amount + "" + this.$t("auction.successwithdraw2"), 4000);
+            this.sessionWatting.put("withdraw", res.info);
+            this.alert_withdraw.isShow = false;
+            this.withdrawConfirm(res.info);
+        }
+    }
+
+    /**
+     * gas->sgas->充值注册器
+     */
+    async gasToRecharge()
+    {
+        let amount = this.alert_TopUp.input;
+        this.alert_TopUp.watting = true;
+        if (this.alert_selection == tools.coinTool.id_GAS)
+        {
+            let txid = await tools.nnssell.gasToRecharge(parseFloat(this.alert_TopUp.input));
+            if (txid)
+            {
+                this.sessionWatting.put("recharge-gas", { txid, amount });
+                this.confirmRecharge(txid);
+                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
+                this.alert_TopUp.isShow = false;
+            } else
+            {
+                this.openToast("error", "" + this.$t("auction.fail"), 4000);
+            }
+        } else
+        {
+            try
+            {
+                let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8));
+                let res = await tools.wwwtool.api_postRawTransaction(data);
+                let txid = res[ "txid" ];
+                this.sessionWatting.put("recharge-sgas", { txid, amount });
+                this.confirmRecharge_sgas(txid)
+                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
+                this.alert_TopUp.isShow = false;
+            } catch (error)
+            {
+                this.openToast("error", "" + this.$t("auction.fail"), 4000);
+            }
+        }
     }
 
     /**
@@ -309,6 +348,7 @@ export default class NeoAuction extends Vue
         if (!res.err)
         {
             this.openToast("success", "" + this.$t("auction.successbid2") + this.alert_myBid + "sgas ! ", 3000);
+            this.auctionShow = !this.auctionShow;
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
             this.bidConfirm(res.info, this.auctionMsg_alert.domain);
         } else
@@ -446,44 +486,6 @@ export default class NeoAuction extends Vue
             this.checkState = this.btn_start;
         }
 
-    }
-
-    /**
-     * gas->sgas->充值注册器
-     */
-    async gasToRecharge()
-    {
-        let amount = this.alert_TopUp.input;
-        this.alert_TopUp.watting = true;
-        if (this.alert_selection == tools.coinTool.id_GAS)
-        {
-            let txid = await tools.nnssell.gasToRecharge(parseFloat(this.alert_TopUp.input));
-            if (txid)
-            {
-                this.sessionWatting.put("recharge-gas", { txid, amount });
-                this.confirmRecharge(txid);
-                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
-                this.isTopUp = false;
-            } else
-            {
-                this.openToast("error", "" + this.$t("auction.fail"), 4000);
-            }
-        } else
-        {
-            try
-            {
-                let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8));
-                let res = await tools.wwwtool.api_postRawTransaction(data);
-                let txid = res[ "txid" ];
-                this.sessionWatting.put("recharge-sgas", { txid, amount });
-                this.confirmRecharge_sgas(txid)
-                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
-                this.isTopUp = false;
-            } catch (error)
-            {
-                this.openToast("error", "" + this.$t("auction.fail"), 4000);
-            }
-        }
     }
 
     /**
