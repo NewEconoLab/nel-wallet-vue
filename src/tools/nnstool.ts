@@ -196,7 +196,6 @@ export class NNSTool
             if (stackarr[ 0 ].type == "Array")
             {
                 "------------info------------owner"
-                // var stack = stackarr[ 0 ].value as any[];
                 info.owner = stack[ 0 ].AsHash160();
                 console.log(info.owner);
 

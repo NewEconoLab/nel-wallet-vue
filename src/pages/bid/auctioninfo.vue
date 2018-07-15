@@ -5,21 +5,21 @@
             <div class="goback" @click="onBack">&lt;&lt;&lt;{{$t('auction.goback')}}</div>
         </div>
         <div class="form-box">
-            <div class="filename">{{$t('auction.domain')}} : {{item.domain}}</div>
-            <div class="status" v-if="item.auctionState=='Fixed period'">{{$t('auction.status')}} : <span class="status-being">{{$t('auction.fixedperiod')}}</span> </div>
-            <div class="status" v-if="item.auctionState=='Random period'">{{$t('auction.status')}} : <span class="status-random">{{$t('auction.randomperiod')}}</span> </div>
-            <div class="status" v-if="item.auctionState=='Ended'">{{$t('auction.status')}} : <span class="status-ended">{{$t('auction.ended')}}</span> </div>
-            <div class="highest-price">{{$t('auction.highest')}} : {{item.maxPrice}} SGas</div>   
-            <div class="bidder" v-if="item.maxBuyer != address">{{$t('auction.currentbidder')}} : <span>{{$t('auction.other')}}（ {{item.maxBuyer}} ）</span> </div>
-            <div class="bidder" v-if="item.maxBuyer == address">{{$t('auction.currentbidder')}} : <span class="bidder-me">{{$t('auction.me')}}（ {{item.maxBuyer}} ）</span> </div>
-            <div class="my-bid-sgas">{{$t('auction.mybidmsg')}} : <span class="status-ended">{{item.mybidprice}}</span>  SGas</div>     
+            <div class="filename">{{$t('auction.domain')}} : {{domainAuctionInfo.domain}}</div>
+            <div class="status" v-if="domainAuctionInfo.auctionState=='1'">{{$t('auction.status')}} : <span class="status-being">{{$t('auction.fixedperiod')}}</span> </div>
+            <div class="status" v-if="domainAuctionInfo.auctionState=='2'">{{$t('auction.status')}} : <span class="status-random">{{$t('auction.randomperiod')}}</span> </div>
+            <div class="status" v-if="domainAuctionInfo.auctionState=='0'">{{$t('auction.status')}} : <span class="status-ended">{{$t('auction.ended')}}</span> </div>
+            <div class="highest-price">{{$t('auction.highest')}} : {{domainAuctionInfo.maxPrice}} SGas</div>   
+            <div class="bidder" v-if="domainAuctionInfo.maxBuyer != address">{{$t('auction.currentbidder')}} : <span>{{$t('auction.other')}}（ {{domainAuctionInfo.maxBuyer}} ）</span> </div>
+            <div class="bidder" v-if="domainAuctionInfo.maxBuyer == address">{{$t('auction.currentbidder')}} : <span class="bidder-me">{{$t('auction.me')}}（ {{domainAuctionInfo.maxBuyer}} ）</span> </div>
+            <div class="my-bid-sgas">{{$t('auction.mybidmsg')}} : <span class="status-ended">{{myBidPrice}}</span>  SGas</div>     
         </div>
-        <div v-if="item.auctionState==0&& item.maxBuyer == address">
+        <div v-if="domainAuctionInfo.auctionState==0&& domainAuctionInfo.maxBuyer == address">
           <div class="title">
               <span>{{$t('auction.title6')}}</span>
           </div>
           <div class="form-box">
-              <div class="neoname"> {{item.domain}}</div>
+              <div class="neoname"> {{domainAuctionInfo.domain}}</div>
               <div class="neoname-tips">{{$t('auction.getdomaintips')}}</div>
               <div class="btn-center">
                 <button v-if="state_getDomain==0" class="btn btn-nel btn-bid" @click="getDomain">{{$t('btn.getdomain')}}</button>
@@ -28,12 +28,12 @@
               </div>  
           </div>
         </div>
-        <div v-if="item.auctionState==0&& item.maxBuyer != address">
+        <div v-if="domainAuctionInfo.auctionState==0&& domainAuctionInfo.maxBuyer != address">
           <div class="title">
               <span>{{$t('auction.title7')}}</span>
           </div>
           <div class="form-box">
-              <div class="cumulative-msg">{{$t('auction.mybidmsg')}} : {{balanceOfSelling}} SGas</div>
+              <div class="cumulative-msg">{{$t('auction.mybidmsg')}} : {{myBidPrice}} SGas</div>
               <div class="fee-msg">{{$t('auction.fee')}} : {{fee}} SGas</div>
               <div class="remain-msg">{{$t('auction.remainingsgas')}} : {{remaining}} SGas</div>
               <div class="btn-center">
@@ -43,7 +43,7 @@
               </div> 
           </div>
         </div>
-        <div v-if="item.auctionState>0">
+        <div v-if="domainAuctionInfo.auctionState>0">
         <div class="title">
             <span>{{$t('auction.title4')}}</span>
         </div>
@@ -75,15 +75,15 @@
             <label>{{$t('auction.status')}}</label>
             <div class="process-box">
               <div class="process long" :style="'width:'+width+'%'">
-                <div class="process-tips">{{process_state}} </div>
+                <div class="process-tips">{{process.state}} </div>
                 <!-- <div class="process-fff">
                   <img src="../../../static/img/going.png" alt="">
                 </div> -->
               </div>
-              <div class="starts">{{process_date}}
-                <br/>{{process_time}}</div>
+              <div class="starts">{{process.date}}
+                <br/>{{process.time}}</div>
 
-              <div v-for="days in process_arr" :key="days.msg" class="days">
+              <div v-for="days in process.timearr" :key="days.msg" class="days">
                 <em v-if="days.msg!=''&&days.msg=='1'">{{$t('auction.bidstarttimemsg')}}</em>
                 <em v-if="days.msg!=''&&days.msg=='2'">{{$t('auction.endtimemsg')}}</em>
                 <em v-if="days.msg!=''&&days.msg=='3'">{{$t('auction.maxtimemsg')}}</em>
@@ -100,11 +100,11 @@
             <div class="list" v-for="(item,index) in bidDetailList" :key="index">
               <div class="line"></div>
               <div class="infos">
-                <span>{{item.addPriceTime}}</span>
-                <p v-if="!item.maxBuyer">{{$t('auction.auctionopen')}}</p>
-                <p style="font-size:12px;" v-if="item.maxBuyer != address && item.maxBuyer">{{$t('auction.other')}}（ <span style="font-size:12px;">{{item.maxBuyer}}</span>  ）</p>
-                <p class="bidder-me" v-if="item.maxBuyer == address">{{$t('auction.me')}}（ <span>{{item.maxBuyer}}</span> ）</p>
-                <em v-if="item.maxBuyer!=''">{{$t('auction.price')}}{{item.maxPrice}} SGas</em>
+                <span>{{domainAuctionInfo.addPriceTime}}</span>
+                <p v-if="!domainAuctionInfo.maxBuyer">{{$t('auction.auctionopen')}}</p>
+                <p style="font-size:12px;" v-if="domainAuctionInfo.maxBuyer != address && domainAuctionInfo.maxBuyer">{{$t('auction.other')}}（ <span style="font-size:12px;">{{domainAuctionInfo.maxBuyer}}</span>  ）</p>
+                <p class="bidder-me" v-if="domainAuctionInfo.maxBuyer == address">{{$t('auction.me')}}（ <span>{{domainAuctionInfo.maxBuyer}}</span> ）</p>
+                <em v-if="domainAuctionInfo.maxBuyer!=''">{{$t('auction.price')}}{{domainAuctionInfo.maxPrice}} SGas</em>
               </div>
             </div>
           </div>

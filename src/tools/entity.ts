@@ -529,6 +529,8 @@ export class MyAuction
     auctionSpentTime: string;
     auctionState: string;
     endedState: number;
+    endTime: number;
+    endBlock: number;
     blockindex: string;
     domain: string;
     maxBuyer: string;

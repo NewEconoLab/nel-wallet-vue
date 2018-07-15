@@ -196,7 +196,7 @@ export default class NNSSell
     /**
      * 
      * @param time 
-     * @returns state(0:竞拍结束, 2:随机时间,2:正在竞拍)
+     * @returns state(0:竞拍结束,1:正在竞拍, 2:随机时间)
      */
     static compareTime(time: number)
     {

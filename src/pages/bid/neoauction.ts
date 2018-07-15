@@ -78,7 +78,6 @@ export default class NeoAuction extends Vue
         }
         this.canAdded = false;
         this.myBalanceOfSelling = "";
-        tools.nnstool.initRootDomain("neo");
     }
 
     async mounted()

@@ -62,16 +62,16 @@
                     <div class="msg-neoname">
                         {{item.domain}}
                     </div>
-                    <div class="msg-status" v-if="item.auctionState==1">
+                    <div class="msg-status" v-if="item.auctionState=='1'">
                         {{$t('auction.status')}} : <span class="status-being">{{$t('auction.fixedperiod')}}</span>
                     </div>
-                    <div class="msg-status" v-if="item.auctionState==2">
+                    <div class="msg-status" v-if="item.auctionState=='2'">
                         {{$t('auction.status')}} : <span class="status-random">{{$t('auction.randomperiod')}}</span>
                     </div>
-                    <div class="msg-status" v-if="item.auctionState==3">
+                    <div class="msg-status" v-if="item.auctionState=='3'">
                         {{$t('auction.status')}} : <span class="status-random">{{$t('auction.waiting')}}</span>
                     </div>
-                    <div class="msg-status" v-if="item.auctionState==0">
+                    <div class="msg-status" v-if="item.auctionState=='0'">
                         {{$t('auction.status')}} : <span class="status-ended">{{$t('auction.ended')}}</span>
                     </div>
                     <div class="msg-price">
