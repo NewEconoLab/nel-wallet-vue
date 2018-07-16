@@ -415,6 +415,9 @@ export default class AuctionInfo extends Vue
         }
     }
 
+    /**
+     * 
+     */
     async bidDomain()
     {
         this.openToast = this.$refs.toast[ "isShow" ];

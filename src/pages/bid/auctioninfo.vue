@@ -100,11 +100,11 @@
             <div class="list" v-for="(item,index) in bidDetailList" :key="index">
               <div class="line"></div>
               <div class="infos">
-                <span>{{domainAuctionInfo.addPriceTime}}</span>
-                <p v-if="!domainAuctionInfo.maxBuyer">{{$t('auction.auctionopen')}}</p>
-                <p style="font-size:12px;" v-if="domainAuctionInfo.maxBuyer != address && domainAuctionInfo.maxBuyer">{{$t('auction.other')}}（ <span style="font-size:12px;">{{domainAuctionInfo.maxBuyer}}</span>  ）</p>
-                <p class="bidder-me" v-if="domainAuctionInfo.maxBuyer == address">{{$t('auction.me')}}（ <span>{{domainAuctionInfo.maxBuyer}}</span> ）</p>
-                <em v-if="domainAuctionInfo.maxBuyer!=''">{{$t('auction.price')}}{{domainAuctionInfo.maxPrice}} SGas</em>
+                <span>{{item.addPriceTime}}</span>
+                <p v-if="!item.maxBuyer">{{$t('auction.auctionopen')}}</p>
+                <p style="font-size:12px;" v-if="item.maxBuyer != address && item.maxBuyer">{{$t('auction.other')}}（ <span style="font-size:12px;">{{item.maxBuyer}}</span>  ）</p>
+                <p class="bidder-me" v-if="item.maxBuyer == address">{{$t('auction.me')}}（ <span>{{item.maxBuyer}}</span> ）</p>
+                <em v-if="item.maxBuyer!=''">{{$t('auction.price')}}{{item.maxPrice}} SGas</em>
               </div>
             </div>
           </div>
