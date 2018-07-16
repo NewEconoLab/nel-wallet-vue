@@ -124,7 +124,7 @@ export default class AuctionInfo extends Vue
         let currenttime = 0;
         if (this.domainAuctionInfo.endBlock > 0)
         {
-            currenttime = this.domainAuctionInfo.endTime;
+            currenttime = accMul(this.domainAuctionInfo.endTime, 1000);
         } else
         {
             currenttime = new Date().getTime();

@@ -8188,7 +8188,7 @@ var AuctionInfo = /** @class */ (function (_super) {
         this.process = new entity_1.Process(this.domainAuctionInfo.startAuctionTime);
         var currenttime = 0;
         if (this.domainAuctionInfo.endBlock > 0) {
-            currenttime = this.domainAuctionInfo.endTime;
+            currenttime = accMul(this.domainAuctionInfo.endTime, 1000);
         }
         else {
             currenttime = new Date().getTime();

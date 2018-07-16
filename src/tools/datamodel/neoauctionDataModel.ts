@@ -18,7 +18,6 @@ export class NeoaucionData
             for (let i in list)
             {
                 const element = list[ i ];
-
                 //获得当前账户该域名下的余额
                 let balanceOfSelling = await tools.nnssell.getBalanceOfSeling(Neo.Uint256.parse(element.id.replace('0x', '')));
                 element.receivedState = 0;
