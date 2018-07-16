@@ -29,7 +29,7 @@ export default class AuctionInfo extends Vue
     bidState: number;
     bidPrice: string;
     updatePrice: string;
-    inputErrorCode: string;
+    inputErrorCode: number;
     bidDetailList: any;
     currentpage: number;
     pagesize: number;
@@ -49,6 +49,7 @@ export default class AuctionInfo extends Vue
         this.bidDetailList = [];
         this.currentpage = 1;
         this.pagesize = 5;
+        this.inputErrorCode = 0;
         this.session_bid = new LocalStoreTool("bidSession");
         this.session_recover = new LocalStoreTool("recoverSession");
         this.session_getdomain = new LocalStoreTool("getDomainSession");
@@ -231,15 +232,18 @@ export default class AuctionInfo extends Vue
             if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.domainAuctionInfo.maxPrice)) <= 0)
             {
                 this.bidState = 2;
+                // this.inputErrorCode = 1;
             } else
             {
                 let result = balance.compareTo(sum);
                 if (result < 0)
                 {
                     this.bidState = 2;
+                    this.inputErrorCode = 1;
                 } else
                 {
                     this.bidState = 0;
+                    this.inputErrorCode = 0;
                 }
             }
         } else

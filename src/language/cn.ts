@@ -188,6 +188,7 @@ export default {
         tips1: "注意 : 每次加价的最小值为 0.1 SGas. 当您的累积竞价小于当前最高价时，该次出价不成功。",
         errmsg1: "您当前拥有",
         errmsg2: "SGas.",
+        errmsg4: "您的出价应当大于最大当前最大出价",
         goback: "返回",
         waitmsg1: "未确认",
         waitmsg2: "您的加价将会在新区块生成之后被确认，请耐心等待...",

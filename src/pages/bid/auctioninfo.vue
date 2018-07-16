@@ -54,7 +54,7 @@
                     <input type="number" :placeholder="$t('auction.enterbid')" v-model="bidPrice" @input="myBidInput">
                     <span>SGas</span>
                 </div>
-                <div class="err-msg status-ended">{{$t('auction.errmsg1')}} {{balanceOf}} {{$t('auction.errmsg2')}}</div>
+                <div v-if="inputErrorCode==1" class="err-msg status-ended">{{$t('auction.errmsg1')}} {{balanceOf}} {{$t('auction.errmsg2')}}</div>
             </div>
             <div class="my-sgas">{{$t('auction.mywillbid')}} : <span class="status-ended">{{updatePrice}}</span> SGas</div>
             <div class="tips-msg">
