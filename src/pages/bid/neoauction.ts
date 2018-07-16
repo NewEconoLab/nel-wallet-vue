@@ -483,9 +483,14 @@ export default class NeoAuction extends Vue
             if (this.btn_start == 3)
             {
                 let timestamp = new Date().getTime();
-                let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(info.ttl).multiply(1000));
-                this.btn_start = copare < 0 ? 3 : 1;
-                this.checkState = this.btn_start;
+                let ttl = new Neo.BigInteger(info.ttl);
+                let copare1 = ttl.compareTo(Neo.BigInteger.Zero);
+                if (copare1 > 0)
+                {
+                    let copare2 = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(info.ttl).multiply(1000));
+                    this.btn_start = copare2 < 0 ? 3 : 1;
+                    this.checkState = this.btn_start;
+                }
             }
         } else
         {

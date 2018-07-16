@@ -3653,7 +3653,7 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.queryDomainState = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var verify, info, sellstate, startTime, state, timestamp, copare;
+            var verify, info, sellstate, startTime, state, timestamp, ttl, copare1, copare2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3696,9 +3696,13 @@ var NeoAuction = /** @class */ (function (_super) {
                     case 4:
                         if (this.btn_start == 3) {
                             timestamp = new Date().getTime();
-                            copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(info.ttl).multiply(1000));
-                            this.btn_start = copare < 0 ? 3 : 1;
-                            this.checkState = this.btn_start;
+                            ttl = new Neo.BigInteger(info.ttl);
+                            copare1 = ttl.compareTo(Neo.BigInteger.Zero);
+                            if (copare1 > 0) {
+                                copare2 = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(info.ttl).multiply(1000));
+                                this.btn_start = copare2 < 0 ? 3 : 1;
+                                this.checkState = this.btn_start;
+                            }
                         }
                         return [3 /*break*/, 6];
                     case 5:

@@ -17,24 +17,25 @@ import { Process, LoginInfo, MyAuction } from "../../tools/entity";
 })
 export default class AuctionInfo extends Vue
 {
-    address: string;
     domainAuctionInfo: MyAuction;
+    address: string;
     myBidPrice: string;
+    balanceOf: string;
+    fee: number;
+    remaining: number;
+    session_bid: LocalStoreTool;
+    session_recover: LocalStoreTool;
+    session_getdomain: LocalStoreTool;
+    bidState: number;
     bidPrice: string;
     updatePrice: string;
+    inputErrorCode: string;
     bidDetailList: any;
     currentpage: number;
     pagesize: number;
     state_getDomain: number;
     state_recover: number;
-    session_bid: LocalStoreTool;
-    session_recover: LocalStoreTool;
-    session_getdomain: LocalStoreTool;
     btnShowmore: boolean;
-    balanceOf: string;
-    fee: number;
-    remaining: number;
-    bidState: number;
     openToast: Function;
     process: Process;
     width: number;
