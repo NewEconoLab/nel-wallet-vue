@@ -8120,9 +8120,9 @@ var AuctionInfo = /** @class */ (function (_super) {
     }
     AuctionInfo.prototype.mounted = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var auctionMsg, domain, confirm_getDomain, confirm_recover, confirm_bid, txid, res, txid, method, txid;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var auctionMsg, domain, _a, confirm_getDomain, confirm_recover, confirm_bid, txid, res, txid, method, txid;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         auctionMsg = new importpack_1.tools.sessionstoretool("auctionPage");
                         this.session_bid = new storagetool_1.LocalStoreTool("bidSession");
@@ -8131,27 +8131,31 @@ var AuctionInfo = /** @class */ (function (_super) {
                         domain = auctionMsg.select("domain");
                         return [4 /*yield*/, importpack_1.tools.nnstool.initRootDomain("neo")];
                     case 1:
-                        _a.sent();
+                        _b.sent();
                         return [4 /*yield*/, this.initAuctionInfo(domain)];
                     case 2:
-                        _a.sent();
-                        return [4 /*yield*/, this.getSessionBidDetail(domain)];
+                        _b.sent();
+                        _a = this;
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
                     case 3:
-                        _a.sent();
+                        _a.balanceOf = _b.sent();
+                        return [4 /*yield*/, this.getSessionBidDetail(domain)];
+                    case 4:
+                        _b.sent();
                         this.fee = accMul(this.myBidPrice, 0.10);
                         this.remaining = accSub(this.myBidPrice, this.fee);
                         this.initProcess();
                         return [4 /*yield*/, this.getBidDetail(domain, this.currentpage, this.pagesize)];
-                    case 4:
-                        _a.sent();
+                    case 5:
+                        _b.sent();
                         confirm_getDomain = this.session_getdomain.select(domain);
                         confirm_recover = this.session_recover.select(domain);
                         confirm_bid = this.session_bid.select(domain);
-                        if (!confirm_recover) return [3 /*break*/, 6];
+                        if (!confirm_recover) return [3 /*break*/, 7];
                         txid = confirm_recover["txid"];
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 5:
-                        res = _a.sent();
+                    case 6:
+                        res = _b.sent();
                         if (!!res) {
                             if (parseFloat(this.domainAuctionInfo.balanceOfSelling) == 0) {
                                 this.state_recover = 2;
@@ -8160,8 +8164,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         else {
                             this.state_recover = 1;
                         }
-                        _a.label = 6;
-                    case 6:
+                        _b.label = 7;
+                    case 7:
                         if (confirm_getDomain) {
                             txid = confirm_getDomain["txid"];
                             method = confirm_getDomain["method"];
@@ -8220,8 +8224,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         info = _b.sent();
                         this.domainAuctionInfo.domain = domain;
                         this.domainAuctionInfo.id = info.id.toString();
-                        this.domainAuctionInfo.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
-                        this.domainAuctionInfo.maxPrice = accDiv(info.maxPrice.toString(), 100000000).toString();
+                        this.domainAuctionInfo.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+                        this.domainAuctionInfo.maxPrice = !info.maxPrice ? "" : accDiv(info.maxPrice.toString(), 100000000).toString();
                         this.domainAuctionInfo.owner = !info.owner ? null : ThinNeo.Helper.GetAddressFromScriptHash(info.owner);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
                     case 2:
@@ -8279,6 +8283,9 @@ var AuctionInfo = /** @class */ (function (_super) {
             });
         });
     };
+    /**
+     * 加价验证
+     */
     AuctionInfo.prototype.myBidInput = function () {
         var res = this.checkInput(this.bidPrice);
         if (res) {
@@ -8287,19 +8294,27 @@ var AuctionInfo = /** @class */ (function (_super) {
             var balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
             var sum = bidPrice.add(Neo.Fixed8.parse(this.bidPrice + ""));
             this.updatePrice = sum.toString();
-            var result = balance.compareTo(sum);
-            if (result < 0) {
+            if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.domainAuctionInfo.maxPrice)) <= 0) {
                 this.bidState = 2;
             }
             else {
-                this.bidState = 0;
+                var result = balance.compareTo(sum);
+                if (result < 0) {
+                    this.bidState = 2;
+                }
+                else {
+                    this.bidState = 0;
+                }
             }
         }
         else {
             this.bidPrice = parseFloat((parseFloat(this.bidPrice)).toFixed(1)).toString();
-            console.log(this.bidPrice);
         }
     };
+    /**
+     * 判断金额格式是否正确
+     * @param price 加价金额
+     */
     AuctionInfo.prototype.checkInput = function (price) {
         var reg = /^[0-9]+(.[0-9]{1})?$/;
         if (!reg.test(price)) {

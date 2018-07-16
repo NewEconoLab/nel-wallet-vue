@@ -75,7 +75,7 @@ export default class AuctionInfo extends Vue
         let domain = auctionMsg.select("domain");
         await tools.nnstool.initRootDomain("neo");
         await this.initAuctionInfo(domain);
-
+        this.balanceOf = await tools.nnssell.getBalanceOf();
         await this.getSessionBidDetail(domain);
 
         this.fee = accMul(this.myBidPrice, 0.10);
@@ -158,8 +158,8 @@ export default class AuctionInfo extends Vue
         let info = await tools.nnssell.getSellingStateByDomain(domain);
         this.domainAuctionInfo.domain = domain
         this.domainAuctionInfo.id = info.id.toString();
-        this.domainAuctionInfo.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
-        this.domainAuctionInfo.maxPrice = accDiv(info.maxPrice.toString(), 100000000).toString();
+        this.domainAuctionInfo.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+        this.domainAuctionInfo.maxPrice = !info.maxPrice ? "" : accDiv(info.maxPrice.toString(), 100000000).toString();
         this.domainAuctionInfo.owner = !info.owner ? null : ThinNeo.Helper.GetAddressFromScriptHash(info.owner);
         //根据开标的区块高度获得开标的时间
         let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
@@ -214,6 +214,9 @@ export default class AuctionInfo extends Vue
         }
     }
 
+    /**
+     * 加价验证
+     */
     myBidInput()
     {
         let res = this.checkInput(this.bidPrice);
@@ -224,24 +227,31 @@ export default class AuctionInfo extends Vue
             let balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
             let sum = bidPrice.add(Neo.Fixed8.parse(this.bidPrice + ""));
             this.updatePrice = sum.toString();
-
-            let result = balance.compareTo(sum);
-            if (result < 0)
+            if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.domainAuctionInfo.maxPrice)) <= 0)
             {
                 this.bidState = 2;
             } else
             {
-                this.bidState = 0;
+                let result = balance.compareTo(sum);
+                if (result < 0)
+                {
+                    this.bidState = 2;
+                } else
+                {
+                    this.bidState = 0;
+                }
             }
         } else
         {
             this.bidPrice = parseFloat((parseFloat(this.bidPrice)).toFixed(1)).toString();
-            console.log(this.bidPrice);
-
         }
 
     }
 
+    /**
+     * 判断金额格式是否正确
+     * @param price 加价金额
+     */
     checkInput(price)
     {
         let reg = /^[0-9]+(.[0-9]{1})?$/;
