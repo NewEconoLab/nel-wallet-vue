@@ -459,26 +459,34 @@ export default class NeoAuction extends Vue
             {
                 this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
                 this.checkState = this.btn_start;
-                return;
-            }
-            //根据开标的区块高度获得开标的时间
-            let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
-            let state = tools.nnssell.compareTime(startTime * 1000);   //对比时间获得状态 0:竞拍结束，1：正在竞拍，2:随机时间
-            switch (state)
+            } else
             {
-                case 0:
-                    this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
-                    break;
-                case 1:
-                    this.btn_start = 2;
-                    break;
-                case 2:
-                    this.btn_start = 2;
-                    break;
-                default:
-                    break;
+                //根据开标的区块高度获得开标的时间
+                let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
+                let state = tools.nnssell.compareTime(startTime * 1000);   //对比时间获得状态 0:竞拍结束，1：正在竞拍，2:随机时间
+                switch (state)
+                {
+                    case 0:
+                        this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
+                        break;
+                    case 1:
+                        this.btn_start = 2;
+                        break;
+                    case 2:
+                        this.btn_start = 2;
+                        break;
+                    default:
+                        break;
+                }
+                this.checkState = this.btn_start;
             }
-            this.checkState = this.btn_start;
+            if (this.btn_start == 3)
+            {
+                let timestamp = new Date().getTime();
+                let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(info.ttl).multiply(1000));
+                this.btn_start = copare < 0 ? 3 : 1;
+                this.checkState = this.btn_start;
+            }
         } else
         {
             this.btn_start = 1;

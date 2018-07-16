@@ -3653,7 +3653,7 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.queryDomainState = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var verify, info, sellstate, startTime, state;
+            var verify, info, sellstate, startTime, state, timestamp, copare;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3669,14 +3669,13 @@ var NeoAuction = /** @class */ (function (_super) {
                     case 1:
                         info = _a.sent();
                         sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
-                        if (!(sellstate > 0)) return [3 /*break*/, 3];
-                        if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0) {
-                            this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
-                            this.checkState = this.btn_start;
-                            return [2 /*return*/];
-                        }
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
-                    case 2:
+                        if (!(sellstate > 0)) return [3 /*break*/, 5];
+                        if (!(info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)) return [3 /*break*/, 2];
+                        this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
+                        this.checkState = this.btn_start;
+                        return [3 /*break*/, 4];
+                    case 2: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
+                    case 3:
                         startTime = _a.sent();
                         state = importpack_1.tools.nnssell.compareTime(startTime * 1000);
                         switch (state) {
@@ -3693,12 +3692,20 @@ var NeoAuction = /** @class */ (function (_super) {
                                 break;
                         }
                         this.checkState = this.btn_start;
-                        return [3 /*break*/, 4];
-                    case 3:
+                        _a.label = 4;
+                    case 4:
+                        if (this.btn_start == 3) {
+                            timestamp = new Date().getTime();
+                            copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(info.ttl).multiply(1000));
+                            this.btn_start = copare < 0 ? 3 : 1;
+                            this.checkState = this.btn_start;
+                        }
+                        return [3 /*break*/, 6];
+                    case 5:
                         this.btn_start = 1;
                         this.checkState = this.btn_start;
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        _a.label = 6;
+                    case 6: return [2 /*return*/];
                 }
             });
         });
@@ -5747,27 +5754,15 @@ var MyNeo = /** @class */ (function (_super) {
         });
     };
     MyNeo.prototype.checkExpiration = function (domain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var timestamp, copare;
-            return __generator(this, function (_a) {
-                timestamp = new Date().getTime();
-                copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(domain["ttl"]).multiply(1000));
-                console.log(copare);
-                return [2 /*return*/, copare < 0 ? false : true]; //小于0未过期false，大于0已过期true
-            });
-        });
+        var timestamp = new Date().getTime();
+        var copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(domain["ttl"]).multiply(1000));
+        return copare < 0 ? false : true; //小于0未过期false，大于0已过期true
     };
     MyNeo.prototype.checkExpirationSoon = function (domain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var timestamp, copare, threeMonth;
-            return __generator(this, function (_a) {
-                timestamp = new Date().getTime();
-                copare = (new Neo.BigInteger(domain["ttl"]).multiply(1000)).subtract(new Neo.BigInteger(timestamp));
-                console.log(copare);
-                threeMonth = (5 * 60 * 1000) * 90;
-                return [2 /*return*/, copare.compareTo(threeMonth) < 0 ? false : true]; //小于threeMonth即将过期false
-            });
-        });
+        var timestamp = new Date().getTime();
+        var copare = (new Neo.BigInteger(domain["ttl"]).multiply(1000)).subtract(new Neo.BigInteger(timestamp));
+        var threeMonth = (5 * 60 * 1000) * 90;
+        return copare.compareTo(threeMonth) < 0 ? false : true; //小于threeMonth即将过期false
     };
     MyNeo.prototype.onShowEdit = function (item) {
         this.domainInfo = item;
@@ -9605,7 +9600,6 @@ var NNSSell = /** @class */ (function () {
                         info.id = stack[0].AsHash256();
                         parenthash = stack[1].AsHash256();
                         domain_1 = stack[2].AsString();
-                        info.ttl = stack[3].AsInteger().toString();
                         info.startBlockSelling = stack[4].AsInteger();
                         info.endBlock = stack[5].AsInteger();
                         info.maxPrice = stack[6].AsInteger();

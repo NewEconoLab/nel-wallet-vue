@@ -107,18 +107,16 @@ export default class MyNeo extends Vue
         }
     }
 
-    async checkExpiration(domain: string)
+    checkExpiration(domain: string)
     {
         let timestamp = new Date().getTime();
         let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(domain[ "ttl" ]).multiply(1000));
-        console.log(copare);
         return copare < 0 ? false : true;    //小于0未过期false，大于0已过期true
     }
-    async checkExpirationSoon(domain: string)
+    checkExpirationSoon(domain: string)
     {
         let timestamp = new Date().getTime();
         let copare = (new Neo.BigInteger(domain[ "ttl" ]).multiply(1000)).subtract(new Neo.BigInteger(timestamp));
-        console.log(copare);
         let threeMonth = (5 * 60 * 1000) * 90;
         return copare.compareTo(threeMonth) < 0 ? false : true;    //小于threeMonth即将过期false
     }
