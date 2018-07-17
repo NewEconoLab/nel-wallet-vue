@@ -3,6 +3,7 @@ import Component from "vue-class-component";
 import MainLayout from "./Main.vue";
 import VLink from "../components/VLink.vue";
 import { tools } from "../tools/importpack";
+import { sessionStoreTool } from "../tools/storagetool";
 @Component({
     components: {
         VLink,
@@ -62,12 +63,13 @@ export default class FeatureComponent extends Vue
 
     async getHeight()
     {
-        tools.wwwtool.api_getHeight()
-            .then((res) =>
-            {
-                this.blockheight = res;
-            });
-        setTimeout(() => { this.getHeight() }, 30000);
+        this.blockheight = await tools.wwwtool.api_getHeight();
+        let oldBlock = new sessionStoreTool("block");
+        setInterval(() =>
+        {
+            let height = oldBlock.select("height");
+            this.blockheight = height;
+        }, 5000);
     }
 
 }

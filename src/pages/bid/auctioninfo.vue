@@ -104,7 +104,7 @@
                 <p v-if="!item.maxBuyer">{{$t('auction.auctionopen')}}</p>
                 <p style="font-size:12px;" v-if="item.maxBuyer != address && item.maxBuyer">{{$t('auction.other')}}（ <span style="font-size:12px;">{{item.maxBuyer}}</span>  ）</p>
                 <p class="bidder-me" v-if="item.maxBuyer == address">{{$t('auction.me')}}（ <span>{{item.maxBuyer}}</span> ）</p>
-                <em v-if="item.maxBuyer!=''">{{$t('auction.price')}}{{item.maxPrice}} SGas</em>
+                <em v-if="item.maxBuyer!=''">{{$t('auction.price')}} {{item.maxPrice}} SGas</em>
               </div>
             </div>
           </div>

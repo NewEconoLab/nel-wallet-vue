@@ -9,6 +9,7 @@ import Exchange from './pages/exchange/exchange.vue';
 import NNSNeo from './pages/bid/nnsneo.vue';
 import NNS from './pages/nns/nns.vue';
 import Settings from './pages/setting/settings.vue';
+import { tools } from "./tools/importpack";
 
 Vue.use(VueI18n);
 // const notFound = () => import('./pages/404.vue');
@@ -83,3 +84,29 @@ window.addEventListener('popstate', () =>
 {
     app.currentRoute = window.location.hash;
 })
+
+setInterval(() =>
+{
+    let oldBlock = new tools.sessionstoretool("block");
+    tools.wwwtool.api_getHeight()
+        .then((data) =>
+        {
+            let oldHeight = oldBlock.select("height");
+            if (oldHeight)
+            {
+                if (data > oldHeight)
+                {
+                    test(data);
+                    oldBlock.put("height", data);
+                }
+            } else
+            {
+                oldBlock.put("height", data);
+            }
+        })
+}, 5000);
+
+function test(data)
+{
+    console.log(data);
+}
