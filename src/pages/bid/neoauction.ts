@@ -374,6 +374,7 @@ export default class NeoAuction extends Vue
             if (have)
             {
                 this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
+                this.getBidList(this.address);
                 return;
             }
             if (names.length == 0)
@@ -425,6 +426,7 @@ export default class NeoAuction extends Vue
         {
             this.btn_start = 2;
             this.addBid();
+            this.getBidList(this.address);
             return;
         }
         else

@@ -3570,6 +3570,7 @@ var NeoAuction = /** @class */ (function (_super) {
                         have = names.includes("addprice");
                         if (have) {
                             this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
+                            this.getBidList(this.address);
                             return [2 /*return*/];
                         }
                         if (names.length == 0) {
@@ -3636,6 +3637,7 @@ var NeoAuction = /** @class */ (function (_super) {
                         if (!!res) {
                             this.btn_start = 2;
                             this.addBid();
+                            this.getBidList(this.address);
                             return [2 /*return*/];
                         }
                         else {
