@@ -201,10 +201,17 @@ export default class NNSSell
     {
         let currentTime = new Date().getTime();
         let res = currentTime - time
-        let state: number = res > 1500000 ? 0 : res < 900000 ? 1 : 2;
+        let state: number = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
         return state;
     }
 
+    /**
+     * 判断域名状态
+     * @param info 域名详情
+     */
+    static compareState(info: SellDomainInfo)
+    {
+    }
 
     /**
      * 结束竞拍

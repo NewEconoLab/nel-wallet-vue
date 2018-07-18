@@ -347,7 +347,6 @@ export default class AuctionInfo extends Vue
 
     async getSessionBidDetail(domain)
     {
-
         this.session_bid = new LocalStoreTool("bidSession");
         let bidlist = this.session_bid.select(domain);
         if (bidlist && Object.keys(bidlist).length > 0)
