@@ -187,6 +187,7 @@ export default {
         mywillbid: "My cumulative bid will be",
         price: "Price",
         tips1: "Tips : The minimum value for each increase is 0.1 SGas. When your cumulative bid is less than the  highest bid price, The raise will be unsuccessful.",
+        isAvailable: "is available",
         errmsg1: "Only",
         errmsg2: "SGas is available.",
         goback: "Go back",

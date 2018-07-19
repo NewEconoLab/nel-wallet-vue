@@ -151,6 +151,9 @@
               <div v-if="alert_TopUp.error" class="status-ended err-msg">
                 {{$t('auction.errmsg1')}} {{alert_available}} {{$t('auction.errmsg3')}}.
               </div>
+              <div v-else class="err-msg">
+                {{alert_available}} {{$t('auction.isAvailable')}}.
+              </div>
             </div>
             <div class="topup-tips">
               {{$t('auction.tipsmsg4')}}
@@ -180,6 +183,9 @@
               </div>
               <div v-if="alert_withdraw.error" class="status-ended err-msg">
                 {{regBalance}} SGas {{$t('auction.errmsg3')}}.
+              </div>
+              <div v-else class="err-msg">
+                {{regBalance}} SGas {{$t('auction.isAvailable')}}.
               </div>
             </div>
             <div class="withdraw-close" @click="alert_withdraw.isShow=!alert_withdraw.isShow">

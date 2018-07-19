@@ -187,6 +187,7 @@ export default {
         mywillbid: "我的累积竞价 ",
         price: "竞拍价",
         tips1: "注意 : 每次加价的最小值为 0.1 SGas. 当您的累积竞价小于当前最高价时，该次出价不成功。",
+        isAvailable: "is available",
         errmsg1: "您当前拥有",
         errmsg2: "SGas.",
         errmsg4: "您的出价应当大于最大当前最大出价",

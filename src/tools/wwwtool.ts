@@ -239,7 +239,10 @@ export class WWW
         var r = json[ "result" ]
         return r;
     }
-
+    /**
+     * 发送合约调用
+     * @param scriptaddr 合约参数脚本
+     */
     static async api_getcontractstate(scriptaddr: string)
     {
         var str = WWW.makeRpcUrl(WWW.api, "getcontractstate", scriptaddr);
