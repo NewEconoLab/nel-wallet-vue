@@ -232,7 +232,9 @@ export default {
         failbid2: "Its auction has ended. Your raise is not executed.",
         successbid2: "Successesfully BidDomain",
         successgetdomain: "Domain acquired",
-        failgetdomain: "Please click again to acquire domain"
+        failgetdomain: "Please click again to acquire domain",
+        statustips: "The fixed period is the first stage of the auction and its duration is 3 days, during which all bids are valid. A random period of up to 2 days will be triggered when someone bids on the last day of the fixed period. Otherwise the auction ends at the end of the fixed period.",
+        statustips2: "The random period is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain. "
     },
     exchange: {
         title: "SGas Exchange",
