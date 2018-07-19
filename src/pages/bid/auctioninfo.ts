@@ -5,6 +5,7 @@ import { Component, Prop } from "vue-property-decorator";
 import Valert from "../../components/Valert.vue";
 import Toast from "../../components/toast.vue";
 import Spinner from "../../components/Spinner.vue";
+import Hint from "../../components/hint.vue";
 import { tools } from "../../tools/importpack";
 import { LocalStoreTool } from "../../tools/storagetool";
 import { Process, LoginInfo, MyAuction } from "../../tools/entity";
@@ -12,7 +13,8 @@ import { Process, LoginInfo, MyAuction } from "../../tools/entity";
     components: {
         "v-alert": Valert,
         "v-toast": Toast,
-        "spinner-wrap": Spinner
+        "spinner-wrap": Spinner,
+        "v-hint": Hint
     }
 })
 export default class AuctionInfo extends Vue
