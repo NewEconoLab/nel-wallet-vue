@@ -1086,28 +1086,6 @@ var WWW = /** @class */ (function () {
             });
         });
     };
-    //注册域名时塞值
-    WWW.setnnsinfo = function (address, name, time) {
-        return __awaiter(this, void 0, void 0, function () {
-            var str, result, json, r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        str = WWW.makeRpcUrl(WWW.apiaggr, "setnnsinfo", address, name, time);
-                        return [4 /*yield*/, fetch(str, { "method": "get" })];
-                    case 1:
-                        result = _a.sent();
-                        return [4 /*yield*/, result.json()];
-                    case 2:
-                        json = _a.sent();
-                        if (json["result"] == null)
-                            return [2 /*return*/, null];
-                        r = json["result"][0]["result"];
-                        return [2 /*return*/, r];
-                }
-            });
-        });
-    };
     //获取地址下所有的域名
     WWW.getnnsinfo = function () {
         var params = [];
@@ -1129,27 +1107,6 @@ var WWW = /** @class */ (function () {
                         if (json["result"] == null)
                             return [2 /*return*/, null];
                         r = json["result"];
-                        return [2 /*return*/, r];
-                }
-            });
-        });
-    };
-    WWW.delnnsinfo = function (domain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var str, result, json, r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        str = WWW.makeRpcUrl(WWW.apiaggr, "delnnsinfo", domain);
-                        return [4 /*yield*/, fetch(str, { "method": "get" })];
-                    case 1:
-                        result = _a.sent();
-                        return [4 /*yield*/, result.json()];
-                    case 2:
-                        json = _a.sent();
-                        if (json["result"] == null)
-                            return [2 /*return*/, null];
-                        r = json["result"][0]["result"];
                         return [2 /*return*/, r];
                 }
             });
@@ -3655,7 +3612,7 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.queryDomainState = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var verify, info, sellstate, startTime, state, timestamp, ttl, copare1, copare2;
+            var verify, info, sellstate, startTime, currentTime, dtime, lastTime, dlast;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3671,47 +3628,45 @@ var NeoAuction = /** @class */ (function (_super) {
                     case 1:
                         info = _a.sent();
                         sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
-                        if (!(sellstate > 0)) return [3 /*break*/, 5];
-                        if (!(info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)) return [3 /*break*/, 2];
-                        this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
-                        this.checkState = this.btn_start;
-                        return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
-                    case 3:
+                        if (sellstate == 0) {
+                            this.btn_start = 1;
+                            this.checkState = this.btn_start;
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
+                    case 2:
                         startTime = _a.sent();
-                        state = importpack_1.tools.nnssell.compareTime(startTime * 1000);
-                        switch (state) {
-                            case 0:
-                                this.btn_start = info.maxPrice.compareTo(Neo.BigInteger.Zero) > 0 ? 3 : 1;
-                                break;
-                            case 1:
-                                this.btn_start = 2;
-                                break;
-                            case 2:
-                                this.btn_start = 2;
-                                break;
-                            default:
-                                break;
+                        currentTime = new Date().getTime();
+                        dtime = currentTime - startTime * 1000;
+                        if (!(dtime > 900000)) return [3 /*break*/, 6];
+                        if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000) {
+                            this.checkState = this.btn_start = 1;
+                            return [2 /*return*/];
                         }
-                        this.checkState = this.btn_start;
-                        _a.label = 4;
+                        //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
+                        if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0) {
+                            this.checkState = this.btn_start = 3;
+                            return [2 /*return*/];
+                        }
+                        if (!(dtime > 1500000)) return [3 /*break*/, 3];
+                        this.checkState = this.btn_start = 3;
+                        return [3 /*break*/, 5];
+                    case 3: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()))];
                     case 4:
-                        if (this.btn_start == 3) {
-                            timestamp = new Date().getTime();
-                            ttl = new Neo.BigInteger(info.ttl);
-                            copare1 = ttl.compareTo(Neo.BigInteger.Zero);
-                            if (copare1 > 0) {
-                                copare2 = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(info.ttl).multiply(1000));
-                                this.btn_start = copare2 < 0 ? 3 : 1;
-                                this.checkState = this.btn_start;
-                            }
+                        lastTime = _a.sent();
+                        dlast = lastTime - startTime;
+                        if (dlast < 900000) {
+                            this.checkState = this.btn_start = 3;
                         }
-                        return [3 /*break*/, 6];
-                    case 5:
-                        this.btn_start = 1;
-                        this.checkState = this.btn_start;
-                        _a.label = 6;
-                    case 6: return [2 /*return*/];
+                        else {
+                            this.checkState = this.btn_start = 2;
+                        }
+                        _a.label = 5;
+                    case 5: return [3 /*break*/, 7];
+                    case 6:
+                        this.checkState = this.btn_start = 2;
+                        _a.label = 7;
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -9796,8 +9751,14 @@ var NNSSell = /** @class */ (function () {
     NNSSell.compareTime = function (time) {
         var currentTime = new Date().getTime();
         var res = currentTime - time;
-        var state = res > 1500000 ? 0 : res < 900000 ? 1 : 2;
+        var state = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
         return state;
+    };
+    /**
+     * 判断域名状态
+     * @param info 域名详情
+     */
+    NNSSell.compareState = function (info) {
     };
     /**
      * 结束竞拍
