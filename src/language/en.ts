@@ -222,6 +222,7 @@ export default {
         successtop: "Successesfully toped up",
         successtopup: "Successesfully toped up ! ",
         successtopup2: " SGas will be in your auction account after 2 blocks are confirmed !",
+        successtopup3: " SGas will be in your auction account after 1 blocks are confirmed !",
         failtopup: "Top up failed ! And your Gas has been exchanged into SGas",
         fail: "Operation failed !",
         auctionopen: "Auction Opened",

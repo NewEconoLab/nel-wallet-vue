@@ -222,6 +222,7 @@ export default {
         successtop: "充值成功",
         successtopup: "充值成功!您的 ",
         successtopup2: " 个Sgas将会在2个区块被确认后进入您的竞拍账户!",
+        successtopup3: " 个Sgas将会在1个区块被确认后进入您的竞拍账户!",
         successwithdraw2: " 个Sgas将会在1个区块后退回到您的地址!",
         failtopup: "充值失败 !你的Gas被转换成了SGas",
         fail: "操作失败 !",

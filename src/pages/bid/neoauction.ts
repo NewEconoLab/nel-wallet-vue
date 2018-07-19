@@ -110,6 +110,7 @@ export default class NeoAuction extends Vue
         this.auctionPage = !this.auctionPage
     }
 
+
     onBack(domain: string)
     {
         this.auctionPageSession.put('show', false);
@@ -176,7 +177,6 @@ export default class NeoAuction extends Vue
                 this.withdrawConfirm(wat);
             }
         }
-
     }
 
     /**
@@ -225,7 +225,7 @@ export default class NeoAuction extends Vue
                 let txid = res[ "txid" ];
                 this.sessionWatting.put("recharge-sgas", { txid, amount });
                 this.confirmRecharge_sgas(txid)
-                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup2"), 4000);
+                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup3"), 4000);
                 this.alert_TopUp.isShow = false;
             } catch (error)
             {
