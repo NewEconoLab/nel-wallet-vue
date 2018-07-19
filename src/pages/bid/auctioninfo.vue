@@ -24,7 +24,7 @@
               <div class="btn-center">
                 <button v-if="state_getDomain==0" class="btn btn-nel btn-bid" @click="getDomain">{{$t('btn.getdomain')}}</button>
                 <button v-if="state_getDomain==1" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.gettingdomain')}}</button>
-                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.received')}}</button>  
+                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.receivednns')}}</button>  
               </div>  
           </div>
         </div>
@@ -39,7 +39,7 @@
               <div class="btn-center">
                 <button v-if="state_recover==0" class="btn btn-nel btn-bid" @click="recoverSgas" >{{$t('btn.recoversgas')}}</button>
                 <button v-if="state_recover==1" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.recoveringsgas')}}</button>
-                <button v-if="state_recover==2" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.received')}}</button>  
+                <button v-if="state_recover==2" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.receivedsgas')}}</button> 
               </div> 
           </div>
         </div>

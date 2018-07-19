@@ -94,7 +94,8 @@
                     <button class="btn btn-nel btn-bid" v-if="item.auctionState=='1'||item.auctionState=='2'" @click="onGoBidInfo(item)">{{$t('btn.bid')}}</button>
                     <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer==address && item.receivedState==0" @click="onGoBidInfo(item)">{{$t('btn.getdomain')}}</button>
                     <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer!=address && item.receivedState==0" @click="onGoBidInfo(item)">{{$t('btn.recoversgas')}}</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.receivedState>0" @click="onGoBidInfo(item)">{{$t('btn.received')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer!=address && item.receivedState>0" @click="onGoBidInfo(item)">{{$t('btn.receivedsgas')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer==address && item.receivedState>0" @click="onGoBidInfo(item)">{{$t('btn.receivednns')}}</button>
                 </div>
             </div>
         </div>
