@@ -7,10 +7,10 @@
             <div class="neoname">
                 {{item.domain}}
             </div>
-            <div class="addr-resolver">( {{$t('myneoname.resolver')}} : {{item.resolver ? item.resolver : $t('myneoname.notconfigure')}} )</div>
-            <div class="addr-mapping">( {{$t('myneoname.mapping')}} : {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
-            <div class="time-msg" v-if="!item.expired">( {{$t('myneoname.time')}} : {{item.ttl}} <span class="ff6" v-if="!item.expiring">{{$t('myneoname.expiring')}}</span> )</div>
-            <div class="time-msg" v-if="item.expired">( {{$t('myneoname.time')}} :  <span class="ff6">{{$t('myneoname.expired')}}</span> )</div>
+            <div class="addr-resolver">( {{$t('myneoname.resolver')}}: {{item.resolver ? item.resolver : $t('myneoname.notconfigure')}} )</div>
+            <div class="addr-mapping">( {{$t('myneoname.mapping')}}: {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
+            <div class="time-msg" v-if="!item.expired">( {{$t('myneoname.time')}}: {{item.ttl}} <span class="ff6" v-if="!item.expiring">{{$t('myneoname.expiring')}}</span> )</div>
+            <div class="time-msg" v-if="item.expired">( {{$t('myneoname.time')}}:  <span class="ff6">{{$t('myneoname.expired')}}</span> )</div>
             <div class="btn-right">
                 <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
             </div>
@@ -19,10 +19,10 @@
           <div class="edit-box">
             <div class="edit-title">{{$t('myneoname.edittitle')}}</div>
             <div class="edit-content">
-                <div class="edit-name">{{$t('myneoname.neoname')}} : {{domainInfo.domain}}</div>
+                <div class="edit-name">{{$t('myneoname.neoname')}}: {{domainInfo.domain}}</div>
                 <div class="edit-input">
                     <div class="input-msg">
-                        {{$t('myneoname.resolver')}} :
+                        {{$t('myneoname.resolver')}}:
                         <!-- <button v-if="!!domainInfo.resolver" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button> -->
                     </div>
                     <div class="input-box">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="edit-input">
                     <div class="input-msg">
-                        {{$t('myneoname.mapping')}} :
+                        {{$t('myneoname.mapping')}}:
                         <!-- <button v-if="!!domainInfo.resolverAddress" @click="mappingReset" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button> -->
                     </div>
                     <div class="input-box">
@@ -52,7 +52,7 @@
                 </div>
                 <div class="edit-input">
                     <div class="input-msg">
-                        {{$t('myneoname.time')}} :
+                        {{$t('myneoname.time')}}:
                     </div>
                     <div class="input-box">
                         <input type="text" class="readonly-input" readonly="readonly" :value="domainInfo.expired?$t('myneoname.expired'):domainInfo.ttl">

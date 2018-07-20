@@ -5,7 +5,7 @@
         </div>
         <div class="form-box">
             <div class="bonus-msg">
-                <span>{{$t('bonus.msg')}} : {{claimNum}}</span>
+                <span>{{$t('bonus.msg')}}: {{claimNum}}</span>
                 <button class="btn btn-nel" :class="{'btn-disabled':(claimNum || claimNum=='0')}" :disabled="(claimNum || claimNum=='0')"  @click="getClaim" v-if="!isClaim">{{$t('btn.claim')}}</button>
                 <spinner-wrap :isbig="false" v-if="isClaim"></spinner-wrap>
                 <span class="wait-msg" v-if="isClaim && claimState==1">{{$t('bonus.wait1')}}</span>
