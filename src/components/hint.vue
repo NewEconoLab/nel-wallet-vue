@@ -27,7 +27,6 @@ export default class Hint extends Vue {
   margin-left: 15px;
   .hint-msg {
     position: relative;
-    border: 1px solid red;
     .hint-img {
       img {
         width: 20px;
@@ -44,7 +43,7 @@ export default class Hint extends Vue {
       box-shadow: 0 0 5px 0 rgba(40, 40, 40, 0.5);
       border-radius: 5px;
       padding: 10px 20px;
-      top: 30px;
+      top: 12px;
       transform: translateY(-50%);
     }
     .hint-content:after {

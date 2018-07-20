@@ -1,4 +1,6 @@
 import { sessionStoreTool } from "./storagetool";
+import { Task, TaskType } from "./entity";
+import { tools } from "./importpack";
 
 class TaskManager
 {
@@ -16,24 +18,23 @@ class TaskManager
             if (taskList.hasOwnProperty(task))
             {
                 const element = taskList[ task ];
-                switch (task)
+                switch (parseInt(task) as TaskType)
                 {
-                    case "addprice":
+                    case TaskType.tranfer:
 
                         break;
-                    case "addprice":
+                    case TaskType.openAuction:
 
                         break;
-                    case "addprice":
+                    case TaskType.addPrice:
 
                         break;
-                    case "addprice":
+                    case TaskType.topup:
 
                         break;
-                    case "addprice":
+                    case TaskType.withdraw:
 
                         break;
-
                     default:
                         break;
                 }
@@ -41,12 +42,9 @@ class TaskManager
         }
     }
 
-    /**
-     * 加价确认
-     * @param txid 交易id
-     */
-    addpriceConfirm(txid: string)
+    addTask(task: Task, type: TaskType)
     {
+        this.taskStore.put(type.toString(), JSON.stringify(task))
     }
 
 }

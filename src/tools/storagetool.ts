@@ -115,11 +115,6 @@ export class LocalStoreTool
         localStorage.setItem(this.table, JSON.stringify(list));
     }
 
-    set(obj: {})
-    {
-        localStorage.setItem(this.table, JSON.stringify(obj));
-    }
-
     /**
      * 查找数据
      * @param key 
@@ -236,10 +231,25 @@ export class sessionStoreTool
      */
     put(key: string, value: any)
     {
-        let item = sessionStoreTool.getTable(this.table);
+        let item = this.getList();
         let obj = item ? item : {};
         obj[ key ] = value;
         sessionStorage.setItem(this.table, JSON.stringify(obj));
+    }
+
+    /**
+     * 往key对应的对象里塞数据，如果有相同的值则，往数组中push
+     * @param key 
+     * @param value 
+     */
+    push(key, value)
+    {
+        let item = this.getList();
+        let list = item ? item : {};
+        let arr = (list[ key ] ? list[ key ] : []) as Array<any>;
+        arr.push(value);
+        list[ key ] = arr;
+        sessionStorage.setItem(this.table, JSON.stringify(list));
     }
 
     /**
