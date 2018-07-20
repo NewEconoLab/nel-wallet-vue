@@ -136,7 +136,7 @@
             </div>
             <div class="asset-wrap">
               <div class="asset-name">{{$t('auction.asset')}} :</div>
-              <v-selected :list="selectList" @selected="onSelect"></v-selected>
+              <!-- <v-selected :list="selectList" @selected="onSelect"></v-selected> -->
               <div class="asset-available">
                   <span>{{alert_available}} {{$t('auction.errmsg3')}}</span>
               </div>
@@ -144,7 +144,10 @@
             <div class="amount-wrap">
               <div class="amount-msg">{{$t('auction.amount')}}:</div>
               <div class="input-box">
-                <input type="number" :placeholder="$t('auction.amount')" v-model="alert_TopUp.input" @input="verifToupAmount">
+                <div class="input-getall">
+                  <input type="number" :placeholder="$t('auction.amount')" v-model="alert_TopUp.input" @input="verifToupAmount">
+                  <span class="getall-msg" @click="alert_TopUp.input = sgasAvailable">Get all</span>
+                </div>
                 <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="gasToRecharge">{{$t('btn.confirm')}}</button>
                 <spinner-wrap v-else ></spinner-wrap>
               </div>
@@ -177,7 +180,10 @@
             <div class="line-wrap">
               <div class="line-msg">{{$t('auction.amount')}}:</div>
               <div class="line-box">
-                <input type="number" :placeholder="$t('auction.amount')" v-model="alert_withdraw.input" @input="verifWithdraw">
+                <div class="input-getall">
+                  <input type="number" :placeholder="$t('auction.amount')" v-model="alert_withdraw.input" @input="verifWithdraw">
+                  <span class="getall-msg" @click="alert_withdraw.input = regBalance">Get all</span>
+                </div>
                 <spinner-wrap v-if="alert_withdraw.watting"></spinner-wrap>
                 <button v-else class="btn btn-nel btn-big" @click="withdraw">{{$t('btn.confirm')}}</button>
               </div>
@@ -482,6 +488,27 @@
               opacity: 1;
             }
           }
+          .input-getall {
+            width: 70%;
+            height: 56px;
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            input {
+              width: 100%;
+            }
+            .getall-msg {
+              display: inline-block;
+              height: 24px;
+              line-height: 24px;
+              position: absolute;
+              top: 16px;
+              right: 20px;
+              padding-left: 20px;
+              border-left: 1px solid #fff;
+              cursor: pointer;
+            }
+          }
         }
         .err-msg {
           font-size: 12px;
@@ -556,6 +583,27 @@
             &.btn-disable {
               background: #77bcf6;
               opacity: 1;
+            }
+          }
+          .input-getall {
+            width: 70%;
+            height: 56px;
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            input {
+              width: 100%;
+            }
+            .getall-msg {
+              display: inline-block;
+              height: 24px;
+              line-height: 24px;
+              position: absolute;
+              top: 16px;
+              right: 20px;
+              padding-left: 20px;
+              border-left: 1px solid #fff;
+              cursor: pointer;
             }
           }
         }
