@@ -63,28 +63,28 @@
                         {{item.domain}}
                     </div>
                     <div class="msg-status" v-if="item.auctionState=='1'">
-                        {{$t('auction.status')}} : <span class="status-being">{{$t('auction.fixedperiod')}}</span>
+                        {{$t('auction.status')}}: <span class="status-being">{{$t('auction.fixedperiod')}}</span>
                     </div>
                     <div class="msg-status" v-if="item.auctionState=='2'">
-                        {{$t('auction.status')}} : <span class="status-random">{{$t('auction.randomperiod')}}</span>
+                        {{$t('auction.status')}}: <span class="status-random">{{$t('auction.randomperiod')}}</span>
                     </div>
                     <div class="msg-status" v-if="item.auctionState=='3'">
-                        {{$t('auction.status')}} : <span class="status-random">{{$t('auction.waiting')}}</span>
+                        {{$t('auction.status')}}: <span class="status-random">{{$t('auction.waiting')}}</span>
                     </div>
                     <div class="msg-status" v-if="item.auctionState=='0'">
-                        {{$t('auction.status')}} : <span class="status-ended">{{$t('auction.ended')}}</span>
+                        {{$t('auction.status')}}: <span class="status-ended">{{$t('auction.ended')}}</span>
                     </div>
                     <div class="msg-price">
-                        {{$t('auction.lastauctionprice')}} : <span>{{item.maxPrice}}</span> SGas
+                        {{$t('auction.lastauctionprice')}}: <span>{{item.maxPrice}}</span> SGas
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer != address">
-                        {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }} : <span>{{$t('auction.other')}} （ {{item.maxBuyer}} ）</span>
+                        {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }}: <span>{{$t('auction.other')}} （ {{item.maxBuyer}} ）</span>
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer == address">
-                        {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }}  : <span class="bidder-me">{{$t('auction.me')}} （ {{address}} ）</span>
+                        {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }}: <span class="bidder-me">{{$t('auction.me')}} （ {{address}} ）</span>
                     </div>
                     <div class="msg-time">
-                        {{$t('auction.bidstarttimemsg')}} : <span>{{item.startAuctionTime}}</span>
+                        {{$t('auction.bidstarttimemsg')}}: <span>{{item.startAuctionTime}}</span>
                     </div>
                     <div v-if="item.bidListSession" v-for="(value,key) in item.bidListSession" :key="key">
                       {{value}}
@@ -104,17 +104,17 @@
           <div class="auction-box">
             <div class="auction-title">{{$t('auction.acutiontitle')}}</div>
             <div class="wrap-msg">
-              <div class="domain-name">{{$t('auction.domain')}} : {{auctionMsg_alert.domain}}</div>
-              <div class="auction-status">{{$t('auction.status')}} : <span class="status-being">Fixed period （ 47:56:30 ）</span> </div>
-              <div class="auction-price">{{$t('auction.highest')}} : {{auctionMsg_alert.maxPrice}} SGas</div>
+              <div class="domain-name">{{$t('auction.domain')}}: {{auctionMsg_alert.domain}}</div>
+              <div class="auction-status">{{$t('auction.status')}}: <span class="status-being">Fixed period</span> </div>
+              <div class="auction-price">{{$t('auction.highest')}}: {{auctionMsg_alert.maxPrice}} SGas</div>
             </div>
             <div class="wrap-msg">
               <div class="my-bid">
-                <span>{{$t('auction.raisebid')}} : </span>
+                <span>{{$t('auction.raisebid')}}: </span>
                 <input class="bid-input" type="number" :placeholder="$t('auction.enterbid')" v-model="alert_myBid" @input="verifBidAmount">
               </div>
               <div class="my-bid">
-                {{$t('auction.yourbidmsg')}} : <span class="status-ended">{{myBalanceOfSelling}}</span> SGas
+                {{$t('auction.yourbidmsg')}}: <span class="status-ended">{{myBalanceOfSelling}}</span> SGas
               </div>
             </div>
             <div class="tips-msg">
@@ -135,7 +135,7 @@
               <span>{{$t('auction.topup')}}</span>
             </div>
             <div class="asset-wrap">
-              <div class="asset-name">{{$t('auction.asset')}} :</div>
+              <div class="asset-name">{{$t('auction.asset')}}:</div>
               <!-- <v-selected :list="selectList" @selected="onSelect"></v-selected> -->
               <div class="asset-available">
                   <span>{{alert_available}} {{$t('auction.errmsg3')}}</span>
@@ -172,7 +172,7 @@
               <span>{{$t('auction.withdraw')}}</span>
             </div>
             <div class="line-wrap">
-              <div class="line-msg">{{$t('auction.to')}} :</div>
+              <div class="line-msg">{{$t('auction.to')}}:</div>
               <div class="line-box">
                 <input type="text" :value="$t('auction.yourbalance')" class="readonly-input" disabled>
               </div>

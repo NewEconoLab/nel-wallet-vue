@@ -332,7 +332,7 @@ export default class NeoAuction extends Vue
         let res = await tools.nnssell.addprice(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber());
         if (!res.err)
         {
-            this.openToast("success", "" + this.$t("auction.successbid2") + this.alert_myBid + "sgas ! ", 3000);
+            this.openToast("success", "" + this.$t("auction.successbid2"), 3000);
             this.auctionShow = !this.auctionShow;
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
             this.bidConfirm(res.info, this.auctionMsg_alert.domain);
