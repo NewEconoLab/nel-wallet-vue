@@ -67,7 +67,7 @@
                 </div>
                 <div v-if="inputErrorCode==1" class="err-msg status-ended">{{$t('auction.errmsg1')}} {{balanceOf}} {{$t('auction.errmsg2')}}</div>
             </div>
-            <div class="my-sgas">{{$t('auction.mywillbid')}}: <span class="status-ended">{{updatePrice}}</span> SGas</div>
+            <div class="my-sgas">{{$t('auction.mywillbid')}}: <span :class="updatePrice<=domainAuctionInfo.maxPrice||inputErrorCode==1?'status-ended':'status-being'">{{updatePrice}}</span> SGas</div>
             <div class="tips-msg">
                 {{$t('auction.tips1')}} 
             </div>
@@ -104,7 +104,8 @@
             </div>
           </div>
           <!-- process-wrapper end  -->
-          <div class="auction-tips">{{$t('auction.timetips2')}}</div>
+          <div class="auction-tips" v-if="domainAuctionInfo.auctionState=='1'">{{$t('auction.timetips1')}}</div>
+          <div class="auction-tips" v-if="domainAuctionInfo.auctionState=='0'||domainAuctionInfo.auctionState=='2'">{{$t('auction.timetips3')}}</div>
           <!-- timeling-wrapper start -->
           <div class="timeling-wrapper">
             <div class="first"></div>
@@ -369,7 +370,7 @@
           border-radius: 5px;
           position: absolute;
           top: -40px;
-          right: -38px;
+          right: -24px;
           line-height: 12px;
           &:before {
             content: "";

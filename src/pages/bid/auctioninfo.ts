@@ -218,6 +218,7 @@ export default class AuctionInfo extends Vue
         }
         this.myBidPrice = this.domainAuctionInfo.balanceOfSelling;
 
+
         //判断竞拍是否结束
         if (this.domainAuctionInfo.auctionState == "0")
         {
@@ -244,6 +245,9 @@ export default class AuctionInfo extends Vue
                 this.state_recover = 2;
             }
         }
+
+        let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
+        this.updatePrice = mybidprice.toString();
     }
 
     /**
@@ -251,10 +255,10 @@ export default class AuctionInfo extends Vue
      */
     myBidInput()
     {
+        let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
         let res = this.checkInput(this.bidPrice);
         if (res)
         {
-            let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
             let bidPrice = Neo.Fixed8.parse(mybidprice + "");
             let balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
             let sum = bidPrice.add(Neo.Fixed8.parse(this.bidPrice + ""));
@@ -279,6 +283,7 @@ export default class AuctionInfo extends Vue
         } else
         {
             this.bidPrice = parseFloat((parseFloat(this.bidPrice)).toFixed(1)).toString();
+            this.updatePrice = mybidprice.toString();
         }
 
     }
