@@ -3400,7 +3400,6 @@ var NeoAuction = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
                     case 1:
                         _a.regBalance = _c.sent();
-                        console.log(this.regBalance);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(importpack_1.tools.coinTool.id_SGAS.toString(), entity_1.LoginInfo.getCurrentAddress())];
                     case 2:
                         nep5 = _c.sent();
@@ -3414,7 +3413,6 @@ var NeoAuction = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
                     case 4:
                         _b.regBalance = _c.sent();
-                        console.log(this.regBalance);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(importpack_1.tools.coinTool.id_SGAS.toString(), entity_1.LoginInfo.getCurrentAddress())];
                     case 5:
                         nep5 = _c.sent();
@@ -3502,9 +3500,22 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.openTopUp = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.alert_TopUp.isShow = true;
-                return [2 /*return*/];
+            var _a, nep5;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this;
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
+                    case 1:
+                        _a.regBalance = _b.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(importpack_1.tools.coinTool.id_SGAS.toString(), entity_1.LoginInfo.getCurrentAddress())];
+                    case 2:
+                        nep5 = _b.sent();
+                        this.sgasAvailable = nep5["nep5balance"];
+                        this.alert_available = this.sgasAvailable + " SGas";
+                        this.alert_TopUp.isShow = true;
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -3513,9 +3524,22 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.openWithdraw = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.alert_withdraw.isShow = true;
-                return [2 /*return*/];
+            var _a, nep5;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this;
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
+                    case 1:
+                        _a.regBalance = _b.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(importpack_1.tools.coinTool.id_SGAS.toString(), entity_1.LoginInfo.getCurrentAddress())];
+                    case 2:
+                        nep5 = _b.sent();
+                        this.sgasAvailable = nep5["nep5balance"];
+                        this.alert_available = this.sgasAvailable + " SGas";
+                        this.alert_withdraw.isShow = true;
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -9319,7 +9343,7 @@ var CoinTool = /** @class */ (function () {
                             else if (id == CoinTool.id_NEO) {
                                 name = "NEO";
                             }
-                            else if (id == CoinTool.id_SGAS) {
+                            else if (id == CoinTool.id_SGAS.toString()) {
                                 name = "SGAS";
                             }
                             else {
