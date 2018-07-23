@@ -59,7 +59,7 @@ export default class AuctionInfo extends Vue
         this.fee = 0
         this.remaining = 0;
         this.balanceOf = '';
-        this.bidState = 0;
+        this.bidState = 2;
         this.btnShowmore = true;
         this.fee = 0
         this.remaining = 0
