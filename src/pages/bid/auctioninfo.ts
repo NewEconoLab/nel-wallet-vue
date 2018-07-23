@@ -224,7 +224,7 @@ export default class AuctionInfo extends Vue
             let stateMsg = undefined;
             try
             {
-                let stateMsg = await tools.wwwtool.getDomainState(this.address, domain);
+                let stateMsg = await tools.wwwtool.getDomainState(this.address, "0x" + this.domainAuctionInfo.id);
                 this.myBidPrice = stateMsg[ "mybidprice" ];
             } catch (error)
             {
