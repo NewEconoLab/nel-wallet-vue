@@ -181,22 +181,6 @@ export default class AuctionInfo extends Vue
     async initAuctionInfo(domain: string)
     {
         let info = await tools.nnssell.getSellingStateByDomain(domain);
-        // let state = await tools.nnssell.compareState(info);
-        // switch (state)
-        // {
-        //     case DomainState.end:
-
-        //         break;
-        //     case DomainState.fixed:
-
-        //         break;
-        //     case DomainState.random:
-
-        //         break;
-
-        //     default:
-        //         break;
-        // }
 
         this.domainAuctionInfo.domain = domain
         this.domainAuctionInfo.id = info.id.toString();
@@ -209,6 +193,27 @@ export default class AuctionInfo extends Vue
         let balance = await tools.nnssell.getBalanceOfSeling(info.id);
         this.domainAuctionInfo.balanceOfSelling = accDiv(balance.toString(), 100000000).toString();
         this.domainAuctionInfo.endBlock = parseInt(info.endBlock.toString());
+
+        //获取状态
+        // let state = await tools.nnssell.compareState(info);
+        // switch (state)
+        // {
+        //     case DomainState.fixed:
+        //         break;
+        //     case DomainState.random:
+        //         break;
+        //     case DomainState.end:
+
+        //         break;
+        //     case DomainState.end1:
+
+        //         break;
+        //     case DomainState.end2:
+
+        //         break;
+        //     default:
+        //         break;
+        // }
 
         //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
         if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)

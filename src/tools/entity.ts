@@ -858,4 +858,6 @@ export enum DomainState
     fixed,
     random,
     end,
+    end1,
+    end2,
 }

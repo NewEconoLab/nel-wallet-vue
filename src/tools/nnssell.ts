@@ -238,14 +238,14 @@ export default class NNSSell
 
             if (dtime > 1500000)    //如果大于结束时间则按钮不可点
             {
-                return DomainState.end
+                return DomainState.end1
             } else
             {
                 let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
                 let dlast = lastTime - startTime;
                 if (dlast < 900000)
                 {
-                    return DomainState.end;
+                    return DomainState.end2;
                 } else
                 {
                     return DomainState.random;
