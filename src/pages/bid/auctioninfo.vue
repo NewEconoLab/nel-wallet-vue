@@ -39,7 +39,7 @@
               </div>  
           </div>
         </div>
-        <div v-if="domainAuctionInfo.auctionState==0&& domainAuctionInfo.maxBuyer != address">
+        <div v-if="myBidPrice!='0'&&domainAuctionInfo.auctionState==0&& domainAuctionInfo.maxBuyer != address">
           <div class="title">
               <span>{{$t('auction.title7')}}</span>
           </div>
