@@ -270,9 +270,9 @@ export class WWW
      * @param currentpage 当前页码
      * @param pagesize 条数
      */
-    static async api_getBidDetail(domain: string, currentpage: number, pagesize: number)
+    static async api_getBidDetail(id: string, currentpage: number, pagesize: number)
     {
-        var postdata = WWW.makeRpcPostBody("getbiddetailbydomain", domain, currentpage, pagesize);
+        var postdata = WWW.makeRpcPostBody("getbiddetailbydomain", id, currentpage, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         var r = json[ "result" ];
@@ -325,13 +325,20 @@ export class WWW
      * @param address 地址
      * @param domain 域名
      */
-    static async getDomainState(address: string, domain: string)
+    static async getDomainState(address: string, id: string)
     {
-        var postdata = WWW.makeRpcPostBody("getdomainstate", address, domain);
+        var postdata = WWW.makeRpcPostBody("getdomainstate", address, id);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
-        return r;
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
     }
 
     static async getNotify(txid: string)
