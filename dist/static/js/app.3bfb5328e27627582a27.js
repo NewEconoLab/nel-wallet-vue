@@ -2664,34 +2664,6 @@ var Task = /** @class */ (function () {
     return Task;
 }());
 exports.Task = Task;
-/**
- * 任务状态
- */
-var TaskState;
-(function (TaskState) {
-    TaskState[TaskState["watting"] = 0] = "watting";
-    TaskState[TaskState["success"] = 1] = "success";
-    TaskState[TaskState["fail"] = 2] = "fail";
-})(TaskState = exports.TaskState || (exports.TaskState = {}));
-/**
- * 任务类型
- */
-var TaskType;
-(function (TaskType) {
-    TaskType[TaskType["tranfer"] = 0] = "tranfer";
-    TaskType[TaskType["openAuction"] = 1] = "openAuction";
-    TaskType[TaskType["addPrice"] = 2] = "addPrice";
-    TaskType[TaskType["topup"] = 3] = "topup";
-    TaskType[TaskType["withdraw"] = 4] = "withdraw";
-})(TaskType = exports.TaskType || (exports.TaskType = {}));
-/**
- * 确认的操作类型
- */
-var ConfirmType;
-(function (ConfirmType) {
-    ConfirmType[ConfirmType["tranfer"] = 0] = "tranfer";
-    ConfirmType[ConfirmType["contract"] = 1] = "contract";
-})(ConfirmType = exports.ConfirmType || (exports.ConfirmType = {}));
 var Process = /** @class */ (function () {
     function Process(start) {
         this.timearr = [];
@@ -2746,6 +2718,47 @@ var NeoAuction_Withdraw = /** @class */ (function () {
     return NeoAuction_Withdraw;
 }());
 exports.NeoAuction_Withdraw = NeoAuction_Withdraw;
+/**
+ * 任务状态
+ */
+var TaskState;
+(function (TaskState) {
+    TaskState[TaskState["watting"] = 0] = "watting";
+    TaskState[TaskState["success"] = 1] = "success";
+    TaskState[TaskState["fail"] = 2] = "fail";
+})(TaskState = exports.TaskState || (exports.TaskState = {}));
+/**
+ * 任务类型
+ */
+var TaskType;
+(function (TaskType) {
+    TaskType[TaskType["tranfer"] = 0] = "tranfer";
+    TaskType[TaskType["openAuction"] = 1] = "openAuction";
+    TaskType[TaskType["addPrice"] = 2] = "addPrice";
+    TaskType[TaskType["topup"] = 3] = "topup";
+    TaskType[TaskType["withdraw"] = 4] = "withdraw";
+})(TaskType = exports.TaskType || (exports.TaskType = {}));
+/**
+ * 确认的操作类型
+ */
+var ConfirmType;
+(function (ConfirmType) {
+    ConfirmType[ConfirmType["tranfer"] = 0] = "tranfer";
+    ConfirmType[ConfirmType["contract"] = 1] = "contract";
+})(ConfirmType = exports.ConfirmType || (exports.ConfirmType = {}));
+/**
+ * @param open 开标或者重新开标
+ * @param fixed 确定期
+ * @param random 随机期
+ * @param end 结束
+ */
+var DomainState;
+(function (DomainState) {
+    DomainState[DomainState["open"] = 0] = "open";
+    DomainState[DomainState["fixed"] = 1] = "fixed";
+    DomainState[DomainState["random"] = 2] = "random";
+    DomainState[DomainState["end"] = 3] = "end";
+})(DomainState = exports.DomainState || (exports.DomainState = {}));
 
 
 /***/ }),
@@ -8511,6 +8524,18 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, importpack_1.tools.nnssell.getSellingStateByDomain(domain)];
                     case 1:
                         info = _b.sent();
+                        // let state = await tools.nnssell.compareState(info);
+                        // switch (state)
+                        // {
+                        //     case DomainState.end:
+                        //         break;
+                        //     case DomainState.fixed:
+                        //         break;
+                        //     case DomainState.random:
+                        //         break;
+                        //     default:
+                        //         break;
+                        // }
                         this.domainAuctionInfo.domain = domain;
                         this.domainAuctionInfo.id = info.id.toString();
                         this.domainAuctionInfo.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
@@ -10128,6 +10153,47 @@ var NNSSell = /** @class */ (function () {
      * @param info 域名详情
      */
     NNSSell.compareState = function (info) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sellstate, startTime, currentTime, dtime, lastTime, dlast;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
+                        if (sellstate == 0) {
+                            return [2 /*return*/, entity_1.DomainState.open];
+                        }
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
+                    case 1:
+                        startTime = _a.sent();
+                        currentTime = new Date().getTime();
+                        dtime = currentTime - startTime * 1000;
+                        if (!(dtime > 900000)) return [3 /*break*/, 5];
+                        if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000) {
+                            return [2 /*return*/, entity_1.DomainState.open];
+                        }
+                        //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
+                        if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0) {
+                            return [2 /*return*/, entity_1.DomainState.end];
+                        }
+                        if (!(dtime > 1500000)) return [3 /*break*/, 2];
+                        return [2 /*return*/, entity_1.DomainState.end];
+                    case 2: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()))];
+                    case 3:
+                        lastTime = _a.sent();
+                        dlast = lastTime - startTime;
+                        if (dlast < 900000) {
+                            return [2 /*return*/, entity_1.DomainState.end];
+                        }
+                        else {
+                            return [2 /*return*/, entity_1.DomainState.random];
+                        }
+                        _a.label = 4;
+                    case 4: return [3 /*break*/, 6];
+                    case 5: return [2 /*return*/, entity_1.DomainState.fixed];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
     };
     /**
      * 结束竞拍

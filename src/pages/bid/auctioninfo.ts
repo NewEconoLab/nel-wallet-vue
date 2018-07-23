@@ -8,7 +8,7 @@ import Spinner from "../../components/Spinner.vue";
 import Hint from "../../components/hint.vue";
 import { tools } from "../../tools/importpack";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
-import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task } from "../../tools/entity";
+import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState } from "../../tools/entity";
 @Component({
     components: {
         "v-alert": Valert,
@@ -181,6 +181,23 @@ export default class AuctionInfo extends Vue
     async initAuctionInfo(domain: string)
     {
         let info = await tools.nnssell.getSellingStateByDomain(domain);
+        // let state = await tools.nnssell.compareState(info);
+        // switch (state)
+        // {
+        //     case DomainState.end:
+
+        //         break;
+        //     case DomainState.fixed:
+
+        //         break;
+        //     case DomainState.random:
+
+        //         break;
+
+        //     default:
+        //         break;
+        // }
+
         this.domainAuctionInfo.domain = domain
         this.domainAuctionInfo.id = info.id.toString();
         this.domainAuctionInfo.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
@@ -191,7 +208,8 @@ export default class AuctionInfo extends Vue
         this.domainAuctionInfo.startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(accMul(startTime, 1000)));
         let balance = await tools.nnssell.getBalanceOfSeling(info.id);
         this.domainAuctionInfo.balanceOfSelling = accDiv(balance.toString(), 100000000).toString();
-        this.domainAuctionInfo.endBlock = parseInt(info.endBlock.toString())
+        this.domainAuctionInfo.endBlock = parseInt(info.endBlock.toString());
+
         //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
         if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
         {
