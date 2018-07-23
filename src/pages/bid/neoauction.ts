@@ -117,7 +117,6 @@ export default class NeoAuction extends Vue
         if (withdraw)
         {
             this.regBalance = await tools.nnssell.getBalanceOf();
-            console.log(this.regBalance);
             let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
             this.sgasAvailable = nep5[ "nep5balance" ];
             this.refresh.put("withdraw", false);
@@ -126,7 +125,6 @@ export default class NeoAuction extends Vue
         if (topup)
         {
             this.regBalance = await tools.nnssell.getBalanceOf();
-            console.log(this.regBalance);
             let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
             this.sgasAvailable = nep5[ "nep5balance" ];
             this.refresh.put("topup", false);
@@ -213,6 +211,10 @@ export default class NeoAuction extends Vue
      */
     async openTopUp()
     {
+        this.regBalance = await tools.nnssell.getBalanceOf();
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.alert_available = this.sgasAvailable + " SGas";
         this.alert_TopUp.isShow = true;
     }
 
@@ -221,6 +223,10 @@ export default class NeoAuction extends Vue
      */
     async openWithdraw()
     {
+        this.regBalance = await tools.nnssell.getBalanceOf();
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.alert_available = this.sgasAvailable + " SGas";
         this.alert_withdraw.isShow = true;
     }
 

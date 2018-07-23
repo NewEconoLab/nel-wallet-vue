@@ -30,7 +30,7 @@ export class CoinTool
             {
                 name = "NEO";
             }
-            else if (id == CoinTool.id_SGAS)
+            else if (id == CoinTool.id_SGAS.toString())
             {
                 name = "SGAS";
             }
