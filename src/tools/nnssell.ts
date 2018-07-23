@@ -1,5 +1,5 @@
 import { tools } from "./importpack";
-import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts } from "./entity";
+import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts, DomainState } from "./entity";
 export default class NNSSell
 {
     constructor()
@@ -209,8 +209,53 @@ export default class NNSSell
      * 判断域名状态
      * @param info 域名详情
      */
-    static compareState(info: SellDomainInfo)
+    static async compareState(info: SellDomainInfo): Promise<DomainState>
     {
+        //是否开始域名竞拍 0:未开始竞拍
+        let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
+        if (sellstate == 0)
+        {
+            return DomainState.open;
+        }
+        //根据开标的区块高度获得开标的时间
+        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
+        let currentTime = new Date().getTime();
+        let dtime = currentTime - startTime * 1000; //时间差值;
+        // let state: number = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
+        //如果超过随机期
+        if (dtime > 900000)
+        {   //最大金额为0，无人加价，流拍数据，或者域名到期，都可以重新开标
+            if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000)  
+            {
+                return DomainState.open;
+            }
+
+            //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
+            if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
+            {
+                return DomainState.end;
+            }
+
+            if (dtime > 1500000)    //如果大于结束时间则按钮不可点
+            {
+                return DomainState.end
+            } else
+            {
+                let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
+                let dlast = lastTime - startTime;
+                if (dlast < 900000)
+                {
+                    return DomainState.end;
+                } else
+                {
+                    return DomainState.random;
+                }
+            }
+        } else
+        {
+            return DomainState.fixed;
+        }
+
     }
 
     /**

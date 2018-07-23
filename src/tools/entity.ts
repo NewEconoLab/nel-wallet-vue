@@ -736,37 +736,6 @@ export class Task
     }
 }
 
-/**
- * 任务状态
- */
-export enum TaskState
-{
-    watting,
-    success,
-    fail,
-}
-
-/**
- * 任务类型
- */
-export enum TaskType
-{
-    tranfer,// 交易确认 需要签名的任务，涉及资产变动
-    openAuction,//开标
-    addPrice,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
-    topup,//充值
-    withdraw,//退款
-}
-
-/**
- * 确认的操作类型
- */
-export enum ConfirmType
-{
-    tranfer,    // 确认交易是否成功
-    contract,   // 确认合约是否成功，等待notify
-}
-
 export class Process
 {
     timearr: Array<{
@@ -844,4 +813,49 @@ export class NeoAuction_Withdraw
         this.isShow = false;
         this.error = false;
     }
+}
+
+/**
+ * 任务状态
+ */
+export enum TaskState
+{
+    watting,
+    success,
+    fail,
+}
+
+/**
+ * 任务类型
+ */
+export enum TaskType
+{
+    tranfer,// 交易确认 需要签名的任务，涉及资产变动
+    openAuction,//开标
+    addPrice,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
+    topup,//充值
+    withdraw,//退款
+}
+
+/**
+ * 确认的操作类型
+ */
+export enum ConfirmType
+{
+    tranfer,    // 确认交易是否成功
+    contract,   // 确认合约是否成功，等待notify
+}
+
+/**
+ * @param open 开标或者重新开标
+ * @param fixed 确定期
+ * @param random 随机期
+ * @param end 结束
+ */
+export enum DomainState
+{
+    open,
+    fixed,
+    random,
+    end,
 }
