@@ -717,22 +717,33 @@ export class Task
     confirm: number;
     type: ConfirmType;
     txid?: string = "";
+    state: TaskState;
     constructor(
         height: number,
-        confirm: number = 0,
         type: ConfirmType,
         txid?: string
     )
     {
         this.height = height;
-        this.confirm = confirm;
         this.type = type;
+        this.confirm = 0;
         this.txid = txid;
+        this.state = TaskState.watting;
     }
     toString()
     {
         return JSON.stringify(this);
     }
+}
+
+/**
+ * 任务状态
+ */
+export enum TaskState
+{
+    watting,
+    success,
+    fail,
 }
 
 /**

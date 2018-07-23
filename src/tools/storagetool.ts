@@ -224,16 +224,32 @@ export class sessionStoreTool
         this.table = table;
     }
 
+
     /**
      * 添加数据
      * @param key 
-     * @param value 
+     * @param value param[0]:value,param[1]:key
      */
-    put(key: string, value: any)
+    put(key: string, ...param: any[])
     {
-        let item = this.getList();
+        let value = param[ 0 ];   //第零位是value
+        let item = this.getList()
         let obj = item ? item : {};
-        obj[ key ] = value;
+        if (param.length == 1)
+        {
+            obj[ key ] = value;
+        } else
+        {
+            let index = param[ 1 ];
+            if (obj[ key ])
+            {
+                obj[ key ][ index ] = value;
+            } else
+            {
+                obj[ key ] = {};
+                obj[ key ][ index ] = value;
+            }
+        }
         sessionStorage.setItem(this.table, JSON.stringify(obj));
     }
 
@@ -267,15 +283,28 @@ export class sessionStoreTool
 
     /**
      * 删除数据
-     * @param key 
+     * @param key key:param[0],要删除的列名
+     * @param index index:param[1] 要删除的字段名
      */
-    delete(key: string)
+    delete(...param: any[])
     {
-        let item = sessionStoreTool.getTable(this.table);
-        if (item && item[ key ])
+        let item = this.getList();
+        let key = param[ 0 ] as string;
+        if (param.length == 1)
         {
-            delete item[ key ];
-            localStorage.setItem(this.table, JSON.stringify(item));
+            if (item && item[ key ])
+            {
+                delete item[ key ];
+                sessionStorage.setItem(this.table, JSON.stringify(item));
+            }
+        } else
+        {
+            let index = param[ 1 ] as string;
+            if (item && item[ key ] && item[ key ][ index ])
+            {
+                delete item[ key ][ index ];
+                sessionStorage.setItem(this.table, JSON.stringify(item));
+            }
         }
     }
 

@@ -7,8 +7,8 @@ import Toast from "../../components/toast.vue";
 import Spinner from "../../components/Spinner.vue";
 import Hint from "../../components/hint.vue";
 import { tools } from "../../tools/importpack";
-import { LocalStoreTool } from "../../tools/storagetool";
-import { Process, LoginInfo, MyAuction } from "../../tools/entity";
+import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
+import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task } from "../../tools/entity";
 @Component({
     components: {
         "v-alert": Valert,
@@ -25,9 +25,10 @@ export default class AuctionInfo extends Vue
     balanceOf: string;
     fee: number;
     remaining: number;
-    session_bid: LocalStoreTool;
-    session_recover: LocalStoreTool;
-    session_getdomain: LocalStoreTool;
+    session_bid: sessionStoreTool;
+    session_recover: sessionStoreTool;
+    session_getdomain: sessionStoreTool;
+    refresh: sessionStoreTool;
     bidState: number;
     bidPrice: string;
     updatePrice: string;
@@ -52,9 +53,9 @@ export default class AuctionInfo extends Vue
         this.currentpage = 1;
         this.pagesize = 5;
         this.inputErrorCode = 0;
-        this.session_bid = new LocalStoreTool("bidSession");
-        this.session_recover = new LocalStoreTool("recoverSession");
-        this.session_getdomain = new LocalStoreTool("getDomainSession");
+        this.session_bid = new sessionStoreTool("bidSession");
+        this.session_recover = new sessionStoreTool("recoverSession");
+        this.session_getdomain = new sessionStoreTool("getDomainSession");
         this.fee = 0
         this.remaining = 0;
         this.balanceOf = '';
@@ -73,10 +74,16 @@ export default class AuctionInfo extends Vue
     async mounted()
     {
         let auctionMsg = new tools.sessionstoretool("auctionPage");
-        this.session_bid = new LocalStoreTool("bidSession");
-        this.session_recover = new LocalStoreTool("recoverSession");
-        this.session_getdomain = new LocalStoreTool("getDomainSession");
+        this.session_bid = new sessionStoreTool("bidSession");
+        this.session_recover = new sessionStoreTool("recoverSession");
+        this.session_getdomain = new sessionStoreTool("getDomainSession");
+        this.refresh = new tools.sessionstoretool("refresh_auction");
         let domain = auctionMsg.select("domain");
+        await this.init(domain);
+    }
+
+    async init(domain)
+    {
         await tools.nnstool.initRootDomain("neo");
         await this.initAuctionInfo(domain);
         this.balanceOf = await tools.nnssell.getBalanceOf();
@@ -116,6 +123,20 @@ export default class AuctionInfo extends Vue
         {
             let txid = confirm_bid[ "txid" ];
             this.bid_confirm(txid, domain);
+        }
+    }
+
+    async refreshPage()
+    {
+        let bidlist = this.refresh.select("bidlist");
+        let withdraw = this.refresh.select("withdraw");
+        let topup = this.refresh.select("topup");
+        if (bidlist)
+        {
+            console.log("----------------刷新-----------");
+            await this.init(this.domainAuctionInfo.domain);
+            this.refresh.put("bidlist", false);
+
         }
     }
 
@@ -371,7 +392,6 @@ export default class AuctionInfo extends Vue
                 }
             }
             arr = arr.reverse();
-            console.log(arr);
             for (const index in arr)
             {
                 let i = parseInt(index);
@@ -435,7 +455,15 @@ export default class AuctionInfo extends Vue
             let amount = this.bidPrice;
             this.session_bid.put(this.domainAuctionInfo.domain, { txid, amount }, txid);
             this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
-            this.bid_confirm(txid, this.domainAuctionInfo.domain);
+
+            let oldBlock = new tools.sessionstoretool("block");
+            let height = oldBlock.select('height');
+            let task = new Task(
+                height, ConfirmType.tranfer, res.info
+            )
+            tools.taskManager.addTask(task, TaskType.addPrice);
+
+            // this.bid_confirm(txid, this.domainAuctionInfo.domain);
         } catch (error)
         {
             console.log(error);

@@ -41,11 +41,12 @@
                         <!-- <button v-if="!!domainInfo.resolverAddress" @click="mappingReset" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button> -->
                     </div>
                     <div class="input-box">
-                        <input type="text" v-model="resolverAddress">
+                        <input type="text" v-model="resolverAddress" @input="verifyMapping" class="">
                         <button v-if="mappingState==0" class="btn btn-nel btn-big" @click="mappingData" >{{$t('btn.confirm')}}</button>
                         <button v-if="mappingState==1" class="btn btn-nel btn-big" @click="mappingData">{{$t('btn.reset')}}</button>
                         <spinner-wrap v-if="mappingState==2"  style="margin-left:20px"></spinner-wrap>
-                        <div class="ok-img">
+                        <!-- 地址格式验证 -->
+                        <div v-if="mappingistrue" class="ok-img">
                             <img src="../../../static/img/correct.svg" alt="">
                         </div>
                     </div>

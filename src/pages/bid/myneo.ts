@@ -19,6 +19,7 @@ export default class MyNeo extends Vue
     domainInfo: any;
     set_contract: string;
     resolverAddress: string;
+    mappingistrue: boolean;
     mappingState: number;
     resolverState: number;
     resolverSession: LocalStoreTool;
@@ -43,6 +44,13 @@ export default class MyNeo extends Vue
     {
         this.getAllNeoName(this.currentAddress);
     }
+
+    verifyMapping()
+    {
+        let res = tools.neotool.verifyAddress(this.resolverAddress);
+        this.mappingistrue = res;
+    }
+
     async getAllNeoName(address)
     {
         let res = await tools.wwwtool.getnnsinfo(address, '.neo');
@@ -125,6 +133,7 @@ export default class MyNeo extends Vue
     {
         this.domainInfo = item;
         this.resolverAddress = item.resolverAddress;
+        this.mappingistrue = tools.neotool.verifyAddress(this.resolverAddress);
         let sessionMap = this.mappingSession.select(item.domain);
         let sessionRes = this.resolverSession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;

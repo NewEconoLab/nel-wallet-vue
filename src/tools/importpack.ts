@@ -7,6 +7,7 @@ import DateTool from "./timetool";
 import Contract from "./contract";
 import SgasTool from "./sgastool";
 import NNSSell from "./nnssell";
+import { TaskManager } from "./taskmanager";
 
 export namespace tools
 {
@@ -22,5 +23,6 @@ export namespace tools
     export let nnssell = NNSSell;
     export let localstoretool = LocalStoreTool;
     export let sessionstoretool = sessionStoreTool;
+    export let taskManager = TaskManager;
 
 }

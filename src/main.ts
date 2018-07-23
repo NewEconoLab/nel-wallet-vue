@@ -10,6 +10,7 @@ import NNSNeo from './pages/bid/nnsneo.vue';
 import NNS from './pages/nns/nns.vue';
 import Settings from './pages/setting/settings.vue';
 import { tools } from "./tools/importpack";
+import { TaskManager } from './tools/taskmanager';
 
 Vue.use(VueI18n);
 // const notFound = () => import('./pages/404.vue');
@@ -96,7 +97,7 @@ setInterval(() =>
             {
                 if (data > oldHeight)
                 {
-                    test(data);
+                    TaskManager.update()
                     oldBlock.put("height", data);
                 }
             } else
@@ -105,8 +106,3 @@ setInterval(() =>
             }
         })
 }, 5000);
-
-function test(data)
-{
-    console.log(data);
-}

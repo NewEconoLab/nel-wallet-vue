@@ -343,4 +343,22 @@ export class WWW
         return r;
     }
 
+    static async hastx(txid: string)
+    {
+        var postdata = WWW.makeRpcPostBody("hastx", txid);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ][ 0 ];
+        return r;
+    }
+
+    static async hascontract(txid: string)
+    {
+        var postdata = WWW.makeRpcPostBody("hascontract", txid);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ][ 0 ];
+        return r;
+    }
+
 }

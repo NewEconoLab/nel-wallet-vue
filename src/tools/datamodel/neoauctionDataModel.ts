@@ -3,7 +3,7 @@ import { tools } from "../importpack";
 
 export class NeoaucionData
 {
-    static session_open = new tools.localstoretool("auction-openSession");
+    static session_open = new tools.sessionstoretool("auction-openSession");
 
     static async getBidList(address: string)
     {
@@ -61,7 +61,7 @@ export class NeoaucionData
                     }
                     element.auctionState = '1';
                 }
-                let bidSession = new tools.localstoretool("bidInfo-" + element.domain);
+                let bidSession = new tools.sessionstoretool("bidInfo-" + element.domain);
                 let bidlist = bidSession.getList();
                 if (bidlist)
                 {
@@ -95,7 +95,7 @@ export class NeoaucionData
 
     static async setBidSession(auction: MyAuction, amount: string, txid: string)
     {
-        let session_bid = new tools.localstoretool("bidSession");
+        let session_bid = new tools.sessionstoretool("bidSession");
         session_bid.put(auction.domain, { txid, amount }, txid);
         let domaininfo = this.session_open.select(auction.domain);
         if (!domaininfo)

@@ -148,7 +148,7 @@
                   <input type="number" :placeholder="$t('auction.amount')" v-model="alert_TopUp.input" @input="verifToupAmount">
                   <span class="getall-msg" @click="alert_TopUp.input = sgasAvailable">Get all</span>
                 </div>
-                <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="gasToRecharge">{{$t('btn.confirm')}}</button>
+                <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="toRecharge">{{$t('btn.confirm')}}</button>
                 <spinner-wrap v-else ></spinner-wrap>
               </div>
               <div v-if="alert_TopUp.error" class="status-ended err-msg">

@@ -1,50 +1,144 @@
 import { sessionStoreTool } from "./storagetool";
-import { Task, TaskType } from "./entity";
+import { Task, TaskType, TaskState } from "./entity";
 import { tools } from "./importpack";
 
-class TaskManager
+export class TaskManager
 {
-    taskStore: sessionStoreTool
-    constructor(parameters)
+    static taskStore: sessionStoreTool = new sessionStoreTool("task-manager");
+    static refresh: sessionStoreTool = new sessionStoreTool("refresh_auction");
+    constructor()
     {
-        this.taskStore = new sessionStoreTool("task-manager");
     }
 
-    init()
+    static update()
     {
         let taskList = (this.taskStore.getList() as Object);
-        for (const task in taskList)
+        for (const type in taskList)
         {
-            if (taskList.hasOwnProperty(task))
+            if (taskList.hasOwnProperty(type))
             {
-                const element = taskList[ task ];
-                switch (parseInt(task) as TaskType)
+                const task = taskList[ type ] as Task;
+                if (task.state == TaskState.watting)
                 {
-                    case TaskType.tranfer:
+                    switch (parseInt(type) as TaskType)
+                    {
+                        case TaskType.tranfer:
 
-                        break;
-                    case TaskType.openAuction:
-
-                        break;
-                    case TaskType.addPrice:
-
-                        break;
-                    case TaskType.topup:
-
-                        break;
-                    case TaskType.withdraw:
-
-                        break;
-                    default:
-                        break;
+                            break;
+                        case TaskType.openAuction:
+                            this.confirm_open(task);
+                            break;
+                        case TaskType.addPrice:
+                            this.confirm_bid(task);
+                            break;
+                        case TaskType.topup:
+                            this.confirm_topup(task);
+                            break;
+                        case TaskType.withdraw:
+                            this.confirm_withdraw(task);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
     }
 
-    addTask(task: Task, type: TaskType)
+    static addTask(task: Task, type: TaskType)
     {
-        this.taskStore.put(type.toString(), JSON.stringify(task))
+        this.taskStore.put(type.toString(), task)
+    }
+
+    static async confirm_withdraw(task: Task)
+    {
+        if (task.confirm < 3)
+        {
+            let data = await tools.wwwtool.hastx(task.txid);
+            if (data.issucces)
+            {
+                task.state = TaskState.success;
+                this.refresh.put("withdraw", true);
+            } else
+            {
+                return;
+            }
+        } else
+        {
+            task.state = TaskState.fail;
+            this.refresh.put("withdraw", true);
+        }
+        task.confirm += 1;
+        this.taskStore.put(TaskType.withdraw.toString(), task);
+    }
+
+    static async confirm_topup(task: Task)
+    {
+        if (task.confirm < 3)
+        {
+            let data = await tools.wwwtool.hastx(task.txid);
+            if (data.issucces)
+            {
+                task.state = TaskState.success;
+                this.refresh.put("topup", true);
+            } else
+            {
+                return;
+            }
+        } else
+        {
+            task.state = TaskState.fail;
+            this.refresh.put("topup", true);
+        }
+        task.confirm += 1;
+        this.taskStore.put(TaskType.topup.toString(), task);
+    }
+
+    static async confirm_open(task: Task)
+    {
+        if (task.confirm < 3)
+        {
+            let data = await tools.wwwtool.hastx(task.txid);
+            if (data.issucces)
+            {
+                // let session_open = new tools.sessionstoretool("auction-openSession");
+                task.state = TaskState.success;
+                // session_open.delete()
+                // sessionStorage.removeItem("auction-openSession");
+                this.refresh.put("bidlist", true);
+            } else
+            {
+                return;
+            }
+        } else
+        {
+            task.state = TaskState.fail;
+            this.refresh.put("bidlist", true);
+        }
+        task.confirm += 1;
+        this.taskStore.put(TaskType.openAuction.toString(), task);
+    }
+
+    static async confirm_bid(task: Task)
+    {
+        if (task.confirm < 3)
+        {
+            let data = await tools.wwwtool.hastx(task.txid);
+            if (data)
+            {
+                task.state = TaskState.success;
+                this.refresh.put("bidlist", true);
+            } else
+            {
+                return;
+            }
+        } else
+        {
+            task.state = TaskState.fail;
+            this.refresh.put("bidlist", true);
+        }
+        task.confirm += 1;
+        this.taskStore.put(TaskType.addPrice.toString(), task);
     }
 
 }
