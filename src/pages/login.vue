@@ -25,8 +25,8 @@
                 <span class="input-group-addon">
                   <button class="btn btn-nel fileinput-button">
                     <span>{{$t("login.selectbtn")}}</span>
-                    <input type="file" @change="fileChange">
                   </button>
+                  <input class="select-file" type="file" @change="fileChange" >
                 </span>
               </div>
             </div>
@@ -319,7 +319,9 @@
 .input-group-addon {
   padding: 0;
   border: 0;
+  position: relative;
 }
+
 .fileinput-button {
   border: 0;
   position: relative;
@@ -329,13 +331,15 @@
   height: 56px;
   border-radius: 0px 5px 5px 0px;
 }
-.fileinput-button input {
+.select-file {
   position: absolute;
   right: 0px;
   top: 0px;
   opacity: 0;
+  z-index: 2;
+  width: 97px;
   /* -ms-filter: 'alpha(opacity=0)'; */
-  font-size: 200px;
+  /* font-size: 200px; */
 }
 .btn-import {
   width: 417px;
