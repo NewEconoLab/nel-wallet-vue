@@ -765,10 +765,10 @@ export class Process
                 case 1:
                     element.msg = "1"
                     break;
-                case 2:
+                case 3:
                     element.msg = "2"
                     break;
-                case 4:
+                case 5:
                     element.msg = "3"
                     break;
                 default:
