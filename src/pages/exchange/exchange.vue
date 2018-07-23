@@ -264,6 +264,11 @@
     .tran-history {
       p {
         color: #fff;
+        -moz-user-select: text;
+        -webkit-user-select: text;
+        -ms-user-select: text;
+        -khtml-user-select: text;
+        user-select: text;
       }
     }
   }

@@ -369,7 +369,7 @@
           border-radius: 5px;
           position: absolute;
           top: -40px;
-          right: -46px;
+          right: -38px;
           line-height: 12px;
           &:before {
             content: "";
