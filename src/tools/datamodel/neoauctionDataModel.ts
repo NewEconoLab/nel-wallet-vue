@@ -27,7 +27,8 @@ export class NeoaucionData
                     let current = LoginInfo.getCurrentAddress();
                     if (element.maxBuyer == current)
                     {
-                        element.receivedState = element.owner == current ? 1 : 0
+                        // element.receivedState = element.owner == current ? 1 : 0
+                        element.receivedState = balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 ? 1 : 0;
                     } else
                     {
                         element.receivedState = balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 ? 2 : 0;
