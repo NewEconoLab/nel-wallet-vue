@@ -266,7 +266,7 @@ export default class NNSSell
             {
                 let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
                 let dlast = lastTime - startTime;
-                if (dlast < 900000)
+                if (dlast < 600)
                 {
                     myauction.domainstate = DomainState.end2;
                     myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(900000).toString());

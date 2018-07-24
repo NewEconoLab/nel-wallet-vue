@@ -299,9 +299,9 @@ export default class NeoAuction extends Vue
         let time = await tools.wwwtool.api_getBlockInfo(msg.startBlockSelling.toInt32());
         auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
         auction.maxBuyer = msg.maxBuyer ? msg.maxBuyer.toString() : "";
-        auction.maxPrice = msg.maxPrice.divide(100000000).toString();
+        auction.maxPrice = accDiv(msg.maxPrice.toString(), 100000000).toString();
         auction.domain = this.domain + ".neo";
-        auction.balanceOfSelling = msg.balanceOfSelling.divide(100000000).toString();
+        auction.balanceOfSelling = accDiv(msg.balanceOfSelling.toString(), 100000000).toString();
         this.myBalanceOfSelling = auction.balanceOfSelling;
         this.auctionMsg_alert = auction;
         this.auctionShow = !this.auctionShow;
@@ -317,6 +317,13 @@ export default class NeoAuction extends Vue
             }
         }
         let myBid = !!this.alert_myBid ? parseFloat(this.alert_myBid) : 0;
+
+        if (parseFloat(this.regBalance) < myBid)
+        {
+            this.canAdded = false;
+            this.alert_myBid = this.regBalance;
+            myBid = parseFloat(this.regBalance);
+        }
         let amount = (parseFloat(this.auctionMsg_alert.balanceOfSelling) + myBid);
 
         this.myBalanceOfSelling = amount.toString();
@@ -452,113 +459,5 @@ export default class NeoAuction extends Vue
         }
 
     }
-
-
-    /**
-     * 注册器退币确认
-     * @param txid 交易id
-    async withdrawConfirm(txid: string)
-    {
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
-        {
-            this.openToast("success", "" + this.$t("auction.successwithdraw"), 3000);
-            this.alert_withdraw.watting = false;
-            this.sessionWatting.delete("withdraw");
-            return;
-        }
-        else
-        {
-            setTimeout(() =>
-            {
-                this.withdrawConfirm(txid);
-            }, 5000)
-        }
-    }
-     */
-
-    /**
-     * 等待sgas退币确认
-     * @param txid 交易id
-    async confirmRecharge_sgas(txid: string)
-    {
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (res)
-        {
-            console.log(res);
-
-        } else
-        {
-            setTimeout(() =>
-            {
-                this.confirmRecharge_sgas(txid);
-            }, 5000)
-        }
-        console.log(res);
-    }
-     */
-
-
-    /**
-     * 开标
-     * @param txid 交易id
-    async openAuction_confirm(txid: string)
-    {
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
-        {
-            this.btn_start = 2;
-            this.addBid();
-            this.getBidList(this.address);
-            return;
-        }
-        else
-        {
-            setTimeout(() =>
-            {
-                this.openAuction_confirm(txid);
-            }, 5000)
-        }
-    }
-     */
-
-
-    /**
-     * 加价信息确认
-     * @param txid 交易id
-     * @param domain 域名
-    async bidConfirm(txid: string, domain: string)
-    {
-        let session_bid = new tools.localstoretool("bidSession");
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
-        {
-            session_bid.delete(domain, txid);
-            let names = await tools.contract.getNotifyNames(txid);
-            let have = names.includes("addprice");
-            if (have)
-            {
-                this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
-                this.getBidList(this.address);
-                return;
-            }
-            if (names.length == 0)
-            {
-                this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid"), 3000);
-                return;
-            }
-            if (names.includes("domainstate"))
-            {
-                this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid2"), 3000);
-            }
-        } else
-        {
-            setTimeout(() =>
-            {
-                this.bidConfirm(txid, domain)
-            }, 5000);
-        }
-    }
-     */
 
 }
