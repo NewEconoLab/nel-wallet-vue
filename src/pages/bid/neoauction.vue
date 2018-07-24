@@ -99,7 +99,9 @@
                 </div>
             </div>
         </div>
+        <!-- 竞拍域名详情页 -->
         <auction-info v-if="auctionPage" @onBack="onBack" :item="domainInfo"></auction-info>
+        <!-- 域名开标弹窗 -->
         <div class="auction-wrap" v-if="auctionShow">
           <div class="auction-box">
             <div class="auction-title">{{$t('auction.acutiontitle')}}</div>
@@ -129,6 +131,7 @@
             </div>
           </div>
         </div>
+        <!-- 账户充值弹窗 -->
         <div class="top-up-wrap" v-if="alert_TopUp.isShow">
           <div class="top-up-box">
             <div class="topup-title">
@@ -166,6 +169,7 @@
             </div>
           </div>
         </div>
+        <!-- 账户提取弹窗 -->
         <div class="withdraw-wrap" v-if="alert_withdraw.isShow">
           <div class="withdraw-box">
             <div class="withdraw-title">
