@@ -2088,6 +2088,41 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var importpack_1 = __webpack_require__("VKSY");
 var buffer_1 = __webpack_require__("63KW");
@@ -2482,7 +2517,31 @@ var WalletOtcgo = /** @class */ (function () {
 exports.WalletOtcgo = WalletOtcgo;
 var MyAuction = /** @class */ (function () {
     function MyAuction() {
+        this.id = "";
+        this.auctionSpentTime = "";
+        this.auctionState = "";
+        this.expire = false;
+        this.blockindex = "";
+        this.maxBuyer = "";
+        this.maxPrice = "";
+        this.owner = "";
+        this.endedState = 0;
+        this.endTime = 0;
+        this.startAuctionTime = 0;
     }
+    MyAuction.prototype.initSelling = function (info) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.id = info.id.toString();
+                this.domain = info.domain;
+                this.endBlock = parseInt(info.endBlock.toString());
+                this.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+                this.maxPrice = info.maxPrice.toString();
+                this.owner = info.owner ? ThinNeo.Helper.GetAddressFromScriptHash(info.owner) : "";
+                return [2 /*return*/];
+            });
+        });
+    };
     return MyAuction;
 }());
 exports.MyAuction = MyAuction;
@@ -2753,6 +2812,8 @@ var DomainState;
     DomainState[DomainState["end"] = 3] = "end";
     DomainState[DomainState["end1"] = 4] = "end1";
     DomainState[DomainState["end2"] = 5] = "end2";
+    DomainState[DomainState["expire"] = 6] = "expire";
+    DomainState[DomainState["pass"] = 7] = "pass";
 })(DomainState = exports.DomainState || (exports.DomainState = {}));
 
 
@@ -8514,67 +8575,36 @@ var AuctionInfo = /** @class */ (function (_super) {
      */
     AuctionInfo.prototype.initAuctionInfo = function (domain) {
         return __awaiter(this, void 0, void 0, function () {
-            var info, startTime, balance, _a, state, stateMsg, stateMsg_1, error_1, compare, mybidprice;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var info, myauction, balance, stateMsg, stateMsg_1, error_1, compare, mybidprice;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.nnssell.getSellingStateByDomain(domain)];
                     case 1:
-                        info = _b.sent();
-                        this.domainAuctionInfo.domain = domain;
-                        this.domainAuctionInfo.id = info.id.toString();
-                        this.domainAuctionInfo.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
-                        this.domainAuctionInfo.maxPrice = !info.maxPrice ? "" : accDiv(info.maxPrice.toString(), 100000000).toString();
-                        this.domainAuctionInfo.owner = !info.owner ? null : ThinNeo.Helper.GetAddressFromScriptHash(info.owner);
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
+                        info = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getMyAuctionState(info)];
                     case 2:
-                        startTime = _b.sent();
-                        this.domainAuctionInfo.startAuctionTime = importpack_1.tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(accMul(startTime, 1000)));
+                        myauction = _a.sent();
+                        this.domainAuctionInfo = myauction;
                         return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOfSeling(info.id)];
                     case 3:
-                        balance = _b.sent();
+                        balance = _a.sent();
                         this.domainAuctionInfo.balanceOfSelling = accDiv(balance.toString(), 100000000).toString();
-                        this.domainAuctionInfo.endBlock = parseInt(info.endBlock.toString());
-                        if (!(info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)) return [3 /*break*/, 5];
-                        this.domainAuctionInfo.auctionState = "0";
-                        _a = this.domainAuctionInfo;
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.endBlock.toString()))];
-                    case 4:
-                        _a.endTime = _b.sent();
-                        return [3 /*break*/, 6];
-                    case 5:
-                        this.domainAuctionInfo.endTime = parseInt(info.startBlockSelling.multiply(1000).add(1500000).toString());
-                        state = importpack_1.tools.nnssell.compareTime(startTime * 1000);
-                        switch (state) {
-                            case 0:
-                                this.domainAuctionInfo.auctionState = "0";
-                                break;
-                            case 1:
-                                this.domainAuctionInfo.auctionState = "1";
-                                break;
-                            case 2:
-                                this.domainAuctionInfo.auctionState = "2";
-                                break;
-                            default:
-                                break;
-                        }
-                        _b.label = 6;
-                    case 6:
                         this.myBidPrice = this.domainAuctionInfo.balanceOfSelling;
-                        if (!(this.domainAuctionInfo.auctionState == "0")) return [3 /*break*/, 11];
+                        if (!(this.domainAuctionInfo.auctionState == "0")) return [3 /*break*/, 8];
                         stateMsg = undefined;
-                        _b.label = 7;
-                    case 7:
-                        _b.trys.push([7, 9, , 10]);
+                        _a.label = 4;
+                    case 4:
+                        _a.trys.push([4, 6, , 7]);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getDomainState(this.address, "0x" + this.domainAuctionInfo.id)];
-                    case 8:
-                        stateMsg_1 = _b.sent();
+                    case 5:
+                        stateMsg_1 = _a.sent();
                         this.myBidPrice = stateMsg_1["mybidprice"];
-                        return [3 /*break*/, 10];
-                    case 9:
-                        error_1 = _b.sent();
+                        return [3 /*break*/, 7];
+                    case 6:
+                        error_1 = _a.sent();
                         this.myBidPrice = "0";
-                        return [3 /*break*/, 10];
-                    case 10:
+                        return [3 /*break*/, 7];
+                    case 7:
                         compare = Neo.Fixed8.parse(this.domainAuctionInfo.balanceOfSelling).compareTo(Neo.Fixed8.Zero);
                         this.domainAuctionInfo.receivedState = compare < 0 ? 0 : 1;
                         if (compare > 0) {
@@ -8585,8 +8615,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                             this.state_getDomain = 2;
                             this.state_recover = 2;
                         }
-                        _b.label = 11;
-                    case 11:
+                        _a.label = 8;
+                    case 8:
                         mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
                         this.updatePrice = mybidprice.toString();
                         return [2 /*return*/];
@@ -8913,7 +8943,6 @@ var AuctionInfo = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.openToast = this.$refs.toast["isShow"];
                         session_bid = new importpack_1.tools.localstoretool("bidSession");
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
                     case 1:
@@ -9954,6 +9983,7 @@ var NNSSell = /** @class */ (function () {
                         domainInfo = _b.sent();
                         info = new entity_1.SellDomainInfo();
                         info.copyDomainInfoToThis(domainInfo);
+                        info.domain = domain;
                         _b.label = 3;
                     case 3:
                         _b.trys.push([3, 6, , 7]);
@@ -10154,45 +10184,76 @@ var NNSSell = /** @class */ (function () {
      * 判断域名状态
      * @param info 域名详情
      */
-    NNSSell.compareState = function (info) {
+    NNSSell.getMyAuctionState = function (info) {
         return __awaiter(this, void 0, void 0, function () {
-            var sellstate, startTime, currentTime, dtime, lastTime, dlast;
+            var myauction, startTime, sellstate, currentTime, dtime, time, lastTime, dlast;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
-                        if (sellstate == 0) {
-                            return [2 /*return*/, entity_1.DomainState.open];
-                        }
+                        myauction = new entity_1.MyAuction();
+                        myauction.id = info.id.toString();
+                        myauction.domain = info.domain;
+                        myauction.endBlock = parseInt(info.endBlock.toString());
+                        myauction.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+                        myauction.maxPrice = !info.maxPrice ? "" : accDiv(info.maxPrice.toString(), 100000000).toString();
+                        myauction.owner = info.owner ? ThinNeo.Helper.GetAddressFromScriptHash(info.owner) : "";
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
                     case 1:
                         startTime = _a.sent();
+                        myauction.startAuctionTime = importpack_1.tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(startTime * 1000));
+                        sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
+                        if (sellstate == 0) {
+                            myauction.domainstate = entity_1.DomainState.open;
+                            return [2 /*return*/, myauction];
+                        }
                         currentTime = new Date().getTime();
                         dtime = currentTime - startTime * 1000;
-                        if (!(dtime > 900000)) return [3 /*break*/, 5];
-                        if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000) {
-                            return [2 /*return*/, entity_1.DomainState.open];
+                        //如果超过随机期
+                        if (dtime > 109500000)
+                            myauction.expire = true;
+                        else
+                            myauction.expire = false;
+                        if (!(dtime > 900000)) return [3 /*break*/, 7];
+                        if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0) {
+                            myauction.domainstate = entity_1.DomainState.pass;
+                            return [2 /*return*/, myauction];
                         }
-                        //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
-                        if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0) {
-                            return [2 /*return*/, entity_1.DomainState.end];
-                        }
-                        if (!(dtime > 1500000)) return [3 /*break*/, 2];
-                        return [2 /*return*/, entity_1.DomainState.end1];
-                    case 2: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()))];
+                        if (!(info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.endBlock.toString()))];
+                    case 2:
+                        time = _a.sent();
+                        myauction.endTime = time * 1000;
+                        myauction.domainstate = entity_1.DomainState.end;
+                        myauction.auctionState = "0";
+                        return [2 /*return*/, myauction];
                     case 3:
+                        if (!(dtime > 1500000)) return [3 /*break*/, 4];
+                        myauction.domainstate = entity_1.DomainState.end1;
+                        myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(1500000).toString());
+                        myauction.auctionState = "0";
+                        return [2 /*return*/, myauction];
+                    case 4: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()))];
+                    case 5:
                         lastTime = _a.sent();
                         dlast = lastTime - startTime;
                         if (dlast < 900000) {
-                            return [2 /*return*/, entity_1.DomainState.end2];
+                            myauction.domainstate = entity_1.DomainState.end2;
+                            myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(900000).toString());
+                            myauction.auctionState = "0";
+                            return [2 /*return*/, myauction];
                         }
                         else {
-                            return [2 /*return*/, entity_1.DomainState.random];
+                            myauction.domainstate = entity_1.DomainState.random;
+                            myauction.auctionState = "2";
+                            return [2 /*return*/, myauction];
                         }
-                        _a.label = 4;
-                    case 4: return [3 /*break*/, 6];
-                    case 5: return [2 /*return*/, entity_1.DomainState.fixed];
-                    case 6: return [2 /*return*/];
+                        _a.label = 6;
+                    case 6: return [3 /*break*/, 8];
+                    case 7:
+                        myauction.domainstate = entity_1.DomainState.fixed;
+                        myauction.auctionState = "1";
+                        return [2 /*return*/, myauction];
+                    case 8: return [2 /*return*/];
                 }
             });
         });
