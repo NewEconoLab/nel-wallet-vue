@@ -3703,9 +3703,9 @@ var NeoAuction = /** @class */ (function (_super) {
                         time = _a.sent();
                         auction.startAuctionTime = importpack_1.tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
                         auction.maxBuyer = msg.maxBuyer ? msg.maxBuyer.toString() : "";
-                        auction.maxPrice = msg.maxPrice.divide(100000000).toString();
+                        auction.maxPrice = accDiv(msg.maxPrice.toString(), 100000000).toString();
                         auction.domain = this.domain + ".neo";
-                        auction.balanceOfSelling = msg.balanceOfSelling.divide(100000000).toString();
+                        auction.balanceOfSelling = accDiv(msg.balanceOfSelling.toString(), 100000000).toString();
                         this.myBalanceOfSelling = auction.balanceOfSelling;
                         this.auctionMsg_alert = auction;
                         this.auctionShow = !this.auctionShow;
@@ -3721,6 +3721,11 @@ var NeoAuction = /** @class */ (function (_super) {
             }
         }
         var myBid = !!this.alert_myBid ? parseFloat(this.alert_myBid) : 0;
+        if (parseFloat(this.regBalance) < myBid) {
+            this.canAdded = false;
+            this.alert_myBid = this.regBalance;
+            myBid = parseFloat(this.regBalance);
+        }
         var amount = (parseFloat(this.auctionMsg_alert.balanceOfSelling) + myBid);
         this.myBalanceOfSelling = amount.toString();
         if (amount > parseFloat(this.auctionMsg_alert.maxPrice)) {
@@ -9231,8 +9236,8 @@ exports.default = {
         lastauctionprice: "Last auction price",
         currentbidder: "Current bidder",
         opentime: "Bid openting time",
-        fixedperiod: "Fixed period",
-        randomperiod: "Random period",
+        fixedperiod: "Auction period",
+        randomperiod: "Overtime bidding",
         ended: "Ended",
         me: "Me",
         other: "Other people",
@@ -9258,13 +9263,13 @@ exports.default = {
         waitgetdomain: "Your operation will be confirmed after the new block is generated. Please wait patiently...",
         fee: "Fee",
         remainingsgas: "Remaining SGas",
-        timetips1: "Tips : If nobody bids on the last day of the fixed period, the fixed period end time will be the end of the auction.",
-        timetips2: "Tip: Once the auction moves into the random period, it may end at any time",
-        timetips3: "Tips : The auction may end at any point during the random period, so it’s better to bid as early as possible.",
+        timetips1: "Tips : If nobody bids on the last day of the auction period, the auction period end time will be the end of the auction.",
+        timetips2: "Tip: Once the auction moves into the overtime bidding, it may end at any time",
+        timetips3: "Tips : The auction may end at any point during the overtime bidding, so it’s better to bid as early as possible.",
         bidstarttimemsg: "Bid start time",
-        endtimemsg: "Fixed period end time",
-        randomtimemsg: "Random period start time",
-        maxtimemsg: "Maximum end time of random period",
+        endtimemsg: "Auction period end time",
+        randomtimemsg: "Overtime bidding start time",
+        maxtimemsg: "Maximum end time of overtime bidding",
         tipsmsg1: "Tips: Before the auction begins, you need to know 2 things:",
         tipsmsg2: "The asset used for the auction is SGas, and you need to top up your Auction Account with SGas to use it.",
         tipsmsg3: 'SGas needs to be redeemed with Gas at the rate of 1:1 in the "SGas Exchange" page, or you can use the top-up function directly in the Auction Account to convert the Gas in your Balance directly into SGas and top up your Auction Account with it.',
@@ -9291,11 +9296,12 @@ exports.default = {
         successbid: "Raise succesful!",
         failbid: "Raise failed!",
         failbid2: "Its auction has ended. Your raise is not executed.",
-        successbid2: "Success! You have raised your bid to TOTAL-BID.",
+        successbid1: "Your bid of ",
+        successbid2: " SGas has been sent to the blockchain for confirmation.",
         successgetdomain: "Domain acquired",
         failgetdomain: "Please click again to acquire domain",
-        statustips: "The fixed period is the first stage of the auction and its duration is 3 days, during which all bids are valid. A random period of up to 2 days will be triggered when someone bids on the last day of the fixed period. Otherwise the auction ends at the end of the fixed period.",
-        statustips2: "The random period is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain. "
+        statustips: "The auction period is the first stage of the auction and its duration is 3 days, during which all bids are valid. A overtime bidding of up to 2 days will be triggered when someone bids on the last day of the auction period. Otherwise the auction ends at the end of the auction period.",
+        statustips2: "The overtime bidding is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain. "
     },
     exchange: {
         title: "SGas Exchange",
@@ -10237,7 +10243,7 @@ var NNSSell = /** @class */ (function () {
                     case 5:
                         lastTime = _a.sent();
                         dlast = lastTime - startTime;
-                        if (dlast < 900000) {
+                        if (dlast < 600) {
                             myauction.domainstate = entity_1.DomainState.end2;
                             myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(900000).toString());
                             myauction.auctionState = "0";
@@ -10765,7 +10771,7 @@ exports.default = {
         mywillbid: "我的累积竞价 ",
         price: "竞拍价: ",
         tips1: "注意 : 每次加价的最小值为 0.1 SGas. 当您的累积竞价小于当前最高价时，该次出价不成功。",
-        isAvailable: "is available",
+        isAvailable: "可用",
         errmsg1: "您当前拥有",
         errmsg2: "SGas.",
         errmsg4: "您的出价应当大于最大当前最大出价",
@@ -10809,7 +10815,8 @@ exports.default = {
         successbid: "加价成功",
         failbid: "加价失败",
         failbid2: "此域名竞拍结束，本次加价未执行",
-        successbid2: "加价成功!",
+        successbid1: "您加价了 ",
+        successbid2: " SGas ，请等待区块确认。",
         successgetdomain: "域名领取成功",
         failgetdomain: "域名领取失败",
         statustips: "确定期为竞拍第一阶段，时长为3天，此期间所有的出价都有效。当确定期最后一天有人出价时将触发最大时长为2天的随机期。否则竞拍即在确定期结束。",
