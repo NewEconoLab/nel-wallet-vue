@@ -216,6 +216,7 @@ export default class NeoAuction extends Vue
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable + " SGas";
         this.alert_TopUp.isShow = true;
+        this.alert_TopUp.input = "";
     }
 
     /**
@@ -228,6 +229,7 @@ export default class NeoAuction extends Vue
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable + " SGas";
         this.alert_withdraw.isShow = true;
+        this.alert_withdraw.input = "";
     }
 
     /**
@@ -374,6 +376,8 @@ export default class NeoAuction extends Vue
         this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
         this.getBidList(this.address);
         this.btn_start = 1;
+        this.domain = "";
+        this.checkState = 0;
     }
 
 
@@ -383,6 +387,11 @@ export default class NeoAuction extends Vue
      */
     async queryDomainState()
     {
+        if (!this.domain)
+        {
+            this.checkState = 0;
+            return;
+        }
         this.domain = this.domain.toLowerCase();
         this.domain = this.domain.trim();
         let verify = /^[a-zA-Z0-9]{1,32}$/;
