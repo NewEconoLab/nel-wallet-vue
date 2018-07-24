@@ -280,6 +280,7 @@ export class DomainInfo
 export class SellDomainInfo extends DomainInfo
 {
     id: Neo.Uint256;
+    domain: string;
     startBlockSelling: Neo.BigInteger;
     endBlock: Neo.BigInteger;
     maxPrice: Neo.BigInteger;
@@ -531,6 +532,8 @@ export class MyAuction
     endedState: number;
     endTime: number;
     endBlock: number;
+    expire: boolean;
+    domainstate: DomainState;
     blockindex: string;
     domain: string;
     maxBuyer: string;
@@ -540,6 +543,31 @@ export class MyAuction
     balanceOfSelling: string;
     bidListSession: Object;
     receivedState: number;
+
+    constructor()
+    {
+        this.id = "";
+        this.auctionSpentTime = "";
+        this.auctionState = "";
+        this.expire = false;
+        this.blockindex = "";
+        this.maxBuyer = "";
+        this.maxPrice = "";
+        this.owner = "";
+        this.endedState = 0;
+        this.endTime = 0;
+        this.startAuctionTime = 0;
+    }
+
+    async initSelling(info: SellDomainInfo)
+    {
+        this.id = info.id.toString();
+        this.domain = info.domain;
+        this.endBlock = parseInt(info.endBlock.toString());
+        this.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+        this.maxPrice = info.maxPrice.toString();
+        this.owner = info.owner ? ThinNeo.Helper.GetAddressFromScriptHash(info.owner) : "";
+    }
 }
 export class DataType
 {
@@ -860,4 +888,6 @@ export enum DomainState
     end,
     end1,
     end2,
+    expire,
+    pass,
 }

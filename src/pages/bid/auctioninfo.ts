@@ -181,66 +181,12 @@ export default class AuctionInfo extends Vue
     async initAuctionInfo(domain: string)
     {
         let info = await tools.nnssell.getSellingStateByDomain(domain);
-
-        this.domainAuctionInfo.domain = domain
-        this.domainAuctionInfo.id = info.id.toString();
-        this.domainAuctionInfo.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
-        this.domainAuctionInfo.maxPrice = !info.maxPrice ? "" : accDiv(info.maxPrice.toString(), 100000000).toString();
-        this.domainAuctionInfo.owner = !info.owner ? null : ThinNeo.Helper.GetAddressFromScriptHash(info.owner);
-        //根据开标的区块高度获得开标的时间
-        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
-        this.domainAuctionInfo.startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(accMul(startTime, 1000)));
+        //获取状态
+        let myauction = await tools.nnssell.getMyAuctionState(info);
+        this.domainAuctionInfo = myauction;
         let balance = await tools.nnssell.getBalanceOfSeling(info.id);
         this.domainAuctionInfo.balanceOfSelling = accDiv(balance.toString(), 100000000).toString();
-        this.domainAuctionInfo.endBlock = parseInt(info.endBlock.toString());
-
-        //获取状态
-        // let state = await tools.nnssell.compareState(info);
-        // switch (state)
-        // {
-        //     case DomainState.fixed:
-        //         break;
-        //     case DomainState.random:
-        //         break;
-        //     case DomainState.end:
-
-        //         break;
-        //     case DomainState.end1:
-
-        //         break;
-        //     case DomainState.end2:
-
-        //         break;
-        //     default:
-        //         break;
-        // }
-
-        //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
-        if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
-        {
-            this.domainAuctionInfo.auctionState = "0";
-            this.domainAuctionInfo.endTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.endBlock.toString()));
-        } else
-        { //对比时间获得状态 0:竞拍结束，1：正在竞拍，2:随机时间
-            this.domainAuctionInfo.endTime = parseInt(info.startBlockSelling.multiply(1000).add(1500000).toString());
-            let state = tools.nnssell.compareTime(startTime * 1000);
-            switch (state)
-            {
-                case 0:
-                    this.domainAuctionInfo.auctionState = "0"
-                    break;
-                case 1:
-                    this.domainAuctionInfo.auctionState = "1";
-                    break;
-                case 2:
-                    this.domainAuctionInfo.auctionState = "2";
-                    break;
-                default:
-                    break;
-            }
-        }
         this.myBidPrice = this.domainAuctionInfo.balanceOfSelling;
-
 
         //判断竞拍是否结束
         if (this.domainAuctionInfo.auctionState == "0")
@@ -547,7 +493,7 @@ export default class AuctionInfo extends Vue
      */
     async bid_confirm(txid: string, domain: string)
     {
-        this.openToast = this.$refs.toast[ "isShow" ];
+        // this.openToast = this.$refs.toast[ "isShow" ];
         let session_bid = new tools.localstoretool("bidSession");
         let res = await tools.wwwtool.getrawtransaction(txid);
         if (!!res)

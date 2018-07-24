@@ -1,5 +1,5 @@
 import { tools } from "./importpack";
-import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts, DomainState } from "./entity";
+import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts, DomainState, MyAuction } from "./entity";
 export default class NNSSell
 {
     constructor()
@@ -19,6 +19,7 @@ export default class NNSSell
         let domainInfo: DomainInfo = await tools.nnstool.getOwnerInfo(nnshash, Consts.baseContract);
         let info = new SellDomainInfo();
         info.copyDomainInfoToThis(domainInfo);
+        info.domain = domain;
         try
         {
             var state = result.state as string;
@@ -209,51 +210,80 @@ export default class NNSSell
      * 判断域名状态
      * @param info 域名详情
      */
-    static async compareState(info: SellDomainInfo): Promise<DomainState>
+    static async getMyAuctionState(info: SellDomainInfo): Promise<MyAuction>
     {
+        let myauction = new MyAuction();
+
+        myauction.id = info.id.toString();
+        myauction.domain = info.domain;
+        myauction.endBlock = parseInt(info.endBlock.toString());
+        myauction.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+        myauction.maxPrice = !info.maxPrice ? "" : accDiv(info.maxPrice.toString(), 100000000).toString();
+        myauction.owner = info.owner ? ThinNeo.Helper.GetAddressFromScriptHash(info.owner) : "";
+        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
+        myauction.startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(startTime * 1000));
+
         //是否开始域名竞拍 0:未开始竞拍
         let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
         if (sellstate == 0)
         {
-            return DomainState.open;
+            myauction.domainstate = DomainState.open;
+            return myauction;
         }
         //根据开标的区块高度获得开标的时间
-        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
         let currentTime = new Date().getTime();
         let dtime = currentTime - startTime * 1000; //时间差值;
-        // let state: number = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
         //如果超过随机期
+        if (dtime > 109500000)
+            myauction.expire = true;
+        else
+            myauction.expire = false;
         if (dtime > 900000)
         {   //最大金额为0，无人加价，流拍数据，或者域名到期，都可以重新开标
-            if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000)  
+            if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0)  
             {
-                return DomainState.open;
+                myauction.domainstate = DomainState.pass;
+                return myauction;
             }
 
             //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
             if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
             {
-                return DomainState.end;
+                let time = await tools.wwwtool.api_getBlockInfo(parseInt(info.endBlock.toString()));
+                myauction.endTime = time * 1000;
+                myauction.domainstate = DomainState.end;
+                myauction.auctionState = "0";
+                return myauction;
             }
 
             if (dtime > 1500000)    //如果大于结束时间则按钮不可点
             {
-                return DomainState.end1
+                myauction.domainstate = DomainState.end1;
+                myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(1500000).toString());
+                myauction.auctionState = "0";
+                return myauction;
             } else
             {
                 let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
                 let dlast = lastTime - startTime;
                 if (dlast < 900000)
                 {
-                    return DomainState.end2;
+                    myauction.domainstate = DomainState.end2;
+                    myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(900000).toString());
+                    myauction.auctionState = "0";
+                    return myauction;
                 } else
                 {
-                    return DomainState.random;
+                    myauction.domainstate = DomainState.random;
+                    myauction.auctionState = "2";
+                    return myauction;
                 }
             }
         } else
         {
-            return DomainState.fixed;
+            myauction.domainstate = DomainState.fixed;
+            myauction.auctionState = "1";
+            return myauction;
         }
 
     }
