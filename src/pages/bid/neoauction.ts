@@ -447,7 +447,7 @@ export default class NeoAuction extends Vue
             {
                 let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
                 let dlast = lastTime - startTime;
-                if (dlast < 900000)
+                if (dlast < 600000)
                 {
                     this.checkState = this.btn_start = 3;
                 } else

@@ -18,13 +18,13 @@ export class NeoaucionData
             for (let i in list)
             {
                 const element = list[ i ];
-                //获得当前账户该域名下的余额
-                let balanceOfSelling = await tools.nnssell.getBalanceOfSeling(Neo.Uint256.parse(element.id.replace('0x', '')));
                 element.receivedState = 0;
                 //根据余额和所有者判断当前账户是否领取过了域名或退币
                 if (element.auctionState == '0')
                 {
                     let current = LoginInfo.getCurrentAddress();
+                    //获得当前账户该域名下的余额
+                    let balanceOfSelling = await tools.nnssell.getBalanceOfSeling(Neo.Uint256.parse(element.id.replace('0x', '')));
                     if (element.maxBuyer == current)
                     {
                         // element.receivedState = element.owner == current ? 1 : 0
@@ -60,7 +60,7 @@ export class NeoaucionData
                         element.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
                         element.maxPrice = accDiv(parseInt(info.maxPrice.toString()), 100000000).toString();
                     }
-                    element.auctionState = '1';
+                    // element.auctionState = '1';
                 }
                 let bidSession = new tools.sessionstoretool("bidInfo-" + element.domain);
                 let bidlist = bidSession.getList();
