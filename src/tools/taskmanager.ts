@@ -6,8 +6,15 @@ export class TaskManager
 {
     static taskStore: sessionStoreTool = new sessionStoreTool("task-manager");
     static refresh: sessionStoreTool = new sessionStoreTool("refresh_auction");
+    static oldBlock: sessionStoreTool = new sessionStoreTool("block");
     constructor()
     {
+    }
+
+    static getBlockHeight()
+    {
+        let height = this.oldBlock.select('height');
+        return height;
     }
 
     static update()

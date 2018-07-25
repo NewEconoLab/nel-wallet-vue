@@ -10,6 +10,7 @@ import { tools } from "../../tools/importpack";
 import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
+import { TaskManager } from "../../tools/taskmanager";
 @Component({
     components: {
         "v-alert": Valert,
@@ -103,12 +104,29 @@ export default class NeoAuction extends Vue
 
     async refreshPage()
     {
+        let oldheight = this.refresh.select("height");
+        let height = TaskManager.oldBlock.select('height');
+        if (oldheight)
+        {
+            if (oldheight < height)
+            {
+                setTimeout(() =>
+                {
+                    this.getBidList(this.address);
+                    this.refresh.put("bidlist", false);
+                }, 8000);
+            }
+        } else
+        {
+            this.refresh.put("height", height);
+            this.getBidList(this.address);
+        }
+
         let bidlist = this.refresh.select("bidlist");
         let withdraw = this.refresh.select("withdraw");
         let topup = this.refresh.select("topup");
         if (bidlist)
         {
-            console.log("----------------刷新-----------");
             setTimeout(() =>
             {
                 this.getBidList(this.address);
