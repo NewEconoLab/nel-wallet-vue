@@ -207,7 +207,7 @@ export default {
         maxtimemsg: "随机期最大结束时间",
         tipsmsg1: "注意：竞拍开始之前，你需要知道2件事:",
         tipsmsg2: "竞拍所使用的资产是SGas，并且您需要将SGas充值进您的“竞拍账户”才能使用。",
-        tipsmsg3: 'SGas需要在“SGas兑换”页面中用Gas1:1兑换获得，或者您可以直接在“竞拍账户”中使用充值功能，将您账户中的Gas直接转换成SGas并直接充值进您的“竞拍账户”。',
+        tipsmsg3: 'SGas需要在“SGas兑换”页面中用Gas1:1兑换获得，或者您可以直接在“竞拍账户”中使用充值功能，将您账户中的SGas直接充值进您的“竞拍账户”。',
         titleaccount: "您的拍卖账户",
         withdraw: "提取",
         topup: "充值",

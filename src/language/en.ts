@@ -207,7 +207,7 @@ export default {
         maxtimemsg: "Maximum end time of overtime bidding",
         tipsmsg1: "Tips: Before the auction begins, you need to know 2 things:",
         tipsmsg2: "The asset used for the auction is SGas, and you need to top up your Auction Account with SGas to use it.",
-        tipsmsg3: 'SGas needs to be redeemed with Gas at the rate of 1:1 in the "SGas Exchange" page, or you can use the top-up function directly in the Auction Account to convert the Gas in your Balance directly into SGas and top up your Auction Account with it.',
+        tipsmsg3: 'SGas needs to be redeemed with Gas at the rate of 1:1 in the "SGas Exchange" page, or you can use the top-up function directly in the Auction Account to top up your Auction Account with SGas.',
         titleaccount: "Your Auction Account",
         withdraw: "Withdraw",
         topup: "Top up",

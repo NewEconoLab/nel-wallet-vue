@@ -173,7 +173,8 @@ export default class MyNeo extends Vue
             if (medth == 1)
             {
                 this.resolverState = 2;
-            } if (medth == 2)
+            }
+            if (medth == 2)
             {
                 this.mappingState = 2;
             }
