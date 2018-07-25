@@ -190,6 +190,7 @@ export default {
         isAvailable: "is available",
         errmsg1: "Only",
         errmsg2: "SGas is available.",
+        errmsg4: "Please enter the right format.",
         goback: "Go back",
         waitmsg1: "Waiting for confirmation",
         waitmsg2: "Your raise will be confirmed after a new block is generated. Please wait.",
@@ -234,6 +235,7 @@ export default {
         successbid2: " SGas has been sent to the blockchain for confirmation.",
         successgetdomain: "Domain acquired",
         failgetdomain: "Please click again to acquire domain",
+        tips: "Tips: ",
         statustips: "The auction period is the first stage of the auction and its duration is 3 days, during which all bids are valid. A overtime bidding of up to 2 days will be triggered when someone bids on the last day of the auction period. Otherwise the auction ends at the end of the auction period.",
         statustips2: "The overtime bidding is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain. "
     },

@@ -92,12 +92,11 @@ export default class Exchange extends Vue
     {
         if (this.transcount)
         {
-            console.log(this.transcount);
-            if (!/^0|^\.\d/.test(this.transcount) || /^0\.[0-9]/.test(this.transcount))
+            if (!/^0|^\.\d/.test(this.transcount) || /^[0-9]\.[0-9]/.test(this.transcount))
             {
                 if (/\./.test(this.transcount))
                 {
-                    this.transcount = parseFloat((parseFloat(this.transcount)).toFixed(8)).toString();
+                    this.transcount = this.transcount.toString().substr(0, (this.transcount.toString().indexOf(".")) + 9);
                 }
                 this.exchangeList ? this.exchangebtn = false : this.exchangebtn = true;
             }
@@ -121,7 +120,6 @@ export default class Exchange extends Vue
         {
             this.isCheckingTran = true;
             let txid = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
-            console.log(txid);
             let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' } ];
             localStorage.setItem('exchangelist', JSON.stringify(tranObj));
             this.isShowTranLog();
@@ -131,7 +129,6 @@ export default class Exchange extends Vue
             {
                 this.isCheckingTran = true;
                 let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
-                console.log(txid);
                 let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' } ];
                 localStorage.setItem('exchangelist', JSON.stringify(tranObj));
                 this.isShowTranLog();

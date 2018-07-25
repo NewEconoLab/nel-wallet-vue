@@ -62,18 +62,32 @@
                     <div class="msg-neoname">
                         {{item.domain}}
                     </div>
-                    <div class="msg-status" v-if="item.auctionState=='1'">
-                        {{$t('auction.status')}}: <span class="status-being">{{$t('auction.fixedperiod')}}</span>
+                    <div class="msg-status">
+                        {{$t('auction.status')}}: 
+                        <span v-if="item.auctionState=='1'" class="status-being">{{$t('auction.fixedperiod')}}</span>
+                        <span v-if="item.auctionState=='2'" class="status-random">{{$t('auction.randomperiod')}}</span>
+                        <span v-if="item.auctionState=='3'" class="status-random">{{$t('auction.waiting')}}</span>
+                        <span v-if="item.auctionState=='0'" class="status-ended">{{$t('auction.ended')}}</span>
+                        <v-hint>
+                          <div class="hint-img">
+                            <img src="../../../static/img/notice-g.png" alt="" v-if="item.auctionState=='1'">
+                            <img src="../../../static/img/notice-b.png" alt="" v-if="item.auctionState=='2'">                              
+                          </div>
+                          <div class="hint-content">  
+                              <p>{{$t('auction.statustips')}}</p>
+                              <p>{{$t('auction.statustips2')}}</p>
+                          </div>
+                        </v-hint>
                     </div>
-                    <div class="msg-status" v-if="item.auctionState=='2'">
-                        {{$t('auction.status')}}: <span class="status-random">{{$t('auction.randomperiod')}}</span>
+                    <!-- <div class="msg-status" v-if="item.auctionState=='2'">
+                        {{$t('auction.status')}}: 
                     </div>
                     <div class="msg-status" v-if="item.auctionState=='3'">
-                        {{$t('auction.status')}}: <span class="status-random">{{$t('auction.waiting')}}</span>
+                        {{$t('auction.status')}}: 
                     </div>
                     <div class="msg-status" v-if="item.auctionState=='0'">
-                        {{$t('auction.status')}}: <span class="status-ended">{{$t('auction.ended')}}</span>
-                    </div>
+                        {{$t('auction.status')}}: 
+                    </div> -->
                     <div class="msg-price">
                         {{$t('auction.lastauctionprice')}}: <span>{{item.maxPrice}}</span> SGas
                     </div>

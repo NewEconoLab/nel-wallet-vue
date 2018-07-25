@@ -5,6 +5,7 @@ import Spinner from "../../components/Spinner.vue";
 import Selected from "../../components/Selected.vue";
 import AuctionInfo from "./auctioninfo.vue";
 import Toast from "../../components/toast.vue";
+import Hint from "../../components/hint.vue";
 import { tools } from "../../tools/importpack";
 import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
@@ -15,7 +16,8 @@ import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
         "spinner-wrap": Spinner,
         "auction-info": AuctionInfo,
         "v-toast": Toast,
-        "v-selected": Selected
+        "v-selected": Selected,
+        "v-hint": Hint
     }
 })
 export default class NeoAuction extends Vue
@@ -169,7 +171,7 @@ export default class NeoAuction extends Vue
     {
         if (/\./.test(this.alert_TopUp.input))
         {
-            this.alert_TopUp.input = parseFloat((parseFloat(this.alert_TopUp.input)).toFixed(8)).toString();
+            this.alert_TopUp.input = this.alert_TopUp.input.toString().substr(0, (this.alert_TopUp.input.toString().indexOf(".")) + 9);
         }
         let amount = Neo.Fixed8.parse(this.alert_TopUp.input);
         let balance = Neo.Fixed8.parse(this.sgasAvailable + "");
@@ -191,7 +193,7 @@ export default class NeoAuction extends Vue
     {
         if (/\./.test(this.alert_withdraw.input))
         {
-            this.alert_withdraw.input = parseFloat((parseFloat(this.alert_withdraw.input)).toFixed(8)).toString();
+            this.alert_withdraw.input = this.alert_withdraw.input.toString().substr(0, (this.alert_withdraw.input.toString().indexOf(".")) + 9);
         }
         let amount = Neo.Fixed8.parse(this.alert_withdraw.input);
         let balance = Neo.Fixed8.parse(this.regBalance);
@@ -313,7 +315,7 @@ export default class NeoAuction extends Vue
         {
             if (/\./.test(this.alert_myBid))
             {
-                this.alert_myBid = parseFloat((parseFloat(this.alert_myBid)).toFixed(1)).toString();
+                this.alert_myBid = this.alert_myBid.toString().substr(0, (this.alert_myBid.toString().indexOf(".")) + 2);
             }
         }
         let myBid = !!this.alert_myBid ? parseFloat(this.alert_myBid) : 0;

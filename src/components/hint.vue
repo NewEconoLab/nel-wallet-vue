@@ -24,20 +24,20 @@ export default class Hint extends Vue {
 <style lang="less" scoped>
 .hint-box {
   display: inline-block;
-  margin-left: 15px;
+  margin-left: 10px;
   .hint-msg {
     position: relative;
     .hint-img {
       img {
-        width: 20px;
-        height: 20px;
+        width: 16px;
+        height: 16px;
       }
     }
     .hint-content {
       display: none;
       position: absolute;
       width: 558px;
-      left: 40px;
+      left: 35px;
       background: #ffffff;
       border: 1px solid #b2b2b2;
       box-shadow: 0 0 5px 0 rgba(40, 40, 40, 0.5);

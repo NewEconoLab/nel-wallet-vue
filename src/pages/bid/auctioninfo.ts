@@ -5,7 +5,7 @@ import { Component, Prop } from "vue-property-decorator";
 import Valert from "../../components/Valert.vue";
 import Toast from "../../components/toast.vue";
 import Spinner from "../../components/Spinner.vue";
-import Hint from "../../components/hint.vue";
+// import Hint from "../../components/hint.vue";
 import { tools } from "../../tools/importpack";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState } from "../../tools/entity";
@@ -14,7 +14,7 @@ import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState
         "v-alert": Valert,
         "v-toast": Toast,
         "spinner-wrap": Spinner,
-        "v-hint": Hint
+        // "v-hint": Hint
     }
 })
 export default class AuctionInfo extends Vue
@@ -79,8 +79,6 @@ export default class AuctionInfo extends Vue
         this.session_getdomain = new sessionStoreTool("getDomainSession");
         this.refresh = new tools.sessionstoretool("refresh_auction");
         let domain = auctionMsg.select("domain");
-        this.checkInput("1.2");
-        this.checkInput("1.22");
         await this.init(domain);
     }
 
@@ -226,63 +224,43 @@ export default class AuctionInfo extends Vue
      */
     myBidInput()
     {
-        if (!!this.myBidPrice)
-        {
-            if (/\./.test(this.myBidPrice))
-            {
-                this.myBidPrice = parseFloat((parseFloat(this.myBidPrice)).toFixed(1)).toString();
-            }
-        }
         let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
-        let res = this.checkInput(this.bidPrice);
-        if (res)
+        let amount = parseFloat(this.bidPrice);
+        if (!isNaN(amount))
         {
-            let bidPrice = Neo.Fixed8.parse(mybidprice + "");
-            let balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
-            let sum = bidPrice.add(Neo.Fixed8.parse(this.bidPrice + ""));
-            this.updatePrice = sum.toString();
-            if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.domainAuctionInfo.maxPrice)) <= 0)
+            this.bidPrice = amount.toString();
+            if (amount.toString().indexOf(".") > 0)
             {
-                this.bidState = 2;
-                // this.inputErrorCode = 1;
-            } else
-            {
-                let result = balance.compareTo(sum);
-                if (result < 0)
-                {
-                    this.bidState = 2;
-                    this.inputErrorCode = 1;
-                } else
-                {
-                    this.bidState = 0;
-                    this.inputErrorCode = 0;
-                }
+                this.bidPrice = amount.toString().substr(0, (amount.toString().indexOf(".")) + 2);
             }
+        } else   //校验失败
+        {
+            this.updatePrice = mybidprice.toString();
+            this.bidState = 2;
+            this.inputErrorCode = 2;
+            return;
+        }
+        let bidPrice = Neo.Fixed8.parse(mybidprice + "");
+        let balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
+        let sum = bidPrice.add(Neo.Fixed8.parse(this.bidPrice + ""));
+        this.updatePrice = sum.toString();
+        if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.domainAuctionInfo.maxPrice)) <= 0)
+        {
+            this.bidState = 2;
+            // this.inputErrorCode = 1;
         } else
         {
-            this.bidPrice = parseFloat((parseFloat(this.bidPrice)).toFixed(1)).toString();
-            this.updatePrice = mybidprice.toString();
+            let result = balance.compareTo(sum);
+            if (result < 0)
+            {
+                this.bidState = 2;
+                this.inputErrorCode = 1;
+            } else
+            {
+                this.bidState = 0;
+                this.inputErrorCode = 0;
+            }
         }
-
-    }
-
-    /**
-     * 判断金额格式是否正确
-     * @param price 加价金额
-     */
-    checkInput(price)
-    {
-        console.log("--------------------------price veirfy--------------------------");
-        console.log(price);
-
-        let reg = /^[0-9]+(\.[0-9]{1})?$/;
-        console.log(reg.test(price));
-
-        if (!reg.test(price))
-        {
-            return false;
-        }
-        return true;
     }
 
     async getDomain()
@@ -444,12 +422,12 @@ export default class AuctionInfo extends Vue
         try
         {
             // this.bidState = 1;
+            this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
             let res = await tools.nnssell.addprice(this.domainAuctionInfo.domain, count);
             let txid = res.info;
             let amount = this.bidPrice;
             this.session_bid.put(this.domainAuctionInfo.domain, { txid, amount }, txid);
-            this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
 
             let oldBlock = new tools.sessionstoretool("block");
             let height = oldBlock.select('height');
@@ -457,7 +435,8 @@ export default class AuctionInfo extends Vue
                 height, ConfirmType.tranfer, res.info
             )
             tools.taskManager.addTask(task, TaskType.addPrice);
-
+            this.bidPrice = "";
+            this.bidState = 2;
             // this.bid_confirm(txid, this.domainAuctionInfo.domain);
         } catch (error)
         {

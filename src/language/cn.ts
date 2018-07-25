@@ -190,7 +190,7 @@ export default {
         isAvailable: "可用",
         errmsg1: "您当前拥有",
         errmsg2: "SGas.",
-        errmsg4: "您的出价应当大于最大当前最大出价",
+        errmsg4: "请输入正确的格式。",
         goback: "返回",
         waitmsg1: "未确认",
         waitmsg2: "您的加价将会在新区块生成之后被确认，请耐心等待...",
@@ -235,6 +235,7 @@ export default {
         successbid2: " SGas ，请等待区块确认。",
         successgetdomain: "域名领取成功",
         failgetdomain: "域名领取失败",
+        tips: "注意: ",
         statustips: "确定期为竞拍第一阶段，时长为3天，此期间所有的出价都有效。当确定期最后一天有人出价时将触发最大时长为2天的随机期。否则竞拍即在确定期结束。",
         statustips2: "随机期为竞拍第二阶段，最大时长为2天，此期间任意一个出价都有可能触发该域名竞拍的结束从而出价无效，越靠后的出价触发结束的可能性越大，因此请尽早出价以免错失该域名。 "
     },

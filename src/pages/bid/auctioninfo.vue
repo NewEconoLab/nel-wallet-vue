@@ -7,18 +7,7 @@
         <div class="form-box">
             <div class="filename">{{$t('auction.domain')}}: {{domainAuctionInfo.domain}}</div>
             <div class="status" v-if="domainAuctionInfo.auctionState=='1'">{{$t('auction.status')}}: <span class="status-being">{{$t('auction.fixedperiod')}}</span> </div>
-            <div class="status" v-if="domainAuctionInfo.auctionState=='2'">{{$t('auction.status')}}: <span class="status-random">{{$t('auction.randomperiod')}}</span> 
-              <v-hint>
-                <div class="hint-img">
-                    <img src="../../../static/img/notice-b.png" alt="" v-if="domainAuctionInfo.auctionState=='1'">
-                    <img src="../../../static/img/notice-g.png" alt="" v-if="domainAuctionInfo.auctionState=='2'">
-                </div>
-                <div class="hint-content">  
-                    <p>{{$t('auction.statustips')}}</p>
-                    <p>{{$t('auction.statustips2')}}</p>
-                </div>
-              </v-hint>
-            </div>
+            <div class="status" v-if="domainAuctionInfo.auctionState=='2'">{{$t('auction.status')}}: <span class="status-random">{{$t('auction.randomperiod')}}</span></div>
             <div class="status" v-if="domainAuctionInfo.auctionState=='0'">{{$t('auction.status')}}: <span class="status-ended">{{$t('auction.ended')}}</span> </div>
             <div class="highest-price">{{$t('auction.highest')}}: {{domainAuctionInfo.maxPrice}} SGas</div>   
             <div class="bidder" v-if="domainAuctionInfo.maxBuyer != address">{{$t('auction.currentbidder')}}: <span>{{$t('auction.other')}}（ {{domainAuctionInfo.maxBuyer}} ）</span> </div>
@@ -66,6 +55,7 @@
                     <span>SGas</span>
                 </div>
                 <div v-if="inputErrorCode==1" class="err-msg status-ended">{{$t('auction.errmsg1')}} {{balanceOf}} {{$t('auction.errmsg2')}}</div>
+                <div v-if="inputErrorCode==2" class="err-msg status-ended">{{$t('auction.errmsg4')}}</div>
             </div>
             <div class="my-sgas">{{$t('auction.mywillbid')}}: <span :class="updatePrice<=domainAuctionInfo.maxPrice||inputErrorCode==1?'status-ended':'status-being'">{{updatePrice}}</span> SGas</div>
             <div class="tips-msg">
@@ -104,8 +94,7 @@
             </div>
           </div>
           <!-- process-wrapper end  -->
-          <div class="auction-tips" v-if="domainAuctionInfo.auctionState=='1'">{{$t('auction.timetips1')}}</div>
-          <div class="auction-tips" v-if="domainAuctionInfo.auctionState=='0'||domainAuctionInfo.auctionState=='2'">{{$t('auction.timetips3')}}</div>
+          <div class="auction-tips">{{$t('auction.tips')}} <p> {{$t('auction.statustips')}}</p><p style="">{{$t('auction.statustips2')}}</p></div>
           <!-- timeling-wrapper start -->
           <div class="timeling-wrapper">
             <div class="first"></div>
@@ -266,6 +255,10 @@
       text-align: left;
       margin-top: 30px;
       margin-left: 34px;
+      p {
+        text-indent: 2em;
+        color: #c5c5c5;
+      }
     }
     // process-wrapper
     .process-wrapper {
