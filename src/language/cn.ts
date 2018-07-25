@@ -260,7 +260,8 @@ export default {
         edittitle: "编辑信息",
         neoname: "域名",
         notconfigure: "未配置",
-        expired: "已过期"
+        expired: "已过期",
+        tips: "注意 : 您需要在成功确认地址解析器之后，才能进行地址映射。"
     },
     bonus: {
         title1: "我的分红",

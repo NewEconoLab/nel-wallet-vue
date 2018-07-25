@@ -18,6 +18,7 @@
         <div class="edit-wrap" v-if="isShowEdit">
           <div class="edit-box">
             <div class="edit-title">{{$t('myneoname.edittitle')}}</div>
+            <div class="edit-tips">{{$t('myneoname.tips')}}</div>
             <div class="edit-content">
                 <div class="edit-name">{{$t('myneoname.neoname')}}: {{domainInfo.domain}}</div>
                 <div class="edit-input">
@@ -134,6 +135,11 @@
       font-size: 16px;
       .edit-title {
         font-size: 20px;
+      }
+      .edit-tips {
+        font-size: 14px;
+        color: #c5c5c5;
+        margin-top: 20px;
       }
       .edit-content {
         .edit-name {
