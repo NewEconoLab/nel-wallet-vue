@@ -885,8 +885,7 @@ export enum DomainState
     open,
     fixed,
     random,
-    end,
-    end1,
+    end1,   //第三天结束
     end2,
     expire,
     pass,

@@ -62,7 +62,7 @@
                 {{$t('auction.tips1')}} 
             </div>
             <div class="btn-bid-box">
-              <button v-if="bidState==2" class="btn btn-bid btn-disable" disabled="disabled" >{{$t('btn.bid')}}</button>
+              <button v-if="bidState==2" class="btn btn-bid btn-disable" disabled="disabled">{{$t('btn.bid')}}</button>
               <button v-if="bidState==0" class="btn btn-bid " @click="bidDomain" >{{$t('btn.bid')}}</button>
             </div>
         </div>
@@ -75,7 +75,7 @@
           <div class="process-wrapper">
             <label>{{$t('auction.status')}}</label>
             <div class="process-box">
-              <div class="process long" :style="'width:'+width+'%'">
+              <div :class="process.timearr.length==3?'process':'process long'" :style="'width:'+width+'%'">
                 <div class="process-tips">{{process.state}} </div>
                 <!-- <div class="process-fff">
                   <img src="../../../static/img/going.png" alt="">
@@ -221,6 +221,10 @@
         font-size: 18px;
         width: 150px;
         height: 38px;
+      }
+      &.btn-disable {
+        background: #77bcf6;
+        opacity: 1;
       }
     }
     .neoname {

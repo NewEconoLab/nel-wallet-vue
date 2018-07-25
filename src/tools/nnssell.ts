@@ -246,39 +246,41 @@ export default class NNSSell
                 return myauction;
             }
 
-            //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
-            if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
+            //先判断最后出价时间是否大于第三天
+            let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
+            let dlast = lastTime - startTime;
+            if (dlast < 600)    //最后一次出价时间是在开标后两天内 也就是第三天 无出价且开标时间大于三天 状态为结束
             {
-                let time = await tools.wwwtool.api_getBlockInfo(parseInt(info.endBlock.toString()));
-                myauction.endTime = time * 1000;
-                myauction.domainstate = DomainState.end;
+                myauction.domainstate = DomainState.end2;
+                myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(900000).toString());
                 myauction.auctionState = "0";
                 return myauction;
             }
 
-            if (dtime > 1500000)    //如果大于结束时间则按钮不可点
+            //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
+            if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
+            {
+                let time = await tools.wwwtool.api_getBlockInfo(parseInt(info.endBlock.toString()));
+                let subtime = time - startTime;
+                myauction.endTime = subtime < 1500 ? time * 1000 : parseInt(info.startBlockSelling.multiply(1000).add(1500000).toString());
+                myauction.domainstate = DomainState.end1;
+                myauction.auctionState = "0";
+                return myauction;
+            }
+            if (dtime < 1500000)    //当前时间小于开标后五天且第三天有出价 状态为随机期
+            {
+                myauction.domainstate = DomainState.random;
+                myauction.auctionState = "2";
+                return myauction;
+            } else
             {
                 myauction.domainstate = DomainState.end1;
                 myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(1500000).toString());
                 myauction.auctionState = "0";
                 return myauction;
-            } else
-            {
-                let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
-                let dlast = lastTime - startTime;
-                if (dlast < 600)
-                {
-                    myauction.domainstate = DomainState.end2;
-                    myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(900000).toString());
-                    myauction.auctionState = "0";
-                    return myauction;
-                } else
-                {
-                    myauction.domainstate = DomainState.random;
-                    myauction.auctionState = "2";
-                    return myauction;
-                }
             }
+
+
         } else
         {
             myauction.domainstate = DomainState.fixed;

@@ -146,31 +146,34 @@ export default class AuctionInfo extends Vue
     initProcess()
     {
         this.process = new Process(this.domainAuctionInfo.startAuctionTime);
-        let currenttime = 0;
-        if (this.domainAuctionInfo.endBlock > 0)
-        {
-            currenttime = this.domainAuctionInfo.endTime;
-        } else
-        {
-            currenttime = new Date().getTime();
-        }
+        let currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime : new Date().getTime();
         let time = new Date(this.domainAuctionInfo.startAuctionTime).getTime();
-        switch (this.domainAuctionInfo.auctionState)
+        let oldtime = accSub(currenttime, time);
+        let a: number = 0;
+        switch (this.domainAuctionInfo.domainstate)
         {
-            case "0":
+            case DomainState.end1:  //第五天结束或者随机期结束
                 this.process.state = "" + this.$t('auction.ended');
+                a = accDiv(oldtime, 5 * 5 * 60 * 1000);
                 break;
-            case "1":
+            case DomainState.end2:  //第三天结束
+                this.process.state = "" + this.$t('auction.ended');
+                a = accDiv(oldtime, 5 * 3 * 60 * 1000);
+                this.process.timearr.length = 3;
+                break;
+            case DomainState.fixed:
                 this.process.state = "" + this.$t('auction.fixedperiod');
+                a = accDiv(oldtime, 5 * 3 * 60 * 1000);
+                this.process.timearr.length = 3;
                 break;
-            case "2":
+            case DomainState.random:
                 this.process.state = "" + this.$t('auction.randomperiod');
+                a = accDiv(oldtime, 5 * 5 * 60 * 1000);
+                this.process.timearr.length = 5;
                 break;
             default:
                 break;
         }
-        let oldtime = accSub(currenttime, time);
-        let a = accDiv(oldtime, 5 * 5 * 60 * 1000);
         let width = a >= 1 ? 100 : accMul(a, 100);
         this.width = parseInt(width.toString());
     }
