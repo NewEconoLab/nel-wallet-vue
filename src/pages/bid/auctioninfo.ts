@@ -79,6 +79,8 @@ export default class AuctionInfo extends Vue
         this.session_getdomain = new sessionStoreTool("getDomainSession");
         this.refresh = new tools.sessionstoretool("refresh_auction");
         let domain = auctionMsg.select("domain");
+        this.checkInput("1.2");
+        this.checkInput("1.22");
         await this.init(domain);
     }
 
@@ -224,6 +226,13 @@ export default class AuctionInfo extends Vue
      */
     myBidInput()
     {
+        if (!!this.myBidPrice)
+        {
+            if (/\./.test(this.myBidPrice))
+            {
+                this.myBidPrice = parseFloat((parseFloat(this.myBidPrice)).toFixed(1)).toString();
+            }
+        }
         let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
         let res = this.checkInput(this.bidPrice);
         if (res)
@@ -263,7 +272,12 @@ export default class AuctionInfo extends Vue
      */
     checkInput(price)
     {
-        let reg = /^[0-9]+(.[0-9]{1})?$/;
+        console.log("--------------------------price veirfy--------------------------");
+        console.log(price);
+
+        let reg = /^[0-9]+(\.[0-9]{1})?$/;
+        console.log(reg.test(price));
+
         if (!reg.test(price))
         {
             return false;

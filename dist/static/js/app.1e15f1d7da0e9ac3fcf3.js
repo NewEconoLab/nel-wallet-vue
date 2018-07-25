@@ -8460,6 +8460,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         this.session_getdomain = new storagetool_1.sessionStoreTool("getDomainSession");
                         this.refresh = new importpack_1.tools.sessionstoretool("refresh_auction");
                         domain = auctionMsg.select("domain");
+                        this.checkInput("1.2");
+                        this.checkInput("1.22");
                         return [4 /*yield*/, this.init(domain)];
                     case 1:
                         _a.sent();
@@ -8634,6 +8636,11 @@ var AuctionInfo = /** @class */ (function (_super) {
      * 加价验证
      */
     AuctionInfo.prototype.myBidInput = function () {
+        if (!!this.myBidPrice) {
+            if (/\./.test(this.myBidPrice)) {
+                this.myBidPrice = parseFloat((parseFloat(this.myBidPrice)).toFixed(1)).toString();
+            }
+        }
         var mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
         var res = this.checkInput(this.bidPrice);
         if (res) {
@@ -8667,7 +8674,10 @@ var AuctionInfo = /** @class */ (function (_super) {
      * @param price 加价金额
      */
     AuctionInfo.prototype.checkInput = function (price) {
-        var reg = /^[0-9]+(.[0-9]{1})?$/;
+        console.log("--------------------------price veirfy--------------------------");
+        console.log(price);
+        var reg = /^[0-9]+(\.[0-9]{1})?$/;
+        console.log(reg.test(price));
         if (!reg.test(price)) {
             return false;
         }
