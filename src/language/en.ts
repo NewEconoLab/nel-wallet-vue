@@ -260,7 +260,8 @@ export default {
         edittitle: "Edit information",
         neoname: "Neo Name",
         notconfigure: "not configured",
-        expired: "Expired"
+        expired: "Expired",
+        tips: "Tips : Address mapping can only be performed after the address resolver is confirmed by you. "
     },
     bonus: {
         title1: "Bonus",
