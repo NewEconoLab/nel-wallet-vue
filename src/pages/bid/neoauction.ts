@@ -108,12 +108,18 @@ export default class NeoAuction extends Vue
         let height = TaskManager.oldBlock.select('height');
         if (oldheight)
         {
+            this.regBalance = await tools.nnssell.getBalanceOf();
+            let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+            this.sgasAvailable = nep5[ "nep5balance" ];
+            this.refresh.put("withdraw", false);
+            this.alert_withdraw.watting = false;
             if (oldheight < height)
             {
                 setTimeout(() =>
                 {
                     this.getBidList(this.address);
                     this.refresh.put("bidlist", false);
+                    this.refresh.put("height", height);
                 }, 8000);
             }
         } else
@@ -122,34 +128,34 @@ export default class NeoAuction extends Vue
             this.getBidList(this.address);
         }
 
-        let bidlist = this.refresh.select("bidlist");
-        let withdraw = this.refresh.select("withdraw");
-        let topup = this.refresh.select("topup");
-        if (bidlist)
-        {
-            setTimeout(() =>
-            {
-                this.getBidList(this.address);
-                this.refresh.put("bidlist", false);
-            }, 8000);
+        // let bidlist = this.refresh.select("bidlist");
+        // let withdraw = this.refresh.select("withdraw");
+        // let topup = this.refresh.select("topup");
+        // if (bidlist)
+        // {
+        //     setTimeout(() =>
+        //     {
+        //         this.getBidList(this.address);
+        //         this.refresh.put("bidlist", false);
+        //     }, 8000);
 
-        }
-        if (withdraw)
-        {
-            this.regBalance = await tools.nnssell.getBalanceOf();
-            let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-            this.sgasAvailable = nep5[ "nep5balance" ];
-            this.refresh.put("withdraw", false);
-            this.alert_withdraw.watting = false;
-        }
-        if (topup)
-        {
-            this.regBalance = await tools.nnssell.getBalanceOf();
-            let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-            this.sgasAvailable = nep5[ "nep5balance" ];
-            this.refresh.put("topup", false);
-            this.alert_TopUp.watting = false;
-        }
+        // }
+        // if (withdraw)
+        // {
+        //     this.regBalance = await tools.nnssell.getBalanceOf();
+        //     let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        //     this.sgasAvailable = nep5[ "nep5balance" ];
+        //     this.refresh.put("withdraw", false);
+        //     this.alert_withdraw.watting = false;
+        // }
+        // if (topup)
+        // {
+        //     this.regBalance = await tools.nnssell.getBalanceOf();
+        //     let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        //     this.sgasAvailable = nep5[ "nep5balance" ];
+        //     this.refresh.put("topup", false);
+        //     this.alert_TopUp.watting = false;
+        // }
     }
 
     /**
