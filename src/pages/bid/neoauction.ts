@@ -237,6 +237,8 @@ export default class NeoAuction extends Vue
         this.alert_available = this.sgasAvailable + " SGas";
         this.alert_TopUp.isShow = true;
         this.alert_TopUp.input = "";
+        this.alert_TopUp.error = false;
+
     }
 
     /**
@@ -250,6 +252,7 @@ export default class NeoAuction extends Vue
         this.alert_available = this.sgasAvailable + " SGas";
         this.alert_withdraw.isShow = true;
         this.alert_withdraw.input = "";
+        this.alert_withdraw.error = false;
     }
 
     /**

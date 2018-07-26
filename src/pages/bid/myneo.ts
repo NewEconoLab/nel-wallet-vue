@@ -39,6 +39,7 @@ export default class MyNeo extends Vue
         this.resolverAddress = "";
         this.mappingState = 0;
         this.resolverState = 0;
+        this.mappingistrue = false;
     }
     mounted()
     {
@@ -47,8 +48,15 @@ export default class MyNeo extends Vue
 
     verifyMapping()
     {
+        if (this.resolverAddress)
+        {
+            this.mappingistrue = false;
+            return;
+        }
         let res = tools.neotool.verifyAddress(this.resolverAddress);
         this.mappingistrue = res;
+        console.log("this.mappingistrue:");
+        console.log(this.mappingistrue);
     }
 
     async getAllNeoName(address)
@@ -134,6 +142,10 @@ export default class MyNeo extends Vue
         this.domainInfo = item;
         this.resolverAddress = item.resolverAddress;
         this.mappingistrue = tools.neotool.verifyAddress(this.resolverAddress);
+        console.log("---------");
+        console.log(this.mappingistrue);
+
+
         let sessionMap = this.mappingSession.select(item.domain);
         let sessionRes = this.resolverSession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
@@ -200,6 +212,18 @@ export default class MyNeo extends Vue
             this.setConfirm(txid, 1, this.domainInfo.domain);
         }
     }
+    resetresolve()
+    {
+        this.resolverState = 0;
+        this.resolverAddress = "";
+        this.mappingState = 0;
+        console.log("------------");
+        console.log(this.resolverState == 0);
+
+        console.log(this.resolverState);
+        console.log(this.resolverAddress);
+        console.log(this.mappingState);
+    }
 
     /**
      * 映射地址
@@ -215,6 +239,11 @@ export default class MyNeo extends Vue
             this.setConfirm(txid, 2, this.domainInfo.domain);
         }
 
+    }
+    resetmappingData()
+    {
+        this.resolverAddress = "";
+        this.mappingState = 0;
     }
 
     async renewalDomain()

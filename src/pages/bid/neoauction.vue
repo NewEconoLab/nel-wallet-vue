@@ -146,47 +146,50 @@
           </div>
         </div>
         <!-- 账户充值弹窗 -->
-        <div class="top-up-wrap" v-if="alert_TopUp.isShow">
-          <div class="top-up-box">
-            <div class="topup-title">
+        <div class="account-wrap" v-if="alert_TopUp.isShow">
+          <div class="account-box">
+            <div class="account-title">
               <span>{{$t('auction.topup')}}</span>
             </div>
-            <div class="asset-wrap">
-              <div class="asset-name">{{$t('auction.asset')}}:</div>
-              <!-- <v-selected :list="selectList" @selected="onSelect"></v-selected> -->
-              <div class="asset-available">
-                  <span>{{alert_available}} {{$t('auction.errmsg3')}}</span>
+            <!-- <v-selected :list="selectList" @selected="onSelect"></v-selected> -->
+            <div class="line-wrap">
+              <div class="line-msg">{{$t('auction.from')}}:</div>
+              <div class="line-box">
+                <input type="text" :value="$t('auction.yourbalance')" class="readonly-input" disabled>
+              </div>
+              <div class="err-msg">
+                {{alert_available}} {{$t('auction.isAvailable')}}.
               </div>
             </div>
-            <div class="amount-wrap">
-              <div class="amount-msg">{{$t('auction.amount')}}:</div>
-              <div class="input-box">
+            <div class="line-wrap">
+              <div class="line-msg">{{$t('auction.topupamount')}}:</div>
+              <div class="line-box">
                 <div class="input-getall">
                   <input type="number" :placeholder="$t('auction.amount')" v-model="alert_TopUp.input" @input="verifToupAmount">
-                  <span class="getall-msg" @click="alert_TopUp.input = sgasAvailable">Get all</span>
+                  <span class="getall-msg" @click="alert_TopUp.input = sgasAvailable">{{$t('auction.getall')}}</span>
                 </div>
                 <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="toRecharge">{{$t('btn.confirm')}}</button>
                 <spinner-wrap v-else ></spinner-wrap>
               </div>
               <div v-if="alert_TopUp.error" class="status-ended err-msg">
-                {{$t('auction.errmsg1')}} {{alert_available}} {{$t('auction.errmsg3')}}.
+                {{$t('auction.errmsg1')}} {{alert_available}} {{$t('auction.errmsg3')}}
               </div>
-              <div v-else class="err-msg">
+              <!-- <div v-else class="err-msg">
                 {{alert_available}} {{$t('auction.isAvailable')}}.
-              </div>
+              </div> -->
             </div>
-            <div class="topup-tips">
-              {{$t('auction.tipsmsg4')}}
+            <div class="account-tips">
+              {{$t('auction.toptips')}}
             </div>
-            <div class="topup-close" @click="alert_TopUp.isShow=!alert_TopUp.isShow">
+            <div class="account-close" @click="alert_TopUp.isShow=!alert_TopUp.isShow">
               <span aria-hidden="true" >&times;</span>
             </div>
           </div>
         </div>
         <!-- 账户提取弹窗 -->
-        <div class="withdraw-wrap" v-if="alert_withdraw.isShow">
-          <div class="withdraw-box">
-            <div class="withdraw-title">
+        <div class="account-wrap" v-if="alert_withdraw.isShow">
+          <div class="account-box">
+            <div class="account-title">
               <span>{{$t('auction.withdraw')}}</span>
             </div>
             <div class="line-wrap">
@@ -196,7 +199,7 @@
               </div>
             </div>
             <div class="line-wrap">
-              <div class="line-msg">{{$t('auction.amount')}}:</div>
+              <div class="line-msg">{{$t('auction.withdrawamount')}}:</div>
               <div class="line-box">
                 <div class="input-getall">
                   <input type="number" :placeholder="$t('auction.amount')" v-model="alert_withdraw.input" @input="verifWithdraw">
@@ -206,13 +209,16 @@
                 <button v-else class="btn btn-nel btn-big" @click="withdraw">{{$t('btn.confirm')}}</button>
               </div>
               <div v-if="alert_withdraw.error" class="status-ended err-msg">
-                {{regBalance}} SGas {{$t('auction.errmsg3')}}.
+                {{$t('auction.errmsg1')}} {{regBalance}} SGas {{$t('auction.errmsg3')}}
               </div>
               <div v-else class="err-msg">
-                {{regBalance}} SGas {{$t('auction.isAvailable')}}.
+                {{regBalance}} SGas {{$t('auction.isAvailable')}}
               </div>
             </div>
-            <div class="withdraw-close" @click="alert_withdraw.isShow=!alert_withdraw.isShow">
+            <div class="account-tips">
+              {{$t('auction.withdrawtips')}}
+            </div>
+            <div class="account-close" @click="alert_withdraw.isShow=!alert_withdraw.isShow">
               <span aria-hidden="true" >&times;</span>
             </div>
           </div>
@@ -444,7 +450,7 @@
       }
     }
   }
-  .top-up-wrap {
+  .account-wrap {
     position: fixed;
     top: 0;
     left: 0;
@@ -452,7 +458,7 @@
     background: rgba(0, 0, 0, 0.5);
     height: 100%;
     z-index: 1030;
-    .top-up-box {
+    .account-box {
       background: #454f60;
       padding: 30px 50px 50px 50px;
       width: 80%;
@@ -466,111 +472,7 @@
       transform: translate(-50%, -50%);
       border-radius: 5px;
       font-size: 16px;
-      .topup-title {
-        font-size: 20px;
-        color: #ffffff;
-      }
-      .asset-wrap {
-        margin-top: 20px;
-        .asset-name,
-        .asset-available {
-          display: inline-block;
-        }
-      }
-      .amount-wrap {
-        margin-top: 50px;
-        margin-bottom: 50px;
-        .amount-msg {
-          margin-bottom: 20px;
-        }
-        .input-box {
-          input {
-            width: 70%;
-            height: 56px;
-            background: none;
-            border: 1px solid #b2b2b2;
-            border-radius: 5px;
-            vertical-align: middle;
-            margin-bottom: 0;
-            margin-right: 10px;
-            color: #c5c5c5;
-            &.readonly-input {
-              background: #6d7480;
-            }
-          }
-          button {
-            vertical-align: middle;
-            margin-left: 0;
-            &.btn-disable {
-              background: #77bcf6;
-              opacity: 1;
-            }
-          }
-          .input-getall {
-            width: 70%;
-            height: 56px;
-            display: inline-block;
-            margin-right: 10px;
-            position: relative;
-            input {
-              width: 100%;
-            }
-            .getall-msg {
-              display: inline-block;
-              height: 24px;
-              line-height: 24px;
-              position: absolute;
-              top: 16px;
-              right: 20px;
-              padding-left: 20px;
-              border-left: 1px solid #fff;
-              cursor: pointer;
-            }
-          }
-        }
-        .err-msg {
-          font-size: 12px;
-          margin-top: 10px;
-        }
-      }
-      .topup-tips {
-        font-size: 14px;
-        color: #c5c5c5;
-        width: 87%;
-      }
-      .topup-close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 30px;
-        height: 30px;
-        font-size: 30px;
-      }
-    }
-  }
-  .withdraw-wrap {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    z-index: 1030;
-    .withdraw-box {
-      background: #454f60;
-      padding: 30px 50px 50px 50px;
-      width: 80%;
-      color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -moz-transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-      border-radius: 5px;
-      font-size: 16px;
-      .withdraw-title {
+      .account-title {
         font-size: 20px;
         color: #ffffff;
       }
@@ -594,6 +496,11 @@
             &.readonly-input {
               background: #6d7480;
             }
+            &::-webkit-input-placeholder {
+              font-size: 14px;
+              color: #c5c5c5;
+              line-height: 14px;
+            }
           }
           button {
             vertical-align: middle;
@@ -630,7 +537,11 @@
           margin-top: 10px;
         }
       }
-      .withdraw-close {
+      .account-tips {
+        font-size: 14px;
+        color: #c5c5c5;
+      }
+      .account-close {
         position: absolute;
         top: 20px;
         right: 20px;
