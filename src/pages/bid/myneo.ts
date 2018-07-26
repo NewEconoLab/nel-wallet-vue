@@ -25,6 +25,7 @@ export default class MyNeo extends Vue
     resolverSession: LocalStoreTool;
     mappingSession: LocalStoreTool;
     renewalWatting: boolean;
+    currentdomain: string;
 
     constructor()
     {
@@ -40,6 +41,7 @@ export default class MyNeo extends Vue
         this.mappingState = 0;
         this.resolverState = 0;
         this.mappingistrue = false;
+        this.currentdomain = "";
     }
     mounted()
     {
@@ -48,15 +50,13 @@ export default class MyNeo extends Vue
 
     verifyMapping()
     {
-        if (this.resolverAddress)
+        if (!this.resolverAddress)
         {
             this.mappingistrue = false;
             return;
         }
         let res = tools.neotool.verifyAddress(this.resolverAddress);
         this.mappingistrue = res;
-        console.log("this.mappingistrue:");
-        console.log(this.mappingistrue);
     }
 
     async getAllNeoName(address)
@@ -142,10 +142,6 @@ export default class MyNeo extends Vue
         this.domainInfo = item;
         this.resolverAddress = item.resolverAddress;
         this.mappingistrue = tools.neotool.verifyAddress(this.resolverAddress);
-        console.log("---------");
-        console.log(this.mappingistrue);
-
-
         let sessionMap = this.mappingSession.select(item.domain);
         let sessionRes = this.resolverSession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
@@ -163,6 +159,7 @@ export default class MyNeo extends Vue
             this.setConfirm(txid, 1, item.domain);
         }
         this.isShowEdit = !this.isShowEdit;
+        this.currentdomain = item.domain;
     }
 
     async setConfirm(txid: string, medth: number, domain: string)
@@ -172,23 +169,41 @@ export default class MyNeo extends Vue
         {
             if (medth == 1)
             {
-                this.resolverState = 1;
+                if (this.currentdomain == domain)
+                {
+                    this.resolverState = 1;
+                }
+                this.getAllNeoName(this.currentAddress);
+                // this.resolverState = 1;
                 this.resolverSession.delete(domain)
             }
             if (medth == 2)
             {
-                this.mappingState = 1;
+                if (this.currentdomain == domain)
+                {
+                    this.mappingState = 1;
+                }
+                this.getAllNeoName(this.currentAddress);
+                // this.mappingState = 1;
                 this.mappingSession.delete(domain)
             }
         } else
         {
             if (medth == 1)
             {
-                this.resolverState = 2;
+                if (this.currentdomain == domain)
+                {
+                    this.resolverState = 2;
+                }
+                // this.resolverState = 2;
             }
             if (medth == 2)
             {
-                this.mappingState = 2;
+                if (this.currentdomain == domain)
+                {
+                    this.mappingState = 2;
+                }
+                // this.mappingState = 2;
             }
             setTimeout(() =>
             {
@@ -217,12 +232,8 @@ export default class MyNeo extends Vue
         this.resolverState = 0;
         this.resolverAddress = "";
         this.mappingState = 0;
+        this.mappingistrue = false;
         console.log("------------");
-        console.log(this.resolverState == 0);
-
-        console.log(this.resolverState);
-        console.log(this.resolverAddress);
-        console.log(this.mappingState);
     }
 
     /**

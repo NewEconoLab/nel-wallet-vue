@@ -43,7 +43,7 @@
                     </div>
                     <div class="input-box">
                         <input type="text" v-model="resolverAddress" @input="verifyMapping" class="">
-                        <button v-if="mappingState==0" class="btn btn-nel btn-big" @click="mappingData" :disabled="resolverState==0 && !mappingistrue" :class="{'btn-disable':resolverState==0 && !mappingistrue}">{{$t('btn.confirm')}}</button>
+                        <button v-if="mappingState==0" class="btn btn-nel btn-big" @click="mappingData" :disabled="resolverState!=1 || !mappingistrue" :class="{'btn-disable':resolverState!=1 || !mappingistrue}">{{$t('btn.confirm')}}</button>
                         <!-- <button v-if="mappingState==1" class="btn btn-nel btn-big" @click="mappingData">{{$t('btn.reset')}}</button> -->
                         <spinner-wrap v-if="mappingState==2"  style="margin-left:20px"></spinner-wrap>
                         <!-- 地址格式验证 -->

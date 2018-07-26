@@ -249,7 +249,7 @@ export default {
         title: "SGas Exchange",
         tosgas: "Exchange Gas for SGas",
         togas: "Exchange SGas for Gas",
-        tips: "Tips：SGAS is a NEP5 token，which is bound with NEO’s GAS at the ratio of 1:1 and they can be converted with each other freely.",
+        tips: "Tips：SGAS is a NEP5 token，which is bound with NEO’s GAS at the ratio of 1:1 and they can be converted with each other freely. The exchange needs to be confirmed after one block. Please be patient. ",
         spend: "Amount you will spend : ",
         receive: "Amount you will receive : ",
         warnmsg: "Insufficient balance.",

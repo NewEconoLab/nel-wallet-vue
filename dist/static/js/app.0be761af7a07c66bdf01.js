@@ -4021,13 +4021,6 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAGCAYAAADd
 
 /***/ }),
 
-/***/ "9B3f":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "9Jd1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5753,20 +5746,19 @@ var MyNeo = /** @class */ (function (_super) {
         _this.mappingState = 0;
         _this.resolverState = 0;
         _this.mappingistrue = false;
+        _this.currentdomain = "";
         return _this;
     }
     MyNeo.prototype.mounted = function () {
         this.getAllNeoName(this.currentAddress);
     };
     MyNeo.prototype.verifyMapping = function () {
-        if (this.resolverAddress) {
+        if (!this.resolverAddress) {
             this.mappingistrue = false;
             return;
         }
         var res = importpack_1.tools.neotool.verifyAddress(this.resolverAddress);
         this.mappingistrue = res;
-        console.log("this.mappingistrue:");
-        console.log(this.mappingistrue);
     };
     MyNeo.prototype.getAllNeoName = function (address) {
         return __awaiter(this, void 0, void 0, function () {
@@ -5859,8 +5851,6 @@ var MyNeo = /** @class */ (function (_super) {
         this.domainInfo = item;
         this.resolverAddress = item.resolverAddress;
         this.mappingistrue = importpack_1.tools.neotool.verifyAddress(this.resolverAddress);
-        console.log("---------");
-        console.log(this.mappingistrue);
         var sessionMap = this.mappingSession.select(item.domain);
         var sessionRes = this.resolverSession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
@@ -5876,6 +5866,7 @@ var MyNeo = /** @class */ (function (_super) {
             this.setConfirm(txid, 1, item.domain);
         }
         this.isShowEdit = !this.isShowEdit;
+        this.currentdomain = item.domain;
     };
     MyNeo.prototype.setConfirm = function (txid, medth, domain) {
         return __awaiter(this, void 0, void 0, function () {
@@ -5888,20 +5879,34 @@ var MyNeo = /** @class */ (function (_super) {
                         res = _a.sent();
                         if (!!res) {
                             if (medth == 1) {
-                                this.resolverState = 1;
+                                if (this.currentdomain == domain) {
+                                    this.resolverState = 1;
+                                }
+                                this.getAllNeoName(this.currentAddress);
+                                // this.resolverState = 1;
                                 this.resolverSession.delete(domain);
                             }
                             if (medth == 2) {
-                                this.mappingState = 1;
+                                if (this.currentdomain == domain) {
+                                    this.mappingState = 1;
+                                }
+                                this.getAllNeoName(this.currentAddress);
+                                // this.mappingState = 1;
                                 this.mappingSession.delete(domain);
                             }
                         }
                         else {
                             if (medth == 1) {
-                                this.resolverState = 2;
+                                if (this.currentdomain == domain) {
+                                    this.resolverState = 2;
+                                }
+                                // this.resolverState = 2;
                             }
                             if (medth == 2) {
-                                this.mappingState = 2;
+                                if (this.currentdomain == domain) {
+                                    this.mappingState = 2;
+                                }
+                                // this.mappingState = 2;
                             }
                             setTimeout(function () {
                                 _this.setConfirm(txid, medth, domain);
@@ -5940,11 +5945,8 @@ var MyNeo = /** @class */ (function (_super) {
         this.resolverState = 0;
         this.resolverAddress = "";
         this.mappingState = 0;
+        this.mappingistrue = false;
         console.log("------------");
-        console.log(this.resolverState == 0);
-        console.log(this.resolverState);
-        console.log(this.resolverAddress);
-        console.log(this.mappingState);
     };
     /**
      * 映射地址
@@ -7053,6 +7055,13 @@ var Bubble = /** @class */ (function (_super) {
 }(vue_property_decorator_1.Vue));
 exports.default = Bubble;
 
+
+/***/ }),
+
+/***/ "XJF+":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -9074,14 +9083,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var myneo = __webpack_require__("NXVv");
 var myneo_default = /*#__PURE__*/__webpack_require__.n(myneo);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-69b3d88c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/myneo.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"myneo-box"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('myneoname.title')))])]),_vm._v(" "),_vm._l((_vm.neonameList),function(item,index){return (_vm.neonameList)?_c('div',{key:index,staticClass:"form-box"},[_c('div',{staticClass:"neoname"},[_vm._v("\n            "+_vm._s(item.domain)+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"addr-resolver"},[_vm._v("( "+_vm._s(_vm.$t('myneoname.resolver'))+": "+_vm._s(item.resolver ? item.resolver : _vm.$t('myneoname.notconfigure'))+" )")]),_vm._v(" "),_c('div',{staticClass:"addr-mapping"},[_vm._v("( "+_vm._s(_vm.$t('myneoname.mapping'))+": "+_vm._s(item.resolverAddress ? item.resolverAddress : _vm.$t('myneoname.notconfigure'))+" )")]),_vm._v(" "),(!item.expired)?_c('div',{staticClass:"time-msg"},[_vm._v("( "+_vm._s(_vm.$t('myneoname.time'))+": "+_vm._s(item.ttl)+" "),(!item.expiring)?_c('span',{staticClass:"ff6"},[_vm._v(_vm._s(_vm.$t('myneoname.expiring')))]):_vm._e(),_vm._v(" )")]):_vm._e(),_vm._v(" "),(item.expired)?_c('div',{staticClass:"time-msg"},[_vm._v("( "+_vm._s(_vm.$t('myneoname.time'))+":  "),_c('span',{staticClass:"ff6"},[_vm._v(_vm._s(_vm.$t('myneoname.expired')))]),_vm._v(" )")]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"btn-right"},[_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onShowEdit(item)}}},[_vm._v(_vm._s(_vm.$t('btn.edit')))])])]):_vm._e()}),_vm._v(" "),(_vm.isShowEdit)?_c('div',{staticClass:"edit-wrap"},[_c('div',{staticClass:"edit-box"},[_c('div',{staticClass:"edit-title"},[_vm._v(_vm._s(_vm.$t('myneoname.edittitle')))]),_vm._v(" "),_c('div',{staticClass:"edit-tips"},[_vm._v(_vm._s(_vm.$t('myneoname.tips')))]),_vm._v(" "),_c('div',{staticClass:"edit-content"},[_c('div',{staticClass:"edit-name"},[_vm._v(_vm._s(_vm.$t('myneoname.neoname'))+": "+_vm._s(_vm.domainInfo.domain))]),_vm._v(" "),_c('div',{staticClass:"edit-input"},[_c('div',{staticClass:"input-msg"},[_vm._v("\n                    "+_vm._s(_vm.$t('myneoname.resolver'))+":\n                    "),(_vm.resolverState==1)?_c('button',{staticClass:"btn btn-nel btn-input-reset",on:{"click":_vm.resetresolve}},[_vm._v(_vm._s(_vm.$t('btn.reset')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.set_contract),expression:"set_contract"}],staticClass:"readonly-input",attrs:{"type":"text","readonly":"readonly"},domProps:{"value":(_vm.set_contract)},on:{"input":function($event){if($event.target.composing){ return; }_vm.set_contract=$event.target.value}}}),_vm._v(" "),(_vm.resolverState==0)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.setresolve}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_vm._e(),_vm._v(" "),(_vm.resolverState==2)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e(),_vm._v(" "),(_vm.resolverState==1)?_c('div',{staticClass:"ok-img"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()],1)]),_vm._v(" "),_c('div',{staticClass:"edit-input"},[_c('div',{staticClass:"input-msg"},[_vm._v("\n                    "+_vm._s(_vm.$t('myneoname.mapping'))+":\n                    "),(_vm.mappingState==1)?_c('button',{staticClass:"btn btn-nel btn-input-reset",on:{"click":_vm.resetmappingData}},[_vm._v(_vm._s(_vm.$t('btn.reset')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.resolverAddress),expression:"resolverAddress"}],attrs:{"type":"text"},domProps:{"value":(_vm.resolverAddress)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.resolverAddress=$event.target.value},_vm.verifyMapping]}}),_vm._v(" "),(_vm.mappingState==0)?_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disable':_vm.resolverState==0 && !_vm.mappingistrue},attrs:{"disabled":_vm.resolverState==0 && !_vm.mappingistrue},on:{"click":_vm.mappingData}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_vm._e(),_vm._v(" "),(_vm.mappingState==2)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e(),_vm._v(" "),(_vm.mappingState==1)?_c('div',{staticClass:"ok-img"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()],1)]),_vm._v(" "),_c('div',{staticClass:"edit-input"},[_c('div',{staticClass:"input-msg"},[_vm._v("\n                    "+_vm._s(_vm.$t('myneoname.time'))+":\n                ")]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","readonly":"readonly"},domProps:{"value":_vm.domainInfo.expired?_vm.$t('myneoname.expired'):_vm.domainInfo.ttl}}),_vm._v(" "),(!_vm.domainInfo.expired&&!_vm.domainInfo.expiring &&!_vm.renewalWatting)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.renewalDomain}},[_vm._v(_vm._s(_vm.$t('btn.renewal')))]):_vm._e(),_vm._v(" "),((_vm.domainInfo.expired||_vm.domainInfo.expiring) &&!_vm.renewalWatting)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.renewal')))]):_vm._e(),_vm._v(" "),(_vm.renewalWatting)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e()],1)])]),_vm._v(" "),_c('div',{staticClass:"edit-close"},[_c('span',{attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.isShowEdit=!_vm.isShowEdit}}},[_vm._v("×")])])])]):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-668970a8","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/myneo.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"myneo-box"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('myneoname.title')))])]),_vm._v(" "),_vm._l((_vm.neonameList),function(item,index){return (_vm.neonameList)?_c('div',{key:index,staticClass:"form-box"},[_c('div',{staticClass:"neoname"},[_vm._v("\n            "+_vm._s(item.domain)+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"addr-resolver"},[_vm._v("( "+_vm._s(_vm.$t('myneoname.resolver'))+": "+_vm._s(item.resolver ? item.resolver : _vm.$t('myneoname.notconfigure'))+" )")]),_vm._v(" "),_c('div',{staticClass:"addr-mapping"},[_vm._v("( "+_vm._s(_vm.$t('myneoname.mapping'))+": "+_vm._s(item.resolverAddress ? item.resolverAddress : _vm.$t('myneoname.notconfigure'))+" )")]),_vm._v(" "),(!item.expired)?_c('div',{staticClass:"time-msg"},[_vm._v("( "+_vm._s(_vm.$t('myneoname.time'))+": "+_vm._s(item.ttl)+" "),(!item.expiring)?_c('span',{staticClass:"ff6"},[_vm._v(_vm._s(_vm.$t('myneoname.expiring')))]):_vm._e(),_vm._v(" )")]):_vm._e(),_vm._v(" "),(item.expired)?_c('div',{staticClass:"time-msg"},[_vm._v("( "+_vm._s(_vm.$t('myneoname.time'))+":  "),_c('span',{staticClass:"ff6"},[_vm._v(_vm._s(_vm.$t('myneoname.expired')))]),_vm._v(" )")]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"btn-right"},[_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onShowEdit(item)}}},[_vm._v(_vm._s(_vm.$t('btn.edit')))])])]):_vm._e()}),_vm._v(" "),(_vm.isShowEdit)?_c('div',{staticClass:"edit-wrap"},[_c('div',{staticClass:"edit-box"},[_c('div',{staticClass:"edit-title"},[_vm._v(_vm._s(_vm.$t('myneoname.edittitle')))]),_vm._v(" "),_c('div',{staticClass:"edit-tips"},[_vm._v(_vm._s(_vm.$t('myneoname.tips')))]),_vm._v(" "),_c('div',{staticClass:"edit-content"},[_c('div',{staticClass:"edit-name"},[_vm._v(_vm._s(_vm.$t('myneoname.neoname'))+": "+_vm._s(_vm.domainInfo.domain))]),_vm._v(" "),_c('div',{staticClass:"edit-input"},[_c('div',{staticClass:"input-msg"},[_vm._v("\n                    "+_vm._s(_vm.$t('myneoname.resolver'))+":\n                    "),(_vm.resolverState==1)?_c('button',{staticClass:"btn btn-nel btn-input-reset",on:{"click":_vm.resetresolve}},[_vm._v(_vm._s(_vm.$t('btn.reset')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.set_contract),expression:"set_contract"}],staticClass:"readonly-input",attrs:{"type":"text","readonly":"readonly"},domProps:{"value":(_vm.set_contract)},on:{"input":function($event){if($event.target.composing){ return; }_vm.set_contract=$event.target.value}}}),_vm._v(" "),(_vm.resolverState==0)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.setresolve}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_vm._e(),_vm._v(" "),(_vm.resolverState==2)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e(),_vm._v(" "),(_vm.resolverState==1)?_c('div',{staticClass:"ok-img"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()],1)]),_vm._v(" "),_c('div',{staticClass:"edit-input"},[_c('div',{staticClass:"input-msg"},[_vm._v("\n                    "+_vm._s(_vm.$t('myneoname.mapping'))+":\n                    "),(_vm.mappingState==1)?_c('button',{staticClass:"btn btn-nel btn-input-reset",on:{"click":_vm.resetmappingData}},[_vm._v(_vm._s(_vm.$t('btn.reset')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.resolverAddress),expression:"resolverAddress"}],attrs:{"type":"text"},domProps:{"value":(_vm.resolverAddress)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.resolverAddress=$event.target.value},_vm.verifyMapping]}}),_vm._v(" "),(_vm.mappingState==0)?_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disable':_vm.resolverState!=1 || !_vm.mappingistrue},attrs:{"disabled":_vm.resolverState!=1 || !_vm.mappingistrue},on:{"click":_vm.mappingData}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_vm._e(),_vm._v(" "),(_vm.mappingState==2)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e(),_vm._v(" "),(_vm.mappingState==1)?_c('div',{staticClass:"ok-img"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()],1)]),_vm._v(" "),_c('div',{staticClass:"edit-input"},[_c('div',{staticClass:"input-msg"},[_vm._v("\n                    "+_vm._s(_vm.$t('myneoname.time'))+":\n                ")]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","readonly":"readonly"},domProps:{"value":_vm.domainInfo.expired?_vm.$t('myneoname.expired'):_vm.domainInfo.ttl}}),_vm._v(" "),(!_vm.domainInfo.expired&&!_vm.domainInfo.expiring &&!_vm.renewalWatting)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.renewalDomain}},[_vm._v(_vm._s(_vm.$t('btn.renewal')))]):_vm._e(),_vm._v(" "),((_vm.domainInfo.expired||_vm.domainInfo.expiring) &&!_vm.renewalWatting)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.renewal')))]):_vm._e(),_vm._v(" "),(_vm.renewalWatting)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e()],1)])]),_vm._v(" "),_c('div',{staticClass:"edit-close"},[_c('span',{attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.isShowEdit=!_vm.isShowEdit}}},[_vm._v("×")])])])]):_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_myneo = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/myneo.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("9B3f")
+  __webpack_require__("XJF+")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -9092,7 +9101,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-69b3d88c"
+var __vue_scopeId__ = "data-v-668970a8"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -9366,7 +9375,7 @@ exports.default = {
         title: "SGas Exchange",
         tosgas: "Exchange Gas for SGas",
         togas: "Exchange SGas for Gas",
-        tips: "Tips：SGAS is a NEP5 token，which is bound with NEO’s GAS at the ratio of 1:1 and they can be converted with each other freely.",
+        tips: "Tips：SGAS is a NEP5 token，which is bound with NEO’s GAS at the ratio of 1:1 and they can be converted with each other freely. The exchange needs to be confirmed after one block. Please be patient. ",
         spend: "Amount you will spend : ",
         receive: "Amount you will receive : ",
         warnmsg: "Insufficient balance.",
@@ -10794,7 +10803,7 @@ exports.default = {
         checkavailable: "此域名可以进行竞拍。",
         checkbeing: "此域名正在进行竞拍。",
         checkformat: "请输入正确的域名格式",
-        checkbuyer: "这个域名已经被其他人拍卖了。",
+        checkbuyer: "此域名已经被其他人竞拍了。",
         sendingmsg: "正在发送交易，请耐心等待...",
         searchmsg: "按域名搜索",
         status: "状态",
@@ -10880,7 +10889,7 @@ exports.default = {
         title: "SGas兑换",
         tosgas: "兑换SGas",
         togas: "兑换Gas",
-        tips: "注意 : SGAS是一种NEP5资产，与NEO的GAS按照1：1比例绑定，它们之间可自由兑换。",
+        tips: "注意 : SGAS是一种NEP5资产，与NEO的GAS按照1：1比例绑定，它们之间可自由兑换。兑换需要一个区块的确认时间，请耐心等待。",
         spend: "我将花费 : ",
         receive: "我将获得 : ",
         warnmsg: "余额不足",
