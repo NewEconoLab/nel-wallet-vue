@@ -75,6 +75,37 @@ export default class NNSSell
         return balance;
     }
 
+    /**
+     * 获得
+     * @param id 竞拍id
+     */
+    static async getBalanceOfSelingArray(ids: Neo.Uint256[])
+    {
+        let addr = LoginInfo.getCurrentAddress();
+        let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+        var sb = new ThinNeo.ScriptBuilder();
+        for (const index in ids)
+        {
+            if (ids.hasOwnProperty(index))
+            {
+                const id = ids[ index ];
+                sb.EmitParamJson([
+                    "(hex160)" + who.toString(),
+                    "(hex256)" + id.toString()
+                ]);//第二个参数是个数组
+                sb.EmitPushString("balanceOfSelling");
+                sb.EmitAppCall(tools.nnstool.root_neo.register);
+            }
+        }
+        let res = tools.wwwtool.rpc_getInvokescript(sb.ToArray());
+        console.log(res);
+
+        // var stackarr = res[ "stack" ] as any[];
+        // let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[ 0 ];
+        // let balance = stack.AsInteger();
+        // return balance;
+    }
+
     static async gasToRecharge(transcount: number)
     {
         let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);
