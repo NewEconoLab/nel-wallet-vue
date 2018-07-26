@@ -9,6 +9,7 @@ import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState } from "../../tools/entity";
+import { TaskManager } from "../../tools/taskmanager";
 @Component({
     components: {
         "v-alert": Valert,
@@ -80,6 +81,13 @@ export default class AuctionInfo extends Vue
         this.refresh = new tools.sessionstoretool("refresh_auction");
         let domain = auctionMsg.select("domain");
         await this.init(domain);
+        if (!this.domainAuctionInfo.endBlock)
+        {
+            setInterval(() =>
+            {
+                this.refreshPage()
+            }, 10000);
+        }
     }
 
     async init(domain)
@@ -87,13 +95,14 @@ export default class AuctionInfo extends Vue
         await tools.nnstool.initRootDomain("neo");
         await this.initAuctionInfo(domain);
         this.balanceOf = await tools.nnssell.getBalanceOf();
-        await this.getSessionBidDetail(domain);
 
         this.fee = accMul(this.myBidPrice, 0.10);
 
         this.remaining = accSub(this.myBidPrice, this.fee);
         this.initProcess();
 
+        this.bidDetailList = [];
+        await this.getSessionBidDetail(domain);
         await this.getBidDetail(domain, this.currentpage, this.pagesize);
         let confirm_getDomain = this.session_getdomain.select(domain);
         let confirm_recover = this.session_recover.select(domain);
@@ -128,12 +137,30 @@ export default class AuctionInfo extends Vue
 
     async refreshPage()
     {
+        let oldheight = this.refresh.select("height");
+        let height = TaskManager.oldBlock.select('height');
         let bidlist = this.refresh.select("bidlist");
         let withdraw = this.refresh.select("withdraw");
         let topup = this.refresh.select("topup");
+
+        if (oldheight)
+        {
+            if (oldheight < height)
+            {
+                setTimeout(() =>
+                {
+                    this.init(this.domainAuctionInfo.domain);
+                    this.refresh.put("bidlist", false);
+                    this.refresh.put("height", height);
+                }, 8000);
+            }
+        } else
+        {
+            this.refresh.put("height", height);
+        }
+
         if (bidlist)
         {
-            console.log("----------------刷新-----------");
             await this.init(this.domainAuctionInfo.domain);
             this.refresh.put("bidlist", false);
 
@@ -146,7 +173,7 @@ export default class AuctionInfo extends Vue
     initProcess()
     {
         this.process = new Process(this.domainAuctionInfo.startAuctionTime);
-        let currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime : new Date().getTime();
+        let currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime * 1000 : new Date().getTime();
         let time = new Date(this.domainAuctionInfo.startAuctionTime).getTime();
         let oldtime = accSub(currenttime, time);
         let a: number = 0;
@@ -440,6 +467,8 @@ export default class AuctionInfo extends Vue
             tools.taskManager.addTask(task, TaskType.addPrice);
             this.bidPrice = "";
             this.bidState = 2;
+
+            await this.getSessionBidDetail(this.domainAuctionInfo.domain);
             // this.bid_confirm(txid, this.domainAuctionInfo.domain);
         } catch (error)
         {

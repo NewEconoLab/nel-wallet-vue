@@ -3387,6 +3387,7 @@ var hint_vue_1 = __webpack_require__("6Trz");
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
 var neoauctionDataModel_1 = __webpack_require__("Zz8u");
+var taskmanager_1 = __webpack_require__("XfB5");
 var NeoAuction = /** @class */ (function (_super) {
     __extends(NeoAuction, _super);
     function NeoAuction() {
@@ -3456,46 +3457,36 @@ var NeoAuction = /** @class */ (function (_super) {
     NeoAuction.prototype.refreshPage = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var bidlist, withdraw, topup, _a, nep5, _b, nep5;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var oldheight, height, _a, nep5;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        bidlist = this.refresh.select("bidlist");
-                        withdraw = this.refresh.select("withdraw");
-                        topup = this.refresh.select("topup");
-                        if (bidlist) {
-                            console.log("----------------刷新-----------");
-                            setTimeout(function () {
-                                _this.getBidList(_this.address);
-                                _this.refresh.put("bidlist", false);
-                            }, 8000);
-                        }
-                        if (!withdraw) return [3 /*break*/, 3];
+                        oldheight = this.refresh.select("height");
+                        height = taskmanager_1.TaskManager.oldBlock.select('height');
+                        if (!oldheight) return [3 /*break*/, 3];
                         _a = this;
                         return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
                     case 1:
-                        _a.regBalance = _c.sent();
+                        _a.regBalance = _b.sent();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(importpack_1.tools.coinTool.id_SGAS.toString(), entity_1.LoginInfo.getCurrentAddress())];
                     case 2:
-                        nep5 = _c.sent();
+                        nep5 = _b.sent();
                         this.sgasAvailable = nep5["nep5balance"];
                         this.refresh.put("withdraw", false);
                         this.alert_withdraw.watting = false;
-                        _c.label = 3;
+                        if (oldheight < height) {
+                            setTimeout(function () {
+                                _this.getBidList(_this.address);
+                                _this.refresh.put("bidlist", false);
+                                _this.refresh.put("height", height);
+                            }, 8000);
+                        }
+                        return [3 /*break*/, 4];
                     case 3:
-                        if (!topup) return [3 /*break*/, 6];
-                        _b = this;
-                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
-                    case 4:
-                        _b.regBalance = _c.sent();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(importpack_1.tools.coinTool.id_SGAS.toString(), entity_1.LoginInfo.getCurrentAddress())];
-                    case 5:
-                        nep5 = _c.sent();
-                        this.sgasAvailable = nep5["nep5balance"];
-                        this.refresh.put("topup", false);
-                        this.alert_TopUp.watting = false;
-                        _c.label = 6;
-                    case 6: return [2 /*return*/];
+                        this.refresh.put("height", height);
+                        this.getBidList(this.address);
+                        _b.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -7087,6 +7078,10 @@ var importpack_1 = __webpack_require__("VKSY");
 var TaskManager = /** @class */ (function () {
     function TaskManager() {
     }
+    TaskManager.getBlockHeight = function () {
+        var height = this.oldBlock.select('height');
+        return height;
+    };
     TaskManager.update = function () {
         var taskList = this.taskStore.getList();
         for (var type in taskList) {
@@ -7243,6 +7238,7 @@ var TaskManager = /** @class */ (function () {
     };
     TaskManager.taskStore = new storagetool_1.sessionStoreTool("task-manager");
     TaskManager.refresh = new storagetool_1.sessionStoreTool("refresh_auction");
+    TaskManager.oldBlock = new storagetool_1.sessionStoreTool("block");
     return TaskManager;
 }());
 exports.TaskManager = TaskManager;
@@ -8430,6 +8426,7 @@ var Spinner_vue_1 = __webpack_require__("+jyM");
 var importpack_1 = __webpack_require__("VKSY");
 var storagetool_1 = __webpack_require__("5LD5");
 var entity_1 = __webpack_require__("6nHw");
+var taskmanager_1 = __webpack_require__("XfB5");
 var AuctionInfo = /** @class */ (function (_super) {
     __extends(AuctionInfo, _super);
     function AuctionInfo() {
@@ -8461,6 +8458,7 @@ var AuctionInfo = /** @class */ (function (_super) {
     }
     AuctionInfo.prototype.mounted = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var auctionMsg, domain;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -8474,6 +8472,11 @@ var AuctionInfo = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.init(domain)];
                     case 1:
                         _a.sent();
+                        if (!this.domainAuctionInfo.endBlock) {
+                            setInterval(function () {
+                                _this.refreshPage();
+                            }, 10000);
+                        }
                         return [2 /*return*/];
                 }
             });
@@ -8494,12 +8497,13 @@ var AuctionInfo = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
                     case 3:
                         _a.balanceOf = _b.sent();
-                        return [4 /*yield*/, this.getSessionBidDetail(domain)];
-                    case 4:
-                        _b.sent();
                         this.fee = accMul(this.myBidPrice, 0.10);
                         this.remaining = accSub(this.myBidPrice, this.fee);
                         this.initProcess();
+                        this.bidDetailList = [];
+                        return [4 /*yield*/, this.getSessionBidDetail(domain)];
+                    case 4:
+                        _b.sent();
                         return [4 /*yield*/, this.getBidDetail(domain, this.currentpage, this.pagesize)];
                     case 5:
                         _b.sent();
@@ -8537,15 +8541,29 @@ var AuctionInfo = /** @class */ (function (_super) {
     };
     AuctionInfo.prototype.refreshPage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var bidlist, withdraw, topup;
+            var _this = this;
+            var oldheight, height, bidlist, withdraw, topup;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        oldheight = this.refresh.select("height");
+                        height = taskmanager_1.TaskManager.oldBlock.select('height');
                         bidlist = this.refresh.select("bidlist");
                         withdraw = this.refresh.select("withdraw");
                         topup = this.refresh.select("topup");
+                        if (oldheight) {
+                            if (oldheight < height) {
+                                setTimeout(function () {
+                                    _this.init(_this.domainAuctionInfo.domain);
+                                    _this.refresh.put("bidlist", false);
+                                    _this.refresh.put("height", height);
+                                }, 8000);
+                            }
+                        }
+                        else {
+                            this.refresh.put("height", height);
+                        }
                         if (!bidlist) return [3 /*break*/, 2];
-                        console.log("----------------刷新-----------");
                         return [4 /*yield*/, this.init(this.domainAuctionInfo.domain)];
                     case 1:
                         _a.sent();
@@ -8561,7 +8579,7 @@ var AuctionInfo = /** @class */ (function (_super) {
      */
     AuctionInfo.prototype.initProcess = function () {
         this.process = new entity_1.Process(this.domainAuctionInfo.startAuctionTime);
-        var currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime : new Date().getTime();
+        var currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime * 1000 : new Date().getTime();
         var time = new Date(this.domainAuctionInfo.startAuctionTime).getTime();
         var oldtime = accSub(currenttime, time);
         var a = 0;
@@ -8875,7 +8893,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                         this.openToast = this.$refs.toast["isShow"];
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 4, , 5]);
                         // this.bidState = 1;
                         this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
                         count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
@@ -8891,12 +8909,15 @@ var AuctionInfo = /** @class */ (function (_super) {
                         importpack_1.tools.taskManager.addTask(task, entity_1.TaskType.addPrice);
                         this.bidPrice = "";
                         this.bidState = 2;
-                        return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.getSessionBidDetail(this.domainAuctionInfo.domain)];
                     case 3:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
                         error_2 = _a.sent();
                         console.log(error_2);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
