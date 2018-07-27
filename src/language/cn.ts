@@ -208,7 +208,7 @@ export default {
         tipsmsg1: "注意：竞拍开始之前，你需要知道2件事:",
         tipsmsg2: "竞拍所使用的资产是SGas，并且您需要将SGas充值进您的“竞拍账户”才能使用。",
         tipsmsg3: 'SGas需要在“SGas兑换”页面中用Gas1:1兑换获得, 然后使用“竞拍账户”中的充值功能，将SGas充值进您的竞拍账户',
-        titleaccount: "您的拍卖账户",
+        titleaccount: "您的竞拍账户",
         withdraw: "提取",
         topup: "充值",
         from: "充值源: ",

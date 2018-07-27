@@ -10105,6 +10105,34 @@ var NNSSell = /** @class */ (function () {
             });
         });
     };
+    /**
+     * 获得
+     * @param id 竞拍id
+     */
+    NNSSell.getBalanceOfSelingArray = function (ids) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addr, who, sb, index, id, res;
+            return __generator(this, function (_a) {
+                addr = entity_1.LoginInfo.getCurrentAddress();
+                who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+                sb = new ThinNeo.ScriptBuilder();
+                for (index in ids) {
+                    if (ids.hasOwnProperty(index)) {
+                        id = ids[index];
+                        sb.EmitParamJson([
+                            "(hex160)" + who.toString(),
+                            "(hex256)" + id.toString()
+                        ]); //第二个参数是个数组
+                        sb.EmitPushString("balanceOfSelling");
+                        sb.EmitAppCall(importpack_1.tools.nnstool.root_neo.register);
+                    }
+                }
+                res = importpack_1.tools.wwwtool.rpc_getInvokescript(sb.ToArray());
+                console.log(res);
+                return [2 /*return*/];
+            });
+        });
+    };
     NNSSell.gasToRecharge = function (transcount) {
         return __awaiter(this, void 0, void 0, function () {
             var script, sgasaddr, data1, data2, res, height, txid, olds, error_1;
@@ -10848,7 +10876,7 @@ exports.default = {
         tipsmsg1: "注意：竞拍开始之前，你需要知道2件事:",
         tipsmsg2: "竞拍所使用的资产是SGas，并且您需要将SGas充值进您的“竞拍账户”才能使用。",
         tipsmsg3: 'SGas需要在“SGas兑换”页面中用Gas1:1兑换获得, 然后使用“竞拍账户”中的充值功能，将SGas充值进您的竞拍账户',
-        titleaccount: "您的拍卖账户",
+        titleaccount: "您的竞拍账户",
         withdraw: "提取",
         topup: "充值",
         from: "充值源: ",
