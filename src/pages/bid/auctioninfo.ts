@@ -103,7 +103,7 @@ export default class AuctionInfo extends Vue
 
         this.bidDetailList = [];
         await this.getSessionBidDetail(domain);
-        await this.getBidDetail(domain, this.currentpage, this.pagesize);
+        await this.getBidDetail(domain, 1, 5);
         let confirm_getDomain = this.session_getdomain.select(domain);
         let confirm_recover = this.session_recover.select(domain);
         let confirm_bid = this.session_bid.select(domain);

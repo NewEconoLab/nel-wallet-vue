@@ -106,8 +106,6 @@ export default class NNSSell
             const id = ids[ i ];
             obj[ id ] = stack.subItem[ i ].AsInteger();
         }
-        console.log(obj);
-
         return obj;
 
         // let balance = stack.AsInteger();
