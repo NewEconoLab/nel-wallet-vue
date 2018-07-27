@@ -81,7 +81,7 @@ export default class AuctionInfo extends Vue
         this.refresh = new tools.sessionstoretool("refresh_auction");
         let domain = auctionMsg.select("domain");
         await this.init(domain);
-        if (!this.domainAuctionInfo.endBlock)
+        if (!this.domainAuctionInfo.endTime)
         {
             setInterval(() =>
             {
@@ -173,7 +173,7 @@ export default class AuctionInfo extends Vue
     initProcess()
     {
         this.process = new Process(this.domainAuctionInfo.startAuctionTime);
-        let currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime * 1000 : new Date().getTime();
+        let currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime : new Date().getTime();
         let time = new Date(this.domainAuctionInfo.startAuctionTime).getTime();
         let oldtime = accSub(currenttime, time);
         let a: number = 0;

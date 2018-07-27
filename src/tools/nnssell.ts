@@ -289,7 +289,7 @@ export default class NNSSell
             if (dlast < 600)    //最后一次出价时间是在开标后两天内 也就是第三天 无出价且开标时间大于三天 状态为结束
             {
                 myauction.domainstate = DomainState.end2;
-                myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(900000).toString());
+                myauction.endTime = accAdd(accMul(startTime, 1000), 900000);
                 myauction.auctionState = "0";
                 return myauction;
             }
@@ -299,7 +299,7 @@ export default class NNSSell
             {
                 let time = await tools.wwwtool.api_getBlockInfo(parseInt(info.endBlock.toString()));
                 let subtime = time - startTime;
-                myauction.endTime = subtime < 1500 ? time * 1000 : parseInt(info.startBlockSelling.multiply(1000).add(1500000).toString());
+                myauction.endTime = subtime < 1500 ? accMul(time, 1000) : accAdd(accMul(startTime, 1000), 1500000);
                 myauction.domainstate = DomainState.end1;
                 myauction.auctionState = "0";
                 return myauction;
@@ -312,7 +312,7 @@ export default class NNSSell
             } else
             {
                 myauction.domainstate = DomainState.end1;
-                myauction.endTime = parseInt(info.startBlockSelling.multiply(1000).add(1500000).toString());
+                myauction.endTime = accAdd(accMul(startTime, 1000), 1500000);
                 myauction.auctionState = "0";
                 return myauction;
             }
