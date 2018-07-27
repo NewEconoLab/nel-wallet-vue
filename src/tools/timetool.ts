@@ -3,7 +3,7 @@ import { tools } from "./importpack";
 export default class DateTool
 {
     /**************************************时间格式化处理************************************/
-    static dateFtt(fmt, date)   
+    static dateFtt(fmt, date): string
     { //author: meizz   
         var o = {
             "M+": date.getMonth() + 1,                 //月份   
@@ -22,14 +22,17 @@ export default class DateTool
         return fmt;
     }
 
-    static async wattingState(a: number)
+    static getTime(date: number)
     {
-        if (a > 3)
+        date = date.toString().length == 10 ? date * 1000 : date;
+        let time = new Date(date);
+        let language = sessionStorage.getItem("language");
+        if (!language || language == 'en')
         {
-            return a;
+            return new Date(time).toUTCString();
+        } else
+        {
+            return this.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(time));
         }
-        a++;
-        console.log(a);
-        setTimeout(this.wattingState(a), 5000);
     }
 }

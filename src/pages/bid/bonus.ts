@@ -47,7 +47,7 @@ export default class Bonus extends Vue
         {
             for (let i in list)
             {
-                list[ i ].blocktime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(list[ i ].blocktime * 1000));
+                list[ i ].blocktime = tools.timetool.getTime(list[ i ].blocktime);
             }
             this.historyList = list;
             let count = res.count;
@@ -118,7 +118,7 @@ export default class Bonus extends Vue
         let list = res.list;
         for (let i in list)
         {
-            list[ i ].blocktime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(list[ i ].blocktime * 1000));
+            list[ i ].blocktime = tools.timetool.getTime(list[ i ].blocktime);
         }
         this.historyList = list;
         let minNum = pageUtil.currentPage * pageUtil.pageSize - pageUtil.pageSize;

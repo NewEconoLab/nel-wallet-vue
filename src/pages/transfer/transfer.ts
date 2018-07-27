@@ -147,7 +147,7 @@ export default class transfer extends Vue
                         his.value = this.amount;
                         his.txtype = "in";
                         his[ "waiting" ] = true;
-                        his.time = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
+                        his.time = tools.timetool.getTime(new Date().getTime())
                         his.assetname = this.balance.names;
                         his.txid = res.info;
                         this.txs = [ his ].concat(this.txs);
@@ -180,7 +180,7 @@ export default class transfer extends Vue
                     his.value = this.amount;
                     his.txtype = "in";
                     his[ "waiting" ] = true;
-                    his.time = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
+                    his.time = tools.timetool.getTime(new Date().getTime())
                     his.assetname = this.balance.names;
                     his.txid = res.info;
                     this.txs = [ his ].concat(this.txs);
@@ -229,7 +229,7 @@ export default class transfer extends Vue
                 let assetType = tx[ "assetType" ]
                 let blockindex = tx[ "blockindex" ];
                 let time: number = tx[ "blocktime" ].includes("$date") ? JSON.parse(tx[ "blocktime" ])[ "$date" ] : parseInt(tx[ "blocktime" ] + "000");
-                let date: string = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time));
+                let date: string = tools.timetool.getTime(time);
 
                 if (type == "out")
                 {

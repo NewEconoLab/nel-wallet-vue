@@ -326,7 +326,8 @@ export default class NeoAuction extends Vue
         let msg = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
         let auction = new MyAuction();
         let time = await tools.wwwtool.api_getBlockInfo(msg.startBlockSelling.toInt32());
-        auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(time * 1000));
+        auction.startAuctionTime = time * 1000;
+        auction.startTimeStr = tools.timetool.getTime(time);
         auction.maxBuyer = msg.maxBuyer ? msg.maxBuyer.toString() : "";
         auction.maxPrice = accDiv(msg.maxPrice.toString(), 100000000).toString();
         auction.domain = this.domain + ".neo";
@@ -397,7 +398,8 @@ export default class NeoAuction extends Vue
         let res = await tools.nnssell.wantbuy(this.domain);
         let auction = new MyAuction();
         auction.domain = this.domain + ".neo";
-        auction.startAuctionTime = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date());
+        auction.startAuctionTime = new Date().getTime();
+        auction.startTimeStr = tools.timetool.getTime(auction.startAuctionTime);
         auction.auctionState = '3';
         auction.maxPrice = "0";
         // this.myAuctionList.unshift(auction);

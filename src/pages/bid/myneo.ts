@@ -116,7 +116,7 @@ export default class MyNeo extends Vue
                     let mapping = await tools.nnstool.resolveData(list[ i ][ 'domain' ]);
                     list[ i ][ "resolverAddress" ] = mapping;
                 }
-                list[ i ][ "ttl" ] = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(res[ i ][ "ttl" ] * 1000));
+                list[ i ][ "ttl" ] = tools.timetool.getTime(res[ i ][ "ttl" ])
             }
             console.log(list);
             this.neonameList = list;

@@ -175,7 +175,7 @@ export default class AuctionInfo extends Vue
         this.process = new Process(this.domainAuctionInfo.startAuctionTime);
         let currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime : new Date().getTime();
         let time = new Date(this.domainAuctionInfo.startAuctionTime).getTime();
-        let oldtime = accSub(currenttime, time);
+        let oldtime = accSub(currenttime, this.domainAuctionInfo.startAuctionTime);
         let a: number = 0;
         switch (this.domainAuctionInfo.domainstate)
         {
@@ -436,7 +436,7 @@ export default class AuctionInfo extends Vue
             }
             for (let i in res[ 0 ].list)
             {
-                res[ 0 ].list[ i ].addPriceTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(res[ 0 ].list[ i ].addPriceTime * 1000));
+                res[ 0 ].list[ i ].addPriceTime = tools.timetool.getTime(res[ 0 ].list[ i ].addPriceTime);
                 this.bidDetailList.push(res[ 0 ].list[ i ]);
             }
 

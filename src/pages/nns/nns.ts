@@ -231,7 +231,7 @@ export default class NNS extends Vue
             let timestamp = new Date().getTime();
             let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(msg.ttl).multiply(1000));
             copare < 0 ? dommsg.isExpiration = false : dommsg.isExpiration = true;
-            dommsg.time = tools.timetool.dateFtt("yyyy-MM-dd hh:mm:ss", new Date(parseInt(msg.ttl + "000")));
+            dommsg.time = tools.timetool.getTime(parseInt(msg.ttl));
             dommsg.await_resolver = false;
             if (msg[ "resolver" ])
             {

@@ -98,7 +98,7 @@
                         {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }}: <span class="bidder-me">{{$t('auction.me')}} （ {{address}} ）</span>
                     </div>
                     <div class="msg-time">
-                        {{$t('auction.bidstarttimemsg')}}: <span>{{item.startAuctionTime}}</span>
+                        {{$t('auction.bidstarttimemsg')}}: <span>{{item.startTimeStr}}</span>
                     </div>
                     <div v-if="item.bidListSession" v-for="(value,key) in item.bidListSession" :key="key">
                       {{value}}

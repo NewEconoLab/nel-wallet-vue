@@ -540,6 +540,7 @@ export class MyAuction
     maxPrice: string;
     owner: string;
     startAuctionTime: number;
+    startTimeStr: string;
     balanceOfSelling: string;
     bidListSession: Object;
     receivedState: number;
@@ -557,6 +558,7 @@ export class MyAuction
         this.endedState = 0;
         this.endTime = 0;
         this.startAuctionTime = 0;
+        this.startTimeStr = "";
     }
 
     async initSelling(info: SellDomainInfo)

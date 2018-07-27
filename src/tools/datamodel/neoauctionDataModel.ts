@@ -43,7 +43,7 @@ export class NeoaucionData
                         }
                     }
                     //开始时间日期格式化
-                    element.startAuctionTime = tools.timetool.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(element.startAuctionTime * 1000));
+                    element.startTimeStr = tools.timetool.getTime(element.startAuctionTime);
                     if (obj && obj[ element.domain ])   //判断域名在开标缓存中是否存在
                     {
                         this.session_open.delete(element.domain);    //如果存在就删除该域名的缓存
