@@ -79,7 +79,7 @@ export default class NNSSell
      * 获得
      * @param id 竞拍id
      */
-    static async getBalanceOfSelingArray(ids: Neo.Uint256[])
+    static async getBalanceOfSelingArray(ids: string[])
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
@@ -91,17 +91,25 @@ export default class NNSSell
                 const id = ids[ index ];
                 sb.EmitParamJson([
                     "(hex160)" + who.toString(),
-                    "(hex256)" + id.toString()
+                    "(hex256)" + id
                 ]);//第二个参数是个数组
                 sb.EmitPushString("balanceOfSelling");
                 sb.EmitAppCall(tools.nnstool.root_neo.register);
             }
         }
-        let res = tools.wwwtool.rpc_getInvokescript(sb.ToArray());
-        console.log(res);
+        let res = await tools.wwwtool.rpc_getInvokescript(sb.ToArray());
+        var stackarr = res[ "stack" ] as any[];
+        let stack = ResultItem.FromJson(DataType.Array, stackarr);
+        let obj = {};
+        for (let i = 0; i < ids.length; i++)
+        {
+            const id = ids[ i ];
+            obj[ id ] = stack.subItem[ i ].AsInteger();
+        }
+        console.log(obj);
 
-        // var stackarr = res[ "stack" ] as any[];
-        // let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[ 0 ];
+        return obj;
+
         // let balance = stack.AsInteger();
         // return balance;
     }
