@@ -35,8 +35,8 @@ export class NeoaucionData
                         let balanceOfSelling = amounts[ element.id ];
                         if (element.maxBuyer == current)
                         {
-                            // element.receivedState = element.owner == current ? 1 : 0
-                            element.receivedState = balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 ? 1 : 0;
+                            //  判断所有者是不是自己并且余额为0
+                            element.receivedState = (balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 && element.owner == current) ? 1 : 0;
                         } else
                         {
                             element.receivedState = balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 ? 2 : 0;

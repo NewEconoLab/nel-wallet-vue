@@ -440,6 +440,9 @@ export default class NeoAuction extends Vue
             return;
         }
         let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        let amount = await tools.nnssell.getBalanceOfSeling(info.id);
+        console.log(amount.toString());
+
         //是否开始域名竞拍 0:未开始竞拍
         let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
         if (sellstate == 0)

@@ -234,11 +234,9 @@ export default class AuctionInfo extends Vue
             //判断在该域名下的竞拍金额是否大于零
             let compare = Neo.Fixed8.parse(this.domainAuctionInfo.balanceOfSelling).compareTo(Neo.Fixed8.Zero);
             this.domainAuctionInfo.receivedState = compare < 0 ? 0 : 1;
-            if (compare > 0)
-            {
-                this.state_getDomain = 0;
-                this.state_recover = 0;
-            } else
+            this.state_getDomain = 0;
+            this.state_recover = 0;
+            if (compare == 0 && this.domainAuctionInfo.owner == this.address)
             {
                 this.state_getDomain = 2;
                 this.state_recover = 2;

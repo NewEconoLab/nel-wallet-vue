@@ -3761,7 +3761,7 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.queryDomainState = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var verify, info, sellstate, startTime, currentTime, dtime, lastTime, dlast;
+            var verify, info, amount, sellstate, startTime, currentTime, dtime, lastTime, dlast;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3780,6 +3780,10 @@ var NeoAuction = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.nnssell.getSellingStateByDomain(this.domain + ".neo")];
                     case 1:
                         info = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOfSeling(info.id)];
+                    case 2:
+                        amount = _a.sent();
+                        console.log(amount.toString());
                         sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
                         if (sellstate == 0) {
                             this.btn_start = 1;
@@ -3787,11 +3791,11 @@ var NeoAuction = /** @class */ (function (_super) {
                             return [2 /*return*/];
                         }
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
-                    case 2:
+                    case 3:
                         startTime = _a.sent();
                         currentTime = new Date().getTime();
                         dtime = currentTime - startTime * 1000;
-                        if (!(dtime > 900000)) return [3 /*break*/, 6];
+                        if (!(dtime > 900000)) return [3 /*break*/, 7];
                         if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000) {
                             this.checkState = this.btn_start = 1;
                             return [2 /*return*/];
@@ -3801,11 +3805,11 @@ var NeoAuction = /** @class */ (function (_super) {
                             this.checkState = this.btn_start = 3;
                             return [2 /*return*/];
                         }
-                        if (!(dtime > 1500000)) return [3 /*break*/, 3];
+                        if (!(dtime > 1500000)) return [3 /*break*/, 4];
                         this.checkState = this.btn_start = 3;
-                        return [3 /*break*/, 5];
-                    case 3: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()))];
-                    case 4:
+                        return [3 /*break*/, 6];
+                    case 4: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()))];
+                    case 5:
                         lastTime = _a.sent();
                         dlast = lastTime - startTime;
                         if (dlast < 600000) {
@@ -3814,12 +3818,12 @@ var NeoAuction = /** @class */ (function (_super) {
                         else {
                             this.checkState = this.btn_start = 2;
                         }
-                        _a.label = 5;
-                    case 5: return [3 /*break*/, 7];
-                    case 6:
+                        _a.label = 6;
+                    case 6: return [3 /*break*/, 8];
+                    case 7:
                         this.checkState = this.btn_start = 2;
-                        _a.label = 7;
-                    case 7: return [2 /*return*/];
+                        _a.label = 8;
+                    case 8: return [2 /*return*/];
                 }
             });
         });
@@ -7476,8 +7480,8 @@ var NeoaucionData = /** @class */ (function () {
                                     current = entity_1.LoginInfo.getCurrentAddress();
                                     balanceOfSelling = amounts[element.id];
                                     if (element.maxBuyer == current) {
-                                        // element.receivedState = element.owner == current ? 1 : 0
-                                        element.receivedState = balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 ? 1 : 0;
+                                        //  判断所有者是不是自己并且余额为0
+                                        element.receivedState = (balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 && element.owner == current) ? 1 : 0;
                                     }
                                     else {
                                         element.receivedState = balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 ? 2 : 0;
@@ -8647,11 +8651,9 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 7:
                         compare = Neo.Fixed8.parse(this.domainAuctionInfo.balanceOfSelling).compareTo(Neo.Fixed8.Zero);
                         this.domainAuctionInfo.receivedState = compare < 0 ? 0 : 1;
-                        if (compare > 0) {
-                            this.state_getDomain = 0;
-                            this.state_recover = 0;
-                        }
-                        else {
+                        this.state_getDomain = 0;
+                        this.state_recover = 0;
+                        if (compare == 0 && this.domainAuctionInfo.owner == this.address) {
                             this.state_getDomain = 2;
                             this.state_recover = 2;
                         }
