@@ -51,7 +51,7 @@ export default class NeoAuction extends Vue
     constructor()
     {
         super();
-        this.btn_start = 1;
+        this.btn_start = 4;
         this.auctionShow = false;
         this.auctionPage = false;
         this.auctionMsg_alert = new MyAuction();
@@ -394,6 +394,12 @@ export default class NeoAuction extends Vue
      */
     async openAuction()
     {
+        if (!this.domain || !this.domain.length)
+        {
+            this.btn_start = 4;
+            this.checkState = 0;
+            return;
+        }
         this.btn_start = 0;
         let res = await tools.nnssell.wantbuy(this.domain);
         let auction = new MyAuction();
@@ -425,30 +431,28 @@ export default class NeoAuction extends Vue
      */
     async queryDomainState()
     {
-        if (!this.domain)
+        if (!this.domain || !this.domain.length)
         {
+            this.btn_start = 4;
             this.checkState = 0;
             return;
         }
         this.domain = this.domain.toLowerCase();
         this.domain = this.domain.trim();
-        let verify = /^[a-zA-Z0-9]{1,32}$/;
+        let verify = /^[a-zA-Z0-9]{2,32}$/;
         if (!verify.test(this.domain))
         {
             this.checkState = 4;
-            this.btn_start = 3;
+            this.btn_start = 4;
             return;
         }
         let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
-        let amount = await tools.nnssell.getBalanceOfSeling(info.id);
-        console.log(amount.toString());
-
         //是否开始域名竞拍 0:未开始竞拍
         let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
         if (sellstate == 0)
         {
             this.btn_start = 1;
-            this.checkState = this.btn_start;
+            this.checkState = 1;
             return;
         }
         //根据开标的区块高度获得开标的时间

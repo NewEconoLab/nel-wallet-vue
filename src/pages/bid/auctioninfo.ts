@@ -257,7 +257,7 @@ export default class AuctionInfo extends Vue
         if (!isNaN(amount))
         {
             this.bidPrice = amount.toString();
-            if (amount.toString().indexOf(".") > 0)
+            if (/\./.test(amount.toString()))
             {
                 this.bidPrice = amount.toString().substr(0, (amount.toString().indexOf(".")) + 2);
             }
