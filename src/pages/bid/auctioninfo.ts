@@ -253,15 +253,14 @@ export default class AuctionInfo extends Vue
     myBidInput()
     {
         let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
-        let amount = parseFloat(this.bidPrice);
-        if (!isNaN(amount))
+        if (!!this.bidPrice)
         {
-            this.bidPrice = amount.toString();
-            if (/\./.test(amount.toString()))
+            if (/\./.test(this.bidPrice))
             {
-                this.bidPrice = amount.toString().substr(0, (amount.toString().indexOf(".")) + 2);
+                this.bidPrice = this.bidPrice.toString().substr(0, (this.bidPrice.toString().indexOf(".")) + 2);
             }
-        } else   //校验失败
+        }
+        else   //校验失败
         {
             this.updatePrice = mybidprice.toString();
             this.bidState = 2;

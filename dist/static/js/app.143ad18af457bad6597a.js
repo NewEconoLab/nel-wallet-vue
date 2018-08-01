@@ -8673,11 +8673,9 @@ var AuctionInfo = /** @class */ (function (_super) {
      */
     AuctionInfo.prototype.myBidInput = function () {
         var mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
-        var amount = parseFloat(this.bidPrice);
-        if (!isNaN(amount)) {
-            this.bidPrice = amount.toString();
-            if (/\./.test(amount.toString())) {
-                this.bidPrice = amount.toString().substr(0, (amount.toString().indexOf(".")) + 2);
+        if (!!this.bidPrice) {
+            if (/\./.test(this.bidPrice)) {
+                this.bidPrice = this.bidPrice.toString().substr(0, (this.bidPrice.toString().indexOf(".")) + 2);
             }
         }
         else {
