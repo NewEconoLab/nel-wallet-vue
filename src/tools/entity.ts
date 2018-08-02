@@ -5,11 +5,36 @@ export class LoginInfo
     pubkey: Uint8Array;
     prikey: Uint8Array;
     address: string;
-    static WIF: string;
+    static prikey: Uint8Array;
 
-    static initWif(WIF: string)
+    static initWif(prikey: Uint8Array)
     {
-        this.WIF = WIF;
+        this.prikey = prikey;
+    }
+
+    static alert(call)
+    {
+        // btn btn-nel btn-big
+        let alert = document.getElementById("alertview") as HTMLDivElement;
+        let title = document.getElementById("alert-title") as HTMLDivElement;
+        let alertBox = document.getElementById("alert-box") as HTMLDivElement;
+        let close = document.getElementById("alert-close") as HTMLButtonElement;
+        let input = document.getElementById("alert-input") as HTMLInputElement;
+        let btn = document.getElementById("alert-confirm") as HTMLButtonElement;
+        btn.classList.add("btn", "btn-nel", "btn-big");
+        btn.textContent = "确认";
+        input.type = "password";
+        title.innerText = "请输入密码";
+        alert.hidden = false;
+        btn.onclick = () =>
+        {
+            call(input.value);
+        }
+        close.onclick = () =>
+        {
+            alert.hidden = true;
+            return;
+        }
     }
 
     static ArrayToString(array: LoginInfo[]): string

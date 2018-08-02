@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -8,11 +9,34 @@
   <link href="./static/css/style.css" rel="stylesheet" />
   <link href="./static/css/bootstrap.css" rel="stylesheet" />
   <link href="./static/css/testnet.css" rel="stylesheet" />
+  <link href="./static/css/mystyle.css" rel="stylesheet" />
   <link rel="shortcut icon" href="./static/iconfont/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
   <div id="app"></div>
+
+  <div class="alert-wrap" id="alertview" hidden>
+    <div class="alert-box">
+      <div class="alert-title" id="alert-title">
+      </div>
+      <!-- <v-selected :list="selectList" @selected="onSelect"></v-selected> -->
+      <div class="line-wrap">
+        <div class="line-msg"></div>
+        <div class="line-box" id="alert-box">
+          <input id="alert-input" class="">
+          <button id="alert-confirm" class="btn btn-nel btn-big">确认</button>
+        </div>
+        <div class="err-msg">
+        </div>
+      </div>
+      <div class="alert-tips">
+      </div>
+      <div class="alert-close" id="alert-close">
+        <span aria-hidden="true">&times;</span>
+      </div>
+    </div>
+  </div>
   <script src="./static/js/numberTools.js"></script>
   <script src="./static/js/rollup/aes.js"></script>
   <script src="./static/js/component/aes.js"></script>

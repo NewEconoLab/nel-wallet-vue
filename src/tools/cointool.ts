@@ -196,7 +196,7 @@ export class CoinTool
      */
     static async signAndSend(tran: ThinNeo.Transaction)
     {
-        if (!!LoginInfo.WIF)
+        if (!!LoginInfo.prikey)
         {
             let addr = LoginInfo.getCurrentAddress();
             let current = LoginInfo.getCurrentLogin();
@@ -210,8 +210,16 @@ export class CoinTool
             var data: Uint8Array = tran.GetRawData();
         } else
         {
-            mui.alert();
-
+            LoginInfo.alert(data =>
+            {
+                let nep2 = "";
+                tools.neotool.nep2ToWif(nep2, data)
+                    .then((res) =>
+                    {
+                        let loginmsg = res.info as LoginInfo;
+                        LoginInfo.prikey = loginmsg.prikey;
+                    });
+            })
         }
         return;
     }
