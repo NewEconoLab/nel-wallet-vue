@@ -127,35 +127,6 @@ export default class NeoAuction extends Vue
             this.refresh.put("height", height);
             this.getBidList(this.address);
         }
-
-        // let bidlist = this.refresh.select("bidlist");
-        // let withdraw = this.refresh.select("withdraw");
-        // let topup = this.refresh.select("topup");
-        // if (bidlist)
-        // {
-        //     setTimeout(() =>
-        //     {
-        //         this.getBidList(this.address);
-        //         this.refresh.put("bidlist", false);
-        //     }, 8000);
-
-        // }
-        // if (withdraw)
-        // {
-        //     this.regBalance = await tools.nnssell.getBalanceOf();
-        //     let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        //     this.sgasAvailable = nep5[ "nep5balance" ];
-        //     this.refresh.put("withdraw", false);
-        //     this.alert_withdraw.watting = false;
-        // }
-        // if (topup)
-        // {
-        //     this.regBalance = await tools.nnssell.getBalanceOf();
-        //     let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        //     this.sgasAvailable = nep5[ "nep5balance" ];
-        //     this.refresh.put("topup", false);
-        //     this.alert_TopUp.watting = false;
-        // }
     }
 
     /**
@@ -368,7 +339,7 @@ export default class NeoAuction extends Vue
      */
     async bidDomain()
     {
-        let res = await tools.nnssell.addprice(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber());
+        let res = await tools.nnssell.raise(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber());
         if (!res.err)
         {
             this.openToast("success", "" + this.$t("auction.successbid2"), 3000);
@@ -395,11 +366,12 @@ export default class NeoAuction extends Vue
     async openAuction()
     {
         this.btn_start = 0;
-        let res = await tools.nnssell.wantbuy(this.domain);
+        let res = await tools.nnssell.openbid(this.domain);
         let auction = new MyAuction();
         auction.domain = this.domain + ".neo";
         auction.startAuctionTime = new Date().getTime();
         auction.startTimeStr = tools.timetool.getTime(auction.startAuctionTime);
+
         auction.auctionState = '3';
         auction.maxPrice = "0";
         // this.myAuctionList.unshift(auction);
@@ -432,7 +404,7 @@ export default class NeoAuction extends Vue
         }
         this.domain = this.domain.toLowerCase();
         this.domain = this.domain.trim();
-        let verify = /^[a-zA-Z0-9]{1,32}$/;
+        let verify = /^[a-zA-Z0-9]{2,32}$/;
         if (!verify.test(this.domain))
         {
             this.checkState = 4;
@@ -440,9 +412,6 @@ export default class NeoAuction extends Vue
             return;
         }
         let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
-        let amount = await tools.nnssell.getBalanceOfSeling(info.id);
-        console.log(amount.toString());
-
         //是否开始域名竞拍 0:未开始竞拍
         let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
         if (sellstate == 0)

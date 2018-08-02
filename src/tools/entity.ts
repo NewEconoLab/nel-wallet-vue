@@ -5,6 +5,13 @@ export class LoginInfo
     pubkey: Uint8Array;
     prikey: Uint8Array;
     address: string;
+    static WIF: string;
+
+    static initWif(WIF: string)
+    {
+        this.WIF = WIF;
+    }
+
     static ArrayToString(array: LoginInfo[]): string
     {
         var obj = [];

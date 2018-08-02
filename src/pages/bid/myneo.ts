@@ -4,7 +4,7 @@ import Valert from "../../components/Valert.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LoginInfo, Domainmsg, DomainInfo, DomainStatus } from "../../tools/entity";
-import { LocalStoreTool } from "../../tools/storagetool";
+import { sessionStoreTool } from "../../tools/storagetool";
 @Component({
     components: {
         "v-alert": Valert,
@@ -22,8 +22,8 @@ export default class MyNeo extends Vue
     mappingistrue: boolean;
     mappingState: number;
     resolverState: number;
-    resolverSession: LocalStoreTool;
-    mappingSession: LocalStoreTool;
+    resolverSession: sessionStoreTool;
+    mappingSession: sessionStoreTool;
     renewalWatting: boolean;
     currentdomain: string;
 
@@ -34,8 +34,8 @@ export default class MyNeo extends Vue
         this.currentAddress = LoginInfo.getCurrentAddress();
         this.neonameList = null;
         this.set_contract = "cf0d21eaa1803f63704ddb06c373c22d815b7ca2";
-        this.resolverSession = new LocalStoreTool("resolverSession");
-        this.mappingSession = new LocalStoreTool("mappingSession");
+        this.resolverSession = new sessionStoreTool("resolverSession");
+        this.mappingSession = new sessionStoreTool("mappingSession");
         this.renewalWatting = false;
         this.resolverAddress = "";
         this.mappingState = 0;
@@ -43,6 +43,7 @@ export default class MyNeo extends Vue
         this.mappingistrue = false;
         this.currentdomain = "";
     }
+
     mounted()
     {
         this.getAllNeoName(this.currentAddress);
@@ -112,13 +113,11 @@ export default class MyNeo extends Vue
                 }
                 if (list[ i ][ "resolver" ])
                 {
-
                     let mapping = await tools.nnstool.resolveData(list[ i ][ 'domain' ]);
                     list[ i ][ "resolverAddress" ] = mapping;
                 }
                 list[ i ][ "ttl" ] = tools.timetool.getTime(res[ i ][ "ttl" ])
             }
-            console.log(list);
             this.neonameList = list;
         }
     }
@@ -259,7 +258,7 @@ export default class MyNeo extends Vue
 
     async renewalDomain()
     {
-        let renewalsession = new tools.localstoretool("renewalsession");
+        let renewalsession = new tools.sessionstoretool("renewalsession");
         let domain = this.domainInfo.domain;
         let res = await tools.nnssell.renewDomain(domain);
         if (res)
@@ -276,7 +275,7 @@ export default class MyNeo extends Vue
 
     async renewalConfirm(txid: string, domain: string)
     {
-        let renewalsession = new tools.localstoretool("renewalsession");
+        let renewalsession = new tools.sessionstoretool("renewalsession");
         let res = await tools.wwwtool.getrawtransaction(txid)
         if (!!res)
         {

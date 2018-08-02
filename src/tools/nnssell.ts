@@ -42,7 +42,7 @@ export default class NNSSell
             info.lastBlock = stack[ 8 ].AsInteger();
             if (!!info.id)
             {   //竞拍id不为空则查询域名下的余额
-                info.balanceOfSelling = await this.getBalanceOfSeling(info.id);
+                info.balanceOfSelling = await this.getBalanceOfBid(info.id);
             }
 
             return info;
@@ -58,14 +58,14 @@ export default class NNSSell
      * 获得
      * @param id 竞拍id
      */
-    static async getBalanceOfSeling(id: Neo.Uint256)
+    static async getBalanceOfBid(id: Neo.Uint256)
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
 
         let res = await tools.contract.contractInvokeScript(
             tools.nnstool.root_neo.register,
-            "balanceOfSelling",
+            "balanceOfBid",
             "(hex160)" + who.toString(),
             "(hex256)" + id.toString()
         );
@@ -181,9 +181,9 @@ export default class NNSSell
     }
 
     /**
-     * 欲购买
+     * 域名开标
      */
-    static async wantbuy(subname: string)
+    static async openbid(subname: string)
     {
         try
         {
@@ -197,7 +197,7 @@ export default class NNSSell
                 "(str)" + subname
             ];
 
-            let data = tools.contract.buildScript_random(register, "wantBuy", param);
+            let data = tools.contract.buildScript_random(register, "openbid", param);
             let res = await tools.contract.contractInvokeTrans_attributes(data);
             return res
         } catch (error)
@@ -211,7 +211,7 @@ export default class NNSSell
      * 竞标加价
      * @param domain 域名
      */
-    static async addprice(domain: string, amount: number)
+    static async raise(domain: string, amount: number)
     {
         let info = await this.getSellingStateByDomain(domain);
         let who = new Neo.Uint160(
@@ -223,7 +223,7 @@ export default class NNSSell
 
         let data = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
-            "addPrice",
+            "raise",
             [ "(hex160)" + who.toString(), "(hex256)" + info.id.toString(), "(int)" + amount ]
         );
         let res = await tools.contract.contractInvokeTrans_attributes(data);
@@ -250,7 +250,12 @@ export default class NNSSell
     static async getMyAuctionState(info: SellDomainInfo): Promise<MyAuction>
     {
         let myauction = new MyAuction();
-
+        if (!info.id)
+        {
+            console.log("---------------id 为空----------------");
+            console.log(myauction);
+            return myauction;
+        }
         myauction.id = info.id.toString();
         myauction.domain = info.domain;
         myauction.endBlock = parseInt(info.endBlock.toString());
@@ -332,13 +337,13 @@ export default class NNSSell
      * 结束竞拍
      * @param domain 域名
      */
-    static endSelling(id: string)
+    static bidSettlement(id: string)
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
         let script = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
-            "endSelling",
+            "bidSettlement",
             [
                 "(hex160)" + who.toString(),
                 "(hex256)" + id
@@ -352,13 +357,13 @@ export default class NNSSell
      * 获得领取域名
      * @param domain 域名
      */
-    static getsellingdomain(id: string)
+    static collectDomain(id: string)
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
         let script = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
-            "getSellingDomain",
+            "collectDomain",
             [
                 "(hex160)" + who.toString(),
                 "(hex256)" + id
@@ -373,7 +378,7 @@ export default class NNSSell
         let info = await tools.nnssell.getSellingStateByDomain(domain);
         if (info.endBlock.compareTo(Neo.BigInteger.Zero))
         {
-            let data1 = this.endSelling(domain);
+            let data1 = this.bidSettlement(domain);
         }
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
@@ -400,11 +405,7 @@ export default class NNSSell
         var stackarr = info[ "stack" ] as any[];
         let stack = ResultItem.FromJson(DataType.Array, stackarr);
         let num = stack.subItem[ 0 ].AsInteger();
-        let res = parseFloat(num.toString()) / 100000000;
-        // let res = num.divide(100000000).toString();
-        // new Neo.Fixed8(num)
-        // let number = (Neo.Fixed8.parse(num.toString()).getData().toNumber()) / 100000000;
-        // console.log(res);
+        let res = accDiv(num.toString(), 100000000);
         return res.toString();
     }
 

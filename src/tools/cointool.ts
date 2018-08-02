@@ -1,6 +1,7 @@
 import { tools } from "./importpack";
 import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result, UTXO, OldUTXO, Claim } from "./entity";
 
+declare const mui;
 export class CoinTool
 {
     static readonly id_GAS: string = "0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
@@ -195,7 +196,23 @@ export class CoinTool
      */
     static async signAndSend(tran: ThinNeo.Transaction)
     {
+        if (!!LoginInfo.WIF)
+        {
+            let addr = LoginInfo.getCurrentAddress();
+            let current = LoginInfo.getCurrentLogin();
+            if (tran.witnesses == null)
+                tran.witnesses = [];
+            var msg = tran.GetMessage().clone();
+            var pubkey = current.pubkey.clone();
+            var prekey = current.prikey.clone();
+            var signdata = ThinNeo.Helper.Sign(msg, prekey);
+            tran.AddWitness(signdata, pubkey, addr);
+            var data: Uint8Array = tran.GetRawData();
+        } else
+        {
+            mui.alert();
 
+        }
         return;
     }
 
@@ -340,7 +357,6 @@ export class CoinTool
         var data: Uint8Array = tran.GetRawData();
 
         var res: Result = new Result();
-        console.log("---------------------------msg: " + msg + "---------");
 
         console.log(data.toHexString())
         var result = await tools.wwwtool.api_postRawTransaction(data);

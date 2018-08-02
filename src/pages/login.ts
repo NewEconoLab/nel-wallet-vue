@@ -74,34 +74,6 @@ export default class login extends Vue
     {
       sessionStorage.clear();
     }
-
-    let test = new tools.localstoretool("test");
-    test.put("test", { "name": "vincent" }, 'test1');
-    test.put("test", { "name": "wei" }, 'test2');
-    test.put("test", { "name": "neo" }, 'test3');
-    console.log(JSON.parse(JSON.stringify(test.select("test"))));
-    let tests = test.select("test") as {};
-    tests
-    test.put("test", { "name": "neo1" }, 'test1');
-    console.log(JSON.parse(JSON.stringify(test.select("test"))));
-    test.delete("test", "test2");
-    console.log(JSON.parse(JSON.stringify(test.select("test"))));
-
-    console.log("-----------getNotifyNames");
-
-    tools.contract.getNotifyNames("")
-      .then(names =>
-      {
-        let find = names.includes("addprice");
-        console.log("addprice in " + names.toString() + " is " + find);
-
-      })
-      .catch(error =>
-      {
-
-      })
-
-
   }
 
   // Lifecycle hook

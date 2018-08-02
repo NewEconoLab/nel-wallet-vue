@@ -214,7 +214,7 @@ export default class AuctionInfo extends Vue
         //获取状态
         let myauction = await tools.nnssell.getMyAuctionState(info);
         this.domainAuctionInfo = myauction;
-        let balance = await tools.nnssell.getBalanceOfSeling(info.id);
+        let balance = await tools.nnssell.getBalanceOfBid(info.id);
         this.domainAuctionInfo.balanceOfSelling = accDiv(balance.toString(), 100000000).toString();
         this.myBidPrice = this.domainAuctionInfo.balanceOfSelling;
 
@@ -297,21 +297,21 @@ export default class AuctionInfo extends Vue
         let info = await tools.nnssell.getSellingStateByDomain(this.domainAuctionInfo.domain);
         if (!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
         {
-            let data1 = tools.nnssell.endSelling(info.id.toString());
-            let data2 = tools.nnssell.getsellingdomain(info.id.toString());
+            let data1 = tools.nnssell.bidSettlement(info.id.toString());
+            let data2 = tools.nnssell.collectDomain(info.id.toString());
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             let txid = res[ "txid" ];
             this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 1 });
             this.rechargConfirm(txid, 1, this.domainAuctionInfo.domain);
         } else
         {
-            if (!!info.owner && info.owner.toString() == this.address)
+            if (!!info.owner && ThinNeo.Helper.GetAddressFromScriptHash(info.owner) == this.address)
             {
                 this.state_getDomain = 2;
                 return;
             } else
             {
-                let data = await tools.nnssell.getsellingdomain(info.id.toString());
+                let data = await tools.nnssell.collectDomain(info.id.toString());
                 let res = await tools.wwwtool.api_postRawTransaction(data);
                 let txid = res[ "txid" ];
                 this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 2 });
@@ -452,7 +452,7 @@ export default class AuctionInfo extends Vue
             // this.bidState = 1;
             this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
-            let res = await tools.nnssell.addprice(this.domainAuctionInfo.domain, count);
+            let res = await tools.nnssell.raise(this.domainAuctionInfo.domain, count);
             let txid = res.info;
             let amount = this.bidPrice;
             this.session_bid.put(this.domainAuctionInfo.domain, { txid, amount }, txid);
@@ -480,7 +480,7 @@ export default class AuctionInfo extends Vue
     {
         this.state_recover = 1;
         let id = this.domainAuctionInfo.id;
-        let data = tools.nnssell.endSelling(id);
+        let data = tools.nnssell.bidSettlement(id);
         this.state_recover = 1;
         try
         {

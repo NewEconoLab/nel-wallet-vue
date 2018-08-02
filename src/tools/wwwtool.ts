@@ -2,7 +2,7 @@
 export class WWW
 {
     static api: string = "https://api.nel.group/api/testnet";
-    static apiaggr: string = "https://apiwallet.nel.group/api/testnet";
+    static apiaggr: string = "https://apiaggr.nel.group/api/testnet";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
         if (url[ url.length - 1 ] != '/')
