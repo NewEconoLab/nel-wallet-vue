@@ -1,5 +1,6 @@
 <template>
     <div class="page-two">
+      <!-- 域名详情 -->
         <div class="title">
             <span>{{$t('auction.title3')}}</span>
             <div class="goback" @click="onBack">&lt;&lt;&lt;{{$t('auction.goback')}}</div>
@@ -14,6 +15,7 @@
             <div class="bidder" v-if="domainAuctionInfo.maxBuyer == address">{{$t('auction.currentbidder')}}: <span class="bidder-me">{{$t('auction.me')}}（ {{domainAuctionInfo.maxBuyer}} ）</span> </div>
             <div class="my-bid-sgas">{{$t('auction.mybidmsg')}}: <span class="status-ended">{{myBidPrice}}</span>  SGas</div>     
         </div>
+        <!-- 域名领取 -->
         <div v-if="domainAuctionInfo.auctionState==0&& domainAuctionInfo.maxBuyer == address">
           <div class="title">
               <span>{{$t('auction.title6')}}</span>
@@ -28,6 +30,7 @@
               </div>  
           </div>
         </div>
+        <!-- 退回竞拍金额 -->
         <div v-if="myBidPrice!='0'&&domainAuctionInfo.auctionState==0&& domainAuctionInfo.maxBuyer != address">
           <div class="title">
               <span>{{$t('auction.title7')}}</span>
@@ -43,6 +46,7 @@
               </div> 
           </div>
         </div>
+        <!-- 域名加价 -->
         <div v-if="domainAuctionInfo.auctionState>0">
         <div class="title">
             <span>{{$t('auction.title4')}}</span>

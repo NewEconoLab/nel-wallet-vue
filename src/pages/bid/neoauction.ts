@@ -51,7 +51,7 @@ export default class NeoAuction extends Vue
     constructor()
     {
         super();
-        this.btn_start = 1;
+        this.btn_start = 4;
         this.auctionShow = false;
         this.auctionPage = false;
         this.auctionMsg_alert = new MyAuction();
@@ -365,6 +365,12 @@ export default class NeoAuction extends Vue
      */
     async openAuction()
     {
+        if (!this.domain || !this.domain.length)
+        {
+            this.btn_start = 4;
+            this.checkState = 0;
+            return;
+        }
         this.btn_start = 0;
         let res = await tools.nnssell.openbid(this.domain);
         let auction = new MyAuction();
@@ -397,8 +403,9 @@ export default class NeoAuction extends Vue
      */
     async queryDomainState()
     {
-        if (!this.domain)
+        if (!this.domain || !this.domain.length)
         {
+            this.btn_start = 4;
             this.checkState = 0;
             return;
         }
@@ -408,7 +415,7 @@ export default class NeoAuction extends Vue
         if (!verify.test(this.domain))
         {
             this.checkState = 4;
-            this.btn_start = 3;
+            this.btn_start = 4;
             return;
         }
         let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
@@ -417,7 +424,7 @@ export default class NeoAuction extends Vue
         if (sellstate == 0)
         {
             this.btn_start = 1;
-            this.checkState = this.btn_start;
+            this.checkState = 1;
             return;
         }
         //根据开标的区块高度获得开标的时间
