@@ -33,7 +33,7 @@ export default class balance extends Vue
     this.neoasset.neo = 0;
     this.neoasset.claim = '';
     this.chooseAddressarr = new Array();
-    this.chooseAddressarr = tools.storagetool.getLoginArr();
+    // this.chooseAddressarr = tools.storagetool.getLoginArr();
   }
   // Component method
   mounted()

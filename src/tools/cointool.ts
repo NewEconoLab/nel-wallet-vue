@@ -1,5 +1,5 @@
 import { tools } from "./importpack";
-import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result, UTXO, OldUTXO, Claim } from "./entity";
+import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result, UTXO, OldUTXO, Claim, currentInfo, alert } from "./entity";
 
 declare const mui;
 export class CoinTool
@@ -194,34 +194,49 @@ export class CoinTool
      * @param {ThinNeo.Transaction} tran 
      * @param {string} randomStr
      */
-    static async signAndSend(tran: ThinNeo.Transaction)
+    static async signData(tran: ThinNeo.Transaction): Promise<Uint8Array>
     {
-        if (!!LoginInfo.prikey)
+
+        let promise: Promise<Uint8Array> = new Promise((resolve, reject) =>
         {
-            let addr = LoginInfo.getCurrentAddress();
-            let current = LoginInfo.getCurrentLogin();
-            if (tran.witnesses == null)
-                tran.witnesses = [];
-            var msg = tran.GetMessage().clone();
-            var pubkey = current.pubkey.clone();
-            var prekey = current.prikey.clone();
-            var signdata = ThinNeo.Helper.Sign(msg, prekey);
-            tran.AddWitness(signdata, pubkey, addr);
-            var data: Uint8Array = tran.GetRawData();
-        } else
-        {
-            LoginInfo.alert(data =>
+            if (!!LoginInfo.loginInfoArr)
             {
-                let nep2 = "";
-                tools.neotool.nep2ToWif(nep2, data)
-                    .then((res) =>
-                    {
-                        let loginmsg = res.info as LoginInfo;
-                        LoginInfo.prikey = loginmsg.prikey;
-                    });
-            })
-        }
-        return;
+                let addr = LoginInfo.getCurrentAddress();
+                let current = LoginInfo.loginInfoArr[ addr ];
+                var msg = tran.GetMessage().clone();
+                var pubkey = current.pubkey.clone();
+                var prekey = current.prikey.clone();
+                var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                tran.AddWitness(signdata, pubkey, addr);
+                var data: Uint8Array = tran.GetRawData();
+                resolve(data);
+            } else
+            {
+                alert.show("请输入密码", "password", "确认", data =>
+                {
+                    let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
+                    let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
+                    tools.neotool.nep2ToWif(nep2, data)
+                        .then((res) =>
+                        {
+                            let current = res.info as LoginInfo;
+                            let addr = LoginInfo.getCurrentAddress();
+                            LoginInfo.loginInfoArr = {}
+                            LoginInfo.loginInfoArr[ addr ] = current;
+                            var msg = tran.GetMessage().clone();
+                            var pubkey = current.pubkey.clone();
+                            var prekey = current.prikey.clone();
+                            var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                            tran.AddWitness(signdata, pubkey, addr);
+                            var data: Uint8Array = tran.GetRawData();
+                            alert.close();
+                            resolve(data);
+                        });
+                })
+            }
+
+        })
+        return promise;
     }
 
     /**
@@ -243,17 +258,18 @@ export class CoinTool
             var tranres = CoinTool.makeTran(utxos, targetaddr, asset, _count);  //获得tran和改变后的utxo
             var tran: ThinNeo.Transaction = tranres.info[ 'tran' ];
 
+
             if (tran.witnesses == null)
                 tran.witnesses = [];
             let txid = tran.GetHash().clone().reverse().toHexString();
-            var msg = tran.GetMessage().clone();
-            var pubkey = arr[ n ].pubkey.clone();
-            var prekey = arr[ n ].prikey.clone();
-            var addr = arr[ n ].address;
-            var signdata = ThinNeo.Helper.Sign(msg, prekey);
-            tran.AddWitness(signdata, pubkey, addr);
-
-            var data: Uint8Array = tran.GetRawData();
+            let data = await this.signData(tran);
+            // var msg = tran.GetMessage().clone();
+            // var pubkey = arr[ n ].pubkey.clone();
+            // var prekey = arr[ n ].prikey.clone();
+            // var addr = arr[ n ].address;
+            // var signdata = ThinNeo.Helper.Sign(msg, prekey);
+            // tran.AddWitness(signdata, pubkey, addr);
+            // var data: Uint8Array = tran.GetRawData();
 
             var res: Result = new Result();
             var height = await tools.wwwtool.api_getHeight();
@@ -261,7 +277,7 @@ export class CoinTool
             if (result[ "sendrawtransactionresult" ])
             {
                 res.err = !result;
-                res.info = txid;
+                res.info = result[ 'txid' ];
                 let olds = tranres.info[ 'oldarr' ] as OldUTXO[];
                 olds.map(old => old.height = height);
                 OldUTXO.oldutxosPush(olds);
@@ -284,12 +300,7 @@ export class CoinTool
         var tran = new ThinNeo.Transaction();
         var buf = claimtxhex.hexToBytes();
         tran.Deserialize(new Neo.IO.BinaryReader(new Neo.IO.MemoryStream(buf.buffer, 0, buf.byteLength)));
-        var current = LoginInfo.getCurrentLogin();
-        var msg = tran.GetMessage().clone();
-        var signdata = ThinNeo.Helper.Sign(msg, current.prikey);
-        tran.AddWitness(signdata, current.pubkey, current.address);
-
-        var data: Uint8Array = tran.GetRawData();
+        let data = await this.signData(tran);
 
         var result = await tools.wwwtool.api_postRawTransaction(data);
         return result
@@ -297,8 +308,8 @@ export class CoinTool
 
     static async claimGas()
     {
-        var current = LoginInfo.getCurrentLogin();
-        let claimsstr = await tools.wwwtool.api_getclaimgas(current.address, 0);
+        var address = LoginInfo.getCurrentAddress();
+        let claimsstr = await tools.wwwtool.api_getclaimgas(address, 0);
         let claims = claimsstr[ "claims" ] as Claim[];
         let sum = claimsstr[ "gas" ].toFixed(8);
 
@@ -321,15 +332,11 @@ export class CoinTool
         }
         var output = new ThinNeo.TransactionOutput();
         output.assetId = (CoinTool.id_GAS).hexToBytes().reverse();
-        output.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(current.address)
+        output.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(address)
         output.value = Neo.Fixed8.parse(sum);
         tran.outputs = [];
         tran.outputs.push(output);
-        var msg = tran.GetMessage().clone();
-        var signdata = ThinNeo.Helper.Sign(msg, current.prikey);
-        tran.AddWitness(signdata, current.pubkey, current.address);
-
-        var data: Uint8Array = tran.GetRawData();
+        let data = await this.signData(tran);
         var result = await tools.wwwtool.api_postRawTransaction(data);
         return result
     }
@@ -340,8 +347,7 @@ export class CoinTool
      */
     static async contractInvokeTrans_attributes(script: Uint8Array)
     {
-        let current: LoginInfo = LoginInfo.getCurrentLogin();
-        var addr = current.address;
+        var addr = LoginInfo.getCurrentAddress()
         var tran: ThinNeo.Transaction = new ThinNeo.Transaction();
         //合约类型
         tran.inputs = [];
@@ -357,12 +363,7 @@ export class CoinTool
 
         if (tran.witnesses == null)
             tran.witnesses = [];
-        var msg = tran.GetMessage().clone();
-        var pubkey = current.pubkey.clone();
-        var prekey = current.prikey.clone();
-        var signdata = ThinNeo.Helper.Sign(msg, prekey);
-        tran.AddWitness(signdata, pubkey, addr);
-        var data: Uint8Array = tran.GetRawData();
+        let data = await this.signData(tran);
 
         var res: Result = new Result();
 
@@ -381,12 +382,11 @@ export class CoinTool
      */
     static async contractInvokeTrans(script: Uint8Array)
     {
-        let current: LoginInfo = LoginInfo.getCurrentLogin();
-        var addr = current.address;
+        var addr = LoginInfo.getCurrentAddress();
         let assetid = CoinTool.id_GAS;
         //let _count = Neo.Fixed8.Zero;   //十个gas内都不要钱滴
         var utxos = await CoinTool.getassets();
-        let tranmsg = CoinTool.makeTran(utxos, current.address, assetid, Neo.Fixed8.Zero);
+        let tranmsg = CoinTool.makeTran(utxos, addr, assetid, Neo.Fixed8.Zero);
         let tran: ThinNeo.Transaction = tranmsg.info[ 'tran' ];
         tran.type = ThinNeo.TransactionType.InvocationTransaction;
         tran.extdata = new ThinNeo.InvokeTransData();
@@ -396,13 +396,7 @@ export class CoinTool
 
         if (tran.witnesses == null)
             tran.witnesses = [];
-        var msg = tran.GetMessage().clone();
-        var pubkey = current.pubkey.clone();
-        var prekey = current.prikey.clone();
-        var signdata = ThinNeo.Helper.Sign(msg, prekey);
-        tran.AddWitness(signdata, pubkey, addr);
-        var data: Uint8Array = tran.GetRawData();
-        console.log(data);
+        let data = await this.signData(tran);
         var res: Result = new Result();
         var result = await tools.wwwtool.api_postRawTransaction(data);
         res.err = !result;

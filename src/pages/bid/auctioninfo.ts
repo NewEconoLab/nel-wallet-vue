@@ -296,8 +296,8 @@ export default class AuctionInfo extends Vue
         let info = await tools.nnssell.getSellingStateByDomain(this.domainAuctionInfo.domain);
         if (!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
         {
-            let data1 = tools.nnssell.bidSettlement(info.id.toString());
-            let data2 = tools.nnssell.collectDomain(info.id.toString());
+            let data1 = await tools.nnssell.bidSettlement(info.id.toString());
+            let data2 = await tools.nnssell.collectDomain(info.id.toString());
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             let txid = res[ "txid" ];
             this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 1 });
@@ -479,7 +479,7 @@ export default class AuctionInfo extends Vue
     {
         this.state_recover = 1;
         let id = this.domainAuctionInfo.id;
-        let data = tools.nnssell.bidSettlement(id);
+        let data = await tools.nnssell.bidSettlement(id);
         this.state_recover = 1;
         try
         {

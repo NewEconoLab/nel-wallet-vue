@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import MainLayout from "../layouts/Main.vue";
 import VLink from "../components/VLink.vue";
-import { WalletOtcgo, LoginInfo } from "../tools/entity";
+import { WalletOtcgo, LoginInfo, currentInfo, LoginType } from "../tools/entity";
 import { tools } from "../tools/importpack";
 /// <reference path="../tools/neo-ts.d.ts"/>
 /// <reference path="../tools/number.ts"/>
@@ -100,9 +100,20 @@ export default class login extends Vue
     {
       try
       {
-        let loginarray = await tools.neotool.nep6Load(this.wallet, this.password) as LoginInfo[];
-        tools.storagetool.setLoginArr(loginarray);
-        LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
+        let loginarray = await tools.neotool.nep6Load(this.wallet, this.password)
+        LoginInfo.loginInfoArr = loginarray;
+        let data = {} as currentInfo;
+        data.type = LoginType.nep5;
+        data.msg = {}
+        this.wallet.accounts.map(account =>
+        {
+          data[ "msg" ][ account.address ] = account.nep2key;
+        });
+        sessionStorage.setItem('login-info-arr', JSON.stringify(data));
+        // tools.storagetool.setLoginArr(loginarray);
+        LoginInfo.setCurrentAddress(Object.keys(loginarray)[ 0 ])
+        console.log(Object.keys(loginarray));
+
         mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
         window.location.hash = "#balance";
       } catch (error)

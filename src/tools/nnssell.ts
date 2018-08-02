@@ -120,7 +120,7 @@ export default class NNSSell
         try
         {
             let data1 = await tools.contract.buildInvokeTransData(script, sgasaddr, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
-            let data2 = tools.nnssell.rechargeReg(transcount.toFixed(8));
+            let data2 = await tools.nnssell.rechargeReg(transcount.toFixed(8));
             let res = await tools.wwwtool.rechargeandtransfer(data1.data, data2);
             if (res[ 'errCode' ] == '0000')
             {
@@ -144,7 +144,7 @@ export default class NNSSell
      * 注册器充值
      * @param amount 充值金额
      */
-    static rechargeReg(amount: string)
+    static async rechargeReg(amount: string)
     {
         let addressto = ThinNeo.Helper.GetAddressFromScriptHash(tools.nnstool.root_neo.register);
         let address = LoginInfo.getCurrentAddress();
@@ -175,7 +175,7 @@ export default class NNSSell
         sb.EmitPushString("setmoneyin");
         sb.EmitAppCall(tools.nnstool.root_neo.register);
         let script = sb.ToArray();
-        let res = tools.contract.buildInvokeTransData_attributes(script);
+        let res = await tools.contract.buildInvokeTransData_attributes(script);
         // console.log(res);
         return res;
     }
@@ -337,7 +337,7 @@ export default class NNSSell
      * 结束竞拍
      * @param domain 域名
      */
-    static bidSettlement(id: string)
+    static async bidSettlement(id: string)
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
@@ -349,7 +349,7 @@ export default class NNSSell
                 "(hex256)" + id
             ]
         );
-        let res = tools.contract.buildInvokeTransData_attributes(script);
+        let res = await tools.contract.buildInvokeTransData_attributes(script);
         return res;
     }
 
@@ -357,7 +357,7 @@ export default class NNSSell
      * 获得领取域名
      * @param domain 域名
      */
-    static collectDomain(id: string)
+    static async collectDomain(id: string)
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
@@ -369,7 +369,7 @@ export default class NNSSell
                 "(hex256)" + id
             ]
         );
-        let res = tools.contract.buildInvokeTransData_attributes(script);
+        let res = await tools.contract.buildInvokeTransData_attributes(script);
         return res;
     }
 

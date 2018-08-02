@@ -1,5 +1,6 @@
 import { tools } from "./importpack";
 import { LoginInfo, Result, OldUTXO } from "./entity";
+import { CoinTool } from "./cointool";
 export default class Contract
 {
     constructor() { }
@@ -41,11 +42,10 @@ export default class Contract
         return sb.ToArray();
     }
 
-    static buildInvokeTransData_attributes(script: Uint8Array): Uint8Array
+    static async buildInvokeTransData_attributes(script: Uint8Array)
     {
         // let script = this.buildScript(appCall, method, param);
-        let current: LoginInfo = LoginInfo.getCurrentLogin();
-        var addr = current.address;
+        var addr = LoginInfo.getCurrentAddress();
         var tran: ThinNeo.Transaction = new ThinNeo.Transaction();
         //合约类型
         tran.inputs = [];
@@ -61,12 +61,7 @@ export default class Contract
 
         if (tran.witnesses == null)
             tran.witnesses = [];
-        var msg = tran.GetMessage().clone();
-        var pubkey = current.pubkey.clone();
-        var prekey = current.prikey.clone();
-        var signdata = ThinNeo.Helper.Sign(msg, prekey);
-        tran.AddWitness(signdata, pubkey, addr);
-        var data: Uint8Array = tran.GetRawData();
+        let data = await CoinTool.signData(tran);
         return data
     }
 
@@ -79,11 +74,11 @@ export default class Contract
      */
     static async buildInvokeTransData(...param: any[])
     {
-        let current = LoginInfo.getCurrentLogin();
+        let address = LoginInfo.getCurrentAddress()
         let script = param[ 0 ];
         let have: boolean = param.length > 1;
         //地址，资产id，交易数量。如果有指则用传值没有值则用默认值
-        let addr = have ? param[ 1 ] : current.address;
+        let addr = have ? param[ 1 ] : address;
         let assetid = have ? param[ 2 ] : tools.coinTool.id_GAS;
         let count = have ? param[ 3 ] : Neo.Fixed8.Zero;
         //获得utxo,构造交易
@@ -97,10 +92,7 @@ export default class Contract
         (tran.extdata as ThinNeo.InvokeTransData).script = script;
         (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(1.0);
 
-        var msg = tran.GetMessage();
-        var signdata = ThinNeo.Helper.Sign(msg, current.prikey);
-        tran.AddWitness(signdata, current.pubkey, current.address);
-        var data = tran.GetRawData();
+        let data = await CoinTool.signData(tran);
         return { data, tranmsg };
     }
 
@@ -117,8 +109,7 @@ export default class Contract
     static async contractInvokeTrans_attributes(script: Uint8Array)
     {
         // let script = this.buildScript(appCall, method, param);
-        let current: LoginInfo = LoginInfo.getCurrentLogin();
-        var addr = current.address;
+        var addr = LoginInfo.getCurrentAddress()
         var tran: ThinNeo.Transaction = new ThinNeo.Transaction();
         //合约类型
         tran.inputs = [];
@@ -134,12 +125,7 @@ export default class Contract
 
         if (tran.witnesses == null)
             tran.witnesses = [];
-        var msg = tran.GetMessage().clone();
-        var pubkey = current.pubkey.clone();
-        var prekey = current.prikey.clone();
-        var signdata = ThinNeo.Helper.Sign(msg, prekey);
-        tran.AddWitness(signdata, pubkey, addr);
-        var data: Uint8Array = tran.GetRawData();
+        let data = await CoinTool.signData(tran);
 
         var res: Result = new Result();
         var result = await tools.wwwtool.api_postRawTransaction(data);
@@ -157,11 +143,11 @@ export default class Contract
      */
     static async contractInvokeTrans(...param: any[])
     {
-        let current = LoginInfo.getCurrentLogin();
+        let address = LoginInfo.getCurrentAddress()
         let script = param[ 0 ];
         let have: boolean = param.length > 1;
         //地址，资产id，交易数量。如果有指则用传值没有值则用默认值
-        let addr = have ? param[ 1 ] : current.address;
+        let addr = have ? param[ 1 ] : address;
         let assetid = have ? param[ 2 ] : tools.coinTool.id_GAS;
         let count = have ? param[ 3 ] : Neo.Fixed8.Zero;
         //获得utxo,构造交易
@@ -175,10 +161,7 @@ export default class Contract
         (tran.extdata as ThinNeo.InvokeTransData).script = script;
         (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(1.0);
 
-        var msg = tran.GetMessage();
-        var signdata = ThinNeo.Helper.Sign(msg, current.prikey);
-        tran.AddWitness(signdata, current.pubkey, current.address);
-        var data = tran.GetRawData();
+        let data = await CoinTool.signData(tran);
         var height = await tools.wwwtool.api_getHeight();
         var result = await tools.wwwtool.api_postRawTransaction(data);
 

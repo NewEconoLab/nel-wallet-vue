@@ -1,16 +1,65 @@
 import { tools } from "./importpack";
 import Buffer from "buffer";
+
+export interface currentInfo
+{
+    type: LoginType;
+    msg: {};
+}
+
+export enum LoginType
+{
+    wif,
+    nep2,
+    nep5,
+    otcgo
+}
+
+export class alert
+{
+
+    static alert = document.getElementById("alertview") as HTMLDivElement;
+    static title = document.getElementById("alert-title") as HTMLDivElement;
+    static alertBox = document.getElementById("alert-box") as HTMLDivElement;
+    static btn_close = document.getElementById("alert-close") as HTMLButtonElement;
+    static input = document.getElementById("alert-input") as HTMLInputElement;
+    static btn_confirm = document.getElementById("alert-confirm") as HTMLButtonElement;
+    constructor()
+    {
+
+    }
+    static show(title: string, inputType: string, btnText: string, call)
+    {
+        // btn btn-nel btn-big
+        this.btn_confirm.classList.add("btn", "btn-nel", "btn-big");
+        this.btn_confirm.textContent = btnText;
+        this.input.type = inputType;
+        this.title.innerText = title;
+        this.alert.hidden = false;
+        this.btn_confirm.onclick = () =>
+        {
+            call(this.input.value);
+        }
+        this.btn_close.onclick = () =>
+        {
+            this.alert.hidden = true;
+            return;
+        }
+    }
+    static close()
+    {
+        this.alert.hidden = true;
+        this.input.textContent = "";
+        this.input.value = "";
+    }
+}
+
 export class LoginInfo
 {
     pubkey: Uint8Array;
     prikey: Uint8Array;
     address: string;
-    static prikey: Uint8Array;
-
-    static initWif(prikey: Uint8Array)
-    {
-        this.prikey = prikey;
-    }
+    static loginInfoArr: {};
 
     static alert(call)
     {
@@ -81,6 +130,7 @@ export class LoginInfo
         tools.storagetool.setStorage("current-address", str);
     }
 }
+
 
 export class BalanceInfo
 {

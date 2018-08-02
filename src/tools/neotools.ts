@@ -153,14 +153,14 @@ export class neotools
     /**
      * nep6Load
      */
-    public static async nep6Load(wallet: ThinNeo.nep6wallet, password: string): Promise<LoginInfo[]>
+    public static async nep6Load(wallet: ThinNeo.nep6wallet, password: string): Promise<{}>
     {
         try
         {
             //getPrivateKey 是异步方法，且同时只能执行一个
             var istart = 0;
             let res = new Result();
-            let arr: any[] = new Array<any>();
+            let arr = {}
             if (wallet.accounts)
             {
                 for (let keyindex = 0; keyindex < wallet.accounts.length; keyindex++)
@@ -174,7 +174,7 @@ export class neotools
                     {
                         let result: Result = await neotools.getPriKeyfromAccount(wallet.scrypt, password, account);
                         // console.log("getpkformacc:" + result);
-                        arr.push(result.info);
+                        arr[ account.address ] = (result.info);
                         return arr;
                     } catch (error)
                     {
