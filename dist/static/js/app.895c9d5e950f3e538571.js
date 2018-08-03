@@ -1770,8 +1770,8 @@ var balance = /** @class */ (function (_super) {
         _this.neoasset.neo = 0;
         _this.neoasset.claim = '';
         _this.chooseAddressarr = new Array();
-        _this.chooseAddressarr = importpack_1.tools.storagetool.getLoginArr();
         return _this;
+        // this.chooseAddressarr = tools.storagetool.getLoginArr();
     }
     // Component method
     balance.prototype.mounted = function () {
@@ -2089,9 +2089,70 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var importpack_1 = __webpack_require__("VKSY");
 var buffer_1 = __webpack_require__("63KW");
+var LoginType;
+(function (LoginType) {
+    LoginType[LoginType["wif"] = 0] = "wif";
+    LoginType[LoginType["nep2"] = 1] = "nep2";
+    LoginType[LoginType["nep5"] = 2] = "nep5";
+    LoginType[LoginType["otcgo"] = 3] = "otcgo";
+})(LoginType = exports.LoginType || (exports.LoginType = {}));
+var alert = /** @class */ (function () {
+    function alert() {
+    }
+    alert.show = function (title, inputType, btnText, call) {
+        var _this = this;
+        // btn btn-nel btn-big
+        this.btn_confirm.classList.add("btn", "btn-nel", "btn-big");
+        this.btn_confirm.textContent = btnText;
+        this.input.type = inputType;
+        this.title.innerText = title;
+        this.alert.hidden = false;
+        this.btn_confirm.onclick = function () {
+            call(_this.input.value);
+        };
+        this.btn_close.onclick = function () {
+            _this.alert.hidden = true;
+            return;
+        };
+    };
+    alert.close = function () {
+        this.alert.hidden = true;
+        this.input.textContent = "";
+        this.input.value = "";
+    };
+    alert.alert = document.getElementById("alertview");
+    alert.title = document.getElementById("alert-title");
+    alert.alertBox = document.getElementById("alert-box");
+    alert.btn_close = document.getElementById("alert-close");
+    alert.input = document.getElementById("alert-input");
+    alert.btn_confirm = document.getElementById("alert-confirm");
+    return alert;
+}());
+exports.alert = alert;
 var LoginInfo = /** @class */ (function () {
     function LoginInfo() {
     }
+    LoginInfo.alert = function (call) {
+        // btn btn-nel btn-big
+        var alert = document.getElementById("alertview");
+        var title = document.getElementById("alert-title");
+        var alertBox = document.getElementById("alert-box");
+        var close = document.getElementById("alert-close");
+        var input = document.getElementById("alert-input");
+        var btn = document.getElementById("alert-confirm");
+        btn.classList.add("btn", "btn-nel", "btn-big");
+        btn.textContent = "确认";
+        input.type = "password";
+        title.innerText = "请输入密码";
+        alert.hidden = false;
+        btn.onclick = function () {
+            call(input.value);
+        };
+        close.onclick = function () {
+            alert.hidden = true;
+            return;
+        };
+    };
     LoginInfo.ArrayToString = function (array) {
         var obj = [];
         for (var i = 0; i < array.length; i++) {
@@ -3701,7 +3762,7 @@ var NeoAuction = /** @class */ (function (_super) {
             var res, oldBlock, height, task;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.nnssell.addprice(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber())];
+                    case 0: return [4 /*yield*/, importpack_1.tools.nnssell.raise(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber())];
                     case 1:
                         res = _a.sent();
                         if (!res.err) {
@@ -3736,7 +3797,7 @@ var NeoAuction = /** @class */ (function (_super) {
                             return [2 /*return*/];
                         }
                         this.btn_start = 0;
-                        return [4 /*yield*/, importpack_1.tools.nnssell.wantbuy(this.domain)];
+                        return [4 /*yield*/, importpack_1.tools.nnssell.openbid(this.domain)];
                     case 1:
                         res = _a.sent();
                         auction = new entity_1.MyAuction();
@@ -4805,6 +4866,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
+var cointool_1 = __webpack_require__("pLPz");
 var Contract = /** @class */ (function () {
     function Contract() {
     }
@@ -4841,30 +4903,33 @@ var Contract = /** @class */ (function () {
         return sb.ToArray();
     };
     Contract.buildInvokeTransData_attributes = function (script) {
-        // let script = this.buildScript(appCall, method, param);
-        var current = entity_1.LoginInfo.getCurrentLogin();
-        var addr = current.address;
-        var tran = new ThinNeo.Transaction();
-        //合约类型
-        tran.inputs = [];
-        tran.outputs = [];
-        tran.type = ThinNeo.TransactionType.InvocationTransaction;
-        tran.extdata = new ThinNeo.InvokeTransData();
-        //塞入脚本
-        tran.extdata.script = script;
-        tran.attributes = new Array(1);
-        tran.attributes[0] = new ThinNeo.Attribute();
-        tran.attributes[0].usage = ThinNeo.TransactionAttributeUsage.Script;
-        tran.attributes[0].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
-        if (tran.witnesses == null)
-            tran.witnesses = [];
-        var msg = tran.GetMessage().clone();
-        var pubkey = current.pubkey.clone();
-        var prekey = current.prikey.clone();
-        var signdata = ThinNeo.Helper.Sign(msg, prekey);
-        tran.AddWitness(signdata, pubkey, addr);
-        var data = tran.GetRawData();
-        return data;
+        return __awaiter(this, void 0, void 0, function () {
+            var addr, tran, data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        addr = entity_1.LoginInfo.getCurrentAddress();
+                        tran = new ThinNeo.Transaction();
+                        //合约类型
+                        tran.inputs = [];
+                        tran.outputs = [];
+                        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+                        tran.extdata = new ThinNeo.InvokeTransData();
+                        //塞入脚本
+                        tran.extdata.script = script;
+                        tran.attributes = new Array(1);
+                        tran.attributes[0] = new ThinNeo.Attribute();
+                        tran.attributes[0].usage = ThinNeo.TransactionAttributeUsage.Script;
+                        tran.attributes[0].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
+                        if (tran.witnesses == null)
+                            tran.witnesses = [];
+                        return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, data];
+                }
+            });
+        });
     };
     /**
      * invokeTrans 调用合约，允许转账
@@ -4879,14 +4944,14 @@ var Contract = /** @class */ (function () {
             param[_i] = arguments[_i];
         }
         return __awaiter(this, void 0, void 0, function () {
-            var current, script, have, addr, assetid, count, utxos, tranmsg, tran, msg, signdata, data;
+            var address, script, have, addr, assetid, count, utxos, tranmsg, tran, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        current = entity_1.LoginInfo.getCurrentLogin();
+                        address = entity_1.LoginInfo.getCurrentAddress();
                         script = param[0];
                         have = param.length > 1;
-                        addr = have ? param[1] : current.address;
+                        addr = have ? param[1] : address;
                         assetid = have ? param[2] : importpack_1.tools.coinTool.id_GAS;
                         count = have ? param[3] : Neo.Fixed8.Zero;
                         return [4 /*yield*/, importpack_1.tools.coinTool.getassets()];
@@ -4900,10 +4965,9 @@ var Contract = /** @class */ (function () {
                         //塞入脚本
                         tran.extdata.script = script;
                         tran.extdata.gas = Neo.Fixed8.fromNumber(1.0);
-                        msg = tran.GetMessage();
-                        signdata = ThinNeo.Helper.Sign(msg, current.prikey);
-                        tran.AddWitness(signdata, current.pubkey, current.address);
-                        data = tran.GetRawData();
+                        return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
+                    case 2:
+                        data = _a.sent();
                         return [2 /*return*/, { data: data, tranmsg: tranmsg }];
                 }
             });
@@ -4932,12 +4996,11 @@ var Contract = /** @class */ (function () {
      */
     Contract.contractInvokeTrans_attributes = function (script) {
         return __awaiter(this, void 0, void 0, function () {
-            var current, addr, tran, msg, pubkey, prekey, signdata, data, res, result;
+            var addr, tran, data, res, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        current = entity_1.LoginInfo.getCurrentLogin();
-                        addr = current.address;
+                        addr = entity_1.LoginInfo.getCurrentAddress();
                         tran = new ThinNeo.Transaction();
                         //合约类型
                         tran.inputs = [];
@@ -4952,15 +5015,12 @@ var Contract = /** @class */ (function () {
                         tran.attributes[0].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
                         if (tran.witnesses == null)
                             tran.witnesses = [];
-                        msg = tran.GetMessage().clone();
-                        pubkey = current.pubkey.clone();
-                        prekey = current.prikey.clone();
-                        signdata = ThinNeo.Helper.Sign(msg, prekey);
-                        tran.AddWitness(signdata, pubkey, addr);
-                        data = tran.GetRawData();
+                        return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
+                    case 1:
+                        data = _a.sent();
                         res = new entity_1.Result();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 1:
+                    case 2:
                         result = _a.sent();
                         res.err = !result["sendrawtransactionresult"];
                         res.info = result["txid"];
@@ -4982,14 +5042,14 @@ var Contract = /** @class */ (function () {
             param[_i] = arguments[_i];
         }
         return __awaiter(this, void 0, void 0, function () {
-            var current, script, have, addr, assetid, count, utxos, tranmsg, tran, msg, signdata, data, height, result, olds;
+            var address, script, have, addr, assetid, count, utxos, tranmsg, tran, data, height, result, olds;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        current = entity_1.LoginInfo.getCurrentLogin();
+                        address = entity_1.LoginInfo.getCurrentAddress();
                         script = param[0];
                         have = param.length > 1;
-                        addr = have ? param[1] : current.address;
+                        addr = have ? param[1] : address;
                         assetid = have ? param[2] : importpack_1.tools.coinTool.id_GAS;
                         count = have ? param[3] : Neo.Fixed8.Zero;
                         return [4 /*yield*/, importpack_1.tools.coinTool.getassets()];
@@ -5003,15 +5063,14 @@ var Contract = /** @class */ (function () {
                         //塞入脚本
                         tran.extdata.script = script;
                         tran.extdata.gas = Neo.Fixed8.fromNumber(1.0);
-                        msg = tran.GetMessage();
-                        signdata = ThinNeo.Helper.Sign(msg, current.prikey);
-                        tran.AddWitness(signdata, current.pubkey, current.address);
-                        data = tran.GetRawData();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
+                        return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
                     case 2:
+                        data = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
+                    case 3:
                         height = _a.sent();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 3:
+                    case 4:
                         result = _a.sent();
                         if (result["sendrawtransactionresult"]) {
                             olds = tranmsg.info['oldarr'];
@@ -5173,25 +5232,6 @@ var login = /** @class */ (function (_super) {
         if (importpack_1.tools.storagetool.getLoginArr().length > 0) {
             sessionStorage.clear();
         }
-        var test = new importpack_1.tools.localstoretool("test");
-        test.put("test", { "name": "vincent" }, 'test1');
-        test.put("test", { "name": "wei" }, 'test2');
-        test.put("test", { "name": "neo" }, 'test3');
-        console.log(JSON.parse(JSON.stringify(test.select("test"))));
-        var tests = test.select("test");
-        tests;
-        test.put("test", { "name": "neo1" }, 'test1');
-        console.log(JSON.parse(JSON.stringify(test.select("test"))));
-        test.delete("test", "test2");
-        console.log(JSON.parse(JSON.stringify(test.select("test"))));
-        console.log("-----------getNotifyNames");
-        importpack_1.tools.contract.getNotifyNames("")
-            .then(function (names) {
-            var find = names.includes("addprice");
-            console.log("addprice in " + names.toString() + " is " + find);
-        })
-            .catch(function (error) {
-        });
     };
     // Lifecycle hook
     login.prototype.fileChange = function ($event) {
@@ -5203,7 +5243,7 @@ var login = /** @class */ (function (_super) {
     };
     login.prototype.loginFile = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var loginarray_1, error_1, result, loginarray;
+            var loginarray_1, data_1, error_1, result, loginarray;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -5219,8 +5259,17 @@ var login = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.neotool.nep6Load(this.wallet, this.password)];
                     case 2:
                         loginarray_1 = _a.sent();
-                        importpack_1.tools.storagetool.setLoginArr(loginarray_1);
-                        entity_1.LoginInfo.setCurrentAddress(loginarray_1[0].address);
+                        entity_1.LoginInfo.loginInfoArr = loginarray_1;
+                        data_1 = {};
+                        data_1.type = entity_1.LoginType.nep5;
+                        data_1.msg = {};
+                        this.wallet.accounts.map(function (account) {
+                            data_1["msg"][account.address] = account.nep2key;
+                        });
+                        sessionStorage.setItem('login-info-arr', JSON.stringify(data_1));
+                        // tools.storagetool.setLoginArr(loginarray);
+                        entity_1.LoginInfo.setCurrentAddress(Object.keys(loginarray_1)[0]);
+                        console.log(Object.keys(loginarray_1));
                         mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' });
                         window.location.hash = "#balance";
                         return [3 /*break*/, 4];
@@ -5711,8 +5760,8 @@ var MyNeo = /** @class */ (function (_super) {
         _this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
         _this.neonameList = null;
         _this.set_contract = "cf0d21eaa1803f63704ddb06c373c22d815b7ca2";
-        _this.resolverSession = new storagetool_1.LocalStoreTool("resolverSession");
-        _this.mappingSession = new storagetool_1.LocalStoreTool("mappingSession");
+        _this.resolverSession = new storagetool_1.sessionStoreTool("resolverSession");
+        _this.mappingSession = new storagetool_1.sessionStoreTool("mappingSession");
         _this.renewalWatting = false;
         _this.resolverAddress = "";
         _this.mappingState = 0;
@@ -5800,7 +5849,6 @@ var MyNeo = /** @class */ (function (_super) {
                         _i++;
                         return [3 /*break*/, 2];
                     case 10:
-                        console.log(list);
                         this.neonameList = list;
                         _c.label = 11;
                     case 11: return [2 /*return*/];
@@ -5953,7 +6001,7 @@ var MyNeo = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        renewalsession = new importpack_1.tools.localstoretool("renewalsession");
+                        renewalsession = new importpack_1.tools.sessionstoretool("renewalsession");
                         domain = this.domainInfo.domain;
                         return [4 /*yield*/, importpack_1.tools.nnssell.renewDomain(domain)];
                     case 1:
@@ -5977,7 +6025,7 @@ var MyNeo = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        renewalsession = new importpack_1.tools.localstoretool("renewalsession");
+                        renewalsession = new importpack_1.tools.sessionstoretool("renewalsession");
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
                     case 1:
                         res = _a.sent();
@@ -6248,7 +6296,7 @@ var neotools = /** @class */ (function () {
                         _a.trys.push([0, 9, , 10]);
                         istart = 0;
                         res = new entity_1.Result();
-                        arr = new Array();
+                        arr = {};
                         if (!wallet.accounts) return [3 /*break*/, 7];
                         keyindex = 0;
                         _a.label = 1;
@@ -6265,7 +6313,7 @@ var neotools = /** @class */ (function () {
                     case 3:
                         result = _a.sent();
                         // console.log("getpkformacc:" + result);
-                        arr.push(result.info);
+                        arr[account.address] = (result.info);
                         return [2 /*return*/, arr];
                     case 4:
                         error_1 = _a.sent();
@@ -7373,7 +7421,7 @@ var FeatureComponent = /** @class */ (function (_super) {
             ? "icon-setting-select"
             : "icon-setting-unselect";
         this.getHeight();
-        var arr = importpack_1.tools.storagetool.getLoginArr();
+        var arr = sessionStorage.getItem("login-info-arr");
         if (arr.length == 0) {
             window.location.hash = "#login";
         }
@@ -8631,7 +8679,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 2:
                         myauction = _a.sent();
                         this.domainAuctionInfo = myauction;
-                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOfSeling(info.id)];
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOfBid(info.id)];
                     case 3:
                         balance = _a.sent();
                         this.domainAuctionInfo.balanceOfSelling = accDiv(balance.toString(), 100000000).toString();
@@ -8714,31 +8762,35 @@ var AuctionInfo = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.nnssell.getSellingStateByDomain(this.domainAuctionInfo.domain)];
                     case 1:
                         info = _a.sent();
-                        if (!(!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)) return [3 /*break*/, 3];
-                        data1 = importpack_1.tools.nnssell.endSelling(info.id.toString());
-                        data2 = importpack_1.tools.nnssell.getsellingdomain(info.id.toString());
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.rechargeandtransfer(data1, data2)];
+                        if (!(!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)) return [3 /*break*/, 5];
+                        return [4 /*yield*/, importpack_1.tools.nnssell.bidSettlement(info.id.toString())];
                     case 2:
+                        data1 = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.nnssell.collectDomain(info.id.toString())];
+                    case 3:
+                        data2 = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.rechargeandtransfer(data1, data2)];
+                    case 4:
                         res = _a.sent();
                         txid = res["txid"];
                         this.session_getdomain.put(this.domainAuctionInfo.domain, { txid: txid, method: 1 });
                         this.rechargConfirm(txid, 1, this.domainAuctionInfo.domain);
-                        return [3 /*break*/, 7];
-                    case 3:
-                        if (!(!!info.owner && info.owner.toString() == this.address)) return [3 /*break*/, 4];
+                        return [3 /*break*/, 9];
+                    case 5:
+                        if (!(!!info.owner && ThinNeo.Helper.GetAddressFromScriptHash(info.owner) == this.address)) return [3 /*break*/, 6];
                         this.state_getDomain = 2;
                         return [2 /*return*/];
-                    case 4: return [4 /*yield*/, importpack_1.tools.nnssell.getsellingdomain(info.id.toString())];
-                    case 5:
+                    case 6: return [4 /*yield*/, importpack_1.tools.nnssell.collectDomain(info.id.toString())];
+                    case 7:
                         data = _a.sent();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 6:
+                    case 8:
                         res = _a.sent();
                         txid = res["txid"];
                         this.session_getdomain.put(this.domainAuctionInfo.domain, { txid: txid, method: 2 });
                         this.rechargConfirm(txid, 2, this.domainAuctionInfo.domain);
-                        _a.label = 7;
-                    case 7: return [2 /*return*/];
+                        _a.label = 9;
+                    case 9: return [2 /*return*/];
                 }
             });
         });
@@ -8900,7 +8952,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                         // this.bidState = 1;
                         this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
                         count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
-                        return [4 /*yield*/, importpack_1.tools.nnssell.addprice(this.domainAuctionInfo.domain, count)];
+                        return [4 /*yield*/, importpack_1.tools.nnssell.raise(this.domainAuctionInfo.domain, count)];
                     case 2:
                         res = _a.sent();
                         txid = res.info;
@@ -8933,24 +8985,26 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 0:
                         this.state_recover = 1;
                         id = this.domainAuctionInfo.id;
-                        data = importpack_1.tools.nnssell.endSelling(id);
-                        this.state_recover = 1;
-                        _a.label = 1;
+                        return [4 /*yield*/, importpack_1.tools.nnssell.bidSettlement(id)];
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                        data = _a.sent();
+                        this.state_recover = 1;
+                        _a.label = 2;
                     case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                    case 3:
                         res = _a.sent();
                         if (res["txid"]) {
                             txid = res["txid"];
                             this.session_recover.put(this.domainAuctionInfo.domain, { txid: txid });
                             this.recoverConfirm(txid);
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
+                        return [3 /*break*/, 5];
+                    case 4:
                         error_3 = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
@@ -9593,10 +9647,45 @@ var CoinTool = /** @class */ (function () {
      * @param {ThinNeo.Transaction} tran
      * @param {string} randomStr
      */
-    CoinTool.signAndSend = function (tran) {
+    CoinTool.signData = function (tran) {
         return __awaiter(this, void 0, void 0, function () {
+            var promise;
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                promise = new Promise(function (resolve, reject) {
+                    if (!!entity_1.LoginInfo.loginInfoArr) {
+                        var addr = entity_1.LoginInfo.getCurrentAddress();
+                        var current = entity_1.LoginInfo.loginInfoArr[addr];
+                        var msg = tran.GetMessage().clone();
+                        var pubkey = current.pubkey.clone();
+                        var prekey = current.prikey.clone();
+                        var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                        tran.AddWitness(signdata, pubkey, addr);
+                        var data = tran.GetRawData();
+                        resolve(data);
+                    }
+                    else {
+                        entity_1.alert.show("请输入密码", "password", "确认", function (data) {
+                            var current = JSON.parse(sessionStorage.getItem("login-info-arr"));
+                            var nep2 = current.msg[entity_1.LoginInfo.getCurrentAddress()];
+                            importpack_1.tools.neotool.nep2ToWif(nep2, data)
+                                .then(function (res) {
+                                var current = res.info;
+                                var addr = entity_1.LoginInfo.getCurrentAddress();
+                                entity_1.LoginInfo.loginInfoArr = {};
+                                entity_1.LoginInfo.loginInfoArr[addr] = current;
+                                var msg = tran.GetMessage().clone();
+                                var pubkey = current.pubkey.clone();
+                                var prekey = current.prikey.clone();
+                                var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                                tran.AddWitness(signdata, pubkey, addr);
+                                var data = tran.GetRawData();
+                                entity_1.alert.close();
+                                resolve(data);
+                            });
+                        });
+                    }
+                });
+                return [2 /*return*/, promise];
             });
         });
     };
@@ -9608,7 +9697,7 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.rawTransaction = function (targetaddr, asset, count) {
         return __awaiter(this, void 0, void 0, function () {
-            var arr, add, n, _count, utxos, tranres, tran, txid, msg, pubkey, prekey, addr, signdata, data, res, height, result, olds, error_1;
+            var arr, add, n, _count, utxos, tranres, tran, txid, data, res, height, result, olds, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -9621,38 +9710,34 @@ var CoinTool = /** @class */ (function () {
                         utxos = _a.sent();
                         _a.label = 2;
                     case 2:
-                        _a.trys.push([2, 5, , 6]);
+                        _a.trys.push([2, 6, , 7]);
                         tranres = CoinTool.makeTran(utxos, targetaddr, asset, _count);
                         tran = tranres.info['tran'];
                         if (tran.witnesses == null)
                             tran.witnesses = [];
                         txid = tran.GetHash().clone().reverse().toHexString();
-                        msg = tran.GetMessage().clone();
-                        pubkey = arr[n].pubkey.clone();
-                        prekey = arr[n].prikey.clone();
-                        addr = arr[n].address;
-                        signdata = ThinNeo.Helper.Sign(msg, prekey);
-                        tran.AddWitness(signdata, pubkey, addr);
-                        data = tran.GetRawData();
+                        return [4 /*yield*/, this.signData(tran)];
+                    case 3:
+                        data = _a.sent();
                         res = new entity_1.Result();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
-                    case 3:
+                    case 4:
                         height = _a.sent();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 4:
+                    case 5:
                         result = _a.sent();
                         if (result["sendrawtransactionresult"]) {
                             res.err = !result;
-                            res.info = txid;
+                            res.info = result['txid'];
                             olds = tranres.info['oldarr'];
                             olds.map(function (old) { return old.height = height; });
                             entity_1.OldUTXO.oldutxosPush(olds);
                         }
                         return [2 /*return*/, res];
-                    case 5:
+                    case 6:
                         error_1 = _a.sent();
                         throw error_1;
-                    case 6: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -9662,7 +9747,7 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.claimgas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var claimtxhex, tran, buf, current, msg, signdata, data, result;
+            var claimtxhex, tran, buf, data, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getclaimtxhex(entity_1.LoginInfo.getCurrentAddress())];
@@ -9671,13 +9756,11 @@ var CoinTool = /** @class */ (function () {
                         tran = new ThinNeo.Transaction();
                         buf = claimtxhex.hexToBytes();
                         tran.Deserialize(new Neo.IO.BinaryReader(new Neo.IO.MemoryStream(buf.buffer, 0, buf.byteLength)));
-                        current = entity_1.LoginInfo.getCurrentLogin();
-                        msg = tran.GetMessage().clone();
-                        signdata = ThinNeo.Helper.Sign(msg, current.prikey);
-                        tran.AddWitness(signdata, current.pubkey, current.address);
-                        data = tran.GetRawData();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                        return [4 /*yield*/, this.signData(tran)];
                     case 2:
+                        data = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                    case 3:
                         result = _a.sent();
                         return [2 /*return*/, result];
                 }
@@ -9686,12 +9769,12 @@ var CoinTool = /** @class */ (function () {
     };
     CoinTool.claimGas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var current, claimsstr, claims, sum, tran, i, claim, input, output, msg, signdata, data, result;
+            var address, claimsstr, claims, sum, tran, i, claim, input, output, data, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        current = entity_1.LoginInfo.getCurrentLogin();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getclaimgas(current.address, 0)];
+                        address = entity_1.LoginInfo.getCurrentAddress();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getclaimgas(address, 0)];
                     case 1:
                         claimsstr = _a.sent();
                         claims = claimsstr["claims"];
@@ -9714,16 +9797,15 @@ var CoinTool = /** @class */ (function () {
                         }
                         output = new ThinNeo.TransactionOutput();
                         output.assetId = (CoinTool.id_GAS).hexToBytes().reverse();
-                        output.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(current.address);
+                        output.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(address);
                         output.value = Neo.Fixed8.parse(sum);
                         tran.outputs = [];
                         tran.outputs.push(output);
-                        msg = tran.GetMessage().clone();
-                        signdata = ThinNeo.Helper.Sign(msg, current.prikey);
-                        tran.AddWitness(signdata, current.pubkey, current.address);
-                        data = tran.GetRawData();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                        return [4 /*yield*/, this.signData(tran)];
                     case 2:
+                        data = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                    case 3:
                         result = _a.sent();
                         return [2 /*return*/, result];
                 }
@@ -9736,12 +9818,11 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.contractInvokeTrans_attributes = function (script) {
         return __awaiter(this, void 0, void 0, function () {
-            var current, addr, tran, msg, pubkey, prekey, signdata, data, res, result;
+            var addr, tran, data, res, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        current = entity_1.LoginInfo.getCurrentLogin();
-                        addr = current.address;
+                        addr = entity_1.LoginInfo.getCurrentAddress();
                         tran = new ThinNeo.Transaction();
                         //合约类型
                         tran.inputs = [];
@@ -9756,17 +9837,13 @@ var CoinTool = /** @class */ (function () {
                         tran.attributes[0].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
                         if (tran.witnesses == null)
                             tran.witnesses = [];
-                        msg = tran.GetMessage().clone();
-                        pubkey = current.pubkey.clone();
-                        prekey = current.prikey.clone();
-                        signdata = ThinNeo.Helper.Sign(msg, prekey);
-                        tran.AddWitness(signdata, pubkey, addr);
-                        data = tran.GetRawData();
+                        return [4 /*yield*/, this.signData(tran)];
+                    case 1:
+                        data = _a.sent();
                         res = new entity_1.Result();
-                        console.log("---------------------------msg: " + msg + "---------");
                         console.log(data.toHexString());
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 1:
+                    case 2:
                         result = _a.sent();
                         res.err = !result["sendrawtransactionresult"];
                         res.info = result["txid"];
@@ -9782,17 +9859,16 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.contractInvokeTrans = function (script) {
         return __awaiter(this, void 0, void 0, function () {
-            var current, addr, assetid, utxos, tranmsg, tran, msg, pubkey, prekey, signdata, data, res, result;
+            var addr, assetid, utxos, tranmsg, tran, data, res, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        current = entity_1.LoginInfo.getCurrentLogin();
-                        addr = current.address;
+                        addr = entity_1.LoginInfo.getCurrentAddress();
                         assetid = CoinTool.id_GAS;
                         return [4 /*yield*/, CoinTool.getassets()];
                     case 1:
                         utxos = _a.sent();
-                        tranmsg = CoinTool.makeTran(utxos, current.address, assetid, Neo.Fixed8.Zero);
+                        tranmsg = CoinTool.makeTran(utxos, addr, assetid, Neo.Fixed8.Zero);
                         tran = tranmsg.info['tran'];
                         tran.type = ThinNeo.TransactionType.InvocationTransaction;
                         tran.extdata = new ThinNeo.InvokeTransData();
@@ -9801,16 +9877,12 @@ var CoinTool = /** @class */ (function () {
                         // (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(1.0);
                         if (tran.witnesses == null)
                             tran.witnesses = [];
-                        msg = tran.GetMessage().clone();
-                        pubkey = current.pubkey.clone();
-                        prekey = current.prikey.clone();
-                        signdata = ThinNeo.Helper.Sign(msg, prekey);
-                        tran.AddWitness(signdata, pubkey, addr);
-                        data = tran.GetRawData();
-                        console.log(data);
+                        return [4 /*yield*/, this.signData(tran)];
+                    case 2:
+                        data = _a.sent();
                         res = new entity_1.Result();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 2:
+                    case 3:
                         result = _a.sent();
                         res.err = !result;
                         res.info = "成功";
@@ -10037,7 +10109,7 @@ var NNSSell = /** @class */ (function () {
                         info.lastBlock = stack[8].AsInteger();
                         if (!!!info.id) return [3 /*break*/, 5];
                         _a = info;
-                        return [4 /*yield*/, this.getBalanceOfSeling(info.id)];
+                        return [4 /*yield*/, this.getBalanceOfBid(info.id)];
                     case 4:
                         _a.balanceOfSelling = _b.sent();
                         _b.label = 5;
@@ -10055,7 +10127,7 @@ var NNSSell = /** @class */ (function () {
      * 获得
      * @param id 竞拍id
      */
-    NNSSell.getBalanceOfSeling = function (id) {
+    NNSSell.getBalanceOfBid = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var addr, who, res, stackarr, stack, balance;
             return __generator(this, function (_a) {
@@ -10063,7 +10135,7 @@ var NNSSell = /** @class */ (function () {
                     case 0:
                         addr = entity_1.LoginInfo.getCurrentAddress();
                         who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
-                        return [4 /*yield*/, importpack_1.tools.contract.contractInvokeScript(importpack_1.tools.nnstool.root_neo.register, "balanceOfSelling", "(hex160)" + who.toString(), "(hex256)" + id.toString())];
+                        return [4 /*yield*/, importpack_1.tools.contract.contractInvokeScript(importpack_1.tools.nnstool.root_neo.register, "balanceOfBid", "(hex160)" + who.toString(), "(hex256)" + id.toString())];
                     case 1:
                         res = _a.sent();
                         stackarr = res["stack"];
@@ -10123,29 +10195,31 @@ var NNSSell = /** @class */ (function () {
                         sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(importpack_1.tools.coinTool.id_SGAS);
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 7, , 8]);
+                        _a.trys.push([1, 8, , 9]);
                         return [4 /*yield*/, importpack_1.tools.contract.buildInvokeTransData(script, sgasaddr, importpack_1.tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount))];
                     case 2:
                         data1 = _a.sent();
-                        data2 = importpack_1.tools.nnssell.rechargeReg(transcount.toFixed(8));
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.rechargeandtransfer(data1.data, data2)];
+                        return [4 /*yield*/, importpack_1.tools.nnssell.rechargeReg(transcount.toFixed(8))];
                     case 3:
-                        res = _a.sent();
-                        if (!(res['errCode'] == '0000')) return [3 /*break*/, 5];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
+                        data2 = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.rechargeandtransfer(data1.data, data2)];
                     case 4:
+                        res = _a.sent();
+                        if (!(res['errCode'] == '0000')) return [3 /*break*/, 6];
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
+                    case 5:
                         height = _a.sent();
                         txid = res['txid'];
                         olds = data1.tranmsg.info['oldarr'];
                         olds.map(function (old) { return old.height = height; });
                         entity_1.OldUTXO.oldutxosPush(olds);
                         return [2 /*return*/, txid];
-                    case 5: return [2 /*return*/, undefined];
-                    case 6: return [3 /*break*/, 8];
-                    case 7:
+                    case 6: return [2 /*return*/, undefined];
+                    case 7: return [3 /*break*/, 9];
+                    case 8:
                         error_1 = _a.sent();
                         throw error_1;
-                    case 8: return [2 /*return*/];
+                    case 9: return [2 /*return*/];
                 }
             });
         });
@@ -10155,41 +10229,50 @@ var NNSSell = /** @class */ (function () {
      * @param amount 充值金额
      */
     NNSSell.rechargeReg = function (amount) {
-        var addressto = ThinNeo.Helper.GetAddressFromScriptHash(importpack_1.tools.nnstool.root_neo.register);
-        var address = entity_1.LoginInfo.getCurrentAddress();
-        var sb = new ThinNeo.ScriptBuilder();
-        //生成随机数
-        var random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues(new Uint8Array(32));
-        var random_int = Neo.BigInteger.fromUint8Array(random_uint8);
-        //塞入随机数
-        sb.EmitPushNumber(random_int);
-        sb.Emit(ThinNeo.OpCode.DROP);
-        sb.EmitParamJson([
-            "(addr)" + address,
-            "(addr)" + addressto,
-            "(int)" + amount.replace(".", "") //value
-        ]); //参数倒序入
-        sb.EmitPushString("transfer"); //参数倒序入
-        sb.EmitAppCall(importpack_1.tools.coinTool.id_SGAS); //nep5脚本
-        ////这个方法是为了在同一笔交易中转账并充值
-        ////当然你也可以分为两笔交易
-        ////插入下述两条语句，能得到txid
-        sb.EmitSysCall("System.ExecutionEngine.GetScriptContainer");
-        sb.EmitSysCall("Neo.Transaction.GetHash");
-        //把TXID包进Array里
-        sb.EmitPushNumber(Neo.BigInteger.fromString("1"));
-        sb.Emit(ThinNeo.OpCode.PACK);
-        sb.EmitPushString("setmoneyin");
-        sb.EmitAppCall(importpack_1.tools.nnstool.root_neo.register);
-        var script = sb.ToArray();
-        var res = importpack_1.tools.contract.buildInvokeTransData_attributes(script);
-        // console.log(res);
-        return res;
+        return __awaiter(this, void 0, void 0, function () {
+            var addressto, address, sb, random_uint8, random_int, script, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        addressto = ThinNeo.Helper.GetAddressFromScriptHash(importpack_1.tools.nnstool.root_neo.register);
+                        address = entity_1.LoginInfo.getCurrentAddress();
+                        sb = new ThinNeo.ScriptBuilder();
+                        random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues(new Uint8Array(32));
+                        random_int = Neo.BigInteger.fromUint8Array(random_uint8);
+                        //塞入随机数
+                        sb.EmitPushNumber(random_int);
+                        sb.Emit(ThinNeo.OpCode.DROP);
+                        sb.EmitParamJson([
+                            "(addr)" + address,
+                            "(addr)" + addressto,
+                            "(int)" + amount.replace(".", "") //value
+                        ]); //参数倒序入
+                        sb.EmitPushString("transfer"); //参数倒序入
+                        sb.EmitAppCall(importpack_1.tools.coinTool.id_SGAS); //nep5脚本
+                        ////这个方法是为了在同一笔交易中转账并充值
+                        ////当然你也可以分为两笔交易
+                        ////插入下述两条语句，能得到txid
+                        sb.EmitSysCall("System.ExecutionEngine.GetScriptContainer");
+                        sb.EmitSysCall("Neo.Transaction.GetHash");
+                        //把TXID包进Array里
+                        sb.EmitPushNumber(Neo.BigInteger.fromString("1"));
+                        sb.Emit(ThinNeo.OpCode.PACK);
+                        sb.EmitPushString("setmoneyin");
+                        sb.EmitAppCall(importpack_1.tools.nnstool.root_neo.register);
+                        script = sb.ToArray();
+                        return [4 /*yield*/, importpack_1.tools.contract.buildInvokeTransData_attributes(script)];
+                    case 1:
+                        res = _a.sent();
+                        // console.log(res);
+                        return [2 /*return*/, res];
+                }
+            });
+        });
     };
     /**
-     * 欲购买
+     * 域名开标
      */
-    NNSSell.wantbuy = function (subname) {
+    NNSSell.openbid = function (subname) {
         return __awaiter(this, void 0, void 0, function () {
             var addr, who, register, param, data, res, error_2;
             return __generator(this, function (_a) {
@@ -10204,7 +10287,7 @@ var NNSSell = /** @class */ (function () {
                             "(hex256)" + importpack_1.tools.nnstool.root_neo.roothash.toString(),
                             "(str)" + subname
                         ];
-                        data = importpack_1.tools.contract.buildScript_random(register, "wantBuy", param);
+                        data = importpack_1.tools.contract.buildScript_random(register, "openbid", param);
                         return [4 /*yield*/, importpack_1.tools.contract.contractInvokeTrans_attributes(data)];
                     case 1:
                         res = _a.sent();
@@ -10221,7 +10304,7 @@ var NNSSell = /** @class */ (function () {
      * 竞标加价
      * @param domain 域名
      */
-    NNSSell.addprice = function (domain, amount) {
+    NNSSell.raise = function (domain, amount) {
         return __awaiter(this, void 0, void 0, function () {
             var info, who, data, res;
             return __generator(this, function (_a) {
@@ -10230,7 +10313,7 @@ var NNSSell = /** @class */ (function () {
                     case 1:
                         info = _a.sent();
                         who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress()).buffer);
-                        data = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "addPrice", ["(hex160)" + who.toString(), "(hex256)" + info.id.toString(), "(int)" + amount]);
+                        data = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "raise", ["(hex160)" + who.toString(), "(hex256)" + info.id.toString(), "(int)" + amount]);
                         return [4 /*yield*/, importpack_1.tools.contract.contractInvokeTrans_attributes(data)];
                     case 2:
                         res = _a.sent();
@@ -10261,6 +10344,11 @@ var NNSSell = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         myauction = new entity_1.MyAuction();
+                        if (!info.id) {
+                            console.log("---------------id 为空----------------");
+                            console.log(myauction);
+                            return [2 /*return*/, myauction];
+                        }
                         myauction.id = info.id.toString();
                         myauction.domain = info.domain;
                         myauction.endBlock = parseInt(info.endBlock.toString());
@@ -10334,29 +10422,49 @@ var NNSSell = /** @class */ (function () {
      * 结束竞拍
      * @param domain 域名
      */
-    NNSSell.endSelling = function (id) {
-        var addr = entity_1.LoginInfo.getCurrentAddress();
-        var who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
-        var script = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "endSelling", [
-            "(hex160)" + who.toString(),
-            "(hex256)" + id
-        ]);
-        var res = importpack_1.tools.contract.buildInvokeTransData_attributes(script);
-        return res;
+    NNSSell.bidSettlement = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addr, who, script, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        addr = entity_1.LoginInfo.getCurrentAddress();
+                        who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+                        script = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "bidSettlement", [
+                            "(hex160)" + who.toString(),
+                            "(hex256)" + id
+                        ]);
+                        return [4 /*yield*/, importpack_1.tools.contract.buildInvokeTransData_attributes(script)];
+                    case 1:
+                        res = _a.sent();
+                        return [2 /*return*/, res];
+                }
+            });
+        });
     };
     /**
      * 获得领取域名
      * @param domain 域名
      */
-    NNSSell.getsellingdomain = function (id) {
-        var addr = entity_1.LoginInfo.getCurrentAddress();
-        var who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
-        var script = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "getSellingDomain", [
-            "(hex160)" + who.toString(),
-            "(hex256)" + id
-        ]);
-        var res = importpack_1.tools.contract.buildInvokeTransData_attributes(script);
-        return res;
+    NNSSell.collectDomain = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addr, who, script, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        addr = entity_1.LoginInfo.getCurrentAddress();
+                        who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
+                        script = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "collectDomain", [
+                            "(hex160)" + who.toString(),
+                            "(hex256)" + id
+                        ]);
+                        return [4 /*yield*/, importpack_1.tools.contract.buildInvokeTransData_attributes(script)];
+                    case 1:
+                        res = _a.sent();
+                        return [2 /*return*/, res];
+                }
+            });
+        });
     };
     NNSSell.getMySellingDomain = function (domain) {
         return __awaiter(this, void 0, void 0, function () {
@@ -10367,7 +10475,7 @@ var NNSSell = /** @class */ (function () {
                     case 1:
                         info = _a.sent();
                         if (info.endBlock.compareTo(Neo.BigInteger.Zero)) {
-                            data1 = this.endSelling(domain);
+                            data1 = this.bidSettlement(domain);
                         }
                         addr = entity_1.LoginInfo.getCurrentAddress();
                         who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
@@ -10395,11 +10503,7 @@ var NNSSell = /** @class */ (function () {
                         stackarr = info["stack"];
                         stack = entity_1.ResultItem.FromJson(entity_1.DataType.Array, stackarr);
                         num = stack.subItem[0].AsInteger();
-                        res = parseFloat(num.toString()) / 100000000;
-                        // let res = num.divide(100000000).toString();
-                        // new Neo.Fixed8(num)
-                        // let number = (Neo.Fixed8.parse(num.toString()).getData().toNumber()) / 100000000;
-                        // console.log(res);
+                        res = accDiv(num.toString(), 100000000);
                         return [2 /*return*/, res.toString()];
                 }
             });
