@@ -2,21 +2,12 @@
 /// <reference path="../../tools/number.d.ts"/>
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import Valert from "../../components/Valert.vue";
-import Toast from "../../components/toast.vue";
-import Spinner from "../../components/Spinner.vue";
-// import Hint from "../../components/hint.vue";
 import { tools } from "../../tools/importpack";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState } from "../../tools/entity";
 import { TaskManager } from "../../tools/taskmanager";
 @Component({
-    components: {
-        "v-alert": Valert,
-        "v-toast": Toast,
-        "spinner-wrap": Spinner,
-        // "v-hint": Hint
-    }
+    components: {}
 })
 export default class AuctionInfo extends Vue
 {

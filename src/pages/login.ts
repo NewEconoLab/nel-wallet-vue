@@ -1,7 +1,6 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import MainLayout from "../layouts/Main.vue";
-import VLink from "../components/VLink.vue";
 import { WalletOtcgo, LoginInfo, currentInfo, LoginType } from "../tools/entity";
 import { tools } from "../tools/importpack";
 /// <reference path="../tools/neo-ts.d.ts"/>
@@ -12,8 +11,7 @@ declare const mui;
 @Component({
   components:
   {
-    "main-layout": MainLayout,
-    "v-link": VLink
+    "main-layout": MainLayout
   }
 })
 export default class login extends Vue 

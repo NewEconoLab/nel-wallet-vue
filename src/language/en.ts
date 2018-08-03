@@ -36,7 +36,7 @@ export default {
         topup: "Top up"
     },
     toast: {
-        msg1: "Landing ...",
+        msg1: "Loading ...",
         msg2: "Authentication passed...",
         msg3: "Login failed. Please check your password or file",
         msg4: "Please enter the correct string"

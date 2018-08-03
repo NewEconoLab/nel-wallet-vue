@@ -1,15 +1,10 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import Valert from "../../components/Valert.vue";
-import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LoginInfo, Domainmsg, DomainInfo, DomainStatus } from "../../tools/entity";
 import { sessionStoreTool } from "../../tools/storagetool";
 @Component({
-    components: {
-        "v-alert": Valert,
-        "spinner-wrap": Spinner
-    }
+    components: {}
 })
 export default class MyNeo extends Vue
 {
@@ -100,22 +95,28 @@ export default class MyNeo extends Vue
             for (let i in list)
             {
                 let isshow = await this.checkExpiration(list[ i ]);
-                // console.log(isshow);
+                console.log(isshow);
                 if (!isshow)//未到期
                 {
                     let expired = await this.checkExpirationSoon(list[ i ]);
+                    console.log("----false-------")
+                    console.log(expired);
                     list[ i ][ "expired" ] = isshow;
                     list[ i ][ "expiring" ] = expired;
                 } else
                 {
                     list[ i ][ "expiring" ] = false;
                     list[ i ][ "expired" ] = true;
+                    console.log("true")
                 }
                 if (list[ i ][ "resolver" ])
                 {
+                    console.log("resolver")
                     let mapping = await tools.nnstool.resolveData(list[ i ][ 'domain' ]);
                     list[ i ][ "resolverAddress" ] = mapping;
                 }
+                console.log(res);
+
                 list[ i ][ "ttl" ] = tools.timetool.getTime(res[ i ][ "ttl" ])
             }
             this.neonameList = list;

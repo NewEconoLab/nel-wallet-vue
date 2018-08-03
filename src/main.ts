@@ -11,8 +11,10 @@ import NNS from './pages/nns/nns.vue';
 import Settings from './pages/setting/settings.vue';
 import { tools } from "./tools/importpack";
 import { TaskManager } from './tools/taskmanager';
+import components from './components/index';
 
 Vue.use(VueI18n);
+Vue.use(components);
 // const notFound = () => import('./pages/404.vue');
 declare var require: (filename, resolve) => any;
 Vue.config.productionTip = false
@@ -37,6 +39,7 @@ var app = new Vue({
     data: {
         currentRoute: window.location.hash
     },
+    components,
     computed: {
         ViewComponent()
         {

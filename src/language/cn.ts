@@ -96,7 +96,7 @@ export default {
         transfer: "转账",
         title1: "资产",
         title2: "地址",
-        title3: "余额",
+        title3: "金额",
         title4: "历史记录",
         msg1: "您的地址不正确",
         send: "发送",

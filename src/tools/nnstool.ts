@@ -224,8 +224,8 @@ export class NNSTool
      */
     static async setResolve(domain: string, resolverhash: Uint8Array): Promise<Result>
     {
-        let current = LoginInfo.getCurrentLogin();
-        let hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
+
+        let hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress());
         let hashstr = hash.reverse().toHexString();
         let arr = domain.split(".");
         let nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(arr);
@@ -252,8 +252,7 @@ export class NNSTool
 
     static async setResolveData(domain: string, str: string, resolve: string)
     {
-        let current = LoginInfo.getCurrentLogin();
-        let hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
+        let hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress())
         let hashstr = hash.reverse().toHexString();
         let arr = domain.split(".");
         let nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(arr);
@@ -397,6 +396,20 @@ export class NNSTool
     {
         var reg = /^[a-zA-Z0-9]{34,34}$/
         if (!reg.test(addr))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    static verifyNeoDomain(domain)
+    {
+        //check domain valid
+        var reg = /^(.+\.)(neo|Neo)$/;
+        if (!reg.test(domain))
         {
             return false;
         }
