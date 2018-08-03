@@ -101,18 +101,16 @@ export default class login extends Vue
       try
       {
         let loginarray = await tools.neotool.nep6Load(this.wallet, this.password)
-        LoginInfo.loginInfoArr = loginarray;
         let data = {} as currentInfo;
-        data.type = LoginType.nep5;
+        data.type = LoginType.nep6;
         data.msg = {}
         this.wallet.accounts.map(account =>
         {
           data[ "msg" ][ account.address ] = account.nep2key;
         });
+        LoginInfo.info = loginarray[ this.wallet.accounts[ 0 ].address ];
         sessionStorage.setItem('login-info-arr', JSON.stringify(data));
-        // tools.storagetool.setLoginArr(loginarray);
-        LoginInfo.setCurrentAddress(Object.keys(loginarray)[ 0 ])
-        console.log(Object.keys(loginarray));
+        LoginInfo.setCurrentAddress(this.wallet.accounts[ 0 ].address);
 
         mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
         window.location.hash = "#balance";
@@ -129,14 +127,17 @@ export default class login extends Vue
         const result = this.otcgo.doValidatePwd();
         if (result)
         {
-          var loginarray: LoginInfo[] = new Array<LoginInfo>();
-          loginarray.push(new LoginInfo());
-          loginarray[ 0 ].address = this.otcgo.address;
-          loginarray[ 0 ].prikey = this.otcgo.prikey;
-          loginarray[ 0 ].pubkey = this.otcgo.pubkey;
+          var info: LoginInfo = new LoginInfo();
+          info.address = this.otcgo.address;
+          info.prikey = this.otcgo.prikey;
+          info.pubkey = this.otcgo.pubkey;
 
-          tools.storagetool.setLoginArr(loginarray);
-          LoginInfo.setCurrentAddress(loginarray[ 0 ].address)
+          let data = {} as currentInfo;
+          data.type = LoginType.otcgo;
+          data.msg = this.otcgo.toJson();
+          LoginInfo.info = info;
+          LoginInfo.setCurrentAddress(info.address)
+          sessionStorage.setItem('login-info-arr', JSON.stringify(data));
           mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
           window.location.hash = "#balance";
         } else
@@ -179,10 +180,13 @@ export default class login extends Vue
       mui.toast("" + this.$t("toast.msg4"))
     } else
     {
-      var loginarray: LoginInfo[] = new Array<LoginInfo>();
+      LoginInfo.info = res.info;
+      let data = {} as currentInfo;
+      data.type = LoginType.nep2;
+      data.msg = {};
       var login: LoginInfo = res.info;
-      loginarray.push(login);
-      tools.storagetool.setLoginArr(loginarray);
+      data.msg[ login.address ] = this.nep2;
+      sessionStorage.setItem('login-info-arr', JSON.stringify(data));
       LoginInfo.setCurrentAddress(login.address);
       mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
       window.location.hash = "#balance";

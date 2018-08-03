@@ -1,5 +1,5 @@
 import { tools } from "./importpack";
-import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result, UTXO, OldUTXO, Claim, currentInfo, alert } from "./entity";
+import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result, UTXO, OldUTXO, Claim, currentInfo, alert, LoginType, WalletOtcgo } from "./entity";
 
 declare const mui;
 export class CoinTool
@@ -199,10 +199,10 @@ export class CoinTool
 
         let promise: Promise<Uint8Array> = new Promise((resolve, reject) =>
         {
-            if (!!LoginInfo.loginInfoArr)
+            if (!!LoginInfo.info)
             {
                 let addr = LoginInfo.getCurrentAddress();
-                let current = LoginInfo.loginInfoArr[ addr ];
+                let current = LoginInfo.info
                 var msg = tran.GetMessage().clone();
                 var pubkey = current.pubkey.clone();
                 var prekey = current.prikey.clone();
@@ -212,27 +212,51 @@ export class CoinTool
                 resolve(data);
             } else
             {
-                alert.show("请输入密码", "password", "确认", data =>
+                let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
+                if (current.type == LoginType.nep2 || LoginType.nep6)
                 {
-                    let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
-                    let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
-                    tools.neotool.nep2ToWif(nep2, data)
-                        .then((res) =>
+                    alert.show("请输入密码", "password", "确认", passsword =>
+                    {
+                        let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
+                        tools.neotool.nep2ToWif(nep2, passsword)
+                            .then((res) =>
+                            {
+                                LoginInfo.info = res.info as LoginInfo;
+                                let addr = LoginInfo.getCurrentAddress();
+                                let current = LoginInfo.info
+                                var msg = tran.GetMessage().clone();
+                                var pubkey = current.pubkey.clone();
+                                var prekey = current.prikey.clone();
+                                var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                                tran.AddWitness(signdata, pubkey, addr);
+                                var data: Uint8Array = tran.GetRawData();
+                                alert.close();
+                                resolve(data);
+                            });
+                    })
+                } if (current.type == LoginType.otcgo)
+                {
+                    alert.show("请输入密码", "password", "确认", password =>
+                    {
+                        let json = current.msg;
+                        let otcgo = new WalletOtcgo();
+                        otcgo.fromJsonStr(JSON.stringify(json));
+                        otcgo.otcgoDecrypt(password);
+                        const result = otcgo.doValidatePwd();
+                        if (result)
                         {
-                            let current = res.info as LoginInfo;
-                            let addr = LoginInfo.getCurrentAddress();
-                            LoginInfo.loginInfoArr = {}
-                            LoginInfo.loginInfoArr[ addr ] = current;
-                            var msg = tran.GetMessage().clone();
-                            var pubkey = current.pubkey.clone();
-                            var prekey = current.prikey.clone();
+                            var info: LoginInfo = new LoginInfo();
+                            info.address = otcgo.address;
+                            info.prikey = otcgo.prikey;
+                            info.pubkey = otcgo.pubkey;
                             var signdata = ThinNeo.Helper.Sign(msg, prekey);
-                            tran.AddWitness(signdata, pubkey, addr);
+                            tran.AddWitness(signdata, pubkey, info.address);
                             var data: Uint8Array = tran.GetRawData();
                             alert.close();
                             resolve(data);
-                        });
-                })
+                        }
+                    })
+                }
             }
 
         })

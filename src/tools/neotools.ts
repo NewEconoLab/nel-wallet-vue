@@ -132,6 +132,7 @@ export class neotools
             ThinNeo.Helper.GetPrivateKeyFromNep2(nep2, password, n, r, p, (info, result) =>
             {
                 login.prikey = result as Uint8Array;
+                res.info = {};
                 if (login.prikey != null)
                 {
                     login.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(login.prikey);

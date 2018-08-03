@@ -11,7 +11,7 @@ export enum LoginType
 {
     wif,
     nep2,
-    nep5,
+    nep6,
     otcgo
 }
 
@@ -59,7 +59,7 @@ export class LoginInfo
     pubkey: Uint8Array;
     prikey: Uint8Array;
     address: string;
-    static loginInfoArr: {};
+    static info: LoginInfo;
 
     static alert(call)
     {
@@ -557,6 +557,16 @@ export class WalletOtcgo
         this.publicKey = json[ "publicKey" ];
         this.publicKeyCompressed = json[ "publicKeyCompressed" ];
         this.privateKeyEncrypted = json[ "privateKeyEncrypted" ];
+    }
+
+    toJson()
+    {
+        let json = {};
+        json[ 'address' ] = this.address;
+        json[ 'publicKey' ] = this.publicKey;
+        json[ 'publicKeyCompressed' ] = this.publicKeyCompressed;
+        json[ "privateKeyEncrypted" ] = this.privateKeyEncrypted;
+        return json;
     }
 
     otcgoDecrypt(pwd: string)
