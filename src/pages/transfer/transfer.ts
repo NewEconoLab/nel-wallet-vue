@@ -3,14 +3,12 @@ import WalletLayout from "../../layouts/wallet.vue";
 import axios from "axios"
 import Vue from "vue";
 import Component from "vue-class-component";
-import Toast from "../../components/toast.vue";
 import { tools } from "../../tools/importpack";
 
 declare const mui;
 @Component({
     components: {
-        "wallet-layout": WalletLayout,
-        "v-toast": Toast
+        "wallet-layout": WalletLayout
     }
 })
 export default class transfer extends Vue 

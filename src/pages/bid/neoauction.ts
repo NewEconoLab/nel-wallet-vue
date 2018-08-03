@@ -1,11 +1,6 @@
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
-import Valert from "../../components/Valert.vue";
-import Spinner from "../../components/Spinner.vue";
-import Selected from "../../components/Selected.vue";
+import { Component, Prop } from "vue-property-decorator"
 import AuctionInfo from "./auctioninfo.vue";
-import Toast from "../../components/toast.vue";
-import Hint from "../../components/hint.vue";
 import { tools } from "../../tools/importpack";
 import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
@@ -13,12 +8,7 @@ import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 @Component({
     components: {
-        "v-alert": Valert,
-        "spinner-wrap": Spinner,
-        "auction-info": AuctionInfo,
-        "v-toast": Toast,
-        "v-selected": Selected,
-        "v-hint": Hint
+        "auction-info": AuctionInfo
     }
 })
 export default class NeoAuction extends Vue

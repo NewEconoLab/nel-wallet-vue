@@ -2,18 +2,12 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../../layouts/wallet.vue";
 import { LoginInfo, Domainmsg, DomainInfo, Consts, DomainStatus } from "../../tools/entity";
-import Valert from "../../components/Valert.vue";
-import Spinner from "../../components/Spinner.vue";
-import Bubble from "../../components/bubble.vue";
 import { tools } from "../../tools/importpack";
 
 declare const mui;
 @Component({
     components: {
-        "wallet-layout": WalletLayout,
-        "v-alert": Valert,
-        "spinner-wrap": Spinner,
-        "bubble-wrap": Bubble
+        "wallet-layout": WalletLayout
     }
 })
 export default class NNS extends Vue 

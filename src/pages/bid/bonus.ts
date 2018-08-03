@@ -1,14 +1,9 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import Valert from "../../components/Valert.vue";
-import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { LoginInfo, PageUtil } from '../../tools/entity';
 @Component({
-    components: {
-        "v-alert": Valert,
-        "spinner-wrap": Spinner
-    }
+    components: {}
 })
 export default class Bonus extends Vue
 {
@@ -24,8 +19,8 @@ export default class Bonus extends Vue
     constructor()
     {
         super();
-        //this.currentAddress = LoginInfo.getCurrentAddress();
-        this.currentAddress = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfgUuKdY';
+        this.currentAddress = LoginInfo.getCurrentAddress();
+        // this.currentAddress = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfgUuKdY';
         this.claimNum = '0';
         this.isClaim = false;
         this.claimState = 1;
