@@ -64,9 +64,6 @@ var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
 var wallet_vue_1 = __webpack_require__("PPZq");
 var entity_1 = __webpack_require__("6nHw");
-var Valert_vue_1 = __webpack_require__("Gieu");
-var Spinner_vue_1 = __webpack_require__("+jyM");
-var bubble_vue_1 = __webpack_require__("VbKi");
 var importpack_1 = __webpack_require__("VKSY");
 var NNS = /** @class */ (function (_super) {
     __extends(NNS, _super);
@@ -424,10 +421,7 @@ var NNS = /** @class */ (function (_super) {
     NNS = __decorate([
         vue_class_component_1.default({
             components: {
-                "wallet-layout": wallet_vue_1.default,
-                "v-alert": Valert_vue_1.default,
-                "spinner-wrap": Spinner_vue_1.default,
-                "bubble-wrap": bubble_vue_1.default
+                "wallet-layout": wallet_vue_1.default
             }
         }),
         __metadata("design:paramtypes", [])
@@ -2093,7 +2087,7 @@ var LoginType;
 (function (LoginType) {
     LoginType[LoginType["wif"] = 0] = "wif";
     LoginType[LoginType["nep2"] = 1] = "nep2";
-    LoginType[LoginType["nep5"] = 2] = "nep5";
+    LoginType[LoginType["nep6"] = 2] = "nep6";
     LoginType[LoginType["otcgo"] = 3] = "otcgo";
 })(LoginType = exports.LoginType || (exports.LoginType = {}));
 var alert = /** @class */ (function () {
@@ -2496,6 +2490,14 @@ var WalletOtcgo = /** @class */ (function () {
         this.publicKey = json["publicKey"];
         this.publicKeyCompressed = json["publicKeyCompressed"];
         this.privateKeyEncrypted = json["privateKeyEncrypted"];
+    };
+    WalletOtcgo.prototype.toJson = function () {
+        var json = {};
+        json['address'] = this.address;
+        json['publicKey'] = this.publicKey;
+        json['publicKeyCompressed'] = this.publicKeyCompressed;
+        json["privateKeyEncrypted"] = this.privateKeyEncrypted;
+        return json;
     };
     WalletOtcgo.prototype.otcgoDecrypt = function (pwd) {
         try {
@@ -2921,7 +2923,6 @@ var entity_1 = __webpack_require__("6nHw");
 var wallet_vue_1 = __webpack_require__("PPZq");
 var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
-var toast_vue_1 = __webpack_require__("AU0D");
 var importpack_1 = __webpack_require__("VKSY");
 var transfer = /** @class */ (function (_super) {
     __extends(transfer, _super);
@@ -2998,12 +2999,14 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.verify_addr = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var isDomain, isAddress, addr;
+            var isDomain, isAddress, neoDomain, addr, mapping;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         isDomain = importpack_1.tools.nnstool.verifyDomain(this.target);
                         isAddress = importpack_1.tools.nnstool.verifyAddr(this.target);
+                        neoDomain = importpack_1.tools.nnstool.verifyNeoDomain(this.target);
+                        console.log(isDomain);
                         if (!isDomain) return [3 /*break*/, 2];
                         this.target = this.target.toLowerCase();
                         return [4 /*yield*/, importpack_1.tools.nnstool.resolveData(this.target)];
@@ -3020,22 +3023,28 @@ var transfer = /** @class */ (function (_super) {
                             this.addrerr = 'true';
                             return [2 /*return*/, false];
                         }
-                        return [3 /*break*/, 3];
+                        return [3 /*break*/, 6];
                     case 2:
-                        if (isAddress) {
-                            if (importpack_1.tools.neotool.verifyPublicKey(this.target)) {
-                                this.toaddress = this.target;
-                                this.addrerr = 'false';
-                                return [2 /*return*/, true];
-                            }
+                        if (!isAddress) return [3 /*break*/, 3];
+                        if (importpack_1.tools.neotool.verifyPublicKey(this.target)) {
+                            this.toaddress = this.target;
+                            this.addrerr = 'false';
+                            return [2 /*return*/, true];
                         }
-                        else {
-                            this.addrerr = 'true';
-                            this.toaddress = "";
-                            return [2 /*return*/, false];
-                        }
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 6];
+                    case 3:
+                        if (!neoDomain) return [3 /*break*/, 5];
+                        console.log(neoDomain);
+                        return [4 /*yield*/, importpack_1.tools.nnstool.resolveData(this.target)];
+                    case 4:
+                        mapping = _a.sent();
+                        console.log(mapping);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        this.addrerr = 'true';
+                        this.toaddress = "";
+                        return [2 /*return*/, false];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
@@ -3328,8 +3337,7 @@ var transfer = /** @class */ (function (_super) {
     transfer = __decorate([
         vue_class_component_1.default({
             components: {
-                "wallet-layout": wallet_vue_1.default,
-                "v-toast": toast_vue_1.default
+                "wallet-layout": wallet_vue_1.default
             }
         }),
         __metadata("design:paramtypes", [])
@@ -3403,12 +3411,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
 var vue_property_decorator_1 = __webpack_require__("EOM2");
-var Valert_vue_1 = __webpack_require__("Gieu");
-var Spinner_vue_1 = __webpack_require__("+jyM");
-var Selected_vue_1 = __webpack_require__("2v9N");
 var auctioninfo_vue_1 = __webpack_require__("NH4h");
-var toast_vue_1 = __webpack_require__("AU0D");
-var hint_vue_1 = __webpack_require__("6Trz");
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
 var neoauctionDataModel_1 = __webpack_require__("Zz8u");
@@ -3894,12 +3897,7 @@ var NeoAuction = /** @class */ (function (_super) {
     NeoAuction = __decorate([
         vue_property_decorator_1.Component({
             components: {
-                "v-alert": Valert_vue_1.default,
-                "spinner-wrap": Spinner_vue_1.default,
-                "auction-info": auctioninfo_vue_1.default,
-                "v-toast": toast_vue_1.default,
-                "v-selected": Selected_vue_1.default,
-                "v-hint": hint_vue_1.default
+                "auction-info": auctioninfo_vue_1.default
             }
         }),
         __metadata("design:paramtypes", [])
@@ -4371,13 +4369,6 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6
 
 /***/ }),
 
-/***/ "B+db":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "C0Cu":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4485,16 +4476,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
 var vue_property_decorator_1 = __webpack_require__("EOM2");
-var Valert_vue_1 = __webpack_require__("Gieu");
-var Spinner_vue_1 = __webpack_require__("+jyM");
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
 var Bonus = /** @class */ (function (_super) {
     __extends(Bonus, _super);
     function Bonus() {
         var _this = _super.call(this) || this;
-        //this.currentAddress = LoginInfo.getCurrentAddress();
-        _this.currentAddress = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfgUuKdY';
+        _this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
+        // this.currentAddress = 'AeYiwwjiy2nKXoGLDafoTXc1tGvfgUuKdY';
         _this.claimNum = '0';
         _this.isClaim = false;
         _this.claimState = 1;
@@ -4678,10 +4667,7 @@ var Bonus = /** @class */ (function (_super) {
     };
     Bonus = __decorate([
         vue_property_decorator_1.Component({
-            components: {
-                "v-alert": Valert_vue_1.default,
-                "spinner-wrap": Spinner_vue_1.default
-            }
+            components: {}
         }),
         __metadata("design:paramtypes", [])
     ], Bonus);
@@ -5179,7 +5165,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
 var vue_property_decorator_1 = __webpack_require__("EOM2");
 var Main_vue_1 = __webpack_require__("l7Tq");
-var VLink_vue_1 = __webpack_require__("N5E8");
 var entity_1 = __webpack_require__("6nHw");
 var importpack_1 = __webpack_require__("VKSY");
 var login = /** @class */ (function (_super) {
@@ -5243,7 +5228,7 @@ var login = /** @class */ (function (_super) {
     };
     login.prototype.loginFile = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var loginarray_1, data_1, error_1, result, loginarray;
+            var loginarray, data_1, error_1, result, info, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -5258,18 +5243,16 @@ var login = /** @class */ (function (_super) {
                         _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, importpack_1.tools.neotool.nep6Load(this.wallet, this.password)];
                     case 2:
-                        loginarray_1 = _a.sent();
-                        entity_1.LoginInfo.loginInfoArr = loginarray_1;
+                        loginarray = _a.sent();
                         data_1 = {};
-                        data_1.type = entity_1.LoginType.nep5;
+                        data_1.type = entity_1.LoginType.nep6;
                         data_1.msg = {};
                         this.wallet.accounts.map(function (account) {
                             data_1["msg"][account.address] = account.nep2key;
                         });
+                        entity_1.LoginInfo.info = loginarray[this.wallet.accounts[0].address];
                         sessionStorage.setItem('login-info-arr', JSON.stringify(data_1));
-                        // tools.storagetool.setLoginArr(loginarray);
-                        entity_1.LoginInfo.setCurrentAddress(Object.keys(loginarray_1)[0]);
-                        console.log(Object.keys(loginarray_1));
+                        entity_1.LoginInfo.setCurrentAddress(this.wallet.accounts[0].address);
                         mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' });
                         window.location.hash = "#balance";
                         return [3 /*break*/, 4];
@@ -5283,13 +5266,16 @@ var login = /** @class */ (function (_super) {
                                 this.otcgo.otcgoDecrypt(this.password);
                                 result = this.otcgo.doValidatePwd();
                                 if (result) {
-                                    loginarray = new Array();
-                                    loginarray.push(new entity_1.LoginInfo());
-                                    loginarray[0].address = this.otcgo.address;
-                                    loginarray[0].prikey = this.otcgo.prikey;
-                                    loginarray[0].pubkey = this.otcgo.pubkey;
-                                    importpack_1.tools.storagetool.setLoginArr(loginarray);
-                                    entity_1.LoginInfo.setCurrentAddress(loginarray[0].address);
+                                    info = new entity_1.LoginInfo();
+                                    info.address = this.otcgo.address;
+                                    info.prikey = this.otcgo.prikey;
+                                    info.pubkey = this.otcgo.pubkey;
+                                    data = {};
+                                    data.type = entity_1.LoginType.otcgo;
+                                    data.msg = this.otcgo.toJson();
+                                    entity_1.LoginInfo.info = info;
+                                    entity_1.LoginInfo.setCurrentAddress(info.address);
+                                    sessionStorage.setItem('login-info-arr', JSON.stringify(data));
                                     mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' });
                                     window.location.hash = "#balance";
                                 }
@@ -5330,7 +5316,7 @@ var login = /** @class */ (function (_super) {
     };
     login.prototype.loginNep2 = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, loginarray, login;
+            var res, data, login;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -5342,10 +5328,13 @@ var login = /** @class */ (function (_super) {
                             mui.toast("" + this.$t("toast.msg4"));
                         }
                         else {
-                            loginarray = new Array();
+                            entity_1.LoginInfo.info = res.info;
+                            data = {};
+                            data.type = entity_1.LoginType.nep2;
+                            data.msg = {};
                             login = res.info;
-                            loginarray.push(login);
-                            importpack_1.tools.storagetool.setLoginArr(loginarray);
+                            data.msg[login.address] = this.nep2;
+                            sessionStorage.setItem('login-info-arr', JSON.stringify(data));
                             entity_1.LoginInfo.setCurrentAddress(login.address);
                             mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' });
                             window.location.hash = "#balance";
@@ -5469,8 +5458,7 @@ var login = /** @class */ (function (_super) {
     login = __decorate([
         vue_property_decorator_1.Component({
             components: {
-                "main-layout": Main_vue_1.default,
-                "v-link": VLink_vue_1.default
+                "main-layout": Main_vue_1.default
             }
         }),
         __metadata("design:paramtypes", [])
@@ -5746,8 +5734,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
 var vue_property_decorator_1 = __webpack_require__("EOM2");
-var Valert_vue_1 = __webpack_require__("Gieu");
-var Spinner_vue_1 = __webpack_require__("+jyM");
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
 var storagetool_1 = __webpack_require__("5LD5");
@@ -5824,25 +5810,31 @@ var MyNeo = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.checkExpiration(list[i])];
                     case 3:
                         isshow = _c.sent();
+                        console.log(isshow);
                         if (!!isshow) return [3 /*break*/, 5];
                         return [4 /*yield*/, this.checkExpirationSoon(list[i])];
                     case 4:
                         expired = _c.sent();
+                        console.log("----false-------");
+                        console.log(expired);
                         list[i]["expired"] = isshow;
                         list[i]["expiring"] = expired;
                         return [3 /*break*/, 6];
                     case 5:
                         list[i]["expiring"] = false;
                         list[i]["expired"] = true;
+                        console.log("true");
                         _c.label = 6;
                     case 6:
                         if (!list[i]["resolver"]) return [3 /*break*/, 8];
+                        console.log("resolver");
                         return [4 /*yield*/, importpack_1.tools.nnstool.resolveData(list[i]['domain'])];
                     case 7:
                         mapping = _c.sent();
                         list[i]["resolverAddress"] = mapping;
                         _c.label = 8;
                     case 8:
+                        console.log(res);
                         list[i]["ttl"] = importpack_1.tools.timetool.getTime(res[i]["ttl"]);
                         _c.label = 9;
                     case 9:
@@ -6048,10 +6040,7 @@ var MyNeo = /** @class */ (function (_super) {
     };
     MyNeo = __decorate([
         vue_property_decorator_1.Component({
-            components: {
-                "v-alert": Valert_vue_1.default,
-                "spinner-wrap": Spinner_vue_1.default
-            }
+            components: {}
         }),
         __metadata("design:paramtypes", [])
     ], MyNeo);
@@ -6066,6 +6055,34 @@ exports.default = MyNeo;
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAA11JREFUWAnNWT1II0EUfgkiiNqk8CRgIYmdVhFFsU+6iFjZBK3vQAwErJa7q0QrOewsRbgmHhaCVtZqEy0UPEQUzR0EiTlEUG7v+2ZN2MQz2b/EffBt3s7Me/Ptm53ZN5OAOBRd1yMwTQIxIGwCVLkx4Qj6j0Ag8JMVTRWQ6gG+AMeAXaENbXs8JwmnXYAGlAC3Qh8a0OUJUTiaAvKA10KfU45JwjgAaMBfoFlC3xoQsEUUBh3Ad6BVwr46LJFEQ0auleTKQWCfjSOJRlrZ4h1+tbpRBCFOiGa+c42emX1XTZxKSFHBaX8OfKj7FM2v/IUuoljY/7CrNlN/aeiOyD09PUk2m5WdnR25vLwUOJf+/n6Jx+MyPT2t7k39NFLJgVw+s6GKIKLH1Z2fItuL59XVlSwsLMjFxQX9vZLh4WFZW1uTYDD4qq5OAaMXwYP+Llt9QoFtcuxgaWlJkRsaGpLl5WXZ3d2Vra0tmZmZYbUcHh7KxsaG0m1cyOVjpT0i6OTbCjNdv7+/19fX13UMs7o3X+bn5/VYLKanUilzsVX9mASDaM2sZLDC1qbS3d0tc3Nz0tZmfp0NJ+Pj40p5a/gbdDVIbhxipkxNkYeHB+WXD+FQkiTIfK4psre3p/yOjY059R8jQSabnsvm5qacnp5KZ2enzM7OOvUfFozzmdW31mq7XC6nj46OqgmCtdGq2f/anXkewVKpJIuLi/L8/CyTk5OSSCScRo92YRLU3XiotV1dXZV8Pi+RSEQymUxttd17nQRv7Vq91b5QKMj29raqTqfT0t7e/lZTq+W3JMgdmCdycHCghra3t1dGRka88HnjKcFisahI9fX1eUGOPm64/HPfanw4WeRCJiYmhNELhUIuvFSZHjG956eOeaAfJRpESsM068QrdtfX1/L4+OiFuxNy4ztIyRo/7q5Mvbj2JZNJtdS482ZwKhP8BmcqxXbjlFk1hcvN/v6+G1fkQk6iCDJzhb7CAjcSjUYr5gMDAxXdgbLywslI+ekAk4VZrKtN093dndqXkKiLdbBq01T1cCDpu21nFUHegKQGvJfU37i/EPT30ccLSf8eHpEgBWPs3+M3g6JxBVF/HmDWkPTvEXANUR6ifwWcbPRpY/sQXZ3NmElY1dFZS/6G+AfBNJPrQJbG6AAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ "OrGm":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var bubble_vue_1 = __webpack_require__("VbKi");
+var hint_vue_1 = __webpack_require__("6Trz");
+var Selected_vue_1 = __webpack_require__("2v9N");
+var Spinner_vue_1 = __webpack_require__("+jyM");
+var toast_vue_1 = __webpack_require__("AU0D");
+var Valert_vue_1 = __webpack_require__("Gieu");
+var VLink_vue_1 = __webpack_require__("N5E8");
+exports.default = {
+    install: function (Vue) {
+        Vue.component('bubble-wrap', bubble_vue_1.default);
+        Vue.component('v-hint', hint_vue_1.default);
+        Vue.component('v-selected', Selected_vue_1.default);
+        Vue.component('spinner-wrap', Spinner_vue_1.default);
+        Vue.component('v-toast', toast_vue_1.default);
+        Vue.component('v-alert', Valert_vue_1.default);
+        Vue.component('v-link', VLink_vue_1.default);
+    }
+};
+
 
 /***/ }),
 
@@ -6267,6 +6284,7 @@ var neotools = /** @class */ (function () {
                     var p = 8;
                     ThinNeo.Helper.GetPrivateKeyFromNep2(nep2, password, n, r, p, function (info, result) {
                         login.prikey = result;
+                        res.info = {};
                         if (login.prikey != null) {
                             login.pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(login.prikey);
                             login.address = ThinNeo.Helper.GetAddressFromPublicKey(login.pubkey);
@@ -6566,6 +6584,13 @@ exports.default = Settings;
 
 /***/ }),
 
+/***/ "SyQQ":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "TaBq":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6694,7 +6719,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
 var wallet_vue_1 = __webpack_require__("PPZq");
-var Spinner_vue_1 = __webpack_require__("+jyM");
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
 var Exchange = /** @class */ (function (_super) {
@@ -6927,8 +6951,7 @@ var Exchange = /** @class */ (function (_super) {
     Exchange = __decorate([
         vue_class_component_1.default({
             components: {
-                "wallet-layout": wallet_vue_1.default,
-                "spinner-wrap": Spinner_vue_1.default,
+                "wallet-layout": wallet_vue_1.default
             }
         }),
         __metadata("design:paramtypes", [])
@@ -7957,12 +7980,11 @@ var NNSTool = /** @class */ (function () {
      */
     NNSTool.setResolve = function (domain, resolverhash) {
         return __awaiter(this, void 0, void 0, function () {
-            var current, hash, hashstr, arr, nnshash, resolvestr, scriptaddress, sb, random_uint8, random_int, data, res;
+            var hash, hashstr, arr, nnshash, resolvestr, scriptaddress, sb, random_uint8, random_int, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        current = entity_1.LoginInfo.getCurrentLogin();
-                        hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
+                        hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress());
                         hashstr = hash.reverse().toHexString();
                         arr = domain.split(".");
                         nnshash = importpack_1.tools.nnstool.nameHashArray(arr);
@@ -7992,12 +8014,11 @@ var NNSTool = /** @class */ (function () {
     };
     NNSTool.setResolveData = function (domain, str, resolve) {
         return __awaiter(this, void 0, void 0, function () {
-            var current, hash, hashstr, arr, nnshash, scriptaddress, sb, random_uint8, random_int, data, res;
+            var hash, hashstr, arr, nnshash, scriptaddress, sb, random_uint8, random_int, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        current = entity_1.LoginInfo.getCurrentLogin();
-                        hash = ThinNeo.Helper.GetPublicKeyScriptHashFromPublicKey(current.pubkey);
+                        hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress());
                         hashstr = hash.reverse().toHexString();
                         arr = domain.split(".");
                         nnshash = importpack_1.tools.nnstool.nameHashArray(arr);
@@ -8130,6 +8151,16 @@ var NNSTool = /** @class */ (function () {
     NNSTool.verifyAddr = function (addr) {
         var reg = /^[a-zA-Z0-9]{34,34}$/;
         if (!reg.test(addr)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    NNSTool.verifyNeoDomain = function (domain) {
+        //check domain valid
+        var reg = /^(.+\.)(neo|Neo)$/;
+        if (!reg.test(domain)) {
             return false;
         }
         else {
@@ -8474,10 +8505,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /// <reference path="../../tools/number.d.ts"/>
 var vue_1 = __webpack_require__("/5sW");
 var vue_property_decorator_1 = __webpack_require__("EOM2");
-var Valert_vue_1 = __webpack_require__("Gieu");
-var toast_vue_1 = __webpack_require__("AU0D");
-var Spinner_vue_1 = __webpack_require__("+jyM");
-// import Hint from "../../components/hint.vue";
 var importpack_1 = __webpack_require__("VKSY");
 var storagetool_1 = __webpack_require__("5LD5");
 var entity_1 = __webpack_require__("6nHw");
@@ -9081,11 +9108,7 @@ var AuctionInfo = /** @class */ (function (_super) {
     };
     AuctionInfo = __decorate([
         vue_property_decorator_1.Component({
-            components: {
-                "v-alert": Valert_vue_1.default,
-                "v-toast": toast_vue_1.default,
-                "spinner-wrap": Spinner_vue_1.default,
-            }
+            components: {}
         }),
         __metadata("design:paramtypes", [])
     ], AuctionInfo);
@@ -9185,7 +9208,7 @@ exports.default = {
         topup: "Top up"
     },
     toast: {
-        msg1: "Landing ...",
+        msg1: "Loading ...",
         msg2: "Authentication passed...",
         msg3: "Login failed. Please check your password or file",
         msg4: "Please enter the correct string"
@@ -9652,9 +9675,9 @@ var CoinTool = /** @class */ (function () {
             var promise;
             return __generator(this, function (_a) {
                 promise = new Promise(function (resolve, reject) {
-                    if (!!entity_1.LoginInfo.loginInfoArr) {
+                    if (!!entity_1.LoginInfo.info) {
                         var addr = entity_1.LoginInfo.getCurrentAddress();
-                        var current = entity_1.LoginInfo.loginInfoArr[addr];
+                        var current = entity_1.LoginInfo.info;
                         var msg = tran.GetMessage().clone();
                         var pubkey = current.pubkey.clone();
                         var prekey = current.prikey.clone();
@@ -9664,25 +9687,46 @@ var CoinTool = /** @class */ (function () {
                         resolve(data);
                     }
                     else {
-                        entity_1.alert.show("请输入密码", "password", "确认", function (data) {
-                            var current = JSON.parse(sessionStorage.getItem("login-info-arr"));
-                            var nep2 = current.msg[entity_1.LoginInfo.getCurrentAddress()];
-                            importpack_1.tools.neotool.nep2ToWif(nep2, data)
-                                .then(function (res) {
-                                var current = res.info;
-                                var addr = entity_1.LoginInfo.getCurrentAddress();
-                                entity_1.LoginInfo.loginInfoArr = {};
-                                entity_1.LoginInfo.loginInfoArr[addr] = current;
-                                var msg = tran.GetMessage().clone();
-                                var pubkey = current.pubkey.clone();
-                                var prekey = current.prikey.clone();
-                                var signdata = ThinNeo.Helper.Sign(msg, prekey);
-                                tran.AddWitness(signdata, pubkey, addr);
-                                var data = tran.GetRawData();
-                                entity_1.alert.close();
-                                resolve(data);
+                        var current_1 = JSON.parse(sessionStorage.getItem("login-info-arr"));
+                        if (current_1.type == entity_1.LoginType.nep2 || entity_1.LoginType.nep6) {
+                            entity_1.alert.show("请输入密码", "password", "确认", function (passsword) {
+                                var nep2 = current_1.msg[entity_1.LoginInfo.getCurrentAddress()];
+                                importpack_1.tools.neotool.nep2ToWif(nep2, passsword)
+                                    .then(function (res) {
+                                    entity_1.LoginInfo.info = res.info;
+                                    var addr = entity_1.LoginInfo.getCurrentAddress();
+                                    var current = entity_1.LoginInfo.info;
+                                    var msg = tran.GetMessage().clone();
+                                    var pubkey = current.pubkey.clone();
+                                    var prekey = current.prikey.clone();
+                                    var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                                    tran.AddWitness(signdata, pubkey, addr);
+                                    var data = tran.GetRawData();
+                                    entity_1.alert.close();
+                                    resolve(data);
+                                });
                             });
-                        });
+                        }
+                        if (current_1.type == entity_1.LoginType.otcgo) {
+                            entity_1.alert.show("请输入密码", "password", "确认", function (password) {
+                                var json = current_1.msg;
+                                var otcgo = new entity_1.WalletOtcgo();
+                                otcgo.fromJsonStr(JSON.stringify(json));
+                                otcgo.otcgoDecrypt(password);
+                                var result = otcgo.doValidatePwd();
+                                if (result) {
+                                    var info = new entity_1.LoginInfo();
+                                    info.address = otcgo.address;
+                                    info.prikey = otcgo.prikey;
+                                    info.pubkey = otcgo.pubkey;
+                                    var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                                    tran.AddWitness(signdata, pubkey, info.address);
+                                    var data = tran.GetRawData();
+                                    entity_1.alert.close();
+                                    resolve(data);
+                                }
+                            });
+                        }
                     }
                 });
                 return [2 /*return*/, promise];
@@ -10648,14 +10692,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var balance = __webpack_require__("5smL");
 var balance_default = /*#__PURE__*/__webpack_require__.n(balance);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-65556828","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance/balance.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title1')))]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v(_vm._s(_vm.$t('balance.title2'))+" ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v(_vm._s(_vm.$t('btn.switch')))]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v(_vm._s(_vm.$t('balance.title3'))+" : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('span',[_c('spinner-wrap',{attrs:{"isbig":false}})],1):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title4')))])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v(_vm._s(_vm.$t('btn.transfer')))])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v(_vm._s(_vm.$t('balance.title5')))])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v(_vm._s(_vm.$t('balance.title6'))+":")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v(_vm._s(_vm.$t('btn.close')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])])])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-35f71a1c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance/balance.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title1')))]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v(_vm._s(_vm.$t('balance.title2'))+" ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v(_vm._s(_vm.$t('btn.switch')))]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"getGas"},[_c('button',{staticClass:"btn btn-nel"},[_vm._v("Get")])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v(_vm._s(_vm.$t('balance.title3'))+" : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('span',[_c('spinner-wrap',{attrs:{"isbig":false}})],1):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title4')))])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v(_vm._s(_vm.$t('btn.transfer')))])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v(_vm._s(_vm.$t('balance.title5')))])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v(_vm._s(_vm.$t('balance.title6'))+":")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v(_vm._s(_vm.$t('btn.close')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])])])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var balance_balance = (esExports);
 // CONCATENATED MODULE: ./src/pages/balance/balance.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("B+db")
+  __webpack_require__("SyQQ")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -10666,7 +10710,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-65556828"
+var __vue_scopeId__ = "data-v-35f71a1c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -10856,7 +10900,7 @@ exports.default = {
         transfer: "转账",
         title1: "资产",
         title2: "地址",
-        title3: "余额",
+        title3: "金额",
         title4: "历史记录",
         msg1: "您的地址不正确",
         send: "发送",
@@ -11069,7 +11113,9 @@ var nns_vue_1 = __webpack_require__("RN/i");
 var settings_vue_1 = __webpack_require__("hZlE");
 var importpack_1 = __webpack_require__("VKSY");
 var taskmanager_1 = __webpack_require__("XfB5");
+var index_1 = __webpack_require__("OrGm");
 vue_1.default.use(vue_i18n_1.default);
+vue_1.default.use(index_1.default);
 vue_1.default.config.productionTip = false;
 var notFound = vue_1.default.component('notFound', function (resolve) { return __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("c5Mg")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
 var language = sessionStorage.getItem("language");
@@ -11090,6 +11136,7 @@ var app = new vue_1.default({
     data: {
         currentRoute: window.location.hash
     },
+    components: index_1.default,
     computed: {
         ViewComponent: function () {
             var routeArray = this.currentRoute.replace("#", "").split("/");
