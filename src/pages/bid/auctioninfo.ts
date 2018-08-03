@@ -94,7 +94,7 @@ export default class AuctionInfo extends Vue
 
         this.bidDetailList = [];
         await this.getSessionBidDetail(domain);
-        await this.getBidDetail(domain, 1, 5);
+        await this.getBidDetail(this.domainAuctionInfo.id, 1, 5);
         let confirm_getDomain = this.session_getdomain.select(domain);
         let confirm_recover = this.session_recover.select(domain);
         let confirm_bid = this.session_bid.select(domain);
@@ -409,9 +409,9 @@ export default class AuctionInfo extends Vue
      * @param currentpage 当前地址
      * @param pagesize 分页条数
      */
-    async getBidDetail(domain, currentpage, pagesize)
+    async getBidDetail(id, currentpage, pagesize)
     {
-        let res = await tools.wwwtool.api_getBidDetail(domain, currentpage, pagesize);
+        let res = await tools.wwwtool.api_getBidDetail(id, currentpage, pagesize);
         if (res)
         {
             if (res[ 0 ].count < pagesize)
