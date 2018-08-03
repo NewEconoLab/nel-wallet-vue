@@ -99,7 +99,6 @@
 </script>
 <style scoped>
 .btn-transfer {
-  
   border: 1px solid #ffffff;
   border-radius: 5px;
 }
