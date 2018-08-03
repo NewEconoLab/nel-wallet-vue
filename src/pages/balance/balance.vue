@@ -18,6 +18,9 @@
             <span class="balance-type">GAS&nbsp;</span>
             <span class="balance-amount">{{neoasset.gas}}</span>
           </div>
+          <div class="getGas">
+            <button class="btn btn-nel">Get</button>
+          </div>
           <div class="claim" style="padding: 30px; padding-left: 2.3%;">
             <span style="margin-right: 17px;">{{$t('balance.title3')}} : {{neoasset.claim}}</span>
             <button class="btn btn-nel" v-if="neoasset.claim!='0'&&claimbtn" @click="toClaimGas">{{$t('btn.claim')}}</button>
@@ -100,6 +103,13 @@
   font-size: 30px;
   color: #ffffff;
   line-height: 30px;
+}
+.getGas {
+  float: right;
+  text-align: right;
+  position: relative;
+  top: -76px;
+  right: 20px;
 }
 .neobalance .claim {
   font-size: 16px;

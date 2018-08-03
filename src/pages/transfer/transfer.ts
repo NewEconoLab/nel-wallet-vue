@@ -86,6 +86,8 @@ export default class transfer extends Vue
     {
         let isDomain = tools.nnstool.verifyDomain(this.target);
         let isAddress = tools.nnstool.verifyAddr(this.target);
+        let neoDomain = tools.nnstool.verifyNeoDomain(this.target);
+        console.log(isDomain);
         if (isDomain)
         {
             this.target = this.target.toLowerCase();
@@ -111,6 +113,13 @@ export default class transfer extends Vue
                 this.addrerr = 'false';
                 return true;
             }
+        }
+        else if (neoDomain)
+        {
+            console.log(neoDomain);
+            let mapping = await tools.nnstool.resolveData(this.target);
+            console.log(mapping);
+            // list[ i ][ "resolverAddress" ] = mapping;
         }
         else
         {
