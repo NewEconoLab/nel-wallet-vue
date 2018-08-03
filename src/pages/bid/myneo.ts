@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, Domainmsg, DomainInfo, DomainStatus } from "../../tools/entity";
+import { LoginInfo, Domainmsg, DomainInfo, DomainStatus, Consts } from "../../tools/entity";
 import { sessionStoreTool } from "../../tools/storagetool";
 @Component({
     components: {}
@@ -99,24 +99,18 @@ export default class MyNeo extends Vue
                 if (!isshow)//未到期
                 {
                     let expired = await this.checkExpirationSoon(list[ i ]);
-                    console.log("----false-------")
-                    console.log(expired);
                     list[ i ][ "expired" ] = isshow;
                     list[ i ][ "expiring" ] = expired;
                 } else
                 {
                     list[ i ][ "expiring" ] = false;
                     list[ i ][ "expired" ] = true;
-                    console.log("true")
                 }
                 if (list[ i ][ "resolver" ])
                 {
-                    console.log("resolver")
                     let mapping = await tools.nnstool.resolveData(list[ i ][ 'domain' ]);
                     list[ i ][ "resolverAddress" ] = mapping;
                 }
-                console.log(res);
-
                 list[ i ][ "ttl" ] = tools.timetool.getTime(res[ i ][ "ttl" ])
             }
             this.neonameList = list;

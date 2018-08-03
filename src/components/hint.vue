@@ -46,6 +46,13 @@ export default class Hint extends Vue {
       top: 12px;
       transform: translateY(-50%);
     }
+    .hint-otherwidth {
+      width: auto;
+      white-space: nowrap;
+      padding: 8px;
+      font-size: 14px;
+      color: #333333;
+    }
     .hint-content:after {
       content: "";
       display: block;

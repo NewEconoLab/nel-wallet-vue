@@ -33,7 +33,8 @@ export default {
         renewal: "Renewal",
         exchange: "Exchange",
         withdraw: "Withdraw",
-        topup: "Top up"
+        topup: "Top up",
+        getGas: "Request Gas"
     },
     toast: {
         msg1: "Loading ...",
@@ -90,7 +91,8 @@ export default {
         msg1: "Sending NEO to account address…",
         msg2: "Waiting for confirmation of transfer…",
         msg3: "Claiming GAS…",
-        msg4: "Your GAS claim is successful!"
+        msg4: "Your GAS claim is successful!",
+        tips: "You can click this button to request Gas, it can only be clicked once a day."
     },
     transfer: {
         transfer: "Transfer",

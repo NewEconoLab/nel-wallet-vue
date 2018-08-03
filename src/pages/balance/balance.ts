@@ -23,6 +23,7 @@ export default class balance extends Vue
   chooseAddress: string = "";
   loadmsg: string = "";
   claimbtn: boolean = true;
+  isgetGas: boolean = false;
 
   constructor()
   {
@@ -155,6 +156,12 @@ export default class balance extends Vue
   {
     tools.storagetool.setStorage("transfer_choose", asset);
     window.location.hash = "#transfer";
+  }
+
+  //获取Gas
+  async getGas()
+  {
+    this.isgetGas = true;
   }
 
 }

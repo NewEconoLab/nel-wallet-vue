@@ -479,14 +479,14 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "1Mcy":
+/***/ "0rEL":
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAmCAYAAAC29NkdAAAAAXNSR0IArs4c6QAABNNJREFUWAnFWG9sU1UU/93Xt27t2GbBOLZ1k0lcTBQMYMQMEsIXpgEXNSEKivrFEE0MyIaJiQrEr1SHJP6JHxYcIiqJCaKbfBiQKJHwASPxT2ZMtzEYGGO7Ddau7XvXc/q2t1deS99rS73J6zs995zf+d1/5953BQoswZ5/l2saNgqIFQSxmJ4GCclvkO4qvcbpuUq6Cx4Pvh3bufAXrnNbhBuHptBkm5T6Dgj9cSnR7MZXCFyCVL4RQjlwuat2yKmvI4JL3ossSejYI4FtkNLjFDyrnRAaBe3zKtg3/FpgOKuNRalYZJu4V0qlMRTZS+SGpJQvFk2OI1ADGYsxGZtj2AJbFDl7sOWDaCA5rX9Gto9Z7G+H2F/hV54dfeWOSDbwrAR5rulSG6DmtmZzKr1OhBXheTTb3LR179IPp+4qLzlurmzlmBz75sZnEAy+K32xG8nj5es5Kx3ZyrGZg1WbQVDTox/TSl1tNSinzLGZgzWmOQcbQ5PtUqZ+tFY6latUoL1ZRUudByyPRHX88Y+GML0LKUKoa6501Z5lX4LjlS9FYyjaw7KbUl0B7F7jw9ZllVjgNdtqQnz3ZwLvnIlhZMIdUSm1HuK0Wggh06iN+ye2SGhHTGQHQtsiBYefqkGwNmOW2DxHJzRs6JvC5AwNoIsi4Nl6pbvucwNdaC+48E2bvrHWZ5I7MZTAk0encO/7Eaz4KIrukzdMQjzsu9ur3MLThm5wEpyQUzF5jbqUBsx58dKGF9rgx5mRFI79lrA5bnnAi1BHdVp/8VoKHYenbDa3UtDwJlWfqFe1uOx0S46BExrwav90zhhnL6XMuqUL3W/fzEmLo1OROtabSCUU7gnMz81whFpTQGFuCh3eggX43tKFV/db6/ymTe/PM6bsSiBu1EzZ5Mopj3FtpcAXm2tw353GsH79ewJHLtrnaB6Y2WrZpNLBs2QE64jcl5sXYFl9Or3iq19nsOv73PM0H0nmNj9R8lnnqVcoo/Y+UW2S670Qx46BaWju0p8tikJH8cs2bQGKp+/34pGgkalODyfx5mCsAJRMF+ZGPShKQnBjm9dEP/BTHEV23CyWIIISYyZyEYLf6Lw0QjhaWFqxhSduqlBwivKN663uZrBnjl0Hz0Mu8fkcbSgK/GVuqqdKHJcxJAvZTaxxeWcpZeGtjrkpxseKHCwG3EdZZc86Hwaeq8EhWsnL691vbfb4cpC5GQlLeg4BWofdyJnmdToTbn9o9sRSD6xsUPHwJxOIFTPUaU5AOg/S19RRWs3nndGxWz24OLPHFvkVNNcVk2LFeYPTLMH0yVV4dtpDO9P8MJrZVWOTOsIRd6doayRBXJgT62bXnVHdsD/yKe3N26zGTmSVOuullZVY21KB8es6Dp6Luz7mz8cRfePdgefn/mcQ5E8+XY+cIur/y5cdkTmnKIH1Y7uEuQ1lTBSu8FVXdFLHhudaUL63CHNsKzmOnUGQFX+9XPM3X0OUl6Rx9cGxmYO12AhyJd+RVPjFKhL7rca3SabLI7Eq270Mx8tKkCs4SW7vCmyi1bSPniTrSlkYk7E5Rq6bLY6XsUhyEbj7YLQ1mZBv0+Ip+wWmI4JzxNNXwEhxvtxEp93mOb2Td/oKGDghoPbkGs5sOK4IWgHKdYn+H1JhunGYOW88AAAAAElFTkSuQmCC"
 
 /***/ }),
 
-/***/ "25f1":
+/***/ "1Mcy":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -1684,6 +1684,13 @@ exports.StaticStore = StaticStore;
 
 /***/ }),
 
+/***/ "5bIc":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "5smL":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1758,6 +1765,7 @@ var balance = /** @class */ (function (_super) {
         _this.chooseAddress = "";
         _this.loadmsg = "";
         _this.claimbtn = true;
+        _this.isgetGas = false;
         _this.neoasset = new entity_1.NeoAsset();
         _this.balances = new Array();
         _this.neoasset.gas = 0;
@@ -1923,6 +1931,15 @@ var balance = /** @class */ (function (_super) {
         importpack_1.tools.storagetool.setStorage("transfer_choose", asset);
         window.location.hash = "#transfer";
     };
+    //获取Gas
+    balance.prototype.getGas = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.isgetGas = true;
+                return [2 /*return*/];
+            });
+        });
+    };
     balance = __decorate([
         vue_property_decorator_1.Component({
             components: {
@@ -1994,14 +2011,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var hint = __webpack_require__("lXdV");
 var hint_default = /*#__PURE__*/__webpack_require__.n(hint);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1b285ac1","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/hint.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-613f161c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/hint.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hint-box"},[_c('div',{staticClass:"hint-msg"},[_vm._t("default")],2)])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_hint = (esExports);
 // CONCATENATED MODULE: ./src/components/hint.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("25f1")
+  __webpack_require__("5bIc")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2013,7 +2030,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-1b285ac1"
+var __vue_scopeId__ = "data-v-613f161c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -3039,6 +3056,18 @@ var transfer = /** @class */ (function (_super) {
                     case 4:
                         mapping = _a.sent();
                         console.log(mapping);
+                        if (mapping.length) {
+                            this.toaddress = mapping;
+                            this.addrerr = 'false';
+                            this.isDomain = true;
+                            return [2 /*return*/, true];
+                        }
+                        else {
+                            this.toaddress = "";
+                            this.addrerr = 'true';
+                            this.isDomain = false;
+                            return [2 /*return*/, false];
+                        }
                         return [3 /*break*/, 6];
                     case 5:
                         this.addrerr = 'true';
@@ -5815,26 +5844,21 @@ var MyNeo = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.checkExpirationSoon(list[i])];
                     case 4:
                         expired = _c.sent();
-                        console.log("----false-------");
-                        console.log(expired);
                         list[i]["expired"] = isshow;
                         list[i]["expiring"] = expired;
                         return [3 /*break*/, 6];
                     case 5:
                         list[i]["expiring"] = false;
                         list[i]["expired"] = true;
-                        console.log("true");
                         _c.label = 6;
                     case 6:
                         if (!list[i]["resolver"]) return [3 /*break*/, 8];
-                        console.log("resolver");
                         return [4 /*yield*/, importpack_1.tools.nnstool.resolveData(list[i]['domain'])];
                     case 7:
                         mapping = _c.sent();
                         list[i]["resolverAddress"] = mapping;
                         _c.label = 8;
                     case 8:
-                        console.log(res);
                         list[i]["ttl"] = importpack_1.tools.timetool.getTime(res[i]["ttl"]);
                         _c.label = 9;
                     case 9:
@@ -6584,13 +6608,6 @@ exports.default = Settings;
 
 /***/ }),
 
-/***/ "SyQQ":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "TaBq":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6646,6 +6663,13 @@ var Selected = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Selected;
 
+
+/***/ }),
+
+/***/ "U8nZ":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -9205,7 +9229,8 @@ exports.default = {
         renewal: "Renewal",
         exchange: "Exchange",
         withdraw: "Withdraw",
-        topup: "Top up"
+        topup: "Top up",
+        getGas: "Request Gas"
     },
     toast: {
         msg1: "Loading ...",
@@ -9262,7 +9287,8 @@ exports.default = {
         msg1: "Sending NEO to account address…",
         msg2: "Waiting for confirmation of transfer…",
         msg3: "Claiming GAS…",
-        msg4: "Your GAS claim is successful!"
+        msg4: "Your GAS claim is successful!",
+        tips: "You can click this button to request Gas, it can only be clicked once a day."
     },
     transfer: {
         transfer: "Transfer",
@@ -10692,14 +10718,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var balance = __webpack_require__("5smL");
 var balance_default = /*#__PURE__*/__webpack_require__.n(balance);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-35f71a1c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance/balance.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title1')))]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v(_vm._s(_vm.$t('balance.title2'))+" ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v(_vm._s(_vm.$t('btn.switch')))]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))])]),_vm._v(" "),_c('div',{staticClass:"getGas"},[_c('button',{staticClass:"btn btn-nel"},[_vm._v("Get")])]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v(_vm._s(_vm.$t('balance.title3'))+" : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('span',[_c('spinner-wrap',{attrs:{"isbig":false}})],1):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title4')))])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v(_vm._s(_vm.$t('btn.transfer')))])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v(_vm._s(_vm.$t('balance.title5')))])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v(_vm._s(_vm.$t('balance.title6'))+":")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v(_vm._s(_vm.$t('btn.close')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])])])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-28b1f600","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance/balance.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title1')))]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v(_vm._s(_vm.$t('balance.title2'))+" ："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v(_vm._s(_vm.$t('btn.switch')))]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))]),_vm._v(" "),_c('span',{staticStyle:{"vertical-align":"super","margin-left":"10px"}},[(!_vm.isgetGas)?_c('button',{staticClass:"btn btn-nel",attrs:{"disabled":""},on:{"click":_vm.getGas}},[_vm._v(_vm._s(_vm.$t('btn.getGas')))]):_vm._e(),_vm._v(" "),(_vm.isgetGas)?_c('span',[_c('spinner-wrap',{attrs:{"isbig":false}})],1):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[_c('img',{staticStyle:{"width":"20px","height":"20px"},attrs:{"src":__webpack_require__("0rEL"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"hint-content hint-otherwidth"},[_vm._v("\n                  "+_vm._s(_vm.$t('balance.tips'))+"\n              ")])])],1)]),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v(_vm._s(_vm.$t('balance.title3'))+" : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('span',[_c('spinner-wrap',{attrs:{"isbig":false}})],1):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title4')))])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v(_vm._s(_vm.$t('btn.transfer')))])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v(_vm._s(_vm.$t('balance.title5')))])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v(_vm._s(_vm.$t('balance.title6'))+":")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v(_vm._s(_vm.$t('btn.close')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])])])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var balance_balance = (esExports);
 // CONCATENATED MODULE: ./src/pages/balance/balance.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("SyQQ")
+  __webpack_require__("U8nZ")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -10710,7 +10736,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-35f71a1c"
+var __vue_scopeId__ = "data-v-28b1f600"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -10837,7 +10863,8 @@ exports.default = {
         renewal: "续约",
         exchange: "兑换",
         withdraw: "提取",
-        topup: "充值"
+        topup: "充值",
+        getGas: "索取Gas"
     },
     toast: {
         msg1: "登陆中...",
@@ -10894,7 +10921,8 @@ exports.default = {
         msg1: "向自己的地址进行转账…",
         msg2: "等待交易确认…",
         msg3: "提取 GAS 中…",
-        msg4: "Gas提取成功!"
+        msg4: "Gas提取成功!",
+        tips: "您可以通过点击此按钮来获取Gas, 该按钮每天只能点击一次。"
     },
     transfer: {
         transfer: "转账",

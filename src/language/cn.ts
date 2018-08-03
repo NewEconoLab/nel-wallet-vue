@@ -33,7 +33,8 @@ export default {
         renewal: "续约",
         exchange: "兑换",
         withdraw: "提取",
-        topup: "充值"
+        topup: "充值",
+        getGas: "索取Gas"
     },
     toast: {
         msg1: "登陆中...",
@@ -90,7 +91,8 @@ export default {
         msg1: "向自己的地址进行转账…",
         msg2: "等待交易确认…",
         msg3: "提取 GAS 中…",
-        msg4: "Gas提取成功!"
+        msg4: "Gas提取成功!",
+        tips: "您可以通过点击此按钮来获取Gas, 该按钮每天只能点击一次。"
     },
     transfer: {
         transfer: "转账",

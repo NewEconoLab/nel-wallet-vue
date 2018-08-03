@@ -119,7 +119,20 @@ export default class transfer extends Vue
             console.log(neoDomain);
             let mapping = await tools.nnstool.resolveData(this.target);
             console.log(mapping);
-            // list[ i ][ "resolverAddress" ] = mapping;
+            if (mapping.length)
+            {
+                this.toaddress = mapping;
+                this.addrerr = 'false';
+                this.isDomain = true;
+                return true;
+            }
+            else
+            {
+                this.toaddress = "";
+                this.addrerr = 'true';
+                this.isDomain = false;
+                return false;
+            }
         }
         else
         {
