@@ -84,6 +84,7 @@
   .alert-wrap .alert-box .line-wrap .err-msg {
     font-size: 12px;
     margin-top: 10px;
+    color:#FF5053;
   }
   .alert-wrap .alert-box .alert-tips {
     font-size: 14px;

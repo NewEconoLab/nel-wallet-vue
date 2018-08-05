@@ -159,10 +159,13 @@ export default class login extends Vue
       mui.toast("" + this.$t("toast.msg4"))
     } else
     {
-      var loginarray: LoginInfo[] = new Array<LoginInfo>();
+      // var loginarray: LoginInfo[] = new Array<LoginInfo>();
       var login: LoginInfo = res.info;
-      loginarray.push(login);
-      tools.storagetool.setLoginArr(loginarray);
+      LoginInfo.info = res.info;
+      let data = {} as currentInfo;
+      data.type = LoginType.wif;
+      data.msg = { wif: this.wif };
+      sessionStorage.setItem('login-info-arr', JSON.stringify(data));
       LoginInfo.setCurrentAddress(login.address);
       mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
       window.location.hash = "#balance";

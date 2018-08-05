@@ -21,6 +21,7 @@ export class alert
     static alert = document.getElementById("alertview") as HTMLDivElement;
     static title = document.getElementById("alert-title") as HTMLDivElement;
     static alertBox = document.getElementById("alert-box") as HTMLDivElement;
+    static alertError = document.getElementById("alert-error") as HTMLDivElement;
     static btn_close = document.getElementById("alert-close") as HTMLButtonElement;
     static input = document.getElementById("alert-input") as HTMLInputElement;
     static btn_confirm = document.getElementById("alert-confirm") as HTMLButtonElement;
@@ -35,6 +36,7 @@ export class alert
         this.btn_confirm.textContent = btnText;
         this.input.type = inputType;
         this.title.innerText = title;
+        this.alertError.textContent = "";
         this.alert.hidden = false;
         this.btn_confirm.onclick = () =>
         {
@@ -51,6 +53,10 @@ export class alert
         this.alert.hidden = true;
         this.input.textContent = "";
         this.input.value = "";
+    }
+    static error(msg: string)
+    {
+        this.alertError.textContent = msg;
     }
 }
 

@@ -213,6 +213,20 @@ export class CoinTool
             } else
             {
                 let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
+                if (current.type == LoginType.wif)
+                {
+                    var res = tools.neotool.wifDecode(current.msg[ 'wif' ]);
+                    if (res.err)
+                    {
+                        reject("WIF is error");
+                    }
+                    else
+                    {
+                        LoginInfo.info = res.info as LoginInfo;
+                        resolve(data);
+                        return;
+                    }
+                }
                 if (current.type == LoginType.nep2 || LoginType.nep6)
                 {
                     alert.show("请输入密码", "password", "确认", passsword =>
@@ -232,7 +246,12 @@ export class CoinTool
                                 var data: Uint8Array = tran.GetRawData();
                                 alert.close();
                                 resolve(data);
-                            });
+                            })
+                            .catch(err =>
+                            {
+                                // console.error(Error("password is error"));
+                                alert.error("密码错误,请重新输入")
+                            })
                     })
                 } if (current.type == LoginType.otcgo)
                 {
@@ -254,6 +273,9 @@ export class CoinTool
                             var data: Uint8Array = tran.GetRawData();
                             alert.close();
                             resolve(data);
+                        } else
+                        {
+                            alert.error("密码错误,请重新输入")
                         }
                     })
                 }
@@ -281,19 +303,10 @@ export class CoinTool
         {
             var tranres = CoinTool.makeTran(utxos, targetaddr, asset, _count);  //获得tran和改变后的utxo
             var tran: ThinNeo.Transaction = tranres.info[ 'tran' ];
-
-
             if (tran.witnesses == null)
                 tran.witnesses = [];
             let txid = tran.GetHash().clone().reverse().toHexString();
             let data = await this.signData(tran);
-            // var msg = tran.GetMessage().clone();
-            // var pubkey = arr[ n ].pubkey.clone();
-            // var prekey = arr[ n ].prikey.clone();
-            // var addr = arr[ n ].address;
-            // var signdata = ThinNeo.Helper.Sign(msg, prekey);
-            // tran.AddWitness(signdata, pubkey, addr);
-            // var data: Uint8Array = tran.GetRawData();
 
             var res: Result = new Result();
             var height = await tools.wwwtool.api_getHeight();

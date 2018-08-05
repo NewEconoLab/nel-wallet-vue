@@ -131,6 +131,8 @@ export class neotools
             var p: number = 8
             ThinNeo.Helper.GetPrivateKeyFromNep2(nep2, password, n, r, p, (info, result) =>
             {
+                if ("nep2 hash not match." == result)
+                    reject(result);
                 login.prikey = result as Uint8Array;
                 res.info = {};
                 if (login.prikey != null)

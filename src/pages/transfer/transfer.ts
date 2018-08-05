@@ -87,7 +87,6 @@ export default class transfer extends Vue
         let isDomain = tools.nnstool.verifyDomain(this.target);
         let isAddress = tools.nnstool.verifyAddr(this.target);
         let neoDomain = tools.nnstool.verifyNeoDomain(this.target);
-        console.log(isDomain);
         if (isDomain)
         {
             this.target = this.target.toLowerCase();
