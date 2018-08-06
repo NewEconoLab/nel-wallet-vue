@@ -102,12 +102,8 @@ export default class NeoAuction extends Vue
             if (oldheight < height)
             {
                 this.getBidList(this.address);
-                setTimeout(() =>
-                {
-                    this.getBidList(this.address);
-                    this.refresh.put("bidlist", false);
-                    this.refresh.put("height", height);
-                }, 8000);
+                this.refresh.put("bidlist", false);
+                this.refresh.put("height", height);
             }
         } else
         {
@@ -144,8 +140,7 @@ export default class NeoAuction extends Vue
     {
         TaskManager.functionList = [];
         TaskManager.functionList.push(this.refreshPage);
-        this.refreshPage();
-        console.log("刷新");
+        this.refreshPage()
 
         this.auctionPageSession.put('show', false);
         this.auctionPage = false;

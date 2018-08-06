@@ -19,7 +19,7 @@ export class NeoaucionData
             {
                 return auction.id;
             });
-            let amounts = await tools.nnssell.getBalanceOfSelingArray(ids);
+            let amounts = await tools.nnssell.getBalanceOfBidArray(ids);
 
             if (res)
             {

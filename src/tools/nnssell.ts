@@ -79,7 +79,7 @@ export default class NNSSell
      * 获得
      * @param id 竞拍id
      */
-    static async getBalanceOfSelingArray(ids: string[])
+    static async getBalanceOfBidArray(ids: string[])
     {
         let addr = LoginInfo.getCurrentAddress();
         let who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr).buffer);
@@ -93,7 +93,7 @@ export default class NNSSell
                     "(hex160)" + who.toString(),
                     "(hex256)" + id
                 ]);//第二个参数是个数组
-                sb.EmitPushString("balanceOfSelling");
+                sb.EmitPushString("balanceOfBid");
                 sb.EmitAppCall(tools.nnstool.root_neo.register);
             }
         }

@@ -300,6 +300,8 @@ export default class AuctionInfo extends Vue
             } else
             {
                 let data = await tools.nnssell.collectDomain(info.id.toString());
+                if (!data)
+                    return;
                 let res = await tools.wwwtool.api_postRawTransaction(data);
                 let txid = res[ "txid" ];
                 this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 2 });
@@ -470,6 +472,8 @@ export default class AuctionInfo extends Vue
         let id = this.domainAuctionInfo.id;
         let data = await tools.nnssell.bidSettlement(id);
         this.state_recover = 1;
+        if (!data)
+            return;
         try
         {
             let res = await tools.wwwtool.api_postRawTransaction(data);

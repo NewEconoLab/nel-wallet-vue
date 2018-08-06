@@ -27,7 +27,7 @@ export default class Bonus extends Vue
         this.historyList = null;
         this.isPage = false;
         this.pageMsg = "";
-        this.initHistory(this.currentAddress);
+        // this.initHistory(this.currentAddress);
     }
     async mounted()
     {

@@ -3667,7 +3667,6 @@ var NeoAuction = /** @class */ (function (_super) {
     };
     NeoAuction.prototype.refreshPage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var oldheight, height, _a, nep5;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -3687,11 +3686,8 @@ var NeoAuction = /** @class */ (function (_super) {
                         this.alert_withdraw.watting = false;
                         if (oldheight < height) {
                             this.getBidList(this.address);
-                            setTimeout(function () {
-                                _this.getBidList(_this.address);
-                                _this.refresh.put("bidlist", false);
-                                _this.refresh.put("height", height);
-                            }, 8000);
+                            this.refresh.put("bidlist", false);
+                            this.refresh.put("height", height);
                         }
                         return [3 /*break*/, 4];
                     case 3:
@@ -3739,7 +3735,6 @@ var NeoAuction = /** @class */ (function (_super) {
         taskmanager_1.TaskManager.functionList = [];
         taskmanager_1.TaskManager.functionList.push(this.refreshPage);
         this.refreshPage();
-        console.log("刷新");
         this.auctionPageSession.put('show', false);
         this.auctionPage = false;
     };
@@ -4681,8 +4676,8 @@ var Bonus = /** @class */ (function (_super) {
         _this.historyList = null;
         _this.isPage = false;
         _this.pageMsg = "";
-        _this.initHistory(_this.currentAddress);
         return _this;
+        // this.initHistory(this.currentAddress);
     }
     Bonus.prototype.mounted = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -7762,7 +7757,7 @@ var NeoaucionData = /** @class */ (function () {
                         ids = list.map(function (auction) {
                             return auction.id;
                         });
-                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOfSelingArray(ids)];
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOfBidArray(ids)];
                     case 2:
                         amounts = _f.sent();
                         if (res) {
@@ -9029,6 +9024,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 6: return [4 /*yield*/, importpack_1.tools.nnssell.collectDomain(info.id.toString())];
                     case 7:
                         data = _a.sent();
+                        if (!data)
+                            return [2 /*return*/];
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
                     case 8:
                         res = _a.sent();
@@ -9235,6 +9232,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 1:
                         data = _a.sent();
                         this.state_recover = 1;
+                        if (!data)
+                            return [2 /*return*/];
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 4, , 5]);
@@ -10436,7 +10435,7 @@ var NNSSell = /** @class */ (function () {
      * 获得
      * @param id 竞拍id
      */
-    NNSSell.getBalanceOfSelingArray = function (ids) {
+    NNSSell.getBalanceOfBidArray = function (ids) {
         return __awaiter(this, void 0, void 0, function () {
             var addr, who, sb, index, id, res, stackarr, stack, obj, i, id;
             return __generator(this, function (_a) {
@@ -10452,7 +10451,7 @@ var NNSSell = /** @class */ (function () {
                                     "(hex160)" + who.toString(),
                                     "(hex256)" + id
                                 ]); //第二个参数是个数组
-                                sb.EmitPushString("balanceOfSelling");
+                                sb.EmitPushString("balanceOfBid");
                                 sb.EmitAppCall(importpack_1.tools.nnstool.root_neo.register);
                             }
                         }
