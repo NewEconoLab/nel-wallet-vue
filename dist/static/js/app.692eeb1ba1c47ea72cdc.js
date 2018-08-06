@@ -2117,6 +2117,7 @@ var alert = /** @class */ (function () {
         this.btn_confirm.textContent = btnText;
         this.input.type = inputType;
         this.title.innerText = title;
+        this.alertError.textContent = "";
         this.alert.hidden = false;
         this.btn_confirm.onclick = function () {
             call(_this.input.value);
@@ -2131,9 +2132,13 @@ var alert = /** @class */ (function () {
         this.input.textContent = "";
         this.input.value = "";
     };
+    alert.error = function (msg) {
+        this.alertError.textContent = msg;
+    };
     alert.alert = document.getElementById("alertview");
     alert.title = document.getElementById("alert-title");
     alert.alertBox = document.getElementById("alert-box");
+    alert.alertError = document.getElementById("alert-error");
     alert.btn_close = document.getElementById("alert-close");
     alert.input = document.getElementById("alert-input");
     alert.btn_confirm = document.getElementById("alert-confirm");
@@ -3023,7 +3028,6 @@ var transfer = /** @class */ (function (_super) {
                         isDomain = importpack_1.tools.nnstool.verifyDomain(this.target);
                         isAddress = importpack_1.tools.nnstool.verifyAddr(this.target);
                         neoDomain = importpack_1.tools.nnstool.verifyNeoDomain(this.target);
-                        console.log(isDomain);
                         if (!isDomain) return [3 /*break*/, 2];
                         this.target = this.target.toLowerCase();
                         return [4 /*yield*/, importpack_1.tools.nnstool.resolveData(this.target)];
@@ -5323,7 +5327,7 @@ var login = /** @class */ (function (_super) {
     };
     login.prototype.loginWif = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, loginarray, login;
+            var res, login, data;
             return __generator(this, function (_a) {
                 mui.toast("" + this.$t("toast.msg1"));
                 res = importpack_1.tools.neotool.wifDecode(this.wif);
@@ -5331,10 +5335,12 @@ var login = /** @class */ (function (_super) {
                     mui.toast("" + this.$t("toast.msg4"));
                 }
                 else {
-                    loginarray = new Array();
                     login = res.info;
-                    loginarray.push(login);
-                    importpack_1.tools.storagetool.setLoginArr(loginarray);
+                    entity_1.LoginInfo.info = res.info;
+                    data = {};
+                    data.type = entity_1.LoginType.wif;
+                    data.msg = { wif: this.wif };
+                    sessionStorage.setItem('login-info-arr', JSON.stringify(data));
                     entity_1.LoginInfo.setCurrentAddress(login.address);
                     mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' });
                     window.location.hash = "#balance";
@@ -6307,6 +6313,8 @@ var neotools = /** @class */ (function () {
                     var r = 8;
                     var p = 8;
                     ThinNeo.Helper.GetPrivateKeyFromNep2(nep2, password, n, r, p, function (info, result) {
+                        if ("nep2 hash not match." == result)
+                            reject(result);
                         login.prikey = result;
                         res.info = {};
                         if (login.prikey != null) {
@@ -6560,7 +6568,7 @@ var Settings = /** @class */ (function (_super) {
     };
     Settings.prototype.visibleWif = function () {
         this.wifshow = (this.wifshow == true ? false : true);
-        var msg = entity_1.LoginInfo.getCurrentLogin();
+        var msg = entity_1.LoginInfo.info;
         var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
         this.wif = (this.wifshow == true ? wif : "");
     };
@@ -8610,7 +8618,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.getSessionBidDetail(domain)];
                     case 4:
                         _b.sent();
-                        return [4 /*yield*/, this.getBidDetail(domain, 1, 5)];
+                        return [4 /*yield*/, this.getBidDetail(this.domainAuctionInfo.id, 1, 5)];
                     case 5:
                         _b.sent();
                         confirm_getDomain = this.session_getdomain.select(domain);
@@ -8962,12 +8970,12 @@ var AuctionInfo = /** @class */ (function (_super) {
      * @param currentpage 当前地址
      * @param pagesize 分页条数
      */
-    AuctionInfo.prototype.getBidDetail = function (domain, currentpage, pagesize) {
+    AuctionInfo.prototype.getBidDetail = function (id, currentpage, pagesize) {
         return __awaiter(this, void 0, void 0, function () {
             var res, i;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBidDetail(domain, currentpage, pagesize)];
+                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBidDetail(id, currentpage, pagesize)];
                     case 1:
                         res = _a.sent();
                         if (res) {
@@ -9714,6 +9722,17 @@ var CoinTool = /** @class */ (function () {
                     }
                     else {
                         var current_1 = JSON.parse(sessionStorage.getItem("login-info-arr"));
+                        if (current_1.type == entity_1.LoginType.wif) {
+                            var res = importpack_1.tools.neotool.wifDecode(current_1.msg['wif']);
+                            if (res.err) {
+                                reject("WIF is error");
+                            }
+                            else {
+                                entity_1.LoginInfo.info = res.info;
+                                resolve(data);
+                                return;
+                            }
+                        }
                         if (current_1.type == entity_1.LoginType.nep2 || entity_1.LoginType.nep6) {
                             entity_1.alert.show("请输入密码", "password", "确认", function (passsword) {
                                 var nep2 = current_1.msg[entity_1.LoginInfo.getCurrentAddress()];
@@ -9730,6 +9749,10 @@ var CoinTool = /** @class */ (function () {
                                     var data = tran.GetRawData();
                                     entity_1.alert.close();
                                     resolve(data);
+                                })
+                                    .catch(function (err) {
+                                    // console.error(Error("password is error"));
+                                    entity_1.alert.error("密码错误,请重新输入");
                                 });
                             });
                         }
@@ -9750,6 +9773,9 @@ var CoinTool = /** @class */ (function () {
                                     var data = tran.GetRawData();
                                     entity_1.alert.close();
                                     resolve(data);
+                                }
+                                else {
+                                    entity_1.alert.error("密码错误,请重新输入");
                                 }
                             });
                         }
