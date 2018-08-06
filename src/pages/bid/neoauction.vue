@@ -131,7 +131,7 @@
                 <input class="bid-input" type="number" :placeholder="$t('auction.enterbid')" v-model="alert_myBid" @input="verifBidAmount" autocomplete="off">
               </div>
               <div class="my-bid">
-                {{$t('auction.yourbidmsg')}}: <span class="status-ended">{{myBalanceOfSelling}}</span> SGas
+                {{$t('auction.yourbidmsg')}}: <span :class="{'status-being':canAdded,'status-ended':!canAdded}">{{myBalanceOfSelling}}</span> SGas
               </div>
             </div>
             <div class="tips-msg">
