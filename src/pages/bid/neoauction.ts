@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator"
 import AuctionInfo from "./auctioninfo.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType } from "../../tools/entity";
+import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
@@ -101,6 +101,7 @@ export default class NeoAuction extends Vue
             this.alert_withdraw.watting = false;
             if (oldheight < height)
             {
+                this.getBidList(this.address);
                 setTimeout(() =>
                 {
                     this.getBidList(this.address);
@@ -144,6 +145,8 @@ export default class NeoAuction extends Vue
         TaskManager.functionList = [];
         TaskManager.functionList.push(this.refreshPage);
         this.refreshPage();
+        console.log("刷新");
+
         this.auctionPageSession.put('show', false);
         this.auctionPage = false;
     }
@@ -236,7 +239,6 @@ export default class NeoAuction extends Vue
             this.alert_withdraw.isShow = false;
 
             //任务管理器
-            // this.withdrawConfirm(res.info);
             let oldBlock = new tools.sessionstoretool("block");
             let height = oldBlock.select('height');
             let task = new Task(
@@ -262,7 +264,6 @@ export default class NeoAuction extends Vue
             this.sessionWatting.put("recharge-sgas", { txid, amount });
 
             //任务管理器
-            // this.confirmRecharge_sgas(txid)
             let oldBlock = new tools.sessionstoretool("block");
             let height = oldBlock.select('height');
             let task = new Task(
@@ -284,8 +285,7 @@ export default class NeoAuction extends Vue
     async addBid()
     {
         let msg = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
-        let test = tools.nnssell.getMyAuctionState(msg);
-        let auction = new MyAuction();
+        let auction = await tools.nnssell.getMyAuctionState(msg);
         let time = await tools.wwwtool.api_getBlockInfo(msg.startBlockSelling.toInt32());
         auction.startAuctionTime = time * 1000;
         auction.startTimeStr = tools.timetool.getTime(time);
@@ -315,8 +315,7 @@ export default class NeoAuction extends Vue
             this.alert_myBid = this.regBalance;
             myBid = parseFloat(this.regBalance);
         }
-        let amount = (parseFloat(this.auctionMsg_alert.balanceOfSelling) + myBid);
-
+        let amount = accAdd(this.auctionMsg_alert.balanceOfSelling, myBid);
         this.myBalanceOfSelling = amount.toString();
         if (amount > parseFloat(this.auctionMsg_alert.maxPrice))
         {
@@ -333,6 +332,7 @@ export default class NeoAuction extends Vue
         if (!res.err)
         {
             this.openToast("success", "" + this.$t("auction.successbid2"), 3000);
+            this.alert_myBid = "";
             this.auctionShow = !this.auctionShow;
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
             // this.bidConfirm(res.info, this.auctionMsg_alert.domain);
@@ -409,6 +409,9 @@ export default class NeoAuction extends Vue
             return;
         }
         let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+
+        // let myauction = await tools.nnssell.getMyAuctionState(info);
+
         //是否开始域名竞拍 0:未开始竞拍
         let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
         if (sellstate == 0)
@@ -445,12 +448,12 @@ export default class NeoAuction extends Vue
             {
                 let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
                 let dlast = lastTime - startTime;
-                if (dlast < 600000)
+                if (dlast < 600)
                 {
                     this.checkState = this.btn_start = 3;
                 } else
                 {
-                    this.checkState = this.btn_start = 2
+                    this.checkState = this.btn_start = 2;
                 }
             }
         } else

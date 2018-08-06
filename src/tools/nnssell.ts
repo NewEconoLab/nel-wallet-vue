@@ -252,8 +252,6 @@ export default class NNSSell
         let myauction = new MyAuction();
         if (!info.id)
         {
-            console.log("---------------id 为空----------------");
-            console.log(myauction);
             return myauction;
         }
         myauction.id = info.id.toString();

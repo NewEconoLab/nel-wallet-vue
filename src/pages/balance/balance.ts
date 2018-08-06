@@ -111,6 +111,10 @@ export default class balance extends Vue
           this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
           console.log(res[ 0 ].codeMessage);
           this.isgetGas = true;
+        } else
+        {
+          this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+          this.isgetGas = true;
         }
       } else
       {
