@@ -11433,7 +11433,7 @@ setInterval(function () {
             oldBlock.put("height", data);
         }
     });
-}, 5000);
+}, 15000);
 
 
 /***/ }),
