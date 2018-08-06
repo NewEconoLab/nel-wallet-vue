@@ -9024,8 +9024,9 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 6: return [4 /*yield*/, importpack_1.tools.nnssell.collectDomain(info.id.toString())];
                     case 7:
                         data = _a.sent();
-                        if (!data)
+                        if (!data) {
                             return [2 /*return*/];
+                        }
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
                     case 8:
                         res = _a.sent();
