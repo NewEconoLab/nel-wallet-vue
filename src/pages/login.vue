@@ -21,18 +21,18 @@
             </div>
             <div class="input-login">
               <div class="input-group nel-input-blg">
-                <input type="text" class="form-control" :placeholder="$t('login.selectplaceholder')" disabled="true" v-model="filename">
+                <input type="text" class="form-control" :placeholder="$t('login.selectplaceholder')" disabled="true" v-model="filename" autocomplete="off">
                 <span class="input-group-addon">
                   <button class="btn btn-nel fileinput-button">
                     <span>{{$t("login.selectbtn")}}</span>
                   </button>
-                  <input class="select-file" type="file" @change="fileChange" >
+                  <input class="select-file" type="file" @change="fileChange">
                 </span>
               </div>
             </div>
             <div class="input-login" style="padding-top:40px;">
               <div class="input-group nel-input-blg">
-                <input class="form-control" :placeholder="$t('login.passwordholder')" type="password" v-model="password" @keyup.enter="loginFile">
+                <input class="form-control" :placeholder="$t('login.passwordholder')" type="password" v-model="password" @keyup.enter="loginFile" autocomplete="off">
                 <span class="input-group-addon">
                   <button class="btn btn-nel fileinput-button" @click="loginFile">
                     {{$t("login.login")}}
@@ -55,7 +55,7 @@
             <div class="title-login">
               <span>{{$t("wif.title")}}</span>
             </div>
-            <div class="nel-input-blg"><input type="text" :placeholder="$t('wif.wifplaceholder')" v-model="wif"></div>
+            <div class="nel-input-blg"><input type="text" :placeholder="$t('wif.wifplaceholder')" v-model="wif" autocomplete="off"></div>
             <div class="login-btn">
               <button class="btn btn-nel btn-import" @click="loginWif">{{$t("login.login")}}</button>
             </div>
@@ -67,8 +67,8 @@
             <div class="title-login">
               <span>Nep2</span>
             </div>
-            <div class="nel-input-blg"><input type="text" :placeholder="$t('nep2.placeholder')" v-model="nep2"></div>
-            <div class="nel-input-blg"><input type="password" :placeholder="$t('nep2.password')" v-model="nep2pwd"></div>
+            <div class="nel-input-blg"><input type="text" :placeholder="$t('nep2.placeholder')" v-model="nep2" autocomplete="off"></div>
+            <div class="nel-input-blg"><input type="password" :placeholder="$t('nep2.password')" v-model="nep2pwd" autocomplete="off"></div>
             <div class="login-btn">
               <button class="btn btn-nel btn-import" @click="loginNep2">{{$t("login.login")}}</button>
             </div>
@@ -81,7 +81,7 @@
               <span>{{$t("generate.title")}}</span>
             </div>
             <div :class="nameerr!=''?( nameerr == 'true' ?'err':'success') :''">
-              <div class="nel-input-blg"><input type="text" :placeholder="$t('generate.name')" @input="verifyName" @blur="verifyName" v-model="walletname">
+              <div class="nel-input-blg"><input type="text" :placeholder="$t('generate.name')" @input="verifyName" @blur="verifyName" v-model="walletname" autocomplete="off">
               </div>
               <div class="message">
                 <p v-if="nameerr=='true'"><img src="../../static/img/wrong.svg" alt="">&nbsp;&nbsp; {{$t('generate.nameempty')}}</p>
@@ -90,7 +90,7 @@
             </div>
             <div :class="pwderr!=''?( pwderr == 'true' ?'err':'success') :''">
               <div class="nel-input-blg">
-                <input type="password" :placeholder="$t('generate.password')" @input="verifypwd" @blur="verifypwd" v-model="walletpwd">
+                <input type="password" :placeholder="$t('generate.password')" @input="verifypwd" @blur="verifypwd" v-model="walletpwd" autocomplete="off">
               </div>
               <div class="message">
                 <p v-if="pwderr=='true'">
@@ -103,7 +103,7 @@
             </div>
             <div :class="confirmerr!=''?( confirmerr == 'true' ?'err':'success') :''">
               <div class="nel-input-blg">
-                <input type="password" :placeholder="$t('generate.passwordagain')" @input="verifyConfirm" @blur="verifyConfirm" v-model="confirmpwd">
+                <input type="password" :placeholder="$t('generate.passwordagain')" @input="verifyConfirm" @blur="verifyConfirm" v-model="confirmpwd" autocomplete="off">
               </div>
               <div class="message">
                 <p v-if="confirmerr=='true'">

@@ -6,7 +6,7 @@
       </div>
       <div class="form-inline">
         <div class="input-group nns-register" v-bind:class="domainerr?'input-err':'input-success'">
-          <input @input="verifyDomain" type="text" class="nel" v-model="nnsstr" :placeholder="$t('nns.placeholder1')">
+          <input @input="verifyDomain" type="text" class="nel" v-model="nnsstr" :placeholder="$t('nns.placeholder1')" autocomplete="off">
           <span class="input-group-addon nel ">
             <span>{{network}}</span>
           </span>
@@ -55,7 +55,7 @@
         <span class="content-des">{{$t('nns.alerttitle2')}} : </span>
         <span class="content-msg warning-msg">( {{$t('nns.alertmessage1')}} )</span>
         <div class="input-warp">
-          <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable">
+          <input type="text" :value="alert_contract" class="input-ico input-disabled" disabled="disable" autocomplete="off">
           <span class="correct-icon" v-if="alert_resolver_state==2"> <img src="../../../static/img/correct.svg" alt="">
           </span>
           <div class="btn-verify-warp">
@@ -69,7 +69,7 @@
         <span class="content-des">{{$t('nns.alerttitle3')}} : </span>
         <span class="content-msg"></span>
         <div class="input-warp">
-          <input type="text" v-model="alert_addr" class="input-ico" :class="mapping_err=='0'?'input-success':mapping_err=='1'?'input-err':''" @input="verifyMappingAddress">
+          <input type="text" v-model="alert_addr" class="input-ico" :class="mapping_err=='0'?'input-success':mapping_err=='1'?'input-err':''" @input="verifyMappingAddress" autocomplete="off">
           <span class="correct-icon" v-if="alert_config_state==2"> <img src="../../../static/img/correct.svg" alt=""></span>
           <div class="btn-verify-warp" style="margin-left:25px">
             <button v-if="alert_config_state==0" class="btn-nel btn-verify" @click="configResolve()">{{$t('btn.confirm')}}</button>

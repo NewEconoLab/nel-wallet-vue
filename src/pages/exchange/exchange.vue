@@ -61,7 +61,7 @@
                       <img src="../../../static/img/plus.png" alt="plus.png">
                     </div>
                     <div class="input-icon">
-                      <input type="number" placeholder="0" v-model="transcount" @input="exchangeCount">
+                      <input type="number" placeholder="0" v-model="transcount" @input="exchangeCount" autocomplete="off">
                     </div>
                     <div class="msg-icon">
                       {{changeSGas?"SGas":"Gas"}}

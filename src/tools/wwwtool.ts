@@ -81,6 +81,35 @@ export class WWW
         var r = json[ "result" ];
         return r;
     }
+    /**判断是否可以获取gas */
+    static async api_hasclaimgas(address: string)
+    {
+        var postdata =
+            WWW.makeRpcPostBody(
+                "hasclaimgas",
+                address
+            );
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+    /**
+     * 获取gas
+     */
+    static async api_claimgas(address: string, num: number)
+    {
+        var postdata =
+            WWW.makeRpcPostBody(
+                "claimgas",
+                address, num
+            );
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+
     static async api_getnep5Balance(address: string)
     {
         var str = WWW.makeRpcUrl(WWW.api, "getallnep5assetofaddress", address, 1);

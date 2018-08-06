@@ -27,7 +27,7 @@
             </div>
             <div class="form-box ptop">
                 <div class="input-box" >
-                    <input type="text" :placeholder="$t('auction.entername')" v-model="domain" @input="queryDomainState">
+                    <input type="text" :placeholder="$t('auction.entername')" v-model="domain" @input="queryDomainState" autocomplete="off">
                     <span>.neo</span>
                 </div>
                 <spinner-wrap v-if="btn_start==0" style="margin-left:20px"></spinner-wrap>
@@ -54,7 +54,7 @@
             <div class="title">
                 <span>{{$t('auction.title2')}}</span>
                 <div class="seach-box">
-                    <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')">
+                    <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')" autocomplete="off">
                     <img src="../../../static/img/seach.png" alt="">
                 </div>
             </div>
@@ -128,10 +128,10 @@
             <div class="wrap-msg">
               <div class="my-bid">
                 <span>{{$t('auction.raisebid')}}: </span>
-                <input class="bid-input" type="number" :placeholder="$t('auction.enterbid')" v-model="alert_myBid" @input="verifBidAmount">
+                <input class="bid-input" type="number" :placeholder="$t('auction.enterbid')" v-model="alert_myBid" @input="verifBidAmount" autocomplete="off">
               </div>
               <div class="my-bid">
-                {{$t('auction.yourbidmsg')}}: <span class="status-ended">{{myBalanceOfSelling}}</span> SGas
+                {{$t('auction.yourbidmsg')}}: <span :class="{'status-being':canAdded,'status-ended':!canAdded}">{{myBalanceOfSelling}}</span> SGas
               </div>
             </div>
             <div class="tips-msg">
@@ -166,7 +166,7 @@
               <div class="line-msg">{{$t('auction.topupamount')}}:</div>
               <div class="line-box">
                 <div class="input-getall">
-                  <input type="number" :placeholder="$t('auction.amount')" v-model="alert_TopUp.input" @input="verifToupAmount">
+                  <input type="number" :placeholder="$t('auction.amount')" v-model="alert_TopUp.input" @input="verifToupAmount" autocomplete="off">
                   <span class="getall-msg" @click="alert_TopUp.input = sgasAvailable">{{$t('auction.getall')}}</span>
                 </div>
                 <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="toRecharge">{{$t('btn.confirm')}}</button>
@@ -203,7 +203,7 @@
               <div class="line-msg">{{$t('auction.withdrawamount')}}:</div>
               <div class="line-box">
                 <div class="input-getall">
-                  <input type="number" :placeholder="$t('auction.amount')" v-model="alert_withdraw.input" @input="verifWithdraw">
+                  <input type="number" :placeholder="$t('auction.amount')" v-model="alert_withdraw.input" @input="verifWithdraw" autocomplete="off">
                   <span class="getall-msg" @click="alert_withdraw.input = regBalance">{{$t('auction.getall')}}</span>
                 </div>
                 <spinner-wrap v-if="alert_withdraw.watting"></spinner-wrap>

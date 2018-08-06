@@ -4,7 +4,7 @@
       <div class="title" style="padding-bottom:28px;">
         <span>{{$t('balance.title1')}}</span>
         <div style="float:right">
-          <span class="user-select-ok" style="margin-right: 11px;color:#fff;">{{$t('balance.title2')}} ：{{currentAddress}}</span>
+          <span class="user-select-ok" style="margin-right: 11px;color:#fff;">{{$t('balance.title2')}}：{{currentAddress}}</span>
           <button class="btn" data-toggle="modal" data-target="#selectAddr" v-if="chooseAddressarr &&chooseAddressarr.length>1">{{$t('btn.switch')}}</button>
         </div>
       </div>
@@ -18,8 +18,8 @@
             <span class="balance-type">GAS&nbsp;</span>
             <span class="balance-amount">{{neoasset.gas}}</span>
             <span style="vertical-align: super;margin-left: 10px;">
-              <button class="btn btn-nel" v-if="!isgetGas" @click="getGas" disabled>{{$t('btn.getGas')}}</button>
-              <span v-if="isgetGas">
+              <button class="btn btn-nel" v-if="gettingGas" @click="getTestGas" :disabled="isgetGas" :class="{'btn-disabled':isgetGas}">{{$t('btn.getGas')}}</button>
+              <span v-if="!gettingGas">
                 <spinner-wrap :isbig="false" ></spinner-wrap>
               </span>
               <v-hint>
@@ -31,6 +31,7 @@
                 </div>
               </v-hint>
             </span>
+            <v-toast ref="toast" ></v-toast>
           </div>
           <div class="claim" style="padding: 30px; padding-left: 2.3%;">
             <span style="margin-right: 17px;">{{$t('balance.title3')}} : {{neoasset.claim}}</span>
@@ -79,7 +80,7 @@
                 <label for="exampleInputFile">{{$t('balance.title6')}}:</label>
                 <div class="radio" id="selectAddress">
                   <label v-for="item in chooseAddressarr" :key="item.address">
-                    <input type="radio" v-model="chooseAddress" :value="item.address">{{item.address}}
+                    <input type="radio" v-model="chooseAddress" :value="item.address" autocomplete="off">{{item.address}}
                   </label>
                 </div>
               </div>
@@ -102,7 +103,12 @@
   border: 1px solid #ffffff;
   border-radius: 5px;
 }
-
+.btn-disabled,
+.btn-disabled:hover {
+  background: #77bcf6;
+  opacity: 1;
+  cursor: not-allowed;
+}
 .balance-type {
   font-family: PingFangSC-Medium;
   font-size: 20px;

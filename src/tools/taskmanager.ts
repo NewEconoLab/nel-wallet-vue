@@ -54,6 +54,8 @@ export class TaskManager
                         case TaskType.withdraw:
                             this.confirm_withdraw(task);
                             break;
+                        case TaskType.getGasTest:
+                            this.confirm_tranfer(TaskType.getGasTest, task, "getTestGas");
                         default:
                             break;
                     }
@@ -65,6 +67,29 @@ export class TaskManager
     static addTask(task: Task, type: TaskType)
     {
         this.taskStore.put(type.toString(), task)
+    }
+
+    static async confirm_tranfer(TaskType, task: Task, name: string)
+    {
+        if (task.confirm < 3)
+        {
+            let data = await tools.wwwtool.hastx(task.txid);
+            if (data.issucces)
+            {
+                task.state = TaskState.success;
+                sessionStorage.setItem("" + name, "true");
+            } else
+            {
+                task.state = TaskState.watting;
+            }
+        } else
+        {
+            task.state = TaskState.fail;
+            sessionStorage.setItem("" + name, "fail");
+        }
+        task.confirm++;
+        this.taskStore.put(TaskType.toString(), task);
+
     }
 
     static async confirm_withdraw(task: Task)
