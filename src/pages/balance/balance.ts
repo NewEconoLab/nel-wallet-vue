@@ -1,4 +1,4 @@
-import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance } from '../../tools/entity';
+import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance, Task, ConfirmType, TaskType } from '../../tools/entity';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import WalletLayout from "../../layouts/wallet.vue";
@@ -23,7 +23,9 @@ export default class balance extends Vue
   chooseAddress: string = "";
   loadmsg: string = "";
   claimbtn: boolean = true;
-  isgetGas: boolean = false;
+  isgetGas: boolean = false;//是否可领取gas false为可领取状态，true为不可以领取
+  gettingGas: boolean;//false为正在领取状态
+  openToast: Function;
 
   constructor()
   {
@@ -34,14 +36,117 @@ export default class balance extends Vue
     this.neoasset.neo = 0;
     this.neoasset.claim = '';
     this.chooseAddressarr = new Array();
+    this.gettingGas = true;
     // this.chooseAddressarr = tools.storagetool.getLoginArr();
   }
   // Component method
   mounted()
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
+    this.isGetGas(this.currentAddress);
     this.getBalances();
-    // setInterval(() => { this.getBalances() }, 30000)
+    this.openToast = this.$refs.toast[ "isShow" ];
+    this.isGetTestGasSuccess();
+    setInterval(() =>
+    {
+      this.isGetTestGasSuccess();
+    }, 30000)
+  }
+  //判断是否可以领取gas
+  async isGetGas(address: string)
+  {
+    let testgas = sessionStorage.getItem("getTestGas");
+    if (testgas)
+    {
+      this.isGetTestGasSuccess();
+    } else
+    {
+      let res = await tools.wwwtool.api_hasclaimgas(address);
+      if (res)
+      {
+        if (res[ 0 ].flag)
+        {
+          this.isgetGas = false;
+        } else
+        {
+          this.isgetGas = true;
+        }
+        return res[ 0 ].flag;
+      }
+      this.isgetGas = true;
+      return false;
+    }
+
+  }
+  //手动领取测试gas
+  async getTestGas()
+  {
+    let isOk = await this.isGetGas(this.currentAddress);
+    if (isOk)
+    {
+      this.gettingGas = false;
+      let res = await tools.wwwtool.api_claimgas(this.currentAddress, 10);
+      console.log(res);
+      if (res)
+      {
+        if (res[ 0 ].code == "0000")
+        {
+          console.log(res[ 0 ].codeMessage);
+          //任务管理器
+          // this.confirmRecharge_sgas(txid)
+          let oldBlock = new tools.sessionstoretool("block");
+          let height = oldBlock.select('height');
+          let task = new Task(
+            height, ConfirmType.tranfer, res[ 0 ].txid
+          )
+          tools.taskManager.addTask(task, TaskType.getGasTest);
+          sessionStorage.setItem("getTestGas", "waitting");
+        }
+        else if (res[ 0 ].code == "3001")
+        {
+          console.log(res[ 0 ].codeMessage);
+          this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+        } else if (res[ 0 ].code == "3002")
+        {
+          this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
+          console.log(res[ 0 ].codeMessage);
+          this.isgetGas = true;
+        }
+      } else
+      {
+        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+        this.isgetGas = true;
+      }
+    }
+    else
+    {
+      this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+    }
+  }
+  //领取测试gas成功
+  doGetTestGasSuccess()
+  {
+    this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
+    this.getBalances();
+    this.gettingGas = true;//停止转动
+    this.isgetGas = true;//不可点击
+  }
+  isGetTestGasSuccess()
+  {
+    let testgas = sessionStorage.getItem("getTestGas");
+    if (testgas == "true")
+    {
+      this.doGetTestGasSuccess();
+      sessionStorage.removeItem("getTestGas");
+    } else if (testgas == "waitting")
+    {
+      this.gettingGas = false;//转动
+    } else if (testgas == "fail")
+    {
+      this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
+      this.isgetGas = true;
+      sessionStorage.removeItem("getTestGas");
+    }
   }
 
   addressSwitch()
@@ -156,12 +261,6 @@ export default class balance extends Vue
   {
     tools.storagetool.setStorage("transfer_choose", asset);
     window.location.hash = "#transfer";
-  }
-
-  //获取Gas
-  async getGas()
-  {
-    this.isgetGas = true;
   }
 
 }

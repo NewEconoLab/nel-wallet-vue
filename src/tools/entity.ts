@@ -963,6 +963,7 @@ export enum TaskType
     addPrice,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
     topup,//充值
     withdraw,//退款
+    getGasTest,//测试网领取gas
 }
 
 /**

@@ -27,7 +27,7 @@
                         <button v-if="resolverState==1" class="btn btn-nel btn-input-reset" @click="resetresolve">{{$t('btn.reset')}}</button>
                     </div>
                     <div class="input-box">
-                        <input type="text" class="readonly-input" readonly="readonly" v-model="set_contract">
+                        <input type="text" class="readonly-input" readonly="readonly" v-model="set_contract"  autocomplete="off">
                         <button v-if="resolverState==0" class="btn btn-nel btn-big" @click="setresolve">{{$t('btn.confirm')}}</button>
                         <!-- <button v-if="resolverState==1" class="btn btn-nel btn-big " @click="setresolve">{{$t('btn.reset')}}</button> -->
                         <spinner-wrap v-if="resolverState==2"  style="margin-left:20px"></spinner-wrap>
@@ -42,7 +42,7 @@
                         <button v-if="mappingState==1" @click="resetmappingData" class="btn btn-nel btn-input-reset">{{$t('btn.reset')}}</button>
                     </div>
                     <div class="input-box">
-                        <input type="text" v-model="resolverAddress" @input="verifyMapping" class="">
+                        <input type="text" v-model="resolverAddress" @input="verifyMapping" class="" autocomplete="off">
                         <button v-if="mappingState==0" class="btn btn-nel btn-big" @click="mappingData" :disabled="resolverState!=1 || !mappingistrue" :class="{'btn-disable':resolverState!=1 || !mappingistrue}">{{$t('btn.confirm')}}</button>
                         <!-- <button v-if="mappingState==1" class="btn btn-nel btn-big" @click="mappingData">{{$t('btn.reset')}}</button> -->
                         <spinner-wrap v-if="mappingState==2"  style="margin-left:20px"></spinner-wrap>
