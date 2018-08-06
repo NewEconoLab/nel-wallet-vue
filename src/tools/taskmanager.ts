@@ -7,6 +7,7 @@ export class TaskManager
     static taskStore: sessionStoreTool = new sessionStoreTool("task-manager");
     static refresh: sessionStoreTool = new sessionStoreTool("refresh_auction");
     static oldBlock: sessionStoreTool = new sessionStoreTool("block");
+    static functionList: Function[] = [];
     constructor()
     {
     }
@@ -19,6 +20,15 @@ export class TaskManager
 
     static update()
     {
+        for (const index in this.functionList)
+        {
+            if (this.functionList.hasOwnProperty(index))
+            {
+                let element = this.functionList[ index ];
+                element();
+            }
+        }
+
         let taskList = (this.taskStore.getList() as Object);
         for (const type in taskList)
         {

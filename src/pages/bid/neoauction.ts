@@ -83,11 +83,9 @@ export default class NeoAuction extends Vue
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable.toString() + " SGas";
-        setInterval(() =>
-        {
-            this.refreshPage();
-        }, 10000);
-
+        // this.refreshPage();
+        TaskManager.functionList = [];
+        TaskManager.functionList.push(this.refreshPage);
     }
 
     async refreshPage()
@@ -143,6 +141,9 @@ export default class NeoAuction extends Vue
      */
     onBack()
     {
+        TaskManager.functionList = [];
+        TaskManager.functionList.push(this.refreshPage);
+        this.refreshPage();
         this.auctionPageSession.put('show', false);
         this.auctionPage = false;
     }
@@ -283,6 +284,7 @@ export default class NeoAuction extends Vue
     async addBid()
     {
         let msg = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        let test = tools.nnssell.getMyAuctionState(msg);
         let auction = new MyAuction();
         let time = await tools.wwwtool.api_getBlockInfo(msg.startBlockSelling.toInt32());
         auction.startAuctionTime = time * 1000;

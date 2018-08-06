@@ -65,24 +65,22 @@ export default class AuctionInfo extends Vue
 
     async mounted()
     {
-        let auctionMsg = new tools.sessionstoretool("auctionPage");
         this.session_bid = new sessionStoreTool("bidSession");
         this.session_recover = new sessionStoreTool("recoverSession");
         this.session_getdomain = new sessionStoreTool("getDomainSession");
         this.refresh = new tools.sessionstoretool("refresh_auction");
-        let domain = auctionMsg.select("domain");
-        await this.init(domain);
+        await this.init();
         if (!this.domainAuctionInfo.endTime)
         {
-            setInterval(() =>
-            {
-                this.refreshPage()
-            }, 10000);
+            TaskManager.functionList = [];
+            TaskManager.functionList.push(this.init);
         }
     }
 
-    async init(domain)
+    async init()
     {
+        let auctionMsg = new tools.sessionstoretool("auctionPage");
+        let domain = auctionMsg.select("domain");
         await tools.nnstool.initRootDomain("neo");
         await this.initAuctionInfo(domain);
         this.balanceOf = await tools.nnssell.getBalanceOf();
@@ -126,37 +124,37 @@ export default class AuctionInfo extends Vue
         }
     }
 
-    async refreshPage()
-    {
-        let oldheight = this.refresh.select("height");
-        let height = TaskManager.oldBlock.select('height');
-        let bidlist = this.refresh.select("bidlist");
-        let withdraw = this.refresh.select("withdraw");
-        let topup = this.refresh.select("topup");
+    // async refreshPage()
+    // {
+    //     let oldheight = this.refresh.select("height");
+    //     let height = TaskManager.oldBlock.select('height');
+    //     let bidlist = this.refresh.select("bidlist");
+    //     let withdraw = this.refresh.select("withdraw");
+    //     let topup = this.refresh.select("topup");
 
-        if (oldheight)
-        {
-            if (oldheight < height)
-            {
-                setTimeout(() =>
-                {
-                    this.init(this.domainAuctionInfo.domain);
-                    this.refresh.put("bidlist", false);
-                    this.refresh.put("height", height);
-                }, 8000);
-            }
-        } else
-        {
-            this.refresh.put("height", height);
-        }
+    //     if (oldheight)
+    //     {
+    //         if (oldheight < height)
+    //         {
+    //             setTimeout(() =>
+    //             {
+    //                 this.init();
+    //                 this.refresh.put("bidlist", false);
+    //                 this.refresh.put("height", height);
+    //             }, 8000);
+    //         }
+    //     } else
+    //     {
+    //         this.refresh.put("height", height);
+    //     }
 
-        if (bidlist)
-        {
-            await this.init(this.domainAuctionInfo.domain);
-            this.refresh.put("bidlist", false);
+    //     if (bidlist)
+    //     {
+    //         await this.init();
+    //         this.refresh.put("bidlist", false);
 
-        }
-    }
+    //     }
+    // }
 
     /**
      * 初始化时间轴
@@ -440,13 +438,13 @@ export default class AuctionInfo extends Vue
         try
         {
             // this.bidState = 1;
-            this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
             let res = await tools.nnssell.raise(this.domainAuctionInfo.domain, count);
+            if (!res.err)
+                this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             let txid = res.info;
             let amount = this.bidPrice;
             this.session_bid.put(this.domainAuctionInfo.domain, { txid, amount }, txid);
-
             let oldBlock = new tools.sessionstoretool("block");
             let height = oldBlock.select('height');
             let task = new Task(

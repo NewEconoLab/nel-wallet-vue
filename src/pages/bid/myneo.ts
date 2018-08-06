@@ -95,7 +95,6 @@ export default class MyNeo extends Vue
             for (let i in list)
             {
                 let isshow = await this.checkExpiration(list[ i ]);
-                console.log(isshow);
                 if (!isshow)//未到期
                 {
                     let expired = await this.checkExpirationSoon(list[ i ]);

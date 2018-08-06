@@ -122,7 +122,7 @@
             <div class="auction-title">{{$t('auction.acutiontitle')}}</div>
             <div class="wrap-msg">
               <div class="domain-name">{{$t('auction.domain')}}: {{auctionMsg_alert.domain}}</div>
-              <div class="auction-status">{{$t('auction.status')}}: <span class="status-being">Fixed period</span> </div>
+              <div class="auction-status">{{$t('auction.status')}}: <span class="status-being">{{auctionMsg_alert.auctionState}}</span> </div>
               <div class="auction-price">{{$t('auction.highest')}}: {{auctionMsg_alert.maxPrice}} SGas</div>
             </div>
             <div class="wrap-msg">
