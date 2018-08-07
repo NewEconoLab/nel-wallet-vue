@@ -88,7 +88,6 @@ export default class balance extends Vue
       {
         if (res[ 0 ].code == "3000")
         {
-<<<<<<< HEAD
           console.log(res[ 0 ].codeMessage);
           //任务管理器
           // this.confirmRecharge_sgas(txid)
@@ -99,11 +98,6 @@ export default class balance extends Vue
           )
           tools.taskManager.addTask(task, TaskType.getGasTest);
           sessionStorage.setItem("getTestGas", "waitting");
-=======
-          this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
-          this.gettingGas = false;//正在领取
-          this.isgetGas = true;//不可点击
->>>>>>> a2ee90bcc126107cb4620bee3362ae47102a0618
         }
         else if (res[ 0 ].code == "3001")
         {
@@ -120,19 +114,12 @@ export default class balance extends Vue
         else if (res[ 0 ].code == "3004")//超出领取金额
         {
           this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-<<<<<<< HEAD
           this.isgetGas = true;
         }
       } else
       {
         this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
         this.isgetGas = true;
-=======
-          console.log(res[ 0 ].codeMessage);
-          this.gettingGas = true;
-          this.isgetGas = true;
-        }
->>>>>>> a2ee90bcc126107cb4620bee3362ae47102a0618
       }
     }
     else
