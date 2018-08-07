@@ -61,7 +61,8 @@ export default class balance extends Vue
       this.isGetTestGasSuccess();
     } else
     {
-      let res = await tools.wwwtool.api_hasclaimgas(address);
+      let res = await tools.wwwtool.api_hasclaimgas("AJuZ2w4VVgE1aubKV6vmDhVzNN45oJtof2");
+      console.log(res);
       if (res)
       {
         if (res[ 0 ].flag)
@@ -82,6 +83,7 @@ export default class balance extends Vue
   async getTestGas()
   {
     let isOk = await this.isGetGas(this.currentAddress);
+    console.log(isOk);
     if (isOk)
     {
       this.gettingGas = false;

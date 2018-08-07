@@ -14,7 +14,6 @@ export default class SgasTool
     static async makeMintTokenTransaction(transcount)
     {
         //获得登陆信息
-        var login = LoginInfo.getCurrentLogin();
         let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);
         //获得sgas的合约地址
         var sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
@@ -36,7 +35,7 @@ export default class SgasTool
     static async makeRefundTransaction(transcount)
     {
         // 查询SGAS余额
-        var login = LoginInfo.getCurrentLogin();
+        // var login = LoginInfo.getCurrentLogin();
 
         //获取sgas合约地址的资产列表
         var utxos_assets = await tools.coinTool.getsgasAssets();
@@ -84,7 +83,8 @@ export default class SgasTool
         if (r && r[ 'script' ])
         {
             var sgasScript = r[ 'script' ].hexToBytes();
-            var scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(login.address)
+
+            var scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress())
 
             var tran: any = makeTranRes.info.tran;
             tran.type = ThinNeo.TransactionType.InvocationTransaction;
@@ -103,12 +103,10 @@ export default class SgasTool
             tran.AddWitnessScript(sgasScript, sb.ToArray());
 
             //做提款人的签名
-            var signdata = ThinNeo.Helper.Sign(tran.GetMessage(), login.prikey);
-            tran.AddWitness(signdata, login.pubkey, login.address);
-            var trandata = tran.GetRawData();
+            var data = await tools.coinTool.signData(tran);
 
             // 发送交易请求
-            r = await tools.wwwtool.api_postRawTransaction(trandata);
+            r = await tools.wwwtool.api_postRawTransaction(data);
 
             if (!!r && r[ "txid" ])
             {
