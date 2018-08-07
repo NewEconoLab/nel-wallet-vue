@@ -68,7 +68,8 @@ export default class login extends Vue
 
   mounted()
   {
-    if (tools.storagetool.getLoginArr().length > 0)
+    let arr = sessionStorage.getItem("login-info-arr");
+    if (!!arr && arr.length > 0)
     {
       sessionStorage.clear();
     }

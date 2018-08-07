@@ -196,93 +196,17 @@ export class CoinTool
      */
     static async signData(tran: ThinNeo.Transaction): Promise<Uint8Array>
     {
+        let info = await LoginInfo.deblocking();
 
-        let promise: Promise<Uint8Array> = new Promise((resolve, reject) =>
-        {
-            if (!!LoginInfo.info)
-            {
-                let addr = LoginInfo.getCurrentAddress();
-                let current = LoginInfo.info
-                var msg = tran.GetMessage().clone();
-                var pubkey = current.pubkey.clone();
-                var prekey = current.prikey.clone();
-                var signdata = ThinNeo.Helper.Sign(msg, prekey);
-                tran.AddWitness(signdata, pubkey, addr);
-                var data: Uint8Array = tran.GetRawData();
-                resolve(data);
-            } else
-            {
-                let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
-                if (current.type == LoginType.wif)
-                {
-                    var res = tools.neotool.wifDecode(current.msg[ 'wif' ]);
-                    if (res.err)
-                    {
-                        reject("WIF is error");
-                    }
-                    else
-                    {
-                        LoginInfo.info = res.info as LoginInfo;
-                        resolve(data);
-                        return;
-                    }
-                }
-                if (current.type == LoginType.nep2 || LoginType.nep6)
-                {
-                    alert.show("请输入密码", "password", "确认", passsword =>
-                    {
-                        let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
-                        tools.neotool.nep2ToWif(nep2, passsword)
-                            .then((res) =>
-                            {
-                                LoginInfo.info = res.info as LoginInfo;
-                                let addr = LoginInfo.getCurrentAddress();
-                                let current = LoginInfo.info
-                                var msg = tran.GetMessage().clone();
-                                var pubkey = current.pubkey.clone();
-                                var prekey = current.prikey.clone();
-                                var signdata = ThinNeo.Helper.Sign(msg, prekey);
-                                tran.AddWitness(signdata, pubkey, addr);
-                                var data: Uint8Array = tran.GetRawData();
-                                alert.close();
-                                resolve(data);
-                            })
-                            .catch(err =>
-                            {
-                                // console.error(Error("password is error"));
-                                alert.error("密码错误,请重新输入")
-                            })
-                    })
-                } if (current.type == LoginType.otcgo)
-                {
-                    alert.show("请输入密码", "password", "确认", password =>
-                    {
-                        let json = current.msg;
-                        let otcgo = new WalletOtcgo();
-                        otcgo.fromJsonStr(JSON.stringify(json));
-                        otcgo.otcgoDecrypt(password);
-                        const result = otcgo.doValidatePwd();
-                        if (result)
-                        {
-                            var info: LoginInfo = new LoginInfo();
-                            info.address = otcgo.address;
-                            info.prikey = otcgo.prikey;
-                            info.pubkey = otcgo.pubkey;
-                            var signdata = ThinNeo.Helper.Sign(msg, info.prikey);
-                            tran.AddWitness(signdata, pubkey, info.address);
-                            var data: Uint8Array = tran.GetRawData();
-                            alert.close();
-                            resolve(data);
-                        } else
-                        {
-                            alert.error("密码错误,请重新输入")
-                        }
-                    })
-                }
-            }
-
-        })
-        return promise;
+        let addr = LoginInfo.getCurrentAddress();
+        let current = LoginInfo.info
+        var msg = tran.GetMessage().clone();
+        var pubkey = current.pubkey.clone();
+        var prekey = current.prikey.clone();
+        var signdata = ThinNeo.Helper.Sign(msg, prekey);
+        tran.AddWitness(signdata, pubkey, addr);
+        var data: Uint8Array = tran.GetRawData();
+        return data;
     }
 
     /**
