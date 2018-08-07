@@ -2309,8 +2309,22 @@ var LoginInfo = /** @class */ (function () {
     }
     LoginInfo.deblocking = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var promise;
+            var msg_title, msg_btn, msg_error, language, promise;
             return __generator(this, function (_a) {
+                msg_title = "";
+                msg_btn = "";
+                msg_error = "";
+                language = sessionStorage.getItem("language");
+                if (!language || language == 'en') {
+                    msg_title = "Please enter your password ";
+                    msg_btn = "confirm";
+                    msg_error = "Password error ";
+                }
+                else {
+                    msg_title = "请输入您的密码 ";
+                    msg_btn = "确认";
+                    msg_error = "密码错误 ";
+                }
                 promise = new Promise(function (resolve, reject) {
                     if (!!LoginInfo.info) {
                         var current = LoginInfo.info;
@@ -2330,7 +2344,7 @@ var LoginInfo = /** @class */ (function () {
                             }
                         }
                         if (current_1.type == LoginType.nep2 || LoginType.nep6) {
-                            alert.show("请输入密码", "password", "确认", function (passsword) {
+                            alert.show(msg_title, "password", msg_btn, function (passsword) {
                                 var nep2 = current_1.msg[LoginInfo.getCurrentAddress()];
                                 importpack_1.tools.neotool.nep2ToWif(nep2, passsword)
                                     .then(function (res) {
@@ -2339,12 +2353,12 @@ var LoginInfo = /** @class */ (function () {
                                     resolve(LoginInfo.info);
                                 })
                                     .catch(function (err) {
-                                    alert.error("密码错误,请重新输入");
+                                    alert.error(msg_error);
                                 });
                             });
                         }
                         if (current_1.type == LoginType.otcgo) {
-                            alert.show("请输入密码", "password", "确认", function (password) {
+                            alert.show(msg_title, "password", msg_btn, function (password) {
                                 var json = current_1.msg;
                                 var otcgo = new WalletOtcgo();
                                 otcgo.fromJsonStr(JSON.stringify(json));
@@ -2360,7 +2374,7 @@ var LoginInfo = /** @class */ (function () {
                                     resolve(info);
                                 }
                                 else {
-                                    alert.error("密码错误,请重新输入");
+                                    alert.error(msg_error);
                                 }
                             });
                         }
@@ -9950,82 +9964,22 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.signData = function (tran) {
         return __awaiter(this, void 0, void 0, function () {
-            var promise;
+            var info, addr, current, msg, pubkey, prekey, signdata, data;
             return __generator(this, function (_a) {
-                promise = new Promise(function (resolve, reject) {
-                    if (!!entity_1.LoginInfo.info) {
-                        var addr = entity_1.LoginInfo.getCurrentAddress();
-                        var current = entity_1.LoginInfo.info;
-                        var msg = tran.GetMessage().clone();
-                        var pubkey = current.pubkey.clone();
-                        var prekey = current.prikey.clone();
-                        var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, entity_1.LoginInfo.deblocking()];
+                    case 1:
+                        info = _a.sent();
+                        addr = entity_1.LoginInfo.getCurrentAddress();
+                        current = entity_1.LoginInfo.info;
+                        msg = tran.GetMessage().clone();
+                        pubkey = current.pubkey.clone();
+                        prekey = current.prikey.clone();
+                        signdata = ThinNeo.Helper.Sign(msg, prekey);
                         tran.AddWitness(signdata, pubkey, addr);
-                        var data = tran.GetRawData();
-                        resolve(data);
-                    }
-                    else {
-                        var current_1 = JSON.parse(sessionStorage.getItem("login-info-arr"));
-                        if (current_1.type == entity_1.LoginType.wif) {
-                            var res = importpack_1.tools.neotool.wifDecode(current_1.msg['wif']);
-                            if (res.err) {
-                                reject("WIF is error");
-                            }
-                            else {
-                                entity_1.LoginInfo.info = res.info;
-                                resolve(data);
-                                return;
-                            }
-                        }
-                        if (current_1.type == entity_1.LoginType.nep2 || entity_1.LoginType.nep6) {
-                            entity_1.alert.show("请输入密码", "password", "确认", function (passsword) {
-                                var nep2 = current_1.msg[entity_1.LoginInfo.getCurrentAddress()];
-                                importpack_1.tools.neotool.nep2ToWif(nep2, passsword)
-                                    .then(function (res) {
-                                    entity_1.LoginInfo.info = res.info;
-                                    var addr = entity_1.LoginInfo.getCurrentAddress();
-                                    var current = entity_1.LoginInfo.info;
-                                    var msg = tran.GetMessage().clone();
-                                    var pubkey = current.pubkey.clone();
-                                    var prekey = current.prikey.clone();
-                                    var signdata = ThinNeo.Helper.Sign(msg, prekey);
-                                    tran.AddWitness(signdata, pubkey, addr);
-                                    var data = tran.GetRawData();
-                                    entity_1.alert.close();
-                                    resolve(data);
-                                })
-                                    .catch(function (err) {
-                                    // console.error(Error("password is error"));
-                                    entity_1.alert.error("密码错误,请重新输入");
-                                });
-                            });
-                        }
-                        if (current_1.type == entity_1.LoginType.otcgo) {
-                            entity_1.alert.show("请输入密码", "password", "确认", function (password) {
-                                var json = current_1.msg;
-                                var otcgo = new entity_1.WalletOtcgo();
-                                otcgo.fromJsonStr(JSON.stringify(json));
-                                otcgo.otcgoDecrypt(password);
-                                var result = otcgo.doValidatePwd();
-                                if (result) {
-                                    var info = new entity_1.LoginInfo();
-                                    info.address = otcgo.address;
-                                    info.prikey = otcgo.prikey;
-                                    info.pubkey = otcgo.pubkey;
-                                    var signdata = ThinNeo.Helper.Sign(msg, info.prikey);
-                                    tran.AddWitness(signdata, pubkey, info.address);
-                                    var data = tran.GetRawData();
-                                    entity_1.alert.close();
-                                    resolve(data);
-                                }
-                                else {
-                                    entity_1.alert.error("密码错误,请重新输入");
-                                }
-                            });
-                        }
-                    }
-                });
-                return [2 /*return*/, promise];
+                        data = tran.GetRawData();
+                        return [2 /*return*/, data];
+                }
             });
         });
     };

@@ -69,6 +69,21 @@ export class LoginInfo
 
     static async deblocking()
     {
+        let msg_title = "";
+        let msg_btn = "";
+        let msg_error = "";
+        let language = sessionStorage.getItem("language");
+        if (!language || language == 'en')
+        {
+            msg_title = "Please enter your password ";
+            msg_btn = "confirm";
+            msg_error = "Password error ";
+        } else
+        {
+            msg_title = "请输入您的密码 ";
+            msg_btn = "确认";
+            msg_error = "密码错误 ";
+        }
         let promise: Promise<LoginInfo> = new Promise((resolve, reject) =>
         {
             if (!!LoginInfo.info)
@@ -94,7 +109,7 @@ export class LoginInfo
                 }
                 if (current.type == LoginType.nep2 || LoginType.nep6)
                 {
-                    alert.show("请输入密码", "password", "确认", passsword =>
+                    alert.show(msg_title, "password", msg_btn, passsword =>
                     {
                         let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
                         tools.neotool.nep2ToWif(nep2, passsword)
@@ -106,12 +121,12 @@ export class LoginInfo
                             })
                             .catch(err =>
                             {
-                                alert.error("密码错误,请重新输入")
+                                alert.error(msg_error)
                             })
                     })
                 } if (current.type == LoginType.otcgo)
                 {
-                    alert.show("请输入密码", "password", "确认", password =>
+                    alert.show(msg_title, "password", msg_btn, password =>
                     {
                         let json = current.msg;
                         let otcgo = new WalletOtcgo();
@@ -129,7 +144,7 @@ export class LoginInfo
                             resolve(info);
                         } else
                         {
-                            alert.error("密码错误,请重新输入")
+                            alert.error(msg_error)
                         }
                     })
                 }
