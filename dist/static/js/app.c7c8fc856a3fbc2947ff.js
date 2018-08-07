@@ -546,13 +546,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "3YjA":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "4+Dl":
 /***/ (function(module, exports) {
 
@@ -1827,43 +1820,39 @@ var balance = /** @class */ (function (_super) {
     }
     // Component method
     balance.prototype.mounted = function () {
-        var _this = this;
         this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
         this.isGetGas(this.currentAddress);
         this.getBalances();
         this.openToast = this.$refs.toast["isShow"];
-        this.isGetTestGasSuccess();
-        setInterval(function () {
-            _this.isGetTestGasSuccess();
-        }, 30000);
+        // setInterval(() =>
+        // {
+        // }, 30000)
     };
     //判断是否可以领取gas
     balance.prototype.isGetGas = function (address) {
         return __awaiter(this, void 0, void 0, function () {
-            var testgas, res;
+            var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        testgas = sessionStorage.getItem("getTestGas");
-                        if (!testgas) return [3 /*break*/, 1];
-                        this.isGetTestGasSuccess();
-                        return [3 /*break*/, 3];
-                    case 1: return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(address)];
-                    case 2:
+                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(address)];
+                    case 1:
                         res = _a.sent();
                         console.log(res);
                         if (res) {
-                            if (res[0].flag) {
-                                this.isgetGas = false;
+                            if (res[0].code == "3010") {
+                                this.isgetGas = false; //可领取
+                                return [2 /*return*/, true];
                             }
-                            else {
-                                this.isgetGas = true;
+                            else if (res[0].code == "3012") {
+                                this.isgetGas = true; //已领取
+                                return [2 /*return*/, false];
                             }
-                            return [2 /*return*/, res[0].flag];
+                            else if (res[0].code == "3011") {
+                                this.gettingGas = false; //正在领取
+                                return [2 /*return*/, false];
+                            }
                         }
-                        this.isgetGas = true;
                         return [2 /*return*/, false];
-                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -1885,7 +1874,7 @@ var balance = /** @class */ (function (_super) {
                         res = _a.sent();
                         console.log(res);
                         if (res) {
-                            if (res[0].code == "0000") {
+                            if (res[0].code == "3000") {
                                 console.log(res[0].codeMessage);
                                 oldBlock = new importpack_1.tools.sessionstoretool("block");
                                 height = oldBlock.select('height');
@@ -1900,9 +1889,10 @@ var balance = /** @class */ (function (_super) {
                             else if (res[0].code == "3002") {
                                 this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
                                 console.log(res[0].codeMessage);
+                                this.gettingGas = true;
                                 this.isgetGas = true;
                             }
-                            else {
+                            else if (res[0].code == "3004") {
                                 this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
                                 this.isgetGas = true;
                             }
@@ -1919,28 +1909,6 @@ var balance = /** @class */ (function (_super) {
                 }
             });
         });
-    };
-    //领取测试gas成功
-    balance.prototype.doGetTestGasSuccess = function () {
-        this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
-        this.getBalances();
-        this.gettingGas = true; //停止转动
-        this.isgetGas = true; //不可点击
-    };
-    balance.prototype.isGetTestGasSuccess = function () {
-        var testgas = sessionStorage.getItem("getTestGas");
-        if (testgas == "true") {
-            this.doGetTestGasSuccess();
-            sessionStorage.removeItem("getTestGas");
-        }
-        else if (testgas == "waitting") {
-            this.gettingGas = false; //转动
-        }
-        else if (testgas == "fail") {
-            this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
-            this.isgetGas = true;
-            sessionStorage.removeItem("getTestGas");
-        }
     };
     balance.prototype.addressSwitch = function () {
         entity_1.LoginInfo.setCurrentAddress(this.chooseAddress);
@@ -2125,14 +2093,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var bonus = __webpack_require__("DaUf");
 var bonus_default = /*#__PURE__*/__webpack_require__.n(bonus);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-3c6a7c2c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/bonus.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"bonus-wrap"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"bonus-msg"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.msg'))+": "+_vm._s(_vm.claimNum))]),_vm._v(" "),(!_vm.isClaim)?_c('button',{staticClass:"btn btn-nel",class:{'btn-disabled':(_vm.claimNum || _vm.claimNum=='0')},attrs:{"disabled":(_vm.claimNum || _vm.claimNum=='0')},on:{"click":_vm.getClaim}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(_vm.isClaim)?_c('spinner-wrap',{attrs:{"isbig":false}}):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==1)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait1')))]):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==2)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait2')))]):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==3)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait3')))]):_vm._e(),_vm._v(" "),(_vm.claimState==4)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait4')))]):_vm._e()],1)]),_vm._v(" "),(_vm.historyList)?_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.title2')))])]):_vm._e(),_vm._v(" "),(_vm.historyList)?_c('div',{staticClass:"form-box"},[(_vm.isClaim)?_c('div',{staticClass:"history-box"},[_vm._v(_vm._s(_vm.$t('bonus.wait2')))]):_vm._e(),_vm._v(" "),_vm._l((_vm.historyList),function(item,index){return _c('div',{key:index,staticClass:"history-wrap"},[_c('div',{staticClass:"history-box"},[_c('div',{staticClass:"history-number dde"},[_vm._v("+ "+_vm._s(item.value)+" SGas")]),_vm._v(" "),_c('hr'),_vm._v(" "),_c('div',{staticClass:"history-time"},[_vm._v(_vm._s(item.blocktime))])])])}),_vm._v(" "),(_vm.isPage)?_c('div',{staticClass:"page-msg"},[_vm._v(_vm._s(_vm.pageMsg))]):_vm._e(),_vm._v(" "),(_vm.isPage)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",on:{"click":_vm.previous}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",on:{"click":_vm.next}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()],2):_vm._e()])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-4d6c4fa4","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/bonus.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"bonus-wrap"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"bonus-msg"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.msg'))+": "+_vm._s(_vm.claimNum))]),_vm._v(" "),(!_vm.isClaim)?_c('button',{staticClass:"btn btn-nel",class:{'btn-disabled':(_vm.claimNum || _vm.claimNum=='0')},attrs:{"disabled":(_vm.claimNum || _vm.claimNum=='0')},on:{"click":_vm.getClaim}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(_vm.isClaim)?_c('span',[_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.claiming')))])]):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==1)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait1')))]):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==2)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait2')))]):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==3)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait3')))]):_vm._e(),_vm._v(" "),(_vm.claimState==4)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait4')))]):_vm._e()])]),_vm._v(" "),(_vm.historyList)?_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.title2')))])]):_vm._e(),_vm._v(" "),(_vm.historyList)?_c('div',{staticClass:"form-box"},[(_vm.isClaim)?_c('div',{staticClass:"history-box"},[_vm._v(_vm._s(_vm.$t('bonus.wait2')))]):_vm._e(),_vm._v(" "),_vm._l((_vm.historyList),function(item,index){return _c('div',{key:index,staticClass:"history-wrap"},[_c('div',{staticClass:"history-box"},[_c('div',{staticClass:"history-number dde"},[_vm._v("+ "+_vm._s(item.value)+" SGas")]),_vm._v(" "),_c('hr'),_vm._v(" "),_c('div',{staticClass:"history-time"},[_vm._v(_vm._s(item.blocktime))])])])}),_vm._v(" "),(_vm.isPage)?_c('div',{staticClass:"page-msg"},[_vm._v(_vm._s(_vm.pageMsg))]):_vm._e(),_vm._v(" "),(_vm.isPage)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",on:{"click":_vm.previous}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",on:{"click":_vm.next}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()],2):_vm._e()])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_bonus = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/bonus.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("eY8M")
+  __webpack_require__("BTEW")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2143,7 +2111,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-3c6a7c2c"
+var __vue_scopeId__ = "data-v-4d6c4fa4"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -3194,6 +3162,8 @@ var transfer = /** @class */ (function (_super) {
         _this.txs = [];
         _this.nextpage = true;
         _this.cutshow = true;
+        _this.isAddress = false; //地址错误
+        _this.isNumber = false; //金额错误
         _this.target = "";
         _this.isDomain = false;
         _this.toaddress = "";
@@ -3274,11 +3244,13 @@ var transfer = /** @class */ (function (_super) {
                             this.toaddress = addr;
                             this.isDomain = true;
                             this.addrerr = 'false';
+                            this.isAddress = true;
                             return [2 /*return*/, true];
                         }
                         else {
                             this.toaddress = "";
                             this.addrerr = 'true';
+                            this.isAddress = false;
                             return [2 /*return*/, false];
                         }
                         return [3 /*break*/, 6];
@@ -3287,6 +3259,7 @@ var transfer = /** @class */ (function (_super) {
                         if (importpack_1.tools.neotool.verifyPublicKey(this.target)) {
                             this.toaddress = this.target;
                             this.addrerr = 'false';
+                            this.isAddress = true;
                             return [2 /*return*/, true];
                         }
                         return [3 /*break*/, 6];
@@ -3301,18 +3274,21 @@ var transfer = /** @class */ (function (_super) {
                             this.toaddress = mapping;
                             this.addrerr = 'false';
                             this.isDomain = true;
+                            this.isAddress = true;
                             return [2 /*return*/, true];
                         }
                         else {
                             this.toaddress = "";
                             this.addrerr = 'true';
                             this.isDomain = false;
+                            this.isAddress = false;
                             return [2 /*return*/, false];
                         }
                         return [3 /*break*/, 6];
                     case 5:
                         this.addrerr = 'true';
                         this.toaddress = "";
+                        this.isAddress = false;
                         return [2 /*return*/, false];
                     case 6: return [2 /*return*/];
                 }
@@ -3320,10 +3296,15 @@ var transfer = /** @class */ (function (_super) {
         });
     };
     transfer.prototype.verify_Amount = function () {
+        if (this.amount.length == 0) {
+            this.isNumber = false;
+            return false;
+        }
         var balancenum = Neo.Fixed8.parse(this.balance.balance + '');
         var inputamount = Neo.Fixed8.parse(this.amount);
         var compare = balancenum.compareTo(inputamount);
         compare >= 1 ? this.amount = this.amount : this.amount = balancenum.toString();
+        this.isNumber = true;
         return true;
     };
     transfer.prototype.send = function () {
@@ -3369,11 +3350,12 @@ var transfer = /** @class */ (function (_super) {
                     case 6:
                         res = _a.sent();
                         if (res.err) {
-                            this.openToast("error", "交易失败 " + res.info, 3000);
+                            this.openToast("error", "" + this.$t("transfer.msg3") + res.info, 3000);
                         }
                         else {
-                            this.openToast("success", "交易成功，请等待区块变化后确认是否到账", 3000);
+                            this.openToast("success", "" + this.$t("transfer.msg2"), 3000);
                         }
+                        this.isNumber = false;
                         his = new entity_1.History();
                         his.address = this.toaddress;
                         his.asset = this.asset;
@@ -4638,6 +4620,13 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6
 
 /***/ }),
 
+/***/ "BTEW":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "C0Cu":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5763,6 +5752,13 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABoCAYAAAAO
 
 /***/ }),
 
+/***/ "JrWs":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "JxTv":
 /***/ (function(module, exports) {
 
@@ -6371,14 +6367,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var transfer = __webpack_require__("82a0");
 var transfer_default = /*#__PURE__*/__webpack_require__.n(transfer);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-417aa572","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer/transfer.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('transfer.transfer')))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v(_vm._s(_vm.$t('transfer.title1'))+":")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names +" "+ _vm.$t('transfer.msg5') : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v(_vm._s(_vm.$t('transfer.title2'))+":")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.target),expression:"target"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":_vm.$t('transfer.placeholder'),"autocomplete":"off"},domProps:{"value":(_vm.target)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.target=$event.target.value},_vm.verify_addr]}})]),_vm._v(" "),(_vm.isDomain)?_c('p',[_vm._v(_vm._s(_vm.toaddress))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("  "+_vm._s(_vm.$t('transfer.msg1'))+" ")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v(_vm._s(_vm.$t('transfer.title3'))+":")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number","autocomplete":"off"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v(_vm._s(_vm.$t('transfer.details')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.send}},[_vm._v(_vm._s(_vm.$t('transfer.send')))])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('transfer.title4')))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(_vm._s(tx.txtype == 'out'?_vm.$t('transfer.from'):_vm.$t('transfer.to'))+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_c('a',{attrs:{"href":'https://scan.nel.group/#testnet/transaction/'+tx.txid,"target":"_blank"}},[_vm._v("\n                            "+_vm._s(tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4))+"\n                        ")]),_vm._v("  "+_vm._s(tx.time)+"\n                        "),(tx.waiting)?_c('div',[_vm._v("("+_vm._s(_vm.$t('nns.waiting'))+")")]):_vm._e()])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()]),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-496e7455","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer/transfer.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('transfer.transfer')))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v(_vm._s(_vm.$t('transfer.title1'))+":")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names +" "+ _vm.$t('transfer.msg5') : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v(_vm._s(_vm.$t('transfer.title2'))+":")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.target),expression:"target"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":_vm.$t('transfer.placeholder'),"autocomplete":"off"},domProps:{"value":(_vm.target)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.target=$event.target.value},_vm.verify_addr]}})]),_vm._v(" "),(_vm.isDomain)?_c('p',[_vm._v(_vm._s(_vm.toaddress))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("  "+_vm._s(_vm.$t('transfer.msg1'))+" ")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v(_vm._s(_vm.$t('transfer.title3'))+":")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number","autocomplete":"off"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v(_vm._s(_vm.$t('transfer.details')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disabled':!_vm.isAddress||!_vm.isNumber},attrs:{"disabled":!_vm.isAddress||!_vm.isNumber},on:{"click":_vm.send}},[_vm._v(_vm._s(_vm.$t('transfer.send')))])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('transfer.title4')))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(_vm._s(tx.txtype == 'out'?_vm.$t('transfer.from'):_vm.$t('transfer.to'))+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_c('a',{attrs:{"href":'https://scan.nel.group/#testnet/transaction/'+tx.txid,"target":"_blank"}},[_vm._v("\n                            "+_vm._s(tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4))+"\n                        ")]),_vm._v("  "+_vm._s(tx.time)+"\n                        "),(tx.waiting)?_c('div',[_vm._v("("+_vm._s(_vm.$t('transfer.waiting'))+")")]):_vm._e()])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()]),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var transfer_transfer = (esExports);
 // CONCATENATED MODULE: ./src/pages/transfer/transfer.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("Wyq9")
+  __webpack_require__("JrWs")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -6389,7 +6385,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-417aa572"
+var __vue_scopeId__ = "data-v-496e7455"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -6755,13 +6751,6 @@ var Component = normalizeComponent(
 /***/ }),
 
 /***/ "S2Vl":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "S2mm":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -7382,13 +7371,6 @@ var Bubble = /** @class */ (function (_super) {
 }(vue_property_decorator_1.Vue));
 exports.default = Bubble;
 
-
-/***/ }),
-
-/***/ "Wyq9":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -8495,14 +8477,14 @@ exports.NNSTool = NNSTool;
 
 /***/ }),
 
-/***/ "cou+":
+/***/ "b7N3":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ "d1Rh":
+/***/ "cou+":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -8519,14 +8501,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var exchange = __webpack_require__("Uyb2");
 var exchange_default = /*#__PURE__*/__webpack_require__.n(exchange);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-3b7c2d64","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/exchange/exchange.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container exchange-box"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('exchange.title')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"exchange-sgas"},[(!_vm.changeSGas)?_c('div',{staticClass:"gas-sgas"},[_c('div',{staticClass:"choose-wrap wrap-left"},[_c('img',{attrs:{"src":__webpack_require__("Az9s"),"alt":"gas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("Gas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.myGas))])])])]),_vm._v(" "),_c('div',{staticClass:"guid-img"},[_c('img',{attrs:{"src":__webpack_require__("IjLt"),"alt":"guiding.png"}})]),_vm._v(" "),_c('div',{staticClass:"choose-wrap wrap-right"},[_c('img',{attrs:{"src":__webpack_require__("qrTz"),"alt":"sgas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("SGas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.mySGas))])])])])]):_vm._e(),_vm._v(" "),(_vm.changeSGas)?_c('div',{staticClass:"gas-sgas"},[_c('div',{staticClass:"choose-wrap wrap-left"},[_c('img',{attrs:{"src":__webpack_require__("qrTz"),"alt":"sgas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("SGas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.mySGas))])])])]),_vm._v(" "),_c('div',{staticClass:"guid-img"},[_c('img',{attrs:{"src":__webpack_require__("IjLt"),"alt":"guiding.png"}})]),_vm._v(" "),_c('div',{staticClass:"choose-wrap wrap-right"},[_c('img',{attrs:{"src":__webpack_require__("Az9s"),"alt":"gas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("Gas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.myGas))])])])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"exchange-img",on:{"click":_vm.exchangeTranType}},[_c('img',{attrs:{"src":__webpack_require__("JxTv"),"alt":"exchange.png"}})])]),_vm._v(" "),_c('div',{staticClass:"sgas-tip"},[_vm._v("\n            "+_vm._s(_vm.$t('exchange.tips'))+"\n          ")]),_vm._v(" "),_c('div',{staticClass:"trans-box"},[_c('div',{staticClass:"spent-box"},[_c('div',{staticClass:"spent-msg"},[_vm._v("\n                  "+_vm._s(_vm.$t('exchange.spend'))+" \n                ")]),_vm._v(" "),_c('div',{staticClass:"spent-input"},[_c('div',{staticClass:"img-icon"},[_c('img',{attrs:{"src":__webpack_require__("8Xo2"),"alt":"plus.png"}})]),_vm._v(" "),_c('div',{staticClass:"input-icon"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.transcount),expression:"transcount"}],attrs:{"type":"number","placeholder":"0","autocomplete":"off"},domProps:{"value":(_vm.transcount)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.transcount=$event.target.value},_vm.exchangeCount]}})]),_vm._v(" "),_c('div',{staticClass:"msg-icon"},[_vm._v("\n                    "+_vm._s(_vm.changeSGas?"SGas":"Gas")+"\n                  ")])])]),_vm._v(" "),_c('div',{staticClass:"spent-box"},[_c('div',{staticClass:"spent-msg"},[_vm._v("\n                  "+_vm._s(_vm.$t('exchange.receive'))+"  \n                ")]),_vm._v(" "),_c('div',{staticClass:"spent-input disable-input"},[_c('div',{staticClass:"img-icon"},[_c('img',{attrs:{"src":__webpack_require__("aLFK"),"alt":"minus.png"}})]),_vm._v(" "),_c('div',{staticClass:"input-icon"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.transcount),expression:"transcount"}],attrs:{"type":"number","placeholder":_vm.$t('exchange.amount'),"disabled":""},domProps:{"value":(_vm.transcount)},on:{"input":function($event){if($event.target.composing){ return; }_vm.transcount=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"msg-icon"},[_vm._v("\n                    "+_vm._s(_vm.changeSGas?"Gas":"SGas")+"\n                  ")])])])]),_vm._v(" "),(_vm.transcount > _vm.exMaxcount)?_c('div',{staticClass:"spent-tip ff6"},[_vm._v("\n            "+_vm._s(_vm.$t('exchange.warnmsg'))+" \n          ")]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(!_vm.isCheckingTran)?_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disable':(_vm.transcount > _vm.exMaxcount || !_vm.exchangebtn)},attrs:{"disabled":_vm.transcount > _vm.exMaxcount || !_vm.exchangebtn},on:{"click":function($event){_vm.exChange()}}},[_vm._v(_vm._s(_vm.$t('btn.exchange')))]):_vm._e(),_vm._v(" "),(_vm.isCheckingTran)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e()],1)]),_vm._v(" "),(_vm.exchangeList)?_c('div',{staticClass:"form-box tran-list"},[_c('h3',{staticClass:"tran-title"},[_vm._v(_vm._s(_vm.$t('exchange.waittitle')))]),_vm._v(" "),_vm._l((_vm.exchangeList),function(item,index){return _c('div',{key:index,staticClass:"tran-history"},[(item.trantype == 'Gas')?_c('p',[_vm._v(_vm._s(_vm.$t('exchange.tosgas'))+"："+_vm._s(item.trancount)+" "+_vm._s(item.trantype)+", TXID: "+_vm._s(item.txid))]):_vm._e(),_vm._v(" "),(item.trantype == 'SGas')?_c('p',[_vm._v(_vm._s(_vm.$t('exchange.togas'))+"："+_vm._s(item.trancount)+" "+_vm._s(item.trantype)+", TXID: "+_vm._s(item.txid))]):_vm._e()])})],2):_vm._e()])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-250cbef0","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/exchange/exchange.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container exchange-box"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('exchange.title')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"exchange-sgas"},[(!_vm.changeSGas)?_c('div',{staticClass:"gas-sgas"},[_c('div',{staticClass:"choose-wrap wrap-left"},[_c('img',{attrs:{"src":__webpack_require__("Az9s"),"alt":"gas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("Gas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.myGas))])])])]),_vm._v(" "),_c('div',{staticClass:"guid-img"},[_c('img',{attrs:{"src":__webpack_require__("IjLt"),"alt":"guiding.png"}})]),_vm._v(" "),_c('div',{staticClass:"choose-wrap wrap-right"},[_c('img',{attrs:{"src":__webpack_require__("qrTz"),"alt":"sgas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("SGas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.mySGas))])])])])]):_vm._e(),_vm._v(" "),(_vm.changeSGas)?_c('div',{staticClass:"gas-sgas"},[_c('div',{staticClass:"choose-wrap wrap-left"},[_c('img',{attrs:{"src":__webpack_require__("qrTz"),"alt":"sgas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("SGas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.mySGas))])])])]),_vm._v(" "),_c('div',{staticClass:"guid-img"},[_c('img',{attrs:{"src":__webpack_require__("IjLt"),"alt":"guiding.png"}})]),_vm._v(" "),_c('div',{staticClass:"choose-wrap wrap-right"},[_c('img',{attrs:{"src":__webpack_require__("Az9s"),"alt":"gas-nomal.png"}}),_vm._v(" "),_c('div',{staticClass:"change-type"},[_c('span',[_vm._v("Gas")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('exchange.balance'))+": "),_c('span',[_vm._v(_vm._s(_vm.myGas))])])])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"exchange-img",on:{"click":_vm.exchangeTranType}},[_c('img',{attrs:{"src":__webpack_require__("JxTv"),"alt":"exchange.png"}})])]),_vm._v(" "),_c('div',{staticClass:"sgas-tip"},[_vm._v("\n            "+_vm._s(_vm.$t('exchange.tips'))+"\n          ")]),_vm._v(" "),_c('div',{staticClass:"trans-box"},[_c('div',{staticClass:"spent-box"},[_c('div',{staticClass:"spent-msg"},[_vm._v("\n                  "+_vm._s(_vm.$t('exchange.spend'))+" \n                ")]),_vm._v(" "),_c('div',{staticClass:"spent-input"},[_c('div',{staticClass:"img-icon"},[_c('img',{attrs:{"src":__webpack_require__("8Xo2"),"alt":"plus.png"}})]),_vm._v(" "),_c('div',{staticClass:"input-icon"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.transcount),expression:"transcount"}],attrs:{"type":"number","placeholder":"0","autocomplete":"off"},domProps:{"value":(_vm.transcount)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.transcount=$event.target.value},_vm.exchangeCount]}})]),_vm._v(" "),_c('div',{staticClass:"msg-icon"},[_vm._v("\n                    "+_vm._s(_vm.changeSGas?"SGas":"Gas")+"\n                  ")])])]),_vm._v(" "),_c('div',{staticClass:"spent-box"},[_c('div',{staticClass:"spent-msg"},[_vm._v("\n                  "+_vm._s(_vm.$t('exchange.receive'))+"  \n                ")]),_vm._v(" "),_c('div',{staticClass:"spent-input disable-input"},[_c('div',{staticClass:"img-icon"},[_c('img',{attrs:{"src":__webpack_require__("aLFK"),"alt":"minus.png"}})]),_vm._v(" "),_c('div',{staticClass:"input-icon"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.transcount),expression:"transcount"}],attrs:{"type":"number","placeholder":_vm.$t('exchange.amount'),"disabled":""},domProps:{"value":(_vm.transcount)},on:{"input":function($event){if($event.target.composing){ return; }_vm.transcount=$event.target.value}}})]),_vm._v(" "),_c('div',{staticClass:"msg-icon"},[_vm._v("\n                    "+_vm._s(_vm.changeSGas?"Gas":"SGas")+"\n                  ")])])])]),_vm._v(" "),(_vm.transcount > _vm.exMaxcount)?_c('div',{staticClass:"spent-tip ff6"},[_vm._v("\n            "+_vm._s(_vm.$t('exchange.warnmsg'))+" \n          ")]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(!_vm.isCheckingTran)?_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disable':(_vm.transcount > _vm.exMaxcount || !_vm.exchangebtn)},attrs:{"disabled":_vm.transcount > _vm.exMaxcount || !_vm.exchangebtn},on:{"click":function($event){_vm.exChange()}}},[_vm._v(_vm._s(_vm.$t('btn.exchange')))]):_vm._e(),_vm._v(" "),(_vm.isCheckingTran)?_c('span',[_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.exchanging')))])]):_vm._e()])]),_vm._v(" "),(_vm.exchangeList)?_c('div',{staticClass:"form-box tran-list"},[_c('h3',{staticClass:"tran-title"},[_vm._v(_vm._s(_vm.$t('exchange.waittitle')))]),_vm._v(" "),_vm._l((_vm.exchangeList),function(item,index){return _c('div',{key:index,staticClass:"tran-history"},[(item.trantype == 'Gas')?_c('p',[_vm._v(_vm._s(_vm.$t('exchange.tosgas'))+"："+_vm._s(item.trancount)+" "+_vm._s(item.trantype)+", TXID: "+_vm._s(item.txid))]):_vm._e(),_vm._v(" "),(item.trantype == 'SGas')?_c('p',[_vm._v(_vm._s(_vm.$t('exchange.togas'))+"："+_vm._s(item.trancount)+" "+_vm._s(item.trantype)+", TXID: "+_vm._s(item.txid))]):_vm._e()])})],2):_vm._e()])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var exchange_exchange = (esExports);
 // CONCATENATED MODULE: ./src/pages/exchange/exchange.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("S2mm")
+  __webpack_require__("lpwq")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -8537,7 +8519,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-3b7c2d64"
+var __vue_scopeId__ = "data-v-250cbef0"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -8551,13 +8533,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var pages_exchange_exchange = __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "eY8M":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -8623,14 +8598,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var neoauction = __webpack_require__("8KnJ");
 var neoauction_default = /*#__PURE__*/__webpack_require__.n(neoauction);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-7eca8455","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/neoauction.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"box-warp"},[(!_vm.auctionPage)?_c('div',{staticClass:"page-one"},[_c('div',{staticClass:"tips-box"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tipsmsg1'))),_c('br'),_vm._v(" "),_c('ol',[_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg2')))]),_vm._v(" "),_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg3')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.titleaccount')))])]),_vm._v(" "),_c('div',{staticClass:"form-box pall"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"sgas-count"},[_c('span',[_vm._v("SGas")]),_c('span',{staticClass:"num"},[_vm._v(" "+_vm._s(_vm.regBalance))])])]),_vm._v(" "),_c('div',{staticClass:"btn-right"},[_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openWithdraw}},[_vm._v(_vm._s(_vm.$t('btn.withdraw')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openTopUp}},[_vm._v(_vm._s(_vm.$t('btn.topup')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box ptop"},[_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.domain),expression:"domain"}],attrs:{"type":"text","placeholder":_vm.$t('auction.entername'),"autocomplete":"off"},domProps:{"value":(_vm.domain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.domain=$event.target.value},_vm.queryDomainState]}}),_vm._v(" "),_c('span',[_vm._v(".neo")])]),_vm._v(" "),(_vm.btn_start==0)?_c('spinner-wrap',{staticStyle:{"margin-left":"20px"}}):_vm._e(),_vm._v(" "),(_vm.btn_start==1 && !!_vm.domain.length)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openAuction}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==2)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.addBid}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==3)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(!_vm.domain.length||_vm.btn_start==4)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.checkState==1 && !!_vm.domain.length)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkavailable')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==2)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbeing')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==3)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbuyer')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==4)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkformat')))])]):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title2')))]),_vm._v(" "),_c('div',{staticClass:"seach-box"},[_c('input',{attrs:{"type":"search","name":"","id":"","placeholder":_vm.$t('auction.searchmsg'),"autocomplete":"off"}}),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("zH9E"),"alt":""}})])]),_vm._v(" "),_vm._l((_vm.myAuctionList),function(item,index){return (_vm.myAuctionList)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()})],2):_vm._e(),_vm._v(" "),(_vm.auctionPage)?_c('auction-info',{attrs:{"item":_vm.domainInfo},on:{"onBack":_vm.onBack}}):_vm._e(),_vm._v(" "),(_vm.auctionShow)?_c('div',{staticClass:"auction-wrap"},[_c('div',{staticClass:"auction-box"},[_c('div',{staticClass:"auction-title"},[_vm._v(_vm._s(_vm.$t('auction.acutiontitle')))]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"domain-name"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+": "+_vm._s(_vm.auctionMsg_alert.domain))]),_vm._v(" "),_c('div',{staticClass:"auction-status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+":                \n            "),(_vm.auctionMsg_alert.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"auction-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+": "+_vm._s(_vm.auctionMsg_alert.maxPrice)+" SGas")])]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"my-bid"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+": ")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_myBid),expression:"alert_myBid"}],staticClass:"bid-input",attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid'),"autocomplete":"off"},domProps:{"value":(_vm.alert_myBid)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.alert_myBid=$event.target.value},_vm.verifBidAmount]}})]),_vm._v(" "),_c('div',{staticClass:"my-bid"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.yourbidmsg'))+": "),_c('span',{class:{'status-being':_vm.canAdded,'status-ended':!_vm.canAdded}},[_vm._v(_vm._s(_vm.myBalanceOfSelling))]),_vm._v(" SGas\n          ")])]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tips1'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.canAdded)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":function($event){_vm.bidDomain()}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))])]),_vm._v(" "),_c('div',{staticClass:"auction-close"},[_c('span',{attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.auctionShow = !_vm.auctionShow}}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_TopUp.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.topup')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.from'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})]),_vm._v(" "),_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.isAvailable'))+".\n          ")])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.topupamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_TopUp.input),expression:"alert_TopUp.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_TopUp.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_TopUp, "input", $event.target.value)},_vm.verifToupAmount]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_TopUp.input = _vm.sgasAvailable}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(!_vm.alert_TopUp.watting)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.toRecharge}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_c('spinner-wrap')],1),_vm._v(" "),(_vm.alert_TopUp.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.toptips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_TopUp.isShow=!_vm.alert_TopUp.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_withdraw.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.withdraw')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.to'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.withdrawamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_withdraw.input),expression:"alert_withdraw.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_withdraw.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_withdraw, "input", $event.target.value)},_vm.verifWithdraw]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_withdraw.input = _vm.regBalance}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(_vm.alert_withdraw.watting)?_c('spinner-wrap'):_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.withdraw}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])],1),_vm._v(" "),(_vm.alert_withdraw.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.isAvailable'))+"\n          ")])]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.withdrawtips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_withdraw.isShow=!_vm.alert_withdraw.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-61c0bff0","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/neoauction.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"box-warp"},[(!_vm.auctionPage)?_c('div',{staticClass:"page-one"},[_c('div',{staticClass:"tips-box"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tipsmsg1'))),_c('br'),_vm._v(" "),_c('ol',[_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg2')))]),_vm._v(" "),_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg3')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.titleaccount')))])]),_vm._v(" "),_c('div',{staticClass:"form-box pall"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"sgas-count"},[_c('span',[_vm._v("SGas")]),_c('span',{staticClass:"num"},[_vm._v(" "+_vm._s(_vm.regBalance))])])]),_vm._v(" "),_c('div',{staticClass:"btn-right"},[_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openWithdraw}},[_vm._v(_vm._s(_vm.$t('btn.withdraw')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openTopUp}},[_vm._v(_vm._s(_vm.$t('btn.topup')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box ptop"},[_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.domain),expression:"domain"}],attrs:{"type":"text","placeholder":_vm.$t('auction.entername'),"autocomplete":"off"},domProps:{"value":(_vm.domain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.domain=$event.target.value},_vm.queryDomainState]}}),_vm._v(" "),_c('span',[_vm._v(".neo")])]),_vm._v(" "),(_vm.btn_start==0)?_c('span',[_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.openingauction')))])]):_vm._e(),_vm._v(" "),(_vm.btn_start==1 && !!_vm.domain.length)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openAuction}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==2)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.addBid}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==3)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(!_vm.domain.length||_vm.btn_start==4)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.checkState==1 && !!_vm.domain.length)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkavailable')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==2)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbeing')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==3)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbuyer')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==4)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkformat')))])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title2')))]),_vm._v(" "),_c('div',{staticClass:"seach-box"},[_c('input',{attrs:{"type":"search","name":"","id":"","placeholder":_vm.$t('auction.searchmsg'),"autocomplete":"off"}}),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("zH9E"),"alt":""}})])]),_vm._v(" "),_vm._l((_vm.myAuctionList),function(item,index){return (_vm.myAuctionList)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()})],2):_vm._e(),_vm._v(" "),(_vm.auctionPage)?_c('auction-info',{attrs:{"item":_vm.domainInfo},on:{"onBack":_vm.onBack}}):_vm._e(),_vm._v(" "),(_vm.auctionShow)?_c('div',{staticClass:"auction-wrap"},[_c('div',{staticClass:"auction-box"},[_c('div',{staticClass:"auction-title"},[_vm._v(_vm._s(_vm.$t('auction.acutiontitle')))]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"domain-name"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+": "+_vm._s(_vm.auctionMsg_alert.domain))]),_vm._v(" "),_c('div',{staticClass:"auction-status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+":                \n            "),(_vm.auctionMsg_alert.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"auction-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+": "+_vm._s(_vm.auctionMsg_alert.maxPrice)+" SGas")])]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"my-bid"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+": ")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_myBid),expression:"alert_myBid"}],staticClass:"bid-input",attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid'),"autocomplete":"off"},domProps:{"value":(_vm.alert_myBid)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.alert_myBid=$event.target.value},_vm.verifBidAmount]}})]),_vm._v(" "),_c('div',{staticClass:"my-bid"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.yourbidmsg'))+": "),_c('span',{class:{'status-being':_vm.canAdded,'status-ended':!_vm.canAdded}},[_vm._v(_vm._s(_vm.myBalanceOfSelling))]),_vm._v(" SGas\n          ")])]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tips1'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.canAdded)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":function($event){_vm.bidDomain()}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))])]),_vm._v(" "),_c('div',{staticClass:"auction-close"},[_c('span',{attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.auctionShow = !_vm.auctionShow}}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_TopUp.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.topup')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.from'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})]),_vm._v(" "),_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.isAvailable'))+".\n          ")])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.topupamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_TopUp.input),expression:"alert_TopUp.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_TopUp.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_TopUp, "input", $event.target.value)},_vm.verifToupAmount]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_TopUp.input = _vm.sgasAvailable}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(!_vm.alert_TopUp.watting)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.toRecharge}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_c('span',[_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))])])]),_vm._v(" "),(_vm.alert_TopUp.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.toptips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_TopUp.isShow=!_vm.alert_TopUp.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_withdraw.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.withdraw')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.to'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.withdrawamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_withdraw.input),expression:"alert_withdraw.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_withdraw.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_withdraw, "input", $event.target.value)},_vm.verifWithdraw]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_withdraw.input = _vm.regBalance}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(_vm.alert_withdraw.watting)?_c('span',[_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))])]):_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.withdraw}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])]),_vm._v(" "),(_vm.alert_withdraw.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.isAvailable'))+"\n          ")])]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.withdrawtips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_withdraw.isShow=!_vm.alert_withdraw.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_neoauction = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/neoauction.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("3YjA")
+  __webpack_require__("xa8m")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -8641,7 +8616,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-7eca8455"
+var __vue_scopeId__ = "data-v-61c0bff0"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -8762,6 +8737,13 @@ var Hint = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Hint;
 
+
+/***/ }),
+
+/***/ "lpwq":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -9482,13 +9464,16 @@ exports.default = {
     },
     btn: {
         confirm: "Confirm",
+        confirming: "Confirming",
         reset: "Reset",
         close: "Close",
         transfer: "Transfer",
         switch: "Switch",
         claim: "Claim",
+        claiming: "Claiming",
         cancel: "Cancel",
         openauction: "Open Auction",
+        openingauction: "Opening Auction",
         bid: "Bid",
         getdomain: "Claim domain",
         recoversgas: "Recover SGas",
@@ -9501,9 +9486,11 @@ exports.default = {
         edit: "Edit",
         renewal: "Renewal",
         exchange: "Exchange",
+        exchanging: "Exchanging",
         withdraw: "Withdraw",
         topup: "Top up",
-        getGas: "Request Gas"
+        getGas: "Request Gas",
+        gettingGas: "Requesting Gas"
     },
     toast: {
         msg1: "Loading ...",
@@ -9564,7 +9551,7 @@ exports.default = {
         tips: "You can click this button to request 10 Gas, it can only be clicked once a day.",
         errmsg1: "Operation failed ! And You can try it again the next day !",
         errmsg2: "Our stock is insufficient ! And You can try it again the next day !",
-        successmsg: "Successful operation！"
+        successmsg: "Successful operation！Please wait for a moment."
     },
     transfer: {
         transfer: "Transfer",
@@ -9581,7 +9568,8 @@ exports.default = {
         msg2: "Your transaction has been sent, please check it later",
         msg3: "Transaction failure",
         msg4: "-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction.",
-        msg5: "available"
+        msg5: "available",
+        waiting: "Waiting for transaction confirmation",
     },
     nns: {
         nns: "NNS",
@@ -10936,14 +10924,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var balance = __webpack_require__("5smL");
 var balance_default = /*#__PURE__*/__webpack_require__.n(balance);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-35fa50d8","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance/balance.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title1')))]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v(_vm._s(_vm.$t('balance.title2'))+"："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v(_vm._s(_vm.$t('btn.switch')))]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))]),_vm._v(" "),_c('span',{staticStyle:{"vertical-align":"super","margin-left":"10px"}},[(_vm.gettingGas)?_c('button',{staticClass:"btn btn-nel",class:{'btn-disabled':_vm.isgetGas},attrs:{"disabled":_vm.isgetGas},on:{"click":_vm.getTestGas}},[_vm._v(_vm._s(_vm.$t('btn.getGas')))]):_vm._e(),_vm._v(" "),(!_vm.gettingGas)?_c('span',[_c('spinner-wrap',{attrs:{"isbig":false}})],1):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[_c('img',{staticStyle:{"width":"20px","height":"20px"},attrs:{"src":__webpack_require__("0rEL"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"hint-content hint-otherwidth"},[_vm._v("\n                  "+_vm._s(_vm.$t('balance.tips'))+"\n              ")])])],1),_vm._v(" "),_c('v-toast',{ref:"toast"})],1),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v(_vm._s(_vm.$t('balance.title3'))+" : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('span',[_c('spinner-wrap',{attrs:{"isbig":false}})],1):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title4')))])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v(_vm._s(_vm.$t('btn.transfer')))])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v(_vm._s(_vm.$t('balance.title5')))])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v(_vm._s(_vm.$t('balance.title6'))+":")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio","autocomplete":"off"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v(_vm._s(_vm.$t('btn.close')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])])])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-4cbad017","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance/balance.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title1')))]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v(_vm._s(_vm.$t('balance.title2'))+"："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v(_vm._s(_vm.$t('btn.switch')))]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))]),_vm._v(" "),_c('span',{staticStyle:{"vertical-align":"super","margin-left":"10px"}},[(_vm.gettingGas)?_c('button',{staticClass:"btn btn-nel",class:{'btn-disabled':_vm.isgetGas},attrs:{"disabled":_vm.isgetGas},on:{"click":_vm.getTestGas}},[_vm._v(_vm._s(_vm.$t('btn.getGas')))]):_vm._e(),_vm._v(" "),(!_vm.gettingGas)?_c('span',[_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.gettingGas')))])]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[_c('img',{staticStyle:{"width":"20px","height":"20px"},attrs:{"src":__webpack_require__("0rEL"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"hint-content hint-otherwidth"},[_vm._v("\n                  "+_vm._s(_vm.$t('balance.tips'))+"\n              ")])])],1),_vm._v(" "),_c('v-toast',{ref:"toast"})],1),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v(_vm._s(_vm.$t('balance.title3'))+" : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('span',[_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.claiming')))])]):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title4')))])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v(_vm._s(_vm.$t('btn.transfer')))])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v(_vm._s(_vm.$t('balance.title5')))])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v(_vm._s(_vm.$t('balance.title6'))+":")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio","autocomplete":"off"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v(_vm._s(_vm.$t('btn.close')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])])])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var balance_balance = (esExports);
 // CONCATENATED MODULE: ./src/pages/balance/balance.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("d1Rh")
+  __webpack_require__("b7N3")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -10954,7 +10942,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-35fa50d8"
+var __vue_scopeId__ = "data-v-4cbad017"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -11061,13 +11049,16 @@ exports.default = {
     },
     btn: {
         confirm: "提交",
+        confirming: "提交中",
         reset: "重置",
         close: "关闭",
         transfer: "转账",
         switch: "切换",
         claim: "提取",
+        claiming: "提取中",
         cancel: "取消",
         openauction: "开标",
+        openingauction: "正在开标",
         bid: "竞标",
         getdomain: "领取域名",
         recoversgas: "领回竞拍金",
@@ -11080,9 +11071,11 @@ exports.default = {
         edit: "编辑",
         renewal: "续约",
         exchange: "兑换",
+        exchanging: "兑换中",
         withdraw: "提取",
         topup: "充值",
-        getGas: "索取Gas"
+        getGas: "索取Gas",
+        gettingGas: "Gas领取中"
     },
     toast: {
         msg1: "登陆中...",
@@ -11143,7 +11136,7 @@ exports.default = {
         tips: "您可以通过点击此按钮来获取10Gas, 该按钮每天只能点击一次。",
         errmsg1: "操作失败！请您明天再进行尝试！",
         errmsg2: "库存不足！请您明天再进行尝试！",
-        successmsg: "操作成功！"
+        successmsg: "操作成功！正在领取中，请稍等。"
     },
     transfer: {
         transfer: "转账",
@@ -11160,7 +11153,8 @@ exports.default = {
         msg2: "您的交易已发送，请稍后查验",
         msg3: "交易失败",
         msg4: "您没有足够的utxo进行交易，请等待高度变化后再尝试下笔交易",
-        msg5: "可用"
+        msg5: "可用",
+        waiting: "等待交易确认",
     },
     nns: {
         nns: "NNS",
@@ -11446,6 +11440,13 @@ setInterval(function () {
     });
 }, 15000);
 
+
+/***/ }),
+
+/***/ "xa8m":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
