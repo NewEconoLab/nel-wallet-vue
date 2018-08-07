@@ -93,7 +93,7 @@ export default {
         msg3: "Claiming GAS…",
         msg4: "Your GAS claim is successful!",
         tips: "You can click this button to request 10 Gas, it can only be clicked once a day.",
-        errmsg1: "Operation failed ! And You can try it again the next day !",
+        errmsg1: "Operation failed ! And You can try it again later !",
         errmsg2: "Our stock is insufficient ! And You can try it again the next day !",
         successmsg: "Successful operation！"
     },

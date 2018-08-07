@@ -93,7 +93,7 @@ export default {
         msg3: "提取 GAS 中…",
         msg4: "Gas提取成功!",
         tips: "您可以通过点击此按钮来获取10Gas, 该按钮每天只能点击一次。",
-        errmsg1: "操作失败！请您明天再进行尝试！",
+        errmsg1: "操作失败！请您稍后再进行尝试！",
         errmsg2: "库存不足！请您明天再进行尝试！",
         successmsg: "操作成功！"
     },

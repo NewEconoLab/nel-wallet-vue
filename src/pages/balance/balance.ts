@@ -83,17 +83,14 @@ export default class balance extends Vue
   async getTestGas()
   {
     let isOk = await this.isGetGas(this.currentAddress);
-    console.log(isOk);
     if (isOk)
     {
       this.gettingGas = false;
       let res = await tools.wwwtool.api_claimgas(this.currentAddress, 10);
-      console.log(res);
       if (res)
       {
         if (res[ 0 ].code == "0000")
         {
-          console.log(res[ 0 ].codeMessage);
           //任务管理器
           // this.confirmRecharge_sgas(txid)
           let oldBlock = new tools.sessionstoretool("block");
@@ -116,17 +113,12 @@ export default class balance extends Vue
         } else
         {
           this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-          this.isgetGas = true;
+          console.log(res[ 0 ].codeMessage);
         }
       } else
       {
         this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-        this.isgetGas = true;
       }
-    }
-    else
-    {
-      this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
     }
   }
   //领取测试gas成功
