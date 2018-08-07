@@ -2298,6 +2298,69 @@ exports.alert = alert;
 var LoginInfo = /** @class */ (function () {
     function LoginInfo() {
     }
+    LoginInfo.deblocking = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var promise;
+            return __generator(this, function (_a) {
+                promise = new Promise(function (resolve, reject) {
+                    if (!!LoginInfo.info) {
+                        var current = LoginInfo.info;
+                        resolve(current);
+                    }
+                    else {
+                        var current_1 = JSON.parse(sessionStorage.getItem("login-info-arr"));
+                        if (current_1.type == LoginType.wif) {
+                            var res = importpack_1.tools.neotool.wifDecode(current_1.msg['wif']);
+                            if (res.err) {
+                                reject("WIF is error");
+                            }
+                            else {
+                                LoginInfo.info = res.info;
+                                resolve(LoginInfo.info);
+                                return;
+                            }
+                        }
+                        if (current_1.type == LoginType.nep2 || LoginType.nep6) {
+                            alert.show("请输入密码", "password", "确认", function (passsword) {
+                                var nep2 = current_1.msg[LoginInfo.getCurrentAddress()];
+                                importpack_1.tools.neotool.nep2ToWif(nep2, passsword)
+                                    .then(function (res) {
+                                    LoginInfo.info = res.info;
+                                    alert.close();
+                                    resolve(LoginInfo.info);
+                                })
+                                    .catch(function (err) {
+                                    alert.error("密码错误,请重新输入");
+                                });
+                            });
+                        }
+                        if (current_1.type == LoginType.otcgo) {
+                            alert.show("请输入密码", "password", "确认", function (password) {
+                                var json = current_1.msg;
+                                var otcgo = new WalletOtcgo();
+                                otcgo.fromJsonStr(JSON.stringify(json));
+                                otcgo.otcgoDecrypt(password);
+                                var result = otcgo.doValidatePwd();
+                                if (result) {
+                                    var info = new LoginInfo();
+                                    info.address = otcgo.address;
+                                    info.prikey = otcgo.prikey;
+                                    info.pubkey = otcgo.pubkey;
+                                    LoginInfo.info = info;
+                                    alert.close();
+                                    resolve(info);
+                                }
+                                else {
+                                    alert.error("密码错误,请重新输入");
+                                }
+                            });
+                        }
+                    }
+                });
+                return [2 /*return*/, promise];
+            });
+        });
+    };
     LoginInfo.alert = function (call) {
         // btn btn-nel btn-big
         var alert = document.getElementById("alertview");
@@ -6719,10 +6782,19 @@ var Settings = /** @class */ (function (_super) {
         this.address = entity_1.LoginInfo.getCurrentAddress();
     };
     Settings.prototype.visibleWif = function () {
+        var _this = this;
         this.wifshow = (this.wifshow == true ? false : true);
-        var msg = entity_1.LoginInfo.info;
-        var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
-        this.wif = (this.wifshow == true ? wif : "");
+        entity_1.LoginInfo.deblocking()
+            .then(function (info) {
+            var msg = info;
+            var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
+            _this.wif = (_this.wifshow == true ? wif : "");
+        })
+            .catch(function (err) {
+            var msg = entity_1.LoginInfo.info;
+            var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
+            _this.wif = (_this.wifshow == true ? wif : "");
+        });
     };
     Settings.prototype.download = function () {
         var _this = this;

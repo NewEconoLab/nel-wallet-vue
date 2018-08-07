@@ -28,9 +28,20 @@ export default class Settings extends Vue
     visibleWif()
     {
         this.wifshow = (this.wifshow == true ? false : true);
-        var msg: LoginInfo = LoginInfo.info;
-        var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
-        this.wif = (this.wifshow == true ? wif : "");
+        LoginInfo.deblocking()
+            .then(info =>
+            {
+                var msg: LoginInfo = info;
+                var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
+                this.wif = (this.wifshow == true ? wif : "");
+            })
+            .catch(err =>
+            {
+
+                var msg: LoginInfo = LoginInfo.info;
+                var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
+                this.wif = (this.wifshow == true ? wif : "");
+            })
     }
     download()
     {

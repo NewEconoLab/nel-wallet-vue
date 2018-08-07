@@ -67,6 +67,78 @@ export class LoginInfo
     address: string;
     static info: LoginInfo;
 
+    static async deblocking()
+    {
+        let promise: Promise<LoginInfo> = new Promise((resolve, reject) =>
+        {
+            if (!!LoginInfo.info)
+            {
+                let current = LoginInfo.info
+                resolve(current);
+            } else
+            {
+                let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
+                if (current.type == LoginType.wif)
+                {
+                    var res = tools.neotool.wifDecode(current.msg[ 'wif' ]);
+                    if (res.err)
+                    {
+                        reject("WIF is error");
+                    }
+                    else
+                    {
+                        LoginInfo.info = res.info as LoginInfo;
+                        resolve(LoginInfo.info);
+                        return;
+                    }
+                }
+                if (current.type == LoginType.nep2 || LoginType.nep6)
+                {
+                    alert.show("请输入密码", "password", "确认", passsword =>
+                    {
+                        let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
+                        tools.neotool.nep2ToWif(nep2, passsword)
+                            .then((res) =>
+                            {
+                                LoginInfo.info = res.info as LoginInfo;
+                                alert.close();
+                                resolve(LoginInfo.info);
+                            })
+                            .catch(err =>
+                            {
+                                alert.error("密码错误,请重新输入")
+                            })
+                    })
+                } if (current.type == LoginType.otcgo)
+                {
+                    alert.show("请输入密码", "password", "确认", password =>
+                    {
+                        let json = current.msg;
+                        let otcgo = new WalletOtcgo();
+                        otcgo.fromJsonStr(JSON.stringify(json));
+                        otcgo.otcgoDecrypt(password);
+                        const result = otcgo.doValidatePwd();
+                        if (result)
+                        {
+                            var info: LoginInfo = new LoginInfo();
+                            info.address = otcgo.address;
+                            info.prikey = otcgo.prikey;
+                            info.pubkey = otcgo.pubkey;
+                            LoginInfo.info = info;
+                            alert.close();
+                            resolve(info);
+                        } else
+                        {
+                            alert.error("密码错误,请重新输入")
+                        }
+                    })
+                }
+            }
+
+        })
+        return promise;
+    }
+
     static alert(call)
     {
         // btn btn-nel btn-big
