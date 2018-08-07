@@ -60,7 +60,7 @@
                         <div class="col-sm-6"></div>
                         <div class="col-sm-3">
                             <button class="btn btn-link">{{$t('transfer.details')}}</button>
-                            <button class="btn btn-nel btn-big" @click="send">{{$t('transfer.send')}}</button>
+                            <button class="btn btn-nel btn-big" :class="{'btn-disabled':!isAddress||!isNumber}" @click="send" :disabled="!isAddress||!isNumber">{{$t('transfer.send')}}</button>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                             <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">
                                 {{tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)}}
                             </a> &nbsp;{{tx.time}}
-                            <div v-if="tx.waiting">({{$t('nns.waiting')}})</div>
+                            <div v-if="tx.waiting">({{$t('transfer.waiting')}})</div>
                         </div>
                     </div>
                 </div>
@@ -106,6 +106,12 @@
 </script>
 
 <style scoped>
+.btn-disabled,
+.btn-disabled:hover {
+  background: #77bcf6;
+  opacity: 1;
+  cursor: not-allowed;
+}
 .select-nel {
   background: #198cee;
   border-radius: 5px;

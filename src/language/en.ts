@@ -13,13 +13,16 @@ export default {
     },
     btn: {
         confirm: "Confirm",
+        confirming: "Confirming",
         reset: "Reset",
         close: "Close",
         transfer: "Transfer",
         switch: "Switch",
         claim: "Claim",
+        claiming: "Claiming",
         cancel: "Cancel",
         openauction: "Open Auction",
+        openingauction: "Opening Auction",
         bid: "Bid",
         getdomain: "Claim domain",
         recoversgas: "Recover SGas",
@@ -32,9 +35,11 @@ export default {
         edit: "Edit",
         renewal: "Renewal",
         exchange: "Exchange",
+        exchanging: "Exchanging",
         withdraw: "Withdraw",
         topup: "Top up",
-        getGas: "Request Gas"
+        getGas: "Request Gas",
+        gettingGas: "Requesting Gas"
     },
     toast: {
         msg1: "Loading ...",
@@ -95,7 +100,7 @@ export default {
         tips: "You can click this button to request 10 Gas, it can only be clicked once a day.",
         errmsg1: "Operation failed ! And You can try it again the next day !",
         errmsg2: "Our stock is insufficient ! And You can try it again the next day !",
-        successmsg: "Successful operation！"
+        successmsg: "Successful operation！Please wait for a moment."
     },
     transfer: {
         transfer: "Transfer",
@@ -112,7 +117,8 @@ export default {
         msg2: "Your transaction has been sent, please check it later",
         msg3: "Transaction failure",
         msg4: "-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction.",
-        msg5: "available"
+        msg5: "available",
+        waiting: "Waiting for transaction confirmation",
     },
     nns: {
         nns: "NNS",

@@ -13,13 +13,16 @@ export default {
     },
     btn: {
         confirm: "提交",
+        confirming: "提交中",
         reset: "重置",
         close: "关闭",
         transfer: "转账",
         switch: "切换",
         claim: "提取",
+        claiming: "提取中",
         cancel: "取消",
         openauction: "开标",
+        openingauction: "正在开标",
         bid: "竞标",
         getdomain: "领取域名",
         recoversgas: "领回竞拍金",
@@ -32,9 +35,11 @@ export default {
         edit: "编辑",
         renewal: "续约",
         exchange: "兑换",
+        exchanging: "兑换中",
         withdraw: "提取",
         topup: "充值",
-        getGas: "索取Gas"
+        getGas: "索取Gas",
+        gettingGas: "Gas领取中"
     },
     toast: {
         msg1: "登陆中...",
@@ -95,7 +100,7 @@ export default {
         tips: "您可以通过点击此按钮来获取10Gas, 该按钮每天只能点击一次。",
         errmsg1: "操作失败！请您明天再进行尝试！",
         errmsg2: "库存不足！请您明天再进行尝试！",
-        successmsg: "操作成功！"
+        successmsg: "操作成功！正在领取中，请稍等。"
     },
     transfer: {
         transfer: "转账",
@@ -112,7 +117,8 @@ export default {
         msg2: "您的交易已发送，请稍后查验",
         msg3: "交易失败",
         msg4: "您没有足够的utxo进行交易，请等待高度变化后再尝试下笔交易",
-        msg5: "可用"
+        msg5: "可用",
+        waiting: "等待交易确认",
     },
     nns: {
         nns: "NNS",
