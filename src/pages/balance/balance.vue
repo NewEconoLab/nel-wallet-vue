@@ -20,7 +20,8 @@
             <span style="vertical-align: super;margin-left: 10px;">
               <button class="btn btn-nel" v-if="gettingGas" @click="getTestGas" :disabled="isgetGas" :class="{'btn-disabled':isgetGas}">{{$t('btn.getGas')}}</button>
               <span v-if="!gettingGas">
-                <spinner-wrap :isbig="false" ></spinner-wrap>
+                <!-- <spinner-wrap :isbig="false" ></spinner-wrap> -->
+                <button class="btn btn-nel btn-disabled" disabled>{{$t('btn.gettingGas')}}</button>
               </span>
               <v-hint>
                 <div class="hint-img">
@@ -37,7 +38,8 @@
             <span style="margin-right: 17px;">{{$t('balance.title3')}} : {{neoasset.claim}}</span>
             <button class="btn btn-nel" v-if="neoasset.claim!='0'&&claimbtn" @click="toClaimGas">{{$t('btn.claim')}}</button>
             <span v-if="!claimbtn">
-              <spinner-wrap :isbig="false"></spinner-wrap>
+              <!-- <spinner-wrap :isbig="false"></spinner-wrap> -->
+              <button class="btn btn-nel btn-disabled" disabled>{{$t('btn.claiming')}}</button>
             </span>
             <span class="loadmsg">&nbsp;{{loadmsg}}</span>
           </div>

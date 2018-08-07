@@ -46,38 +46,33 @@ export default class balance extends Vue
     this.isGetGas(this.currentAddress);
     this.getBalances();
     this.openToast = this.$refs.toast[ "isShow" ];
-    this.isGetTestGasSuccess();
-    setInterval(() =>
-    {
-      this.isGetTestGasSuccess();
-    }, 30000)
+    // setInterval(() =>
+    // {
+
+    // }, 30000)
   }
   //判断是否可以领取gas
   async isGetGas(address: string)
   {
-    let testgas = sessionStorage.getItem("getTestGas");
-    if (testgas)
+    let res = await tools.wwwtool.api_hasclaimgas(address);
+    console.log(res);
+    if (res)
     {
-      this.isGetTestGasSuccess();
-    } else
-    {
-      let res = await tools.wwwtool.api_hasclaimgas(address);
-      console.log(res);
-      if (res)
+      if (res[ 0 ].code == "3010")
       {
-        if (res[ 0 ].flag)
-        {
-          this.isgetGas = false;
-        } else
-        {
-          this.isgetGas = true;
-        }
-        return res[ 0 ].flag;
+        this.isgetGas = false;//可领取
+        return true;
+      } else if (res[ 0 ].code == "3012")
+      {
+        this.isgetGas = true;//已领取
+        return false;
+      } else if (res[ 0 ].code == "3011")
+      {
+        this.gettingGas = false;//正在领取
+        return false;
       }
-      this.isgetGas = true;
-      return false;
     }
-
+    return false;
   }
   //手动领取测试gas
   async getTestGas()
@@ -89,61 +84,32 @@ export default class balance extends Vue
       let res = await tools.wwwtool.api_claimgas(this.currentAddress, 10);
       if (res)
       {
-        if (res[ 0 ].code == "0000")
+        if (res[ 0 ].code == "3000")
         {
-          //任务管理器
-          // this.confirmRecharge_sgas(txid)
-          let oldBlock = new tools.sessionstoretool("block");
-          let height = oldBlock.select('height');
-          let task = new Task(
-            height, ConfirmType.tranfer, res[ 0 ].txid
-          )
-          tools.taskManager.addTask(task, TaskType.getGasTest);
-          sessionStorage.setItem("getTestGas", "waitting");
+          this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
+          this.gettingGas = false;//正在领取
+          this.isgetGas = true;//不可点击
         }
         else if (res[ 0 ].code == "3001")
         {
           console.log(res[ 0 ].codeMessage);
           this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-        } else if (res[ 0 ].code == "3002")
+        }
+        else if (res[ 0 ].code == "3002")//余额不足
         {
           this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
           console.log(res[ 0 ].codeMessage);
+          this.gettingGas = true;
           this.isgetGas = true;
-        } else
+        }
+        else if (res[ 0 ].code == "3004")//超出领取金额
         {
           this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
           console.log(res[ 0 ].codeMessage);
+          this.gettingGas = true;
+          this.isgetGas = true;
         }
-      } else
-      {
-        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
       }
-    }
-  }
-  //领取测试gas成功
-  doGetTestGasSuccess()
-  {
-    this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
-    this.getBalances();
-    this.gettingGas = true;//停止转动
-    this.isgetGas = true;//不可点击
-  }
-  isGetTestGasSuccess()
-  {
-    let testgas = sessionStorage.getItem("getTestGas");
-    if (testgas == "true")
-    {
-      this.doGetTestGasSuccess();
-      sessionStorage.removeItem("getTestGas");
-    } else if (testgas == "waitting")
-    {
-      this.gettingGas = false;//转动
-    } else if (testgas == "fail")
-    {
-      this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
-      this.isgetGas = true;
-      sessionStorage.removeItem("getTestGas");
     }
   }
 

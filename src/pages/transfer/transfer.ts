@@ -27,9 +27,13 @@ export default class transfer extends Vue
     txpage: number;
     cutshow: boolean = true;
     openToast: Function;
+    isAddress: boolean;//判断输入的交易地址是否正确
+    isNumber: boolean;//判断输入的交易金额是否正确
     constructor() 
     {
         super();
+        this.isAddress = false;//地址错误
+        this.isNumber = false;//金额错误
         this.target = "";
         this.isDomain = false;
         this.toaddress = "";
@@ -95,13 +99,16 @@ export default class transfer extends Vue
             {
                 this.toaddress = addr;
                 this.isDomain = true;
-                this.addrerr = 'false'; return true;
+                this.addrerr = 'false';
+                this.isAddress = true;
+                return true;
             }
             else
             {
                 this.toaddress = "";
-                this.addrerr = 'true'; return false;
-
+                this.addrerr = 'true';
+                this.isAddress = false;
+                return false;
             }
         }
         else if (isAddress)
@@ -110,6 +117,7 @@ export default class transfer extends Vue
             {
                 this.toaddress = this.target;
                 this.addrerr = 'false';
+                this.isAddress = true;
                 return true;
             }
         }
@@ -123,6 +131,7 @@ export default class transfer extends Vue
                 this.toaddress = mapping;
                 this.addrerr = 'false';
                 this.isDomain = true;
+                this.isAddress = true;
                 return true;
             }
             else
@@ -130,6 +139,7 @@ export default class transfer extends Vue
                 this.toaddress = "";
                 this.addrerr = 'true';
                 this.isDomain = false;
+                this.isAddress = false;
                 return false;
             }
         }
@@ -137,15 +147,22 @@ export default class transfer extends Vue
         {
             this.addrerr = 'true';
             this.toaddress = "";
+            this.isAddress = false;
             return false;
         }
     }
     verify_Amount()
     {
+        if (this.amount.length == 0)
+        {
+            this.isNumber = false;
+            return false;
+        }
         let balancenum = Neo.Fixed8.parse(this.balance.balance + '');
         let inputamount = Neo.Fixed8.parse(this.amount);
         let compare = balancenum.compareTo(inputamount);
         compare >= 1 ? this.amount = this.amount : this.amount = balancenum.toString();
+        this.isNumber = true;
         return true;
     }
     async send()
@@ -188,11 +205,12 @@ export default class transfer extends Vue
                     let res: Result = await tools.coinTool.rawTransaction(this.toaddress, this.asset, this.amount);
                     if (res.err)
                     {
-                        this.openToast("error", "交易失败 " + res.info, 3000);
+                        this.openToast("error", "" + this.$t("transfer.msg3") + res.info, 3000);
                     } else
                     {
-                        this.openToast("success", "交易成功，请等待区块变化后确认是否到账", 3000);
+                        this.openToast("success", "" + this.$t("transfer.msg2"), 3000);
                     }
+                    this.isNumber = false;
                     let his: History = new History();
                     his.address = this.toaddress;
                     his.asset = this.asset;
