@@ -6131,6 +6131,8 @@ var MyNeo = /** @class */ (function (_super) {
         this.mappingistrue = importpack_1.tools.neotool.verifyAddress(this.resolverAddress);
         var sessionMap = this.mappingSession.select(item.domain);
         var sessionRes = this.resolverSession.select(item.domain);
+        var renewalsession = new importpack_1.tools.sessionstoretool("renewalsession");
+        var sessionRen = renewalsession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
         this.resolverState = this.domainInfo.resolver ? 1 : 0;
         if (sessionMap && sessionMap["txid"]) {
@@ -6142,6 +6144,10 @@ var MyNeo = /** @class */ (function (_super) {
         if (sessionRes && sessionRes["txid"]) {
             var txid = sessionRes["txid"];
             this.setConfirm(txid, 1, item.domain);
+        }
+        if (sessionRen && sessionRen["txid"]) {
+            var txid = sessionRen["txid"];
+            this.renewalConfirm(txid, item.domain);
         }
         this.isShowEdit = !this.isShowEdit;
         this.currentdomain = item.domain;
@@ -6224,7 +6230,6 @@ var MyNeo = /** @class */ (function (_super) {
         this.resolverAddress = "";
         this.mappingState = 0;
         this.mappingistrue = false;
-        console.log("------------");
     };
     /**
      * 映射地址
@@ -6266,8 +6271,6 @@ var MyNeo = /** @class */ (function (_super) {
                         res = _a.sent();
                         if (res) {
                             txid = res["txid"];
-                            console.log("--------------------------------------renewalDomain--------------------------------");
-                            console.log(txid);
                             renewalsession.put(domain, { txid: txid });
                             this.renewalConfirm(txid, domain);
                         }

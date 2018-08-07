@@ -137,6 +137,8 @@ export default class MyNeo extends Vue
         this.mappingistrue = tools.neotool.verifyAddress(this.resolverAddress);
         let sessionMap = this.mappingSession.select(item.domain);
         let sessionRes = this.resolverSession.select(item.domain);
+        let renewalsession = new tools.sessionstoretool("renewalsession");
+        let sessionRen = renewalsession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
         this.resolverState = this.domainInfo.resolver ? 1 : 0;
         if (sessionMap && sessionMap[ "txid" ])
@@ -150,6 +152,11 @@ export default class MyNeo extends Vue
         {
             let txid = sessionRes[ "txid" ];
             this.setConfirm(txid, 1, item.domain);
+        }
+        if (sessionRen && sessionRen[ "txid" ])
+        {
+            let txid = sessionRen[ "txid" ];
+            this.renewalConfirm(txid, item.domain);
         }
         this.isShowEdit = !this.isShowEdit;
         this.currentdomain = item.domain;
@@ -226,7 +233,6 @@ export default class MyNeo extends Vue
         this.resolverAddress = "";
         this.mappingState = 0;
         this.mappingistrue = false;
-        console.log("------------");
     }
 
     /**
@@ -258,9 +264,6 @@ export default class MyNeo extends Vue
         if (res)
         {
             let txid = res[ "txid" ];
-            console.log("--------------------------------------renewalDomain--------------------------------");
-            console.log(txid);
-
             renewalsession.put(domain, { txid });
             this.renewalConfirm(txid, domain);
         }
