@@ -18,7 +18,7 @@
               <a href="https://scan.nel.group/#mainnet" target="_blank">{{$t('navbar.explorer')}}</a>
             </li>
             <li>
-              <a class="active-nel" href="#wallet">{{$t('navbar.wallet')}}</a>
+              <a class="active-nel" >{{$t('navbar.wallet')}}</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
