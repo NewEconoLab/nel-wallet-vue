@@ -6135,6 +6135,7 @@ var MyNeo = /** @class */ (function (_super) {
         var sessionRen = renewalsession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
         this.resolverState = this.domainInfo.resolver ? 1 : 0;
+        // this.renewalWatting = false;
         if (sessionMap && sessionMap["txid"]) {
             var txid = sessionMap["txid"];
             var value = sessionMap["value"];
@@ -6291,13 +6292,18 @@ var MyNeo = /** @class */ (function (_super) {
                     case 1:
                         res = _a.sent();
                         if (!!res) {
+                            if (domain == this.currentdomain) {
+                                this.renewalWatting = false;
+                            }
                             session = renewalsession.select(domain);
                             if (session) {
                                 renewalsession.delete(domain);
                             }
                         }
                         else {
-                            this.renewalWatting = true;
+                            if (domain == this.currentdomain) {
+                                this.renewalWatting = true;
+                            }
                             setTimeout(function () {
                                 _this.renewalConfirm(txid, domain);
                             }, 5000);

@@ -141,6 +141,7 @@ export default class MyNeo extends Vue
         let sessionRen = renewalsession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
         this.resolverState = this.domainInfo.resolver ? 1 : 0;
+        // this.renewalWatting = false;
         if (sessionMap && sessionMap[ "txid" ])
         {
             let txid = sessionMap[ "txid" ];
@@ -276,6 +277,10 @@ export default class MyNeo extends Vue
         let res = await tools.wwwtool.getrawtransaction(txid)
         if (!!res)
         {
+            if (domain == this.currentdomain)
+            {
+                this.renewalWatting = false;
+            }
             let session = renewalsession.select(domain);
             if (session)
             {
@@ -283,7 +288,10 @@ export default class MyNeo extends Vue
             }
         } else
         {
-            this.renewalWatting = true;
+            if (domain == this.currentdomain)
+            {
+                this.renewalWatting = true;
+            }
             setTimeout(() =>
             {
                 this.renewalConfirm(txid, domain);
