@@ -1877,16 +1877,13 @@ var balance = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, this.isGetGas(this.currentAddress)];
                     case 1:
                         isOk = _a.sent();
-                        console.log(isOk);
                         if (!isOk) return [3 /*break*/, 3];
                         this.gettingGas = false;
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_claimgas(this.currentAddress, 10)];
                     case 2:
                         res = _a.sent();
-                        console.log(res);
                         if (res) {
                             if (res[0].code == "0000") {
-                                console.log(res[0].codeMessage);
                                 oldBlock = new importpack_1.tools.sessionstoretool("block");
                                 height = oldBlock.select('height');
                                 task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, res[0].txid);
@@ -1904,18 +1901,14 @@ var balance = /** @class */ (function (_super) {
                             }
                             else {
                                 this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-                                this.isgetGas = true;
+                                console.log(res[0].codeMessage);
                             }
                         }
                         else {
                             this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-                            this.isgetGas = true;
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
-                        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -9553,7 +9546,7 @@ exports.default = {
         msg3: "Claiming GAS…",
         msg4: "Your GAS claim is successful!",
         tips: "You can click this button to request 10 Gas, it can only be clicked once a day.",
-        errmsg1: "Operation failed ! And You can try it again the next day !",
+        errmsg1: "Operation failed ! And You can try it again later !",
         errmsg2: "Our stock is insufficient ! And You can try it again the next day !",
         successmsg: "Successful operation！"
     },
@@ -11132,7 +11125,7 @@ exports.default = {
         msg3: "提取 GAS 中…",
         msg4: "Gas提取成功!",
         tips: "您可以通过点击此按钮来获取10Gas, 该按钮每天只能点击一次。",
-        errmsg1: "操作失败！请您明天再进行尝试！",
+        errmsg1: "操作失败！请您稍后再进行尝试！",
         errmsg2: "库存不足！请您明天再进行尝试！",
         successmsg: "操作成功！"
     },
