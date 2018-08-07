@@ -7726,7 +7726,7 @@ var FeatureComponent = /** @class */ (function (_super) {
             : "icon-setting-unselect";
         this.getHeight();
         var arr = sessionStorage.getItem("login-info-arr");
-        if (arr.length == 0) {
+        if (arr && arr.length === 0) {
             window.location.hash = "#login";
         }
     };

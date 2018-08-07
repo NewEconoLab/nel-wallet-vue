@@ -55,7 +55,7 @@ export default class FeatureComponent extends Vue
 
         this.getHeight()
         let arr = sessionStorage.getItem("login-info-arr");
-        if (arr.length == 0)
+        if (arr && arr.length === 0)
         {
             window.location.hash = "#login";
         }
