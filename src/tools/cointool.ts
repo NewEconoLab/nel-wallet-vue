@@ -268,7 +268,7 @@ export class CoinTool
                             info.address = otcgo.address;
                             info.prikey = otcgo.prikey;
                             info.pubkey = otcgo.pubkey;
-                            var signdata = ThinNeo.Helper.Sign(msg, prekey);
+                            var signdata = ThinNeo.Helper.Sign(msg, info.prikey);
                             tran.AddWitness(signdata, pubkey, info.address);
                             var data: Uint8Array = tran.GetRawData();
                             alert.close();
