@@ -5483,7 +5483,8 @@ var login = /** @class */ (function (_super) {
         return _this;
     }
     login.prototype.mounted = function () {
-        if (importpack_1.tools.storagetool.getLoginArr().length > 0) {
+        var arr = sessionStorage.getItem("login-info-arr");
+        if (!!arr && arr.length > 0) {
             sessionStorage.clear();
         }
     };
@@ -7751,7 +7752,7 @@ var FeatureComponent = /** @class */ (function (_super) {
             : "icon-setting-unselect";
         this.getHeight();
         var arr = sessionStorage.getItem("login-info-arr");
-        if (arr && arr.length === 0) {
+        if (!arr || arr.length == 0) {
             window.location.hash = "#login";
         }
     };
