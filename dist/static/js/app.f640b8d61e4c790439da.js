@@ -1848,9 +1848,10 @@ var balance = /** @class */ (function (_super) {
                         if (!testgas) return [3 /*break*/, 1];
                         this.isGetTestGasSuccess();
                         return [3 /*break*/, 3];
-                    case 1: return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(address)];
+                    case 1: return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas("AJuZ2w4VVgE1aubKV6vmDhVzNN45oJtof2")];
                     case 2:
                         res = _a.sent();
+                        console.log(res);
                         if (res) {
                             if (res[0].flag) {
                                 this.isgetGas = false;
@@ -1876,6 +1877,7 @@ var balance = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, this.isGetGas(this.currentAddress)];
                     case 1:
                         isOk = _a.sent();
+                        console.log(isOk);
                         if (!isOk) return [3 /*break*/, 3];
                         this.gettingGas = false;
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_claimgas(this.currentAddress, 10)];
@@ -4356,11 +4358,10 @@ var SgasTool = /** @class */ (function () {
      */
     SgasTool.makeMintTokenTransaction = function (transcount) {
         return __awaiter(this, void 0, void 0, function () {
-            var login, script, sgasaddr, txid, error_1;
+            var script, sgasaddr, txid, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        login = entity_1.LoginInfo.getCurrentLogin();
                         script = importpack_1.tools.contract.buildScript(importpack_1.tools.coinTool.id_SGAS, "mintTokens", []);
                         sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(importpack_1.tools.coinTool.id_SGAS);
                         _a.label = 1;
@@ -4384,12 +4385,10 @@ var SgasTool = /** @class */ (function () {
      */
     SgasTool.makeRefundTransaction = function (transcount) {
         return __awaiter(this, void 0, void 0, function () {
-            var login, utxos_assets, us, i, script, r, stack, value, nepAddress, makeTranRes, r, sgasScript, scriptHash, tran, sb, signdata, trandata;
+            var utxos_assets, us, i, script, r, stack, value, nepAddress, makeTranRes, r, sgasScript, scriptHash, tran, sb, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        login = entity_1.LoginInfo.getCurrentLogin();
-                        return [4 /*yield*/, importpack_1.tools.coinTool.getsgasAssets()];
+                    case 0: return [4 /*yield*/, importpack_1.tools.coinTool.getsgasAssets()];
                     case 1:
                         utxos_assets = _a.sent();
                         us = utxos_assets[importpack_1.tools.coinTool.id_GAS];
@@ -4431,9 +4430,9 @@ var SgasTool = /** @class */ (function () {
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getcontractstate(importpack_1.tools.coinTool.id_SGAS.toString())];
                     case 6:
                         r = _a.sent();
-                        if (!(r && r['script'])) return [3 /*break*/, 8];
+                        if (!(r && r['script'])) return [3 /*break*/, 9];
                         sgasScript = r['script'].hexToBytes();
-                        scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(login.address);
+                        scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress());
                         tran = makeTranRes.info.tran;
                         tran.type = ThinNeo.TransactionType.InvocationTransaction;
                         tran.extdata = new ThinNeo.InvokeTransData();
@@ -4447,11 +4446,11 @@ var SgasTool = /** @class */ (function () {
                         sb.EmitPushString("whatever");
                         sb.EmitPushNumber(new Neo.BigInteger(250));
                         tran.AddWitnessScript(sgasScript, sb.ToArray());
-                        signdata = ThinNeo.Helper.Sign(tran.GetMessage(), login.prikey);
-                        tran.AddWitness(signdata, login.pubkey, login.address);
-                        trandata = tran.GetRawData();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(trandata)];
+                        return [4 /*yield*/, importpack_1.tools.coinTool.signData(tran)];
                     case 7:
+                        data = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                    case 8:
                         // 发送交易请求
                         r = _a.sent();
                         if (!!r && r["txid"]) {
@@ -4460,9 +4459,9 @@ var SgasTool = /** @class */ (function () {
                         else {
                             throw "Transaction send failed";
                         }
-                        return [3 /*break*/, 9];
-                    case 8: throw "Contract acquisition failure";
-                    case 9: return [2 /*return*/];
+                        return [3 /*break*/, 10];
+                    case 9: throw "Contract acquisition failure";
+                    case 10: return [2 /*return*/];
                 }
             });
         });
@@ -6798,32 +6797,37 @@ var Settings = /** @class */ (function (_super) {
     };
     Settings.prototype.download = function () {
         var _this = this;
-        this.walletname = entity_1.LoginInfo.getCurrentAddress() + ".json";
-        var wallet = new ThinNeo.nep6wallet();
-        wallet.scrypt = new ThinNeo.nep6ScryptParameters();
-        wallet.scrypt.N = 16384;
-        wallet.scrypt.r = 8;
-        wallet.scrypt.p = 8;
-        wallet.accounts = [];
-        wallet.accounts[0] = new ThinNeo.nep6account();
-        wallet.accounts[0].address = entity_1.LoginInfo.getCurrentAddress();
-        mui.prompt("" + this.$t("setting.msg3"), "" + this.$t("setting.msg4"), "" + this.$t("setting.msg5"), ["" + this.$t("btn.cancel"), "" + this.$t("btn.confirm")], function (e) {
-            if (e.index == 1) {
-                ThinNeo.Helper.GetNep2FromPrivateKey(entity_1.LoginInfo.getCurrentLogin().prikey, e.value, wallet.scrypt.N, wallet.scrypt.r, wallet.scrypt.p, function (info, result) {
-                    if (info == "finish") {
-                        wallet.accounts[0].nep2key = result;
-                        wallet.accounts[0].contract = new ThinNeo.contract();
-                        wallet.accounts[0].contract.script = ThinNeo.Helper.GetAddressCheckScriptFromPublicKey(entity_1.LoginInfo.getCurrentLogin().pubkey).toHexString();
-                        var jsonstr = JSON.stringify(wallet.toJson());
-                        var blob = new Blob([ThinNeo.Helper.String2Bytes(jsonstr)]);
-                        _this.href = URL.createObjectURL(blob);
-                    }
-                });
-            }
-        }, 'div');
-        var input = document.querySelector('.mui-popup-input input');
-        var download = document.querySelector('.mui-popup-button mui-popup-button-bold');
-        input.type = 'password';
+        entity_1.LoginInfo.deblocking()
+            .then(function (msg) {
+            _this.walletname = entity_1.LoginInfo.getCurrentAddress() + ".json";
+            var wallet = new ThinNeo.nep6wallet();
+            wallet.scrypt = new ThinNeo.nep6ScryptParameters();
+            wallet.scrypt.N = 16384;
+            wallet.scrypt.r = 8;
+            wallet.scrypt.p = 8;
+            wallet.accounts = [];
+            wallet.accounts[0] = new ThinNeo.nep6account();
+            wallet.accounts[0].address = entity_1.LoginInfo.getCurrentAddress();
+            mui.prompt("" + _this.$t("setting.msg3"), "" + _this.$t("setting.msg4"), "" + _this.$t("setting.msg5"), ["" + _this.$t("btn.cancel"), "" + _this.$t("btn.confirm")], function (e) {
+                if (e.index == 1) {
+                    ThinNeo.Helper.GetNep2FromPrivateKey(msg.prikey, e.value, wallet.scrypt.N, wallet.scrypt.r, wallet.scrypt.p, function (info, result) {
+                        if (info == "finish") {
+                            wallet.accounts[0].nep2key = result;
+                            wallet.accounts[0].contract = new ThinNeo.contract();
+                            wallet.accounts[0].contract.script = ThinNeo.Helper.GetAddressCheckScriptFromPublicKey(msg.pubkey).toHexString();
+                            var jsonstr = JSON.stringify(wallet.toJson());
+                            var blob = new Blob([ThinNeo.Helper.String2Bytes(jsonstr)]);
+                            _this.href = URL.createObjectURL(blob);
+                        }
+                    });
+                }
+            }, 'div');
+            var input = document.querySelector('.mui-popup-input input');
+            var download = document.querySelector('.mui-popup-button mui-popup-button-bold');
+            input.type = 'password';
+        })
+            .catch(function (err) {
+        });
     };
     Settings = __decorate([
         vue_class_component_1.default({
