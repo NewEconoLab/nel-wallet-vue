@@ -8887,6 +8887,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                         confirm_bid = this.session_bid.select(domain);
                         if (!confirm_recover) return [3 /*break*/, 7];
                         txid = confirm_recover["txid"];
+                        if (!!!txid) return [3 /*break*/, 7];
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
                     case 6:
                         res = _b.sent();
@@ -8902,46 +8903,22 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 7:
                         if (confirm_getDomain) {
                             txid = confirm_getDomain["txid"];
-                            method = confirm_getDomain["method"];
-                            this.rechargConfirm(txid, method, domain);
+                            if (!!txid) {
+                                method = confirm_getDomain["method"];
+                                this.rechargConfirm(txid, method, domain);
+                            }
                         }
                         if (confirm_bid) {
                             txid = confirm_bid["txid"];
-                            this.bid_confirm(txid, domain);
+                            if (!!txid) {
+                                this.bid_confirm(txid, domain);
+                            }
                         }
                         return [2 /*return*/];
                 }
             });
         });
     };
-    // async refreshPage()
-    // {
-    //     let oldheight = this.refresh.select("height");
-    //     let height = TaskManager.oldBlock.select('height');
-    //     let bidlist = this.refresh.select("bidlist");
-    //     let withdraw = this.refresh.select("withdraw");
-    //     let topup = this.refresh.select("topup");
-    //     if (oldheight)
-    //     {
-    //         if (oldheight < height)
-    //         {
-    //             setTimeout(() =>
-    //             {
-    //                 this.init();
-    //                 this.refresh.put("bidlist", false);
-    //                 this.refresh.put("height", height);
-    //             }, 8000);
-    //         }
-    //     } else
-    //     {
-    //         this.refresh.put("height", height);
-    //     }
-    //     if (bidlist)
-    //     {
-    //         await this.init();
-    //         this.refresh.put("bidlist", false);
-    //     }
-    // }
     /**
      * 初始化时间轴
      */
@@ -9087,7 +9064,6 @@ var AuctionInfo = /** @class */ (function (_super) {
                         res = _a.sent();
                         txid = res["txid"];
                         this.session_getdomain.put(this.domainAuctionInfo.domain, { txid: txid, method: 1 });
-                        this.rechargConfirm(txid, 1, this.domainAuctionInfo.domain);
                         return [3 /*break*/, 9];
                     case 5:
                         if (!(!!info.owner && ThinNeo.Helper.GetAddressFromScriptHash(info.owner) == this.address)) return [3 /*break*/, 6];
@@ -9104,7 +9080,6 @@ var AuctionInfo = /** @class */ (function (_super) {
                         res = _a.sent();
                         txid = res["txid"];
                         this.session_getdomain.put(this.domainAuctionInfo.domain, { txid: txid, method: 2 });
-                        this.rechargConfirm(txid, 2, this.domainAuctionInfo.domain);
                         _a.label = 9;
                     case 9: return [2 /*return*/];
                 }
@@ -9113,7 +9088,6 @@ var AuctionInfo = /** @class */ (function (_super) {
     };
     AuctionInfo.prototype.rechargConfirm = function (txid, method, domain) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var res, code;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -9157,11 +9131,12 @@ var AuctionInfo = /** @class */ (function (_super) {
                         }
                         this.state_getDomain = 1;
                         _a.label = 4;
-                    case 4:
-                        setTimeout(function () {
-                            _this.rechargConfirm(txid, method, domain);
-                        }, 5000);
-                        return [2 /*return*/];
+                    case 4: 
+                    // setTimeout(() =>
+                    // {
+                    //     this.rechargConfirm(txid, method, domain);
+                    // }, 5000)
+                    return [2 /*return*/];
                 }
             });
         });
@@ -9200,6 +9175,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         i = parseInt(index);
                         amount = arr[i]["amount"];
                         txid = arr[i]["txid"];
+                        if (!txid)
+                            return [3 /*break*/, 4];
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
                     case 2:
                         txmsg = _c.sent();
@@ -9353,7 +9330,6 @@ var AuctionInfo = /** @class */ (function (_super) {
      */
     AuctionInfo.prototype.bid_confirm = function (txid, domain) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var session_bid, res, names, have;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -9379,13 +9355,8 @@ var AuctionInfo = /** @class */ (function (_super) {
                         if (names.includes("domainstate")) {
                             this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid2"), 3000);
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
-                        setTimeout(function () {
-                            _this.bid_confirm(txid, domain);
-                        }, 5000);
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });

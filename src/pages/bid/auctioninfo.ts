@@ -99,62 +99,39 @@ export default class AuctionInfo extends Vue
         if (confirm_recover)
         {
             let txid = confirm_recover[ "txid" ];
-            let res = await tools.wwwtool.getrawtransaction(txid);
-            if (!!res)
+            if (!!txid)
             {
-                if (parseFloat(this.domainAuctionInfo.balanceOfSelling) == 0)
+                let res = await tools.wwwtool.getrawtransaction(txid);
+                if (!!res)
                 {
-                    this.state_recover = 2;
+                    if (parseFloat(this.domainAuctionInfo.balanceOfSelling) == 0)
+                    {
+                        this.state_recover = 2;
+                    }
+                } else
+                {
+                    this.state_recover = 1;
                 }
-            } else
-            {
-                this.state_recover = 1;
             }
         }
         if (confirm_getDomain)
         {
             let txid = confirm_getDomain[ "txid" ];
-            let method = confirm_getDomain[ "method" ];
-            this.rechargConfirm(txid, method, domain);
+            if (!!txid)
+            {
+                let method = confirm_getDomain[ "method" ];
+                this.rechargConfirm(txid, method, domain);
+            }
         }
         if (confirm_bid)
         {
             let txid = confirm_bid[ "txid" ];
-            this.bid_confirm(txid, domain);
+            if (!!txid)
+            {
+                this.bid_confirm(txid, domain);
+            }
         }
     }
-
-    // async refreshPage()
-    // {
-    //     let oldheight = this.refresh.select("height");
-    //     let height = TaskManager.oldBlock.select('height');
-    //     let bidlist = this.refresh.select("bidlist");
-    //     let withdraw = this.refresh.select("withdraw");
-    //     let topup = this.refresh.select("topup");
-
-    //     if (oldheight)
-    //     {
-    //         if (oldheight < height)
-    //         {
-    //             setTimeout(() =>
-    //             {
-    //                 this.init();
-    //                 this.refresh.put("bidlist", false);
-    //                 this.refresh.put("height", height);
-    //             }, 8000);
-    //         }
-    //     } else
-    //     {
-    //         this.refresh.put("height", height);
-    //     }
-
-    //     if (bidlist)
-    //     {
-    //         await this.init();
-    //         this.refresh.put("bidlist", false);
-
-    //     }
-    // }
 
     /**
      * 初始化时间轴
@@ -290,7 +267,7 @@ export default class AuctionInfo extends Vue
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             let txid = res[ "txid" ];
             this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 1 });
-            this.rechargConfirm(txid, 1, this.domainAuctionInfo.domain);
+            // this.rechargConfirm(txid, 1, this.domainAuctionInfo.domain);
         } else
         {
             if (!!info.owner && ThinNeo.Helper.GetAddressFromScriptHash(info.owner) == this.address)
@@ -307,7 +284,7 @@ export default class AuctionInfo extends Vue
                 let res = await tools.wwwtool.api_postRawTransaction(data);
                 let txid = res[ "txid" ];
                 this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 2 });
-                this.rechargConfirm(txid, 2, this.domainAuctionInfo.domain);
+                // this.rechargConfirm(txid, 2, this.domainAuctionInfo.domain);
             }
         }
 
@@ -354,10 +331,10 @@ export default class AuctionInfo extends Vue
             }
             this.state_getDomain = 1;
         }
-        setTimeout(() =>
-        {
-            this.rechargConfirm(txid, method, domain);
-        }, 5000)
+        // setTimeout(() =>
+        // {
+        //     this.rechargConfirm(txid, method, domain);
+        // }, 5000)
         return;
     }
 
@@ -390,6 +367,8 @@ export default class AuctionInfo extends Vue
                 let i = parseInt(index);
                 const amount = arr[ i ][ "amount" ];
                 const txid = arr[ i ][ "txid" ];
+                if (!txid)
+                    break;
                 let txmsg = await tools.wwwtool.getrawtransaction(txid);
                 if (txmsg)
                 {
@@ -534,10 +513,10 @@ export default class AuctionInfo extends Vue
             }
         } else
         {
-            setTimeout(() =>
-            {
-                this.bid_confirm(txid, domain)
-            }, 5000);
+            // setTimeout(() =>
+            // {
+            //     this.bid_confirm(txid, domain)
+            // }, 5000);
         }
     }
 
