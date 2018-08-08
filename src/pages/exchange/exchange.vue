@@ -92,9 +92,7 @@
             <div class="btn-right">
                 <button v-if="!isCheckingTran" class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > exMaxcount || !exchangebtn)}" :disabled="transcount > exMaxcount || !exchangebtn">{{$t('btn.exchange')}}</button>
                 <!-- <spinner-wrap v-if="isCheckingTran" style="margin-left:20px"></spinner-wrap> -->
-                <span v-if="isCheckingTran">
-                  <button class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.exchanging')}}</button>
-                </span>
+                <button v-if="isCheckingTran" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.exchanging')}}</button>
             </div>
         </div>
         <div class="form-box tran-list" v-if="exchangeList">

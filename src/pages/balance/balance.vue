@@ -18,11 +18,10 @@
             <span class="balance-type">GAS&nbsp;</span>
             <span class="balance-amount">{{neoasset.gas}}</span>
             <span style="vertical-align: super;margin-left: 10px;">
-              <button class="btn btn-nel" v-if="gettingGas" @click="getTestGas" :disabled="isgetGas" :class="{'btn-disabled':isgetGas}">{{$t('btn.getGas')}}</button>
-              <span v-if="!gettingGas">
-                <!-- <spinner-wrap :isbig="false" ></spinner-wrap> -->
-                <button class="btn btn-nel btn-disabled" disabled>{{$t('btn.gettingGas')}}</button>
-              </span>
+              <button class="btn btn-nel" v-if="getGas==0" @click="getTestGas">{{$t('btn.getGas')}}</button>
+              <button class="btn btn-nel btn-disabled" v-if="getGas==1" disabled>{{$t('btn.getGas')}}</button>
+              <!-- <spinner-wrap :isbig="false" ></spinner-wrap> -->
+              <button class="btn btn-nel btn-disabled" disabled v-if="getGas==2">{{$t('btn.gettingGas')}}</button>
               <v-hint>
                 <div class="hint-img">
                   <img src="../../../static/img/notice.png" alt="" style="width:20px;height:20px;">                         
@@ -37,10 +36,8 @@
           <div class="claim" style="padding: 30px; padding-left: 2.3%;">
             <span style="margin-right: 17px;">{{$t('balance.title3')}} : {{neoasset.claim}}</span>
             <button class="btn btn-nel" v-if="neoasset.claim!='0'&&claimbtn" @click="toClaimGas">{{$t('btn.claim')}}</button>
-            <span v-if="!claimbtn">
-              <!-- <spinner-wrap :isbig="false"></spinner-wrap> -->
-              <button class="btn btn-nel btn-disabled" disabled>{{$t('btn.claiming')}}</button>
-            </span>
+            <!-- <spinner-wrap :isbig="false"></spinner-wrap> -->
+            <button v-if="!claimbtn" class="btn btn-nel btn-disabled" disabled>{{$t('btn.claiming')}}</button>
             <span class="loadmsg">&nbsp;{{loadmsg}}</span>
           </div>
         </div>

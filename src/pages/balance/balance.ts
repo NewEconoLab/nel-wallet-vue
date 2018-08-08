@@ -23,8 +23,10 @@ export default class balance extends Vue
   chooseAddress: string = "";
   loadmsg: string = "";
   claimbtn: boolean = true;
-  isgetGas: boolean = false;//是否可领取gas false为可领取状态，true为不可以领取
-  gettingGas: boolean;//false为正在领取状态
+  /**
+   * 是否可领取gas 0为可领取状态，1为不可以领取,2为正在领取
+   */
+  getGas: number;
   openToast: Function;
 
   constructor()
@@ -36,14 +38,13 @@ export default class balance extends Vue
     this.neoasset.neo = 0;
     this.neoasset.claim = '';
     this.chooseAddressarr = new Array();
-    this.gettingGas = true;
+    this.getGas = 0;
     // this.chooseAddressarr = tools.storagetool.getLoginArr();
   }
   // Component method
   mounted()
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
-    this.isGetGas(this.currentAddress);
     this.getBalances();
     this.openToast = this.$refs.toast[ "isShow" ];
     // setInterval(() =>
@@ -58,17 +59,17 @@ export default class balance extends Vue
     console.log(res);
     if (res)
     {
-      if (res[ 0 ].code == "3010")
+      if (res[ 0 ].code == "3010")//可领取
       {
-        this.isgetGas = false;//可领取
+        this.getGas = 0;//可领取
         return true;
-      } else if (res[ 0 ].code == "3012")
+      } else if (res[ 0 ].code == "3012")//已领取
       {
-        this.isgetGas = true;//已领取
+        this.getGas = 1;//已领取
         return false;
-      } else if (res[ 0 ].code == "3011")
+      } else if (res[ 0 ].code == "3011")//正在领取
       {
-        this.gettingGas = false;//正在领取
+        this.getGas = 2;//正在领取
         return false;
       }
     }
@@ -81,50 +82,47 @@ export default class balance extends Vue
     console.log(isOk);
     if (isOk)
     {
-      this.gettingGas = false;
+      this.getGas = 2;
       let res = await tools.wwwtool.api_claimgas(this.currentAddress, 10);
       console.log(res);
       if (res)
       {
-        if (res[ 0 ].code == "3000")
+        if (res[ 0 ].code == "3000")//交易待发送
         {
-          console.log(res[ 0 ].codeMessage);
-          //任务管理器
-          // this.confirmRecharge_sgas(txid)
-          let oldBlock = new tools.sessionstoretool("block");
-          let height = oldBlock.select('height');
-          let task = new Task(
-            height, ConfirmType.tranfer, res[ 0 ].txid
-          )
-          tools.taskManager.addTask(task, TaskType.getGasTest);
-          sessionStorage.setItem("getTestGas", "waitting");
-        }
-        else if (res[ 0 ].code == "3001")
-        {
-          console.log(res[ 0 ].codeMessage);
-          this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+          this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
+          this.getGas = 1;
         }
         else if (res[ 0 ].code == "3002")//余额不足
         {
           this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
-          console.log(res[ 0 ].codeMessage);
-          this.gettingGas = true;
-          this.isgetGas = true;
+          this.getGas = 0;
+        }
+        else if (res[ 0 ].code == "3003")//已领取
+        {
+          this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+          this.getGas = 1;
         }
         else if (res[ 0 ].code == "3004")//超出领取金额
         {
           this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-          this.isgetGas = true;
+          this.getGas = 1;
         }
-      } else
+        else
+        {
+          this.openToast("error", "" + this.$t("balance.errmsg3"), 4000);
+          this.getGas = 0;
+        }
+      }
+      else
       {
-        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-        this.isgetGas = true;
+        this.openToast("error", "" + this.$t("balance.errmsg3"), 4000);
+        this.getGas = 0;
       }
     }
     else
     {
       this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+      this.getGas = 1;
     }
   }
 
@@ -138,6 +136,7 @@ export default class balance extends Vue
   //获取余额
   async getBalances()
   {
+    this.isGetGas(this.currentAddress);
     tools.coinTool.initAllAsset();
     //获得balance列表
     var balances = await tools.wwwtool.api_getBalance(this.currentAddress) as BalanceInfo[];

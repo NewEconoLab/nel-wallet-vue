@@ -34,6 +34,7 @@ export default {
         viewmore: "查看更多",
         edit: "编辑",
         renewal: "续约",
+        renewaling: "续约中",
         exchange: "兑换",
         exchanging: "兑换中",
         withdraw: "提取",
@@ -97,9 +98,10 @@ export default {
         msg2: "等待交易确认…",
         msg3: "提取 GAS 中…",
         msg4: "Gas提取成功!",
-        tips: "您可以通过点击此按钮来获取10Gas, 该按钮每天只能点击一次。",
-        errmsg1: "操作失败！请您明天再进行尝试！",
-        errmsg2: "库存不足！请您明天再进行尝试！",
+        tips: "您可以通过点击此按钮来获取10Gas, 该按钮每24小时只能点击一次。",
+        errmsg1: "操作失败！请您稍后再进行尝试！",
+        errmsg2: "库存不足！请您稍后再进行尝试！",
+        errmsg3: "数据异常！请您稍后再进行尝试！",
         successmsg: "操作成功！正在领取中，请稍等。"
     },
     transfer: {
