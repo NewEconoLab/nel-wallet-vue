@@ -397,4 +397,25 @@ export class WWW
         return r;
     }
 
+    /**
+     * 查询我参与竞拍的域名
+     * @param address 地址
+     * @param domain 域名
+     */
+    static async searchdomainbyaddress(address: string, domain: string)
+    {
+        var postdata = WWW.makeRpcPostBody("searchdomainbyaddress", address, domain);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
+    }
+
 }

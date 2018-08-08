@@ -121,6 +121,7 @@ export default {
         msg4: "-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction.",
         msg5: "available",
         waiting: "Waiting for transaction confirmation",
+        errdomain: "This domain hasn't been mapped to any address"
     },
     nns: {
         nns: "NNS",
@@ -256,7 +257,8 @@ export default {
         statustips2: "The overtime bidding is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain. ",
         toptips: "Tips: You have successfully submited your SGas top up transaction. It will be confirmed and added to your Auction Account in the next block. Please be patient. ",
         withdrawtips: "Tips: You have successfully submited your SGas withdrawal transaction. It will be confirmed and added to your wallet in the next block. Please be patient. ",
-        getall: "Get all"
+        getall: "Get all",
+        nodata: "No related data was found."
     },
     exchange: {
         title: "SGas Exchange",

@@ -37,6 +37,9 @@ export default class NeoAuction extends Vue
     canAdded: boolean;
     checkState: number;
     openToast: Function;
+    isSearchTime: boolean;//是否为查询状态 false为未查询
+    searchDomain: string;//查询域名
+    searchAuctionList: MyAuction[] = [];
 
     constructor()
     {
@@ -72,6 +75,9 @@ export default class NeoAuction extends Vue
         }
         this.canAdded = false;
         this.myBalanceOfSelling = "";
+        this.isSearchTime = false;
+        this.searchDomain = "";
+        this.searchAuctionList = [];
     }
 
     async mounted()
@@ -388,6 +394,10 @@ export default class NeoAuction extends Vue
      */
     async queryDomainState()
     {
+        //返回加载列表
+        this.searchDomain = "";
+        this.isSearchTime = false;
+
         if (!this.domain || !this.domain.length)
         {
             this.btn_start = 4;
@@ -456,6 +466,37 @@ export default class NeoAuction extends Vue
             this.checkState = this.btn_start = 2
         }
 
+    }
+
+    /**
+     * 查询域名的输入框
+     */
+    async searchDomainInput()
+    {
+        if (this.searchDomain.length)
+        {
+            this.isSearchTime = true;
+            this.searchAuctionList = await NeoaucionData.searchBidList(this.address, this.searchDomain);
+            console.log(this.searchAuctionList);
+        } else
+        {
+            this.isSearchTime = false;
+        }
+
+    }
+    /**
+     * 查询域名
+     */
+    async doSearchDomain()
+    {
+        if (this.searchDomain.length)
+        {
+            this.isSearchTime = true;
+            this.searchAuctionList = await NeoaucionData.searchBidList(this.address, this.searchDomain);
+        } else
+        {
+            this.isSearchTime = false;
+        }
     }
 
 }
