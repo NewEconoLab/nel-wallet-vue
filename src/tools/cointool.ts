@@ -325,14 +325,10 @@ export class CoinTool
         if (tran.witnesses == null)
             tran.witnesses = [];
         let data = await this.signData(tran);
-
         var res: Result = new Result();
-
-        console.log(data.toHexString())
         var result = await tools.wwwtool.api_postRawTransaction(data);
         res.err = !result[ "sendrawtransactionresult" ];
         res.info = result[ "txid" ];
-        console.log(res.info);
 
         return res;
     }

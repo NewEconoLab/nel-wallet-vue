@@ -196,14 +196,6 @@ export class NNSTool
                 info.register = stack[ 1 ].AsHash160();
                 info.resolver = stack[ 2 ].AsHash160();
                 info.ttl = stack[ 3 ].AsInteger().toString();
-
-                // console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
-                // let parentOwner = (stack[ 5 ].value as string).hexToBytes();
-                // let domainstr = stack[ 5 ].value as string;
-                // let parentHash = (stack[ 6 ].value as string).hexToBytes();
-                // let bt = (stack[ 7 ].value as string).hexToBytes();
-                // let root = Neo.BigInteger.fromUint8ArrayAutoSign(bt);
-                // let a = new Neo.BigInteger(stack[ 7 ].value as string);
             }
         }
         catch (e)
@@ -274,7 +266,6 @@ export class NNSTool
         sb.EmitPushString("setResolveData");
         sb.EmitAppCall(scriptaddress.reverse());
         var data = sb.ToArray();
-        console.log(data.toHexString())
         let res = await tools.coinTool.contractInvokeTrans_attributes(data);
         return res;
     }

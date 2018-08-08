@@ -1,8 +1,9 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, Domainmsg, DomainInfo, DomainStatus, Consts } from "../../tools/entity";
+import { LoginInfo, Domainmsg, DomainInfo, DomainStatus, Consts, TaskFunction, Task, TaskType, ConfirmType } from "../../tools/entity";
 import { sessionStoreTool } from "../../tools/storagetool";
+import { TaskManager } from "../../tools/taskmanager";
 @Component({
     components: {}
 })
@@ -17,8 +18,7 @@ export default class MyNeo extends Vue
     mappingistrue: boolean;
     mappingState: number;
     resolverState: number;
-    resolverSession: sessionStoreTool;
-    mappingSession: sessionStoreTool;
+    domainEdit: sessionStoreTool;
     renewalWatting: boolean;
     currentdomain: string;
 
@@ -29,8 +29,7 @@ export default class MyNeo extends Vue
         this.currentAddress = LoginInfo.getCurrentAddress();
         this.neonameList = null;
         this.set_contract = "cf0d21eaa1803f63704ddb06c373c22d815b7ca2";
-        this.resolverSession = new sessionStoreTool("resolverSession");
-        this.mappingSession = new sessionStoreTool("mappingSession");
+        this.domainEdit = new sessionStoreTool("domain-edit");
         this.renewalWatting = false;
         this.resolverAddress = "";
         this.mappingState = 0;
@@ -41,7 +40,12 @@ export default class MyNeo extends Vue
 
     mounted()
     {
+        tools.nnstool.initRootDomain("neo");
         this.getAllNeoName(this.currentAddress);
+        //初始化 任务管理器的执行机制
+        TaskFunction.domainResovle = this.resolverTask;
+        TaskFunction.domainMapping = this.mappingTask;
+        TaskFunction.domainRenewal = this.renewalTask;
     }
 
     verifyMapping()
@@ -58,37 +62,7 @@ export default class MyNeo extends Vue
     async getAllNeoName(address)
     {
         let res = await tools.wwwtool.getnnsinfo(address, '.neo');
-        let arrdomain = res ? res.map(dom => { return dom[ "domain" ] }) : [];
-        let arr = new Array<Domainmsg>();
         //从缓存取状态数据
-        let state = DomainStatus.getStatus() as DomainStatus;
-        if (state)
-        {
-            for (let key in state)
-            {
-                if (state.hasOwnProperty(key))
-                {
-                    let inculde = arrdomain.includes(key);
-                    inculde ? "" : arrdomain.push(key);
-                }
-            }
-        }
-        for (const i in arrdomain)
-        {
-            if (arrdomain.hasOwnProperty(i))
-            {
-                const n = parseInt(i)
-                const domain = arrdomain[ n ];
-                let a = state[ domain ] ? state[ domain ] as DomainStatus : new DomainStatus();
-                if (!a.await_resolver)
-                {
-                    if (!a.await_mapping)
-                    {
-
-                    }
-                }
-            }
-        }
         let list = res;
         if (list && list.length)
         {
@@ -130,104 +104,6 @@ export default class MyNeo extends Vue
         return copare.compareTo(threeMonth) < 0 ? false : true;    //小于threeMonth即将过期false
     }
 
-    onShowEdit(item)
-    {
-        this.domainInfo = item;
-        this.resolverAddress = item.resolverAddress;
-        this.mappingistrue = tools.neotool.verifyAddress(this.resolverAddress);
-        let sessionMap = this.mappingSession.select(item.domain);
-        let sessionRes = this.resolverSession.select(item.domain);
-        let renewalsession = new tools.sessionstoretool("renewalsession");
-        let sessionRen = renewalsession.select(item.domain);
-        this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
-        this.resolverState = this.domainInfo.resolver ? 1 : 0;
-        // this.renewalWatting = false;
-        if (sessionMap && sessionMap[ "txid" ])
-        {
-            let txid = sessionMap[ "txid" ];
-            let value = sessionMap[ "value" ];
-            this.resolverAddress = value;
-            this.setConfirm(txid, 2, item.domain);
-        }
-        if (sessionRes && sessionRes[ "txid" ])
-        {
-            let txid = sessionRes[ "txid" ];
-            this.setConfirm(txid, 1, item.domain);
-        }
-        if (sessionRen && sessionRen[ "txid" ])
-        {
-            let txid = sessionRen[ "txid" ];
-            this.renewalConfirm(txid, item.domain);
-        }
-        this.isShowEdit = !this.isShowEdit;
-        this.currentdomain = item.domain;
-    }
-
-    async setConfirm(txid: string, medth: number, domain: string)
-    {
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
-        {
-            if (medth == 1)
-            {
-                if (this.currentdomain == domain)
-                {
-                    this.resolverState = 1;
-                }
-                this.getAllNeoName(this.currentAddress);
-                // this.resolverState = 1;
-                this.resolverSession.delete(domain)
-            }
-            if (medth == 2)
-            {
-                if (this.currentdomain == domain)
-                {
-                    this.mappingState = 1;
-                }
-                this.getAllNeoName(this.currentAddress);
-                // this.mappingState = 1;
-                this.mappingSession.delete(domain)
-            }
-        } else
-        {
-            if (medth == 1)
-            {
-                if (this.currentdomain == domain)
-                {
-                    this.resolverState = 2;
-                }
-                // this.resolverState = 2;
-            }
-            if (medth == 2)
-            {
-                if (this.currentdomain == domain)
-                {
-                    this.mappingState = 2;
-                }
-                // this.mappingState = 2;
-            }
-            setTimeout(() =>
-            {
-                this.setConfirm(txid, medth, domain);
-            }, 5000);
-        }
-    }
-
-    /**
-     * 注册解析器
-     */
-    async setresolve()
-    {
-        this.resolverState = 2;
-        let contract = this.set_contract.hexToBytes().reverse();
-        let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
-        if (!res.err)
-        {
-            let txid = res.info;
-            this.resolverSession.put(this.domainInfo.domain, { txid, value: this.set_contract });
-            this.setConfirm(txid, 1, this.domainInfo.domain);
-        }
-    }
     resetresolve()
     {
         this.resolverState = 0;
@@ -236,66 +112,142 @@ export default class MyNeo extends Vue
         this.mappingistrue = false;
     }
 
-    /**
-     * 映射地址
-     */
-    async mappingData()
-    {
-        this.mappingState = 2;
-        let res = await tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver);
-        if (!res.err)
-        {
-            let txid = res.info;
-            this.mappingSession.put(this.domainInfo.domain, { txid, value: this.resolverAddress });
-            this.setConfirm(txid, 2, this.domainInfo.domain);
-        }
-
-    }
     resetmappingData()
     {
         this.resolverAddress = "";
         this.mappingState = 0;
     }
 
-    async renewalDomain()
+    /**
+     * 打开编辑域名
+     * @param item 传入窗口的域名对象
+     */
+    onShowEdit(item)
     {
-        let renewalsession = new tools.sessionstoretool("renewalsession");
-        let domain = this.domainInfo.domain;
-        let res = await tools.nnssell.renewDomain(domain);
-        if (res)
-        {
-            let txid = res[ "txid" ];
-            renewalsession.put(domain, { txid });
-            this.renewalConfirm(txid, domain);
-        }
+        this.domainInfo = item;
+        this.resolverAddress = item.resolverAddress;
+        this.mappingistrue = tools.neotool.verifyAddress(this.resolverAddress);
+        this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
+        this.resolverState = this.domainInfo.resolver ? 1 : 0;
+        this.renewalWatting = false;
+        this.isShowEdit = !this.isShowEdit;
+        this.currentdomain = item.domain;
 
-    }
-
-    async renewalConfirm(txid: string, domain: string)
-    {
-        let renewalsession = new tools.sessionstoretool("renewalsession");
-        let res = await tools.wwwtool.getrawtransaction(txid)
-        if (!!res)
+        let domain = this.domainEdit.select(item.domain);
+        if (domain)
         {
-            if (domain == this.currentdomain)
+            if (domain[ 'resolver' ] && domain[ 'resolver' ] == 'watting')
             {
-                this.renewalWatting = false;
+                this.resolverState = 2;
             }
-            let session = renewalsession.select(domain);
-            if (session)
+            if (domain[ 'mapping' ] && domain[ 'mapping' ][ 'state' ] && domain[ 'mapping' ][ 'state' ] == 'watting')
             {
-                renewalsession.delete(domain);
+                this.mappingState = 2;
+                this.resolverAddress = domain[ 'mapping' ][ 'address' ];
             }
-        } else
-        {
-            if (domain == this.currentdomain)
+            if (domain[ 'renewal' ] && domain[ 'renewal' ] == 'watting')
             {
                 this.renewalWatting = true;
             }
-            setTimeout(() =>
-            {
-                this.renewalConfirm(txid, domain);
-            }, 5000);
         }
     }
+
+    /**
+     * 注册解析器
+     */
+    async setresolve()
+    {
+        let contract = this.set_contract.hexToBytes().reverse();
+        let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
+        if (!res.err)
+        {
+            this.resolverState = 2;
+            let txid = res.info;
+            TaskManager.addTask(
+                new Task(TaskManager.getBlockHeight(), ConfirmType.tranfer, txid, { domain: this.domainInfo[ 'domain' ], contract }),
+                TaskType.domainResovle);
+            this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
+        }
+    }
+
+    /**
+     * 映射地址
+     */
+    async mappingData()
+    {
+        let res = await tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver);
+        if (!res.err)
+        {
+            this.mappingState = 2;
+            let txid = res.info;
+            TaskManager.addTask(
+                new Task(TaskManager.getBlockHeight(), ConfirmType.tranfer, txid, { domain: this.domainInfo.domain, address: this.resolverAddress }),
+                TaskType.domainMapping);
+            this.domainEdit.put(this.domainInfo.domain, { state: "watting", address: this.resolverAddress }, "mapping");
+        }
+
+    }
+
+    /**
+     * 域名续约
+     */
+    async renewalDomain()
+    {
+        let domain = this.domainInfo.domain;
+        let res = await tools.nnssell.renewDomain(domain);
+        if (!res.err)
+        {
+            this.renewalWatting = true;
+            let txid = res.info;
+            TaskManager.addTask(
+                new Task(TaskManager.getBlockHeight(), ConfirmType.tranfer, txid, { domain }),
+                TaskType.domainRenewal);
+            this.domainEdit.put(this.domainInfo.domain, "watting", "renewal");
+        }
+
+    }
+
+    /**
+     * 续约状态效果
+     * @param domain 域名
+     */
+    renewalTask(domain)
+    {
+        if (domain == this.currentdomain)
+        {
+            this.renewalWatting = false;
+        }
+        this.getAllNeoName(this.currentAddress);
+    }
+
+    /**
+     * 映射状态效果
+     * @param domain 域名
+     */
+    mappingTask(domain, address)
+    {
+        this.getAllNeoName(this.currentAddress);
+        if (this.currentdomain == domain)
+        {
+            this.mappingState = 1;
+            if (address)
+            {
+                this.resolverAddress = address;
+            }
+        }
+    }
+
+    /**
+     * 合约状态改变效果
+     * @param domain 域名
+     */
+    resolverTask(domain)
+    {
+        if (this.currentdomain == domain)
+        {
+            this.resolverState = 1;
+        }
+        this.getAllNeoName(this.currentAddress);
+    }
+
 }

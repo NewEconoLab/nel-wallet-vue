@@ -930,15 +930,15 @@ export class PageUtil
 export class TaskFunction
 {
     constructor() { }
-    tranfer: Function;// 交易确认 需要签名的任务，涉及资产变动
-    openAuction: Function;//开标
-    addPrice: Function;// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
-    topup: Function;//充值
-    withdraw: Function;//退款
-    getGasTest: Function;//测试网领取gas
-    domainMapping: Function;
-    domainResovle: Function;
-    domainRenewal: Function;
+    static tranfer: Function;// 交易确认 需要签名的任务，涉及资产变动
+    static openAuction: Function;//开标
+    static addPrice: Function;// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
+    static topup: Function;//充值
+    static withdraw: Function;//退款
+    static getGasTest: Function;//测试网领取gas
+    static domainMapping: Function;//域名映射
+    static domainResovle: Function;//域名合约地址
+    static domainRenewal: Function;
 }
 
 export class Task
@@ -946,12 +946,14 @@ export class Task
     height: number;
     confirm: number;
     type: ConfirmType;
-    txid?: string = "";
+    txid: string;
+    message: any;
     state: TaskState;
     constructor(
         height: number,
         type: ConfirmType,
-        txid?: string
+        txid: string,
+        messgae?
     )
     {
         this.height = height;
@@ -959,6 +961,7 @@ export class Task
         this.confirm = 0;
         this.txid = txid;
         this.state = TaskState.watting;
+        this.message = messgae;
     }
     toString()
     {
@@ -1066,6 +1069,9 @@ export enum TaskType
     topup,//充值
     withdraw,//退款
     getGasTest,//测试网领取gas
+    domainMapping,//域名映射
+    domainResovle,//域名合约地址
+    domainRenewal,
 }
 
 /**

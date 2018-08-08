@@ -440,10 +440,7 @@ export default class NNSSell
         try
         {
             let res = await tools.contract.contractInvokeTrans_attributes(data);
-            if (!res.err)
-            {
-                return res.info;
-            }
+            return res;
         } catch (error)
         {
 
