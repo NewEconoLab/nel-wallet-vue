@@ -30,7 +30,8 @@
                         <input type="text" class="readonly-input" readonly="readonly" v-model="set_contract"  autocomplete="off">
                         <button v-if="resolverState==0" class="btn btn-nel btn-big" @click="setresolve">{{$t('btn.confirm')}}</button>
                         <!-- <button v-if="resolverState==1" class="btn btn-nel btn-big " @click="setresolve">{{$t('btn.reset')}}</button> -->
-                        <spinner-wrap v-if="resolverState==2"  style="margin-left:20px"></spinner-wrap>
+                        <button v-if="resolverState==2" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirming')}}</button>
+                        <!-- <spinner-wrap v-if="resolverState==2"  style="margin-left:20px"></spinner-wrap> -->
                         <div class="ok-img" v-if="resolverState==1">
                             <img src="../../../static/img/correct.svg" alt="">
                         </div>
@@ -45,7 +46,8 @@
                         <input type="text" v-model="resolverAddress" @input="verifyMapping" class="" autocomplete="off">
                         <button v-if="mappingState==0" class="btn btn-nel btn-big" @click="mappingData" :disabled="resolverState!=1 || !mappingistrue" :class="{'btn-disable':resolverState!=1 || !mappingistrue}">{{$t('btn.confirm')}}</button>
                         <!-- <button v-if="mappingState==1" class="btn btn-nel btn-big" @click="mappingData">{{$t('btn.reset')}}</button> -->
-                        <spinner-wrap v-if="mappingState==2"  style="margin-left:20px"></spinner-wrap>
+                        <button v-if="mappingState==2" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirming')}}</button>
+                        <!-- <spinner-wrap v-if="mappingState==2"  style="margin-left:20px"></spinner-wrap> -->
                         <!-- 地址格式验证 -->
                         <div v-if="mappingState==1" class="ok-img">
                             <img src="../../../static/img/correct.svg" alt="">
@@ -60,7 +62,8 @@
                         <input type="text" class="readonly-input" readonly="readonly" :value="domainInfo.expired?$t('myneoname.expired'):domainInfo.ttl">
                         <button v-if="!domainInfo.expired&&!domainInfo.expiring &&!renewalWatting" class="btn btn-nel btn-big" @click="renewalDomain">{{$t('btn.renewal')}}</button>
                         <button  v-if="(domainInfo.expired||domainInfo.expiring) &&!renewalWatting"  class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.renewal')}}</button>
-                        <spinner-wrap v-if="renewalWatting"  style="margin-left:20px"></spinner-wrap>
+                        <button  v-if="renewalWatting" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.renewaling')}}</button>
+                        <!-- <spinner-wrap v-if="renewalWatting"  style="margin-left:20px"></spinner-wrap> -->
                     </div>
                 </div>
             </div>

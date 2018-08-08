@@ -30,9 +30,7 @@
                     <input type="text" :placeholder="$t('auction.entername')" v-model="domain" @input="queryDomainState" autocomplete="off">
                     <span>.neo</span>
                 </div>
-                <span v-if="btn_start==0">
-                  <button class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.openingauction')}}</button>
-                </span>
+                <button v-if="btn_start==0" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.openingauction')}}</button>
                 <!-- <spinner-wrap v-if="btn_start==0" style="margin-left:20px"></spinner-wrap> -->
                 <button v-if="btn_start==1 && !!domain.length" class="btn btn-nel btn-big" @click="openAuction">{{$t('btn.openauction')}}</button>
                 <button v-if="btn_start==2" class="btn btn-nel btn-big" @click="addBid">{{$t('btn.newbid')}}</button>
@@ -169,9 +167,7 @@
                   <span class="getall-msg" @click="alert_TopUp.input = sgasAvailable">{{$t('auction.getall')}}</span>
                 </div>
                 <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="toRecharge">{{$t('btn.confirm')}}</button>
-                <span v-else>
-                  <button class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirming')}}</button>
-                </span>
+                <button v-else class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirming')}}</button>
                 <!-- <spinner-wrap v-else ></spinner-wrap> -->
               </div>
               <div v-if="alert_TopUp.error" class="status-ended err-msg">
@@ -208,9 +204,7 @@
                   <input type="number" :placeholder="$t('auction.amount')" v-model="alert_withdraw.input" @input="verifWithdraw" autocomplete="off">
                   <span class="getall-msg" @click="alert_withdraw.input = regBalance">{{$t('auction.getall')}}</span>
                 </div>
-                <span v-if="alert_withdraw.watting">
-                  <button class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirming')}}</button>
-                </span>
+                <button v-if="alert_withdraw.watting" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirming')}}</button>
                 <!-- <spinner-wrap v-if="alert_withdraw.watting"></spinner-wrap> -->
                 <button v-else class="btn btn-nel btn-big" @click="withdraw">{{$t('btn.confirm')}}</button>
               </div>

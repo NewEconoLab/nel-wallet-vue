@@ -34,6 +34,7 @@ export default {
         viewmore: "View more",
         edit: "Edit",
         renewal: "Renewal",
+        renewaling: "Renewing",
         exchange: "Exchange",
         exchanging: "Exchanging",
         withdraw: "Withdraw",
@@ -97,9 +98,10 @@ export default {
         msg2: "Waiting for confirmation of transfer…",
         msg3: "Claiming GAS…",
         msg4: "Your GAS claim is successful!",
-        tips: "You can click this button to request 10 Gas, it can only be clicked once a day.",
-        errmsg1: "Operation failed ! And You can try it again the next day !",
-        errmsg2: "Our stock is insufficient ! And You can try it again the next day !",
+        tips: "You can click this button to request 10 GAS. It can only be clicked once in 24 hours. ",
+        errmsg1: "Operation failed! And You can try it again later!",
+        errmsg2: "Insufficient inventory! And You can try it again later!",
+        errmsg3: "Data exception！And You can try it again later!",
         successmsg: "Successful operation！Please wait for a moment."
     },
     transfer: {
