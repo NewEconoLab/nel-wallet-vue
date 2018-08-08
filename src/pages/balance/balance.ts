@@ -4,6 +4,7 @@ import { Component } from "vue-property-decorator";
 import WalletLayout from "../../layouts/wallet.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
+import { TaskManager } from '../../tools/taskmanager';
 
 declare const mui;
 
@@ -45,73 +46,62 @@ export default class balance extends Vue
   mounted()
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
-    this.getBalances();
+    this.isGetGas();
     this.openToast = this.$refs.toast[ "isShow" ];
+
+    TaskManager.functionList = [];
+    TaskManager.functionList.push(this.isGetGas);
     // setInterval(() =>
     // {
 
     // }, 30000)
   }
   //判断是否可以领取gas
-  async isGetGas(address: string)
+  async isGetGas()
   {
-    let res = await tools.wwwtool.api_hasclaimgas(address);
-    console.log(res);
+    let timer = null;
+    let res = await tools.wwwtool.api_hasclaimgas(this.currentAddress);
     if (res)
     {
       if (res[ 0 ].code == "3010")//可领取
       {
         this.getGas = 0;//可领取
-        return true;
       } else if (res[ 0 ].code == "3012")//已领取
       {
         this.getGas = 1;//已领取
-        return false;
       } else if (res[ 0 ].code == "3011")//正在领取
       {
         this.getGas = 2;//正在领取
-        return false;
       }
     }
-    return false;
+    this.getBalances();
   }
   //手动领取测试gas
   async getTestGas()
   {
-    let isOk = await this.isGetGas(this.currentAddress);
-    console.log(isOk);
-    if (isOk)
+    this.getGas = 2;
+    let res = await tools.wwwtool.api_claimgas(this.currentAddress, 10);
+    if (res)
     {
-      this.getGas = 2;
-      let res = await tools.wwwtool.api_claimgas(this.currentAddress, 10);
-      console.log(res);
-      if (res)
+      if (res[ 0 ].code == "3000")//交易待发送
       {
-        if (res[ 0 ].code == "3000")//交易待发送
-        {
-          this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
-          this.getGas = 1;
-        }
-        else if (res[ 0 ].code == "3002")//余额不足
-        {
-          this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
-          this.getGas = 0;
-        }
-        else if (res[ 0 ].code == "3003")//已领取
-        {
-          this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-          this.getGas = 1;
-        }
-        else if (res[ 0 ].code == "3004")//超出领取金额
-        {
-          this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-          this.getGas = 1;
-        }
-        else
-        {
-          this.openToast("error", "" + this.$t("balance.errmsg3"), 4000);
-          this.getGas = 0;
-        }
+        this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
+        // this.getGas = 1;
+      }
+      else if (res[ 0 ].code == "3002")//余额不足
+      {
+        this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
+        this.getGas = 0;
+      }
+      else if (res[ 0 ].code == "3003")//已领取
+      {
+        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+        this.getGas = 1;
+      }
+      else if (res[ 0 ].code == "3004")//超出领取金额
+      {
+        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+        this.getGas = 1;
       }
       else
       {
@@ -121,8 +111,8 @@ export default class balance extends Vue
     }
     else
     {
-      this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-      this.getGas = 1;
+      this.openToast("error", "" + this.$t("balance.errmsg3"), 4000);
+      this.getGas = 0;
     }
   }
 
@@ -136,7 +126,6 @@ export default class balance extends Vue
   //获取余额
   async getBalances()
   {
-    this.isGetGas(this.currentAddress);
     tools.coinTool.initAllAsset();
     //获得balance列表
     var balances = await tools.wwwtool.api_getBalance(this.currentAddress) as BalanceInfo[];

@@ -1806,6 +1806,7 @@ var vue_property_decorator_1 = __webpack_require__("EOM2");
 var wallet_vue_1 = __webpack_require__("PPZq");
 var Spinner_vue_1 = __webpack_require__("+jyM");
 var importpack_1 = __webpack_require__("VKSY");
+var taskmanager_1 = __webpack_require__("XfB5");
 var balance = /** @class */ (function (_super) {
     __extends(balance, _super);
     function balance() {
@@ -1827,37 +1828,38 @@ var balance = /** @class */ (function (_super) {
     // Component method
     balance.prototype.mounted = function () {
         this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
-        this.getBalances();
+        this.isGetGas();
         this.openToast = this.$refs.toast["isShow"];
+        taskmanager_1.TaskManager.functionList = [];
+        taskmanager_1.TaskManager.functionList.push(this.isGetGas);
         // setInterval(() =>
         // {
         // }, 30000)
     };
     //判断是否可以领取gas
-    balance.prototype.isGetGas = function (address) {
+    balance.prototype.isGetGas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var timer, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(address)];
+                    case 0:
+                        timer = null;
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(this.currentAddress)];
                     case 1:
                         res = _a.sent();
-                        console.log(res);
                         if (res) {
                             if (res[0].code == "3010") {
                                 this.getGas = 0; //可领取
-                                return [2 /*return*/, true];
                             }
                             else if (res[0].code == "3012") {
                                 this.getGas = 1; //已领取
-                                return [2 /*return*/, false];
                             }
                             else if (res[0].code == "3011") {
                                 this.getGas = 2; //正在领取
-                                return [2 /*return*/, false];
                             }
                         }
-                        return [2 /*return*/, false];
+                        this.getBalances();
+                        return [2 /*return*/];
                 }
             });
         });
@@ -1865,23 +1867,18 @@ var balance = /** @class */ (function (_super) {
     //手动领取测试gas
     balance.prototype.getTestGas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var isOk, res;
+            var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.isGetGas(this.currentAddress)];
-                    case 1:
-                        isOk = _a.sent();
-                        console.log(isOk);
-                        if (!isOk) return [3 /*break*/, 3];
+                    case 0:
                         this.getGas = 2;
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_claimgas(this.currentAddress, 10)];
-                    case 2:
+                    case 1:
                         res = _a.sent();
-                        console.log(res);
                         if (res) {
                             if (res[0].code == "3000") {
                                 this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
-                                this.getGas = 1;
+                                // this.getGas = 1;
                             }
                             else if (res[0].code == "3002") {
                                 this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
@@ -1904,12 +1901,7 @@ var balance = /** @class */ (function (_super) {
                             this.openToast("error", "" + this.$t("balance.errmsg3"), 4000);
                             this.getGas = 0;
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
-                        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-                        this.getGas = 1;
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         });
@@ -1927,7 +1919,6 @@ var balance = /** @class */ (function (_super) {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        this.isGetGas(this.currentAddress);
                         importpack_1.tools.coinTool.initAllAsset();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBalance(this.currentAddress)];
                     case 1:
