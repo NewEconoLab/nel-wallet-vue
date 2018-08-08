@@ -1355,6 +1355,36 @@ var WWW = /** @class */ (function () {
             });
         });
     };
+    /**
+     * 查询我参与竞拍的域名
+     * @param address 地址
+     * @param domain 域名
+     */
+    WWW.searchdomainbyaddress = function (address, domain) {
+        return __awaiter(this, void 0, void 0, function () {
+            var postdata, result, json, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        postdata = WWW.makeRpcPostBody("searchdomainbyaddress", address, domain);
+                        return [4 /*yield*/, fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        if (json["result"]) {
+                            r = json["result"][0];
+                            return [2 /*return*/, r];
+                        }
+                        else {
+                            throw "not data";
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     WWW.api = "https://api.nel.group/api/testnet";
     WWW.apiaggr = "https://apiwallet.nel.group/api/testnet";
     return WWW;
@@ -1806,6 +1836,7 @@ var vue_property_decorator_1 = __webpack_require__("EOM2");
 var wallet_vue_1 = __webpack_require__("PPZq");
 var Spinner_vue_1 = __webpack_require__("+jyM");
 var importpack_1 = __webpack_require__("VKSY");
+var taskmanager_1 = __webpack_require__("XfB5");
 var balance = /** @class */ (function (_super) {
     __extends(balance, _super);
     function balance() {
@@ -1827,37 +1858,38 @@ var balance = /** @class */ (function (_super) {
     // Component method
     balance.prototype.mounted = function () {
         this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
-        this.getBalances();
+        this.isGetGas();
         this.openToast = this.$refs.toast["isShow"];
+        taskmanager_1.TaskManager.functionList = [];
+        taskmanager_1.TaskManager.functionList.push(this.isGetGas);
         // setInterval(() =>
         // {
         // }, 30000)
     };
     //判断是否可以领取gas
-    balance.prototype.isGetGas = function (address) {
+    balance.prototype.isGetGas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var timer, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(address)];
+                    case 0:
+                        timer = null;
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(this.currentAddress)];
                     case 1:
                         res = _a.sent();
-                        console.log(res);
                         if (res) {
                             if (res[0].code == "3010") {
                                 this.getGas = 0; //可领取
-                                return [2 /*return*/, true];
                             }
                             else if (res[0].code == "3012") {
                                 this.getGas = 1; //已领取
-                                return [2 /*return*/, false];
                             }
                             else if (res[0].code == "3011") {
                                 this.getGas = 2; //正在领取
-                                return [2 /*return*/, false];
                             }
                         }
-                        return [2 /*return*/, false];
+                        this.getBalances();
+                        return [2 /*return*/];
                 }
             });
         });
@@ -1865,23 +1897,18 @@ var balance = /** @class */ (function (_super) {
     //手动领取测试gas
     balance.prototype.getTestGas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var isOk, res;
+            var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.isGetGas(this.currentAddress)];
-                    case 1:
-                        isOk = _a.sent();
-                        console.log(isOk);
-                        if (!isOk) return [3 /*break*/, 3];
+                    case 0:
                         this.getGas = 2;
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_claimgas(this.currentAddress, 10)];
-                    case 2:
+                    case 1:
                         res = _a.sent();
-                        console.log(res);
                         if (res) {
                             if (res[0].code == "3000") {
                                 this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
-                                this.getGas = 1;
+                                // this.getGas = 1;
                             }
                             else if (res[0].code == "3002") {
                                 this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
@@ -1904,12 +1931,7 @@ var balance = /** @class */ (function (_super) {
                             this.openToast("error", "" + this.$t("balance.errmsg3"), 4000);
                             this.getGas = 0;
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
-                        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
-                        this.getGas = 1;
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         });
@@ -1927,7 +1949,6 @@ var balance = /** @class */ (function (_super) {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        this.isGetGas(this.currentAddress);
                         importpack_1.tools.coinTool.initAllAsset();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBalance(this.currentAddress)];
                     case 1:
@@ -3077,6 +3098,13 @@ var DomainState;
 
 /***/ }),
 
+/***/ "6rKk":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "7VBB":
 /***/ (function(module, exports) {
 
@@ -3679,6 +3707,7 @@ var NeoAuction = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.myAuctionList = [];
         _this.domainInfo = [];
+        _this.searchAuctionList = [];
         _this.btn_start = 4;
         _this.auctionShow = false;
         _this.auctionPage = false;
@@ -3709,6 +3738,9 @@ var NeoAuction = /** @class */ (function (_super) {
         }
         _this.canAdded = false;
         _this.myBalanceOfSelling = "";
+        _this.isSearchTime = false;
+        _this.searchDomain = "";
+        _this.searchAuctionList = [];
         return _this;
     }
     NeoAuction.prototype.mounted = function () {
@@ -4093,6 +4125,9 @@ var NeoAuction = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        //返回加载列表
+                        this.searchDomain = "";
+                        this.isSearchTime = false;
                         if (!this.domain || !this.domain.length) {
                             this.btn_start = 4;
                             this.checkState = 0;
@@ -4149,6 +4184,55 @@ var NeoAuction = /** @class */ (function (_super) {
                         this.checkState = this.btn_start = 2;
                         _a.label = 7;
                     case 7: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 查询域名的输入框
+     */
+    NeoAuction.prototype.searchDomainInput = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!this.searchDomain.length) return [3 /*break*/, 2];
+                        this.isSearchTime = true;
+                        _a = this;
+                        return [4 /*yield*/, neoauctionDataModel_1.NeoaucionData.searchBidList(this.address, this.searchDomain)];
+                    case 1:
+                        _a.searchAuctionList = _b.sent();
+                        console.log(this.searchAuctionList);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.isSearchTime = false;
+                        _b.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 查询域名
+     */
+    NeoAuction.prototype.doSearchDomain = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!this.searchDomain.length) return [3 /*break*/, 2];
+                        this.isSearchTime = true;
+                        _a = this;
+                        return [4 /*yield*/, neoauctionDataModel_1.NeoaucionData.searchBidList(this.address, this.searchDomain)];
+                    case 1:
+                        _a.searchAuctionList = _b.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.isSearchTime = false;
+                        _b.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -7997,6 +8081,56 @@ var NeoaucionData = /** @class */ (function () {
             });
         });
     };
+    /**搜索参与竞拍的域名列表 */
+    NeoaucionData.searchBidList = function (address, searchDomain) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, arr, list, ids, amounts, i, element, current, balanceOfSelling, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.searchdomainbyaddress(address, searchDomain)];
+                    case 1:
+                        res = _a.sent();
+                        arr = new Array();
+                        list = res ? res["list"] : [];
+                        ids = list.map(function (auction) {
+                            return auction.id;
+                        });
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOfBidArray(ids)];
+                    case 2:
+                        amounts = _a.sent();
+                        if (res) {
+                            for (i in list) {
+                                element = list[i];
+                                element.receivedState = 0;
+                                //根据余额和所有者判断当前账户是否领取过了域名或退币
+                                if (element.auctionState == '0') {
+                                    current = entity_1.LoginInfo.getCurrentAddress();
+                                    balanceOfSelling = amounts[element.id];
+                                    if (element.maxBuyer == current) {
+                                        //  判断所有者是不是自己并且余额为0
+                                        element.receivedState = (balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 && element.owner == current) ? 1 : 0;
+                                    }
+                                    else {
+                                        element.receivedState = balanceOfSelling.compareTo(Neo.BigInteger.Zero) == 0 ? 2 : 0;
+                                    }
+                                }
+                                //开始时间日期格式化
+                                element.startTimeStr = importpack_1.tools.timetool.getTime(element.startAuctionTime);
+                            }
+                        }
+                        arr = arr.concat(list);
+                        return [2 /*return*/, arr];
+                    case 3:
+                        error_2 = _a.sent();
+                        console.error(error_2);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
     NeoaucionData.session_open = new importpack_1.tools.sessionstoretool("auction-openSession");
     return NeoaucionData;
 }());
@@ -8541,13 +8675,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "gQug":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "hZlE":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -8603,14 +8730,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var neoauction = __webpack_require__("8KnJ");
 var neoauction_default = /*#__PURE__*/__webpack_require__.n(neoauction);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-247f17fd","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/neoauction.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"box-warp"},[(!_vm.auctionPage)?_c('div',{staticClass:"page-one"},[_c('div',{staticClass:"tips-box"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tipsmsg1'))),_c('br'),_vm._v(" "),_c('ol',[_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg2')))]),_vm._v(" "),_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg3')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.titleaccount')))])]),_vm._v(" "),_c('div',{staticClass:"form-box pall"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"sgas-count"},[_c('span',[_vm._v("SGas")]),_c('span',{staticClass:"num"},[_vm._v(" "+_vm._s(_vm.regBalance))])])]),_vm._v(" "),_c('div',{staticClass:"btn-right"},[_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openWithdraw}},[_vm._v(_vm._s(_vm.$t('btn.withdraw')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openTopUp}},[_vm._v(_vm._s(_vm.$t('btn.topup')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box ptop"},[_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.domain),expression:"domain"}],attrs:{"type":"text","placeholder":_vm.$t('auction.entername'),"autocomplete":"off"},domProps:{"value":(_vm.domain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.domain=$event.target.value},_vm.queryDomainState]}}),_vm._v(" "),_c('span',[_vm._v(".neo")])]),_vm._v(" "),(_vm.btn_start==0)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.openingauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==1 && !!_vm.domain.length)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openAuction}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==2)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.addBid}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==3)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(!_vm.domain.length||_vm.btn_start==4)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.checkState==1 && !!_vm.domain.length)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkavailable')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==2)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbeing')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==3)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbuyer')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==4)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkformat')))])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title2')))]),_vm._v(" "),_c('div',{staticClass:"seach-box"},[_c('input',{attrs:{"type":"search","name":"","id":"","placeholder":_vm.$t('auction.searchmsg'),"autocomplete":"off"}}),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("zH9E"),"alt":""}})])]),_vm._v(" "),_vm._l((_vm.myAuctionList),function(item,index){return (_vm.myAuctionList)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()})],2):_vm._e(),_vm._v(" "),(_vm.auctionPage)?_c('auction-info',{attrs:{"item":_vm.domainInfo},on:{"onBack":_vm.onBack}}):_vm._e(),_vm._v(" "),(_vm.auctionShow)?_c('div',{staticClass:"auction-wrap"},[_c('div',{staticClass:"auction-box"},[_c('div',{staticClass:"auction-title"},[_vm._v(_vm._s(_vm.$t('auction.acutiontitle')))]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"domain-name"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+": "+_vm._s(_vm.auctionMsg_alert.domain))]),_vm._v(" "),_c('div',{staticClass:"auction-status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+":                \n            "),(_vm.auctionMsg_alert.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"auction-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+": "+_vm._s(_vm.auctionMsg_alert.maxPrice)+" SGas")])]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"my-bid"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+": ")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_myBid),expression:"alert_myBid"}],staticClass:"bid-input",attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid'),"autocomplete":"off"},domProps:{"value":(_vm.alert_myBid)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.alert_myBid=$event.target.value},_vm.verifBidAmount]}})]),_vm._v(" "),_c('div',{staticClass:"my-bid"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.yourbidmsg'))+": "),_c('span',{class:{'status-being':_vm.canAdded,'status-ended':!_vm.canAdded}},[_vm._v(_vm._s(_vm.myBalanceOfSelling))]),_vm._v(" SGas\n          ")])]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tips1'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.canAdded)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":function($event){_vm.bidDomain()}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))])]),_vm._v(" "),_c('div',{staticClass:"auction-close"},[_c('span',{attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.auctionShow = !_vm.auctionShow}}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_TopUp.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.topup')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.from'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})]),_vm._v(" "),_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.isAvailable'))+".\n          ")])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.topupamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_TopUp.input),expression:"alert_TopUp.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_TopUp.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_TopUp, "input", $event.target.value)},_vm.verifToupAmount]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_TopUp.input = _vm.sgasAvailable}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(!_vm.alert_TopUp.watting)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.toRecharge}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))])]),_vm._v(" "),(_vm.alert_TopUp.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.toptips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_TopUp.isShow=!_vm.alert_TopUp.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_withdraw.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.withdraw')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.to'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.withdrawamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_withdraw.input),expression:"alert_withdraw.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_withdraw.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_withdraw, "input", $event.target.value)},_vm.verifWithdraw]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_withdraw.input = _vm.regBalance}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(_vm.alert_withdraw.watting)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))]):_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.withdraw}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])]),_vm._v(" "),(_vm.alert_withdraw.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.isAvailable'))+"\n          ")])]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.withdrawtips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_withdraw.isShow=!_vm.alert_withdraw.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0eefb2d5","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/neoauction.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"box-warp"},[(!_vm.auctionPage)?_c('div',{staticClass:"page-one"},[_c('div',{staticClass:"tips-box"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tipsmsg1'))),_c('br'),_vm._v(" "),_c('ol',[_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg2')))]),_vm._v(" "),_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg3')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.titleaccount')))])]),_vm._v(" "),_c('div',{staticClass:"form-box pall"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"sgas-count"},[_c('span',[_vm._v("SGas")]),_c('span',{staticClass:"num"},[_vm._v(" "+_vm._s(_vm.regBalance))])])]),_vm._v(" "),_c('div',{staticClass:"btn-right"},[_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openWithdraw}},[_vm._v(_vm._s(_vm.$t('btn.withdraw')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openTopUp}},[_vm._v(_vm._s(_vm.$t('btn.topup')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box ptop"},[_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.domain),expression:"domain"}],attrs:{"type":"text","placeholder":_vm.$t('auction.entername'),"autocomplete":"off"},domProps:{"value":(_vm.domain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.domain=$event.target.value},_vm.queryDomainState]}}),_vm._v(" "),_c('span',[_vm._v(".neo")])]),_vm._v(" "),(_vm.btn_start==0)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.openingauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==1 && !!_vm.domain.length)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openAuction}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==2)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.addBid}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==3)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(!_vm.domain.length||_vm.btn_start==4)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.checkState==1 && !!_vm.domain.length)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkavailable')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==2)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbeing')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==3)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbuyer')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==4)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkformat')))])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title2')))]),_vm._v(" "),_c('div',{staticClass:"seach-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.searchDomain),expression:"searchDomain"}],attrs:{"type":"search","name":"","id":"","placeholder":_vm.$t('auction.searchmsg'),"autocomplete":"off"},domProps:{"value":(_vm.searchDomain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.searchDomain=$event.target.value},_vm.searchDomainInput],"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.doSearchDomain($event)}}}),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("zH9E"),"alt":""},on:{"click":_vm.doSearchDomain}})])]),_vm._v(" "),_vm._l((_vm.myAuctionList),function(item,index){return (_vm.myAuctionList&&!_vm.isSearchTime)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()}),_vm._v(" "),_vm._l((_vm.searchAuctionList),function(item,index){return (_vm.searchAuctionList&&_vm.isSearchTime)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()}),_vm._v(" "),(!_vm.searchAuctionList&&_vm.isSearchTime)?_c('div',{staticClass:"form-box mbottom"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.nodata'))+"\n        ")]):_vm._e()],2):_vm._e(),_vm._v(" "),(_vm.auctionPage)?_c('auction-info',{attrs:{"item":_vm.domainInfo},on:{"onBack":_vm.onBack}}):_vm._e(),_vm._v(" "),(_vm.auctionShow)?_c('div',{staticClass:"auction-wrap"},[_c('div',{staticClass:"auction-box"},[_c('div',{staticClass:"auction-title"},[_vm._v(_vm._s(_vm.$t('auction.acutiontitle')))]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"domain-name"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+": "+_vm._s(_vm.auctionMsg_alert.domain))]),_vm._v(" "),_c('div',{staticClass:"auction-status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+":                \n            "),(_vm.auctionMsg_alert.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"auction-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+": "+_vm._s(_vm.auctionMsg_alert.maxPrice)+" SGas")])]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"my-bid"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+": ")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_myBid),expression:"alert_myBid"}],staticClass:"bid-input",attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid'),"autocomplete":"off"},domProps:{"value":(_vm.alert_myBid)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.alert_myBid=$event.target.value},_vm.verifBidAmount]}})]),_vm._v(" "),_c('div',{staticClass:"my-bid"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.yourbidmsg'))+": "),_c('span',{class:{'status-being':_vm.canAdded,'status-ended':!_vm.canAdded}},[_vm._v(_vm._s(_vm.myBalanceOfSelling))]),_vm._v(" SGas\n          ")])]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tips1'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.canAdded)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":function($event){_vm.bidDomain()}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))])]),_vm._v(" "),_c('div',{staticClass:"auction-close"},[_c('span',{attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.auctionShow = !_vm.auctionShow}}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_TopUp.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.topup')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.from'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})]),_vm._v(" "),_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.isAvailable'))+".\n          ")])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.topupamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_TopUp.input),expression:"alert_TopUp.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_TopUp.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_TopUp, "input", $event.target.value)},_vm.verifToupAmount]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_TopUp.input = _vm.sgasAvailable}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(!_vm.alert_TopUp.watting)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.toRecharge}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))])]),_vm._v(" "),(_vm.alert_TopUp.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.toptips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_TopUp.isShow=!_vm.alert_TopUp.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_withdraw.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.withdraw')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.to'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.withdrawamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_withdraw.input),expression:"alert_withdraw.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_withdraw.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_withdraw, "input", $event.target.value)},_vm.verifWithdraw]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_withdraw.input = _vm.regBalance}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(_vm.alert_withdraw.watting)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))]):_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.withdraw}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])]),_vm._v(" "),(_vm.alert_withdraw.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.isAvailable'))+"\n          ")])]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.withdrawtips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_withdraw.isShow=!_vm.alert_withdraw.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_neoauction = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/neoauction.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("gQug")
+  __webpack_require__("6rKk")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -8621,7 +8748,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-247f17fd"
+var __vue_scopeId__ = "data-v-0eefb2d5"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -9570,6 +9697,7 @@ exports.default = {
         msg4: "-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction.",
         msg5: "available",
         waiting: "Waiting for transaction confirmation",
+        errdomain: "This domain hasn't been mapped to any address"
     },
     nns: {
         nns: "NNS",
@@ -9705,7 +9833,8 @@ exports.default = {
         statustips2: "The overtime bidding is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain. ",
         toptips: "Tips: You have successfully submited your SGas top up transaction. It will be confirmed and added to your Auction Account in the next block. Please be patient. ",
         withdrawtips: "Tips: You have successfully submited your SGas withdrawal transaction. It will be confirmed and added to your wallet in the next block. Please be patient. ",
-        getall: "Get all"
+        getall: "Get all",
+        nodata: "No related data was found."
     },
     exchange: {
         title: "SGas Exchange",
@@ -11164,6 +11293,7 @@ exports.default = {
         msg4: "您没有足够的utxo进行交易，请等待高度变化后再尝试下笔交易",
         msg5: "可用",
         waiting: "等待交易确认",
+        errdomain: "该域名尚未映射地址"
     },
     nns: {
         nns: "NNS",
@@ -11299,7 +11429,8 @@ exports.default = {
         statustips2: "随机期为竞拍第二阶段，最大时长为2天，此期间任意一个出价都有可能触发该域名竞拍的结束从而出价无效，越靠后的出价触发结束的可能性越大，因此请尽早出价以免错失该域名。 ",
         toptips: "注意: 当系统提示您充值成功之后，仍需要一个区块的时间来确认这笔操作，请耐心等待。",
         withdrawtips: "注意: 当系统提示您提取成功之后，仍需要一个区块的时间来确认这笔操作，请耐心等待。",
-        getall: "全部"
+        getall: "全部",
+        nodata: "没有查询到相关数据"
     },
     exchange: {
         title: "SGas兑换",
