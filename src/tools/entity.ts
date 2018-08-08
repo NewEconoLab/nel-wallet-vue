@@ -926,6 +926,21 @@ export class PageUtil
     }
 }
 
+
+export class TaskFunction
+{
+    constructor() { }
+    tranfer: Function;// 交易确认 需要签名的任务，涉及资产变动
+    openAuction: Function;//开标
+    addPrice: Function;// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
+    topup: Function;//充值
+    withdraw: Function;//退款
+    getGasTest: Function;//测试网领取gas
+    domainMapping: Function;
+    domainResovle: Function;
+    domainRenewal: Function;
+}
+
 export class Task
 {
     height: number;

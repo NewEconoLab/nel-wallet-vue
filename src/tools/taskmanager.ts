@@ -1,5 +1,5 @@
 import { sessionStoreTool } from "./storagetool";
-import { Task, TaskType, TaskState } from "./entity";
+import { Task, TaskType, TaskState, TaskFunction } from "./entity";
 import { tools } from "./importpack";
 
 export class TaskManager
@@ -8,6 +8,7 @@ export class TaskManager
     static refresh: sessionStoreTool = new sessionStoreTool("refresh_auction");
     static oldBlock: sessionStoreTool = new sessionStoreTool("block");
     static functionList: Function[] = [];
+    // static taskFunction: TaskFunction = new TaskFunction();
     constructor()
     {
     }
