@@ -40,7 +40,6 @@ export default class transfer extends Vue
         this.amount = "";
         this.asset = "";
         this.txpage = 1;
-        Neo.Cryptography.RandomNumberGenerator.startCollectors();
         // this.openToast = this.$refs.toast[ "isShow" ];
     }
     mounted() 

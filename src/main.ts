@@ -57,18 +57,6 @@ var app = new Vue({
                 case "exchange":
                     return Exchange;
                 case "nnsneo":
-                    //由于。。。。子路由的页面都嵌套进了NNSNeo.vue里进行切换，此处的二级路由跳转部分。等于没用。路由跳转部分在NNSNeo.ts里做控制
-                    // switch (subroute)
-                    // {
-                    //     case "auction":
-                    //         return NNSNeo;
-                    //     case "exchange":
-                    //         return NNSNeo;
-                    //     case "myneoname":
-                    //         return NNSNeo;
-                    //     case "bonus":
-                    //         return NNSNeo;
-                    // }
                     return NNSNeo;
                 case "nns":
                     return NNS;
@@ -88,6 +76,8 @@ window.addEventListener('popstate', () =>
 {
     app.currentRoute = window.location.hash;
 })
+//初始化鼠标随机方法
+Neo.Cryptography.RandomNumberGenerator.startCollectors();
 
 setInterval(() =>
 {

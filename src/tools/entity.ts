@@ -930,6 +930,7 @@ export class PageUtil
 export class TaskFunction
 {
     constructor() { }
+    static exchange: Function;
     static tranfer: Function;// 交易确认 需要签名的任务，涉及资产变动
     static openAuction: Function;//开标
     static addPrice: Function;// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
@@ -938,7 +939,7 @@ export class TaskFunction
     static getGasTest: Function;//测试网领取gas
     static domainMapping: Function;//域名映射
     static domainResovle: Function;//域名合约地址
-    static domainRenewal: Function;
+    static domainRenewal: Function;//续约显示
 }
 
 export class Task
@@ -1066,6 +1067,8 @@ export enum TaskType
     tranfer,// 交易确认 需要签名的任务，涉及资产变动
     openAuction,//开标
     addPrice,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
+    gasToSgas,//gas转sgas
+    sgasToGas,//sgas转gas
     topup,//充值
     withdraw,//退款
     getGasTest,//测试网领取gas
@@ -1081,6 +1084,7 @@ export enum ConfirmType
 {
     tranfer,    // 确认交易是否成功
     contract,   // 确认合约是否成功，等待notify
+    recharge,   // 双交易的发送 类型
 }
 
 /**

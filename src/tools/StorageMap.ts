@@ -1,14 +1,9 @@
 import { sessionStoreTool } from "./storagetool";
 
-class Store
+export default class Store
 {
-    session: sessionStoreTool
-    constructor(table: string)
-    {
-        this.session = new sessionStoreTool(table);
-    }
-    init()
-    {
-    }
-    update() { }
+    static blockheight = new sessionStoreTool("block");
+    //    static blockheight = new sessionStoreTool("");
+    //    static blockheight = new sessionStoreTool("");
+    //    static blockheight = new sessionStoreTool("");
 }

@@ -102,20 +102,14 @@ export default class SgasTool
             sb.EmitPushNumber(new Neo.BigInteger(250));
             tran.AddWitnessScript(sgasScript, sb.ToArray());
 
+            let txid = tran.GetHash().clone().reverse().toHexString();
             //做提款人的签名
             var data = await tools.coinTool.signData(tran);
+            return { txid, data };
 
             // 发送交易请求
-            r = await tools.wwwtool.api_postRawTransaction(data);
-
-            if (!!r && r[ "txid" ])
-            {
-                return r[ "txid" ];
-            }
-            else
-            {
-                throw "Transaction send failed";
-            }
+            // r = await tools.wwwtool.api_postRawTransaction(data);
+            // throw "Transaction send failed";
 
         }
         else
@@ -148,7 +142,7 @@ export default class SgasTool
             return
         }
 
-        var tran: any = makeTranRes.info.tran;
+        var tran: ThinNeo.Transaction = makeTranRes.info.tran;
         tran.type = ThinNeo.TransactionType.ContractTransaction;
         tran.version = 0;
 
@@ -166,22 +160,7 @@ export default class SgasTool
             tran.AddWitnessScript(sgasScript, sb.ToArray());
             var trandata = tran.GetRawData();
 
-            // 发送转换请求
-            r = await tools.wwwtool.api_postRawTransaction(trandata);
-            if (!!r && !!r[ "txid" ])
-            {
-                // this.makeRefundTransaction_info(7)
-                let list = ''
-                let tranlist = localStorage.getItem('exchangelist');
-                tranlist = tranlist.replace('[', '').replace(']', '');
-                let tranObj = JSON.stringify({ 'trancount': transcount, 'txid': r.txid, 'trantype': 'SGas' });
-                list = '[' + tranlist + ',' + tranObj + ']';
-                localStorage.setItem('exchangelist', list);
-            }
-            else
-            {
-                // this.makeRefundTransaction_error("发送转换请求失败！")
-            }
+            return trandata;
         }
         else
         {

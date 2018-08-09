@@ -2,7 +2,9 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../../layouts/wallet.vue";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, BalanceInfo, UTXO } from '../../tools/entity';
+import { LoginInfo, BalanceInfo, UTXO, TaskFunction, Task, ConfirmType, TaskType } from '../../tools/entity';
+import { TaskManager } from "../../tools/taskmanager";
+import Store from "../../tools/StorageMap";
 @Component({
     components: {
         "wallet-layout": WalletLayout
@@ -41,6 +43,7 @@ export default class Exchange extends Vue
         this.getMyGas();
         this.getMySGas();
         this.isShowTranLog();
+        TaskFunction.exchange = this.isTranClose;
     }
     //切换转换模式
     exchangeTranType()
@@ -114,21 +117,51 @@ export default class Exchange extends Vue
      */
     async exChange()
     {
+        let height = Store.blockheight.select("height");
         if (this.changeSGas)
         {
-            this.isCheckingTran = true;
-            let txid = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
-            let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' } ];
-            localStorage.setItem('exchangelist', JSON.stringify(tranObj));
-            this.isShowTranLog();
+            try
+            {   //sgas->gas
+                this.isCheckingTran = true;
+                let result = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
+                // 已经确认
+                //tx的第一个utxo就是给自己的
+                let utxo: UTXO = new UTXO();
+                utxo.addr = LoginInfo.getCurrentAddress();
+                utxo.txid = result.txid;
+                utxo.asset = tools.coinTool.id_GAS;
+                utxo.count = Neo.Fixed8.parse(this.transcount);
+                utxo.n = 0;
+
+                //把这个txid里的utxo[0]的value转给自己
+                let data = await tools.sgastool.makeRefundTransaction_tranGas(utxo, this.transcount.toString());
+                let res = await tools.wwwtool.rechargeandtransfer(result.data, data);
+                let txid = res[ "txid" ];
+                TaskManager.addTask(
+                    new Task(height, ConfirmType.recharge, txid, { count: this.transcount }),
+                    TaskType.sgasToGas
+                );
+                let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' } ];
+                sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
+                this.exchangebtn = false;
+                this.isCheckingTran = true;
+                this.isShowTranLog();
+            } catch (error)
+            {
+                console.log(error);
+            }
         } else
         {
             try
-            {
+            {   //gas->sgas
                 this.isCheckingTran = true;
                 let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
+                TaskManager.addTask(
+                    new Task(height, ConfirmType.tranfer, txid, { count: this.transcount }),
+                    TaskType.gasToSgas
+                );
                 let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' } ];
-                localStorage.setItem('exchangelist', JSON.stringify(tranObj));
+                sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
                 this.isShowTranLog();
             } catch (error)
             {
@@ -137,77 +170,19 @@ export default class Exchange extends Vue
         }
     }
 
-    /**
-     * 等待转账确认
-     * @param txid 交易id
-     */
-    async checkTranisOK(txid: string, trancount: string, trantype: string)
-    {
-        this.exchangebtn = false;
-        this.isCheckingTran = true;
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (res)
-        {
-            if (trantype == "SGas")
-            {
-                // 已经确认
-                //tx的第一个utxo就是给自己的
-                let utxo: UTXO = new UTXO();
-                utxo.addr = LoginInfo.getCurrentAddress();
-                utxo.txid = txid;
-                utxo.asset = tools.coinTool.id_GAS;
-                utxo.count = Neo.Fixed8.parse(trancount.toString());
-                utxo.n = 0;
-
-                //把这个txid里的utxo[0]的value转给自己
-                await tools.sgastool.makeRefundTransaction_tranGas(utxo, trancount.toString());
-                // console.log("restxid: " + restxid);
-                this.exchangeList = localStorage.getItem('exchangelist');
-                this.exchangeList = JSON.parse(this.exchangeList);
-                this.checkAgainTranisOK(this.exchangeList[ 1 ].txid);
-            } else
-            {
-                this.isTranClose();
-            }
-        } else
-        {
-            setTimeout(async () =>
-            {
-                this.checkTranisOK(txid, trancount, trantype);
-            }, 10000);
-        }
-    }
-    async checkAgainTranisOK(txid: string)
-    {
-        this.exchangebtn = false;
-        this.isCheckingTran = true;
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (res)
-        {
-            this.isTranClose();
-        } else
-        {
-            setTimeout(async () =>
-            {
-                this.checkAgainTranisOK(txid);
-            }, 10000);
-        }
-    }
-
     /**转账记录 */
     isShowTranLog()
     {
-        this.exchangeList = localStorage.getItem('exchangelist');
+        this.exchangeList = sessionStorage.getItem('exchangelist');
         if (this.exchangeList)
         {
             this.exchangeList = JSON.parse(this.exchangeList);
-            this.checkTranisOK(this.exchangeList[ 0 ].txid, this.exchangeList[ 0 ].trancount, this.exchangeList[ 0 ].trantype);
         }
     }
     /**交易结束 */
     isTranClose()
     {
-        localStorage.removeItem("exchangelist");
+        sessionStorage.removeItem("exchangelist");
         this.isCheckingTran = false;
         this.transcount = "";
         this.getMyGas();
