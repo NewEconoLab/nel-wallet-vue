@@ -29,19 +29,23 @@
                             <span> &nbsp;&nbsp;&nbsp;&nbsp; {{balance.balance}} {{balance.names ? balance.names +" "+ $t('transfer.msg5') : ""}} </span>
                         </div>
                     </div>
-                    <div class="col-sm-12" :class="addrerr!=''?(addrerr == 'true' ?'err':'success') :''">
-                        <label for="" class="col-sm-2 control-label">
+                    <div class="col-sm-12" :class="addrerr!=0?(addrerr == 1 ?'success':'err') :''">
+                        <label for="" class="col-sm-2 control-label">  
                             <div style="padding-top:40px;">{{$t('transfer.title2')}}:</div>
                         </label>
                         <div class="col-sm-7">
                             <div style="padding-top:30px;">
                                 <input type="text" v-model="target" class="nel-input big" :placeholder="$t('transfer.placeholder') " @input="verify_addr" autocomplete="off">
                             </div>
-                            <p v-if="isDomain">{{toaddress}}</p>
+                            <p v-if="isDomain">
+                                <img class="transfer-icon" src="../../../static/img/transfer.png" alt="">
+                                <span class="map-address">{{toaddress}}</span>
+                            </p>
                         </div>
                         <div class="col-sm-3 mess">
-                            <p v-if="addrerr=='true'"><img src="../../../static/img/wrong.svg" alt="">&nbsp;&nbsp;{{$t('transfer.msg1')}} </p>
-                            <p v-if="addrerr=='false'"><img src="../../../static/img/correct.svg" alt=""></p>
+                            <p v-if="addrerr==2||addrerr==4"><img src="../../../static/img/wrong.svg" alt="">&nbsp;&nbsp;{{$t('transfer.errdomain')}} </p>
+                            <p v-if="addrerr==3"><img src="../../../static/img/wrong.svg" alt="">&nbsp;&nbsp;{{$t('transfer.msg1')}} </p>
+                            <p v-if="addrerr==1"><img src="../../../static/img/correct.svg" alt=""></p>
                         </div>
                     </div>
                     <div class="col-sm-12" :class="amounterr!=''?(amounterr == 'true' ?'err':'success') :''">
@@ -181,6 +185,18 @@
   font-size: 16px;
   color: #198cee;
   line-height: 16px;
+}
+.transfer-icon {
+  width: 13px;
+  height: 13px;
+  margin-left: 15px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.map-address {
+  font-size: 12px !important;
+  color: #ffffff !important;
+  vertical-align: middle;
 }
 .history-panel {
   background: #454f60;

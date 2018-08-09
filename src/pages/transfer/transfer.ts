@@ -20,7 +20,7 @@ export default class transfer extends Vue
     asset: string;
     balances: BalanceInfo[] = [];
     balance: BalanceInfo = new BalanceInfo();
-    addrerr: string = "";
+    addrerr: number = 0; //0默认,1 success成功，2 test错误，3 address错误，4 domain错误
     amounterr: string = "";
     txs: History[] = [];
     nextpage: boolean = true;
@@ -99,14 +99,15 @@ export default class transfer extends Vue
             {
                 this.toaddress = addr;
                 this.isDomain = true;
-                this.addrerr = 'false';
+                this.addrerr = 1;
                 this.isAddress = true;
                 return true;
             }
             else
             {
                 this.toaddress = "";
-                this.addrerr = 'true';
+                this.addrerr = 2;
+                this.isDomain = false;
                 this.isAddress = false;
                 return false;
             }
@@ -116,20 +117,24 @@ export default class transfer extends Vue
             if (tools.neotool.verifyPublicKey(this.target))
             {
                 this.toaddress = this.target;
-                this.addrerr = 'false';
+                this.addrerr = 1;
                 this.isAddress = true;
                 return true;
+            } else
+            {
+                this.toaddress = "";
+                this.addrerr = 3;
+                this.isAddress = false;
+                return false;
             }
         }
         else if (neoDomain)
         {
-            console.log(neoDomain);
             let mapping = await tools.nnstool.resolveData(this.target);
-            console.log(mapping);
             if (mapping.length)
             {
                 this.toaddress = mapping;
-                this.addrerr = 'false';
+                this.addrerr = 1;
                 this.isDomain = true;
                 this.isAddress = true;
                 return true;
@@ -137,7 +142,7 @@ export default class transfer extends Vue
             else
             {
                 this.toaddress = "";
-                this.addrerr = 'true';
+                this.addrerr = 4;
                 this.isDomain = false;
                 this.isAddress = false;
                 return false;
@@ -145,7 +150,7 @@ export default class transfer extends Vue
         }
         else
         {
-            this.addrerr = 'true';
+            this.addrerr = 3;
             this.toaddress = "";
             this.isAddress = false;
             return false;
