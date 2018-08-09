@@ -30,6 +30,8 @@ export default class NeoAuction extends Vue
     alert_selection: string;
     alert_withdraw: NeoAuction_Withdraw;
     alert_TopUp: NeoAuction_TopUp;
+    isTopup: boolean = false;//是否可充值
+    isWithdraw: boolean = false;//是否可提取
     sessionWatting: sessionStoreTool;
     auctionPageSession: sessionStoreTool;
     refresh: sessionStoreTool;
@@ -157,6 +159,13 @@ export default class NeoAuction extends Vue
      */
     verifToupAmount()
     {
+        if (parseFloat(this.alert_TopUp.input) > 0)
+        {
+            this.isTopup = true;
+        } else
+        {
+            this.isTopup = false;
+        }
         if (/\./.test(this.alert_TopUp.input))
         {
             this.alert_TopUp.input = this.alert_TopUp.input.toString().substr(0, (this.alert_TopUp.input.toString().indexOf(".")) + 9);
@@ -179,6 +188,13 @@ export default class NeoAuction extends Vue
      */
     verifWithdraw()
     {
+        if (parseFloat(this.alert_withdraw.input) > 0)
+        {
+            this.isWithdraw = true;
+        } else
+        {
+            this.isWithdraw = false;
+        }
         if (/\./.test(this.alert_withdraw.input))
         {
             this.alert_withdraw.input = this.alert_withdraw.input.toString().substr(0, (this.alert_withdraw.input.toString().indexOf(".")) + 9);
@@ -208,7 +224,18 @@ export default class NeoAuction extends Vue
         this.alert_TopUp.isShow = true;
         this.alert_TopUp.input = "";
         this.alert_TopUp.error = false;
-
+    }
+    //获取所有可充值金额
+    getAllTopup()
+    {
+        this.alert_TopUp.input = this.sgasAvailable.toString();
+        if (this.sgasAvailable != 0)
+        {
+            this.isTopup = true;
+        } else
+        {
+            this.isTopup = false;
+        }
     }
 
     /**
@@ -223,6 +250,18 @@ export default class NeoAuction extends Vue
         this.alert_withdraw.isShow = true;
         this.alert_withdraw.input = "";
         this.alert_withdraw.error = false;
+    }
+    //获取所有可提取金额
+    getAllWithdraw()
+    {
+        this.alert_withdraw.input = this.regBalance;
+        if (this.regBalance != "0")
+        {
+            this.isWithdraw = true;
+        } else
+        {
+            this.isWithdraw = false;
+        }
     }
 
     /**
@@ -255,12 +294,16 @@ export default class NeoAuction extends Vue
      */
     async toRecharge()
     {
+        if (this.alert_TopUp.input)
+        {
+            return false;
+        }
         let amount = this.alert_TopUp.input;
-        this.alert_TopUp.watting = true;
         try
         {
             let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8));
             let res = await tools.wwwtool.api_postRawTransaction(data);
+            this.alert_TopUp.watting = true;
             let txid = res[ "txid" ];
             this.sessionWatting.put("recharge-sgas", { txid, amount });
 
@@ -475,14 +518,11 @@ export default class NeoAuction extends Vue
     {
         if (this.searchDomain.length)
         {
-            this.isSearchTime = true;
-            this.searchAuctionList = await NeoaucionData.searchBidList(this.address, this.searchDomain);
-            console.log(this.searchAuctionList);
+            this.doSearchDomain();
         } else
         {
             this.isSearchTime = false;
         }
-
     }
     /**
      * 查询域名
@@ -498,5 +538,4 @@ export default class NeoAuction extends Vue
             this.isSearchTime = false;
         }
     }
-
 }

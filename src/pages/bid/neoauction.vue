@@ -215,9 +215,9 @@
               <div class="line-box">
                 <div class="input-getall">
                   <input type="number" :placeholder="$t('auction.amount')" v-model="alert_TopUp.input" @input="verifToupAmount" autocomplete="off">
-                  <span class="getall-msg" @click="alert_TopUp.input = sgasAvailable">{{$t('auction.getall')}}</span>
+                  <span class="getall-msg" @click="getAllTopup">{{$t('auction.getall')}}</span>
                 </div>
-                <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="toRecharge">{{$t('btn.confirm')}}</button>
+                <button v-if="!alert_TopUp.watting" class="btn btn-nel btn-big" @click="toRecharge" :class="{'btn-disable':!isTopup}" :disabled="!isTopup">{{$t('btn.confirm')}}</button>
                 <button v-else class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirming')}}</button>
                 <!-- <spinner-wrap v-else ></spinner-wrap> -->
               </div>
@@ -253,11 +253,11 @@
               <div class="line-box">
                 <div class="input-getall">
                   <input type="number" :placeholder="$t('auction.amount')" v-model="alert_withdraw.input" @input="verifWithdraw" autocomplete="off">
-                  <span class="getall-msg" @click="alert_withdraw.input = regBalance">{{$t('auction.getall')}}</span>
+                  <span class="getall-msg" @click="getAllWithdraw">{{$t('auction.getall')}}</span>
                 </div>
                 <button v-if="alert_withdraw.watting" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.confirming')}}</button>
                 <!-- <spinner-wrap v-if="alert_withdraw.watting"></spinner-wrap> -->
-                <button v-else class="btn btn-nel btn-big" @click="withdraw">{{$t('btn.confirm')}}</button>
+                <button v-else class="btn btn-nel btn-big" @click="withdraw"  :class="{'btn-disable':!isWithdraw}" :disabled="!isWithdraw">{{$t('btn.confirm')}}</button>
               </div>
               <div v-if="alert_withdraw.error" class="status-ended err-msg">
                 {{$t('auction.errmsg1')}} {{regBalance}} SGas {{$t('auction.errmsg3')}}

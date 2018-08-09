@@ -59,7 +59,7 @@ export default class Bonus extends Vue
     {
         let res = await tools.sgastool.canClaimCount();
         this.claimNum = res;
-        console.log(res);
+        // console.log(res);
     }
     //提取claim
     async getClaim()
@@ -67,14 +67,14 @@ export default class Bonus extends Vue
         this.isClaim = true;
         this.claimState = 1;
         let txid = await tools.sgastool.claim();
-        console.log(txid);
+        // console.log(txid);
         this.checkClaim(txid);
     }
     //提取claim过程
     async checkClaim(txid: string)
     {
         let res = await tools.wwwtool.getrawtransaction(txid);
-        console.log(res);
+        // console.log(res);
         if (res)
         {
             this.checkClaimAgain(txid);
@@ -90,8 +90,8 @@ export default class Bonus extends Vue
     async checkClaimAgain(txid)
     {
         let res = await tools.wwwtool.getnep5transferbytxid(txid);
-        console.log("nep5 tran----------")
-        console.log(res);
+        // console.log("nep5 tran----------")
+        // console.log(res);
         if (res)
         {
             this.isClaim = false;

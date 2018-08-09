@@ -33,7 +33,7 @@ export default {
         newbid: "New Bid",
         viewmore: "View more",
         edit: "Edit",
-        renewal: "Renewal",
+        renewal: "Renew",
         renewaling: "Renewing",
         exchange: "Exchange",
         exchanging: "Exchanging",

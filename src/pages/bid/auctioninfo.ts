@@ -52,7 +52,7 @@ export default class AuctionInfo extends Vue
         this.remaining = 0;
         this.balanceOf = '';
         this.bidState = 2;
-        this.btnShowmore = true;
+        this.btnShowmore = false;
         this.fee = 0
         this.remaining = 0
         this.process = new Process(new Date().getTime());
@@ -92,7 +92,8 @@ export default class AuctionInfo extends Vue
 
         this.bidDetailList = [];
         await this.getSessionBidDetail(domain);
-        await this.getBidDetail(this.domainAuctionInfo.id, 1, 5);
+        this.currentpage = 1;
+        await this.getBidDetail(this.domainAuctionInfo.id, this.currentpage, 5);
         let confirm_getDomain = this.session_getdomain.select(domain);
         let confirm_recover = this.session_recover.select(domain);
         let confirm_bid = this.session_bid.select(domain);
@@ -387,7 +388,7 @@ export default class AuctionInfo extends Vue
     /**
      * 时间轴列表
      * @param domain 域名
-     * @param currentpage 当前地址
+     * @param currentpage 当前页数
      * @param pagesize 分页条数
      */
     async getBidDetail(id, currentpage, pagesize)
@@ -398,10 +399,16 @@ export default class AuctionInfo extends Vue
             if (res[ 0 ].count < pagesize)
             {
                 this.btnShowmore = false;
+            } else
+            {
+                this.btnShowmore = true;
             }
             if (res[ 0 ].list.length < pagesize)
             {
                 this.btnShowmore = false;
+            } else
+            {
+                this.btnShowmore = true;
             }
             for (let i in res[ 0 ].list)
             {
@@ -524,7 +531,7 @@ export default class AuctionInfo extends Vue
     getMoreBidDetail()
     {
         this.currentpage += 1;
-        this.getBidDetail(this.domainAuctionInfo.domain, this.currentpage, this.pagesize);
+        this.getBidDetail(this.domainAuctionInfo.id, this.currentpage, this.pagesize);
     }
     onBack()
     {
