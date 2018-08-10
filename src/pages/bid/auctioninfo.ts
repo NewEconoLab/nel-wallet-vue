@@ -54,13 +54,16 @@ export default class AuctionInfo extends Vue
         this.process = new Process(new Date().getTime());
         this.width = 0;
         this.bidPrice = "";
+        this.isReceived = false;
+        this.isGetDomainWait = false;
+        this.isRecoverWait = false;
 
     }
 
     async mounted()
     {
         await this.init();
-        if (!this.domainAuctionInfo.endTime)
+        if (!this.isReceived)
         {
             TaskManager.functionList = [];
             TaskManager.functionList.push(this.init);
@@ -84,6 +87,10 @@ export default class AuctionInfo extends Vue
         await this.getSessionBidDetail(domain);
         this.currentpage = 1;
         await this.getBidDetail(this.domainAuctionInfo.id, this.currentpage, 5);
+        let waitstate = Store.auctionInfo.select(domain);
+        this.isGetDomainWait = !!waitstate[ "isGetDomainWait" ];
+        this.isRecoverWait = !!waitstate[ "isRecoverWait" ];
+
     }
 
     /**
@@ -374,7 +381,7 @@ export default class AuctionInfo extends Vue
                 this.isRecoverWait = true;
                 let txid = res[ "txid" ];
                 TaskManager.addTask(
-                    new Task(height, ConfirmType.contract, txid, { domain: this.domainAuctionInfo, amount: this.myBidPrice }),
+                    new Task(height, ConfirmType.tranfer, txid, { domain: this.domainAuctionInfo, amount: this.myBidPrice }),
                     TaskType.recoverSgas
                 );
                 Store.auctionInfo.put(this.domainAuctionInfo.domain, true, "isRecoverWait");

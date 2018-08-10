@@ -199,13 +199,13 @@ export default class transfer extends Vue
                         let num = parseFloat(this.balance.balance + "");
                         let bear = num - parseFloat(this.amount);
                         this.balance.balance = bear;
-                        this.amount = "";
                         TaskManager.addTask(
                             new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
                             TaskType.tranfer
                         );
                         BalanceInfo.setBalanceSotre(this.balance, height);
                         History.setHistoryStore(his, height);
+                        this.amount = "";
                         tools.storagetool.setStorage("current-height", height + "");
                     }
                     else
@@ -235,7 +235,6 @@ export default class transfer extends Vue
                     this.txs = [ his ].concat(this.txs);
                     let num = parseFloat(this.balance.balance + "");
                     let bear = num - parseFloat(this.amount);
-                    this.amount = "";
                     this.balance.balance = bear;
                     // var height = await tools.wwwtool.api_getHeight();
                     TaskManager.addTask(
@@ -244,6 +243,7 @@ export default class transfer extends Vue
                     );
                     BalanceInfo.setBalanceSotre(this.balance, height);
                     History.setHistoryStore(his, height);
+                    this.amount = "";
                     tools.storagetool.setStorage("current-height", height + "");
                 }
             }

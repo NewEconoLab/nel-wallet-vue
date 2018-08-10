@@ -1,6 +1,7 @@
 import { sessionStoreTool } from "./storagetool";
 import { Task, TaskType, TaskState, TaskFunction, ConfirmType } from "./entity";
 import { tools } from "./importpack";
+import Store from "./StorageMap";
 /**
  * 任务管理器
  */
@@ -25,14 +26,6 @@ export class TaskManager
      */
     static update()
     {
-        for (const index in this.functionList)
-        {
-            if (this.functionList.hasOwnProperty(index))
-            {
-                let element = this.functionList[ index ];
-                element();
-            }
-        }
 
         if (TaskFunction.heightRefresh && TaskFunction.taskHistory)
         {
@@ -59,6 +52,9 @@ export class TaskManager
                         break;
                     case TaskType.getDomain:
                         this.confirm_getDomain(tasks);
+                        break;
+                    case TaskType.recoverSgas:
+                        this.confirm_recoverSgas(tasks);
                         break;
                     case TaskType.gasToSgas:
                         this.confirm_gasToSgas(tasks);
@@ -87,6 +83,15 @@ export class TaskManager
                     default:
                         break;
                 }
+            }
+        }
+
+        for (const index in this.functionList)
+        {
+            if (this.functionList.hasOwnProperty(index))
+            {
+                let element = this.functionList[ index ];
+                element();
             }
         }
     }
@@ -456,7 +461,7 @@ export class TaskManager
 
 
     /**
-     * 续约确认方法
+     * 获得域名状态跟踪
      * @param tasks 任务数组
      */
     static async confirm_getDomain(tasks: Task[])
@@ -475,12 +480,15 @@ export class TaskManager
                     {
                         case '0000'://成功
                             task.state = TaskState.success;
+                            Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
                             break;
                         case '3001'://失败
                             task.state = TaskState.fail;
+                            Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
                             break;
                         case '3002'://失败
                             task.state = TaskState.fail;
+                            Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
                             break;
                     }
                 }
@@ -489,11 +497,13 @@ export class TaskManager
                 if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
                 {
                     task.state = TaskState.fail;
+                    Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
                 } else
                 {
                     if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
                     {
                         task.state = TaskState.success;
+                        Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
                     }
                 }
             }
@@ -503,6 +513,40 @@ export class TaskManager
         this.taskStore.put(TaskType.getDomain.toString(), taskarr); //保存修改的状态
     }
 
+
+    /**
+     * 退回sgas状态跟踪
+     * @param tasks 任务数组
+     */
+    static async confirm_recoverSgas(tasks: Task[])
+    {
+        let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
+        //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
+        {
+            if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+            {
+                task.state = TaskState.fail;
+                Store.auctionInfo.put(task.message[ "domain" ], false, 'isRecoverWait');
+            } else
+            {
+                let result = ress[ task.txid ]; //获取通知数组
+                if (result && result.issucces)
+                {
+                    task.state = TaskState.success;
+                    Store.auctionInfo.put(task.message[ "domain" ], false, 'isRecoverWait');
+                }
+            }
+            task.confirm++;
+            return task;
+        });
+        this.taskStore.put(TaskType.recoverSgas.toString(), taskarr); //保存修改的状态
+    }
+
+    /**
+     * 获取 测试 Gas
+     * @param tasks 
+     */
     static async confirm_getGas(tasks: Task[])
     {
         let taskarr: Task[] = []

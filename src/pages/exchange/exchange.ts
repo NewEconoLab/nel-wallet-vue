@@ -123,7 +123,14 @@ export default class Exchange extends Vue
             try
             {   //sgas->gas
                 this.isCheckingTran = true;
+                console.log("筛选utxo --------------------");
+                console.log(new Date().getTime());
+
                 let result = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
+
+                console.log(new Date().getTime());
+                console.log("筛选结束-------------------");
+
                 // 已经确认
                 //tx的第一个utxo就是给自己的
                 let utxo: UTXO = new UTXO();
@@ -177,6 +184,7 @@ export default class Exchange extends Vue
         if (this.exchangeList)
         {
             this.exchangeList = JSON.parse(this.exchangeList);
+            this.isCheckingTran = true;
         }
     }
     /**交易结束 */
