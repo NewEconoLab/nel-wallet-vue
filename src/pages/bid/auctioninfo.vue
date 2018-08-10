@@ -40,9 +40,9 @@
               <div class="fee-msg">{{$t('auction.fee')}}: {{fee}} SGas</div>
               <div class="remain-msg">{{$t('auction.remainingsgas')}}: {{remaining}} SGas</div>
               <div class="btn-center">
-                <button v-if="state_recover==0" class="btn btn-nel btn-bid" @click="recoverSgas" >{{$t('btn.recoversgas')}}</button>
-                <button v-if="state_recover==1" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.recoveringsgas')}}</button>
-                <button v-if="state_recover==2" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.receivedsgas')}}</button> 
+                <button v-if="!isReceived&&!isRecoverWait" class="btn btn-nel btn-bid" @click="recoverSgas" >{{$t('btn.recoversgas')}}</button>
+                <button v-if="!isReceived&&isRecoverWait" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.recoveringsgas')}}</button>
+                <button v-if="isReceived" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.receivedsgas')}}</button> 
               </div> 
           </div>
         </div>

@@ -88,8 +88,8 @@ export default class AuctionInfo extends Vue
         this.currentpage = 1;
         await this.getBidDetail(this.domainAuctionInfo.id, this.currentpage, 5);
         let waitstate = Store.auctionInfo.select(domain);
-        this.isGetDomainWait = !!waitstate[ "isGetDomainWait" ];
-        this.isRecoverWait = !!waitstate[ "isRecoverWait" ];
+        this.isGetDomainWait = !!waitstate && !!waitstate[ "isGetDomainWait" ];
+        this.isRecoverWait = !!waitstate && !!waitstate[ "isRecoverWait" ];
 
     }
 
