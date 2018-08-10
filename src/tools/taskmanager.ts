@@ -26,11 +26,12 @@ export class TaskManager
      */
     static update()
     {
-
-        if (TaskFunction.heightRefresh && TaskFunction.taskHistory)
+        /**
+         * 高度变化放在最开始高度变化就启动高度刷新
+         */
+        if (TaskFunction.heightRefresh)
         {
             TaskFunction.heightRefresh();
-            TaskFunction.taskHistory();
         }
 
         let taskList = (this.taskStore.getList() as Object);
@@ -86,6 +87,13 @@ export class TaskManager
             }
         }
 
+        /**
+         * 放在任务状态更新后面执行刷新操作，以防数据未变化就刷新操作
+         */
+        if (TaskFunction.taskHistory)
+        {
+            TaskFunction.taskHistory();
+        }
         for (const index in this.functionList)
         {
             if (this.functionList.hasOwnProperty(index))
