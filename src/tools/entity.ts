@@ -950,6 +950,7 @@ export class Task
     txid: string;
     message: any;
     state: TaskState;
+    stareTime: number;
     constructor(
         height: number,
         type: ConfirmType,
@@ -963,6 +964,7 @@ export class Task
         this.txid = txid;
         this.state = TaskState.watting;
         this.message = messgae;
+        this.stareTime = new Date().getTime();
     }
     toString()
     {

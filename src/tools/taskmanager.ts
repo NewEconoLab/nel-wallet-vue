@@ -43,7 +43,7 @@ export class TaskManager
                 switch (parseInt(type) as TaskType)
                 {
                     case TaskType.tranfer:
-
+                        this.confirm_tranfer(tasks);
                         break;
                     case TaskType.openAuction:
                         this.confirm_open(tasks);
@@ -146,30 +146,27 @@ export class TaskManager
         this.taskStore.push(type.toString(), task)
     }
 
-    static async confirm_tranfer(TaskType, task: Task, name: string)
+    static async confirm_tranfer(tasks: Task[])
     {
-        if (task.state == TaskState.watting)
+        let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
+        //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-        }
-        if (task.confirm < 3)
-        {
-            let data = await tools.wwwtool.hastx(task.txid);
-            if (data.issucces)
+            if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
-                task.state = TaskState.success;
-                sessionStorage.setItem("" + name, "true");
+                task.state = TaskState.fail;
             } else
             {
-                task.state = TaskState.watting;
+                let result = ress[ task.txid ]; //获取通知数组
+                if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
+                {
+                    task.state = TaskState.success;
+                }
             }
-        } else
-        {
-            task.state = TaskState.fail;
-            sessionStorage.setItem("" + name, "fail");
-        }
-        task.confirm++;
-        this.taskStore.put(TaskType.toString(), task);
-
+            task.confirm++;
+            return task;
+        });
+        this.taskStore.put(TaskType.tranfer.toString(), taskarr); //保存修改的状态
     }
 
     /**

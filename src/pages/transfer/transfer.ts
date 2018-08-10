@@ -1,9 +1,11 @@
-import { LoginInfo, BalanceInfo, Result, NeoAsset, Transactionforaddr, Transaction, History, Nep5Balance } from '../../tools/entity';
+import { LoginInfo, BalanceInfo, Result, NeoAsset, Transactionforaddr, Transaction, History, Nep5Balance, Task, ConfirmType, TaskType } from '../../tools/entity';
 import WalletLayout from "../../layouts/wallet.vue";
 import axios from "axios"
 import Vue from "vue";
 import Component from "vue-class-component";
 import { tools } from "../../tools/importpack";
+import Store from '../../tools/StorageMap';
+import { TaskManager } from '../../tools/taskmanager';
 
 declare const mui;
 @Component({
@@ -59,6 +61,8 @@ export default class transfer extends Vue
             this.history();
             // this.awaitHeight();
         }
+        TaskManager.functionList = [];
+        TaskManager.functionList.push(this.updateBalances);
     }
 
     cutPage(btn: string)
@@ -175,6 +179,7 @@ export default class transfer extends Vue
         {
             if (this.verify_addr() && this.verify_Amount())
             {
+                let height = Store.blockheight.select("height");
                 if (!!this.balance[ "type" ] && this.balance.type == "nep5")
                 {
                     let res = await tools.coinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount);
@@ -195,7 +200,10 @@ export default class transfer extends Vue
                         let bear = num - parseFloat(this.amount);
                         this.balance.balance = bear;
                         this.amount = "";
-                        var height = await tools.wwwtool.api_getHeight();
+                        TaskManager.addTask(
+                            new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname }),
+                            TaskType.tranfer
+                        );
                         BalanceInfo.setBalanceSotre(this.balance, height);
                         History.setHistoryStore(his, height);
                         tools.storagetool.setStorage("current-height", height + "");
@@ -229,7 +237,11 @@ export default class transfer extends Vue
                     let bear = num - parseFloat(this.amount);
                     this.amount = "";
                     this.balance.balance = bear;
-                    var height = await tools.wwwtool.api_getHeight();
+                    // var height = await tools.wwwtool.api_getHeight();
+                    TaskManager.addTask(
+                        new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname }),
+                        TaskType.tranfer
+                    );
                     BalanceInfo.setBalanceSotre(this.balance, height);
                     History.setHistoryStore(his, height);
                     tools.storagetool.setStorage("current-height", height + "");
