@@ -74,13 +74,18 @@ jumbotron {
     margin-top: 2px;
 }
 
-.navbar-wallet .navbar-collapse .blockheight {
-    width: 175px;
-    float: right;
-    font-size: 16px;
-    color: #198CEE;
+.navbar-wallet .blockheight {
+    padding: 24px 0;
+    font-size: 18px;
+    color: #FFFFFF;
     letter-spacing: 0;
-    text-align: center;
+    text-align: left;
+    background: #151A1E;
+    border-top: 4px solid #454F60;
+}
+.navbar-wallet .blockheight .fright{
+    font-size: 16px;
+    float: right;
 }
 
 .navbar-nel .navbar-nav>.open>a, .navbar-nel .navbar-nav>.open>a:hover, .navbar-nel .navbar-nav>.open>a:focus {

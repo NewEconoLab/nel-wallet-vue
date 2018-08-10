@@ -930,6 +930,8 @@ export class PageUtil
 export class TaskFunction
 {
     constructor() { }
+    static heightRefresh: Function; //高度刷新
+    static taskHistory: Function;  //操作记录显示
     static exchange: Function;
     static tranfer: Function;// 交易确认 需要签名的任务，涉及资产变动
     static openAuction: Function;//开标

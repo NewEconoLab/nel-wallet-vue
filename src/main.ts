@@ -90,8 +90,8 @@ setInterval(() =>
             {
                 if (data > oldHeight)
                 {
-                    TaskManager.update();
                     oldBlock.put("height", data);
+                    TaskManager.update();
                 }
             } else
             {

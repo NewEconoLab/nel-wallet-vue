@@ -34,6 +34,9 @@ export class TaskManager
             }
         }
 
+        TaskFunction.heightRefresh();
+        TaskFunction.taskHistory();
+
         let taskList = (this.taskStore.getList() as Object);
         for (const type in taskList)
         {
