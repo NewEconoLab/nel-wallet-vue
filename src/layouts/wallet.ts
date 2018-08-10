@@ -73,7 +73,6 @@ export default class FeatureComponent extends Vue
 
     beforeDestroy()
     {
-        // console.log(2567)
         this.clearTimer();
     }
 
@@ -89,7 +88,6 @@ export default class FeatureComponent extends Vue
 
     taskHistory()
     {
-        console.log(25678)
         this.clearTimer();
         let list = TaskManager.taskStore.getList();
         this.taskList = [];
