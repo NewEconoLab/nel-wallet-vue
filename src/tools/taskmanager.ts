@@ -57,6 +57,9 @@ export class TaskManager
                     case TaskType.addPrice:
                         this.confirm_bid(tasks);
                         break;
+                    case TaskType.getDomain:
+                        this.confirm_getDomain(tasks);
+                        break;
                     case TaskType.gasToSgas:
                         this.confirm_gasToSgas(tasks);
                         break;
@@ -276,7 +279,7 @@ export class TaskManager
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("addprice")) //检测是否有对应的通知 changeOwnerInfo
+                if (result && result.displayNameList && result.displayNameList.includes("addprice")) //检测是否有对应的通知 addprice
                 {
                     task.state = TaskState.success;
                 }
@@ -451,8 +454,58 @@ export class TaskManager
         this.taskStore.put(TaskType.domainRenewal.toString(), taskarr); //保存修改的状态
     }
 
+
+    /**
+     * 续约确认方法
+     * @param tasks 任务数组
+     */
+    static async confirm_getDomain(tasks: Task[])
+    {
+        let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
+        //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
+        {
+            let result = ress[ task.txid ]; //获取通知数组
+            if (task.type == ConfirmType.recharge)
+            {
+
+                if (result && result[ 'errCode' ]) //检测是否有对应的通知 changeOwnerInfo
+                {
+                    switch (result[ 'errCode' ])
+                    {
+                        case '0000'://成功
+                            task.state = TaskState.success;
+                            break;
+                        case '3001'://失败
+                            task.state = TaskState.fail;
+                            break;
+                        case '3002'://失败
+                            task.state = TaskState.fail;
+                            break;
+                    }
+                }
+            } else
+            {
+                if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+                {
+                    task.state = TaskState.fail;
+                } else
+                {
+                    if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
+                    {
+                        task.state = TaskState.success;
+                    }
+                }
+            }
+            task.confirm++;
+            return task;
+        });
+        this.taskStore.put(TaskType.getDomain.toString(), taskarr); //保存修改的状态
+    }
+
     static async confirm_getGas(tasks: Task[])
     {
+        let taskarr: Task[] = []
         for (let index = 0; index < tasks.length; index++)
         {
             const task = tasks[ index ];
@@ -475,7 +528,10 @@ export class TaskManager
                     }
                 }
             }
+            task.confirm++;
+            taskarr.push(task);
         }
+        this.taskStore.put(TaskType.getGasTest.toString(), taskarr);
     }
 
 }

@@ -201,7 +201,7 @@ export default class transfer extends Vue
                         this.balance.balance = bear;
                         this.amount = "";
                         TaskManager.addTask(
-                            new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname }),
+                            new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
                             TaskType.tranfer
                         );
                         BalanceInfo.setBalanceSotre(this.balance, height);
@@ -239,7 +239,7 @@ export default class transfer extends Vue
                     this.balance.balance = bear;
                     // var height = await tools.wwwtool.api_getHeight();
                     TaskManager.addTask(
-                        new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname }),
+                        new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
                         TaskType.tranfer
                     );
                     BalanceInfo.setBalanceSotre(this.balance, height);

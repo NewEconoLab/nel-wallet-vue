@@ -952,7 +952,7 @@ export class Task
     txid: string;
     message: any;
     state: TaskState;
-    stareTime: number;
+    startTime: number;
     constructor(
         height: number,
         type: ConfirmType,
@@ -966,7 +966,7 @@ export class Task
         this.txid = txid;
         this.state = TaskState.watting;
         this.message = messgae;
-        this.stareTime = new Date().getTime();
+        this.startTime = new Date().getTime();
     }
     toString()
     {
@@ -1079,6 +1079,8 @@ export enum TaskType
     domainMapping,//域名映射
     domainResovle,//域名合约地址
     domainRenewal,
+    getDomain,//领取域名
+    recoverSgas,//退回sgas
 }
 
 /**

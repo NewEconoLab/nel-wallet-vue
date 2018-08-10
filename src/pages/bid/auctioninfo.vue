@@ -24,9 +24,9 @@
               <div class="neoname"> {{domainAuctionInfo.domain}}</div>
               <div class="neoname-tips">{{$t('auction.getdomaintips')}}</div>
               <div class="btn-center">
-                <button v-if="state_getDomain==0" class="btn btn-nel btn-bid" @click="getDomain">{{$t('btn.getdomain')}}</button>
-                <button v-if="state_getDomain==1" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.gettingdomain')}}</button>
-                <button v-if="state_getDomain==2" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.receivednns')}}</button>  
+                <button v-if="!isReceived && !isGetDomainWait" class="btn btn-nel btn-bid" @click="getDomain">{{$t('btn.getdomain')}}</button>
+                <button v-if="!isReceived && isGetDomainWait" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.gettingdomain')}}</button>
+                <button v-if="isReceived" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.receivednns')}}</button>  
               </div>  
           </div>
         </div>

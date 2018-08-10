@@ -6,6 +6,7 @@ import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
+import Store from "../../tools/StorageMap";
 @Component({
     components: {
         "auction-info": AuctionInfo
@@ -289,7 +290,7 @@ export default class NeoAuction extends Vue
             let oldBlock = new tools.sessionstoretool("block");
             let height = oldBlock.select('height');
             let task = new Task(
-                height, ConfirmType.tranfer, res.info
+                height, ConfirmType.tranfer, res.info, { amount }
             )
             tools.taskManager.addTask(task, TaskType.withdraw);
 
@@ -310,10 +311,9 @@ export default class NeoAuction extends Vue
             let txid = res[ "txid" ];
             this.sessionWatting.put("topup", true);
             //任务管理器
-            let oldBlock = new tools.sessionstoretool("block");
-            let height = oldBlock.select('height');
+            let height = Store.blockheight.select('height');
             let task = new Task(
-                height, ConfirmType.tranfer, txid
+                height, ConfirmType.tranfer, txid, { amount }
             )
             tools.taskManager.addTask(task, TaskType.topup);
 
@@ -381,11 +381,9 @@ export default class NeoAuction extends Vue
             this.alert_myBid = "";
             this.auctionShow = !this.auctionShow;
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
-            // this.bidConfirm(res.info, this.auctionMsg_alert.domain);
-            let oldBlock = new tools.sessionstoretool("block");
-            let height = oldBlock.select('height');
+            let height = Store.blockheight.select('height');
             let task = new Task(
-                height, ConfirmType.tranfer, res.info
+                height, ConfirmType.tranfer, res.info, { domain: this.auctionMsg_alert.domain, amount: this.alert_myBid }
             )
             tools.taskManager.addTask(task, TaskType.addPrice);
         } else
@@ -422,7 +420,7 @@ export default class NeoAuction extends Vue
         let oldBlock = new tools.sessionstoretool("block");
         let height = oldBlock.select('height');
         let task = new Task(
-            height, ConfirmType.tranfer, res.info
+            height, ConfirmType.tranfer, res.info, { domain: auction.domain }
         )
         tools.taskManager.addTask(task, TaskType.openAuction);
         this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);

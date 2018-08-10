@@ -6,6 +6,7 @@ import { tools } from "../../tools/importpack";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState } from "../../tools/entity";
 import { TaskManager } from "../../tools/taskmanager";
+import Store from "../../tools/StorageMap";
 @Component({
     components: {}
 })
@@ -28,8 +29,9 @@ export default class AuctionInfo extends Vue
     bidDetailList: any;
     currentpage: number;
     pagesize: number;
-    state_getDomain: number;
-    state_recover: number;
+    isReceived: boolean;
+    isGetDomainWait: boolean;
+    isRecoverWait: boolean;
     btnShowmore: boolean;
     openToast: Function;
     process: Process;
@@ -57,8 +59,6 @@ export default class AuctionInfo extends Vue
         this.remaining = 0
         this.process = new Process(new Date().getTime());
         this.width = 0;
-        this.state_getDomain = 0;
-        this.state_recover = 0;
         this.bidPrice = "";
 
     }
@@ -94,44 +94,6 @@ export default class AuctionInfo extends Vue
         await this.getSessionBidDetail(domain);
         this.currentpage = 1;
         await this.getBidDetail(this.domainAuctionInfo.id, this.currentpage, 5);
-        let confirm_getDomain = this.session_getdomain.select(domain);
-        let confirm_recover = this.session_recover.select(domain);
-        let confirm_bid = this.session_bid.select(domain);
-        if (confirm_recover)
-        {
-            let txid = confirm_recover[ "txid" ];
-            if (!!txid)
-            {
-                let res = await tools.wwwtool.getrawtransaction(txid);
-                if (!!res)
-                {
-                    if (parseFloat(this.domainAuctionInfo.balanceOfSelling) == 0)
-                    {
-                        this.state_recover = 2;
-                    }
-                } else
-                {
-                    this.state_recover = 1;
-                }
-            }
-        }
-        if (confirm_getDomain)
-        {
-            let txid = confirm_getDomain[ "txid" ];
-            if (!!txid)
-            {
-                let method = confirm_getDomain[ "method" ];
-                this.rechargConfirm(txid, method, domain);
-            }
-        }
-        if (confirm_bid)
-        {
-            let txid = confirm_bid[ "txid" ];
-            if (!!txid)
-            {
-                this.bid_confirm(txid, domain);
-            }
-        }
     }
 
     /**
@@ -141,7 +103,6 @@ export default class AuctionInfo extends Vue
     {
         this.process = new Process(this.domainAuctionInfo.startAuctionTime);
         let currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime : new Date().getTime();
-        let time = new Date(this.domainAuctionInfo.startAuctionTime).getTime();
         let oldtime = accSub(currenttime, this.domainAuctionInfo.startAuctionTime);
         let a: number = 0;
         switch (this.domainAuctionInfo.domainstate)
@@ -201,12 +162,12 @@ export default class AuctionInfo extends Vue
             //判断在该域名下的竞拍金额是否大于零
             let compare = Neo.Fixed8.parse(this.domainAuctionInfo.balanceOfSelling).compareTo(Neo.Fixed8.Zero);
             this.domainAuctionInfo.receivedState = compare < 0 ? 0 : 1;
-            this.state_getDomain = 0;
-            this.state_recover = 0;
             if (compare == 0 && this.domainAuctionInfo.owner == this.address)
             {
-                this.state_getDomain = 2;
-                this.state_recover = 2;
+                this.isReceived = true;
+            } else
+            {
+                this.isReceived = false;
             }
         }
 
@@ -259,7 +220,7 @@ export default class AuctionInfo extends Vue
 
     async getDomain()
     {
-        this.state_getDomain = 1;
+        let height = Store.blockheight.select("height");
         let info = await tools.nnssell.getSellingStateByDomain(this.domainAuctionInfo.domain);
         if (!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
         {
@@ -267,13 +228,18 @@ export default class AuctionInfo extends Vue
             let data2 = await tools.nnssell.collectDomain(info.id.toString());
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             let txid = res[ "txid" ];
+            this.isGetDomainWait = true;
             this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 1 });
-            // this.rechargConfirm(txid, 1, this.domainAuctionInfo.domain);
+            TaskManager.addTask(
+                new Task(height, ConfirmType.recharge, txid, { domain: this.domainAuctionInfo.domain }),
+                TaskType.getDomain
+            )
         } else
         {
             if (!!info.owner && ThinNeo.Helper.GetAddressFromScriptHash(info.owner) == this.address)
             {
-                this.state_getDomain = 2;
+                this.isReceived = true;
+                this.isGetDomainWait = false;
                 return;
             } else
             {
@@ -285,58 +251,13 @@ export default class AuctionInfo extends Vue
                 let res = await tools.wwwtool.api_postRawTransaction(data);
                 let txid = res[ "txid" ];
                 this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 2 });
-                // this.rechargConfirm(txid, 2, this.domainAuctionInfo.domain);
+                TaskManager.addTask(
+                    new Task(height, ConfirmType.contract, txid, { domain: this.domainAuctionInfo.domain }),
+                    TaskType.getDomain
+                )
             }
         }
 
-    }
-
-
-    async rechargConfirm(txid: string, method: number, domain: string)
-    {
-        this.openToast = this.$refs.toast[ "isShow" ];
-        let res = null;
-        if (method == 1)
-        {
-            res = await tools.wwwtool.getrechargeandtransfer(txid)
-            let code = res[ 'errCode' ];
-            switch (code)
-            {
-                case '0000':
-                    this.openToast("success", "" + this.$t("auction.successgetdomain"), 3000);
-                    this.state_getDomain = 2;
-                    this.session_getdomain.delete(domain);
-                    return;
-                case '3001':
-                    this.openToast("error", "" + this.$t("auction.failgetdomain"), 3000);
-                    this.state_getDomain = 1;
-                    this.session_getdomain.delete(domain);
-                    return;
-                case '3002':
-                    this.openToast("error", "" + this.$t("auction.failgetdomain"), 3000);
-                    this.state_getDomain = 1;
-                    this.session_getdomain.delete(domain);
-                    return;
-            }
-            this.state_getDomain = 1;
-        }
-        if (method == 2)
-        {
-            res = await tools.wwwtool.getrawtransaction(txid);
-            if (!!res)
-            {
-                this.openToast("success", "" + this.$t("auction.successgetdomain"), 3000);
-                this.state_getDomain = 2;
-                this.session_getdomain.delete(domain);
-                return
-            }
-            this.state_getDomain = 1;
-        }
-        // setTimeout(() =>
-        // {
-        //     this.rechargConfirm(txid, method, domain);
-        // }, 5000)
-        return;
     }
 
     async getSessionBidDetail(domain)
@@ -427,7 +348,6 @@ export default class AuctionInfo extends Vue
         this.openToast = this.$refs.toast[ "isShow" ];
         try
         {
-            // this.bidState = 1;
             let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
             let res = await tools.nnssell.raise(this.domainAuctionInfo.domain, count);
             if (!res.err)
@@ -438,14 +358,13 @@ export default class AuctionInfo extends Vue
             let oldBlock = new tools.sessionstoretool("block");
             let height = oldBlock.select('height');
             let task = new Task(
-                height, ConfirmType.tranfer, res.info
+                height, ConfirmType.tranfer, res.info, { domain: this.domainAuctionInfo.domain, amount }
             )
             tools.taskManager.addTask(task, TaskType.addPrice);
             this.bidPrice = "";
             this.bidState = 2;
 
             await this.getSessionBidDetail(this.domainAuctionInfo.domain);
-            // this.bid_confirm(txid, this.domainAuctionInfo.domain);
         } catch (error)
         {
             console.log(error);
@@ -456,77 +375,29 @@ export default class AuctionInfo extends Vue
 
     async recoverSgas()
     {
-        this.state_recover = 1;
         let id = this.domainAuctionInfo.id;
         let data = await tools.nnssell.bidSettlement(id);
-        this.state_recover = 1;
         if (!data)
             return;
         try
         {
+            let height = Store.blockheight.select("height")
             let res = await tools.wwwtool.api_postRawTransaction(data);
             if (res[ "txid" ])
             {
+                this.isRecoverWait = true;
                 let txid = res[ "txid" ];
                 this.session_recover.put(this.domainAuctionInfo.domain, { txid });
-                this.recoverConfirm(txid);
+                TaskManager.addTask(
+                    new Task(height, ConfirmType.contract, txid, { domain: this.domainAuctionInfo, amount: this.myBidPrice }),
+                    TaskType.recoverSgas
+                );
             }
         } catch (error)
         {
 
         }
     }
-
-    async recoverConfirm(txid: string)
-    {
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
-        {
-            this.state_recover = 2;
-        } else
-        {
-            this.state_recover = 1;
-        }
-    }
-
-    /**
-     * 加价信息确认
-     * @param txid 交易id
-     * @param domain 域名
-     */
-    async bid_confirm(txid: string, domain: string)
-    {
-        // this.openToast = this.$refs.toast[ "isShow" ];
-        let session_bid = new tools.localstoretool("bidSession");
-        let res = await tools.wwwtool.getrawtransaction(txid);
-        if (!!res)
-        {
-            session_bid.delete(domain, txid);
-            let names = await tools.contract.getNotifyNames(txid);
-            let have = names.includes("addprice");
-            if (have)
-            {
-                this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
-                return;
-            }
-            if (names.length == 0)
-            {
-                this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid"), 3000);
-                return;
-            }
-            if (names.includes("domainstate"))
-            {
-                this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid2"), 3000);
-            }
-        } else
-        {
-            // setTimeout(() =>
-            // {
-            //     this.bid_confirm(txid, domain)
-            // }, 5000);
-        }
-    }
-
 
     getMoreBidDetail()
     {
