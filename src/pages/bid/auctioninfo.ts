@@ -3,10 +3,11 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
-import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
+import { sessionStoreTool } from "../../tools/storagetool";
 import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState } from "../../tools/entity";
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
+import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 @Component({
     components: {}
 })
@@ -18,10 +19,6 @@ export default class AuctionInfo extends Vue
     balanceOf: string;
     fee: number;
     remaining: number;
-    session_bid: sessionStoreTool;
-    session_recover: sessionStoreTool;
-    session_getdomain: sessionStoreTool;
-    refresh: sessionStoreTool;
     bidState: number;
     bidPrice: string;
     updatePrice: string;
@@ -47,9 +44,6 @@ export default class AuctionInfo extends Vue
         this.currentpage = 1;
         this.pagesize = 5;
         this.inputErrorCode = 0;
-        this.session_bid = new sessionStoreTool("bidSession");
-        this.session_recover = new sessionStoreTool("recoverSession");
-        this.session_getdomain = new sessionStoreTool("getDomainSession");
         this.fee = 0
         this.remaining = 0;
         this.balanceOf = '';
@@ -65,10 +59,6 @@ export default class AuctionInfo extends Vue
 
     async mounted()
     {
-        this.session_bid = new sessionStoreTool("bidSession");
-        this.session_recover = new sessionStoreTool("recoverSession");
-        this.session_getdomain = new sessionStoreTool("getDomainSession");
-        this.refresh = new tools.sessionstoretool("refresh_auction");
         await this.init();
         if (!this.domainAuctionInfo.endTime)
         {
@@ -202,7 +192,6 @@ export default class AuctionInfo extends Vue
         if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.domainAuctionInfo.maxPrice)) <= 0)
         {
             this.bidState = 2;
-            // this.inputErrorCode = 1;
         } else
         {
             let result = balance.compareTo(sum);
@@ -229,7 +218,7 @@ export default class AuctionInfo extends Vue
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             let txid = res[ "txid" ];
             this.isGetDomainWait = true;
-            this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 1 });
+            Store.auctionInfo.put(this.domainAuctionInfo.domain, true, "isGetDomainWait");
             TaskManager.addTask(
                 new Task(height, ConfirmType.recharge, txid, { domain: this.domainAuctionInfo.domain }),
                 TaskType.getDomain
@@ -250,7 +239,7 @@ export default class AuctionInfo extends Vue
                 }
                 let res = await tools.wwwtool.api_postRawTransaction(data);
                 let txid = res[ "txid" ];
-                this.session_getdomain.put(this.domainAuctionInfo.domain, { txid, method: 2 });
+                Store.auctionInfo.put(this.domainAuctionInfo.domain, true, "isGetDomainWait");
                 TaskManager.addTask(
                     new Task(height, ConfirmType.contract, txid, { domain: this.domainAuctionInfo.domain }),
                     TaskType.getDomain
@@ -262,8 +251,8 @@ export default class AuctionInfo extends Vue
 
     async getSessionBidDetail(domain)
     {
-        this.session_bid = new LocalStoreTool("bidSession");
-        let bidlist = this.session_bid.select(domain);
+        let session_bid = new sessionStoreTool("bidSession");
+        let bidlist = session_bid.select(domain);
         if (bidlist && Object.keys(bidlist).length > 0)
         {
             let arr = [];
@@ -275,7 +264,6 @@ export default class AuctionInfo extends Vue
                     arr.push(element);
                 }
             }
-            // arr = arr.reverse();
             for (let n = 0; n < arr.length; n++)
             {
                 if (n > 0)
@@ -294,7 +282,7 @@ export default class AuctionInfo extends Vue
                 let txmsg = await tools.wwwtool.getrawtransaction(txid);
                 if (txmsg)
                 {
-                    this.session_bid.delete(domain, txid);
+                    session_bid.delete(domain, txid);
                 } else
                 {
                     let bidmsg = { addPriceTime: "" + this.$t("auction.waitmsg1"), maxBuyer: '', maxPrice: '' };
@@ -354,9 +342,8 @@ export default class AuctionInfo extends Vue
                 this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             let txid = res.info;
             let amount = this.bidPrice;
-            this.session_bid.put(this.domainAuctionInfo.domain, { txid, amount }, txid);
-            let oldBlock = new tools.sessionstoretool("block");
-            let height = oldBlock.select('height');
+            NeoaucionData.setBidSession(this.domainAuctionInfo, this.bidPrice, txid);
+            let height = Store.blockheight.select('height');
             let task = new Task(
                 height, ConfirmType.tranfer, res.info, { domain: this.domainAuctionInfo.domain, amount }
             )
@@ -368,7 +355,6 @@ export default class AuctionInfo extends Vue
         } catch (error)
         {
             console.log(error);
-
         }
 
     }
@@ -387,11 +373,11 @@ export default class AuctionInfo extends Vue
             {
                 this.isRecoverWait = true;
                 let txid = res[ "txid" ];
-                this.session_recover.put(this.domainAuctionInfo.domain, { txid });
                 TaskManager.addTask(
                     new Task(height, ConfirmType.contract, txid, { domain: this.domainAuctionInfo, amount: this.myBidPrice }),
                     TaskType.recoverSgas
                 );
+                Store.auctionInfo.put(this.domainAuctionInfo.domain, true, "isRecoverWait");
             }
         } catch (error)
         {
