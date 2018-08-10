@@ -61,7 +61,6 @@ export default class FeatureComponent extends Vue
         this.setting = this.$refs[ "setting" ][ "isActive" ]
             ? false
             : true;
-        this.makeHref();
         this.getHeight()
         let arr = sessionStorage.getItem("login-info-arr");
         if (!arr || arr.length == 0)
@@ -70,6 +69,12 @@ export default class FeatureComponent extends Vue
         }
         TaskFunction.taskHistory = this.taskHistory;
         TaskFunction.heightRefresh = this.getHeight;
+    }
+
+    beforeDestroy()
+    {
+        // console.log(2567)
+        this.clearTimer();
     }
 
     async getHeight()
@@ -84,6 +89,8 @@ export default class FeatureComponent extends Vue
 
     taskHistory()
     {
+        console.log(25678)
+        this.clearTimer();
         let list = TaskManager.taskStore.getList();
         this.taskList = [];
         for (const type in list)
@@ -146,6 +153,18 @@ export default class FeatureComponent extends Vue
                 }
             }
         }
+        this.taskList.sort((n1, n2) =>
+        {
+            return n1.startTime > n2.startTime ? -1 : 1;
+        })
+
+        this.taskList.forEach(v =>
+        {
+            if (v.state == 0)
+            {
+                this.timer(v);
+            }
+        })
     }
 
     makeHref()
@@ -166,7 +185,6 @@ export default class FeatureComponent extends Vue
 
     makeTaskList(tasks, tasktype)
     {
-
         for (let i in tasks)
         {
             let arr = [];
@@ -182,5 +200,39 @@ export default class FeatureComponent extends Vue
             arr[ "domainhref" ] = href + "nns/" + tasks[ i ].message.domain ? tasks[ i ].message.domain : "";
             this.taskList.push(arr);
         }
+    }
+    timer(item)
+    {
+        if (item.timer)
+        {
+            clearInterval(item.timer);
+        }
+        let pendingText = '';
+        let seconds = '' + (new Date().getTime() - item[ "startTime" ]) / 1000;
+        pendingText = `(${parseInt(seconds)}s)`;
+        this.$set(item, 'pendingText', pendingText);
+        let timer = setInterval(() =>
+        {
+            if (item.state != 0)
+            {
+                clearInterval(timer);
+            }
+            let seconds = '' + (new Date().getTime() - item[ "startTime" ]) / 1000;
+            pendingText = `(${parseInt(seconds)}s)`;
+            this.$set(item, 'pendingText', pendingText);
+        }, 1000)
+        item.timer = timer;
+    }
+
+    clearTimer()
+    {
+        this.taskList.forEach(v =>
+        {
+            if (v.timer)
+            {
+                clearInterval(v.timer);
+                v.timer = null;
+            }
+        });
     }
 }

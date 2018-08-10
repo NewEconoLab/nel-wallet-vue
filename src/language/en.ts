@@ -295,6 +295,24 @@ export default {
     },
     operation: {
         welcome: "Welcome!",
-
+        title: "Operation record",
+        tips: "Tips : These records will be emptied when you logout or close the page.",
+        waiting: "Confirmation pending...",
+        txid: "TXID:",
+        transfer: "Transfer to",
+        openauction: "Open auction",
+        raisebid: "Raise bid",
+        exchange: "SGas exchange",
+        topup: "Top up",
+        withdraw: "Withdraw",
+        requestgas: "Request Gas",
+        editdomain: "Edit domain",
+        addrmapping: "Address mapping:",
+        addrresolver: "Address resolver:",
+        renew: "Renewal expiration time",
+        getdomain: "Get domain",
+        recover: "Recover SGas",
+        gasclaim: "Gas claim",
+        nodata: "There is no data",
     }
 }

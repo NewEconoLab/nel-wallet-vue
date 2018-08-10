@@ -292,5 +292,27 @@ export default {
         wait2: "等待确认...",
         wait3: "SGas 领取...",
         wait4: "领取成功!"
+    },
+    operation: {
+        welcome: "欢迎!",
+        title: "操作记录",
+        tips: "注意：这些记录将会在您登出或关闭网页时清空。",
+        waiting: "等待区块确认...",
+        txid: "交易ID:",
+        transfer: "转出",
+        openauction: "开标",
+        raisebid: "加价",
+        exchange: "SGas兑换",
+        topup: "充值",
+        withdraw: "提取",
+        requestgas: "索取Gas",
+        editdomain: "域名编辑",
+        addrmapping: "地址映射:",
+        addrresolver: "确认地址解析器: ",
+        renew: "续约",
+        getdomain: "领取域名",
+        recover: "领回SGas",
+        gasclaim: "Gas提取",
+        nodata: "没有数据",
     }
 }
