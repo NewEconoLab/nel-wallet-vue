@@ -34,8 +34,11 @@ export class TaskManager
             }
         }
 
-        TaskFunction.heightRefresh();
-        TaskFunction.taskHistory();
+        if (TaskFunction.heightRefresh && TaskFunction.taskHistory)
+        {
+            TaskFunction.heightRefresh();
+            TaskFunction.taskHistory();
+        }
 
         let taskList = (this.taskStore.getList() as Object);
         for (const type in taskList)
@@ -185,12 +188,14 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
+                TaskFunction.withdraw();
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
+                    TaskFunction.withdraw();
                 }
             }
             task.confirm++;
@@ -212,12 +217,14 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
+                TaskFunction.topup();
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
+                    TaskFunction.topup();
                 }
             }
             task.confirm++;
@@ -442,6 +449,33 @@ export class TaskManager
             return task;
         });
         this.taskStore.put(TaskType.domainRenewal.toString(), taskarr); //保存修改的状态
+    }
+
+    static async confirm_getGas(tasks: Task[])
+    {
+        for (let index = 0; index < tasks.length; index++)
+        {
+            const task = tasks[ index ];
+            if (task.state == TaskState.watting)
+            {
+                let res = await tools.wwwtool.api_hasclaimgas(task.message.address);
+                if (res)
+                {
+                    if (res[ 0 ].code == "3010")//可领取
+                    {
+                        task.state = TaskState.fail;
+                        TaskFunction.getGasTest(0);//可领取
+                    } else if (res[ 0 ].code == "3012")//已领取
+                    {
+                        task.state = TaskState.success;
+                        TaskFunction.getGasTest(1);//已领取
+                    } else if (res[ 0 ].code == "3011")//正在领取
+                    {
+                        task.state = TaskState.watting;
+                    }
+                }
+            }
+        }
     }
 
 }

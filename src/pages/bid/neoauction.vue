@@ -202,7 +202,7 @@
             </div>
             <!-- <v-selected :list="selectList" @selected="onSelect"></v-selected> -->
             <div class="line-wrap">
-              <div class="line-msg">{{$t('auction.from')}}:</div>
+              <div class="line-msg">{{$t('auction.from')}}</div>
               <div class="line-box">
                 <input type="text" :value="$t('auction.yourbalance')" class="readonly-input" disabled>
               </div>

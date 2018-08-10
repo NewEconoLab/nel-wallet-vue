@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator"
 import AuctionInfo from "./auctioninfo.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState } from "../../tools/entity";
+import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState, TaskFunction } from "../../tools/entity";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
@@ -91,33 +91,18 @@ export default class NeoAuction extends Vue
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable.toString() + " SGas";
-        // this.refreshPage();
         TaskManager.functionList = [];
         TaskManager.functionList.push(this.refreshPage);
+        TaskFunction.topup = this.topupStateRefresh;
+        TaskFunction.withdraw = this.withdrawRefresh;
     }
 
     async refreshPage()
     {
-        let oldheight = this.refresh.select("height");
-        let height = TaskManager.oldBlock.select('height');
-        if (oldheight)
-        {
-            this.regBalance = await tools.nnssell.getBalanceOf();
-            let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-            this.sgasAvailable = nep5[ "nep5balance" ];
-            this.refresh.put("withdraw", false);
-            this.alert_withdraw.watting = false;
-            if (oldheight < height)
-            {
-                this.getBidList(this.address);
-                this.refresh.put("bidlist", false);
-                this.refresh.put("height", height);
-            }
-        } else
-        {
-            this.refresh.put("height", height);
-            this.getBidList(this.address);
-        }
+        this.regBalance = await tools.nnssell.getBalanceOf();
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.getBidList(this.address);
     }
 
     /**
@@ -127,6 +112,26 @@ export default class NeoAuction extends Vue
     async getBidList(address)
     {
         this.myAuctionList = await NeoaucionData.getBidList(address);
+    }
+
+    async topupStateRefresh()
+    {
+        this.alert_TopUp.watting = false;
+        this.sessionWatting.put("topup", false);
+        this.regBalance = await tools.nnssell.getBalanceOf();
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.alert_available = this.sgasAvailable + " SGas";
+    }
+
+    async withdrawRefresh()
+    {
+        this.alert_withdraw.watting = false;
+        this.sessionWatting.put("withdraw", false);
+        this.regBalance = await tools.nnssell.getBalanceOf();
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.alert_available = this.sgasAvailable + " SGas";
     }
 
     /**
@@ -221,6 +226,7 @@ export default class NeoAuction extends Vue
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable + " SGas";
+        this.alert_TopUp.watting = this.sessionWatting.select("topup") ? true : false;
         this.alert_TopUp.isShow = true;
         this.alert_TopUp.input = "";
         this.alert_TopUp.error = false;
@@ -247,6 +253,7 @@ export default class NeoAuction extends Vue
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable + " SGas";
+        this.alert_withdraw.watting = this.sessionWatting.select("withdraw") ? true : false;
         this.alert_withdraw.isShow = true;
         this.alert_withdraw.input = "";
         this.alert_withdraw.error = false;
@@ -275,7 +282,7 @@ export default class NeoAuction extends Vue
         if (!res.err)
         {
             this.openToast("success", amount + "" + this.$t("auction.successwithdraw2"), 4000);
-            this.sessionWatting.put("withdraw", res.info);
+            this.sessionWatting.put("withdraw", true);
             this.alert_withdraw.isShow = false;
 
             //任务管理器
@@ -294,10 +301,6 @@ export default class NeoAuction extends Vue
      */
     async toRecharge()
     {
-        if (this.alert_TopUp.input)
-        {
-            return false;
-        }
         let amount = this.alert_TopUp.input;
         try
         {
@@ -305,8 +308,7 @@ export default class NeoAuction extends Vue
             let res = await tools.wwwtool.api_postRawTransaction(data);
             this.alert_TopUp.watting = true;
             let txid = res[ "txid" ];
-            this.sessionWatting.put("recharge-sgas", { txid, amount });
-
+            this.sessionWatting.put("topup", true);
             //任务管理器
             let oldBlock = new tools.sessionstoretool("block");
             let height = oldBlock.select('height');

@@ -1,10 +1,11 @@
-import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance, Task, ConfirmType, TaskType } from '../../tools/entity';
+import { LoginInfo, BalanceInfo, Result, NeoAsset, Nep5Balance, Task, ConfirmType, TaskType, TaskFunction, TaskState } from '../../tools/entity';
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import WalletLayout from "../../layouts/wallet.vue";
 import Spinner from "../../components/Spinner.vue";
 import { tools } from "../../tools/importpack";
 import { TaskManager } from '../../tools/taskmanager';
+import Store from '../../tools/StorageMap';
 
 declare const mui;
 
@@ -46,36 +47,20 @@ export default class balance extends Vue
   mounted()
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
-    this.isGetGas();
+    this.getBalances()
     this.openToast = this.$refs.toast[ "isShow" ];
 
     TaskManager.functionList = [];
-    TaskManager.functionList.push(this.isGetGas);
-    // setInterval(() =>
-    // {
+    TaskManager.functionList.push(this.getBalances);
+    TaskFunction.getGasTest = this.btnState;
+  }
 
-    // }, 30000)
-  }
-  //判断是否可以领取gas
-  async isGetGas()
+  btnState(state: number)
   {
-    let timer = null;
-    let res = await tools.wwwtool.api_hasclaimgas(this.currentAddress);
-    if (res)
-    {
-      if (res[ 0 ].code == "3010")//可领取
-      {
-        this.getGas = 0;//可领取
-      } else if (res[ 0 ].code == "3012")//已领取
-      {
-        this.getGas = 1;//已领取
-      } else if (res[ 0 ].code == "3011")//正在领取
-      {
-        this.getGas = 2;//正在领取
-      }
-    }
-    this.getBalances();
+    this.getGas = state;
   }
+
+
   //手动领取测试gas
   async getTestGas()
   {
@@ -83,10 +68,13 @@ export default class balance extends Vue
     let res = await tools.wwwtool.api_claimgas(this.currentAddress, 10);
     if (res)
     {
+      let height = Store.blockheight.select("height");
       if (res[ 0 ].code == "3000")//交易待发送
       {
         this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
         // this.getGas = 1;
+        let task = new Task(height, ConfirmType.tranfer, "", { address: this.currentAddress });
+        TaskManager.addTask(task, TaskType.getGasTest);
       }
       else if (res[ 0 ].code == "3002")//余额不足
       {
