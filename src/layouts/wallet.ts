@@ -23,6 +23,8 @@ export default class FeatureComponent extends Vue
     setting: boolean;
     blockheight: number;
     showHistory: boolean;
+    taskList: any;
+    taskNumber: number;
     constructor()
     {
         super();
@@ -34,6 +36,8 @@ export default class FeatureComponent extends Vue
         this.setting = true;
         this.blockheight = 0;
         this.showHistory = false;
+        this.taskList = [];
+        this.taskNumber = 0;
         Neo.Cryptography.RandomNumberGenerator.startCollectors();
     }
 
@@ -57,7 +61,7 @@ export default class FeatureComponent extends Vue
         this.setting = this.$refs[ "setting" ][ "isActive" ]
             ? false
             : true;
-
+        this.makeHref();
         this.getHeight()
         let arr = sessionStorage.getItem("login-info-arr");
         if (!arr || arr.length == 0)
@@ -72,52 +76,70 @@ export default class FeatureComponent extends Vue
     {
         this.blockheight = Store.blockheight.select("height");
     }
+    onshowHistory()
+    {
+        this.showHistory = !this.showHistory;
+        this.taskHistory();
+    }
 
     taskHistory()
     {
-        let taskList = TaskManager.taskStore.getList()
-        console.log(taskList);
-
-        for (const type in taskList)
+        let list = TaskManager.taskStore.getList();
+        this.taskList = [];
+        for (const type in list)
         {
-            if (taskList.hasOwnProperty(type))
+            if (list.hasOwnProperty(type))
             {
-                const tasks = taskList[ type ] as Task[];
+                const tasks = list[ type ] as Task[];
                 switch (parseInt(type) as TaskType)
                 {
                     case TaskType.tranfer:
-                        console.log(TaskType.tranfer);
-
+                        this.taskNumber = TaskType.tranfer;
+                        this.makeTaskList(tasks, TaskType.tranfer);
                         break;
                     case TaskType.openAuction:
-                        console.log(TaskType.openAuction);
+                        this.taskNumber = TaskType.openAuction;
+                        this.makeTaskList(tasks, TaskType.openAuction);
                         break;
                     case TaskType.addPrice:
-                        console.log(TaskType.addPrice);
+                        this.taskNumber = TaskType.addPrice;
+                        this.makeTaskList(tasks, TaskType.addPrice);
+                        break;
+                    case TaskType.getDomain:
+                        this.taskNumber = TaskType.getDomain;
+                        this.makeTaskList(tasks, TaskType.getDomain);
                         break;
                     case TaskType.gasToSgas:
-                        console.log(TaskType.gasToSgas);
+                        this.taskNumber = TaskType.gasToSgas;
+                        this.makeTaskList(tasks, TaskType.gasToSgas);
                         break;
                     case TaskType.sgasToGas:
-                        console.log(TaskType.sgasToGas);
+                        this.taskNumber = TaskType.sgasToGas;
+                        this.makeTaskList(tasks, TaskType.sgasToGas);
                         break;
                     case TaskType.topup:
-                        console.log(TaskType.topup);
+                        this.taskNumber = TaskType.topup;
+                        this.makeTaskList(tasks, TaskType.topup);
                         break;
                     case TaskType.withdraw:
-                        console.log(TaskType.withdraw);
+                        this.taskNumber = TaskType.withdraw;
+                        this.makeTaskList(tasks, TaskType.withdraw);
                         break;
                     case TaskType.getGasTest:
-                        console.log(TaskType.getGasTest);
-                        break;
-                    case TaskType.domainResovle:
-                        console.log(TaskType.domainResovle);
+                        this.taskNumber = TaskType.getGasTest;
+                        this.makeTaskList(tasks, TaskType.getGasTest);
                         break;
                     case TaskType.domainMapping:
-                        console.log(TaskType.domainMapping);
+                        this.taskNumber = TaskType.domainMapping;
+                        this.makeTaskList(tasks, TaskType.domainMapping);
+                        break;
+                    case TaskType.domainResovle:
+                        this.taskNumber = TaskType.domainResovle;
+                        this.makeTaskList(tasks, TaskType.domainResovle);
                         break;
                     case TaskType.domainRenewal:
-                        console.log(TaskType.domainRenewal);
+                        this.taskNumber = TaskType.domainRenewal;
+                        this.makeTaskList(tasks, TaskType.domainRenewal);
                         break;
                     default:
                         break;
@@ -126,4 +148,39 @@ export default class FeatureComponent extends Vue
         }
     }
 
+    makeHref()
+    {
+        let str = "testwallet.nel.group";
+        // let currentHost = window.location.hostname;
+        let href = "";
+        if (str.includes("testwallet"))
+        {
+            href = "https://scan.nel.group/#testnet/"
+
+        } else
+        {
+            href = "https://scan.nel.group/#mainnet/"
+        }
+        return href;
+    }
+
+    makeTaskList(tasks, tasktype)
+    {
+
+        for (let i in tasks)
+        {
+            let arr = [];
+            let href = this.makeHref();
+            arr[ "tasktype" ] = tasktype;
+            arr[ "startTime" ] = tasks[ i ].startTime;
+            arr[ "txid" ] = tasks[ i ].txid.substring(0, 6) + "..." + tasks[ i ].txid.substring(tasks[ i ].txid.length - 6);
+            arr[ "txidhref" ] = href + "transaction/" + tasks[ i ].txid;
+            arr[ "height" ] = tasks[ i ].height;
+            arr[ "state" ] = tasks[ i ].state;
+            arr[ "addrhref" ] = href + "address/" + tasks[ i ].message.toaddress ? tasks[ i ].message.toaddress : "";
+            arr[ "message" ] = tasks[ i ].message;
+            arr[ "domainhref" ] = href + "nns/" + tasks[ i ].message.domain ? tasks[ i ].message.domain : "";
+            this.taskList.push(arr);
+        }
+    }
 }

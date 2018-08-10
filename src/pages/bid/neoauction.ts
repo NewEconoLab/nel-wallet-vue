@@ -378,7 +378,6 @@ export default class NeoAuction extends Vue
         if (!res.err)
         {
             this.openToast("success", "" + this.$t("auction.successbid2"), 3000);
-            this.alert_myBid = "";
             this.auctionShow = !this.auctionShow;
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
             let height = Store.blockheight.select('height');
@@ -386,6 +385,7 @@ export default class NeoAuction extends Vue
                 height, ConfirmType.tranfer, res.info, { domain: this.auctionMsg_alert.domain, amount: this.alert_myBid }
             )
             tools.taskManager.addTask(task, TaskType.addPrice);
+            this.alert_myBid = "";
         } else
         {
             console.log(res.info);

@@ -292,5 +292,9 @@ export default {
         wait2: "Waiting for confirmation of transfer...",
         wait3: "SGas claiming...",
         wait4: "Your SGas claim is successful!"
+    },
+    operation: {
+        welcome: "Welcome!",
+
     }
 }

@@ -3,7 +3,7 @@
     <nav class="navbar navbar-wallet">
       <div class="blockheight">
         <div class="container">
-          <span>Welcome!</span>
+          <span>{{$t('operation.welcome')}}</span>
           <span class="fright">{{$t('navbar.blockheight')}}：{{blockheight}}</span>
         </div>
       </div>
@@ -67,7 +67,7 @@
           </ul>
           <div class="tranhistory-box">
             <div class="tranhistory-img">
-              <img src="../../static/img/history.png" alt="" @click="showHistory=!showHistory">
+              <img src="../../static/img/history.png" alt="" @click="onshowHistory">
             </div>
             <div class="tranhistory-wrap" v-if="showHistory">
               <div class="tranhistory-listbox">
@@ -76,201 +76,220 @@
                     <img src="../../static/img/close.png" alt="">
                   </div>
                   <span>Operation record</span>
-                  <!-- <v-selected :list="selectList" @selected="onSelect"></v-selected> -->
                   <div class="tranhistory-tips">Tips : These records will be emptied when you logout or close the page.</div>
                 </div>
-                <div class="tranhistory-list">
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Gas claim</div>
-                      <div class="th-other">
+                <div class="tranhistory-list" v-if="taskList.length != 0">
+                  <div v-for="item in taskList" :key="item.tasktype">
+                    <div class="th-onelist" v-if="item.tasktype == 0">
+                      <div class="th-type">
+                        <div class="th-typename">Transfer to</div>
+                        <div class="th-other">
                         <div class="th-number">
-                          <span>10.00000001Gas</span>
+                          <a class="green-text" :href="item.addrhref" target="_blank">{{item.message.toaddress}}</a>
+                          <span>{{item.message.amount}} {{item.message.assetname}}</span>
+                        </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="red-text">Confirmation pending...( You have been waitting for 2 minutes. )</span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Transfer to</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <a class="green-text">AYxh6xVozLv359oEmTi2w8DdLAXBipD8nL</a>
-                          <span>10.00000001 Neo</span>
-                        </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
                       </div>
                     </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">SGas exchange</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <span>20 Gas</span>
-                          <img src="../../static/img/arrow.png" alt="">
-                          <span>20 SGas</span>
+                    <div class="th-onelist" v-if="item.tasktype == 1">
+                      <div class="th-type">
+                        <div class="th-typename">Open auction</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <a class="green-text" target="_blank" :href="item.domainhref">{{item.message.domain}}</a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Open auction</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <a class="green-text">bennybennt.neo</a>
-                        </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
                       </div>
                     </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Raise bid</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <a class="green-text">bennybenny.neo</a>
-                          <span>0.1 Gas</span>
+                    <div class="th-onelist" v-if="item.tasktype == 2">
+                      <div class="th-type">
+                        <div class="th-typename">Raise bid</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <a class="green-text" target="_blank" :href="item.domainhref">{{item.message.domain}}</a>
+                            <span>{{item.message.amount}} SGas</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Get domain</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <a class="green-text">bennybennt.neo</a>
-                        </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
                       </div>
                     </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Recover SGas</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <a class="green-text">bennybenny.neo</a>
-                          <span>11.1 SGas</span>
+                    <div class="th-onelist" v-if="item.tasktype == 3">
+                      <div class="th-type">
+                        <div class="th-typename">SGas exchange</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <span>{{item.message.count}} Gas</span>
+                            <img src="../../static/img/arrow.png" alt="">
+                            <span>{{item.message.count}} SGas</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Edit domain</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <a class="green-text">bennybenny.neo</a>
-                          <span>Address resolver:  0x12...091</span>
-                        </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
                       </div>
                     </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Edit domain</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <a class="green-text">bennybenny.neo</a>
-                          <span>Reset address resolver: 0x12...091</span>
+                    <div class="th-onelist" v-if="item.tasktype == 4">
+                      <div class="th-type">
+                        <div class="th-typename">SGas exchange</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <span>{{item.message.count}} SGas</span>
+                            <img src="../../static/img/arrow.png" alt="">
+                            <span>{{item.message.count}} Gas</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Edit domain</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <a class="green-text">bennybenny.neo</a>
-                          <span>Renewal expiration time</span>
-                        </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
                       </div>
                     </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a></span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Bonus</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <span>11Gas</span>
+                    <div class="th-onelist" v-if="item.tasktype == 5">
+                      <div class="th-type">
+                        <div class="th-typename">Top up</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <span>{{item.message.amount}} SGas</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Top up</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <span>11Gas</span>
-                        </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
                       </div>
                     </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
-                    </div>
-                  </div>
-                  <div class="th-onelist">
-                    <div class="th-type">
-                      <div class="th-typename">Withdraw</div>
-                      <div class="th-other">
-                        <div class="th-number">
-                          <span>11Gas</span>
+                    <div class="th-onelist" v-if="item.tasktype == 6">
+                      <div class="th-type">
+                        <div class="th-typename">Withdraw</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <span>{{item.message.amount}}Gas</span>
+                          </div>
                         </div>
                       </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                      </div>
                     </div>
-                    <div class="th-block-txid">
-                      <!-- <span class="th-block">Block Height: 2342342342</span> -->
-                      <span class="th-txid">Txid: <a class="green-text">0xcd...3cb5</a> </span>
+                    <div class="th-onelist" v-if="item.tasktype == 7">
+                      <div class="th-type">
+                        <div class="th-typename">Request Gas</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <span>{{item.message.amount}} Gas</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <!-- <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span> -->
+                      </div>
                     </div>
+                    <div class="th-onelist" v-if="item.tasktype == 8">
+                      <div class="th-type">
+                        <div class="th-typename">Edit domain</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
+                            <span>Address mapping: <a class="green-text" :href="item.addrhref" target="_blank">{{item.message.addrmapping}}</a></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                      </div>
+                    </div>
+                    <div class="th-onelist" v-if="item.tasktype == 9">
+                      <div class="th-type">
+                        <div class="th-typename">Edit domain</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
+                            <span>Address resolver: {{item.message.addrresolver}}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                      </div>
+                    </div>
+                    <div class="th-onelist" v-if="item.tasktype == 10">
+                      <div class="th-type">
+                        <div class="th-typename">Edit domain</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
+                            <span>Renewal expiration time</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                      </div>
+                    </div>
+                    <div class="th-onelist" v-if="item.tasktype == 11">
+                      <div class="th-type">
+                        <div class="th-typename">Get domain</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                      </div>
+                    </div>
+                    <div class="th-onelist" v-if="item.tasktype == 12">
+                      <div class="th-type">
+                        <div class="th-typename">Recover SGas</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
+                            <span>{{item.message.amount}} SGas</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                      </div>
+                    </div>
+                    <div class="th-onelist" v-if="item.tasktype == 13">
+                        <div class="th-type">
+                        <div class="th-typename">Gas claim</div>
+                        <div class="th-other">
+                          <div class="th-number">
+                            <span>{{item.message.amount}} Gas</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="th-block-txid">
+                        <span class="red-text" v-if="item.state==0">Confirmation pending...</span>
+                        <span class="th-txid" v-else>Txid: <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                      </div>
+                    </div>
+                    <!-- <div v-if="item.tasktype == taskNumber"></div> -->
                   </div>
                 </div>
+                <div class="notask" v-if="taskList.length == 0">There is no data</div>
               </div>
             </div>
             
@@ -389,7 +408,12 @@
   width: 100%;
 }
 .tranhistory-list {
-  padding-top: 118px;
+  padding-top: 100px;
+}
+.notask {
+  padding: 118px 0 20px;
+  text-align: center;
+  font-size: 20px;
 }
 .th-onelist {
   padding: 30px;
@@ -425,6 +449,7 @@ a.green-text {
 }
 .th-number a {
   display: block;
+  font-size: 14px;
 }
 .th-number img {
   width: 15px;
@@ -451,6 +476,7 @@ a.green-text {
 /*定义滚动条轨道 内阴影+圆角*/
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   background-color: #f5f5f5;
 }
@@ -458,12 +484,14 @@ a.green-text {
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #bdbdbd;
 }
 /*滑块效果*/
 ::-webkit-scrollbar-thumb:hover {
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.4);
 }
 /*IE滚动条颜色*/
