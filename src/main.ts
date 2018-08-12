@@ -12,6 +12,7 @@ import Settings from './pages/setting/settings.vue';
 import { tools } from "./tools/importpack";
 import { TaskManager } from './tools/taskmanager';
 import components from './components/index';
+import { TaskFunction } from './tools/entity';
 
 Vue.use(VueI18n);
 Vue.use(components);
@@ -91,6 +92,13 @@ setInterval(() =>
                 if (data > oldHeight)
                 {
                     oldBlock.put("height", data);
+                    /**
+                     * 高度变化放在最开始高度变化就启动高度刷新
+                     */
+                    if (TaskFunction.heightRefresh)
+                    {
+                        TaskFunction.heightRefresh();
+                    }
                     TaskManager.update();
                 }
             } else

@@ -299,6 +299,7 @@ export class CoinTool
         tran.outputs.push(output);
         let data = await this.signData(tran);
         var result = await tools.wwwtool.api_postRawTransaction(data);
+        result[ 'amount' ] = sum;
         return result
     }
 

@@ -47,17 +47,40 @@ export default class balance extends Vue
   mounted()
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
-    this.getBalances()
+    this.getBalances();
+    let claimState = sessionStorage.getItem("claimState");
+    if (claimState)
+    {
+      this.claimbtn = false;
+      this.loadmsg = (claimState == "1") ? "" + this.$t("balance.msg2") : "" + this.$t("balance.msg3");
+    }
     this.openToast = this.$refs.toast[ "isShow" ];
 
     TaskManager.functionList = [];
     TaskManager.functionList.push(this.getBalances);
+    TaskFunction.claimGas = this.startClaimGas;
+    TaskFunction.claimState = this.claimState;
     TaskFunction.getGasTest = this.btnState;
   }
 
   btnState(state: number)
   {
     this.getGas = state;
+  }
+
+  claimState(state: number)
+  {
+    if (state == 0)
+    {
+      this.claimbtn = true;
+      this.loadmsg = "";
+    }
+    if (state == 1)
+    {
+      this.claimbtn = true;
+      this.loadmsg = "" + this.$t("balance.msg4");
+    }
+    sessionStorage.removeItem("claimState");
   }
 
 
@@ -73,7 +96,7 @@ export default class balance extends Vue
       {
         this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
         // this.getGas = 1;
-        let task = new Task(height, ConfirmType.tranfer, "", { address: this.currentAddress });
+        let task = new Task(height, ConfirmType.tranfer, "", { amount: 10 });
         TaskManager.addTask(task, TaskType.getGasTest);
       }
       else if (res[ 0 ].code == "3002")//余额不足
@@ -142,75 +165,89 @@ export default class balance extends Vue
           }
         });
     }
-
-
-
     this.balances = await BalanceInfo.getBalancesByArr(balances, nep5balances, height);
     tools.storagetool.setStorage("balances_asset", JSON.stringify(this.balances));
   }
 
   async toClaimGas()
   {
+    let height = Store.blockheight.select("height");
     if (Neo.Fixed8.parse(this.neoasset.claim).compareTo(Neo.Fixed8.Zero) > 0)
     {
       if (this.neoasset.neo > 0)
       {
-        this.claimbtn = false;
-        this.loadmsg = "" + this.$t("balance.msg1");
         let res = await tools.coinTool.rawTransaction(this.currentAddress, tools.coinTool.id_NEO, this.neoasset.neo.toString());
         if (res.info)
         {
+          this.claimbtn = false;
+          this.loadmsg = "" + this.$t("balance.msg1");
+          TaskManager.addTask(
+            new Task(height, ConfirmType.tranfer, res.info, { type: "Claim", amount: this.neoasset.neo, assetname: "NEO", toaddress: this.currentAddress }),
+            TaskType.tranfer
+          );
+          sessionStorage.setItem("claimState", "1");
           this.loadmsg = "" + this.$t("balance.msg2");
-          this.queryNEOTx(res.info);
+          // this.queryNEOTx(res.info);
         }
       } else
       {
-        this.loadmsg = "" + this.$t("balance.msg3");
-        let res = await tools.coinTool.claimGas();
-        if (res[ "sendrawtransactionresult" ])
-        {
-          let txid = res[ "txid" ];
-          this.queryClaimTx(txid);
-        }
+        this.startClaimGas();
       }
     }
   }
 
-  async queryNEOTx(txid)
+  async startClaimGas()
   {
-    setTimeout(async () =>
+    let height = Store.blockheight.select("height");
+    this.loadmsg = "" + this.$t("balance.msg3");
+    let res = await tools.coinTool.claimGas();
+    if (res[ "sendrawtransactionresult" ])
     {
-      let res = await tools.wwwtool.getrawtransaction(txid);
-      if (!res)
-      {
-        this.queryNEOTx(txid);
-        return;
-      }
-      this.loadmsg = "" + this.$t("balance.msg3");
-      let result = await tools.coinTool.claimGas();
-      if (result[ "sendrawtransactionresult" ])
-      {
-        let txid = result[ "txid" ];
-        this.queryClaimTx(txid);
-      }
-    }, 30000);
+      let txid = res[ "txid" ];
+      let amount = JSON.parse(res[ 'amount' ]);
+      TaskManager.addTask(
+        new Task(height, ConfirmType.tranfer, txid, { amount }),
+        TaskType.ClaimGas
+      );
+      sessionStorage.setItem("claimState", "2");
+    }
   }
 
-  async queryClaimTx(txid)
-  {
-    setTimeout(async () =>
-    {
-      var res = await tools.wwwtool.getrawtransaction(txid);
-      if (res)
-      {
-        this.loadmsg = "" + this.$t("balance.msg4");
-        this.claimbtn = true;
-        this.getBalances();
-        return;
-      }
-      this.queryClaimTx(txid);
-    }, 30000);
-  }
+  // async queryNEOTx(txid)
+  // {
+  //   setTimeout(async () =>
+  //   {
+  //     let res = await tools.wwwtool.getrawtransaction(txid);
+  //     if (!res)
+  //     {
+  //       this.queryNEOTx(txid);
+  //       return;
+  //     }
+  //     this.loadmsg = "" + this.$t("balance.msg3");
+  //     let result = await tools.coinTool.claimGas();
+  //     if (result[ "sendrawtransactionresult" ])
+  //     {
+  //       let txid = result[ "txid" ];
+  //       this.queryClaimTx(txid);
+  //     }
+  //   }, 30000);
+  // }
+
+  // async queryClaimTx(txid)
+  // {
+  //   setTimeout(async () =>
+  //   {
+  //     var res = await tools.wwwtool.getrawtransaction(txid);
+  //     if (res)
+  //     {
+  //       this.loadmsg = "" + this.$t("balance.msg4");
+  //       this.claimbtn = true;
+  //       this.getBalances();
+  //       return;
+  //     }
+  //     this.queryClaimTx(txid);
+  //   }, 30000);
+  // }
 
   toTransfer(asset: string)
   {

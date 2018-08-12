@@ -24,16 +24,8 @@ export class TaskManager
     /**
      * 更新方法
      */
-    static update()
+    static async update()
     {
-        /**
-         * 高度变化放在最开始高度变化就启动高度刷新
-         */
-        if (TaskFunction.heightRefresh)
-        {
-            TaskFunction.heightRefresh();
-        }
-
         let taskList = (this.taskStore.getList() as Object);
         for (const type in taskList)
         {
@@ -43,43 +35,46 @@ export class TaskManager
                 switch (parseInt(type) as TaskType)
                 {
                     case TaskType.tranfer:
-                        this.confirm_tranfer(tasks);
+                        await this.confirm_tranfer(tasks);
+                        break;
+                    case TaskType.ClaimGas:
+                        await this.confirm_claimGas(tasks);
                         break;
                     case TaskType.openAuction:
-                        this.confirm_open(tasks);
+                        await this.confirm_open(tasks);
                         break;
                     case TaskType.addPrice:
-                        this.confirm_bid(tasks);
+                        await this.confirm_bid(tasks);
                         break;
                     case TaskType.getDomain:
-                        this.confirm_getDomain(tasks);
+                        await this.confirm_getDomain(tasks);
                         break;
                     case TaskType.recoverSgas:
-                        this.confirm_recoverSgas(tasks);
+                        await this.confirm_recoverSgas(tasks);
                         break;
                     case TaskType.gasToSgas:
-                        this.confirm_gasToSgas(tasks);
+                        await this.confirm_gasToSgas(tasks);
                         break;
                     case TaskType.sgasToGas:
-                        this.confirm_sgasToGas(tasks);
+                        await this.confirm_sgasToGas(tasks);
                         break;
                     case TaskType.topup:
-                        this.confirm_topup(tasks);
+                        await this.confirm_topup(tasks);
                         break;
                     case TaskType.withdraw:
-                        this.confirm_withdraw(tasks);
+                        await this.confirm_withdraw(tasks);
                         break;
                     case TaskType.getGasTest:
-                        // this.confirm_tranfer(TaskType.getGasTest, tasks, "getTestGas");
+                        await this.confirm_getGas(tasks);
                         break;
                     case TaskType.domainResovle:
-                        this.confirm_resovler(tasks);
+                        await this.confirm_resovler(tasks);
                         break;
                     case TaskType.domainMapping:
-                        this.confirm_mapping(tasks);
+                        await this.confirm_mapping(tasks);
                         break;
                     case TaskType.domainRenewal:
-                        this.confirm_renewal(tasks);
+                        await this.confirm_renewal(tasks);
                         break;
                     default:
                         break;
@@ -168,6 +163,10 @@ export class TaskManager
         this.taskStore.push(type.toString(), task)
     }
 
+    /**
+     * 交易确认
+     * @param tasks 
+     */
     static async confirm_tranfer(tasks: Task[])
     {
         let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
@@ -183,12 +182,46 @@ export class TaskManager
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
+                    if (task.message.type && task.message.type == "Claim")//判断此交易是否是claim
+                    {
+                        TaskFunction.claimGas();
+                    }
                 }
             }
             task.confirm++;
             return task;
         });
         this.taskStore.put(TaskType.tranfer.toString(), taskarr); //保存修改的状态
+    }
+
+
+    /**
+     * 交易确认
+     * @param tasks 
+     */
+    static async confirm_claimGas(tasks: Task[])
+    {
+        let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
+        //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
+        {
+            if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+            {
+                task.state = TaskState.fail;
+                TaskFunction.claimState(0);
+            } else
+            {
+                let result = ress[ task.txid ]; //获取通知数组
+                if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
+                {
+                    task.state = TaskState.success;
+                    TaskFunction.claimState(1);
+                }
+            }
+            task.confirm++;
+            return task;
+        });
+        this.taskStore.put(TaskType.ClaimGas.toString(), taskarr); //保存修改的状态
     }
 
     /**
@@ -204,14 +237,16 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
-                TaskFunction.withdraw();
+                if (TaskFunction.withdraw)
+                    TaskFunction.withdraw();
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
-                    TaskFunction.withdraw();
+                    if (TaskFunction.withdraw)
+                        TaskFunction.withdraw();
                 }
             }
             task.confirm++;
@@ -221,7 +256,7 @@ export class TaskManager
     }
 
     /**
-     * 重置操作跟踪
+     * 注册器充值操作跟踪
      * @param tasks 
      */
     static async confirm_topup(tasks: Task[])
@@ -233,14 +268,16 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
-                TaskFunction.topup();
+                if (TaskFunction.topup)
+                    TaskFunction.topup();
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
-                    TaskFunction.topup();
+                    if (TaskFunction.topup)
+                        TaskFunction.topup();
                 }
             }
             task.confirm++;
@@ -295,8 +332,7 @@ export class TaskManager
                 if (result && result.displayNameList && result.displayNameList.includes("addprice")) //检测是否有对应的通知 addprice
                 {
                     task.state = TaskState.success;
-                }
-                if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
+                } else if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
                 {
                     task.state = TaskState.fail;
                 }
@@ -324,15 +360,18 @@ export class TaskManager
                 {
                     case '0000'://成功
                         task.state = TaskState.success;
-                        TaskFunction.exchange();
+                        if (TaskFunction.exchange)
+                            TaskFunction.exchange();
                         break;
                     case '3001'://失败
                         task.state = TaskState.fail;
-                        TaskFunction.exchange();
+                        if (TaskFunction.exchange)
+                            TaskFunction.exchange();
                         break;
                     case '3002'://失败
                         task.state = TaskState.fail;
-                        TaskFunction.exchange();
+                        if (TaskFunction.exchange)
+                            TaskFunction.exchange();
                         break;
                 }
             }
@@ -355,14 +394,16 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
-                TaskFunction.exchange();
+                if (TaskFunction.exchange)
+                    TaskFunction.exchange();
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
-                    TaskFunction.exchange();
+                    if (TaskFunction.exchange)
+                        TaskFunction.exchange();
                 }
             }
             task.confirm++;
@@ -385,7 +426,8 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
-                TaskFunction.domainResovle(task.message[ 'domain' ]);
+                if (TaskFunction.domainResovle)
+                    TaskFunction.domainResovle(task.message[ 'domain' ]);
                 domainEdit.delete(task.message[ 'domain' ], 'resolver');
             } else
             {
@@ -393,7 +435,8 @@ export class TaskManager
                 if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
-                    TaskFunction.domainResovle(task.message[ 'domain' ]);
+                    if (TaskFunction.domainResovle)
+                        TaskFunction.domainResovle(task.message[ 'domain' ]);
                     domainEdit.delete(task.message[ 'domain' ], 'resolver');
                 }
             }
@@ -417,7 +460,8 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
-                TaskFunction.domainMapping(task[ 'domain' ], undefined)
+                if (TaskFunction.domainMapping)
+                    TaskFunction.domainMapping(task[ 'domain' ], undefined)
                 domainEdit.delete(task.message[ 'domain' ], 'mapping');
             } else
             {
@@ -425,7 +469,8 @@ export class TaskManager
                 if (result && result.displayNameList && result.displayNameList.includes("setResolveData")) //如果返回的通知有 setResolveData则域名映射设置成功
                 {
                     task.state = TaskState.success;
-                    TaskFunction.domainMapping(task.message[ 'domain' ], task.message[ 'address' ])
+                    if (TaskFunction.domainMapping)
+                        TaskFunction.domainMapping(task.message[ 'domain' ], task.message[ 'address' ])
                     domainEdit.delete(task.message[ 'domain' ], 'mapping');
                 }
             }
@@ -449,7 +494,8 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
-                TaskFunction.domainRenewal(task.message[ 'domain' ])
+                if (TaskFunction.domainRenewal)
+                    TaskFunction.domainRenewal(task.message[ 'domain' ])
                 domainEdit.delete(task.message[ 'domain' ], 'renewal');
             } else
             {
@@ -457,7 +503,8 @@ export class TaskManager
                 if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo"))
                 {
                     task.state = TaskState.success;
-                    TaskFunction.domainRenewal(task.message[ 'domain' ])
+                    if (TaskFunction.domainRenewal)
+                        TaskFunction.domainRenewal(task.message[ 'domain' ])
                     domainEdit.delete(task.message[ 'domain' ], 'renewal');
                 }
             }
@@ -489,14 +536,20 @@ export class TaskManager
                         case '0000'://成功
                             task.state = TaskState.success;
                             Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                            if (TaskFunction.auctionStateUpdate)
+                                TaskFunction.auctionStateUpdate();
                             break;
                         case '3001'://失败
                             task.state = TaskState.fail;
                             Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                            if (TaskFunction.auctionStateUpdate)
+                                TaskFunction.auctionStateUpdate();
                             break;
                         case '3002'://失败
                             task.state = TaskState.fail;
                             Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                            if (TaskFunction.auctionStateUpdate)
+                                TaskFunction.auctionStateUpdate();
                             break;
                     }
                 }
@@ -506,12 +559,16 @@ export class TaskManager
                 {
                     task.state = TaskState.fail;
                     Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                    if (TaskFunction.auctionStateUpdate)
+                        TaskFunction.auctionStateUpdate();
                 } else
                 {
                     if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
                     {
                         task.state = TaskState.success;
                         Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                        if (TaskFunction.auctionStateUpdate)
+                            TaskFunction.auctionStateUpdate();
                     }
                 }
             }
@@ -536,6 +593,8 @@ export class TaskManager
             {
                 task.state = TaskState.fail;
                 Store.auctionInfo.put(task.message[ "domain" ], false, 'isRecoverWait');
+                if (TaskFunction.auctionStateUpdate)
+                    TaskFunction.auctionStateUpdate();
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
@@ -543,6 +602,8 @@ export class TaskManager
                 {
                     task.state = TaskState.success;
                     Store.auctionInfo.put(task.message[ "domain" ], false, 'isRecoverWait');
+                    if (TaskFunction.auctionStateUpdate)
+                        TaskFunction.auctionStateUpdate();
                 }
             }
             task.confirm++;
@@ -569,11 +630,13 @@ export class TaskManager
                     if (res[ 0 ].code == "3010")//可领取
                     {
                         task.state = TaskState.fail;
-                        TaskFunction.getGasTest(0);//可领取
+                        if (TaskFunction.getGasTest)
+                            TaskFunction.getGasTest(0);//可领取
                     } else if (res[ 0 ].code == "3012")//已领取
                     {
                         task.state = TaskState.success;
-                        TaskFunction.getGasTest(1);//已领取
+                        if (TaskFunction.getGasTest)
+                            TaskFunction.getGasTest(1);//已领取
                     } else if (res[ 0 ].code == "3011")//正在领取
                     {
                         task.state = TaskState.watting;

@@ -939,9 +939,12 @@ export class TaskFunction
     static topup: Function;//充值
     static withdraw: Function;//退款
     static getGasTest: Function;//测试网领取gas
+    static claimGas: Function;//提取Gas
+    static claimState: Function;//提取状态
     static domainMapping: Function;//域名映射
     static domainResovle: Function;//域名合约地址
     static domainRenewal: Function;//续约显示
+    static auctionStateUpdate: Function;
 }
 
 export class Task
@@ -1081,6 +1084,7 @@ export enum TaskType
     domainRenewal,
     getDomain,//领取域名
     recoverSgas,//退回sgas
+    ClaimGas,//领取Gas
 }
 
 /**

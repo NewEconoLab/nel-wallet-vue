@@ -164,7 +164,7 @@ export default class MyNeo extends Vue
             this.resolverState = 2;
             let txid = res.info;
             TaskManager.addTask(
-                new Task(TaskManager.getBlockHeight(), ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract }),
+                new Task(TaskManager.getBlockHeight(), ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
                 TaskType.domainResovle);
             this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
         }

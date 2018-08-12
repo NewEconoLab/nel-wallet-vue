@@ -382,7 +382,7 @@ export default class NeoAuction extends Vue
             NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
             let height = Store.blockheight.select('height');
             let task = new Task(
-                height, ConfirmType.tranfer, res.info, { domain: this.auctionMsg_alert.domain, amount: this.alert_myBid }
+                height, ConfirmType.contract, res.info, { domain: this.auctionMsg_alert.domain, amount: this.alert_myBid }
             )
             tools.taskManager.addTask(task, TaskType.addPrice);
             this.alert_myBid = "";
@@ -420,7 +420,7 @@ export default class NeoAuction extends Vue
         let oldBlock = new tools.sessionstoretool("block");
         let height = oldBlock.select('height');
         let task = new Task(
-            height, ConfirmType.tranfer, res.info, { domain: auction.domain }
+            height, ConfirmType.contract, res.info, { domain: auction.domain }
         )
         tools.taskManager.addTask(task, TaskType.openAuction);
         this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);

@@ -204,7 +204,7 @@
                         <div class="th-other">
                           <div class="th-number">
                             <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
-                            <span>{{$t('operation.addrmapping')}} <a class="green-text" :href="item.addrhref" target="_blank">{{item.message.addrmapping}}</a></span>
+                            <span>{{$t('operation.addrmapping')}} <a class="green-text" :href="item.addrhref" target="_blank">{{item.message.address}}</a></span>
                           </div>
                         </div>
                       </div>
@@ -219,7 +219,7 @@
                         <div class="th-other">
                           <div class="th-number">
                             <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
-                            <span>{{$t('operation.addrresolver')}} {{item.message.addrresolver}}</span>
+                            <span>{{$t('operation.addrresolver')}} {{item.message.contract}}</span>
                           </div>
                         </div>
                       </div>

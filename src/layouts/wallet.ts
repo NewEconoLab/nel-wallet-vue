@@ -61,12 +61,12 @@ export default class FeatureComponent extends Vue
         this.setting = this.$refs[ "setting" ][ "isActive" ]
             ? false
             : true;
-        this.getHeight()
         let arr = sessionStorage.getItem("login-info-arr");
         if (!arr || arr.length == 0)
         {
             window.location.hash = "#login";
         }
+        this.getHeight()
         TaskFunction.taskHistory = this.taskHistory;
         TaskFunction.heightRefresh = this.getHeight;
     }
@@ -76,7 +76,7 @@ export default class FeatureComponent extends Vue
         this.clearTimer();
     }
 
-    async getHeight()
+    getHeight()
     {
         this.blockheight = Store.blockheight.select("height");
     }
@@ -193,9 +193,9 @@ export default class FeatureComponent extends Vue
             arr[ "txidhref" ] = href + "transaction/" + tasks[ i ].txid;
             arr[ "height" ] = tasks[ i ].height;
             arr[ "state" ] = tasks[ i ].state;
-            arr[ "addrhref" ] = href + "address/" + tasks[ i ].message.toaddress ? tasks[ i ].message.toaddress : "";
+            arr[ "addrhref" ] = href + "address/" + (tasks[ i ].message.toaddress ? tasks[ i ].message.toaddress : tasks[ i ].message.address);
             arr[ "message" ] = tasks[ i ].message;
-            arr[ "domainhref" ] = href + "nns/" + tasks[ i ].message.domain ? tasks[ i ].message.domain : "";
+            arr[ "domainhref" ] = href + "nns/" + (tasks[ i ].message.domain ? tasks[ i ].message.domain : "");
             this.taskList.push(arr);
         }
     }

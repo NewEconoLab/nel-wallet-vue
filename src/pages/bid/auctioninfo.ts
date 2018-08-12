@@ -4,7 +4,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
 import { sessionStoreTool } from "../../tools/storagetool";
-import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState } from "../../tools/entity";
+import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState, TaskFunction } from "../../tools/entity";
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
@@ -63,11 +63,12 @@ export default class AuctionInfo extends Vue
     async mounted()
     {
         await this.init();
-        if (!this.isReceived)
+        if (this.domainAuctionInfo.auctionState != "0")
         {
             TaskManager.functionList = [];
             TaskManager.functionList.push(this.init);
         }
+        TaskFunction.auctionStateUpdate = this.init;
     }
 
     async init()
@@ -352,7 +353,7 @@ export default class AuctionInfo extends Vue
             NeoaucionData.setBidSession(this.domainAuctionInfo, this.bidPrice, txid);
             let height = Store.blockheight.select('height');
             let task = new Task(
-                height, ConfirmType.tranfer, res.info, { domain: this.domainAuctionInfo.domain, amount }
+                height, ConfirmType.contract, res.info, { domain: this.domainAuctionInfo.domain, amount }
             )
             tools.taskManager.addTask(task, TaskType.addPrice);
             this.bidPrice = "";

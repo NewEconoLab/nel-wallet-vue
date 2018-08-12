@@ -163,14 +163,14 @@ export class WWW
         return r;
     }
 
-    static async api_postRawTransaction(data: Uint8Array): Promise<boolean>
+    static async api_postRawTransaction(data: Uint8Array): Promise<any>
     {
         var postdata = WWW.makeRpcPostBody("sendrawtransaction", data.toHexString());
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         if (json[ "result" ])
         {
-            var r = json[ "result" ][ 0 ] as boolean;
+            var r = json[ "result" ][ 0 ];
             return r;
         } else
         {
