@@ -9986,7 +9986,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                         if (res["txid"]) {
                             this.isRecoverWait = true;
                             txid = res["txid"];
-                            taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid, { domain: this.domainAuctionInfo, amount: this.myBidPrice }), entity_1.TaskType.recoverSgas);
+                            taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid, { domain: this.domainAuctionInfo.domain, amount: this.myBidPrice }), entity_1.TaskType.recoverSgas);
                             StorageMap_1.default.auctionInfo.put(this.domainAuctionInfo.domain, true, "isRecoverWait");
                         }
                         return [3 /*break*/, 5];
