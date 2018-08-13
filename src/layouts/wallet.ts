@@ -146,6 +146,14 @@ export default class FeatureComponent extends Vue
                         this.taskNumber = TaskType.domainRenewal;
                         this.makeTaskList(tasks, TaskType.domainRenewal);
                         break;
+                    case TaskType.recoverSgas:
+                        this.taskNumber = TaskType.recoverSgas;
+                        this.makeTaskList(tasks, TaskType.recoverSgas);
+                        break;
+                    case TaskType.ClaimGas:
+                        this.taskNumber = TaskType.ClaimGas;
+                        this.makeTaskList(tasks, TaskType.ClaimGas);
+                        break;
                     default:
                         break;
                 }
@@ -196,6 +204,7 @@ export default class FeatureComponent extends Vue
             arr[ "addrhref" ] = href + "address/" + (tasks[ i ].message.toaddress ? tasks[ i ].message.toaddress : tasks[ i ].message.address);
             arr[ "message" ] = tasks[ i ].message;
             arr[ "domainhref" ] = href + "nns/" + (tasks[ i ].message.domain ? tasks[ i ].message.domain : "");
+            arr[ "resolver" ] = "" + (tasks[ i ].message.contract ? (tasks[ i ].message.contract.substring(0, 4) + "..." + tasks[ i ].message.contract.substring(tasks[ i ].message.contract.length - 4)) : "");
             this.taskList.push(arr);
         }
     }

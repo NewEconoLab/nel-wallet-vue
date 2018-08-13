@@ -314,5 +314,6 @@ export default {
         recover: "Recover SGas",
         gasclaim: "Gas claim",
         nodata: "There is no data",
+        fail: "Operation failed"
     }
 }

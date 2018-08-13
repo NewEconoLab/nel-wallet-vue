@@ -92,7 +92,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}}</span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}}<a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}}<a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 1">
@@ -106,7 +107,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 2">
@@ -121,7 +123,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 3">
@@ -137,7 +140,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 4">
@@ -153,7 +157,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 5">
@@ -167,7 +172,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 6">
@@ -181,7 +187,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 7">
@@ -195,7 +202,7 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <!-- <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span> -->
+                        <!-- <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span><span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span> -->
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 8">
@@ -210,7 +217,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a>
+                        </span><span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 9">
@@ -219,13 +227,14 @@
                         <div class="th-other">
                           <div class="th-number">
                             <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
-                            <span>{{$t('operation.addrresolver')}} {{item.message.contract}}</span>
+                            <span>{{$t('operation.addrresolver')}} {{item.resolver}}</span>
                           </div>
                         </div>
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 10">
@@ -240,7 +249,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 11">
@@ -254,7 +264,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 12">
@@ -269,7 +280,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div class="th-onelist" v-if="item.tasktype == 13">
@@ -283,7 +295,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
-                        <span class="th-txid" v-else>{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <!-- <div v-if="item.tasktype == taskNumber"></div> -->
