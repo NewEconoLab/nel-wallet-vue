@@ -644,6 +644,8 @@ export class TaskManager
                     } else if (res[ 0 ].code == "3011")//正在领取
                     {
                         task.state = TaskState.watting;
+                        if (TaskFunction.getGasTest)
+                            TaskFunction.getGasTest(2);//已领取
                     }
                 }
             }

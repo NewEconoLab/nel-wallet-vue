@@ -48,6 +48,7 @@ export default class balance extends Vue
   {
     this.currentAddress = LoginInfo.getCurrentAddress();
     this.getBalances();
+    this.initGetGas()
     let claimState = sessionStorage.getItem("claimState");
     if (claimState)
     {
@@ -61,6 +62,26 @@ export default class balance extends Vue
     TaskFunction.claimGas = this.startClaimGas;
     TaskFunction.claimState = this.claimState;
     TaskFunction.getGasTest = this.btnState;
+
+  }
+
+  async initGetGas()
+  {
+
+    let res = await tools.wwwtool.api_hasclaimgas(this.currentAddress);
+    if (res)
+    {
+      if (res[ 0 ].code == "3010")//可领取
+      {
+        this.btnState(0);
+      } else if (res[ 0 ].code == "3012")//已领取
+      {
+        this.btnState(1);
+      } else if (res[ 0 ].code == "3011")//正在领取
+      {
+        this.btnState(2);
+      }
+    }
   }
 
   btnState(state: number)
@@ -96,7 +117,7 @@ export default class balance extends Vue
       {
         this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
         // this.getGas = 1;
-        let task = new Task(height, ConfirmType.tranfer, "", { amount: 10 });
+        let task = new Task(height, ConfirmType.tranfer, "", { amount: 10, address: this.currentAddress });
         TaskManager.addTask(task, TaskType.getGasTest);
       }
       else if (res[ 0 ].code == "3002")//余额不足

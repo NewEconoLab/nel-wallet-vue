@@ -1874,6 +1874,7 @@ var balance = /** @class */ (function (_super) {
     balance.prototype.mounted = function () {
         this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
         this.getBalances();
+        this.initGetGas();
         var claimState = sessionStorage.getItem("claimState");
         if (claimState) {
             this.claimbtn = false;
@@ -1885,6 +1886,30 @@ var balance = /** @class */ (function (_super) {
         entity_1.TaskFunction.claimGas = this.startClaimGas;
         entity_1.TaskFunction.claimState = this.claimState;
         entity_1.TaskFunction.getGasTest = this.btnState;
+    };
+    balance.prototype.initGetGas = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(this.currentAddress)];
+                    case 1:
+                        res = _a.sent();
+                        if (res) {
+                            if (res[0].code == "3010") {
+                                this.btnState(0);
+                            }
+                            else if (res[0].code == "3012") {
+                                this.btnState(1);
+                            }
+                            else if (res[0].code == "3011") {
+                                this.btnState(2);
+                            }
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     balance.prototype.btnState = function (state) {
         this.getGas = state;
@@ -1915,7 +1940,7 @@ var balance = /** @class */ (function (_super) {
                             height = StorageMap_1.default.blockheight.select("height");
                             if (res[0].code == "3000") {
                                 this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
-                                task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, "", { amount: 10 });
+                                task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, "", { amount: 10, address: this.currentAddress });
                                 taskmanager_1.TaskManager.addTask(task, entity_1.TaskType.getGasTest);
                             }
                             else if (res[0].code == "3002") {
@@ -8221,6 +8246,8 @@ var TaskManager = /** @class */ (function () {
                             }
                             else if (res[0].code == "3011") {
                                 task.state = entity_1.TaskState.watting;
+                                if (entity_1.TaskFunction.getGasTest)
+                                    entity_1.TaskFunction.getGasTest(2); //已领取
                             }
                         }
                         _a.label = 3;
