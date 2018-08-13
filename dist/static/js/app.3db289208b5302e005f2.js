@@ -493,10 +493,24 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "0YXJ":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAaCAYAAACgoey0AAAAAXNSR0IArs4c6QAAAd1JREFUSA291L1LQlEUAPBzrlpZQy0tQS0FBZYhtPYPtKSYUY1BRRS+tqSWtmxKpaX+gSKThsCtSRqioDCDIlpss0nIjNR7utcSHmIvfb7XXe7Xu+f3znkfADpb2JNa2V8km87jwPQe5MT33jN35xHfU7eeGLrhH2ycFz6uI957V6N4szAQUF+Jly5E6WcawZuGyxiBXZT+MORJbdMW1RWzrovqzYSIB8K3qbN933PnX2cMhSUmSj+RL+QuQ76HQS3ccPgbh0Eqfl6GvcmJ33BT4DJG0Mk5noU8yfVauHlwOXViRBAMee4Oj30vdvUN4K47+SYWOtSLZowR4AZtFrcSdaRlfJmx6aiECMDFi6WryNT9uJzLjMXa/zVEKCCwBXOfsUY+Vo09w7dEtq/MYvH6TxwJmXHOcKFGwPLLZbWMSVRui7m+1si7gYhHPdau+elob76imVtqRM6ANpXTkWAFrPTmwQhZxmhOiTnjFUzdmwKL5/cI1pZJJTr0qMbUY8NhBIzbbe1zS9H+rBqqHhsKi89lRxkd3sAt5NVQ9dyYHwhCniGbXTt1BupB5U00nbEobZox5vbHHDfVWWnNm4UTrWifWo4NZLSQWnu6YVHa1bZux8HSARZqBf5r7QvVEomMCsloFQAAAABJRU5ErkJggg=="
+
+/***/ }),
+
 /***/ "0rEL":
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAmCAYAAAC29NkdAAAAAXNSR0IArs4c6QAABNNJREFUWAnFWG9sU1UU/93Xt27t2GbBOLZ1k0lcTBQMYMQMEsIXpgEXNSEKivrFEE0MyIaJiQrEr1SHJP6JHxYcIiqJCaKbfBiQKJHwASPxT2ZMtzEYGGO7Ddau7XvXc/q2t1deS99rS73J6zs995zf+d1/5953BQoswZ5/l2saNgqIFQSxmJ4GCclvkO4qvcbpuUq6Cx4Pvh3bufAXrnNbhBuHptBkm5T6Dgj9cSnR7MZXCFyCVL4RQjlwuat2yKmvI4JL3ossSejYI4FtkNLjFDyrnRAaBe3zKtg3/FpgOKuNRalYZJu4V0qlMRTZS+SGpJQvFk2OI1ADGYsxGZtj2AJbFDl7sOWDaCA5rX9Gto9Z7G+H2F/hV54dfeWOSDbwrAR5rulSG6DmtmZzKr1OhBXheTTb3LR179IPp+4qLzlurmzlmBz75sZnEAy+K32xG8nj5es5Kx3ZyrGZg1WbQVDTox/TSl1tNSinzLGZgzWmOQcbQ5PtUqZ+tFY6latUoL1ZRUudByyPRHX88Y+GML0LKUKoa6501Z5lX4LjlS9FYyjaw7KbUl0B7F7jw9ZllVjgNdtqQnz3ZwLvnIlhZMIdUSm1HuK0Wggh06iN+ye2SGhHTGQHQtsiBYefqkGwNmOW2DxHJzRs6JvC5AwNoIsi4Nl6pbvucwNdaC+48E2bvrHWZ5I7MZTAk0encO/7Eaz4KIrukzdMQjzsu9ur3MLThm5wEpyQUzF5jbqUBsx58dKGF9rgx5mRFI79lrA5bnnAi1BHdVp/8VoKHYenbDa3UtDwJlWfqFe1uOx0S46BExrwav90zhhnL6XMuqUL3W/fzEmLo1OROtabSCUU7gnMz81whFpTQGFuCh3eggX43tKFV/db6/ymTe/PM6bsSiBu1EzZ5Mopj3FtpcAXm2tw353GsH79ewJHLtrnaB6Y2WrZpNLBs2QE64jcl5sXYFl9Or3iq19nsOv73PM0H0nmNj9R8lnnqVcoo/Y+UW2S670Qx46BaWju0p8tikJH8cs2bQGKp+/34pGgkalODyfx5mCsAJRMF+ZGPShKQnBjm9dEP/BTHEV23CyWIIISYyZyEYLf6Lw0QjhaWFqxhSduqlBwivKN663uZrBnjl0Hz0Mu8fkcbSgK/GVuqqdKHJcxJAvZTaxxeWcpZeGtjrkpxseKHCwG3EdZZc86Hwaeq8EhWsnL691vbfb4cpC5GQlLeg4BWofdyJnmdToTbn9o9sRSD6xsUPHwJxOIFTPUaU5AOg/S19RRWs3nndGxWz24OLPHFvkVNNcVk2LFeYPTLMH0yVV4dtpDO9P8MJrZVWOTOsIRd6doayRBXJgT62bXnVHdsD/yKe3N26zGTmSVOuullZVY21KB8es6Dp6Luz7mz8cRfePdgefn/mcQ5E8+XY+cIur/y5cdkTmnKIH1Y7uEuQ1lTBSu8FVXdFLHhudaUL63CHNsKzmOnUGQFX+9XPM3X0OUl6Rx9cGxmYO12AhyJd+RVPjFKhL7rca3SabLI7Eq270Mx8tKkCs4SW7vCmyi1bSPniTrSlkYk7E5Rq6bLY6XsUhyEbj7YLQ1mZBv0+Ip+wWmI4JzxNNXwEhxvtxEp93mOb2Td/oKGDghoPbkGs5sOK4IWgHKdYn+H1JhunGYOW88AAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ "1Iz4":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABeFJREFUWAndmE1M3EUYxtkFNl6swJ700la92KS34qFADE1DEFjKoQf14OfJxKD2w8Rq40EhUSDWaGJi6kc8qAcPlQVE0pSYQi9wM2kvVcoFL+Uj5aBZYPH3jDNkdnZ2F1EIcZLNzH/e533e5/+fmXdmtqpqn5fEv9E3PDzcmEgkLm1ubh6DJxVw5bDNYnutu7t7JrBt+3HHAsfHxx/M5XI3iVRXIdpKKpU60t7e/nsFXNScjPZGOicnJ+/zu9fX1zM8S9y1hoaGA3ylhP9Tn2zCWCzNv0vI5fpjdUWB2Ww2w1D+trq6+gftm7SfEBFD95BqhvF6c3Pzqtp+UZ9s6nNY+YpDXOIUt+8Ta5cVODo6+jzkV3A8TLB12o/RntgOcRjM+kyIQ1ziFLdihFj/uaRACF/Y2Nj4HHCS8hb1A9QfUqcg/p7fSZ8o1kaImePCyke+4kin0wcsZ1IxyomsiRFLHISXsSWJ8UZXV9eAxZ3Blsd2lucm9WFftLZYddd2OuwQXOdsXz9ca3B9YEVWdXZ2fhWSFK1inDI4aViNuEwm48Rt+YJ5F8yx6urqrzs6Or5D5OaW0WuASYyNjT2FgGfBzMJ10TObJlznJZKHPJgeMFkfUySQyTsH4JCGgLft98G71R4ZGbmQz+f74J8jEzzsxymYg3b5H+JN1kkTmm97UviClxSTYIfDFFQgsLW19U+At3CoWVpa0hvtSSHme4qp2NLgBy0QKAPAl6lyfPLXmR+DPng32oqhWIppYxeEKZqDsuKkhWLSgt4uNrkdy9TU1P0rKyvnwHfze1T9+NzmN1xXVzcYS+LOlzhabG/zrH37dLhADJcDa2/VloSD2SGoleeUHsaZuE86nF+zQk+wQr8Ae9Dvd22CzrPSX2Sla8srKizIH+ls5zcN9qoA1As1NTVZt3ebL8ibPE6Qn7AXbfwEeIb89K2c/WLFXcUPTrOlDdTW1s4Ks7a2ptON0kcLtk04TsZEkqCf5gW/8Xlte4W6jQ8z4wROQ3aczms2mN5EtruI+0RBrKOpNKzLy8u/4KMv168pACbvY7AlNYT0XcA2X19ffzQcbjAJRL5CnXa+tFton8DnBrxNZiehU29cRWrpCUmco1/bOXcQkuvkyiJxwkowvBfJcS0KKh+63/F5wOjFP/b79PJkkHtOk1vF5rC5HXEiw/mUJR2QED+A37Y2sxPh0+3bSrU9DUaTE1gKH+0n2CMyuDkXBdlOh8HHrPBy2JhtRwJjRLvVtyOBDN2vEmRXa1ltDoPP7bLAEkYnMCe7JmgJXEE3wX6wHUoljqMAowdrO682PsOqKxVPg9FkVjHOun0dZ/VcITWYY7qI6F+MpRntEKSZ5/BpsbtB0UqWOJtmlAvn5ROKA1OUZtCgNKPYJqe6PLi/E7UU79etzgyxBNq97zO1GRrdtt5U231qtcOi7Ys5c9Qm7lMMmUk/+GzrsCBufLQXN/J7v+xhwQXX1ZD2BL8UBEM4uTuEg/ynNR9jEJG642hRaP/92Q9QtAIR9SkAc/vabXESohjutmhj+/qqCgTquM3bmHsr+7KumntSFAtx5t5d8ciPojuI1JFfp9w9KYqlmASbq3jk5016AXIKz/cxP0ySDVUqv+mwqfMcxCZVhRg9yyaMsPKJYRRDsbDp2vlqiImS41RwcWeebN2NsblJbbiYP70cuQqOTC4I2F5EfuSeETDkz2uJw27uxBxqX4pd3LfSjCNRDcmXOOsLXBYBZ7paXUMZij53wQE2w68J+9ZhU75+QVAau7qm+TXSPgtXUnNOw+q+XClxcixYJOpwRSLlyDM8+b7FxcV7ThyBT/MzdwiHj9UIMuqElQ8Yc1u0XGZYy4kTZ0mBMuqTQ9xD0ywc2rdotyE+K/s/KdanTRzo1sjdEXdsWH3e6BD7AEuc1fL3VxjkC/pA/Fp0AvFOwsZdfQyj2/gX1GmT8JGQy48XtqOLJATFnvfdX8ChSLt3a8huYDNntwCjy7hsbe6OG9j/H49/AYljkl57gl2DAAAAAElFTkSuQmCC"
 
 /***/ }),
 
@@ -1837,6 +1851,7 @@ var wallet_vue_1 = __webpack_require__("PPZq");
 var Spinner_vue_1 = __webpack_require__("+jyM");
 var importpack_1 = __webpack_require__("VKSY");
 var taskmanager_1 = __webpack_require__("XfB5");
+var StorageMap_1 = __webpack_require__("slXE");
 var balance = /** @class */ (function (_super) {
     __extends(balance, _super);
     function balance() {
@@ -1858,46 +1873,37 @@ var balance = /** @class */ (function (_super) {
     // Component method
     balance.prototype.mounted = function () {
         this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
-        this.isGetGas();
+        this.getBalances();
+        var claimState = sessionStorage.getItem("claimState");
+        if (claimState) {
+            this.claimbtn = false;
+            this.loadmsg = (claimState == "1") ? "" + this.$t("balance.msg2") : "" + this.$t("balance.msg3");
+        }
         this.openToast = this.$refs.toast["isShow"];
         taskmanager_1.TaskManager.functionList = [];
-        taskmanager_1.TaskManager.functionList.push(this.isGetGas);
-        // setInterval(() =>
-        // {
-        // }, 30000)
+        taskmanager_1.TaskManager.functionList.push(this.getBalances);
+        entity_1.TaskFunction.claimGas = this.startClaimGas;
+        entity_1.TaskFunction.claimState = this.claimState;
+        entity_1.TaskFunction.getGasTest = this.btnState;
     };
-    //判断是否可以领取gas
-    balance.prototype.isGetGas = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var timer, res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        timer = null;
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(this.currentAddress)];
-                    case 1:
-                        res = _a.sent();
-                        if (res) {
-                            if (res[0].code == "3010") {
-                                this.getGas = 0; //可领取
-                            }
-                            else if (res[0].code == "3012") {
-                                this.getGas = 1; //已领取
-                            }
-                            else if (res[0].code == "3011") {
-                                this.getGas = 2; //正在领取
-                            }
-                        }
-                        this.getBalances();
-                        return [2 /*return*/];
-                }
-            });
-        });
+    balance.prototype.btnState = function (state) {
+        this.getGas = state;
+    };
+    balance.prototype.claimState = function (state) {
+        if (state == 0) {
+            this.claimbtn = true;
+            this.loadmsg = "";
+        }
+        if (state == 1) {
+            this.claimbtn = true;
+            this.loadmsg = "" + this.$t("balance.msg4");
+        }
+        sessionStorage.removeItem("claimState");
     };
     //手动领取测试gas
     balance.prototype.getTestGas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var res, height, task;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1906,9 +1912,11 @@ var balance = /** @class */ (function (_super) {
                     case 1:
                         res = _a.sent();
                         if (res) {
+                            height = StorageMap_1.default.blockheight.select("height");
                             if (res[0].code == "3000") {
                                 this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
-                                // this.getGas = 1;
+                                task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, "", { amount: 10 });
+                                taskmanager_1.TaskManager.addTask(task, entity_1.TaskType.getGasTest);
                             }
                             else if (res[0].code == "3002") {
                                 this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
@@ -1994,94 +2002,89 @@ var balance = /** @class */ (function (_super) {
     };
     balance.prototype.toClaimGas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, res, txid;
+            var height, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(Neo.Fixed8.parse(this.neoasset.claim).compareTo(Neo.Fixed8.Zero) > 0)) return [3 /*break*/, 4];
+                        height = StorageMap_1.default.blockheight.select("height");
+                        if (!(Neo.Fixed8.parse(this.neoasset.claim).compareTo(Neo.Fixed8.Zero) > 0)) return [3 /*break*/, 3];
                         if (!(this.neoasset.neo > 0)) return [3 /*break*/, 2];
-                        this.claimbtn = false;
-                        this.loadmsg = "" + this.$t("balance.msg1");
                         return [4 /*yield*/, importpack_1.tools.coinTool.rawTransaction(this.currentAddress, importpack_1.tools.coinTool.id_NEO, this.neoasset.neo.toString())];
                     case 1:
                         res = _a.sent();
                         if (res.info) {
+                            this.claimbtn = false;
+                            this.loadmsg = "" + this.$t("balance.msg1");
+                            taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, res.info, { type: "Claim", amount: this.neoasset.neo, assetname: "NEO", toaddress: this.currentAddress }), entity_1.TaskType.tranfer);
+                            sessionStorage.setItem("claimState", "1");
                             this.loadmsg = "" + this.$t("balance.msg2");
-                            this.queryNEOTx(res.info);
+                            // this.queryNEOTx(res.info);
                         }
-                        return [3 /*break*/, 4];
+                        return [3 /*break*/, 3];
                     case 2:
-                        this.loadmsg = "" + this.$t("balance.msg3");
-                        return [4 /*yield*/, importpack_1.tools.coinTool.claimGas()];
-                    case 3:
-                        res = _a.sent();
-                        if (res["sendrawtransactionresult"]) {
-                            txid = res["txid"];
-                            this.queryClaimTx(txid);
-                        }
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        this.startClaimGas();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    balance.prototype.queryNEOTx = function (txid) {
+    balance.prototype.startClaimGas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
+            var height, res, txid, amount;
             return __generator(this, function (_a) {
-                setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
-                    var res, result, txid_1;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                            case 1:
-                                res = _a.sent();
-                                if (!res) {
-                                    this.queryNEOTx(txid);
-                                    return [2 /*return*/];
-                                }
-                                this.loadmsg = "" + this.$t("balance.msg3");
-                                return [4 /*yield*/, importpack_1.tools.coinTool.claimGas()];
-                            case 2:
-                                result = _a.sent();
-                                if (result["sendrawtransactionresult"]) {
-                                    txid_1 = result["txid"];
-                                    this.queryClaimTx(txid_1);
-                                }
-                                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        height = StorageMap_1.default.blockheight.select("height");
+                        this.loadmsg = "" + this.$t("balance.msg3");
+                        return [4 /*yield*/, importpack_1.tools.coinTool.claimGas()];
+                    case 1:
+                        res = _a.sent();
+                        if (res["sendrawtransactionresult"]) {
+                            txid = res["txid"];
+                            amount = JSON.parse(res['amount']);
+                            taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid, { amount: amount }), entity_1.TaskType.ClaimGas);
+                            sessionStorage.setItem("claimState", "2");
                         }
-                    });
-                }); }, 30000);
-                return [2 /*return*/];
+                        return [2 /*return*/];
+                }
             });
         });
     };
-    balance.prototype.queryClaimTx = function (txid) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
-                    var res;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                            case 1:
-                                res = _a.sent();
-                                if (res) {
-                                    this.loadmsg = "" + this.$t("balance.msg4");
-                                    this.claimbtn = true;
-                                    this.getBalances();
-                                    return [2 /*return*/];
-                                }
-                                this.queryClaimTx(txid);
-                                return [2 /*return*/];
-                        }
-                    });
-                }); }, 30000);
-                return [2 /*return*/];
-            });
-        });
-    };
+    // async queryNEOTx(txid)
+    // {
+    //   setTimeout(async () =>
+    //   {
+    //     let res = await tools.wwwtool.getrawtransaction(txid);
+    //     if (!res)
+    //     {
+    //       this.queryNEOTx(txid);
+    //       return;
+    //     }
+    //     this.loadmsg = "" + this.$t("balance.msg3");
+    //     let result = await tools.coinTool.claimGas();
+    //     if (result[ "sendrawtransactionresult" ])
+    //     {
+    //       let txid = result[ "txid" ];
+    //       this.queryClaimTx(txid);
+    //     }
+    //   }, 30000);
+    // }
+    // async queryClaimTx(txid)
+    // {
+    //   setTimeout(async () =>
+    //   {
+    //     var res = await tools.wwwtool.getrawtransaction(txid);
+    //     if (res)
+    //     {
+    //       this.loadmsg = "" + this.$t("balance.msg4");
+    //       this.claimbtn = true;
+    //       this.getBalances();
+    //       return;
+    //     }
+    //     this.queryClaimTx(txid);
+    //   }, 30000);
+    // }
     balance.prototype.toTransfer = function (asset) {
         importpack_1.tools.storagetool.setStorage("transfer_choose", asset);
         window.location.hash = "#transfer";
@@ -2102,10 +2105,10 @@ exports.default = balance;
 
 /***/ }),
 
-/***/ "6Gmd":
+/***/ "5yhA":
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAARdJREFUWAntlQEOgyAMRWXZMdyBvMgurvdgbRYI/HXGT1QWVxIjLW35PkgdBh9OwAlchECMcZJnlqf3UA1TwhrSRJyzzMdkd34vIYRHpSFhq5wdDNRx66CB2tIFUriMYCdoQKFc/0tQm6321tQ2tr4Rb9mooy5Kg8w+DGZsFSfxzY3/Q0f6QkbEWmxrPcw77Q7KxunIq3/t2kdWa6i8WmwwsJ7Y5X3U4zcH5p1G0FTDOFE5k2vFYj2xNx0x5uXaXxdyBDdprYd5d25bKnqR6FE3pLIg+Mg7+JS9VOQ+A9HuU5WvgjqOJMirMzJcoAGFcjlBCpcR/PMEy0a9S2M1ILS4cv8sCe7bWFtkvXNUnGrx4QScwCUIvABtdIyIA8H7nwAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -2119,14 +2122,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var bonus = __webpack_require__("DaUf");
 var bonus_default = /*#__PURE__*/__webpack_require__.n(bonus);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-ede0681a","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/bonus.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"bonus-wrap"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"bonus-msg"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.msg'))+": "+_vm._s(_vm.claimNum))]),_vm._v(" "),(!_vm.isClaim)?_c('button',{staticClass:"btn btn-nel",class:{'btn-disabled':(_vm.claimNum || _vm.claimNum=='0')},attrs:{"disabled":(_vm.claimNum || _vm.claimNum=='0')},on:{"click":_vm.getClaim}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(_vm.isClaim)?_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.claiming')))]):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==1)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait1')))]):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==2)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait2')))]):_vm._e(),_vm._v(" "),(_vm.isClaim && _vm.claimState==3)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait3')))]):_vm._e(),_vm._v(" "),(_vm.claimState==4)?_c('span',{staticClass:"wait-msg"},[_vm._v(_vm._s(_vm.$t('bonus.wait4')))]):_vm._e()])]),_vm._v(" "),(_vm.historyList)?_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.title2')))])]):_vm._e(),_vm._v(" "),(_vm.historyList)?_c('div',{staticClass:"form-box"},[(_vm.isClaim)?_c('div',{staticClass:"history-box"},[_vm._v(_vm._s(_vm.$t('bonus.wait2')))]):_vm._e(),_vm._v(" "),_vm._l((_vm.historyList),function(item,index){return _c('div',{key:index,staticClass:"history-wrap"},[_c('div',{staticClass:"history-box"},[_c('div',{staticClass:"history-number dde"},[_vm._v("+ "+_vm._s(item.value)+" SGas")]),_vm._v(" "),_c('hr'),_vm._v(" "),_c('div',{staticClass:"history-time"},[_vm._v(_vm._s(item.blocktime))])])])}),_vm._v(" "),(_vm.isPage)?_c('div',{staticClass:"page-msg"},[_vm._v(_vm._s(_vm.pageMsg))]):_vm._e(),_vm._v(" "),(_vm.isPage)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",on:{"click":_vm.previous}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",on:{"click":_vm.next}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()],2):_vm._e()])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-33511a2e","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/bonus.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"bonus-wrap"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"bonus-msg"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.msg'))+": "+_vm._s(_vm.claimNum))])])]),_vm._v(" "),(_vm.historyList)?_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('bonus.title2')))])]):_vm._e(),_vm._v(" "),(_vm.historyList)?_c('div',{staticClass:"form-box"},[(_vm.isClaim)?_c('div',{staticClass:"history-box"},[_vm._v(_vm._s(_vm.$t('bonus.wait2')))]):_vm._e(),_vm._v(" "),_vm._l((_vm.historyList),function(item,index){return _c('div',{key:index,staticClass:"history-wrap"},[_c('div',{staticClass:"history-box"},[_c('div',{staticClass:"history-number dde"},[_vm._v("+ "+_vm._s(item.value)+" SGas")]),_vm._v(" "),_c('hr'),_vm._v(" "),_c('div',{staticClass:"history-time"},[_vm._v(_vm._s(item.blocktime))])])])}),_vm._v(" "),(_vm.isPage)?_c('div',{staticClass:"page-msg"},[_vm._v(_vm._s(_vm.pageMsg))]):_vm._e(),_vm._v(" "),(_vm.isPage)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",on:{"click":_vm.previous}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",on:{"click":_vm.next}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()],2):_vm._e()])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_bonus = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/bonus.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("ScW3")
+  __webpack_require__("mI44")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2137,7 +2140,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-ede0681a"
+var __vue_scopeId__ = "data-v-33511a2e"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -2980,14 +2983,21 @@ var PageUtil = /** @class */ (function () {
     return PageUtil;
 }());
 exports.PageUtil = PageUtil;
+var TaskFunction = /** @class */ (function () {
+    function TaskFunction() {
+    }
+    return TaskFunction;
+}());
+exports.TaskFunction = TaskFunction;
 var Task = /** @class */ (function () {
-    function Task(height, type, txid) {
-        this.txid = "";
+    function Task(height, type, txid, messgae) {
         this.height = height;
         this.type = type;
         this.confirm = 0;
         this.txid = txid;
         this.state = TaskState.watting;
+        this.message = messgae;
+        this.startTime = new Date().getTime();
     }
     Task.prototype.toString = function () {
         return JSON.stringify(this);
@@ -3066,9 +3076,17 @@ var TaskType;
     TaskType[TaskType["tranfer"] = 0] = "tranfer";
     TaskType[TaskType["openAuction"] = 1] = "openAuction";
     TaskType[TaskType["addPrice"] = 2] = "addPrice";
-    TaskType[TaskType["topup"] = 3] = "topup";
-    TaskType[TaskType["withdraw"] = 4] = "withdraw";
-    TaskType[TaskType["getGasTest"] = 5] = "getGasTest";
+    TaskType[TaskType["gasToSgas"] = 3] = "gasToSgas";
+    TaskType[TaskType["sgasToGas"] = 4] = "sgasToGas";
+    TaskType[TaskType["topup"] = 5] = "topup";
+    TaskType[TaskType["withdraw"] = 6] = "withdraw";
+    TaskType[TaskType["getGasTest"] = 7] = "getGasTest";
+    TaskType[TaskType["domainMapping"] = 8] = "domainMapping";
+    TaskType[TaskType["domainResovle"] = 9] = "domainResovle";
+    TaskType[TaskType["domainRenewal"] = 10] = "domainRenewal";
+    TaskType[TaskType["getDomain"] = 11] = "getDomain";
+    TaskType[TaskType["recoverSgas"] = 12] = "recoverSgas";
+    TaskType[TaskType["ClaimGas"] = 13] = "ClaimGas";
 })(TaskType = exports.TaskType || (exports.TaskType = {}));
 /**
  * 确认的操作类型
@@ -3077,6 +3095,7 @@ var ConfirmType;
 (function (ConfirmType) {
     ConfirmType[ConfirmType["tranfer"] = 0] = "tranfer";
     ConfirmType[ConfirmType["contract"] = 1] = "contract";
+    ConfirmType[ConfirmType["recharge"] = 2] = "recharge";
 })(ConfirmType = exports.ConfirmType || (exports.ConfirmType = {}));
 /**
  * @param open 开标或者重新开标
@@ -3095,13 +3114,6 @@ var DomainState;
     DomainState[DomainState["pass"] = 6] = "pass";
 })(DomainState = exports.DomainState || (exports.DomainState = {}));
 
-
-/***/ }),
-
-/***/ "6rKk":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -3184,13 +3196,15 @@ var wallet_vue_1 = __webpack_require__("PPZq");
 var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
 var importpack_1 = __webpack_require__("VKSY");
+var StorageMap_1 = __webpack_require__("slXE");
+var taskmanager_1 = __webpack_require__("XfB5");
 var transfer = /** @class */ (function (_super) {
     __extends(transfer, _super);
     function transfer() {
         var _this = _super.call(this) || this;
         _this.balances = [];
         _this.balance = new entity_1.BalanceInfo();
-        _this.addrerr = "";
+        _this.addrerr = 0; //0默认,1 success成功，2 test错误，3 address错误，4 domain错误
         _this.amounterr = "";
         _this.txs = [];
         _this.nextpage = true;
@@ -3203,7 +3217,6 @@ var transfer = /** @class */ (function (_super) {
         _this.amount = "";
         _this.asset = "";
         _this.txpage = 1;
-        Neo.Cryptography.RandomNumberGenerator.startCollectors();
         return _this;
         // this.openToast = this.$refs.toast[ "isShow" ];
     }
@@ -3223,6 +3236,8 @@ var transfer = /** @class */ (function (_super) {
             this.history();
             // this.awaitHeight();
         }
+        taskmanager_1.TaskManager.functionList = [];
+        taskmanager_1.TaskManager.functionList.push(this.updateBalances);
     };
     transfer.prototype.cutPage = function (btn) {
         btn == "next" ? this.txpage++ : (this.txpage <= 1 ? this.txpage = 1 : this.txpage--);
@@ -3276,13 +3291,14 @@ var transfer = /** @class */ (function (_super) {
                         if (addr) {
                             this.toaddress = addr;
                             this.isDomain = true;
-                            this.addrerr = 'false';
+                            this.addrerr = 1;
                             this.isAddress = true;
                             return [2 /*return*/, true];
                         }
                         else {
                             this.toaddress = "";
-                            this.addrerr = 'true';
+                            this.addrerr = 2;
+                            this.isDomain = false;
                             this.isAddress = false;
                             return [2 /*return*/, false];
                         }
@@ -3291,35 +3307,39 @@ var transfer = /** @class */ (function (_super) {
                         if (!isAddress) return [3 /*break*/, 3];
                         if (importpack_1.tools.neotool.verifyPublicKey(this.target)) {
                             this.toaddress = this.target;
-                            this.addrerr = 'false';
+                            this.addrerr = 1;
                             this.isAddress = true;
                             return [2 /*return*/, true];
+                        }
+                        else {
+                            this.toaddress = "";
+                            this.addrerr = 3;
+                            this.isAddress = false;
+                            return [2 /*return*/, false];
                         }
                         return [3 /*break*/, 6];
                     case 3:
                         if (!neoDomain) return [3 /*break*/, 5];
-                        console.log(neoDomain);
                         return [4 /*yield*/, importpack_1.tools.nnstool.resolveData(this.target)];
                     case 4:
                         mapping = _a.sent();
-                        console.log(mapping);
                         if (mapping.length) {
                             this.toaddress = mapping;
-                            this.addrerr = 'false';
+                            this.addrerr = 1;
                             this.isDomain = true;
                             this.isAddress = true;
                             return [2 /*return*/, true];
                         }
                         else {
                             this.toaddress = "";
-                            this.addrerr = 'true';
+                            this.addrerr = 4;
                             this.isDomain = false;
                             this.isAddress = false;
                             return [2 /*return*/, false];
                         }
                         return [3 /*break*/, 6];
                     case 5:
-                        this.addrerr = 'true';
+                        this.addrerr = 3;
                         this.toaddress = "";
                         this.isAddress = false;
                         return [2 /*return*/, false];
@@ -3342,45 +3362,44 @@ var transfer = /** @class */ (function (_super) {
     };
     transfer.prototype.send = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, his, num, bear, height, res, his, num, bear, height, error_1;
+            var height, res, his, num, bear, res, his, num, bear, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 9, , 10]);
-                        if (!(this.verify_addr() && this.verify_Amount())) return [3 /*break*/, 8];
-                        if (!(!!this.balance["type"] && this.balance.type == "nep5")) return [3 /*break*/, 5];
+                        _a.trys.push([0, 5, , 6]);
+                        if (!(this.verify_addr() && this.verify_Amount())) return [3 /*break*/, 4];
+                        height = StorageMap_1.default.blockheight.select("height");
+                        if (!(!!this.balance["type"] && this.balance.type == "nep5")) return [3 /*break*/, 2];
                         return [4 /*yield*/, importpack_1.tools.coinTool.nep5Transaction(entity_1.LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount)];
                     case 1:
                         res = _a.sent();
-                        if (!!res["err"]) return [3 /*break*/, 3];
-                        mui.toast("" + this.$t("transfer.msg2"));
-                        his = new entity_1.History();
-                        his.address = this.toaddress;
-                        his.asset = this.asset;
-                        his.value = this.amount;
-                        his.txtype = "in";
-                        his["waiting"] = true;
-                        his.time = importpack_1.tools.timetool.getTime(new Date().getTime());
-                        his.assetname = this.balance.names;
-                        his.txid = res.info;
-                        this.txs = [his].concat(this.txs);
-                        num = parseFloat(this.balance.balance + "");
-                        bear = num - parseFloat(this.amount);
-                        this.balance.balance = bear;
-                        this.amount = "";
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
-                    case 2:
-                        height = _a.sent();
-                        entity_1.BalanceInfo.setBalanceSotre(this.balance, height);
-                        entity_1.History.setHistoryStore(his, height);
-                        importpack_1.tools.storagetool.setStorage("current-height", height + "");
+                        if (!res["err"]) {
+                            mui.toast("" + this.$t("transfer.msg2"));
+                            his = new entity_1.History();
+                            his.address = this.toaddress;
+                            his.asset = this.asset;
+                            his.value = this.amount;
+                            his.txtype = "in";
+                            his["waiting"] = true;
+                            his.time = importpack_1.tools.timetool.getTime(new Date().getTime());
+                            his.assetname = this.balance.names;
+                            his.txid = res.info;
+                            this.txs = [his].concat(this.txs);
+                            num = parseFloat(this.balance.balance + "");
+                            bear = num - parseFloat(this.amount);
+                            this.balance.balance = bear;
+                            taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }), entity_1.TaskType.tranfer);
+                            entity_1.BalanceInfo.setBalanceSotre(this.balance, height);
+                            entity_1.History.setHistoryStore(his, height);
+                            this.amount = "";
+                            importpack_1.tools.storagetool.setStorage("current-height", height + "");
+                        }
+                        else {
+                            mui.alert("" + this.$t("transfer.msg3"));
+                        }
                         return [3 /*break*/, 4];
+                    case 2: return [4 /*yield*/, importpack_1.tools.coinTool.rawTransaction(this.toaddress, this.asset, this.amount)];
                     case 3:
-                        mui.alert("" + this.$t("transfer.msg3"));
-                        _a.label = 4;
-                    case 4: return [3 /*break*/, 8];
-                    case 5: return [4 /*yield*/, importpack_1.tools.coinTool.rawTransaction(this.toaddress, this.asset, this.amount)];
-                    case 6:
                         res = _a.sent();
                         if (res.err) {
                             this.openToast("error", "" + this.$t("transfer.msg3") + res.info, 3000);
@@ -3401,21 +3420,20 @@ var transfer = /** @class */ (function (_super) {
                         this.txs = [his].concat(this.txs);
                         num = parseFloat(this.balance.balance + "");
                         bear = num - parseFloat(this.amount);
-                        this.amount = "";
                         this.balance.balance = bear;
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
-                    case 7:
-                        height = _a.sent();
+                        // var height = await tools.wwwtool.api_getHeight();
+                        taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }), entity_1.TaskType.tranfer);
                         entity_1.BalanceInfo.setBalanceSotre(this.balance, height);
                         entity_1.History.setHistoryStore(his, height);
+                        this.amount = "";
                         importpack_1.tools.storagetool.setStorage("current-height", height + "");
-                        _a.label = 8;
-                    case 8: return [3 /*break*/, 10];
-                    case 9:
+                        _a.label = 4;
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
                         error_1 = _a.sent();
                         mui.alert("" + this.$t("transfer.msg4"));
-                        return [3 /*break*/, 10];
-                    case 10: return [2 /*return*/];
+                        return [3 /*break*/, 6];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
@@ -3701,12 +3719,15 @@ var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
 var neoauctionDataModel_1 = __webpack_require__("Zz8u");
 var taskmanager_1 = __webpack_require__("XfB5");
+var StorageMap_1 = __webpack_require__("slXE");
 var NeoAuction = /** @class */ (function (_super) {
     __extends(NeoAuction, _super);
     function NeoAuction() {
         var _this = _super.call(this) || this;
         _this.myAuctionList = [];
         _this.domainInfo = [];
+        _this.isTopup = false; //是否可充值
+        _this.isWithdraw = false; //是否可提取
         _this.searchAuctionList = [];
         _this.btn_start = 4;
         _this.auctionShow = false;
@@ -3762,9 +3783,10 @@ var NeoAuction = /** @class */ (function (_super) {
                         nep5 = _b.sent();
                         this.sgasAvailable = nep5["nep5balance"];
                         this.alert_available = this.sgasAvailable.toString() + " SGas";
-                        // this.refreshPage();
                         taskmanager_1.TaskManager.functionList = [];
                         taskmanager_1.TaskManager.functionList.push(this.refreshPage);
+                        entity_1.TaskFunction.topup = this.topupStateRefresh;
+                        entity_1.TaskFunction.withdraw = this.withdrawRefresh;
                         return [2 /*return*/];
                 }
             });
@@ -3772,13 +3794,10 @@ var NeoAuction = /** @class */ (function (_super) {
     };
     NeoAuction.prototype.refreshPage = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var oldheight, height, _a, nep5;
+            var _a, nep5;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        oldheight = this.refresh.select("height");
-                        height = taskmanager_1.TaskManager.oldBlock.select('height');
-                        if (!oldheight) return [3 /*break*/, 3];
                         _a = this;
                         return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
                     case 1:
@@ -3787,19 +3806,8 @@ var NeoAuction = /** @class */ (function (_super) {
                     case 2:
                         nep5 = _b.sent();
                         this.sgasAvailable = nep5["nep5balance"];
-                        this.refresh.put("withdraw", false);
-                        this.alert_withdraw.watting = false;
-                        if (oldheight < height) {
-                            this.getBidList(this.address);
-                            this.refresh.put("bidlist", false);
-                            this.refresh.put("height", height);
-                        }
-                        return [3 /*break*/, 4];
-                    case 3:
-                        this.refresh.put("height", height);
                         this.getBidList(this.address);
-                        _b.label = 4;
-                    case 4: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         });
@@ -3818,6 +3826,50 @@ var NeoAuction = /** @class */ (function (_super) {
                         return [4 /*yield*/, neoauctionDataModel_1.NeoaucionData.getBidList(address)];
                     case 1:
                         _a.myAuctionList = _b.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    NeoAuction.prototype.topupStateRefresh = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, nep5;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        this.alert_TopUp.watting = false;
+                        this.sessionWatting.put("topup", false);
+                        _a = this;
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
+                    case 1:
+                        _a.regBalance = _b.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(importpack_1.tools.coinTool.id_SGAS.toString(), entity_1.LoginInfo.getCurrentAddress())];
+                    case 2:
+                        nep5 = _b.sent();
+                        this.sgasAvailable = nep5["nep5balance"];
+                        this.alert_available = this.sgasAvailable + " SGas";
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    NeoAuction.prototype.withdrawRefresh = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, nep5;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        this.alert_withdraw.watting = false;
+                        this.sessionWatting.put("withdraw", false);
+                        _a = this;
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getBalanceOf()];
+                    case 1:
+                        _a.regBalance = _b.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5balanceofaddress(importpack_1.tools.coinTool.id_SGAS.toString(), entity_1.LoginInfo.getCurrentAddress())];
+                    case 2:
+                        nep5 = _b.sent();
+                        this.sgasAvailable = nep5["nep5balance"];
+                        this.alert_available = this.sgasAvailable + " SGas";
                         return [2 /*return*/];
                 }
             });
@@ -3847,6 +3899,12 @@ var NeoAuction = /** @class */ (function (_super) {
      * 验证充值金额
      */
     NeoAuction.prototype.verifToupAmount = function () {
+        if (parseFloat(this.alert_TopUp.input) > 0) {
+            this.isTopup = true;
+        }
+        else {
+            this.isTopup = false;
+        }
         if (/\./.test(this.alert_TopUp.input)) {
             this.alert_TopUp.input = this.alert_TopUp.input.toString().substr(0, (this.alert_TopUp.input.toString().indexOf(".")) + 9);
         }
@@ -3864,6 +3922,12 @@ var NeoAuction = /** @class */ (function (_super) {
      * 验证退款金额是否合法
      */
     NeoAuction.prototype.verifWithdraw = function () {
+        if (parseFloat(this.alert_withdraw.input) > 0) {
+            this.isWithdraw = true;
+        }
+        else {
+            this.isWithdraw = false;
+        }
         if (/\./.test(this.alert_withdraw.input)) {
             this.alert_withdraw.input = this.alert_withdraw.input.toString().substr(0, (this.alert_withdraw.input.toString().indexOf(".")) + 9);
         }
@@ -3895,6 +3959,7 @@ var NeoAuction = /** @class */ (function (_super) {
                         nep5 = _b.sent();
                         this.sgasAvailable = nep5["nep5balance"];
                         this.alert_available = this.sgasAvailable + " SGas";
+                        this.alert_TopUp.watting = this.sessionWatting.select("topup") ? true : false;
                         this.alert_TopUp.isShow = true;
                         this.alert_TopUp.input = "";
                         this.alert_TopUp.error = false;
@@ -3902,6 +3967,16 @@ var NeoAuction = /** @class */ (function (_super) {
                 }
             });
         });
+    };
+    //获取所有可充值金额
+    NeoAuction.prototype.getAllTopup = function () {
+        this.alert_TopUp.input = this.sgasAvailable.toString();
+        if (this.sgasAvailable != 0) {
+            this.isTopup = true;
+        }
+        else {
+            this.isTopup = false;
+        }
     };
     /**
      * 从注册器退币
@@ -3921,6 +3996,7 @@ var NeoAuction = /** @class */ (function (_super) {
                         nep5 = _b.sent();
                         this.sgasAvailable = nep5["nep5balance"];
                         this.alert_available = this.sgasAvailable + " SGas";
+                        this.alert_withdraw.watting = this.sessionWatting.select("withdraw") ? true : false;
                         this.alert_withdraw.isShow = true;
                         this.alert_withdraw.input = "";
                         this.alert_withdraw.error = false;
@@ -3928,6 +4004,16 @@ var NeoAuction = /** @class */ (function (_super) {
                 }
             });
         });
+    };
+    //获取所有可提取金额
+    NeoAuction.prototype.getAllWithdraw = function () {
+        this.alert_withdraw.input = this.regBalance;
+        if (this.regBalance != "0") {
+            this.isWithdraw = true;
+        }
+        else {
+            this.isWithdraw = false;
+        }
     };
     /**
      * 退回sgas
@@ -3945,11 +4031,11 @@ var NeoAuction = /** @class */ (function (_super) {
                         res = _a.sent();
                         if (!res.err) {
                             this.openToast("success", amount + "" + this.$t("auction.successwithdraw2"), 4000);
-                            this.sessionWatting.put("withdraw", res.info);
+                            this.sessionWatting.put("withdraw", true);
                             this.alert_withdraw.isShow = false;
                             oldBlock = new importpack_1.tools.sessionstoretool("block");
                             height = oldBlock.select('height');
-                            task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, res.info);
+                            task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, res.info, { amount: amount });
                             importpack_1.tools.taskManager.addTask(task, entity_1.TaskType.withdraw);
                         }
                         return [2 /*return*/];
@@ -3962,12 +4048,11 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.toRecharge = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var amount, data, res, txid, oldBlock, height, task, error_1;
+            var amount, data, res, txid, height, task, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         amount = this.alert_TopUp.input;
-                        this.alert_TopUp.watting = true;
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 4, , 5]);
@@ -3977,11 +4062,11 @@ var NeoAuction = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
                     case 3:
                         res = _a.sent();
+                        this.alert_TopUp.watting = true;
                         txid = res["txid"];
-                        this.sessionWatting.put("recharge-sgas", { txid: txid, amount: amount });
-                        oldBlock = new importpack_1.tools.sessionstoretool("block");
-                        height = oldBlock.select('height');
-                        task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid);
+                        this.sessionWatting.put("topup", true);
+                        height = StorageMap_1.default.blockheight.select('height');
+                        task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid, { amount: amount });
                         importpack_1.tools.taskManager.addTask(task, entity_1.TaskType.topup);
                         this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup3"), 4000);
                         this.alert_TopUp.isShow = false;
@@ -4052,7 +4137,7 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.bidDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, oldBlock, height, task;
+            var res, height, task;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.nnssell.raise(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber())];
@@ -4060,13 +4145,12 @@ var NeoAuction = /** @class */ (function (_super) {
                         res = _a.sent();
                         if (!res.err) {
                             this.openToast("success", "" + this.$t("auction.successbid2"), 3000);
-                            this.alert_myBid = "";
                             this.auctionShow = !this.auctionShow;
                             neoauctionDataModel_1.NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
-                            oldBlock = new importpack_1.tools.sessionstoretool("block");
-                            height = oldBlock.select('height');
-                            task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, res.info);
+                            height = StorageMap_1.default.blockheight.select('height');
+                            task = new entity_1.Task(height, entity_1.ConfirmType.contract, res.info, { domain: this.auctionMsg_alert.domain, amount: this.alert_myBid });
                             importpack_1.tools.taskManager.addTask(task, entity_1.TaskType.addPrice);
+                            this.alert_myBid = "";
                         }
                         else {
                             console.log(res.info);
@@ -4104,7 +4188,7 @@ var NeoAuction = /** @class */ (function (_super) {
                         neoauctionDataModel_1.NeoaucionData.setOpenSession(auction);
                         oldBlock = new importpack_1.tools.sessionstoretool("block");
                         height = oldBlock.select('height');
-                        task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, res.info);
+                        task = new entity_1.Task(height, entity_1.ConfirmType.contract, res.info, { domain: auction.domain });
                         importpack_1.tools.taskManager.addTask(task, entity_1.TaskType.openAuction);
                         this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
                         this.getBidList(this.address);
@@ -4193,23 +4277,14 @@ var NeoAuction = /** @class */ (function (_super) {
      */
     NeoAuction.prototype.searchDomainInput = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        if (!this.searchDomain.length) return [3 /*break*/, 2];
-                        this.isSearchTime = true;
-                        _a = this;
-                        return [4 /*yield*/, neoauctionDataModel_1.NeoaucionData.searchBidList(this.address, this.searchDomain)];
-                    case 1:
-                        _a.searchAuctionList = _b.sent();
-                        console.log(this.searchAuctionList);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        this.isSearchTime = false;
-                        _b.label = 3;
-                    case 3: return [2 /*return*/];
+            return __generator(this, function (_a) {
+                if (this.searchDomain.length) {
+                    this.doSearchDomain();
                 }
+                else {
+                    this.isSearchTime = false;
+                }
+                return [2 /*return*/];
             });
         });
     };
@@ -4477,7 +4552,7 @@ var SgasTool = /** @class */ (function () {
      */
     SgasTool.makeRefundTransaction = function (transcount) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxos_assets, us, i, script, r, stack, value, nepAddress, makeTranRes, r, sgasScript, scriptHash, tran, sb, data;
+            var utxos_assets, us, i, script, r, stack, value, nepAddress, makeTranRes, r, sgasScript, scriptHash, tran, sb, txid, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.coinTool.getsgasAssets()];
@@ -4522,7 +4597,7 @@ var SgasTool = /** @class */ (function () {
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getcontractstate(importpack_1.tools.coinTool.id_SGAS.toString())];
                     case 6:
                         r = _a.sent();
-                        if (!(r && r['script'])) return [3 /*break*/, 9];
+                        if (!(r && r['script'])) return [3 /*break*/, 8];
                         sgasScript = r['script'].hexToBytes();
                         scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress());
                         tran = makeTranRes.info.tran;
@@ -4538,22 +4613,12 @@ var SgasTool = /** @class */ (function () {
                         sb.EmitPushString("whatever");
                         sb.EmitPushNumber(new Neo.BigInteger(250));
                         tran.AddWitnessScript(sgasScript, sb.ToArray());
+                        txid = tran.GetHash().clone().reverse().toHexString();
                         return [4 /*yield*/, importpack_1.tools.coinTool.signData(tran)];
                     case 7:
                         data = _a.sent();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 8:
-                        // 发送交易请求
-                        r = _a.sent();
-                        if (!!r && r["txid"]) {
-                            return [2 /*return*/, r["txid"]];
-                        }
-                        else {
-                            throw "Transaction send failed";
-                        }
-                        return [3 /*break*/, 10];
-                    case 9: throw "Contract acquisition failure";
-                    case 10: return [2 /*return*/];
+                        return [2 /*return*/, { txid: txid, data: data }];
+                    case 8: throw "Contract acquisition failure";
                 }
             });
         });
@@ -4565,7 +4630,7 @@ var SgasTool = /** @class */ (function () {
      */
     SgasTool.makeRefundTransaction_tranGas = function (utxo, transcount) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxos_assets, addr, makeTranRes, tran, r, sgasScript, sb, trandata, list, tranlist, tranObj;
+            var utxos_assets, addr, makeTranRes, tran, r, sgasScript, sb, trandata;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -4585,30 +4650,19 @@ var SgasTool = /** @class */ (function () {
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getcontractstate(importpack_1.tools.coinTool.id_SGAS.toString())];
                     case 1:
                         r = _a.sent();
-                        if (!(r && r['script'])) return [3 /*break*/, 3];
-                        sgasScript = r['script'].hexToBytes();
-                        sb = new ThinNeo.ScriptBuilder();
-                        sb.EmitPushNumber(new Neo.BigInteger(0));
-                        sb.EmitPushNumber(new Neo.BigInteger(0));
-                        tran.AddWitnessScript(sgasScript, sb.ToArray());
-                        trandata = tran.GetRawData();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(trandata)];
-                    case 2:
-                        // 发送转换请求
-                        r = _a.sent();
-                        if (!!r && !!r["txid"]) {
-                            list = '';
-                            tranlist = localStorage.getItem('exchangelist');
-                            tranlist = tranlist.replace('[', '').replace(']', '');
-                            tranObj = JSON.stringify({ 'trancount': transcount, 'txid': r.txid, 'trantype': 'SGas' });
-                            list = '[' + tranlist + ',' + tranObj + ']';
-                            localStorage.setItem('exchangelist', list);
+                        if (r && r['script']) {
+                            sgasScript = r['script'].hexToBytes();
+                            sb = new ThinNeo.ScriptBuilder();
+                            sb.EmitPushNumber(new Neo.BigInteger(0));
+                            sb.EmitPushNumber(new Neo.BigInteger(0));
+                            tran.AddWitnessScript(sgasScript, sb.ToArray());
+                            trandata = tran.GetRawData();
+                            return [2 /*return*/, trandata];
                         }
                         else {
-                            // this.makeRefundTransaction_error("发送转换请求失败！")
+                            // this.makeRefundTransaction_error("获取转换合约失败！")
                         }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         });
@@ -4653,6 +4707,13 @@ var SgasTool = /** @class */ (function () {
 }());
 exports.default = SgasTool;
 
+
+/***/ }),
+
+/***/ "AT6x":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAY9JREFUWAnt1j1Pg0AYB/ACLjC0g4uTiS9LHXQ0LkYrk4Td3S/jx2kgkChY4+iqg4OJJk4mxhVYAP9P9AjGphwxvbvEu6FwL7n78dxbBwOddATkRsAQNXwQBBeGYRxivDPf9195xzV5G/61HXBbdV0foJ+bMAzXefsTBrQs6xzIOyA3+yCFTTFFLI7jYVmWV0DuA/uMouOu6RYKJGSSJKOiKC4JiewLoEeLkMKBfZFSgH2Q0oC8SKlAHqR0YBdyhRpQwuEZYWedfuXE/uZ53h5wA44HFIyoUNhB3RZ0vePoybra6HodAR0BHYH/EoHmqsNN8oQTfFuFD8dBHeM/okeW5iYBbqgC7ttQM0tzFzuOs4M78RrQPXzBo2maE8/z3lhDWc9migmQpumqasgfQBWRv4CqIZtNQjCWXNf9sG37BPl7rMlxVVWzKIrWWL3I59wIMgCtySzLZsjvyto4C4EElY3sBMpGzl2DhGonWpM4JycoY2ty2q5f5jsXkAAMibV4i43zvkyU7ltHQKUIfAJioeZB8JpkMwAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -4706,6 +4767,13 @@ var Component = normalizeComponent(
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAAXNSR0IArs4c6QAADPVJREFUaAXlW2mMltUVPt8yK4yMswNSBlQQNAhBFmVUxmIojbYN6YaNxTbGNk3tj2LtktAfavrDJTFKrLV/Sq1ibUNjSlgqFQQUIcVWWsEpIirKDDMDDs7CLN/S57n3nu97v+X9lpFBQ8/kfueu557nnnPue99lAjJGFI/HK4eGhlrA58disZmBQGAmpmpCuQr5Kk6LfC/yvch2IN8WDAbbUD5QVla2B3yAfc41Bc6lQCjdcPbs2dsgcyXSIpRLRyMfYIcxbh/SxoqKimdR7hyNnGxjzglggLwBVvwJFPsCQIZ1IlhMNKFNNGk7OfonEmSIJu2DMRH02Qo5DwH8Lq0fLf9EgAG0Fcrch9SiCoRCIdFEgKMhLkI0Gk0klQF5dPW1AL5T64rlo9IICk0E2EfAV+mE4XBYSkpKjBW17lxwgh8ZGZFIJJIQB9AbAHoNeHuissBM0YAHBwdXYPU3QP4EzkFrEihddyyJrk7gtLyjM5h7VXl5+RatKIQXBXhgYGANhD6IVQe+oJSWlo450HQQBD48PGxiHRaOof3eysrKR9L7+ZULAgyAZQD7GwhZTUG0KNOnSbQ2k6P1AP09LMCQVvjxvIABth7x+gL4tRRCqzJePwvEuKa1SQC7F3H9ZfCuXLrlBEzLAuwOgoUgwYHgvLtwLuXZRhfHAcdc2hzoVnBfS+cE3N/f/zvIXE2w2BzO6Q78bl+b7D35orzWuUOmVc2WrzR/W5rHX04MRRMMIthMDWgMXj9u3Lg7/IT4AuYGBUEPcyDBnotduH3gmOzvAsiT2+XEwAcSk4DE4iJRl+bVXScrm1fLFROu8tPXt56WJmgSDHSP30aWFTAvPRCwCYCDnzRmuwc/lNe7X5T9nS/K8b6jBhyBRuNJsDEJeupFZl88T74+bbXMrZnvCzBbg8Y0AMdgoFuyXbIyAAPkRFj3MAROGO1ufGa4U/51aru83rVN3u19S6K4eBiQEBqNASh4DICNZRNWZj3qtC+sftmE2bJq+u2yuH5JNnxZ6zy79xlYeRbApxxOMgAD7LMAvYouTFculPojH8l/Tv1d3ujeJkd73zCKE5C1pnVbA9IDisAVYLIfLQ/gaNNFmTr+Uvnm9G9J68RW+EL+Aw5dmy4OsBsAmjczCUoBjB15KTruYGshcTsU7ZPDH70k/+7eKkc/PiAjsQgAwj2BRMGmW83W04XjBhDbI1iYOLnHugpWF4J8UuUlsPhtsmLycgkFQgkQ6RlvPMNwrd6zd8oFFZa9n4N5XPTbpCKxQXm7Z6e8eXqrHDnzqoxECdLGI+6H7E7JOyP8AYUlLqvLY9V5i2TbXTWbuXmZNoA2Y1lJMuNs4XjfB/LsO3/E8IDcOmWFbc/yS92JgcdQh+l67ZYADOveiJUxdz25TlG9wx/KQKRHus6+DYE86TjNoBh1Y4kJN30mhwldDRhIy6xlsuRksMYsCGqZxR+HN1U2ydKmz8Olb5K6slrZ1bFHjvW9K9PGN7vxmYwYHOAWYoOVX2YvnUlwzf0ryrfwFMWd2Y+e/OdlMr36izK38U45Ndghr3Y8Lcd733RWtu5pLW43JXPZwTTq4tli1rRx12Y/DCCvLq+XJQ2tciOA1pU3AOQukw6ePghviMmDCx6UhfUL/dQ09TyFubusTbg238pKY2GsOp9U8OY97xk5Ho/KOz2bTJo8frHcfMldEscTm90nfi9v9bxKE5rJrIWRDWCTUTe1TbYd/eiaXHH7K3JR6QRZVLdUWpqWSS1A7gbIdYcel8M9h4xncLjtTxEeYSxmIVqZgBEqxNYA3mkAA+xtqAjT700cZRmsVSG6nKP2vn3S3veaXFwxQxY03Ck3T/mB7Ol4Xg50bZEY3N3IyqqXlUFR5aHxMr/uBrm2cZnUlDbKK5275YnD67A/tBlICtAzrZk9vaw6eTnnd7EcJka0PaoxzGdQptE7IFs+CCHOiABEgwbkzOAR2f3+T6WypF6urL9Dlk56RvZ1bpY97Rulb6QXZnGbGW2JfFmwXObUtMjChmXSUDFVdrRvlycOrcM1+ximtHYk0KCRbzl1oQdyPHkhFuYY3byQJcZHwxhcCfSLtJE8F9H99F6f8zKvCzAY6ZZ/nHhYDnY+ITNqvib3zH1KDp7aLy+deE56hk7LrJolsqDuZplT2yKlwTIzzW/bHpeNx54z+WDA7t6MYhJBYz0NtxWsYXxoEJjanD8E7IgPFSvD7lFqKbdy44La7MO9Lm3OAFxsdxbgygdhlkh0QA51rZe3up+RqROWy91X3idVpZfDfSszpMJesKQFaBsp0BGzBrW3gnkuTGFETMSGK1ApsdLC5sDqd91NF2smcrNxnePOKuxn9SMES9x33+vZLB8PHZEvzdjsalNZkIATI1LbBLINYsPZpuiVp/X3KTrADIX5YSCfyX6FAjYWxqolyZPXeuUEgl06UUwOSuTYFkoASlR7Mrp8XFBesLig5IWTYiPWMEw+k65YiDtzCvbTydz6+9nH9DVxrgOy6GhcmnEJyifPbmIMAeqRXIgsYlOqFBuxcpduYqtWpvTMUuAunUP/lBFUySiXYwRlcbMqmAqd3CPQg62JMWze83gqPV0zs3RpegSJY7zeoXltt5cwxqi/lgSLLaUgeZgQboC5i1h01ZMcelXRpatUQTNrnh+CwIymF09TQcSonqo0T27IdMMuacbYqvRf49IJCzO02MMuqHFhM4cbpW3gJpsuLE+ZWPXgkadrspkTpXqDZ2pqS10dQGNxaO3pkRTkcgSce9PyDDHWRdl4mF0UT2tBWbo0jkJSW1BvdLIxbCEYbICTMrXHmsal3Rg/+SkWdu5qAXEE57GzmPG6cuCaNfUF/hArXboXmVpjDY+yfjJSDh6Jae306foag0PfnC6NoSkxzEuOeoi5/HBJXIybxbWnsWJ2aWIjEStdugOpWSvZkIu8yusi6VhrUca1Z/0NIH+JjFN1acoxcesU1Dy5IbOiyLl2V5uXqX7o2EGXbkNmsacypwDuuDk3Ke/h13mjWiybYOPSGhQKzI9TgGvTLtlkptcpNmIN4xTShhOIeeiV3jFbmRPpLmx2aXMwtC6TCDdXNOORz6WcAezZpW3v3PKsXt5JsmmarCM+ErHC+wIHWNBK5nMRY5guxhTC5Uc582xLcuTRaOv8Ic+svkZqy+olhDgNUaZyMwd3cM5FV7e7uXJ/iZnaKzZiDboPSIZZqabPHJKsYXwm/2gPe9mhArbNcu2nPCkhNTen9iZ5YPF2uf2KB2Ri5VRIAziAZmJsK2eebcqZL4SIidgAdphYoY/5WoYfkHhfNvvKQn9MahPBWIvbwwXL3uRt8xWIhlCgRK5r+qqsXbBF7rrqMWnGuyYLWsGTA2wwyYG+IPK8QN9HrHrw2IjR17Mx36tQgvAjriYBJzyFfVHHRSqE6Ctz65ab9N+eV+Rv7z+JR8KvAaqNQSPDiSpMYooRiRELB8IjTH4aFHGPNVnlS5xIEwczT24SgCU48nhCZi2O9mJpRvUS+eGcp+XH8/4sV+MpSSKWAZ9xXIhLc+GJidiIkTpQP1Z0onEr85636ixmkHVjblD2kyTlvOfUvN247H0w8wUaOGMuVnyu6mr57uxfy8+u2SaLG1dKaSiMhSwsfhULsREj5RnAJoPvoMj5WFN3NZbTiddh3aWNdfGjFk/ndH/W5QqDdPl+5YaKS+UbMx6Sn1+zQ26YfAeA537vRQzumTQvRwYbZVOfBOFF2m6sRgsffPFtfzY6fPJHcubs3mxNGXXwKGPdipJpcvXk5zPax7KCXwU4d96DF2qJVy0JC3NymP2X5OzoZ+VZjY/JnEl/kLpxiKsgoxRuwth11lSultV2yj1fRN2JgQRMa73zpgBGYO9Ahw3soB+LeDtrvrJ0plxW/ysA/5M0XrQSLosP0tBo4tVxE89YBMNTHUnFjBlX3YkFmHZ6J6KeKQSXLvqF+Ei0Wzp7N0h331/wbqgf8qxYyOIKS3m4WWZPss+eUyYbg0K+F+IpFub8ULAdMbwKPMbBGvi5dCsJ1cnk6rvlqkkvgH9fSkLV1uLY3YxLc5c7D0RdqTN1dxja06fNAMwO7tuIe5mne/jFM9u9FApWwcW/Y4BPqVkj5SUTXXx7e41NnjqqK2OGe7N935F3Zn62hBTH7h2HQHhosRSJf9S/Jf7eqV8UO7Co/tSNOlJX6pwLWE5fw6wX3IdpWV1aVwixMIRdjp/z7QV48x1UITGt48eaUxf9II06Ol19v8KjPjkBswMEdUFQK7LrWWac6JGN5U+LqIMnZtdTR+qaT5+cLp0+GHGyBnUX/ufDXuD8Sg+nGB5OLvwPxBU44vn/518AFDQ5vhxYCvD3I13Y/+ThBe2A8xuve7BpjOW/8TyMjenl9LmLLRe1aeUTDks3wuqr0O/C/ketbAsB8J/Jf8X7H99c7CZVbaLrAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ "Blow":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAA9JJREFUWAntmFlIVFEYxxst2g3LMCuwHgoiWzBIIsUSKwgihCAiMEqCHoKK6KHtod4iCupBn4IKWigiLChoeWlVghYqsMgWWrWFtLTScvr9Z86ZOVwnlbk3hfKD35zvfGf5/nPvOXfr06fXeo9A145AOBwuhqOwF6Z2bVQ39ELMQDgMrn2jsr4b0neeAiFbjbIHlGtM/TPlT8jvfIa/2AMB/aEGGmGiTYW/EmQVNpZsmZLsQDNuEOVIeBsKhR47c1Ubf5QTS8r1K7CRrLUwnqM131GwzPg1TqxnXIQt17nEdJoPwRlVsI8QO+09o85kRcgGeA/WHuIU9agob3IETYMfcBsGe9uTrftdg27eOiphaGbDNLkNfvwgBaYaISE/grxjgxTonTuQ+n8lsM0cMq3DwCzII5iGKq2/AezifoEpDGIiBJXBC7B2EycviLl9z4GQEqNK18BKuGLqbyizfSfwMwECUuEG6NGqRHNRhmAPyHb6md/3WASkwwdwn2QkMgdkp/0m8btJviDgHYxEjHs6c4ywl34F+hqPqDFwB2RVsBTWQh3IzoHvZ8KkRJJ4HjwBmRUUrYXDrTjPTUVP3HOSSpLMIJL1hW0gEbJyyIJS0GaphTzIgAMg0w7fBH6XVMeSSZANZ0GmB9JSOwJfgr7DVRtTSX01NIDsFIx22wPzmXgh2NN2HX+KOzn1TJDAa25cPrFcuAUyLYtib58u1xmsW1UhLIGpMAR2wC+Q7YMh3gmJzYQWuAfDE7QPI14BMi2PLTACCkG5pnvHtKvTSdevarAmUY9MpZ7SvgzFxhJLge2gdxJrT3EWxTo5DvEV8AFkr6NF7FcfAIY63eMuDWlw33S9QKm7gXagTPfZSfHecY/4KnXAlHQ/HIE20LqbHO8Z94jPhmaQeXOVx3s6Hh11DZOdgMhTMWUWPINPkOl0j7jEtKP1DqK1V2Db8TeDbLeNuSXxxaA/cRIiO5tyNDyDrzDW9ne3/SwTrOSdIvJMR/mW2HVIh3HgNZ0O3UGe09fdvZWm4wTvAFPX2dBBUK7IcyTlG+rKpReuhALv0iCbGy0iu08CZkAL1Nu4U+rlSLe6sfxre3tTc6F+sFfRot2vjXtz5dIzcS4S6H5qLyMH8dfBVZAdA/3jdkZ8ozpgunzoYrwLmuAHzGw3gABxN9ch6m6u49QT5tLAAqgF1y5S+eP9lDZ9QLKXDztOX7fKEomzMdrzwZtLG2YUxATGHGegPgYtAK2fKrjE+mil7NCYVGu4CBrgPGP0zaZDY0wGHdxcl5VLArHIPuhwgt7Gf+EI/AYMyEAT7TlxigAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -4878,7 +4946,6 @@ var Bonus = /** @class */ (function (_super) {
                     case 1:
                         res = _a.sent();
                         this.claimNum = res;
-                        console.log(res);
                         return [2 /*return*/];
                 }
             });
@@ -4896,7 +4963,7 @@ var Bonus = /** @class */ (function (_super) {
                         return [4 /*yield*/, importpack_1.tools.sgastool.claim()];
                     case 1:
                         txid = _a.sent();
-                        console.log(txid);
+                        // console.log(txid);
                         this.checkClaim(txid);
                         return [2 /*return*/];
                 }
@@ -4913,7 +4980,7 @@ var Bonus = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
                     case 1:
                         res = _a.sent();
-                        console.log(res);
+                        // console.log(res);
                         if (res) {
                             this.checkClaimAgain(txid);
                         }
@@ -4940,8 +5007,8 @@ var Bonus = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getnep5transferbytxid(txid)];
                     case 1:
                         res = _a.sent();
-                        console.log("nep5 tran----------");
-                        console.log(res);
+                        // console.log("nep5 tran----------")
+                        // console.log(res);
                         if (res) {
                             this.isClaim = false;
                             this.claimState = 4;
@@ -5015,6 +5082,13 @@ var Bonus = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Bonus;
 
+
+/***/ }),
+
+/***/ "Fxcc":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABA5JREFUWAndmLtrVEEUxhOxSISIYLU2YmkhCDEWigSCBC0CaVO5sUhlBIs0ASEhYBVSWYt/QjRFJKiFMTYWEQRtNImNNopFCo2PrL/v7py7c2fn3t3Ejbt44MvMPec7j507r5uurv9ZKpXKAFgDOyAU6WQbaMsYkLgEvoJGIk5pv0UeataRJD0Bd4TnY+ApONodiHTOJo64qURipbaw07BAgo2ADRy/0b4Bgy7ICdeuUtt2GNjpVn2ufBUDnWJtgEzhYQw9FxZIgDKcRXAK/AKnwUozgeFlxPmsoFQMxVLMRZeD7h4Fx3HwG0imwRGwoAdEC+B50qtUZvJCY591HHHlI1GMXqCYEuUo58WI6nHwi5vySdjmgS+Tvt3vQ5r0ifTnA/uUszdfJA6aczZymeIsOPY5sAzGQLfpw1Y2xxF3LrTrGb1fZMM5KYdNIJmOBTwInXIlGauLMT8FpB5H/Enbm89srYVcmt/KKQm3s2wyCNpKJAtZy8E9KVeSsboFFSeCOAhsxWUmdbHn/qzkskWnnLbHFgeDqIViRUYnt0WA1we0nayDbQf1peszXqzFrsUmUa7oAjlsjhB0XopkJ8RL+hfBORAVfIYw3AMnA8JZnoVrcK5zqug4jInFVq5+uP20H8ESPp9SBwznQd7BP5YSvQ78IbALJM+ARr3koL50EnH0Q+oE/ZgIEVEtyS0o2cN4WMP7AtAvtfNTts/gLr+mQpsKfL2610AjdwfchrNLmwocHaOaHtquPoAzcDJnNhzluAGOA5NLdPSDXsDXG0w2S5tvhXMmIVf5ml8SjZIKiYpsjkNTmY2SAiU8zWnJTmqqPlcyo5QaIx34r5xPdGL7LvD0uiXrvr6oX6V79dQpiryxwddqlTS8iIqTMPFpEDY1O34yYLmvJ2W3ubPfAt+7um2bKPoZxnlXRMqzWYE/RGBom1okUB+4gLqJWAynqjXOZjeihzVLfs+rIalJy1yFxbYZmb6AjthmOnuj1lAxiuFRdxm1NspHbJhXxQkFnyF0saPOqNqgc486/JexXwF6g4+BpP6oq+prf3HU3mWbd7OXBe2NLb8s1KpyPZIMesV13nWL4jr3wkpx7bry6zM0euXP7GEshu+86S2ge+It8K9EuZRz09WQn5dfogXSuZ+dKp0Cx/OKRG/fEHQTmcz7uVhvOo41mUWH0v8mLufFiepx9ovUd6vmiX19aQtq378+rGKKKAN73TaJVZymwQyQzBg/bGVLGNXW31stVsN/eWQWSZiACXsf3SjYAprEb8Ew+iXaPYnzGcZJMRRrC4y6HHT/UhiJzBc/zxNudJ7Q1t2CpAOySSb89DxnYvm2lvVJUgJ5X4KYUhGn4c27ZYX5gUg8ADrzn+h+oQfZ/wM4TtvTqspNkQAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -5834,13 +5908,6 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABoCAYAAAAO
 
 /***/ }),
 
-/***/ "JrWs":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "JxTv":
 /***/ (function(module, exports) {
 
@@ -5849,6 +5916,13 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6
 /***/ }),
 
 /***/ "KWej":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "Lars":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -5980,14 +6054,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var auctioninfo = __webpack_require__("mcrB");
 var auctioninfo_default = /*#__PURE__*/__webpack_require__.n(auctioninfo);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-f429f84c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/auctioninfo.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"page-two"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title3')))]),_vm._v(" "),_c('div',{staticClass:"goback",on:{"click":_vm.onBack}},[_vm._v("<<<"+_vm._s(_vm.$t('auction.goback')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"filename"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+": "+_vm._s(_vm.domainAuctionInfo.domain))]),_vm._v(" "),(_vm.domainAuctionInfo.auctionState=='1')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+": "),_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))])]):_vm._e(),_vm._v(" "),(_vm.domainAuctionInfo.auctionState=='2')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+": "),_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))])]):_vm._e(),_vm._v(" "),(_vm.domainAuctionInfo.auctionState=='0')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+": "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"highest-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+": "+_vm._s(_vm.domainAuctionInfo.maxPrice)+" SGas")]),_vm._v(" "),(_vm.domainAuctionInfo.maxBuyer != _vm.address)?_c('div',{staticClass:"bidder"},[_vm._v(_vm._s(_vm.$t('auction.currentbidder'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+"（ "+_vm._s(_vm.domainAuctionInfo.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(_vm.domainAuctionInfo.maxBuyer == _vm.address)?_c('div',{staticClass:"bidder"},[_vm._v(_vm._s(_vm.$t('auction.currentbidder'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+"（ "+_vm._s(_vm.domainAuctionInfo.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"my-bid-sgas"},[_vm._v(_vm._s(_vm.$t('auction.mybidmsg'))+": "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.myBidPrice))]),_vm._v("  SGas")])]),_vm._v(" "),(_vm.domainAuctionInfo.auctionState==0&& _vm.domainAuctionInfo.maxBuyer == _vm.address)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title6')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"neoname"},[_vm._v(" "+_vm._s(_vm.domainAuctionInfo.domain))]),_vm._v(" "),_c('div',{staticClass:"neoname-tips"},[_vm._v(_vm._s(_vm.$t('auction.getdomaintips')))]),_vm._v(" "),_c('div',{staticClass:"btn-center"},[(_vm.state_getDomain==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":_vm.getDomain}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(_vm.state_getDomain==1)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.gettingdomain')))]):_vm._e(),_vm._v(" "),(_vm.state_getDomain==2)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),(_vm.myBidPrice!='0'&&_vm.domainAuctionInfo.auctionState==0&& _vm.domainAuctionInfo.maxBuyer != _vm.address)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title7')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"cumulative-msg"},[_vm._v(_vm._s(_vm.$t('auction.mybidmsg'))+": "+_vm._s(_vm.myBidPrice)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"fee-msg"},[_vm._v(_vm._s(_vm.$t('auction.fee'))+": "+_vm._s(_vm.fee)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"remain-msg"},[_vm._v(_vm._s(_vm.$t('auction.remainingsgas'))+": "+_vm._s(_vm.remaining)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"btn-center"},[(_vm.state_recover==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":_vm.recoverSgas}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(_vm.state_recover==1)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.recoveringsgas')))]):_vm._e(),_vm._v(" "),(_vm.state_recover==2)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),(_vm.domainAuctionInfo.auctionState>0)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title4')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',[_c('div',{staticClass:"input-msg"},[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+": ")]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.bidPrice),expression:"bidPrice"}],attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid'),"autocomplete":"off"},domProps:{"value":(_vm.bidPrice)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.bidPrice=$event.target.value},_vm.myBidInput]}}),_vm._v(" "),_c('span',[_vm._v("SGas")])]),_vm._v(" "),(_vm.inputErrorCode==1)?_c('div',{staticClass:"err-msg status-ended"},[_vm._v(_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.balanceOf)+" "+_vm._s(_vm.$t('auction.errmsg2')))]):_vm._e(),_vm._v(" "),(_vm.inputErrorCode==2)?_c('div',{staticClass:"err-msg status-ended"},[_vm._v(_vm._s(_vm.$t('auction.errmsg4')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"my-sgas"},[_vm._v(_vm._s(_vm.$t('auction.mywillbid'))+": "),_c('span',{class:_vm.updatePrice<=_vm.domainAuctionInfo.maxPrice||_vm.inputErrorCode==1?'status-ended':'status-being'},[_vm._v(_vm._s(_vm.updatePrice))]),_vm._v(" SGas")]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.tips1'))+" \n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.bidState==2)?_c('button',{staticClass:"btn btn-bid btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(_vm.bidState==0)?_c('button',{staticClass:"btn btn-bid ",on:{"click":_vm.bidDomain}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title5')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"process-wrapper"},[_c('label',[_vm._v(_vm._s(_vm.$t('auction.status')))]),_vm._v(" "),_c('div',{staticClass:"process-box"},[_c('div',{class:_vm.process.timearr.length==3?'process':'process long',style:('width:'+_vm.width+'%')},[_c('div',{staticClass:"process-tips"},[_vm._v(_vm._s(_vm.process.state)+" ")])]),_vm._v(" "),_c('div',{staticClass:"starts"},[_vm._v(_vm._s(_vm.process.date)+"\n            "),_c('br'),_vm._v(_vm._s(_vm.process.time))]),_vm._v(" "),_vm._l((_vm.process.timearr),function(days){return _c('div',{key:days.msg,staticClass:"days"},[(days.msg!=''&&days.msg=='1')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.bidstarttimemsg')))]):_vm._e(),_vm._v(" "),(days.msg!=''&&days.msg=='2')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.endtimemsg')))]):_vm._e(),_vm._v(" "),(days.msg!=''&&days.msg=='3')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.maxtimemsg')))]):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(days.date)+"\n              "),_c('br'),_vm._v(_vm._s(days.time))])])})],2)]),_vm._v(" "),_c('div',{staticClass:"auction-tips"},[_vm._v(_vm._s(_vm.$t('auction.tips'))+" "),_c('p',[_vm._v(" "+_vm._s(_vm.$t('auction.statustips')))]),_c('p',{},[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])]),_vm._v(" "),_c('div',{staticClass:"timeling-wrapper"},[_c('div',{staticClass:"first"}),_vm._v(" "),_vm._l((_vm.bidDetailList),function(item,index){return _c('div',{key:index,staticClass:"list"},[_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"infos"},[_c('span',[_vm._v(_vm._s(item.addPriceTime))]),_vm._v(" "),(!item.maxBuyer)?_c('p',[_vm._v(_vm._s(_vm.$t('auction.auctionopen')))]):_vm._e(),_vm._v(" "),(item.maxBuyer != _vm.address && item.maxBuyer)?_c('p',{staticStyle:{"font-size":"12px"}},[_vm._v(_vm._s(_vm.$t('auction.other'))+"（ "),_c('span',{staticStyle:{"font-size":"12px"}},[_vm._v(_vm._s(item.maxBuyer))]),_vm._v("  ）")]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('p',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+"（ "),_c('span',[_vm._v(_vm._s(item.maxBuyer))]),_vm._v(" ）")]):_vm._e(),_vm._v(" "),(item.maxBuyer!='')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.price'))+" "+_vm._s(item.maxPrice)+" SGas")]):_vm._e()])])})],2),_vm._v(" "),_c('div',{staticClass:"viewmore"},[(_vm.btnShowmore)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.getMoreBidDetail}},[_vm._v(_vm._s(_vm.$t('btn.viewmore')))]):_vm._e()])]),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-36612e74","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/auctioninfo.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"page-two"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title3')))]),_vm._v(" "),_c('div',{staticClass:"goback",on:{"click":_vm.onBack}},[_vm._v("<<<"+_vm._s(_vm.$t('auction.goback')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"filename"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+": "+_vm._s(_vm.domainAuctionInfo.domain))]),_vm._v(" "),(_vm.domainAuctionInfo.auctionState=='1')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+": "),_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))])]):_vm._e(),_vm._v(" "),(_vm.domainAuctionInfo.auctionState=='2')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+": "),_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))])]):_vm._e(),_vm._v(" "),(_vm.domainAuctionInfo.auctionState=='0')?_c('div',{staticClass:"status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+": "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"highest-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+": "+_vm._s(_vm.domainAuctionInfo.maxPrice)+" SGas")]),_vm._v(" "),(_vm.domainAuctionInfo.maxBuyer != _vm.address)?_c('div',{staticClass:"bidder"},[_vm._v(_vm._s(_vm.$t('auction.currentbidder'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+"（ "+_vm._s(_vm.domainAuctionInfo.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(_vm.domainAuctionInfo.maxBuyer == _vm.address)?_c('div',{staticClass:"bidder"},[_vm._v(_vm._s(_vm.$t('auction.currentbidder'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+"（ "+_vm._s(_vm.domainAuctionInfo.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"my-bid-sgas"},[_vm._v(_vm._s(_vm.$t('auction.mybidmsg'))+": "),_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.myBidPrice))]),_vm._v("  SGas")])]),_vm._v(" "),(_vm.domainAuctionInfo.auctionState==0&& _vm.domainAuctionInfo.maxBuyer == _vm.address)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title6')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"neoname"},[_vm._v(" "+_vm._s(_vm.domainAuctionInfo.domain))]),_vm._v(" "),_c('div',{staticClass:"neoname-tips"},[_vm._v(_vm._s(_vm.$t('auction.getdomaintips')))]),_vm._v(" "),_c('div',{staticClass:"btn-center"},[(!_vm.isReceived && !_vm.isGetDomainWait)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":_vm.getDomain}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(!_vm.isReceived && _vm.isGetDomainWait)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.gettingdomain')))]):_vm._e(),_vm._v(" "),(_vm.isReceived)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),(_vm.myBidPrice!='0'&&_vm.domainAuctionInfo.auctionState==0&& _vm.domainAuctionInfo.maxBuyer != _vm.address)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title7')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"cumulative-msg"},[_vm._v(_vm._s(_vm.$t('auction.mybidmsg'))+": "+_vm._s(_vm.myBidPrice)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"fee-msg"},[_vm._v(_vm._s(_vm.$t('auction.fee'))+": "+_vm._s(_vm.fee)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"remain-msg"},[_vm._v(_vm._s(_vm.$t('auction.remainingsgas'))+": "+_vm._s(_vm.remaining)+" SGas")]),_vm._v(" "),_c('div',{staticClass:"btn-center"},[(!_vm.isReceived&&!_vm.isRecoverWait)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":_vm.recoverSgas}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(!_vm.isReceived&&_vm.isRecoverWait)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.recoveringsgas')))]):_vm._e(),_vm._v(" "),(_vm.isReceived)?_c('button',{staticClass:"btn btn-nel btn-bid btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),(_vm.domainAuctionInfo.auctionState>0)?_c('div',[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title4')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',[_c('div',{staticClass:"input-msg"},[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+": ")]),_vm._v(" "),_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.bidPrice),expression:"bidPrice"}],attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid'),"autocomplete":"off"},domProps:{"value":(_vm.bidPrice)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.bidPrice=$event.target.value},_vm.myBidInput]}}),_vm._v(" "),_c('span',[_vm._v("SGas")])]),_vm._v(" "),(_vm.inputErrorCode==1)?_c('div',{staticClass:"err-msg status-ended"},[_vm._v(_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.balanceOf)+" "+_vm._s(_vm.$t('auction.errmsg2')))]):_vm._e(),_vm._v(" "),(_vm.inputErrorCode==2)?_c('div',{staticClass:"err-msg status-ended"},[_vm._v(_vm._s(_vm.$t('auction.errmsg4')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"my-sgas"},[_vm._v(_vm._s(_vm.$t('auction.mywillbid'))+": "),_c('span',{class:_vm.updatePrice<=_vm.domainAuctionInfo.maxPrice||_vm.inputErrorCode==1?'status-ended':'status-being'},[_vm._v(_vm._s(_vm.updatePrice))]),_vm._v(" SGas")]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.tips1'))+" \n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.bidState==2)?_c('button',{staticClass:"btn btn-bid btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(_vm.bidState==0)?_c('button',{staticClass:"btn btn-bid ",on:{"click":_vm.bidDomain}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e()])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title5')))])]),_vm._v(" "),_c('div',{staticClass:"form-box"},[_c('div',{staticClass:"process-wrapper"},[_c('label',[_vm._v(_vm._s(_vm.$t('auction.status')))]),_vm._v(" "),_c('div',{staticClass:"process-box"},[_c('div',{class:_vm.process.timearr.length==3?'process':'process long',style:('width:'+_vm.width+'%')},[_c('div',{staticClass:"process-tips"},[_vm._v(_vm._s(_vm.process.state)+" ")])]),_vm._v(" "),_c('div',{staticClass:"starts"},[_vm._v(_vm._s(_vm.process.date)+"\n            "),_c('br'),_vm._v(_vm._s(_vm.process.time))]),_vm._v(" "),_vm._l((_vm.process.timearr),function(days){return _c('div',{key:days.msg,staticClass:"days"},[(days.msg!=''&&days.msg=='1')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.bidstarttimemsg')))]):_vm._e(),_vm._v(" "),(days.msg!=''&&days.msg=='2')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.endtimemsg')))]):_vm._e(),_vm._v(" "),(days.msg!=''&&days.msg=='3')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.maxtimemsg')))]):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(days.date)+"\n              "),_c('br'),_vm._v(_vm._s(days.time))])])})],2)]),_vm._v(" "),_c('div',{staticClass:"auction-tips"},[_vm._v(_vm._s(_vm.$t('auction.tips'))+" "),_c('p',[_vm._v(" "+_vm._s(_vm.$t('auction.statustips')))]),_c('p',{},[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])]),_vm._v(" "),_c('div',{staticClass:"timeling-wrapper"},[_c('div',{staticClass:"first"}),_vm._v(" "),_vm._l((_vm.bidDetailList),function(item,index){return _c('div',{key:index,staticClass:"list"},[_c('div',{staticClass:"line"}),_vm._v(" "),_c('div',{staticClass:"infos"},[_c('span',[_vm._v(_vm._s(item.addPriceTime))]),_vm._v(" "),(!item.maxBuyer)?_c('p',[_vm._v(_vm._s(_vm.$t('auction.auctionopen')))]):_vm._e(),_vm._v(" "),(item.maxBuyer != _vm.address && item.maxBuyer)?_c('p',{staticStyle:{"font-size":"12px"}},[_vm._v(_vm._s(_vm.$t('auction.other'))+"（ "),_c('span',{staticStyle:{"font-size":"12px"}},[_vm._v(_vm._s(item.maxBuyer))]),_vm._v("  ）")]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('p',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+"（ "),_c('span',[_vm._v(_vm._s(item.maxBuyer))]),_vm._v(" ）")]):_vm._e(),_vm._v(" "),(item.maxBuyer!='')?_c('em',[_vm._v(_vm._s(_vm.$t('auction.price'))+" "+_vm._s(item.maxPrice)+" SGas")]):_vm._e()])])})],2),_vm._v(" "),_c('div',{staticClass:"viewmore"},[(_vm.btnShowmore)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.getMoreBidDetail}},[_vm._v(_vm._s(_vm.$t('btn.viewmore')))]):_vm._e()])]),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_auctioninfo = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/auctioninfo.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("ndh4")
+  __webpack_require__("pe2V")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -5998,7 +6072,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-f429f84c"
+var __vue_scopeId__ = "data-v-36612e74"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -6087,6 +6161,7 @@ var vue_property_decorator_1 = __webpack_require__("EOM2");
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
 var storagetool_1 = __webpack_require__("5LD5");
+var taskmanager_1 = __webpack_require__("XfB5");
 var MyNeo = /** @class */ (function (_super) {
     __extends(MyNeo, _super);
     function MyNeo() {
@@ -6096,8 +6171,7 @@ var MyNeo = /** @class */ (function (_super) {
         _this.currentAddress = entity_1.LoginInfo.getCurrentAddress();
         _this.neonameList = null;
         _this.set_contract = "cf0d21eaa1803f63704ddb06c373c22d815b7ca2";
-        _this.resolverSession = new storagetool_1.sessionStoreTool("resolverSession");
-        _this.mappingSession = new storagetool_1.sessionStoreTool("mappingSession");
+        _this.domainEdit = new storagetool_1.sessionStoreTool("domain-edit");
         _this.renewalWatting = false;
         _this.resolverAddress = "";
         _this.mappingState = 0;
@@ -6107,7 +6181,12 @@ var MyNeo = /** @class */ (function (_super) {
         return _this;
     }
     MyNeo.prototype.mounted = function () {
+        importpack_1.tools.nnstool.initRootDomain("neo");
         this.getAllNeoName(this.currentAddress);
+        //初始化 任务管理器的执行机制
+        entity_1.TaskFunction.domainResovle = this.resolverTask;
+        entity_1.TaskFunction.domainMapping = this.mappingTask;
+        entity_1.TaskFunction.domainRenewal = this.renewalTask;
     };
     MyNeo.prototype.verifyMapping = function () {
         if (!this.resolverAddress) {
@@ -6119,34 +6198,12 @@ var MyNeo = /** @class */ (function (_super) {
     };
     MyNeo.prototype.getAllNeoName = function (address) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, arrdomain, arr, state, key, inculde, i, n, domain, a, list, _a, _b, _i, i, isshow, expired, mapping;
+            var res, list, _a, _b, _i, i, isshow, expired, mapping;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getnnsinfo(address, '.neo')];
                     case 1:
                         res = _c.sent();
-                        arrdomain = res ? res.map(function (dom) { return dom["domain"]; }) : [];
-                        arr = new Array();
-                        state = entity_1.DomainStatus.getStatus();
-                        if (state) {
-                            for (key in state) {
-                                if (state.hasOwnProperty(key)) {
-                                    inculde = arrdomain.includes(key);
-                                    inculde ? "" : arrdomain.push(key);
-                                }
-                            }
-                        }
-                        for (i in arrdomain) {
-                            if (arrdomain.hasOwnProperty(i)) {
-                                n = parseInt(i);
-                                domain = arrdomain[n];
-                                a = state[domain] ? state[domain] : new entity_1.DomainStatus();
-                                if (!a.await_resolver) {
-                                    if (!a.await_mapping) {
-                                    }
-                                }
-                            }
-                        }
                         list = res;
                         if (!(list && list.length)) return [3 /*break*/, 11];
                         _a = [];
@@ -6203,82 +6260,42 @@ var MyNeo = /** @class */ (function (_super) {
         var threeMonth = (5 * 60 * 1000) * 90;
         return copare.compareTo(threeMonth) < 0 ? false : true; //小于threeMonth即将过期false
     };
+    MyNeo.prototype.resetresolve = function () {
+        this.resolverState = 0;
+        this.resolverAddress = "";
+        this.mappingState = 0;
+        this.mappingistrue = false;
+    };
+    MyNeo.prototype.resetmappingData = function () {
+        this.resolverAddress = "";
+        this.mappingState = 0;
+    };
+    /**
+     * 打开编辑域名
+     * @param item 传入窗口的域名对象
+     */
     MyNeo.prototype.onShowEdit = function (item) {
         this.domainInfo = item;
         this.resolverAddress = item.resolverAddress;
         this.mappingistrue = importpack_1.tools.neotool.verifyAddress(this.resolverAddress);
-        var sessionMap = this.mappingSession.select(item.domain);
-        var sessionRes = this.resolverSession.select(item.domain);
-        var renewalsession = new importpack_1.tools.sessionstoretool("renewalsession");
-        var sessionRen = renewalsession.select(item.domain);
         this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
         this.resolverState = this.domainInfo.resolver ? 1 : 0;
-        // this.renewalWatting = false;
-        if (sessionMap && sessionMap["txid"]) {
-            var txid = sessionMap["txid"];
-            var value = sessionMap["value"];
-            this.resolverAddress = value;
-            this.setConfirm(txid, 2, item.domain);
-        }
-        if (sessionRes && sessionRes["txid"]) {
-            var txid = sessionRes["txid"];
-            this.setConfirm(txid, 1, item.domain);
-        }
-        if (sessionRen && sessionRen["txid"]) {
-            var txid = sessionRen["txid"];
-            this.renewalConfirm(txid, item.domain);
-        }
+        this.renewalWatting = false;
         this.isShowEdit = !this.isShowEdit;
         this.currentdomain = item.domain;
-    };
-    MyNeo.prototype.setConfirm = function (txid, medth, domain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 1:
-                        res = _a.sent();
-                        if (!!res) {
-                            if (medth == 1) {
-                                if (this.currentdomain == domain) {
-                                    this.resolverState = 1;
-                                }
-                                this.getAllNeoName(this.currentAddress);
-                                // this.resolverState = 1;
-                                this.resolverSession.delete(domain);
-                            }
-                            if (medth == 2) {
-                                if (this.currentdomain == domain) {
-                                    this.mappingState = 1;
-                                }
-                                this.getAllNeoName(this.currentAddress);
-                                // this.mappingState = 1;
-                                this.mappingSession.delete(domain);
-                            }
-                        }
-                        else {
-                            if (medth == 1) {
-                                if (this.currentdomain == domain) {
-                                    this.resolverState = 2;
-                                }
-                                // this.resolverState = 2;
-                            }
-                            if (medth == 2) {
-                                if (this.currentdomain == domain) {
-                                    this.mappingState = 2;
-                                }
-                                // this.mappingState = 2;
-                            }
-                            setTimeout(function () {
-                                _this.setConfirm(txid, medth, domain);
-                            }, 5000);
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
+        var domain = this.domainEdit.select(item.domain);
+        if (domain) {
+            if (domain['resolver'] && domain['resolver'] == 'watting') {
+                this.resolverState = 2;
+            }
+            if (domain['mapping'] && domain['mapping']['state'] && domain['mapping']['state'] == 'watting') {
+                this.mappingState = 2;
+                this.resolverAddress = domain['mapping']['address'];
+            }
+            if (domain['renewal'] && domain['renewal'] == 'watting') {
+                this.renewalWatting = true;
+            }
+        }
     };
     /**
      * 注册解析器
@@ -6289,26 +6306,20 @@ var MyNeo = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.resolverState = 2;
                         contract = this.set_contract.hexToBytes().reverse();
                         return [4 /*yield*/, importpack_1.tools.nnstool.setResolve(this.domainInfo["domain"], contract)];
                     case 1:
                         res = _a.sent();
                         if (!res.err) {
+                            this.resolverState = 2;
                             txid = res.info;
-                            this.resolverSession.put(this.domainInfo.domain, { txid: txid, value: this.set_contract });
-                            this.setConfirm(txid, 1, this.domainInfo.domain);
+                            taskmanager_1.TaskManager.addTask(new entity_1.Task(taskmanager_1.TaskManager.getBlockHeight(), entity_1.ConfirmType.contract, txid, { domain: this.domainInfo['domain'], contract: this.set_contract }), entity_1.TaskType.domainResovle);
+                            this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
                         }
                         return [2 /*return*/];
                 }
             });
         });
-    };
-    MyNeo.prototype.resetresolve = function () {
-        this.resolverState = 0;
-        this.resolverAddress = "";
-        this.mappingState = 0;
-        this.mappingistrue = false;
     };
     /**
      * 映射地址
@@ -6318,78 +6329,76 @@ var MyNeo = /** @class */ (function (_super) {
             var res, txid;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        this.mappingState = 2;
-                        return [4 /*yield*/, importpack_1.tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver)];
+                    case 0: return [4 /*yield*/, importpack_1.tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver)];
                     case 1:
                         res = _a.sent();
                         if (!res.err) {
+                            this.mappingState = 2;
                             txid = res.info;
-                            this.mappingSession.put(this.domainInfo.domain, { txid: txid, value: this.resolverAddress });
-                            this.setConfirm(txid, 2, this.domainInfo.domain);
+                            taskmanager_1.TaskManager.addTask(new entity_1.Task(taskmanager_1.TaskManager.getBlockHeight(), entity_1.ConfirmType.contract, txid, { domain: this.domainInfo.domain, address: this.resolverAddress }), entity_1.TaskType.domainMapping);
+                            this.domainEdit.put(this.domainInfo.domain, { state: "watting", address: this.resolverAddress }, "mapping");
                         }
                         return [2 /*return*/];
                 }
             });
         });
     };
-    MyNeo.prototype.resetmappingData = function () {
-        this.resolverAddress = "";
-        this.mappingState = 0;
-    };
+    /**
+     * 域名续约
+     */
     MyNeo.prototype.renewalDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var renewalsession, domain, res, txid;
+            var domain, res, txid;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        renewalsession = new importpack_1.tools.sessionstoretool("renewalsession");
                         domain = this.domainInfo.domain;
                         return [4 /*yield*/, importpack_1.tools.nnssell.renewDomain(domain)];
                     case 1:
                         res = _a.sent();
-                        if (res) {
-                            txid = res["txid"];
-                            renewalsession.put(domain, { txid: txid });
-                            this.renewalConfirm(txid, domain);
+                        if (!res.err) {
+                            this.renewalWatting = true;
+                            txid = res.info;
+                            taskmanager_1.TaskManager.addTask(new entity_1.Task(taskmanager_1.TaskManager.getBlockHeight(), entity_1.ConfirmType.contract, txid, { domain: domain }), entity_1.TaskType.domainRenewal);
+                            this.domainEdit.put(this.domainInfo.domain, "watting", "renewal");
                         }
                         return [2 /*return*/];
                 }
             });
         });
     };
-    MyNeo.prototype.renewalConfirm = function (txid, domain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var renewalsession, res, session;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        renewalsession = new importpack_1.tools.sessionstoretool("renewalsession");
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 1:
-                        res = _a.sent();
-                        if (!!res) {
-                            if (domain == this.currentdomain) {
-                                this.renewalWatting = false;
-                            }
-                            session = renewalsession.select(domain);
-                            if (session) {
-                                renewalsession.delete(domain);
-                            }
-                        }
-                        else {
-                            if (domain == this.currentdomain) {
-                                this.renewalWatting = true;
-                            }
-                            setTimeout(function () {
-                                _this.renewalConfirm(txid, domain);
-                            }, 5000);
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
+    /**
+     * 续约状态效果
+     * @param domain 域名
+     */
+    MyNeo.prototype.renewalTask = function (domain) {
+        if (domain == this.currentdomain) {
+            this.renewalWatting = false;
+        }
+        this.getAllNeoName(this.currentAddress);
+    };
+    /**
+     * 映射状态效果
+     * @param domain 域名
+     */
+    MyNeo.prototype.mappingTask = function (domain, address) {
+        this.getAllNeoName(this.currentAddress);
+        if (this.currentdomain == domain) {
+            this.mappingState = 1;
+            if (address) {
+                this.resolverAddress = address;
+            }
+        }
+    };
+    /**
+     * 合约状态改变效果
+     * @param domain 域名
+     */
+    MyNeo.prototype.resolverTask = function (domain) {
+        if (this.currentdomain == domain) {
+            this.resolverState = 1;
+        }
+        this.getAllNeoName(this.currentAddress);
     };
     MyNeo = __decorate([
         vue_property_decorator_1.Component({
@@ -6449,14 +6458,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var transfer = __webpack_require__("82a0");
 var transfer_default = /*#__PURE__*/__webpack_require__.n(transfer);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-496e7455","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer/transfer.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('transfer.transfer')))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v(_vm._s(_vm.$t('transfer.title1'))+":")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names +" "+ _vm.$t('transfer.msg5') : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=''?(_vm.addrerr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v(_vm._s(_vm.$t('transfer.title2'))+":")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.target),expression:"target"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":_vm.$t('transfer.placeholder'),"autocomplete":"off"},domProps:{"value":(_vm.target)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.target=$event.target.value},_vm.verify_addr]}})]),_vm._v(" "),(_vm.isDomain)?_c('p',[_vm._v(_vm._s(_vm.toaddress))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr=='true')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("  "+_vm._s(_vm.$t('transfer.msg1'))+" ")]):_vm._e(),_vm._v(" "),(_vm.addrerr=='false')?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v(_vm._s(_vm.$t('transfer.title3'))+":")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number","autocomplete":"off"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v(_vm._s(_vm.$t('transfer.details')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disabled':!_vm.isAddress||!_vm.isNumber},attrs:{"disabled":!_vm.isAddress||!_vm.isNumber},on:{"click":_vm.send}},[_vm._v(_vm._s(_vm.$t('transfer.send')))])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('transfer.title4')))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(_vm._s(tx.txtype == 'out'?_vm.$t('transfer.from'):_vm.$t('transfer.to'))+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_c('a',{attrs:{"href":'https://scan.nel.group/#testnet/transaction/'+tx.txid,"target":"_blank"}},[_vm._v("\n                            "+_vm._s(tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4))+"\n                        ")]),_vm._v("  "+_vm._s(tx.time)+"\n                        "),(tx.waiting)?_c('div',[_vm._v("("+_vm._s(_vm.$t('transfer.waiting'))+")")]):_vm._e()])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()]),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-37d1007a","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/transfer/transfer.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('transfer.transfer')))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"transfer-panel"},[_c('div',{staticClass:"form-horizontal"},[_c('div',{staticClass:"col-sm-12"},[_c('label',{staticClass:"col-sm-2 control-label",staticStyle:{"padding-top":"20px"},attrs:{"for":"firstname"}},[_vm._v(_vm._s(_vm.$t('transfer.title1'))+":")]),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('div',{staticClass:"dropdown"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",class:_vm.balances.length>0 ? '' : 'select-disabled',attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.balance.names))]),_vm._v(" "),_c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.balances),function(balance){return _c('li',{key:balance.asset,class:_vm.asset==balance.asset?'active':'',attrs:{"role":"presentation","value":balance.asset}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"},on:{"click":function($event){_vm.choose(balance.asset)}}},[_vm._v(_vm._s(balance.names))])])}))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-4",staticStyle:{"padding-top":"20px"}},[_c('span',[_vm._v("      "+_vm._s(_vm.balance.balance)+" "+_vm._s(_vm.balance.names ? _vm.balance.names +" "+ _vm.$t('transfer.msg5') : "")+" ")])])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.addrerr!=0?(_vm.addrerr == 1 ?'success':'err') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v(_vm._s(_vm.$t('transfer.title2'))+":")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.target),expression:"target"}],staticClass:"nel-input big",attrs:{"type":"text","placeholder":_vm.$t('transfer.placeholder'),"autocomplete":"off"},domProps:{"value":(_vm.target)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.target=$event.target.value},_vm.verify_addr]}})]),_vm._v(" "),(_vm.isDomain)?_c('p',[_c('img',{staticClass:"transfer-icon",attrs:{"src":__webpack_require__("ti7E"),"alt":""}}),_vm._v(" "),_c('span',{staticClass:"map-address"},[_vm._v(_vm._s(_vm.toaddress))])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"},[(_vm.addrerr==2||_vm.addrerr==4)?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("  "+_vm._s(_vm.$t('transfer.errdomain'))+" ")]):_vm._e(),_vm._v(" "),(_vm.addrerr==3)?_c('p',[_c('img',{attrs:{"src":__webpack_require__("7vgD"),"alt":""}}),_vm._v("  "+_vm._s(_vm.$t('transfer.msg1'))+" ")]):_vm._e(),_vm._v(" "),(_vm.addrerr==1)?_c('p',[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}})]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",class:_vm.amounterr!=''?(_vm.amounterr == 'true' ?'err':'success') :''},[_c('label',{staticClass:"col-sm-2 control-label",attrs:{"for":""}},[_c('div',{staticStyle:{"padding-top":"40px"}},[_vm._v(_vm._s(_vm.$t('transfer.title3'))+":")])]),_vm._v(" "),_c('div',{staticClass:"col-sm-7"},[_c('div',{staticStyle:{"padding-top":"30px"}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.amount),expression:"amount"}],staticClass:"nel-input big",attrs:{"type":"number","autocomplete":"off"},domProps:{"value":(_vm.amount)},on:{"change":_vm.verify_Amount,"input":[function($event){if($event.target.composing){ return; }_vm.amount=$event.target.value},_vm.verify_Amount]}})])]),_vm._v(" "),_c('div',{staticClass:"col-sm-3 mess"})]),_vm._v(" "),_c('div',{staticClass:"col-sm-12",staticStyle:{"padding-top":"30px"}},[_c('div',{staticClass:"col-sm-6"}),_vm._v(" "),_c('div',{staticClass:"col-sm-3"},[_c('button',{staticClass:"btn btn-link"},[_vm._v(_vm._s(_vm.$t('transfer.details')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disabled':!_vm.isAddress||!_vm.isNumber},attrs:{"disabled":!_vm.isAddress||!_vm.isNumber},on:{"click":_vm.send}},[_vm._v(_vm._s(_vm.$t('transfer.send')))])])])])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('transfer.title4')))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"history-panel"},[_c('div',[_c('div',{staticClass:"title"}),_vm._v(" "),_vm._l((_vm.txs),function(tx){return _c('div',{key:tx.index,staticClass:"history"},[_c('div',{staticClass:"number",class:tx.txtype},[_vm._v("\n                        "+_vm._s(tx.txtype == 'out'?'+ ':'- ')+_vm._s(tx.value)+" "+_vm._s(tx.assetname))]),_vm._v(" "),_c('div',{staticClass:"address"},[_vm._v(_vm._s(tx.txtype == 'out'?_vm.$t('transfer.from'):_vm.$t('transfer.to'))+" : "+_vm._s(tx.address))]),_vm._v(" "),_c('div',{staticClass:"time"},[_c('a',{attrs:{"href":'https://scan.nel.group/#testnet/transaction/'+tx.txid,"target":"_blank"}},[_vm._v("\n                            "+_vm._s(tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4))+"\n                        ")]),_vm._v("  "+_vm._s(tx.time)+"\n                        "),(tx.waiting)?_c('div',[_vm._v("("+_vm._s(_vm.$t('transfer.waiting'))+")")]):_vm._e()])])})],2)]),_vm._v(" "),(_vm.cutshow)?_c('div',{staticClass:"page"},[_c('div',{staticClass:"page-previous",class:_vm.txpage<=1?'disabled':'',on:{"click":function($event){_vm.cutPage('pre')}}},[_c('img',{attrs:{"src":__webpack_require__("tt5S"),"alt":""}})]),_vm._v(" "),_c('div',{staticStyle:{"width":"1px"}}),_vm._v(" "),_c('div',{staticClass:"page-next",class:_vm.nextpage?'':'disabled',on:{"click":function($event){_vm.cutPage('next')}}},[_c('img',{attrs:{"src":__webpack_require__("pp3u"),"alt":""}})])]):_vm._e()]),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var transfer_transfer = (esExports);
 // CONCATENATED MODULE: ./src/pages/transfer/transfer.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("JrWs")
+  __webpack_require__("eK3K")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -6467,7 +6476,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-496e7455"
+var __vue_scopeId__ = "data-v-37d1007a"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -6752,14 +6761,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var wallet = __webpack_require__("YRcM");
 var wallet_default = /*#__PURE__*/__webpack_require__.n(wallet);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-69efc554","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{ref:"balance",attrs:{"href":"#balance"}},[_c('span',{class:[_vm.balance]}),_vm._v(" "+_vm._s(_vm.$t('balance.balance'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"transfer",attrs:{"href":"#transfer"}},[_c('span',{class:[_vm.transfer]}),_vm._v(" "+_vm._s(_vm.$t('transfer.transfer'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"exchange",attrs:{"href":"#exchange"}},[_c('span',{class:[_vm.exchange]}),_vm._v(" "+_vm._s(_vm.$t('exchange.title'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nnsneo",attrs:{"href":"#nnsneo"}},[_c('span',{class:[_vm.nnsneo]}),_vm._v(" "+_vm._s(_vm.$t('nns.nns'))+"(.neo)\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nns",attrs:{"href":"#nns"}},[_c('span',{class:[_vm.nns]}),_vm._v(" "+_vm._s(_vm.$t('nns.nns'))+"(.test)\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"setting",attrs:{"href":"#settings"}},[_c('span',{class:[_vm.setting]}),_vm._v(" "+_vm._s(_vm.$t('setting.settings'))+"\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"blockheight"},[_vm._v(_vm._s(_vm.$t('navbar.blockheight'))+"："+_vm._s(_vm.blockheight))])])])]),_vm._v(" "),_vm._t("default")],2)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-d6e480ee","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"blockheight"},[_c('div',{staticClass:"container"},[_c('span',[_vm._v(_vm._s(_vm.$t('operation.welcome')))]),_vm._v(" "),_c('span',{staticClass:"fright"},[_vm._v(_vm._s(_vm.$t('navbar.blockheight'))+"："+_vm._s(_vm.blockheight))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('v-link',{ref:"balance",attrs:{"href":"#balance"}},[_c('span',{staticClass:"icon-png"},[(_vm.balance)?_c('img',{attrs:{"src":__webpack_require__("5yhA"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("Yj+Z"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('balance.balance'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"transfer",attrs:{"href":"#transfer"}},[_c('span',{staticClass:"icon-png"},[(_vm.transfer)?_c('img',{attrs:{"src":__webpack_require__("njKD"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("AT6x"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('transfer.transfer'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"exchange",attrs:{"href":"#exchange"}},[_c('span',{staticClass:"icon-png"},[(_vm.exchange)?_c('img',{attrs:{"src":__webpack_require__("rVEi"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("w5Tq"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('exchange.title'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nnsneo",attrs:{"href":"#nnsneo"}},[_c('span',{staticClass:"icon-png"},[(_vm.nnsneo)?_c('img',{attrs:{"src":__webpack_require__("Blow"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("rjrR"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('nns.nns'))+"(.neo)\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"nns",attrs:{"href":"#nns"}},[_c('span',{staticClass:"icon-png"},[(_vm.nns)?_c('img',{attrs:{"src":__webpack_require__("Blow"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("rjrR"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('nns.nns'))+"(.test)\n            ")])],1),_vm._v(" "),_c('li',[_c('v-link',{ref:"setting",attrs:{"href":"#settings"}},[_c('span',{staticClass:"icon-png"},[(_vm.setting)?_c('img',{attrs:{"src":__webpack_require__("Fxcc"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("1Iz4"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('setting.settings'))+"\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"tranhistory-box"},[_c('div',{staticClass:"tranhistory-img"},[_c('img',{attrs:{"src":__webpack_require__("Rsmh"),"alt":""},on:{"click":_vm.onshowHistory}})]),_vm._v(" "),(_vm.showHistory)?_c('div',{staticClass:"tranhistory-wrap"},[_c('div',{staticClass:"tranhistory-listbox"},[_c('div',{staticClass:"tranhistory-title"},[_c('div',{staticClass:"tranhistory-close",on:{"click":function($event){_vm.showHistory=!_vm.showHistory}}},[_c('img',{attrs:{"src":__webpack_require__("fgqV"),"alt":""}})]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.title')))]),_vm._v(" "),_c('div',{staticClass:"tranhistory-tips"},[_vm._v(_vm._s(_vm.$t('operation.tips')))])]),_vm._v(" "),(_vm.taskList.length != 0)?_c('div',{staticClass:"tranhistory-list"},_vm._l((_vm.taskList),function(item){return _c('div',{key:item.tasktype},[(item.tasktype == 0)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.transfer')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.toaddress))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" "+_vm._s(item.message.assetname))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 1)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.openauction')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 2)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.raisebid')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" SGas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 3)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.exchange')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.count)+" Gas")]),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("0YXJ"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.count)+" SGas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 4)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.exchange')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.count)+" SGas")]),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("0YXJ"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.count)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 5)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.topup')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" SGas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 6)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.withdraw')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+"Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 7)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.requestgas')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 8)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.addrmapping'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.address))])])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 9)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.addrresolver'))+" "+_vm._s(item.resolver))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 10)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.renew')))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 11)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.getdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 12)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.recover')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" SGas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 13)?_c('div',{staticClass:"th-onelist"},[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.gasclaim')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e()])})):_vm._e(),_vm._v(" "),(_vm.taskList.length == 0)?_c('div',{staticClass:"notask"},[_vm._v(_vm._s(_vm.$t('operation.nodata')))]):_vm._e()])]):_vm._e()])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_wallet = (esExports);
 // CONCATENATED MODULE: ./src/layouts/wallet.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("XsKB")
+  __webpack_require__("tW2y")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -6829,6 +6838,13 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var pages_nns_nns = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "Rsmh":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAVRJREFUWAntWMsNgkAQBblw0hsF0AY1YC80gRV4tAyutmAVno1cTcQ3xgSz/yEsrGYneRFmZ2eeb8MObJIINgxDB6xlnUAn2YiOle8HsX4qOnT3JKlubIo/hbnMC01BiXMkKEnCdEQFmYJJ4VFBSRKm468U7Jl/3hTunIuj4NFUkTk2Z66xNLpdAzyo7U00mtuMGT1coUAFXCcQpDmVB0pyShQqgDODJMUWciaPHhTMgAPwBHRGYxSTeaRiTo3ie+AGiEa+vXn2QqMgUgKXL4Z0XS5U3q0MCOXA6YPcbZY9irMP2rOFGkHLCYS5xCBWA/RAiEa+ejVRUTzcbQbkwt2oQS7cVgdy4b4sgFwLzGWt68Pj9HVPycDsjp+ta2JLXI+DhZ0l5j3MIRiPPlSKBt/qIkHVsnF8UUGOWqrYqKBKFY5PUhAdQ3nKz0nqEqvpmb93yv8C+0dSxxOcCgwAAAAASUVORK5CYII="
 
 /***/ }),
 
@@ -6943,13 +6959,6 @@ var Settings = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Settings;
 
-
-/***/ }),
-
-/***/ "ScW3":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -7083,6 +7092,8 @@ var vue_class_component_1 = __webpack_require__("c+8m");
 var wallet_vue_1 = __webpack_require__("PPZq");
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
+var taskmanager_1 = __webpack_require__("XfB5");
+var StorageMap_1 = __webpack_require__("slXE");
 var Exchange = /** @class */ (function (_super) {
     __extends(Exchange, _super);
     function Exchange() {
@@ -7104,6 +7115,7 @@ var Exchange = /** @class */ (function (_super) {
         this.getMyGas();
         this.getMySGas();
         this.isShowTranLog();
+        entity_1.TaskFunction.exchange = this.isTranClose;
     };
     //切换转换模式
     Exchange.prototype.exchangeTranType = function () {
@@ -7182,128 +7194,79 @@ var Exchange = /** @class */ (function (_super) {
      */
     Exchange.prototype.exChange = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var txid, tranObj, txid, tranObj, error_1;
+            var height, result, utxo, data, res, txid, tranObj, error_1, txid, tranObj, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this.changeSGas) return [3 /*break*/, 2];
+                        height = StorageMap_1.default.blockheight.select("height");
+                        if (!this.changeSGas) return [3 /*break*/, 7];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 5, , 6]);
                         this.isCheckingTran = true;
+                        console.log("筛选utxo --------------------");
+                        console.log(new Date().getTime());
                         return [4 /*yield*/, importpack_1.tools.sgastool.makeRefundTransaction(parseFloat(this.transcount))];
-                    case 1:
-                        txid = _a.sent();
-                        tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' }];
-                        localStorage.setItem('exchangelist', JSON.stringify(tranObj));
-                        this.isShowTranLog();
-                        return [3 /*break*/, 5];
                     case 2:
-                        _a.trys.push([2, 4, , 5]);
-                        this.isCheckingTran = true;
-                        return [4 /*yield*/, importpack_1.tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount))];
-                    case 3:
-                        txid = _a.sent();
-                        tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' }];
-                        localStorage.setItem('exchangelist', JSON.stringify(tranObj));
-                        this.isShowTranLog();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        error_1 = _a.sent();
-                        console.error(error_1);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * 等待转账确认
-     * @param txid 交易id
-     */
-    Exchange.prototype.checkTranisOK = function (txid, trancount, trantype) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var res, utxo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.exchangebtn = false;
-                        this.isCheckingTran = true;
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 1:
-                        res = _a.sent();
-                        if (!res) return [3 /*break*/, 5];
-                        if (!(trantype == "SGas")) return [3 /*break*/, 3];
+                        result = _a.sent();
+                        console.log(new Date().getTime());
+                        console.log("筛选结束-------------------");
                         utxo = new entity_1.UTXO();
                         utxo.addr = entity_1.LoginInfo.getCurrentAddress();
-                        utxo.txid = txid;
+                        utxo.txid = result.txid;
                         utxo.asset = importpack_1.tools.coinTool.id_GAS;
-                        utxo.count = Neo.Fixed8.parse(trancount.toString());
+                        utxo.count = Neo.Fixed8.parse(this.transcount);
                         utxo.n = 0;
-                        //把这个txid里的utxo[0]的value转给自己
-                        return [4 /*yield*/, importpack_1.tools.sgastool.makeRefundTransaction_tranGas(utxo, trancount.toString())];
-                    case 2:
-                        //把这个txid里的utxo[0]的value转给自己
-                        _a.sent();
-                        // console.log("restxid: " + restxid);
-                        this.exchangeList = localStorage.getItem('exchangelist');
-                        this.exchangeList = JSON.parse(this.exchangeList);
-                        this.checkAgainTranisOK(this.exchangeList[1].txid);
-                        return [3 /*break*/, 4];
+                        return [4 /*yield*/, importpack_1.tools.sgastool.makeRefundTransaction_tranGas(utxo, this.transcount.toString())];
                     case 3:
-                        this.isTranClose();
-                        _a.label = 4;
-                    case 4: return [3 /*break*/, 6];
-                    case 5:
-                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                this.checkTranisOK(txid, trancount, trantype);
-                                return [2 /*return*/];
-                            });
-                        }); }, 10000);
-                        _a.label = 6;
-                    case 6: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Exchange.prototype.checkAgainTranisOK = function (txid) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
+                        data = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.rechargeandtransfer(result.data, data)];
+                    case 4:
+                        res = _a.sent();
+                        txid = res["txid"];
+                        taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.recharge, txid, { count: this.transcount }), entity_1.TaskType.sgasToGas);
+                        tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' }];
+                        sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
                         this.exchangebtn = false;
                         this.isCheckingTran = true;
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 1:
-                        res = _a.sent();
-                        if (res) {
-                            this.isTranClose();
-                        }
-                        else {
-                            setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    this.checkAgainTranisOK(txid);
-                                    return [2 /*return*/];
-                                });
-                            }); }, 10000);
-                        }
-                        return [2 /*return*/];
+                        this.isShowTranLog();
+                        return [3 /*break*/, 6];
+                    case 5:
+                        error_1 = _a.sent();
+                        console.log(error_1);
+                        return [3 /*break*/, 6];
+                    case 6: return [3 /*break*/, 10];
+                    case 7:
+                        _a.trys.push([7, 9, , 10]);
+                        this.isCheckingTran = true;
+                        return [4 /*yield*/, importpack_1.tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount))];
+                    case 8:
+                        txid = _a.sent();
+                        taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid, { count: this.transcount }), entity_1.TaskType.gasToSgas);
+                        tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' }];
+                        sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
+                        this.isShowTranLog();
+                        return [3 /*break*/, 10];
+                    case 9:
+                        error_2 = _a.sent();
+                        console.error(error_2);
+                        return [3 /*break*/, 10];
+                    case 10: return [2 /*return*/];
                 }
             });
         });
     };
     /**转账记录 */
     Exchange.prototype.isShowTranLog = function () {
-        this.exchangeList = localStorage.getItem('exchangelist');
+        this.exchangeList = sessionStorage.getItem('exchangelist');
         if (this.exchangeList) {
             this.exchangeList = JSON.parse(this.exchangeList);
-            this.checkTranisOK(this.exchangeList[0].txid, this.exchangeList[0].trancount, this.exchangeList[0].trantype);
+            this.isCheckingTran = true;
         }
     };
     /**交易结束 */
     Exchange.prototype.isTranClose = function () {
-        localStorage.removeItem("exchangelist");
+        sessionStorage.removeItem("exchangelist");
         this.isCheckingTran = false;
         this.transcount = "";
         this.getMyGas();
@@ -7514,6 +7477,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var storagetool_1 = __webpack_require__("5LD5");
 var entity_1 = __webpack_require__("6nHw");
 var importpack_1 = __webpack_require__("VKSY");
+var StorageMap_1 = __webpack_require__("slXE");
+/**
+ * 任务管理器
+ */
 var TaskManager = /** @class */ (function () {
     function TaskManager() {
     }
@@ -7521,193 +7488,751 @@ var TaskManager = /** @class */ (function () {
         var height = this.oldBlock.select('height');
         return height;
     };
+    /**
+     * 更新方法
+     */
     TaskManager.update = function () {
-        for (var index in this.functionList) {
-            if (this.functionList.hasOwnProperty(index)) {
-                var element = this.functionList[index];
-                element();
-            }
-        }
-        var taskList = this.taskStore.getList();
-        for (var type in taskList) {
-            if (taskList.hasOwnProperty(type)) {
-                var task = taskList[type];
-                if (task.state == entity_1.TaskState.watting) {
-                    switch (parseInt(type)) {
-                        case entity_1.TaskType.tranfer:
-                            break;
-                        case entity_1.TaskType.openAuction:
-                            this.confirm_open(task);
-                            break;
-                        case entity_1.TaskType.addPrice:
-                            this.confirm_bid(task);
-                            break;
-                        case entity_1.TaskType.topup:
-                            this.confirm_topup(task);
-                            break;
-                        case entity_1.TaskType.withdraw:
-                            this.confirm_withdraw(task);
-                            break;
-                        case entity_1.TaskType.getGasTest:
-                            this.confirm_tranfer(entity_1.TaskType.getGasTest, task, "getTestGas");
-                        default:
-                            break;
-                    }
+        return __awaiter(this, void 0, void 0, function () {
+            var taskList, _a, _b, _i, type, tasks, _c, index, element;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        taskList = this.taskStore.getList();
+                        _a = [];
+                        for (_b in taskList)
+                            _a.push(_b);
+                        _i = 0;
+                        _d.label = 1;
+                    case 1:
+                        if (!(_i < _a.length)) return [3 /*break*/, 32];
+                        type = _a[_i];
+                        if (!taskList.hasOwnProperty(type)) return [3 /*break*/, 31];
+                        tasks = taskList[type];
+                        _c = parseInt(type);
+                        switch (_c) {
+                            case entity_1.TaskType.tranfer: return [3 /*break*/, 2];
+                            case entity_1.TaskType.ClaimGas: return [3 /*break*/, 4];
+                            case entity_1.TaskType.openAuction: return [3 /*break*/, 6];
+                            case entity_1.TaskType.addPrice: return [3 /*break*/, 8];
+                            case entity_1.TaskType.getDomain: return [3 /*break*/, 10];
+                            case entity_1.TaskType.recoverSgas: return [3 /*break*/, 12];
+                            case entity_1.TaskType.gasToSgas: return [3 /*break*/, 14];
+                            case entity_1.TaskType.sgasToGas: return [3 /*break*/, 16];
+                            case entity_1.TaskType.topup: return [3 /*break*/, 18];
+                            case entity_1.TaskType.withdraw: return [3 /*break*/, 20];
+                            case entity_1.TaskType.getGasTest: return [3 /*break*/, 22];
+                            case entity_1.TaskType.domainResovle: return [3 /*break*/, 24];
+                            case entity_1.TaskType.domainMapping: return [3 /*break*/, 26];
+                            case entity_1.TaskType.domainRenewal: return [3 /*break*/, 28];
+                        }
+                        return [3 /*break*/, 30];
+                    case 2: return [4 /*yield*/, this.confirm_tranfer(tasks)];
+                    case 3:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 4: return [4 /*yield*/, this.confirm_claimGas(tasks)];
+                    case 5:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 6: return [4 /*yield*/, this.confirm_open(tasks)];
+                    case 7:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 8: return [4 /*yield*/, this.confirm_bid(tasks)];
+                    case 9:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 10: return [4 /*yield*/, this.confirm_getDomain(tasks)];
+                    case 11:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 12: return [4 /*yield*/, this.confirm_recoverSgas(tasks)];
+                    case 13:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 14: return [4 /*yield*/, this.confirm_gasToSgas(tasks)];
+                    case 15:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 16: return [4 /*yield*/, this.confirm_sgasToGas(tasks)];
+                    case 17:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 18: return [4 /*yield*/, this.confirm_topup(tasks)];
+                    case 19:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 20: return [4 /*yield*/, this.confirm_withdraw(tasks)];
+                    case 21:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 22: return [4 /*yield*/, this.confirm_getGas(tasks)];
+                    case 23:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 24: return [4 /*yield*/, this.confirm_resovler(tasks)];
+                    case 25:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 26: return [4 /*yield*/, this.confirm_mapping(tasks)];
+                    case 27:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 28: return [4 /*yield*/, this.confirm_renewal(tasks)];
+                    case 29:
+                        _d.sent();
+                        return [3 /*break*/, 31];
+                    case 30: return [3 /*break*/, 31];
+                    case 31:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 32:
+                        /**
+                         * 放在任务状态更新后面执行刷新操作，以防数据未变化就刷新操作
+                         */
+                        if (entity_1.TaskFunction.taskHistory) {
+                            entity_1.TaskFunction.taskHistory();
+                        }
+                        for (index in this.functionList) {
+                            if (this.functionList.hasOwnProperty(index)) {
+                                element = this.functionList[index];
+                                element();
+                            }
+                        }
+                        return [2 /*return*/];
                 }
+            });
+        });
+    };
+    /**
+     * 类似 js 数组的 map方法
+     * @param tasks Task数组
+     * @param call 回调方法
+     */
+    TaskManager.forConfirm = function (tasks, call) {
+        var taskarr = [];
+        for (var index = 0; index < tasks.length; index++) {
+            var tasknew = void 0;
+            var task = tasks[index];
+            if (task.state == entity_1.TaskState.watting) {
+                tasknew = call(task);
             }
+            else {
+                tasknew = task;
+            }
+            taskarr.push(tasknew);
         }
+        return taskarr;
+    };
+    /**
+     * 循环得到任务返回的结果
+     * @param tasks 任务类
+     */
+    TaskManager.getResult = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, index, element, _a, _b, _c, _d, _e, _f, _g, _h, _j;
+            return __generator(this, function (_k) {
+                switch (_k.label) {
+                    case 0:
+                        ress = {};
+                        index = 0;
+                        _k.label = 1;
+                    case 1:
+                        if (!(index < tasks.length)) return [3 /*break*/, 13];
+                        element = tasks[index];
+                        if (!(element.state == entity_1.TaskState.watting)) return [3 /*break*/, 11];
+                        _a = element.type;
+                        switch (_a) {
+                            case entity_1.ConfirmType.tranfer: return [3 /*break*/, 2];
+                            case entity_1.ConfirmType.contract: return [3 /*break*/, 4];
+                            case entity_1.ConfirmType.recharge: return [3 /*break*/, 6];
+                        }
+                        return [3 /*break*/, 8];
+                    case 2:
+                        _b = ress;
+                        _c = element.txid;
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.hastx(element.txid)];
+                    case 3:
+                        _b[_c] = _k.sent();
+                        return [3 /*break*/, 10];
+                    case 4:
+                        _d = ress;
+                        _e = element.txid;
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.hascontract(element.txid)];
+                    case 5:
+                        _d[_e] = _k.sent();
+                        return [3 /*break*/, 10];
+                    case 6:
+                        _f = ress;
+                        _g = element.txid;
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrechargeandtransfer(element.txid)];
+                    case 7:
+                        _f[_g] = _k.sent();
+                        return [3 /*break*/, 10];
+                    case 8:
+                        _h = ress;
+                        _j = element.txid;
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.hastx(element.txid)];
+                    case 9:
+                        _h[_j] = _k.sent();
+                        return [3 /*break*/, 10];
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
+                        ress[element.txid] = undefined;
+                        _k.label = 12;
+                    case 12:
+                        index++;
+                        return [3 /*break*/, 1];
+                    case 13: return [2 /*return*/, ress];
+                }
+            });
+        });
     };
     TaskManager.addTask = function (task, type) {
-        this.taskStore.put(type.toString(), task);
+        this.taskStore.push(type.toString(), task);
     };
-    TaskManager.confirm_tranfer = function (TaskType, task, name) {
+    /**
+     * 交易确认
+     * @param tasks
+     */
+    TaskManager.confirm_tranfer = function (tasks) {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result.issucces) {
+                                    task.state = entity_1.TaskState.success;
+                                    if (task.message.type && task.message.type == "Claim") {
+                                        entity_1.TaskFunction.claimGas();
+                                    }
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.tranfer.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 交易确认
+     * @param tasks
+     */
+    TaskManager.confirm_claimGas = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                entity_1.TaskFunction.claimState(0);
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result.issucces) {
+                                    task.state = entity_1.TaskState.success;
+                                    entity_1.TaskFunction.claimState(1);
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.ClaimGas.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 退币操作跟踪
+     * @param tasks
+     */
+    TaskManager.confirm_withdraw = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                if (entity_1.TaskFunction.withdraw)
+                                    entity_1.TaskFunction.withdraw();
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result.issucces) {
+                                    task.state = entity_1.TaskState.success;
+                                    if (entity_1.TaskFunction.withdraw)
+                                        entity_1.TaskFunction.withdraw();
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.withdraw.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 注册器充值操作跟踪
+     * @param tasks
+     */
+    TaskManager.confirm_topup = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                if (entity_1.TaskFunction.topup)
+                                    entity_1.TaskFunction.topup();
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result.issucces) {
+                                    task.state = entity_1.TaskState.success;
+                                    if (entity_1.TaskFunction.topup)
+                                        entity_1.TaskFunction.topup();
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.topup.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 域名开标操作跟踪
+     * @param tasks
+     */
+    TaskManager.confirm_open = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                StorageMap_1.default.session_open.delete(task.message.domain);
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result && result.displayNameList && result.displayNameList.includes("domainstate")) {
+                                    task.state = entity_1.TaskState.success;
+                                    StorageMap_1.default.session_open.delete(task.message.domain);
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.openAuction.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 域名加价操作跟踪
+     * @param tasks 加价操作对象数组
+     */
+    TaskManager.confirm_bid = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result && result.displayNameList && result.displayNameList.includes("addprice")) {
+                                    task.state = entity_1.TaskState.success;
+                                    StorageMap_1.default.session_open.delete(task.message.domain);
+                                }
+                                else if (result && result.displayNameList && result.displayNameList.includes("domainstate")) {
+                                    task.state = entity_1.TaskState.fail;
+                                    StorageMap_1.default.session_open.delete(task.message.domain);
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.addPrice.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 确认Gas到SGas的兑换
+     * @param tasks 任务数组
+     */
+    TaskManager.confirm_sgasToGas = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            var result = ress[task.txid]; //获取通知数组
+                            if (result && result['errCode']) {
+                                switch (result['errCode']) {
+                                    case '0000'://成功
+                                        task.state = entity_1.TaskState.success;
+                                        if (entity_1.TaskFunction.exchange)
+                                            entity_1.TaskFunction.exchange();
+                                        break;
+                                    case '3001'://失败
+                                        task.state = entity_1.TaskState.fail;
+                                        if (entity_1.TaskFunction.exchange)
+                                            entity_1.TaskFunction.exchange();
+                                        break;
+                                    case '3002'://失败
+                                        task.state = entity_1.TaskState.fail;
+                                        if (entity_1.TaskFunction.exchange)
+                                            entity_1.TaskFunction.exchange();
+                                        break;
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.sgasToGas.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 确认Sgas到 Gas的兑换
+     * @param tasks 任务数组
+     */
+    TaskManager.confirm_gasToSgas = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                if (entity_1.TaskFunction.exchange)
+                                    entity_1.TaskFunction.exchange();
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result.issucces) {
+                                    task.state = entity_1.TaskState.success;
+                                    if (entity_1.TaskFunction.exchange)
+                                        entity_1.TaskFunction.exchange();
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.gasToSgas.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 确认域名解析器的注册
+     * @param tasks 任务列表
+     */
+    TaskManager.confirm_resovler = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, domainEdit, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        domainEdit = new storagetool_1.sessionStoreTool("domain-edit");
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                if (entity_1.TaskFunction.domainResovle)
+                                    entity_1.TaskFunction.domainResovle(task.message['domain']);
+                                domainEdit.delete(task.message['domain'], 'resolver');
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) {
+                                    task.state = entity_1.TaskState.success;
+                                    if (entity_1.TaskFunction.domainResovle)
+                                        entity_1.TaskFunction.domainResovle(task.message['domain']);
+                                    domainEdit.delete(task.message['domain'], 'resolver');
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.domainResovle.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 确认域名映射的结果
+     * @param tasks 所有映射的任务
+     */
+    TaskManager.confirm_mapping = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, domainEdit, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        domainEdit = new storagetool_1.sessionStoreTool("domain-edit");
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                if (entity_1.TaskFunction.domainMapping)
+                                    entity_1.TaskFunction.domainMapping(task['domain'], undefined);
+                                domainEdit.delete(task.message['domain'], 'mapping');
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result && result.displayNameList && result.displayNameList.includes("setResolveData")) {
+                                    task.state = entity_1.TaskState.success;
+                                    if (entity_1.TaskFunction.domainMapping)
+                                        entity_1.TaskFunction.domainMapping(task.message['domain'], task.message['address']);
+                                    domainEdit.delete(task.message['domain'], 'mapping');
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.domainMapping.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 续约确认方法
+     * @param tasks 任务数组
+     */
+    TaskManager.confirm_renewal = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, domainEdit, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        domainEdit = new storagetool_1.sessionStoreTool("domain-edit");
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                if (entity_1.TaskFunction.domainRenewal)
+                                    entity_1.TaskFunction.domainRenewal(task.message['domain']);
+                                domainEdit.delete(task.message['domain'], 'renewal');
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) {
+                                    task.state = entity_1.TaskState.success;
+                                    if (entity_1.TaskFunction.domainRenewal)
+                                        entity_1.TaskFunction.domainRenewal(task.message['domain']);
+                                    domainEdit.delete(task.message['domain'], 'renewal');
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.domainRenewal.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 获得域名状态跟踪
+     * @param tasks 任务数组
+     */
+    TaskManager.confirm_getDomain = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            var result = ress[task.txid]; //获取通知数组
+                            if (task.type == entity_1.ConfirmType.recharge) {
+                                if (result && result['errCode']) {
+                                    switch (result['errCode']) {
+                                        case '0000'://成功
+                                            task.state = entity_1.TaskState.success;
+                                            StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
+                                            if (entity_1.TaskFunction.auctionStateUpdate)
+                                                entity_1.TaskFunction.auctionStateUpdate();
+                                            break;
+                                        case '3001'://失败
+                                            task.state = entity_1.TaskState.fail;
+                                            StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
+                                            if (entity_1.TaskFunction.auctionStateUpdate)
+                                                entity_1.TaskFunction.auctionStateUpdate();
+                                            break;
+                                        case '3002'://失败
+                                            task.state = entity_1.TaskState.fail;
+                                            StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
+                                            if (entity_1.TaskFunction.auctionStateUpdate)
+                                                entity_1.TaskFunction.auctionStateUpdate();
+                                            break;
+                                    }
+                                }
+                            }
+                            else {
+                                if (task.confirm > 3) {
+                                    task.state = entity_1.TaskState.fail;
+                                    StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
+                                    if (entity_1.TaskFunction.auctionStateUpdate)
+                                        entity_1.TaskFunction.auctionStateUpdate();
+                                }
+                                else {
+                                    if (result && result.displayNameList && result.displayNameList.includes("domainstate")) {
+                                        task.state = entity_1.TaskState.success;
+                                        StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
+                                        if (entity_1.TaskFunction.auctionStateUpdate)
+                                            entity_1.TaskFunction.auctionStateUpdate();
+                                    }
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.getDomain.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 退回sgas状态跟踪
+     * @param tasks 任务数组
+     */
+    TaskManager.confirm_recoverSgas = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ress, taskarr;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getResult(tasks)];
+                    case 1:
+                        ress = _a.sent();
+                        taskarr = this.forConfirm(tasks, function (task) {
+                            if (task.confirm > 3) {
+                                task.state = entity_1.TaskState.fail;
+                                StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isRecoverWait');
+                                if (entity_1.TaskFunction.auctionStateUpdate)
+                                    entity_1.TaskFunction.auctionStateUpdate();
+                            }
+                            else {
+                                var result = ress[task.txid]; //获取通知数组
+                                if (result && result.issucces) {
+                                    task.state = entity_1.TaskState.success;
+                                    StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isRecoverWait');
+                                    if (entity_1.TaskFunction.auctionStateUpdate)
+                                        entity_1.TaskFunction.auctionStateUpdate();
+                                }
+                            }
+                            task.confirm++;
+                            return task;
+                        });
+                        this.taskStore.put(entity_1.TaskType.recoverSgas.toString(), taskarr); //保存修改的状态
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 获取 测试 Gas
+     * @param tasks
+     */
+    TaskManager.confirm_getGas = function (tasks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var taskarr, index, task, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(task.confirm < 3)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.hastx(task.txid)];
+                        taskarr = [];
+                        index = 0;
+                        _a.label = 1;
                     case 1:
-                        data = _a.sent();
-                        if (data.issucces) {
-                            task.state = entity_1.TaskState.success;
-                            sessionStorage.setItem("" + name, "true");
-                        }
-                        else {
-                            task.state = entity_1.TaskState.watting;
-                        }
-                        return [3 /*break*/, 3];
+                        if (!(index < tasks.length)) return [3 /*break*/, 5];
+                        task = tasks[index];
+                        if (!(task.state == entity_1.TaskState.watting)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_hasclaimgas(task.message.address)];
                     case 2:
-                        task.state = entity_1.TaskState.fail;
-                        sessionStorage.setItem("" + name, "fail");
+                        res = _a.sent();
+                        if (res) {
+                            if (res[0].code == "3010") {
+                                task.state = entity_1.TaskState.fail;
+                                if (entity_1.TaskFunction.getGasTest)
+                                    entity_1.TaskFunction.getGasTest(0); //可领取
+                            }
+                            else if (res[0].code == "3012") {
+                                task.state = entity_1.TaskState.success;
+                                if (entity_1.TaskFunction.getGasTest)
+                                    entity_1.TaskFunction.getGasTest(1); //已领取
+                            }
+                            else if (res[0].code == "3011") {
+                                task.state = entity_1.TaskState.watting;
+                            }
+                        }
                         _a.label = 3;
                     case 3:
                         task.confirm++;
-                        this.taskStore.put(TaskType.toString(), task);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    TaskManager.confirm_withdraw = function (task) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(task.confirm < 3)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.hastx(task.txid)];
-                    case 1:
-                        data = _a.sent();
-                        if (data.issucces) {
-                            task.state = entity_1.TaskState.success;
-                            this.refresh.put("withdraw", true);
-                        }
-                        else {
-                            return [2 /*return*/];
-                        }
-                        return [3 /*break*/, 3];
-                    case 2:
-                        task.state = entity_1.TaskState.fail;
-                        this.refresh.put("withdraw", true);
-                        _a.label = 3;
-                    case 3:
-                        task.confirm += 1;
-                        this.taskStore.put(entity_1.TaskType.withdraw.toString(), task);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    TaskManager.confirm_topup = function (task) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(task.confirm < 3)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.hastx(task.txid)];
-                    case 1:
-                        data = _a.sent();
-                        if (data.issucces) {
-                            task.state = entity_1.TaskState.success;
-                            this.refresh.put("topup", true);
-                        }
-                        else {
-                            return [2 /*return*/];
-                        }
-                        return [3 /*break*/, 3];
-                    case 2:
-                        task.state = entity_1.TaskState.fail;
-                        this.refresh.put("topup", true);
-                        _a.label = 3;
-                    case 3:
-                        task.confirm += 1;
-                        this.taskStore.put(entity_1.TaskType.topup.toString(), task);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    TaskManager.confirm_open = function (task) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(task.confirm < 3)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.hastx(task.txid)];
-                    case 1:
-                        data = _a.sent();
-                        if (data.issucces) {
-                            // let session_open = new tools.sessionstoretool("auction-openSession");
-                            task.state = entity_1.TaskState.success;
-                            // session_open.delete()
-                            // sessionStorage.removeItem("auction-openSession");
-                            this.refresh.put("bidlist", true);
-                        }
-                        else {
-                            return [2 /*return*/];
-                        }
-                        return [3 /*break*/, 3];
-                    case 2:
-                        task.state = entity_1.TaskState.fail;
-                        this.refresh.put("bidlist", true);
-                        _a.label = 3;
-                    case 3:
-                        task.confirm += 1;
-                        this.taskStore.put(entity_1.TaskType.openAuction.toString(), task);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    TaskManager.confirm_bid = function (task) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(task.confirm < 3)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.hastx(task.txid)];
-                    case 1:
-                        data = _a.sent();
-                        if (data) {
-                            task.state = entity_1.TaskState.success;
-                            this.refresh.put("bidlist", true);
-                        }
-                        else {
-                            return [2 /*return*/];
-                        }
-                        return [3 /*break*/, 3];
-                    case 2:
-                        task.state = entity_1.TaskState.fail;
-                        this.refresh.put("bidlist", true);
-                        _a.label = 3;
-                    case 3:
-                        task.confirm += 1;
-                        this.taskStore.put(entity_1.TaskType.addPrice.toString(), task);
+                        taskarr.push(task);
+                        _a.label = 4;
+                    case 4:
+                        index++;
+                        return [3 /*break*/, 1];
+                    case 5:
+                        this.taskStore.put(entity_1.TaskType.getGasTest.toString(), taskarr);
                         return [2 /*return*/];
                 }
             });
@@ -7721,13 +8246,6 @@ var TaskManager = /** @class */ (function () {
 }());
 exports.TaskManager = TaskManager;
 
-
-/***/ }),
-
-/***/ "XsKB":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -7755,106 +8273,201 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
 var vue_class_component_1 = __webpack_require__("c+8m");
 var Main_vue_1 = __webpack_require__("l7Tq");
 var VLink_vue_1 = __webpack_require__("N5E8");
-var importpack_1 = __webpack_require__("VKSY");
-var storagetool_1 = __webpack_require__("5LD5");
+var taskmanager_1 = __webpack_require__("XfB5");
+var entity_1 = __webpack_require__("6nHw");
+var StorageMap_1 = __webpack_require__("slXE");
 var FeatureComponent = /** @class */ (function (_super) {
     __extends(FeatureComponent, _super);
     function FeatureComponent() {
         var _this = _super.call(this) || this;
-        _this.balance = "";
-        _this.exchange = "";
-        _this.nnsneo = "";
-        _this.nns = "";
-        _this.transfer = "";
-        _this.setting = "";
+        _this.balance = true;
+        _this.exchange = true;
+        _this.nnsneo = true;
+        _this.nns = true;
+        _this.transfer = true;
+        _this.setting = true;
         _this.blockheight = 0;
+        _this.showHistory = false;
+        _this.taskList = [];
+        _this.taskNumber = 0;
         Neo.Cryptography.RandomNumberGenerator.startCollectors();
         return _this;
     }
     FeatureComponent.prototype.mounted = function () {
         this.balance = this.$refs["balance"]["isActive"]
-            ? "icon-balance-select"
-            : "icon-balance-unselect";
+            ? false
+            : true;
         this.transfer = this.$refs["transfer"]["isActive"]
-            ? "icon-transfer-select"
-            : "icon-transfer-unselect";
+            ? false
+            : true;
         this.exchange = this.$refs["exchange"]["isActive"]
-            ? "icon-exchange-select"
-            : "icon-exchange-unselect";
+            ? false
+            : true;
         this.nnsneo = this.$refs["nnsneo"]["isActive"]
-            ? "icon-nnsneo-select"
-            : "icon-nnsneo-unselect";
+            ? false
+            : true;
         this.nns = this.$refs["nns"]["isActive"]
-            ? "icon-nns-select"
-            : "icon-nns-unselect";
+            ? false
+            : true;
         this.setting = this.$refs["setting"]["isActive"]
-            ? "icon-setting-select"
-            : "icon-setting-unselect";
-        this.getHeight();
+            ? false
+            : true;
         var arr = sessionStorage.getItem("login-info-arr");
         if (!arr || arr.length == 0) {
             window.location.hash = "#login";
         }
+        this.getHeight();
+        entity_1.TaskFunction.taskHistory = this.taskHistory;
+        entity_1.TaskFunction.heightRefresh = this.getHeight;
+    };
+    FeatureComponent.prototype.beforeDestroy = function () {
+        this.clearTimer();
     };
     FeatureComponent.prototype.getHeight = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var _a, oldBlock;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = this;
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
-                    case 1:
-                        _a.blockheight = _b.sent();
-                        oldBlock = new storagetool_1.sessionStoreTool("block");
-                        setInterval(function () {
-                            var height = oldBlock.select("height");
-                            _this.blockheight = height;
-                        }, 5000);
-                        return [2 /*return*/];
+        this.blockheight = StorageMap_1.default.blockheight.select("height");
+    };
+    FeatureComponent.prototype.onshowHistory = function () {
+        this.showHistory = !this.showHistory;
+        this.taskHistory();
+    };
+    FeatureComponent.prototype.taskHistory = function () {
+        var _this = this;
+        this.clearTimer();
+        var list = taskmanager_1.TaskManager.taskStore.getList();
+        this.taskList = [];
+        for (var type in list) {
+            if (list.hasOwnProperty(type)) {
+                var tasks = list[type];
+                switch (parseInt(type)) {
+                    case entity_1.TaskType.tranfer:
+                        this.taskNumber = entity_1.TaskType.tranfer;
+                        this.makeTaskList(tasks, entity_1.TaskType.tranfer);
+                        break;
+                    case entity_1.TaskType.openAuction:
+                        this.taskNumber = entity_1.TaskType.openAuction;
+                        this.makeTaskList(tasks, entity_1.TaskType.openAuction);
+                        break;
+                    case entity_1.TaskType.addPrice:
+                        this.taskNumber = entity_1.TaskType.addPrice;
+                        this.makeTaskList(tasks, entity_1.TaskType.addPrice);
+                        break;
+                    case entity_1.TaskType.getDomain:
+                        this.taskNumber = entity_1.TaskType.getDomain;
+                        this.makeTaskList(tasks, entity_1.TaskType.getDomain);
+                        break;
+                    case entity_1.TaskType.gasToSgas:
+                        this.taskNumber = entity_1.TaskType.gasToSgas;
+                        this.makeTaskList(tasks, entity_1.TaskType.gasToSgas);
+                        break;
+                    case entity_1.TaskType.sgasToGas:
+                        this.taskNumber = entity_1.TaskType.sgasToGas;
+                        this.makeTaskList(tasks, entity_1.TaskType.sgasToGas);
+                        break;
+                    case entity_1.TaskType.topup:
+                        this.taskNumber = entity_1.TaskType.topup;
+                        this.makeTaskList(tasks, entity_1.TaskType.topup);
+                        break;
+                    case entity_1.TaskType.withdraw:
+                        this.taskNumber = entity_1.TaskType.withdraw;
+                        this.makeTaskList(tasks, entity_1.TaskType.withdraw);
+                        break;
+                    case entity_1.TaskType.getGasTest:
+                        this.taskNumber = entity_1.TaskType.getGasTest;
+                        this.makeTaskList(tasks, entity_1.TaskType.getGasTest);
+                        break;
+                    case entity_1.TaskType.domainMapping:
+                        this.taskNumber = entity_1.TaskType.domainMapping;
+                        this.makeTaskList(tasks, entity_1.TaskType.domainMapping);
+                        break;
+                    case entity_1.TaskType.domainResovle:
+                        this.taskNumber = entity_1.TaskType.domainResovle;
+                        this.makeTaskList(tasks, entity_1.TaskType.domainResovle);
+                        break;
+                    case entity_1.TaskType.domainRenewal:
+                        this.taskNumber = entity_1.TaskType.domainRenewal;
+                        this.makeTaskList(tasks, entity_1.TaskType.domainRenewal);
+                        break;
+                    case entity_1.TaskType.recoverSgas:
+                        this.taskNumber = entity_1.TaskType.recoverSgas;
+                        this.makeTaskList(tasks, entity_1.TaskType.recoverSgas);
+                        break;
+                    case entity_1.TaskType.ClaimGas:
+                        this.taskNumber = entity_1.TaskType.ClaimGas;
+                        this.makeTaskList(tasks, entity_1.TaskType.ClaimGas);
+                        break;
+                    default:
+                        break;
                 }
-            });
+            }
+        }
+        this.taskList.sort(function (n1, n2) {
+            return n1.startTime > n2.startTime ? -1 : 1;
+        });
+        this.taskList.forEach(function (v) {
+            if (v.state == 0) {
+                _this.timer(v);
+            }
+        });
+    };
+    FeatureComponent.prototype.makeHref = function () {
+        var str = "testwallet.nel.group";
+        // let currentHost = window.location.hostname;
+        var href = "";
+        if (str.includes("testwallet")) {
+            href = "https://scan.nel.group/#testnet/";
+        }
+        else {
+            href = "https://scan.nel.group/#mainnet/";
+        }
+        return href;
+    };
+    FeatureComponent.prototype.makeTaskList = function (tasks, tasktype) {
+        for (var i in tasks) {
+            var arr = [];
+            var href = this.makeHref();
+            arr["tasktype"] = tasktype;
+            arr["startTime"] = tasks[i].startTime;
+            arr["txid"] = tasks[i].txid.substring(0, 6) + "..." + tasks[i].txid.substring(tasks[i].txid.length - 6);
+            arr["txidhref"] = href + "transaction/" + tasks[i].txid;
+            arr["height"] = tasks[i].height;
+            arr["state"] = tasks[i].state;
+            arr["addrhref"] = href + "address/" + (tasks[i].message.toaddress ? tasks[i].message.toaddress : tasks[i].message.address);
+            arr["message"] = tasks[i].message;
+            arr["domainhref"] = href + "nns/" + (tasks[i].message.domain ? tasks[i].message.domain : "");
+            arr["resolver"] = "" + (tasks[i].message.contract ? (tasks[i].message.contract.substring(0, 4) + "..." + tasks[i].message.contract.substring(tasks[i].message.contract.length - 4)) : "");
+            this.taskList.push(arr);
+        }
+    };
+    FeatureComponent.prototype.timer = function (item) {
+        var _this = this;
+        if (item.timer) {
+            clearInterval(item.timer);
+        }
+        var pendingText = '';
+        var seconds = '' + (new Date().getTime() - item["startTime"]) / 1000;
+        pendingText = "(" + parseInt(seconds) + "s)";
+        this.$set(item, 'pendingText', pendingText);
+        var timer = setInterval(function () {
+            if (item.state != 0) {
+                clearInterval(timer);
+            }
+            var seconds = '' + (new Date().getTime() - item["startTime"]) / 1000;
+            pendingText = "(" + parseInt(seconds) + "s)";
+            _this.$set(item, 'pendingText', pendingText);
+        }, 1000);
+        item.timer = timer;
+    };
+    FeatureComponent.prototype.clearTimer = function () {
+        this.taskList.forEach(function (v) {
+            if (v.timer) {
+                clearInterval(v.timer);
+                v.timer = null;
+            }
         });
     };
     FeatureComponent = __decorate([
@@ -7870,6 +8483,13 @@ var FeatureComponent = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = FeatureComponent;
 
+
+/***/ }),
+
+/***/ "Yj+Z":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAARpJREFUWAntltENwiAQhotxjDqQL4zhUI7RFxfqHniX9EfSIOEqRzG5JgYs6H1+vx5Ok11mwAz8twEH/GVZ7s65Zwhhxr0zRmJYieHhvX9x/QsgRoBjFhbELOC6YgJzRB6tYq3nSEkSyifFaLAnhKSWAUps5faawZwVyb3hDcY2I/lUNXtbNX41g60av5pBNFtp4+dGnSakBpgW4Tki5znBx7OWn5euboBp5NtZeyuBYU3tO4gCv47dADlWMrfyg+e14N0i3v7fVcWawqsBbqbm/a8yLV4zV4sYkdZAlPaoGTwa6d64msGSFcmaAUps5faawZwVyb3hDcY206qxSux828ssWIsGWzVWvPHRUXpWH61jrzMDZqCXgTfzHmZQoUeFngAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -8392,13 +9012,6 @@ var NNSTool = /** @class */ (function () {
                                 info.register = stack[1].AsHash160();
                                 info.resolver = stack[2].AsHash160();
                                 info.ttl = stack[3].AsInteger().toString();
-                                // console.log(info.register.toString() + " ：" + "0xd90d82bf64083312b0b7b8dc668d633cf56899ec");
-                                // let parentOwner = (stack[ 5 ].value as string).hexToBytes();
-                                // let domainstr = stack[ 5 ].value as string;
-                                // let parentHash = (stack[ 6 ].value as string).hexToBytes();
-                                // let bt = (stack[ 7 ].value as string).hexToBytes();
-                                // let root = Neo.BigInteger.fromUint8ArrayAutoSign(bt);
-                                // let a = new Neo.BigInteger(stack[ 7 ].value as string);
                             }
                         }
                         catch (e) {
@@ -8476,7 +9089,6 @@ var NNSTool = /** @class */ (function () {
                         sb.EmitPushString("setResolveData");
                         sb.EmitAppCall(scriptaddress.reverse());
                         data = sb.ToArray();
-                        console.log(data.toHexString());
                         return [4 /*yield*/, importpack_1.tools.coinTool.contractInvokeTrans_attributes(data)];
                     case 1:
                         res = _a.sent();
@@ -8616,7 +9228,7 @@ exports.NNSTool = NNSTool;
 
 /***/ }),
 
-/***/ "cC3v":
+/***/ "cmne":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -8624,6 +9236,20 @@ exports.NNSTool = NNSTool;
 /***/ }),
 
 /***/ "cou+":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "dQfh":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "eK3K":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -8672,6 +9298,13 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var pages_exchange_exchange = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "fgqV":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAWtJREFUWAntWFsOwjAMG5wGzs9xgG+4xXAmKpXQhaTxBggqRVNXx/b6WtVh+Jdf7IFxHDdrf/ec5lYbAfCAd0c8d7ptqfpdSzRFe74AsEGcEFIuiP08mtMiGogrQopo26MHwA4h5qQsahL8Yq7W8o1aI5Hek2mNNIExA2jcNKLKLJ2TScjkqr55GBjEDI4HU7qSEcjkah9mXQnJ3vVydd9zyj636LY1mVeCpskI1uyZaKNH2IOJ6obwlgGrLSSSBbeMtN5ldVL5DUNlQZjzMyUaTVYmUZ1OJy9XuEfn6TzoSfoqjOo9GdbPGeKGOTnf1QfQ981Dy4jVtsr08BjwYBYxGxGOYClmewR7crrMZoQyuS6zDAEGR9Msk5jJNZmlE4KVxkkjaoxLmjtN0DClX3VrdCdqB456WAsJcnl0RkhZ5T8Knfrf7bo8OiBJgJTznKMjy8IRTfv6rZABaF+BFSDx+Q5Nov0/VX8P3ADlEi1to8Kl3wAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -8730,14 +9363,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var neoauction = __webpack_require__("8KnJ");
 var neoauction_default = /*#__PURE__*/__webpack_require__.n(neoauction);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0eefb2d5","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/neoauction.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"box-warp"},[(!_vm.auctionPage)?_c('div',{staticClass:"page-one"},[_c('div',{staticClass:"tips-box"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tipsmsg1'))),_c('br'),_vm._v(" "),_c('ol',[_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg2')))]),_vm._v(" "),_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg3')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.titleaccount')))])]),_vm._v(" "),_c('div',{staticClass:"form-box pall"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"sgas-count"},[_c('span',[_vm._v("SGas")]),_c('span',{staticClass:"num"},[_vm._v(" "+_vm._s(_vm.regBalance))])])]),_vm._v(" "),_c('div',{staticClass:"btn-right"},[_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openWithdraw}},[_vm._v(_vm._s(_vm.$t('btn.withdraw')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openTopUp}},[_vm._v(_vm._s(_vm.$t('btn.topup')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box ptop"},[_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.domain),expression:"domain"}],attrs:{"type":"text","placeholder":_vm.$t('auction.entername'),"autocomplete":"off"},domProps:{"value":(_vm.domain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.domain=$event.target.value},_vm.queryDomainState]}}),_vm._v(" "),_c('span',[_vm._v(".neo")])]),_vm._v(" "),(_vm.btn_start==0)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.openingauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==1 && !!_vm.domain.length)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openAuction}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==2)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.addBid}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==3)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(!_vm.domain.length||_vm.btn_start==4)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.checkState==1 && !!_vm.domain.length)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkavailable')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==2)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbeing')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==3)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbuyer')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==4)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkformat')))])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title2')))]),_vm._v(" "),_c('div',{staticClass:"seach-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.searchDomain),expression:"searchDomain"}],attrs:{"type":"search","name":"","id":"","placeholder":_vm.$t('auction.searchmsg'),"autocomplete":"off"},domProps:{"value":(_vm.searchDomain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.searchDomain=$event.target.value},_vm.searchDomainInput],"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.doSearchDomain($event)}}}),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("zH9E"),"alt":""},on:{"click":_vm.doSearchDomain}})])]),_vm._v(" "),_vm._l((_vm.myAuctionList),function(item,index){return (_vm.myAuctionList&&!_vm.isSearchTime)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()}),_vm._v(" "),_vm._l((_vm.searchAuctionList),function(item,index){return (_vm.searchAuctionList&&_vm.isSearchTime)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()}),_vm._v(" "),(!_vm.searchAuctionList&&_vm.isSearchTime)?_c('div',{staticClass:"form-box mbottom"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.nodata'))+"\n        ")]):_vm._e()],2):_vm._e(),_vm._v(" "),(_vm.auctionPage)?_c('auction-info',{attrs:{"item":_vm.domainInfo},on:{"onBack":_vm.onBack}}):_vm._e(),_vm._v(" "),(_vm.auctionShow)?_c('div',{staticClass:"auction-wrap"},[_c('div',{staticClass:"auction-box"},[_c('div',{staticClass:"auction-title"},[_vm._v(_vm._s(_vm.$t('auction.acutiontitle')))]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"domain-name"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+": "+_vm._s(_vm.auctionMsg_alert.domain))]),_vm._v(" "),_c('div',{staticClass:"auction-status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+":                \n            "),(_vm.auctionMsg_alert.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"auction-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+": "+_vm._s(_vm.auctionMsg_alert.maxPrice)+" SGas")])]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"my-bid"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+": ")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_myBid),expression:"alert_myBid"}],staticClass:"bid-input",attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid'),"autocomplete":"off"},domProps:{"value":(_vm.alert_myBid)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.alert_myBid=$event.target.value},_vm.verifBidAmount]}})]),_vm._v(" "),_c('div',{staticClass:"my-bid"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.yourbidmsg'))+": "),_c('span',{class:{'status-being':_vm.canAdded,'status-ended':!_vm.canAdded}},[_vm._v(_vm._s(_vm.myBalanceOfSelling))]),_vm._v(" SGas\n          ")])]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tips1'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.canAdded)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":function($event){_vm.bidDomain()}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))])]),_vm._v(" "),_c('div',{staticClass:"auction-close"},[_c('span',{attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.auctionShow = !_vm.auctionShow}}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_TopUp.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.topup')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.from'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})]),_vm._v(" "),_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.isAvailable'))+".\n          ")])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.topupamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_TopUp.input),expression:"alert_TopUp.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_TopUp.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_TopUp, "input", $event.target.value)},_vm.verifToupAmount]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_TopUp.input = _vm.sgasAvailable}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(!_vm.alert_TopUp.watting)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.toRecharge}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))])]),_vm._v(" "),(_vm.alert_TopUp.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.toptips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_TopUp.isShow=!_vm.alert_TopUp.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_withdraw.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.withdraw')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.to'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.withdrawamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_withdraw.input),expression:"alert_withdraw.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_withdraw.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_withdraw, "input", $event.target.value)},_vm.verifWithdraw]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":function($event){_vm.alert_withdraw.input = _vm.regBalance}}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(_vm.alert_withdraw.watting)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))]):_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.withdraw}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])]),_vm._v(" "),(_vm.alert_withdraw.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.isAvailable'))+"\n          ")])]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.withdrawtips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_withdraw.isShow=!_vm.alert_withdraw.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-710ce236","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/bid/neoauction.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"box-warp"},[(!_vm.auctionPage)?_c('div',{staticClass:"page-one"},[_c('div',{staticClass:"tips-box"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tipsmsg1'))),_c('br'),_vm._v(" "),_c('ol',[_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg2')))]),_vm._v(" "),_c('li',[_vm._v(_vm._s(_vm.$t('auction.tipsmsg3')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.titleaccount')))])]),_vm._v(" "),_c('div',{staticClass:"form-box pall"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"sgas-count"},[_c('span',[_vm._v("SGas")]),_c('span',{staticClass:"num"},[_vm._v(" "+_vm._s(_vm.regBalance))])])]),_vm._v(" "),_c('div',{staticClass:"btn-right"},[_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openWithdraw}},[_vm._v(_vm._s(_vm.$t('btn.withdraw')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openTopUp}},[_vm._v(_vm._s(_vm.$t('btn.topup')))])])]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title1')))])]),_vm._v(" "),_c('div',{staticClass:"form-box ptop"},[_c('div',{staticClass:"input-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.domain),expression:"domain"}],attrs:{"type":"text","placeholder":_vm.$t('auction.entername'),"autocomplete":"off"},domProps:{"value":(_vm.domain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.domain=$event.target.value},_vm.queryDomainState]}}),_vm._v(" "),_c('span',[_vm._v(".neo")])]),_vm._v(" "),(_vm.btn_start==0)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.openingauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==1 && !!_vm.domain.length)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.openAuction}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==2)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":_vm.addBid}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(_vm.btn_start==3)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.newbid')))]):_vm._e(),_vm._v(" "),(!_vm.domain.length||_vm.btn_start==4)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.openauction')))]):_vm._e(),_vm._v(" "),(_vm.checkState==1 && !!_vm.domain.length)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkavailable')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==2)?_c('div',{staticClass:"msg-box status-being"},[_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbeing')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==3)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkbuyer')))])]):_vm._e(),_vm._v(" "),(_vm.checkState==4)?_c('div',{staticClass:"msg-box status-ended"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.checkformat')))])]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.title2')))]),_vm._v(" "),_c('div',{staticClass:"seach-box"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.searchDomain),expression:"searchDomain"}],attrs:{"type":"search","name":"","id":"","placeholder":_vm.$t('auction.searchmsg'),"autocomplete":"off"},domProps:{"value":(_vm.searchDomain)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.searchDomain=$event.target.value},_vm.searchDomainInput],"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.doSearchDomain($event)}}}),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("zH9E"),"alt":""},on:{"click":_vm.doSearchDomain}})])]),_vm._v(" "),_vm._l((_vm.myAuctionList),function(item,index){return (_vm.myAuctionList&&!_vm.isSearchTime)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()}),_vm._v(" "),_vm._l((_vm.searchAuctionList),function(item,index){return (_vm.searchAuctionList&&_vm.isSearchTime)?_c('div',{key:index,staticClass:"form-box mbottom"},[_c('div',{staticClass:"msg-list"},[_c('div',{staticClass:"msg-neoname"},[_vm._v("\n                    "+_vm._s(item.domain)+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"msg-status"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.status'))+": \n                    "),(item.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(item.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[(item.auctionState=='1')?_c('img',{attrs:{"src":__webpack_require__("Iced"),"alt":""}}):_vm._e(),_vm._v(" "),(item.auctionState=='2')?_c('img',{attrs:{"src":__webpack_require__("GEdN"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"hint-content"},[_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips')))]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.$t('auction.statustips2')))])])])],1),_vm._v(" "),_c('div',{staticClass:"msg-price"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.lastauctionprice'))+": "),_c('span',[_vm._v(_vm._s(item.maxPrice))]),_vm._v(" SGas\n                ")]),_vm._v(" "),(item.maxBuyer != _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',[_vm._v(_vm._s(_vm.$t('auction.other'))+" （ "+_vm._s(item.maxBuyer)+" ）")])]):_vm._e(),_vm._v(" "),(item.maxBuyer == _vm.address)?_c('div',{staticClass:"msg-bidder"},[_vm._v("\n                    "+_vm._s(item.auctionState>0?_vm.$t('auction.currentbidder'):_vm.$t('auction.buyer'))+": "),_c('span',{staticClass:"bidder-me"},[_vm._v(_vm._s(_vm.$t('auction.me'))+" （ "+_vm._s(_vm.address)+" ）")])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"msg-time"},[_vm._v("\n                    "+_vm._s(_vm.$t('auction.bidstarttimemsg'))+": "),_c('span',[_vm._v(_vm._s(item.startTimeStr))])]),_vm._v(" "),_vm._l((item.bidListSession),function(value,key){return (item.bidListSession)?_c('div',{key:key},[_vm._v("\n                  "+_vm._s(value)+"\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"btn-right"},[(item.auctionState=='1'||item.auctionState=='2')?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.getdomain')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState==0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.recoversgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer!=_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivedsgas')))]):_vm._e(),_vm._v(" "),(item.auctionState=='0' && item.maxBuyer==_vm.address && item.receivedState>0)?_c('button',{staticClass:"btn btn-nel btn-bid",on:{"click":function($event){_vm.onGoBidInfo(item)}}},[_vm._v(_vm._s(_vm.$t('btn.receivednns')))]):_vm._e()])]):_vm._e()}),_vm._v(" "),(!_vm.searchAuctionList&&_vm.isSearchTime)?_c('div',{staticClass:"form-box mbottom"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.nodata'))+"\n        ")]):_vm._e()],2):_vm._e(),_vm._v(" "),(_vm.auctionPage)?_c('auction-info',{attrs:{"item":_vm.domainInfo},on:{"onBack":_vm.onBack}}):_vm._e(),_vm._v(" "),(_vm.auctionShow)?_c('div',{staticClass:"auction-wrap"},[_c('div',{staticClass:"auction-box"},[_c('div',{staticClass:"auction-title"},[_vm._v(_vm._s(_vm.$t('auction.acutiontitle')))]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"domain-name"},[_vm._v(_vm._s(_vm.$t('auction.domain'))+": "+_vm._s(_vm.auctionMsg_alert.domain))]),_vm._v(" "),_c('div',{staticClass:"auction-status"},[_vm._v(_vm._s(_vm.$t('auction.status'))+":                \n            "),(_vm.auctionMsg_alert.auctionState=='1')?_c('span',{staticClass:"status-being"},[_vm._v(_vm._s(_vm.$t('auction.fixedperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='2')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.randomperiod')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='3')?_c('span',{staticClass:"status-random"},[_vm._v(_vm._s(_vm.$t('auction.waiting')))]):_vm._e(),_vm._v(" "),(_vm.auctionMsg_alert.auctionState=='0')?_c('span',{staticClass:"status-ended"},[_vm._v(_vm._s(_vm.$t('auction.ended')))]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"auction-price"},[_vm._v(_vm._s(_vm.$t('auction.highest'))+": "+_vm._s(_vm.auctionMsg_alert.maxPrice)+" SGas")])]),_vm._v(" "),_c('div',{staticClass:"wrap-msg"},[_c('div',{staticClass:"my-bid"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.raisebid'))+": ")]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_myBid),expression:"alert_myBid"}],staticClass:"bid-input",attrs:{"type":"number","placeholder":_vm.$t('auction.enterbid'),"autocomplete":"off"},domProps:{"value":(_vm.alert_myBid)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.alert_myBid=$event.target.value},_vm.verifBidAmount]}})]),_vm._v(" "),_c('div',{staticClass:"my-bid"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.yourbidmsg'))+": "),_c('span',{class:{'status-being':_vm.canAdded,'status-ended':!_vm.canAdded}},[_vm._v(_vm._s(_vm.myBalanceOfSelling))]),_vm._v(" SGas\n          ")])]),_vm._v(" "),_c('div',{staticClass:"tips-msg"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.tips1'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"btn-bid-box"},[(_vm.canAdded)?_c('button',{staticClass:"btn btn-nel btn-big",on:{"click":function($event){_vm.bidDomain()}}},[_vm._v(_vm._s(_vm.$t('btn.bid')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":"disabled"}},[_vm._v(_vm._s(_vm.$t('btn.bid')))])]),_vm._v(" "),_c('div',{staticClass:"auction-close"},[_c('span',{attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.auctionShow = !_vm.auctionShow}}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_TopUp.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.topup')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.from')))]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})]),_vm._v(" "),_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.isAvailable'))+".\n          ")])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.topupamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_TopUp.input),expression:"alert_TopUp.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_TopUp.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_TopUp, "input", $event.target.value)},_vm.verifToupAmount]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":_vm.getAllTopup}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(!_vm.alert_TopUp.watting)?_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disable':!_vm.isTopup},attrs:{"disabled":!_vm.isTopup},on:{"click":_vm.toRecharge}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))]):_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))])]),_vm._v(" "),(_vm.alert_TopUp.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.alert_available)+" "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_vm._e()]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.toptips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_TopUp.isShow=!_vm.alert_TopUp.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),(_vm.alert_withdraw.isShow)?_c('div',{staticClass:"account-wrap"},[_c('div',{staticClass:"account-box"},[_c('div',{staticClass:"account-title"},[_c('span',[_vm._v(_vm._s(_vm.$t('auction.withdraw')))])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.to'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('input',{staticClass:"readonly-input",attrs:{"type":"text","disabled":""},domProps:{"value":_vm.$t('auction.yourbalance')}})])]),_vm._v(" "),_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-msg"},[_vm._v(_vm._s(_vm.$t('auction.withdrawamount'))+":")]),_vm._v(" "),_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"input-getall"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.alert_withdraw.input),expression:"alert_withdraw.input"}],attrs:{"type":"number","placeholder":_vm.$t('auction.amount'),"autocomplete":"off"},domProps:{"value":(_vm.alert_withdraw.input)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.$set(_vm.alert_withdraw, "input", $event.target.value)},_vm.verifWithdraw]}}),_vm._v(" "),_c('span',{staticClass:"getall-msg",on:{"click":_vm.getAllWithdraw}},[_vm._v(_vm._s(_vm.$t('auction.getall')))])]),_vm._v(" "),(_vm.alert_withdraw.watting)?_c('button',{staticClass:"btn btn-nel btn-big btn-disable",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.confirming')))]):_c('button',{staticClass:"btn btn-nel btn-big",class:{'btn-disable':!_vm.isWithdraw},attrs:{"disabled":!_vm.isWithdraw},on:{"click":_vm.withdraw}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])]),_vm._v(" "),(_vm.alert_withdraw.error)?_c('div',{staticClass:"status-ended err-msg"},[_vm._v("\n            "+_vm._s(_vm.$t('auction.errmsg1'))+" "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.errmsg3'))+"\n          ")]):_c('div',{staticClass:"err-msg"},[_vm._v("\n            "+_vm._s(_vm.regBalance)+" SGas "+_vm._s(_vm.$t('auction.isAvailable'))+"\n          ")])]),_vm._v(" "),_c('div',{staticClass:"account-tips"},[_vm._v("\n          "+_vm._s(_vm.$t('auction.withdrawtips'))+"\n        ")]),_vm._v(" "),_c('div',{staticClass:"account-close",on:{"click":function($event){_vm.alert_withdraw.isShow=!_vm.alert_withdraw.isShow}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e(),_vm._v(" "),_c('v-toast',{ref:"toast"})],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var bid_neoauction = (esExports);
 // CONCATENATED MODULE: ./src/pages/bid/neoauction.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("6rKk")
+  __webpack_require__("Lars")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -8748,7 +9381,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-0eefb2d5"
+var __vue_scopeId__ = "data-v-710ce236"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -8782,14 +9415,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var Main = __webpack_require__("Gc41");
 var Main_default = /*#__PURE__*/__webpack_require__.n(Main);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-a58459d6","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v(_vm._s(_vm.$t('navbar.toggle')))]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])]),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('div',{staticClass:"logo"}),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/#mainnet","target":"_blank"}},[_vm._v(_vm._s(_vm.$t('navbar.explorer')))])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel"},[_vm._v(_vm._s(_vm.$t('navbar.wallet')))])])]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{staticClass:"active",attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))])]),_vm._v(" "),_c('li',{attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"target":"_blank","href":"https://wallet.nel.group/#login","id":"maina"}},[_vm._v(_vm._s(_vm.$t('navbar.mainnet')))])])])]),_vm._v(" "),(_vm.loginshow)?_c('li',[_c('v-link',{ref:"login",attrs:{"href":"#login"}},[_vm._v(_vm._s(_vm.$t('navbar.logout')))])],1):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text"},[_vm._v(_vm._s(_vm.currentLanguage))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{class:_vm.currentLanguage=='English'?'active':'',attrs:{"id":"testnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(1)}}},[_vm._v("English")])]),_vm._v(" "),_c('li',{class:_vm.currentLanguage!='English'?'active':'',attrs:{"id":"mainnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(2)}}},[_vm._v("中文")])])])])])])])]),_vm._v(" "),_vm._t("default")],2)}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-69128e48","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v(_vm._s(_vm.$t('navbar.toggle')))]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])]),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('div',{staticClass:"logo"}),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/#testnet","target":"_blank"}},[_vm._v(_vm._s(_vm.$t('navbar.explorer')))])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel"},[_vm._v(_vm._s(_vm.$t('navbar.wallet')))])])]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{staticClass:"active",attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))])]),_vm._v(" "),_c('li',{attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"target":"_blank","href":"https://wallet.nel.group/#login","id":"maina"}},[_vm._v(_vm._s(_vm.$t('navbar.mainnet')))])])])]),_vm._v(" "),(_vm.loginshow)?_c('li',[_c('v-link',{ref:"login",attrs:{"href":"#login"}},[_vm._v(_vm._s(_vm.$t('navbar.logout')))])],1):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text"},[_vm._v(_vm._s(_vm.currentLanguage))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{class:_vm.currentLanguage=='English'?'active':'',attrs:{"id":"testnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(1)}}},[_vm._v("English")])]),_vm._v(" "),_c('li',{class:_vm.currentLanguage!='English'?'active':'',attrs:{"id":"mainnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(2)}}},[_vm._v("中文")])])])])])])])]),_vm._v(" "),_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var layouts_Main = (esExports);
 // CONCATENATED MODULE: ./src/layouts/Main.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("6Gmd")
+  __webpack_require__("dQfh")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -8872,6 +9505,13 @@ exports.default = Hint;
 
 /***/ }),
 
+/***/ "mI44":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "mcrB":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8939,6 +9579,8 @@ var importpack_1 = __webpack_require__("VKSY");
 var storagetool_1 = __webpack_require__("5LD5");
 var entity_1 = __webpack_require__("6nHw");
 var taskmanager_1 = __webpack_require__("XfB5");
+var StorageMap_1 = __webpack_require__("slXE");
+var neoauctionDataModel_1 = __webpack_require__("Zz8u");
 var AuctionInfo = /** @class */ (function (_super) {
     __extends(AuctionInfo, _super);
     function AuctionInfo() {
@@ -8951,39 +9593,33 @@ var AuctionInfo = /** @class */ (function (_super) {
         _this.currentpage = 1;
         _this.pagesize = 5;
         _this.inputErrorCode = 0;
-        _this.session_bid = new storagetool_1.sessionStoreTool("bidSession");
-        _this.session_recover = new storagetool_1.sessionStoreTool("recoverSession");
-        _this.session_getdomain = new storagetool_1.sessionStoreTool("getDomainSession");
         _this.fee = 0;
         _this.remaining = 0;
         _this.balanceOf = '';
         _this.bidState = 2;
-        _this.btnShowmore = true;
+        _this.btnShowmore = false;
         _this.fee = 0;
         _this.remaining = 0;
         _this.process = new entity_1.Process(new Date().getTime());
         _this.width = 0;
-        _this.state_getDomain = 0;
-        _this.state_recover = 0;
         _this.bidPrice = "";
+        _this.isReceived = false;
+        _this.isGetDomainWait = false;
+        _this.isRecoverWait = false;
         return _this;
     }
     AuctionInfo.prototype.mounted = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        this.session_bid = new storagetool_1.sessionStoreTool("bidSession");
-                        this.session_recover = new storagetool_1.sessionStoreTool("recoverSession");
-                        this.session_getdomain = new storagetool_1.sessionStoreTool("getDomainSession");
-                        this.refresh = new importpack_1.tools.sessionstoretool("refresh_auction");
-                        return [4 /*yield*/, this.init()];
+                    case 0: return [4 /*yield*/, this.init()];
                     case 1:
                         _a.sent();
-                        if (!this.domainAuctionInfo.endTime) {
+                        if (this.domainAuctionInfo.auctionState != "0") {
                             taskmanager_1.TaskManager.functionList = [];
                             taskmanager_1.TaskManager.functionList.push(this.init);
                         }
+                        entity_1.TaskFunction.auctionStateUpdate = this.init;
                         return [2 /*return*/];
                 }
             });
@@ -8991,7 +9627,7 @@ var AuctionInfo = /** @class */ (function (_super) {
     };
     AuctionInfo.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var auctionMsg, domain, _a, confirm_getDomain, confirm_recover, confirm_bid, txid, res, txid, method, txid;
+            var auctionMsg, domain, _a, waitstate;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -9014,41 +9650,13 @@ var AuctionInfo = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.getSessionBidDetail(domain)];
                     case 4:
                         _b.sent();
-                        return [4 /*yield*/, this.getBidDetail(this.domainAuctionInfo.id, 1, 5)];
+                        this.currentpage = 1;
+                        return [4 /*yield*/, this.getBidDetail(this.domainAuctionInfo.id, this.currentpage, 5)];
                     case 5:
                         _b.sent();
-                        confirm_getDomain = this.session_getdomain.select(domain);
-                        confirm_recover = this.session_recover.select(domain);
-                        confirm_bid = this.session_bid.select(domain);
-                        if (!confirm_recover) return [3 /*break*/, 7];
-                        txid = confirm_recover["txid"];
-                        if (!!!txid) return [3 /*break*/, 7];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 6:
-                        res = _b.sent();
-                        if (!!res) {
-                            if (parseFloat(this.domainAuctionInfo.balanceOfSelling) == 0) {
-                                this.state_recover = 2;
-                            }
-                        }
-                        else {
-                            this.state_recover = 1;
-                        }
-                        _b.label = 7;
-                    case 7:
-                        if (confirm_getDomain) {
-                            txid = confirm_getDomain["txid"];
-                            if (!!txid) {
-                                method = confirm_getDomain["method"];
-                                this.rechargConfirm(txid, method, domain);
-                            }
-                        }
-                        if (confirm_bid) {
-                            txid = confirm_bid["txid"];
-                            if (!!txid) {
-                                this.bid_confirm(txid, domain);
-                            }
-                        }
+                        waitstate = StorageMap_1.default.auctionInfo.select(domain);
+                        this.isGetDomainWait = !!waitstate && !!waitstate["isGetDomainWait"];
+                        this.isRecoverWait = !!waitstate && !!waitstate["isRecoverWait"];
                         return [2 /*return*/];
                 }
             });
@@ -9060,7 +9668,6 @@ var AuctionInfo = /** @class */ (function (_super) {
     AuctionInfo.prototype.initProcess = function () {
         this.process = new entity_1.Process(this.domainAuctionInfo.startAuctionTime);
         var currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime : new Date().getTime();
-        var time = new Date(this.domainAuctionInfo.startAuctionTime).getTime();
         var oldtime = accSub(currenttime, this.domainAuctionInfo.startAuctionTime);
         var a = 0;
         switch (this.domainAuctionInfo.domainstate) {
@@ -9126,11 +9733,11 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 7:
                         compare = Neo.Fixed8.parse(this.domainAuctionInfo.balanceOfSelling).compareTo(Neo.Fixed8.Zero);
                         this.domainAuctionInfo.receivedState = compare < 0 ? 0 : 1;
-                        this.state_getDomain = 0;
-                        this.state_recover = 0;
                         if (compare == 0 && this.domainAuctionInfo.owner == this.address) {
-                            this.state_getDomain = 2;
-                            this.state_recover = 2;
+                            this.isReceived = true;
+                        }
+                        else {
+                            this.isReceived = false;
                         }
                         _a.label = 8;
                     case 8:
@@ -9163,7 +9770,6 @@ var AuctionInfo = /** @class */ (function (_super) {
         this.updatePrice = sum.toString();
         if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.domainAuctionInfo.maxPrice)) <= 0) {
             this.bidState = 2;
-            // this.inputErrorCode = 1;
         }
         else {
             var result = balance.compareTo(sum);
@@ -9179,11 +9785,11 @@ var AuctionInfo = /** @class */ (function (_super) {
     };
     AuctionInfo.prototype.getDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var info, data1, data2, res, txid, data, res, txid;
+            var height, info, data1, data2, res, txid, data, res, txid;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.state_getDomain = 1;
+                        height = StorageMap_1.default.blockheight.select("height");
                         return [4 /*yield*/, importpack_1.tools.nnssell.getSellingStateByDomain(this.domainAuctionInfo.domain)];
                     case 1:
                         info = _a.sent();
@@ -9198,11 +9804,14 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 4:
                         res = _a.sent();
                         txid = res["txid"];
-                        this.session_getdomain.put(this.domainAuctionInfo.domain, { txid: txid, method: 1 });
+                        this.isGetDomainWait = true;
+                        StorageMap_1.default.auctionInfo.put(this.domainAuctionInfo.domain, true, "isGetDomainWait");
+                        taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.recharge, txid, { domain: this.domainAuctionInfo.domain }), entity_1.TaskType.getDomain);
                         return [3 /*break*/, 9];
                     case 5:
                         if (!(!!info.owner && ThinNeo.Helper.GetAddressFromScriptHash(info.owner) == this.address)) return [3 /*break*/, 6];
-                        this.state_getDomain = 2;
+                        this.isReceived = true;
+                        this.isGetDomainWait = false;
                         return [2 /*return*/];
                     case 6: return [4 /*yield*/, importpack_1.tools.nnssell.collectDomain(info.id.toString())];
                     case 7:
@@ -9214,76 +9823,22 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 8:
                         res = _a.sent();
                         txid = res["txid"];
-                        this.session_getdomain.put(this.domainAuctionInfo.domain, { txid: txid, method: 2 });
+                        StorageMap_1.default.auctionInfo.put(this.domainAuctionInfo.domain, true, "isGetDomainWait");
+                        taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.contract, txid, { domain: this.domainAuctionInfo.domain }), entity_1.TaskType.getDomain);
                         _a.label = 9;
                     case 9: return [2 /*return*/];
                 }
             });
         });
     };
-    AuctionInfo.prototype.rechargConfirm = function (txid, method, domain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var res, code;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.openToast = this.$refs.toast["isShow"];
-                        res = null;
-                        if (!(method == 1)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrechargeandtransfer(txid)];
-                    case 1:
-                        res = _a.sent();
-                        code = res['errCode'];
-                        switch (code) {
-                            case '0000':
-                                this.openToast("success", "" + this.$t("auction.successgetdomain"), 3000);
-                                this.state_getDomain = 2;
-                                this.session_getdomain.delete(domain);
-                                return [2 /*return*/];
-                            case '3001':
-                                this.openToast("error", "" + this.$t("auction.failgetdomain"), 3000);
-                                this.state_getDomain = 1;
-                                this.session_getdomain.delete(domain);
-                                return [2 /*return*/];
-                            case '3002':
-                                this.openToast("error", "" + this.$t("auction.failgetdomain"), 3000);
-                                this.state_getDomain = 1;
-                                this.session_getdomain.delete(domain);
-                                return [2 /*return*/];
-                        }
-                        this.state_getDomain = 1;
-                        _a.label = 2;
-                    case 2:
-                        if (!(method == 2)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 3:
-                        res = _a.sent();
-                        if (!!res) {
-                            this.openToast("success", "" + this.$t("auction.successgetdomain"), 3000);
-                            this.state_getDomain = 2;
-                            this.session_getdomain.delete(domain);
-                            return [2 /*return*/];
-                        }
-                        this.state_getDomain = 1;
-                        _a.label = 4;
-                    case 4: 
-                    // setTimeout(() =>
-                    // {
-                    //     this.rechargConfirm(txid, method, domain);
-                    // }, 5000)
-                    return [2 /*return*/];
-                }
-            });
-        });
-    };
     AuctionInfo.prototype.getSessionBidDetail = function (domain) {
         return __awaiter(this, void 0, void 0, function () {
-            var bidlist, arr, key, element, n, _a, _b, _i, index, i, amount, txid, txmsg, bidmsg;
+            var session_bid, bidlist, arr, key, element, n, _a, _b, _i, index, i, amount, txid, txmsg, bidmsg;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        this.session_bid = new storagetool_1.LocalStoreTool("bidSession");
-                        bidlist = this.session_bid.select(domain);
+                        session_bid = new storagetool_1.sessionStoreTool("bidSession");
+                        bidlist = session_bid.select(domain);
                         if (!(bidlist && Object.keys(bidlist).length > 0)) return [3 /*break*/, 4];
                         arr = [];
                         for (key in bidlist) {
@@ -9292,7 +9847,6 @@ var AuctionInfo = /** @class */ (function (_super) {
                                 arr.push(element);
                             }
                         }
-                        // arr = arr.reverse();
                         for (n = 0; n < arr.length; n++) {
                             if (n > 0) {
                                 arr[n].amount = accAdd(parseFloat(arr[n].amount), parseFloat(arr[n - 1].amount));
@@ -9316,7 +9870,7 @@ var AuctionInfo = /** @class */ (function (_super) {
                     case 2:
                         txmsg = _c.sent();
                         if (txmsg) {
-                            this.session_bid.delete(domain, txid);
+                            session_bid.delete(domain, txid);
                         }
                         else {
                             bidmsg = { addPriceTime: "" + this.$t("auction.waitmsg1"), maxBuyer: '', maxPrice: '' };
@@ -9336,7 +9890,7 @@ var AuctionInfo = /** @class */ (function (_super) {
     /**
      * 时间轴列表
      * @param domain 域名
-     * @param currentpage 当前地址
+     * @param currentpage 当前页数
      * @param pagesize 分页条数
      */
     AuctionInfo.prototype.getBidDetail = function (id, currentpage, pagesize) {
@@ -9351,8 +9905,14 @@ var AuctionInfo = /** @class */ (function (_super) {
                             if (res[0].count < pagesize) {
                                 this.btnShowmore = false;
                             }
+                            else {
+                                this.btnShowmore = true;
+                            }
                             if (res[0].list.length < pagesize) {
                                 this.btnShowmore = false;
+                            }
+                            else {
+                                this.btnShowmore = true;
                             }
                             for (i in res[0].list) {
                                 res[0].list[i].addPriceTime = importpack_1.tools.timetool.getTime(res[0].list[i].addPriceTime);
@@ -9369,7 +9929,7 @@ var AuctionInfo = /** @class */ (function (_super) {
      */
     AuctionInfo.prototype.bidDomain = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var count, res, txid, amount, oldBlock, height, task, error_2;
+            var count, res, txid, amount, height, task, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -9385,10 +9945,9 @@ var AuctionInfo = /** @class */ (function (_super) {
                             this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
                         txid = res.info;
                         amount = this.bidPrice;
-                        this.session_bid.put(this.domainAuctionInfo.domain, { txid: txid, amount: amount }, txid);
-                        oldBlock = new importpack_1.tools.sessionstoretool("block");
-                        height = oldBlock.select('height');
-                        task = new entity_1.Task(height, entity_1.ConfirmType.tranfer, res.info);
+                        neoauctionDataModel_1.NeoaucionData.setBidSession(this.domainAuctionInfo, this.bidPrice, txid);
+                        height = StorageMap_1.default.blockheight.select('height');
+                        task = new entity_1.Task(height, entity_1.ConfirmType.contract, res.info, { domain: this.domainAuctionInfo.domain, amount: amount });
                         importpack_1.tools.taskManager.addTask(task, entity_1.TaskType.addPrice);
                         this.bidPrice = "";
                         this.bidState = 2;
@@ -9407,28 +9966,28 @@ var AuctionInfo = /** @class */ (function (_super) {
     };
     AuctionInfo.prototype.recoverSgas = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var id, data, res, txid, error_3;
+            var id, data, height, res, txid, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.state_recover = 1;
                         id = this.domainAuctionInfo.id;
                         return [4 /*yield*/, importpack_1.tools.nnssell.bidSettlement(id)];
                     case 1:
                         data = _a.sent();
-                        this.state_recover = 1;
                         if (!data)
                             return [2 /*return*/];
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 4, , 5]);
+                        height = StorageMap_1.default.blockheight.select("height");
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
                     case 3:
                         res = _a.sent();
                         if (res["txid"]) {
+                            this.isRecoverWait = true;
                             txid = res["txid"];
-                            this.session_recover.put(this.domainAuctionInfo.domain, { txid: txid });
-                            this.recoverConfirm(txid);
+                            taskmanager_1.TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid, { domain: this.domainAuctionInfo, amount: this.myBidPrice }), entity_1.TaskType.recoverSgas);
+                            StorageMap_1.default.auctionInfo.put(this.domainAuctionInfo.domain, true, "isRecoverWait");
                         }
                         return [3 /*break*/, 5];
                     case 4:
@@ -9439,66 +9998,9 @@ var AuctionInfo = /** @class */ (function (_super) {
             });
         });
     };
-    AuctionInfo.prototype.recoverConfirm = function (txid) {
-        return __awaiter(this, void 0, void 0, function () {
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 1:
-                        res = _a.sent();
-                        if (!!res) {
-                            this.state_recover = 2;
-                        }
-                        else {
-                            this.state_recover = 1;
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * 加价信息确认
-     * @param txid 交易id
-     * @param domain 域名
-     */
-    AuctionInfo.prototype.bid_confirm = function (txid, domain) {
-        return __awaiter(this, void 0, void 0, function () {
-            var session_bid, res, names, have;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        session_bid = new importpack_1.tools.localstoretool("bidSession");
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getrawtransaction(txid)];
-                    case 1:
-                        res = _a.sent();
-                        if (!!!res) return [3 /*break*/, 3];
-                        session_bid.delete(domain, txid);
-                        return [4 /*yield*/, importpack_1.tools.contract.getNotifyNames(txid)];
-                    case 2:
-                        names = _a.sent();
-                        have = names.includes("addprice");
-                        if (have) {
-                            this.openToast("success", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.successbid"), 3000);
-                            return [2 /*return*/];
-                        }
-                        if (names.length == 0) {
-                            this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid"), 3000);
-                            return [2 /*return*/];
-                        }
-                        if (names.includes("domainstate")) {
-                            this.openToast("error", "" + this.$t("auction.domainname") + domain + " ：" + "" + this.$t("auction.failbid2"), 3000);
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
     AuctionInfo.prototype.getMoreBidDetail = function () {
         this.currentpage += 1;
-        this.getBidDetail(this.domainAuctionInfo.domain, this.currentpage, this.pagesize);
+        this.getBidDetail(this.domainAuctionInfo.id, this.currentpage, this.pagesize);
     };
     AuctionInfo.prototype.onBack = function () {
         this.$emit('onBack');
@@ -9516,10 +10018,10 @@ exports.default = AuctionInfo;
 
 /***/ }),
 
-/***/ "ndh4":
+/***/ "njKD":
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAOFJREFUWAntlTEOgkAQRVkPAIWNlZWn0Yt5F0ujtZWh1MbG6CEsbNc3iSSbECxAwhD+JD8syzL8fbNkskwhAhMhEGPcojNautwyxnbI4oH8mcRUjkpkIZOtjxH0ClSRfDJ2WW6ZbF3i9EWVO6XRZfyLZKgSs+jAeF3dD3x9hRAK8zAb2EjT599NDzQvAiIgAlMjkHaSO5tfOQFwpJNszEvaSXIn5sxGrHmhF8/RBVnc0KK2aOgJTMnkX4owJpJXzFq4PpMy2flcUmL7u0dFsuy86z4SfEmeuO77yK+cIuCRwAfE+1pRvWhd/wAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -9609,7 +10111,7 @@ exports.default = {
         newbid: "New Bid",
         viewmore: "View more",
         edit: "Edit",
-        renewal: "Renewal",
+        renewal: "Renew",
         renewaling: "Renewing",
         exchange: "Exchange",
         exchanging: "Exchanging",
@@ -9868,6 +10370,29 @@ exports.default = {
         wait2: "Waiting for confirmation of transfer...",
         wait3: "SGas claiming...",
         wait4: "Your SGas claim is successful!"
+    },
+    operation: {
+        welcome: "Welcome!",
+        title: "Operation record",
+        tips: "Tips : These records will be emptied when you logout or close the page.",
+        waiting: "Confirmation pending...",
+        txid: "TXID:",
+        transfer: "Transfer to",
+        openauction: "Open auction",
+        raisebid: "Raise bid",
+        exchange: "SGas exchange",
+        topup: "Top up",
+        withdraw: "Withdraw",
+        requestgas: "Request Gas",
+        editdomain: "Edit domain",
+        addrmapping: "Address mapping:",
+        addrresolver: "Address resolver:",
+        renew: "Renewal expiration time",
+        getdomain: "Get domain",
+        recover: "Recover SGas",
+        gasclaim: "Gas claim",
+        nodata: "There is no data",
+        fail: "Operation failed"
     }
 };
 
@@ -10228,6 +10753,7 @@ var CoinTool = /** @class */ (function () {
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
                     case 3:
                         result = _a.sent();
+                        result['amount'] = sum;
                         return [2 /*return*/, result];
                 }
             });
@@ -10262,13 +10788,11 @@ var CoinTool = /** @class */ (function () {
                     case 1:
                         data = _a.sent();
                         res = new entity_1.Result();
-                        console.log(data.toHexString());
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
                     case 2:
                         result = _a.sent();
                         res.err = !result["sendrawtransactionresult"];
                         res.info = result["txid"];
-                        console.log(res.info);
                         return [2 /*return*/, res];
                 }
             });
@@ -10419,6 +10943,13 @@ exports.CoinTool = CoinTool;
 
 /***/ }),
 
+/***/ "pe2V":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "pp3u":
 /***/ (function(module, exports) {
 
@@ -10430,6 +10961,20 @@ module.exports = "data:image/svg+xml;base64,DQo8c3ZnIHdpZHRoPSIxNXB4IiBoZWlnaHQ9
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAAXNSR0IArs4c6QAABP1JREFUaAXlm01oE0EUxydtbUSUIuJHKSgeJHqoB4vWYk2bi1AQigcP9exVKbYnDwoeelFRVATRg4ooelBEQe3BlFRorVTQIlIQRKG0VLRKRE1tG///dSfNJpvtZjPZXTYPXmZ3ZvfN+83Mzs7HJiTKJOl0egVMt0KboBFdNyBcpSsCkdR1CuG4rqMIX4RCoV8I/S2AXAfthiagKahT4b20QVvrfEcNp6LQR9C/UNVCm7Qd9RwcTsSgg1C3hHm1uw6OTOuht92iNMmHede7Ao6MOqDfTZxwO4o+dJQVGhn0QOfdJrPIj770KIeG0TD0ukXGXifRt7Ad8NBSF8HQWlzzENqy1LUepw8h/068v79Y+WEJrJdaHAb8DisZCR0DdEpG5IZVuRE551dwrhx2fj4tqGUQ+kqfC0rBGkbtsjM4U/BOBwkfPyVF3/m34vXYV+3uHY1rxPHu7WLzJo42lUovavmsmUVTYMCyu38MXaoFmNk0jRt6NS2OHh8Wf1LzhvTl4WpxoW+3aNmpdAS5gEz2A/qJITOc5AEDth7x76F1uRc7PSfsEcCmcmClvTCgL6qH/gH72wA9KfNhaFaDbAquwdIJFgQLhAWjUMiQ16wNNYzabcdF7JWVSWJoKq8ZFzLO5h1t4QxSqcRQywPSYi7wIBI4hw2ScG69VwJlmjRqtw2RQYMlZ6vOpjFngHHWq8UE8yfDpjVplADfCRPQmmDyijlwNaBpT0vAQ6ph+wdYfmpkY8NKsXVLSS8OcpLxvKzhBE4yD7YKNxujD1SY0Wwoek8PooajVWjOXF1sdurdzI9Zp7favk/Re7qZrOy02DPX2s4960IOFE5fGsuKKd+hAmgythK4yYmbcrg4O2scGzuxZfceBdBNBI7YzVBeJ2HpgNtSInSkaGAvYWXhlgAdYXdte/DK+azVrEc6xPDsqV3Zp0qOb979IN68+6bZIjSnm/euxYqZT28gsO3ZNyfvdpvxvvYGJZDZRvrjEwBejOHcmj5dPbdnMdL6aBWbtC1gLsnIlQprm+6m0qcilos0YHc99Dg31nDSjg/V1SHBNSi/CX2ibzYlyWeYwLZIuOB28HDc8BxPTf8WKsfN0nE7fQAXDOhTEZIMYbjFtdzddm9y67U0ljiQ51LvyRHxDB0XxeH4ephNelyzYPOHq4tccGOGXolDWLo7XjQw7/ISugTYDPAoj4oVL6Bra0tezh3lM8zp4QzU8YzJ7uirmEI1e4Y5FV1d58hNZs157OoqTIp/4eAlY5yImzVdAizRXpKVryXKfajjFQ9C37rcJj5P/NSM+fSHjP+3WtCsK2YRj720QFVzj+MpjwMqT3VGw97S6YDCEivDZhiEomkHfqslFziG0niusqb9tpkme2mNEe08jlq+g5MuVdDLaqrEsRMjhgmHmW05gjJLKyHuDpgGsu831DATAFxZG+IokUlws4b52YASsRqccIpXht1/+t6lsxgY8mpYpqKme3AcuI9aJJ9pCOiyfH03N7eQppZJrpvC6JEFa5jpcCiMoHI+TMMzkAJwJ3QI6nehj/z0kD4XFG1oWTAVCTDAbxf5fr5hdZ3HafQtpvuqzhU08cr4fDi7yABdOR+IS3BAV85fACQ0Q4C3Q4P/J49saB28DeDl/hsPvyPzlwB6PdTXf9SyHHiUUpwA52oovx9pgkZ05V40dyvljiW3eaiu/RXvHyWavvSXYzwJAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ "rVEi":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAxRJREFUWAntmM1LFVEYxu+UhhSRIW0ytY+FRJCYSIs0aWcQRLuKENoF0ieB/gm1CGqT7aKNqyD6D4IoCKJyFS1KswiisMi00HT6PbdzxrnX+zFzZu5lAl/4zZmZc97nPJ6597xzzeXWIuMr4Pt+G7Rk0ibGuuErvIH9mTOJqT6wMcVJtkxiyIMLsAQKmezK4kr+FyaHWb0FLSMReSW9uMuN+CZyNsK6mLl/GH8FRk3ue9rjnudN0JaNSAYxtReFE3AEdsNmiGvQJ2cJtoVypzjvx+RH2viBsVa4A7NQqzhQyVlDuU7c9NN3F/aYMb9pn8Fz+ASLEOkJME6h8fvgHKwHhR73q/xZnAPmBmAGbNzjJNEeRv4OeGEFaUfieArGktgBH0AxB0NBp+MJGp2gamLDzZzmR2HcqCzSnnL0FKShUWxOj9UtEOsFu1fddlNZyUKrHdJZOckidgsU+vy1r0zldobGoMRMuD9WY64RoQkjdt/NUmEWWk1wGc4U9qy+YkwDnISjq3u5Q8d2+AaKSyUH1fAmcx7Oz+z7v2h32anC1aCZmyphCred/V+u63GrSWyk3WJFwgY3cNNuoNpU6x0yplA5XMifcQgb/MG1NTZjB9SxbTNzzdN+t/MGpY6C/Y5nrxcCLe9TO6Bcy1h98FX4x8hVGUwah4zANO2XRGKYGwEbg4nESEaoA+wX9GYiPYTC5rQJ20fjrIvGGChUJHqTCBWb63QWM4kYOg0qq4pxZz2Sa2FuCN2fckZMg1v1IjFs7iXXiR4r+V2gVzgbKq0DpVYv+BaX6iRJ29BVuGb6tUc9gWP02X3LdFVs9Lqv8a3QAwehCRRv4Sw7weP8VZwDJnqgVqGfEfo5IdNlo+IKkvUZJsHWxmXOtUep4sR53Wd4TrmzoBV7BA9Ytde0FaPqJPyFetV/CDtBk1yHG1Dtj2NIQSh3HlNzBXfTuJBJmASFtoTzaeimqoGpsMllri+mOkEaYqVMcq/qxySNuSNrFJnk0u+LnFyvgcak6rD+Odldr3ljzYOxFkhUUWJNuDbYcQX+AsP9ch3qDqBmAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ "rjrR":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABW9JREFUWAntmH1I3VUYx6de9ZZviBpWAxfDRWQ0WzgExRwrK8qXGdIydWyEq7aWDYPaIumvClthgyXRbEusLF+uRau2one2FhnBqs3Nshe9ORAsV77b53v5ncu9uob3/n4E1R54eJ5zznPO8z3PeZ5zz+8uWXKe/uMRiHBqf93d3WsjIiI2wt65ubkXS0pKvnZibdsA29vbL3C73c2AqQoANI7+UHFx8TMBfWGpkWHNCpgUExPzAM0qonYMvnt2dnYncgJu7OzszAswDUt1hTXLmtTU1BTLkQrc7zMzM+ugExriuAcjIyP3RkVFVdL8xDIPS9iKYEpKyoUATMPzkAFnoTgiyVi61Q5b2AIYHR39G55PwZd1dXXdYFAAbL2lf2f6wpW2i8Tj8VQCqFXHDIgu9GTkrfDI9PR07rzIhozTNkB5JOfqyLmHUVPVBuw3AN1KFb+vth1yBKAAULFXUxSfox4bHR3Nr66uPmMHmJlrKwfNIpIc569EbQ71D6fAaV3HALJWlBaEHDsVLeYkQK3nOP1/AFIgs1b4lIeOkWMRdLlciVwv1EmEu7m5OdophI4A7Onp2QSwd+EYgK1KT0//iLtxtRMgbVccQMq4pDuJ3iSA3oaTAZpPe0i/JOXl5QN2gNqKIG/BKMDVA2YGvp1HqqgAfRcgL+bYN9kBp7m2AE5NTSnvVgCmv7S0tMsCM8fTq0U6/VdZfWELWwD7+vr0QNATP62joyPDoKCis6TzeP3J9IUrbeUgR3xpbGzsm0RqJSCPwE+j6334CPIi5IHx8fGNFRUV3n8cIM+s63G6ByDLATZsATI4plF+gTMYO04kN5eVlX1gBkORIR9xQ0ODC3A7AfSWBW4P1boSEDWAmcF5P3re2NjYtbT3YnM5hfQOc+qZG7K/kI5YeUZl7sbpLQAZAUgdxbFfEWlra0uNj4//GfUo78B89YkAdhf2jagqqE7kVip9UGOLoUXviPvuZp74Hwocjj4D3HUGnBzFxcX5XjOMBW0aMM9T7YX0f8HcdZjqEl+7GHCyCVpMHS0tLe6kpKTVHEsaC56YmJjo57tXd52OVRtqIvF3kPhjsjfEN0kOc/QF9y1zChkfMWOSFFQSBfU4a2ymqRx9lNTQ93SWfLH+SfL0K9pBFASQV3EWR/gCFjmyYpIeACdZdAXyNLyN43sZ6SflVXZ29g466rFL0ADzvoe3EeE3/IaWwpHXoD6FbQo2g8hLAmxeou9eoq7ry0f+I25tbU0EnJznYHQQ3oXeZ4H7kd0WzAenFQC3AZvHUCc59meRbbSXEZVWfqOvlE0g4Xwf7RLW/1PgjC/kcfqr4CcC7f0ASfCbGMjC8DUWKYK3A0q58wP9CVy+QUemRYieC7EF1j8JZUTsPjZRia6IJsIb4AUEsFTYjd3rvb29N8oXRmvki/5qinGpmeQHyECu1elB+t50/NAPoX8KJzN5GTKIMjMzE5iXoYUB97EZpK01dNSZpi9QEukraCu9PGzS944EpCpbvuIoxrMCNAlaiJGPyBcBWIWjSY5s2PQbyUJnGPNis1T5a/ppF1i6rp0FxLjpn+/rGvmi6v2+tAsfUWVpVOtRGhkY7UP2stBtyDzar7DDO9B9kUX6iU1sx64Rm1N0qip1fFtou4hUPpWpT9EgmudrP4NfGl/or5Im65E+X/4j5lo4zYJK0n6Ma2D9dSZwh7g26swEZBANDAzsxuY57JfDT8IP0p5C3nM2cJosX+T3najyVQ0bXwe5wu4PdOCPoOnU7rivipiUybPp8PDw8KHa2topM/53kiPOJQ3WMG+UjR4AnCJ6TtKvDxd8EUbK1cNer/c9y5dwLTitcy52fvDfGoG/ANUKeD3MewLDAAAAAElFTkSuQmCC"
 
 /***/ }),
 
@@ -10963,10 +11508,7 @@ var NNSSell = /** @class */ (function () {
                         return [4 /*yield*/, importpack_1.tools.contract.contractInvokeTrans_attributes(data)];
                     case 2:
                         res = _a.sent();
-                        if (!res.err) {
-                            return [2 /*return*/, res.info];
-                        }
-                        return [3 /*break*/, 4];
+                        return [2 /*return*/, res];
                     case 3:
                         error_3 = _a.sent();
                         return [3 /*break*/, 4];
@@ -11036,10 +11578,44 @@ exports.default = Valert;
 
 /***/ }),
 
+/***/ "slXE":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var storagetool_1 = __webpack_require__("5LD5");
+var Store = /** @class */ (function () {
+    function Store() {
+    }
+    Store.blockheight = new storagetool_1.sessionStoreTool("block");
+    Store.auctionInfo = new storagetool_1.sessionStoreTool("auctionInfo");
+    Store.session_open = new storagetool_1.sessionStoreTool("auction-openSession");
+    return Store;
+}());
+exports.default = Store;
+
+
+/***/ }),
+
 /***/ "tRh/":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "tW2y":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "ti7E":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAAVhJREFUSA29lb9KA0EQh+8EjQSxEyxS2NmZSvAFxFfwKbS2MvoO+h4W1rFLagvBRkSfwD+g2JzfmD2YbCZ7G3LjwI+d2ZuZ7y53Oymqqjos/sMA3aFNb9YKgF107A0qeJov9IrWXWEAPpDYmTfoccKpvln33WA0HwaQLC9oaxEY+YOsfBKvkLYHgl5WMUmhsBlG4pGmBP+ZtZ8DU7VpGIlr6E0V1O4PzjlaTQHr5LA2wq6jAh0+EZyiDQuoE4M/H0bCNvo0ivTWO8ENOkEHaAd1kWVJ2KVVscSeDaNhB42WaGyVzoXJTyjjqE37g5VFZBD22LpF2WcpamGFFzK9p6wsy3s2ZBSNpy54BTyZvDP5QJq+RlKSNsi6R1rIe5NzZh3qJIGLeRB9JxTJBJFxJbNxiGTq138xuDO2OEQDY3+m/WSjXYhADVD7EAPkA4lAfhAF8oUEUBbkF7CSUIpiL0jHAAAAAElFTkSuQmCC"
 
 /***/ }),
 
@@ -11060,14 +11636,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var balance = __webpack_require__("5smL");
 var balance_default = /*#__PURE__*/__webpack_require__.n(balance);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-68901efc","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance/balance.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title1')))]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticClass:"user-select-ok",staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v(_vm._s(_vm.$t('balance.title2'))+"："+_vm._s(_vm.currentAddress))]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v(_vm._s(_vm.$t('btn.switch')))]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))]),_vm._v(" "),_c('span',{staticStyle:{"vertical-align":"super","margin-left":"10px"}},[(_vm.getGas==0)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.getTestGas}},[_vm._v(_vm._s(_vm.$t('btn.getGas')))]):_vm._e(),_vm._v(" "),(_vm.getGas==1)?_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.getGas')))]):_vm._e(),_vm._v(" "),(_vm.getGas==2)?_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.gettingGas')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[_c('img',{staticStyle:{"width":"20px","height":"20px"},attrs:{"src":__webpack_require__("0rEL"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"hint-content hint-otherwidth"},[_vm._v("\n                  "+_vm._s(_vm.$t('balance.tips'))+"\n              ")])])],1),_vm._v(" "),_c('v-toast',{ref:"toast"})],1),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v(_vm._s(_vm.$t('balance.title3'))+" : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.claiming')))]):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title4')))])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v(_vm._s(_vm.$t('btn.transfer')))])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v(_vm._s(_vm.$t('balance.title5')))])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v(_vm._s(_vm.$t('balance.title6'))+":")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio","autocomplete":"off"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v(_vm._s(_vm.$t('btn.close')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])])])])])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-008cdf26","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/balance/balance.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('wallet-layout',[_c('div',{staticClass:"container"},[_c('div',{staticClass:"title",staticStyle:{"padding-bottom":"28px"}},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title1')))]),_vm._v(" "),_c('div',{staticStyle:{"float":"right"}},[_c('span',{staticStyle:{"margin-right":"11px","color":"#fff"}},[_vm._v(_vm._s(_vm.$t('balance.title2'))+"："),_c('span',{staticClass:"user-select-ok"},[_vm._v(_vm._s(_vm.currentAddress))])]),_vm._v(" "),(_vm.chooseAddressarr &&_vm.chooseAddressarr.length>1)?_c('button',{staticClass:"btn",attrs:{"data-toggle":"modal","data-target":"#selectAddr"}},[_vm._v(_vm._s(_vm.$t('btn.switch')))]):_vm._e()])]),_vm._v(" "),_c('div',{staticClass:"neobalance",staticStyle:{"background":"#454F60","border-radius":"5px"}},[_c('div',[_c('div',{staticStyle:{"padding":"30px","padding-bottom":"40px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("NEO ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.neo))])]),_vm._v(" "),_c('div',{staticStyle:{"padding-left":"30px","padding-bottom":"30px"}},[_c('span',{staticClass:"balance-type"},[_vm._v("GAS ")]),_vm._v(" "),_c('span',{staticClass:"balance-amount"},[_vm._v(_vm._s(_vm.neoasset.gas))]),_vm._v(" "),_c('span',{staticStyle:{"vertical-align":"super","margin-left":"10px"}},[(_vm.getGas==0)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.getTestGas}},[_vm._v(_vm._s(_vm.$t('btn.getGas')))]):_vm._e(),_vm._v(" "),(_vm.getGas==1)?_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.getGas')))]):_vm._e(),_vm._v(" "),(_vm.getGas==2)?_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.gettingGas')))]):_vm._e(),_vm._v(" "),_c('v-hint',[_c('div',{staticClass:"hint-img"},[_c('img',{staticStyle:{"width":"20px","height":"20px"},attrs:{"src":__webpack_require__("0rEL"),"alt":""}})]),_vm._v(" "),_c('div',{staticClass:"hint-content hint-otherwidth"},[_vm._v("\n                  "+_vm._s(_vm.$t('balance.tips'))+"\n              ")])])],1),_vm._v(" "),_c('v-toast',{ref:"toast"})],1),_vm._v(" "),_c('div',{staticClass:"claim",staticStyle:{"padding":"30px","padding-left":"2.3%"}},[_c('span',{staticStyle:{"margin-right":"17px"}},[_vm._v(_vm._s(_vm.$t('balance.title3'))+" : "+_vm._s(_vm.neoasset.claim))]),_vm._v(" "),(_vm.neoasset.claim!='0'&&_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel",on:{"click":_vm.toClaimGas}},[_vm._v(_vm._s(_vm.$t('btn.claim')))]):_vm._e(),_vm._v(" "),(!_vm.claimbtn)?_c('button',{staticClass:"btn btn-nel btn-disabled",attrs:{"disabled":""}},[_vm._v(_vm._s(_vm.$t('btn.claiming')))]):_vm._e(),_vm._v(" "),_c('span',{staticClass:"loadmsg"},[_vm._v(" "+_vm._s(_vm.loadmsg))])])])]),_vm._v(" "),(_vm.balances.length)?_c('div',{staticClass:"balance-asset"},[_c('div',{staticClass:"title"},[_c('span',[_vm._v(_vm._s(_vm.$t('balance.title4')))])]),_vm._v(" "),_vm._l((_vm.balances),function(balance){return _c('div',{key:balance.asset,staticClass:"assetrow"},[_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-2 info"},[_c('span',[_vm._v(_vm._s(balance.names))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-8 info"},[_c('span',[_vm._v(" "+_vm._s(balance.balance))])]),_vm._v(" "),_c('div',{staticClass:"col-sm-2 transfer-btn"},[_c('span',{staticClass:"btn btn-transfer",on:{"click":function($event){_vm.toTransfer(balance.asset)}}},[_vm._v(_vm._s(_vm.$t('btn.transfer')))])])])])})],2):_vm._e(),_vm._v(" "),_c('div',{staticStyle:{"height":"30px"}})]),_vm._v(" "),_c('div',{staticClass:"modal fade",attrs:{"id":"selectAddr","tabindex":"-1"}},[_c('div',{staticClass:"modal-dialog",attrs:{"role":"document"}},[_c('div',{staticClass:"modal-content"},[_c('div',{staticClass:"modal-header"},[_c('button',{staticClass:"close",attrs:{"type":"button","data-dismiss":"modal","aria-label":"Close"}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])]),_vm._v(" "),_c('h4',{staticClass:"modal-title",attrs:{"id":"exampleModalLabel"}},[_vm._v(_vm._s(_vm.$t('balance.title5')))])]),_vm._v(" "),_c('div',{staticClass:"modal-body"},[_c('form',[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"exampleInputFile"}},[_vm._v(_vm._s(_vm.$t('balance.title6'))+":")]),_vm._v(" "),_c('div',{staticClass:"radio",attrs:{"id":"selectAddress"}},_vm._l((_vm.chooseAddressarr),function(item){return _c('label',{key:item.address},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.chooseAddress),expression:"chooseAddress"}],attrs:{"type":"radio","autocomplete":"off"},domProps:{"value":item.address,"checked":_vm._q(_vm.chooseAddress,item.address)},on:{"change":function($event){_vm.chooseAddress=item.address}}}),_vm._v(_vm._s(item.address)+"\n                ")])}))])])]),_vm._v(" "),_c('div',{staticClass:"modal-footer"},[_c('button',{staticClass:"btn btn-default",attrs:{"type":"button","data-dismiss":"modal"}},[_vm._v(_vm._s(_vm.$t('btn.close')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-primary",attrs:{"type":"button","data-dismiss":"modal"},on:{"click":function($event){_vm.addressSwitch()}}},[_vm._v(_vm._s(_vm.$t('btn.confirm')))])])])])])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var balance_balance = (esExports);
 // CONCATENATED MODULE: ./src/pages/balance/balance.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("cC3v")
+  __webpack_require__("cmne")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -11078,7 +11654,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-68901efc"
+var __vue_scopeId__ = "data-v-008cdf26"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -11161,6 +11737,13 @@ var Toast = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Toast;
 
+
+/***/ }),
+
+/***/ "w5Tq":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABGdJREFUWAntmF1IVEEUx3U/UqxQEUOw0gqMDAqJCAqpHntx/Qgf+lgQDIogS4LsIRB6qB4irIeyHgIpAklX96WeIsiCKMgSiQLT1MKQdvuU1faj39nu3W7X9e6966704MB1zsyc85//nDlzZtaMjMXyn3ugp6dnVXd3d0GyNG3JGpqx6+3trcjMzHxht9ufIG8yY6PXSSvBUCi0FIIFfGV83mRIppVgbW3t43A43BSJRMJ4pkRIst2b9V4yamcaDaZqjDg8BrlLfOKQ98Fg0AX5l2bwF4SgEIHkUYWk0wpJywQ7OjqWZmdn52RlZVkKD+IxaLPZmiHZYsWTpggSNxscDkcNsbQb8LV4YDmyJYLYYRIJYVuoEMygPcJ2V9bV1Y3TH7c44vYqnZ2dncV46wxA++laBnBMXSvHOhMIehvapZis4LNOkJipBOAmxusU4ADyU8g+p/5I3y9O6F/GdBoV0Wd8I99hZLui2zIwMNBvZBfXg2zpTuLFg2G+GEOqg+qiy+V6Je1kSldX10rC5JCWXFVV1YVEWLM8AFAJQH0ArcR4Ci8dqa6uFoJJFxL0eoy9YJYpIC1myInurECH3DmFXJDxxlSTY8GnzZKbRRDvbaVzrwywrTcAuiNysoVDthrbfzzHgs9bwfsnBp1O5wGMJZH6p6enLQHFm5RcWZ7MtmqxYgTb29udeG0XgDL+oL6+flSrmIzs8/ke5ufnS3Ke5IDdMsJobW11VFRU7CUEvtbU1NxTdWMEi4qKCumULZHS96ea39+GhgZJTZfMoEBuOwu5w9Ms4PV6ywmvYbGLHRK8l0c7RzpZxbjUC1kgp6Y0J9dirjq3luASOqMJlBwoSXVBC06R2JcSguzMH1HjQRS+MRAlhuxTFRawXqXMNQWPL+q8sRjkwn5HQpUHQe7MzMwTVWGuGt0D6Bb6/f6rSqzNpWqqn13boSiOTkxMTKpGs24SdcCoJohPMR5NQ5Dcwwm9b6SfaEy5vfrxXB54beAdV21iMah2JKp15N4COJjIJtE4t5e8EYXcL55ft7X6lgjqyQFUxc0wpgW0KvNq2ge5RsXuLqH2TIthmmA8cmzFGy2YVRlybmLvOnYOvDfG7dWix4gdEv2Atq0j1w/YvDwnv+xIyHLDuJV5/OS+g/FuL8NDwvVjI8OfBCj6boOYPNmv8Q0iq3lLu5a4Ml5CPapfDNYWlLbxZYsy/UN8DYTKI2nriyFBj8ezhZXKCzrlBVI/IHs7EAicxXMf5prAcItJ2J9Y/TBAawQAUPkBPknbjmy4OP2E2Ijtd+yGkB+ypR5+G7/W6+nbCSdR/l3RC2ipQvAC4BfxrOHi9BNxAMJ4a8rtdv/Ujxm1ExIUYy1JmvLSbua1cUXG0l1MpRnSifxYcuHBEWrxXBukm6jTXkx5UGWh8yR8Iycgf5nxiKqT6toSQZlcRzJD/jNAsPelmpiKZ2qLVWWpNdst9/BnDouloNdipVXmNijgqlLfcGmdaxF8Ph74DWFU4koKB9gcAAAAAElFTkSuQmCC"
 
 /***/ }),
 
@@ -11464,6 +12047,29 @@ exports.default = {
         wait2: "等待确认...",
         wait3: "SGas 领取...",
         wait4: "领取成功!"
+    },
+    operation: {
+        welcome: "欢迎!",
+        title: "操作记录",
+        tips: "注意：这些记录将会在您登出或关闭网页时清空。",
+        waiting: "等待区块确认...",
+        txid: "交易ID:",
+        transfer: "转出",
+        openauction: "开标",
+        raisebid: "加价",
+        exchange: "SGas兑换",
+        topup: "充值",
+        withdraw: "提取",
+        requestgas: "索取Gas",
+        editdomain: "域名编辑",
+        addrmapping: "地址映射:",
+        addrresolver: "确认地址解析器: ",
+        renew: "续约",
+        getdomain: "领取域名",
+        recover: "领回SGas",
+        gasclaim: "Gas提取",
+        nodata: "没有数据",
+        fail: "操作失败"
     }
 };
 
@@ -11497,6 +12103,7 @@ var settings_vue_1 = __webpack_require__("hZlE");
 var importpack_1 = __webpack_require__("VKSY");
 var taskmanager_1 = __webpack_require__("XfB5");
 var index_1 = __webpack_require__("OrGm");
+var entity_1 = __webpack_require__("6nHw");
 vue_1.default.use(vue_i18n_1.default);
 vue_1.default.use(index_1.default);
 vue_1.default.config.productionTip = false;
@@ -11535,18 +12142,6 @@ var app = new vue_1.default({
                 case "exchange":
                     return exchange_vue_1.default;
                 case "nnsneo":
-                    //由于。。。。子路由的页面都嵌套进了NNSNeo.vue里进行切换，此处的二级路由跳转部分。等于没用。路由跳转部分在NNSNeo.ts里做控制
-                    // switch (subroute)
-                    // {
-                    //     case "auction":
-                    //         return NNSNeo;
-                    //     case "exchange":
-                    //         return NNSNeo;
-                    //     case "myneoname":
-                    //         return NNSNeo;
-                    //     case "bonus":
-                    //         return NNSNeo;
-                    // }
                     return nnsneo_vue_1.default;
                 case "nns":
                     return nns_vue_1.default;
@@ -11563,6 +12158,8 @@ var app = new vue_1.default({
 window.addEventListener('popstate', function () {
     app.currentRoute = window.location.hash;
 });
+//初始化鼠标随机方法
+Neo.Cryptography.RandomNumberGenerator.startCollectors();
 setInterval(function () {
     var oldBlock = new importpack_1.tools.sessionstoretool("block");
     importpack_1.tools.wwwtool.api_getHeight()
@@ -11570,8 +12167,14 @@ setInterval(function () {
         var oldHeight = oldBlock.select("height");
         if (oldHeight) {
             if (data > oldHeight) {
-                taskmanager_1.TaskManager.update();
                 oldBlock.put("height", data);
+                /**
+                 * 高度变化放在最开始高度变化就启动高度刷新
+                 */
+                if (entity_1.TaskFunction.heightRefresh) {
+                    entity_1.TaskFunction.heightRefresh();
+                }
+                taskmanager_1.TaskManager.update();
             }
         }
         else {
