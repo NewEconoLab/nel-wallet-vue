@@ -37,7 +37,7 @@ export default class FeatureComponent extends Vue
         this.blockheight = 0;
         this.showHistory = false;
         this.taskList = [];
-        this.taskNumber = 0;
+        this.taskNumber = sessionStorage.getItem("newTaskNumber") ? parseInt(sessionStorage.getItem("newTaskNumber")) : 0;
         Neo.Cryptography.RandomNumberGenerator.startCollectors();
     }
 
@@ -69,6 +69,7 @@ export default class FeatureComponent extends Vue
         this.getHeight()
         TaskFunction.taskHistory = this.taskHistory;
         TaskFunction.heightRefresh = this.getHeight;
+        TaskFunction.newTaskNumber = this.newTaskNumber;
     }
 
     beforeDestroy()
@@ -83,7 +84,15 @@ export default class FeatureComponent extends Vue
     onshowHistory()
     {
         this.showHistory = !this.showHistory;
+        this.taskNumber = 0;
+        sessionStorage.setItem("newTaskNumber", this.taskNumber.toString());
         this.taskHistory();
+    }
+
+    newTaskNumber()
+    {
+        this.taskNumber++;
+        sessionStorage.setItem("newTaskNumber", this.taskNumber.toString());
     }
 
     taskHistory()
@@ -99,59 +108,45 @@ export default class FeatureComponent extends Vue
                 switch (parseInt(type) as TaskType)
                 {
                     case TaskType.tranfer:
-                        this.taskNumber = TaskType.tranfer;
                         this.makeTaskList(tasks, TaskType.tranfer);
                         break;
                     case TaskType.openAuction:
-                        this.taskNumber = TaskType.openAuction;
                         this.makeTaskList(tasks, TaskType.openAuction);
                         break;
                     case TaskType.addPrice:
-                        this.taskNumber = TaskType.addPrice;
                         this.makeTaskList(tasks, TaskType.addPrice);
                         break;
                     case TaskType.getDomain:
-                        this.taskNumber = TaskType.getDomain;
                         this.makeTaskList(tasks, TaskType.getDomain);
                         break;
                     case TaskType.gasToSgas:
-                        this.taskNumber = TaskType.gasToSgas;
                         this.makeTaskList(tasks, TaskType.gasToSgas);
                         break;
                     case TaskType.sgasToGas:
-                        this.taskNumber = TaskType.sgasToGas;
                         this.makeTaskList(tasks, TaskType.sgasToGas);
                         break;
                     case TaskType.topup:
-                        this.taskNumber = TaskType.topup;
                         this.makeTaskList(tasks, TaskType.topup);
                         break;
                     case TaskType.withdraw:
-                        this.taskNumber = TaskType.withdraw;
                         this.makeTaskList(tasks, TaskType.withdraw);
                         break;
                     case TaskType.getGasTest:
-                        this.taskNumber = TaskType.getGasTest;
                         this.makeTaskList(tasks, TaskType.getGasTest);
                         break;
                     case TaskType.domainMapping:
-                        this.taskNumber = TaskType.domainMapping;
                         this.makeTaskList(tasks, TaskType.domainMapping);
                         break;
                     case TaskType.domainResovle:
-                        this.taskNumber = TaskType.domainResovle;
                         this.makeTaskList(tasks, TaskType.domainResovle);
                         break;
                     case TaskType.domainRenewal:
-                        this.taskNumber = TaskType.domainRenewal;
                         this.makeTaskList(tasks, TaskType.domainRenewal);
                         break;
                     case TaskType.recoverSgas:
-                        this.taskNumber = TaskType.recoverSgas;
                         this.makeTaskList(tasks, TaskType.recoverSgas);
                         break;
                     case TaskType.ClaimGas:
-                        this.taskNumber = TaskType.ClaimGas;
                         this.makeTaskList(tasks, TaskType.ClaimGas);
                         break;
                     default:

@@ -160,7 +160,8 @@ export class TaskManager
 
     static addTask(task: Task, type: TaskType)
     {
-        this.taskStore.push(type.toString(), task)
+        this.taskStore.push(type.toString(), task);
+        TaskFunction.newTaskNumber();
     }
 
     /**

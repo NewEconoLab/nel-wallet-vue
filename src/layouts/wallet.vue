@@ -68,6 +68,7 @@
           <div class="tranhistory-box">
             <div class="tranhistory-img">
               <img src="../../static/img/history.png" alt="" @click="onshowHistory">
+              <div class="add-task" v-if="taskNumber">{{taskNumber}}<span v-if="taskNumber>99">+</span></div>
             </div>
             <div class="tranhistory-wrap" v-if="showHistory">
               <div class="tranhistory-listbox">
@@ -364,12 +365,28 @@
 .tranhistory-box .tranhistory-img {
   text-align: right;
   margin-top: 15px;
+  position: relative;
 }
 .tranhistory-box .tranhistory-img img {
   width: 16px;
   height: 20px;
   cursor: pointer;
 }
+.add-task {
+  position: absolute;
+  top: -15px;
+  left: 15px;
+  width: auto;
+  padding: 0 5px 0 5px;
+  height: 16px;
+  border-radius: 33px;
+  background: #fe5656;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  line-height: 16px;
+}
+
 .tranhistory-wrap {
   position: fixed;
   width: 100%;
