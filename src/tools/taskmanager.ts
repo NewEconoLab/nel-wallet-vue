@@ -299,12 +299,14 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
+                Store.session_open.delete(task.message.domain);
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
                 if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
                 {
                     task.state = TaskState.success;
+                    Store.session_open.delete(task.message.domain);
                 }
             }
             task.confirm++;
@@ -332,9 +334,11 @@ export class TaskManager
                 if (result && result.displayNameList && result.displayNameList.includes("addprice")) //检测是否有对应的通知 addprice
                 {
                     task.state = TaskState.success;
+                    Store.session_open.delete(task.message.domain);
                 } else if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
                 {
                     task.state = TaskState.fail;
+                    Store.session_open.delete(task.message.domain);
                 }
             }
             task.confirm++;
