@@ -9701,7 +9701,7 @@ var AuctionInfo = /** @class */ (function (_super) {
      */
     AuctionInfo.prototype.initAuctionInfo = function (domain) {
         return __awaiter(this, void 0, void 0, function () {
-            var info, myauction, balance, stateMsg, stateMsg_1, error_1, compare, mybidprice;
+            var info, myauction, balance, stateMsg, error_1, compare, mybidprice;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.nnssell.getSellingStateByDomain(domain)];
@@ -9717,23 +9717,22 @@ var AuctionInfo = /** @class */ (function (_super) {
                         this.domainAuctionInfo.balanceOfSelling = accDiv(balance.toString(), 100000000).toString();
                         this.myBidPrice = this.domainAuctionInfo.balanceOfSelling;
                         if (!(this.domainAuctionInfo.auctionState == "0")) return [3 /*break*/, 8];
-                        stateMsg = undefined;
                         _a.label = 4;
                     case 4:
                         _a.trys.push([4, 6, , 7]);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getDomainState(this.address, "0x" + this.domainAuctionInfo.id)];
                     case 5:
-                        stateMsg_1 = _a.sent();
-                        this.myBidPrice = stateMsg_1["mybidprice"];
+                        stateMsg = _a.sent();
+                        this.myBidPrice = stateMsg["mybidprice"];
                         return [3 /*break*/, 7];
                     case 6:
                         error_1 = _a.sent();
                         this.myBidPrice = "0";
                         return [3 /*break*/, 7];
                     case 7:
-                        compare = Neo.Fixed8.parse(this.domainAuctionInfo.balanceOfSelling).compareTo(Neo.Fixed8.Zero);
+                        compare = balance.compareTo(Neo.BigInteger.Zero);
                         this.domainAuctionInfo.receivedState = compare < 0 ? 0 : 1;
-                        if (compare == 0 && this.domainAuctionInfo.owner == this.address) {
+                        if (compare == 0) {
                             this.isReceived = true;
                         }
                         else {

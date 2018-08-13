@@ -147,7 +147,6 @@ export default class AuctionInfo extends Vue
         //判断竞拍是否结束
         if (this.domainAuctionInfo.auctionState == "0")
         {
-            let stateMsg = undefined;
             try
             {
                 let stateMsg = await tools.wwwtool.getDomainState(this.address, "0x" + this.domainAuctionInfo.id);
@@ -158,9 +157,9 @@ export default class AuctionInfo extends Vue
             }
 
             //判断在该域名下的竞拍金额是否大于零
-            let compare = Neo.Fixed8.parse(this.domainAuctionInfo.balanceOfSelling).compareTo(Neo.Fixed8.Zero);
+            let compare = balance.compareTo(Neo.BigInteger.Zero);
             this.domainAuctionInfo.receivedState = compare < 0 ? 0 : 1;
-            if (compare == 0 && this.domainAuctionInfo.owner == this.address)
+            if (compare == 0)
             {
                 this.isReceived = true;
             } else
