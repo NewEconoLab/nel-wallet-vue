@@ -800,7 +800,7 @@ export class ResultItem
         }
         else if (type === DataType.String)
         {
-            item.data = new Buffer(value as string);
+            item.data = ThinNeo.Helper.String2Bytes(value as string);
         }
         else
         {
@@ -820,7 +820,7 @@ export class ResultItem
     }
     public AsString(): string
     {
-        return String.fromCharCode.apply(null, this.data);
+        return ThinNeo.Helper.Bytes2String(this.data);
     }
     public AsHash160(): Neo.Uint160
     {
