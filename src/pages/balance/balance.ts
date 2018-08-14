@@ -234,42 +234,6 @@ export default class balance extends Vue
     }
   }
 
-  // async queryNEOTx(txid)
-  // {
-  //   setTimeout(async () =>
-  //   {
-  //     let res = await tools.wwwtool.getrawtransaction(txid);
-  //     if (!res)
-  //     {
-  //       this.queryNEOTx(txid);
-  //       return;
-  //     }
-  //     this.loadmsg = "" + this.$t("balance.msg3");
-  //     let result = await tools.coinTool.claimGas();
-  //     if (result[ "sendrawtransactionresult" ])
-  //     {
-  //       let txid = result[ "txid" ];
-  //       this.queryClaimTx(txid);
-  //     }
-  //   }, 30000);
-  // }
-
-  // async queryClaimTx(txid)
-  // {
-  //   setTimeout(async () =>
-  //   {
-  //     var res = await tools.wwwtool.getrawtransaction(txid);
-  //     if (res)
-  //     {
-  //       this.loadmsg = "" + this.$t("balance.msg4");
-  //       this.claimbtn = true;
-  //       this.getBalances();
-  //       return;
-  //     }
-  //     this.queryClaimTx(txid);
-  //   }, 30000);
-  // }
-
   toTransfer(asset: string)
   {
     tools.storagetool.setStorage("transfer_choose", asset);
