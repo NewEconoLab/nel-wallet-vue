@@ -1,0 +1,1 @@
+webpackJsonp([8],{c5Mg:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var l=t("l7Tq"),u={components:{MainLayout:l.default}},a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("main-layout",[t("p",[e._v("Page not found")])])},o=[],r={render:a,staticRenderFns:o},c=r,s=t("VU/8"),i=s(u,c,!1,null,null,null);n.default=i.exports}});
