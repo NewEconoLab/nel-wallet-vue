@@ -44,23 +44,23 @@ export default class FeatureComponent extends Vue
     mounted()
     {
         this.balance = this.$refs[ "balance" ][ "isActive" ]
-            ? false
-            : true;
+            ? true
+            : false;
         this.transfer = this.$refs[ "transfer" ][ "isActive" ]
-            ? false
-            : true;
+            ? true
+            : false;
         this.exchange = this.$refs[ "exchange" ][ "isActive" ]
-            ? false
-            : true;
+            ? true
+            : false;
         this.nnsneo = this.$refs[ "nnsneo" ][ "isActive" ]
-            ? false
-            : true;
+            ? true
+            : false;
         this.nns = this.$refs[ "nns" ][ "isActive" ]
-            ? false
-            : true;
+            ? true
+            : false;
         this.setting = this.$refs[ "setting" ][ "isActive" ]
-            ? false
-            : true;
+            ? true
+            : false;
         let arr = sessionStorage.getItem("login-info-arr");
         if (!arr || arr.length == 0)
         {

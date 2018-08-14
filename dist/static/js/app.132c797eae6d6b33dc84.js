@@ -8335,23 +8335,23 @@ var FeatureComponent = /** @class */ (function (_super) {
     }
     FeatureComponent.prototype.mounted = function () {
         this.balance = this.$refs["balance"]["isActive"]
-            ? false
-            : true;
+            ? true
+            : false;
         this.transfer = this.$refs["transfer"]["isActive"]
-            ? false
-            : true;
+            ? true
+            : false;
         this.exchange = this.$refs["exchange"]["isActive"]
-            ? false
-            : true;
+            ? true
+            : false;
         this.nnsneo = this.$refs["nnsneo"]["isActive"]
-            ? false
-            : true;
+            ? true
+            : false;
         this.nns = this.$refs["nns"]["isActive"]
-            ? false
-            : true;
+            ? true
+            : false;
         this.setting = this.$refs["setting"]["isActive"]
-            ? false
-            : true;
+            ? true
+            : false;
         var arr = sessionStorage.getItem("login-info-arr");
         if (!arr || arr.length == 0) {
             window.location.hash = "#login";
