@@ -3816,7 +3816,22 @@ var TaskManager = /** @class */ (function () {
                                 if (result.issucces) {
                                     task.state = entity_1.TaskState.success;
                                     if (task.message.type && task.message.type == "Claim") {
-                                        entity_1.TaskFunction.claimGas();
+                                        // TaskFunction.claimGas();
+                                        importpack_1.tools.coinTool.claimGas()
+                                            .then(function (res) {
+                                            if (res["sendrawtransactionresult"]) {
+                                                if (entity_1.TaskFunction.claimState)
+                                                    entity_1.TaskFunction.claimState(2);
+                                                var txid = res["txid"];
+                                                var amount = JSON.parse(res['amount']);
+                                                var height = StorageMap_1.default.blockheight.select("height");
+                                                TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid, { amount: amount }), entity_1.TaskType.ClaimGas);
+                                                sessionStorage.setItem("claimState", "2");
+                                            }
+                                        })
+                                            .catch(function (err) {
+                                            console.error(err);
+                                        });
                                     }
                                 }
                             }
