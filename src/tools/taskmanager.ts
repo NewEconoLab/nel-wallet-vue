@@ -185,7 +185,30 @@ export class TaskManager
                     task.state = TaskState.success;
                     if (task.message.type && task.message.type == "Claim")//判断此交易是否是claim
                     {
-                        TaskFunction.claimGas();
+                        // TaskFunction.claimGas();
+                        tools.coinTool.claimGas()
+                            .then(res =>
+                            {
+                                if (res[ "sendrawtransactionresult" ])
+                                {
+                                    if (TaskFunction.claimState)
+                                        TaskFunction.claimState(2);
+                                    let txid = res[ "txid" ];
+                                    let amount = JSON.parse(res[ 'amount' ]);
+                                    let height = Store.blockheight.select("height");
+                                    TaskManager.addTask(
+                                        new Task(height, ConfirmType.tranfer, txid, { amount }),
+                                        TaskType.ClaimGas
+                                    );
+                                    sessionStorage.setItem("claimState", "2");
+                                }
+
+                            })
+                            .catch(err =>
+                            {
+                                console.error(err);
+
+                            })
                     }
                 }
             }

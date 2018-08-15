@@ -95,13 +95,18 @@ export default class balance extends Vue
     {
       this.claimbtn = true;
       this.loadmsg = "";
+      sessionStorage.removeItem("claimState");
     }
     if (state == 1)
     {
       this.claimbtn = true;
       this.loadmsg = "" + this.$t("balance.msg4");
+      sessionStorage.removeItem("claimState");
     }
-    sessionStorage.removeItem("claimState");
+    if (state == 2)
+    {
+      this.loadmsg = "" + this.$t("balance.msg3");
+    }
   }
 
 
@@ -220,10 +225,10 @@ export default class balance extends Vue
   async startClaimGas()
   {
     let height = Store.blockheight.select("height");
-    this.loadmsg = "" + this.$t("balance.msg3");
     let res = await tools.coinTool.claimGas();
     if (res[ "sendrawtransactionresult" ])
     {
+      this.loadmsg = "" + this.$t("balance.msg3");
       let txid = res[ "txid" ];
       let amount = JSON.parse(res[ 'amount' ]);
       TaskManager.addTask(
