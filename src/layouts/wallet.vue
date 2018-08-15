@@ -203,7 +203,8 @@
                       </div>
                       <div class="th-block-txid">
                         <span class="red-text" v-if="item.state==0">{{$t('operation.waitinggas')}} {{item.pendingText}} </span>
-                        <!-- <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span><span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span> -->
+                        <span class="green-text" v-if="item.state==1">{{$t('operation.sentok')}}</span>
+                        <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
                     <div v-if="item.tasktype == 8">
@@ -471,6 +472,9 @@
   vertical-align: middle;
 }
 a.green-text {
+  color: #19e045;
+}
+.green-text {
   color: #19e045;
 }
 .red-text {

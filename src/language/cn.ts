@@ -315,6 +315,7 @@ export default {
         gasclaim: "Gas提取",
         nodata: "没有数据",
         fail: "操作失败",
-        waitinggas: "等待系统发送"
+        waitinggas: "等待系统发送",
+        sentok: "系统已发送"
     }
 }

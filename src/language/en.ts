@@ -315,6 +315,7 @@ export default {
         gasclaim: "Gas claim",
         nodata: "There is no data",
         fail: "Operation failed",
-        waitinggas: "Waiting for system confirmation"
+        waitinggas: "Waiting for system confirmation",
+        sentok: "System sent"
     }
 }
