@@ -202,7 +202,7 @@
                         </div>
                       </div>
                       <div class="th-block-txid">
-                        <span class="red-text" v-if="item.state==0">{{$t('operation.waiting')}} {{item.pendingText}} </span>
+                        <span class="red-text" v-if="item.state==0">{{$t('operation.waitinggas')}} {{item.pendingText}} </span>
                         <!-- <span class="th-txid" v-if="item.state==1">{{$t('operation.txid')}} <a class="green-text" :href="item.txidhref" target="_blank">{{item.txid}}</a></span><span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span> -->
                       </div>
                     </div>
