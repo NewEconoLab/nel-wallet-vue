@@ -5200,7 +5200,8 @@ exports.default = {
         recover: "Recover SGas",
         gasclaim: "Gas claim",
         nodata: "There is no data",
-        fail: "Operation failed"
+        fail: "Operation failed",
+        waitinggas: "Waiting for system confirmation"
     }
 };
 
@@ -6762,7 +6763,8 @@ exports.default = {
         recover: "领回SGas",
         gasclaim: "Gas提取",
         nodata: "没有数据",
-        fail: "操作失败"
+        fail: "操作失败",
+        waitinggas: "等待系统发送"
     }
 };
 

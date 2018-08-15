@@ -314,6 +314,7 @@ export default {
         recover: "领回SGas",
         gasclaim: "Gas提取",
         nodata: "没有数据",
-        fail: "操作失败"
+        fail: "操作失败",
+        waitinggas: "等待系统发送"
     }
 }
