@@ -68,7 +68,7 @@
           <div class="tranhistory-box">
             <div class="tranhistory-img">
               <img src="../../static/img/history.png" alt="" @click="onshowHistory">
-              <div class="add-task" v-if="taskNumber">{{taskNumber}}<span v-if="taskNumber>99">+</span></div>
+              <div class="add-task" v-if="taskNumber">{{taskNumber>99?99:taskNumber}}<span v-if="taskNumber>99">+</span></div>
             </div>
             <div class="tranhistory-wrap" v-if="showHistory">
               <div class="tranhistory-listbox">
