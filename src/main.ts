@@ -6,10 +6,18 @@ import { tools } from "./tools/importpack";
 import { TaskManager } from './tools/taskmanager';
 import components from './components/index';
 import { TaskFunction } from './tools/entity';
+import VueRouter from 'vue-router';
+// import Login from './pages/login.vue'
+// import Transfer from './pages/transfer/transfer.vue'
+// import Balance from './pages/balance/balance.vue'
+import App from './pages/app.vue'
 
+Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(components);
+
 // const notFound = () => import('./pages/404.vue');
+
 declare var require: (filename, resolve) => any;
 Vue.config.productionTip = false
 
@@ -24,7 +32,7 @@ const NNSNeo = Vue.component('NNSNeo', (resolve) => require([ './pages/bid/nnsne
 const NNS = Vue.component('NNS', (resolve) => require([ './pages/nns/nns.vue' ], resolve));
 const Settings = Vue.component('Settings', (resolve) => require([ './pages/setting/settings.vue' ], resolve));
 const notFound = Vue.component('notFound', (resolve) => require([ './pages/404.vue' ], resolve));
-
+// // const Wallet = Vue.component('Wallet', (resolve) => require([ './layout/wallet.vue' ], resolve));
 
 let language = sessionStorage.getItem("language");
 !!language ? language : language = 'en';
@@ -36,53 +44,29 @@ const i18n = new VueI18n({
         'en': en    // 英文语言包
     },
 });
-// i18n.locale = language;
-// app.$i18n.locale = language;
 
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        { path: '/balance', component: Balance },
+        { path: '/transfer', component: Transfer },
+        { path: '/exchange', component: Exchange },
+        { path: '/nnsneo', component: NNSNeo },
+        { path: '/nns', component: NNS },
+        { path: '/setting', component: Settings },
+        { path: '/', component: Login }
+    ]
+})
 
-var app = new Vue({
+new Vue({
     el: '#app',
     i18n,
-    data: {
-        currentRoute: window.location.hash
-    },
-    components,
-    computed: {
-        ViewComponent()
-        {
-            let routeArray = (this.currentRoute as string).replace("#", "").split("/")
-            let route = routeArray[ 0 ];
-            let subroute = routeArray.length > 1 ? routeArray[ 1 ] : undefined;
-            switch (route)
-            {
-                case "balance":
-                    return Balance;
-                case "login":
-                    return Login;
-                case "transfer":
-                    return Transfer;
-                case "exchange":
-                    return Exchange;
-                case "nnsneo":
-                    return NNSNeo;
-                case "nns":
-                    return NNS;
-                case "settings":
-                    return Settings;
-            }
-            return notFound;
-        }
-    },
-    render(h)
-    {
-        return h(this.ViewComponent)
-    }
+    render: h => h(App),
+    router,
+    components
 });
 
-window.addEventListener('popstate', () =>
-{
-    app.currentRoute = window.location.hash;
-})
+
 //初始化鼠标随机方法
 Neo.Cryptography.RandomNumberGenerator.startCollectors();
 

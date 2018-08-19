@@ -1,5 +1,5 @@
 <template>
-  <main-layout>
+  <main-layout id="wallet">
     <nav class="navbar navbar-wallet">
       <div class="blockheight">
         <div class="container">
@@ -11,58 +11,58 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
             <li>
-              <v-link ref="balance" href="#balance">
+              <router-link to="balance">
                 <span class="icon-png">
                   <img src="../../static/img/balance-s.png" alt="" v-if="balance">
                   <img src="../../static/img/balance-u.png" alt="" v-else>
                 </span> 
                 {{$t('balance.balance')}}
-              </v-link>
+              </router-link>
             </li>
             <li>
-              <v-link ref="transfer" href="#transfer">
+              <router-link to="/transfer">
                 <span class="icon-png">
                   <img src="../../static/img/transfer-s.png" alt="" v-if="transfer">
                   <img src="../../static/img/transfer-u.png" alt="" v-else>
                 </span> 
                 {{$t('transfer.transfer')}}
-              </v-link>
+              </router-link>
             </li>
             <li>
-              <v-link ref="exchange" href="#exchange">
+              <router-link to="exchange">
                 <span class="icon-png">
                   <img src="../../static/img/exchange-s.png" alt="" v-if="exchange">
                   <img src="../../static/img/exchange-u.png" alt="" v-else>
                 </span> 
                 {{$t('exchange.title')}}
-              </v-link>
+              </router-link>
             </li>
             <li>
-              <v-link ref="nnsneo" href="#nnsneo">
+              <router-link to="nnsneo" >
                 <span class="icon-png">
                   <img src="../../static/img/nns-s.png" alt="" v-if="nnsneo">
                   <img src="../../static/img/nns-u.png" alt="" v-else>
                 </span> 
                 {{$t('nns.nns')}}(.neo)
-              </v-link>
+              </router-link>
             </li>
             <li>
-              <v-link ref="nns" href="#nns">
+              <router-link to="nns">
                 <span class="icon-png">
                   <img src="../../static/img/nns-s.png" alt="" v-if="nns">
                   <img src="../../static/img/nns-u.png" alt="" v-else>
                 </span> 
                 {{$t('nns.nns')}}(.test)
-              </v-link>
+              </router-link>
             </li>
             <li>
-              <v-link ref="setting" href="#settings">
+              <router-link to="setting">
                 <span class="icon-png">
                   <img src="../../static/img/settings-s.png" alt="" v-if="setting">
                   <img src="../../static/img/settings-u.png" alt="" v-else>
                 </span> 
                 {{$t('setting.settings')}}
-              </v-link>
+              </router-link>
             </li>
           </ul>
           <div class="tranhistory-box">

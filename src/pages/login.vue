@@ -1,6 +1,7 @@
 <template>
   <main-layout>
     <div style="height:180px"></div>
+     <router-link to='/balance' tag='li'><a href="/balance">Index</a></router-link>
     <div class="container-box">
       <div class="row login-container">
         <div class="container-left">
