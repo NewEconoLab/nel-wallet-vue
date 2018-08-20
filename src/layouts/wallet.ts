@@ -2,8 +2,6 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import MainLayout from "./Main.vue";
 import VLink from "../components/VLink.vue";
-import { tools } from "../tools/importpack";
-import { sessionStoreTool } from "../tools/storagetool";
 import { TaskManager } from "../tools/taskmanager";
 import { TaskType, Task, TaskFunction } from "../tools/entity";
 import Store from "../tools/StorageMap";
@@ -15,12 +13,6 @@ import Store from "../tools/StorageMap";
 })
 export default class FeatureComponent extends Vue
 {
-    balance: boolean;
-    transfer: boolean;
-    exchange: boolean;
-    nnsneo: boolean;
-    nns: boolean;
-    setting: boolean;
     blockheight: number;
     showHistory: boolean;
     taskList: any;
@@ -28,39 +20,14 @@ export default class FeatureComponent extends Vue
     constructor()
     {
         super();
-        this.balance = true;
-        this.exchange = true;
-        this.nnsneo = true;
-        this.nns = true;
-        this.transfer = true;
-        this.setting = true;
         this.blockheight = 0;
         this.showHistory = false;
         this.taskList = [];
         this.taskNumber = sessionStorage.getItem("newTaskNumber") ? parseInt(sessionStorage.getItem("newTaskNumber")) : 0;
-        Neo.Cryptography.RandomNumberGenerator.startCollectors();
     }
 
     mounted()
     {
-        this.balance = this.$refs[ "balance" ][ "isActive" ]
-            ? true
-            : false;
-        this.transfer = this.$refs[ "transfer" ][ "isActive" ]
-            ? true
-            : false;
-        this.exchange = this.$refs[ "exchange" ][ "isActive" ]
-            ? true
-            : false;
-        this.nnsneo = this.$refs[ "nnsneo" ][ "isActive" ]
-            ? true
-            : false;
-        this.nns = this.$refs[ "nns" ][ "isActive" ]
-            ? true
-            : false;
-        this.setting = this.$refs[ "setting" ][ "isActive" ]
-            ? true
-            : false;
         let arr = sessionStorage.getItem("login-info-arr");
         if (!arr || arr.length == 0)
         {
@@ -70,6 +37,13 @@ export default class FeatureComponent extends Vue
         TaskFunction.taskHistory = this.taskHistory;
         TaskFunction.heightRefresh = this.getHeight;
         TaskFunction.newTaskNumber = this.newTaskNumber;
+    }
+
+    isActive(page: string)
+    {
+        console.log(this.$router.currentRoute.path);
+
+        return "/" + page == this.$router.currentRoute.path;
     }
 
     beforeDestroy()

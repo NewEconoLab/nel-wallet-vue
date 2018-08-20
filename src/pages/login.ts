@@ -112,7 +112,7 @@ export default class login extends Vue
         LoginInfo.setCurrentAddress(this.wallet.accounts[ 0 ].address);
 
         mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
-        window.location.hash = "#balance";
+        this.$router.push("balance");
       } catch (error)
       {
         mui.alert("" + this.$t("toast.msg3"));
@@ -138,7 +138,7 @@ export default class login extends Vue
           LoginInfo.setCurrentAddress(info.address)
           sessionStorage.setItem('login-info-arr', JSON.stringify(data));
           mui.toast("" + this.$t("toast.msg2"), { duration: 'long', type: 'div' })
-          window.location.hash = "#balance";
+          this.$router.push("balance");
         } else
         {
           mui.alert("" + this.$t("toast.msg3"));

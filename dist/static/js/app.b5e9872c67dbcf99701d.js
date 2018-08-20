@@ -1295,6 +1295,57 @@ exports.StaticStore = StaticStore;
 
 /***/ }),
 
+/***/ "5VpT":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/pages/app.vue
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var app = ({});
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-8c6ab5d0","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/app.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('router-view')}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var pages_app = (esExports);
+// CONCATENATED MODULE: ./src/pages/app.vue
+function injectStyle (ssrContext) {
+  __webpack_require__("BKOO")
+}
+var normalizeComponent = __webpack_require__("VU/8")
+/* script */
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-8c6ab5d0"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  app,
+  pages_app,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+
+/* harmony default export */ var src_pages_app = __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+
 /***/ "5bIc":
 /***/ (function(module, exports) {
 
@@ -2603,6 +2654,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "BKOO":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "Gieu":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2888,7 +2946,7 @@ var Contract = /** @class */ (function () {
                         tran.extdata = new ThinNeo.InvokeTransData();
                         //塞入脚本
                         tran.extdata.script = script;
-                        tran.extdata.gas = Neo.Fixed8.fromNumber(1.0);
+                        tran.extdata.gas = Neo.Fixed8.fromNumber(0);
                         return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
                     case 2:
                         data = _a.sent();
@@ -6809,6 +6867,12 @@ var importpack_1 = __webpack_require__("VKSY");
 var taskmanager_1 = __webpack_require__("XfB5");
 var index_1 = __webpack_require__("OrGm");
 var entity_1 = __webpack_require__("6nHw");
+var vue_router_1 = __webpack_require__("/ocq");
+// import Login from './pages/login.vue'
+// import Transfer from './pages/transfer/transfer.vue'
+// import Balance from './pages/balance/balance.vue'
+var app_vue_1 = __webpack_require__("5VpT");
+vue_1.default.use(vue_router_1.default);
 vue_1.default.use(vue_i18n_1.default);
 vue_1.default.use(index_1.default);
 vue_1.default.config.productionTip = false;
@@ -6823,6 +6887,7 @@ var NNSNeo = vue_1.default.component('NNSNeo', function (resolve) { return Promi
 var NNS = vue_1.default.component('NNS', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(6)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("RN/i")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
 var Settings = vue_1.default.component('Settings', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(7)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
 var notFound = vue_1.default.component('notFound', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(8)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("c5Mg")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+// // const Wallet = Vue.component('Wallet', (resolve) => require([ './layout/wallet.vue' ], resolve));
 var language = sessionStorage.getItem("language");
 !!language ? language : language = 'en';
 /*---------使用语言包-----------*/
@@ -6833,45 +6898,24 @@ var i18n = new vue_i18n_1.default({
         'en': en_1.default // 英文语言包
     },
 });
-// i18n.locale = language;
-// app.$i18n.locale = language;
-var app = new vue_1.default({
+var router = new vue_router_1.default({
+    mode: 'history',
+    routes: [
+        { path: '/balance', component: Balance },
+        { path: '/transfer', component: Transfer },
+        { path: '/exchange', component: Exchange },
+        { path: '/nnsneo', component: NNSNeo },
+        { path: '/nns', component: NNS },
+        { path: '/setting', component: Settings },
+        { path: '/', component: Login }
+    ]
+});
+new vue_1.default({
     el: '#app',
     i18n: i18n,
-    data: {
-        currentRoute: window.location.hash
-    },
-    components: index_1.default,
-    computed: {
-        ViewComponent: function () {
-            var routeArray = this.currentRoute.replace("#", "").split("/");
-            var route = routeArray[0];
-            var subroute = routeArray.length > 1 ? routeArray[1] : undefined;
-            switch (route) {
-                case "balance":
-                    return Balance;
-                case "login":
-                    return Login;
-                case "transfer":
-                    return Transfer;
-                case "exchange":
-                    return Exchange;
-                case "nnsneo":
-                    return NNSNeo;
-                case "nns":
-                    return NNS;
-                case "settings":
-                    return Settings;
-            }
-            return notFound;
-        }
-    },
-    render: function (h) {
-        return h(this.ViewComponent);
-    }
-});
-window.addEventListener('popstate', function () {
-    app.currentRoute = window.location.hash;
+    render: function (h) { return h(app_vue_1.default); },
+    router: router,
+    components: index_1.default
 });
 //初始化鼠标随机方法
 Neo.Cryptography.RandomNumberGenerator.startCollectors();
