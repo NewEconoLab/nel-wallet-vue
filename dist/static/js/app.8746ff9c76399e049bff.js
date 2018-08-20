@@ -6899,7 +6899,7 @@ var i18n = new vue_i18n_1.default({
     },
 });
 var router = new vue_router_1.default({
-    mode: 'history',
+    mode: 'hash',
     routes: [
         { path: '/balance', component: Balance },
         { path: '/transfer', component: Transfer },

@@ -46,7 +46,7 @@ const i18n = new VueI18n({
 });
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     routes: [
         { path: '/balance', component: Balance },
         { path: '/transfer', component: Transfer },
