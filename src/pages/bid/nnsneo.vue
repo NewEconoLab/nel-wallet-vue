@@ -2,9 +2,9 @@
     <div class="container ">
         <div class="title-menu">
             <ul class="menu-box">
-                <router-link to="/nnsneo/auction" :class="{active:isActive('auction')}"> {{$t('nnsneo.auction')}}</router-link>
-                <router-link to="/nnsneo/myneoname" :class="{active:isActive('myneoname')}">{{$t('nnsneo.myneoname')}}</router-link>
-                <router-link to="/nnsneo/bonus" :class="{active:isActive('bonus')}">{{$t('nnsneo.bonus')}}</router-link>
+               <li :class="{active:isActive('auction')}" > <router-link class="router-li" to="/nnsneo/auction"> {{$t('nnsneo.auction')}}</router-link></li>
+               <li :class="{active:isActive('myneoname')}"><router-link class="router-li" to="/nnsneo/myneoname" >{{$t('nnsneo.myneoname')}}</router-link></li>                
+               <li :class="{active:isActive('bonus')}"><router-link class="router-li" to="/nnsneo/bonus">{{$t('nnsneo.bonus')}}</router-link></li>                
             </ul>
         </div>
         <router-view class="content-box">
@@ -31,12 +31,11 @@
         list-style: none;
         margin-right: 90px;
         margin-left: -40px;
-        &:hover {
-          cursor: pointer;
-        }
         &.active {
-          color: #fff;
           position: relative;
+          .router-li {
+            color: #fff;
+          }
           &::after {
             content: "";
             width: 100%;
@@ -45,6 +44,14 @@
             position: absolute;
             bottom: 0;
             left: 0;
+          }
+        }
+        .router-li {
+          list-style: none;
+          color: #b2b2b2;
+          text-decoration: none;
+          &:hover {
+            cursor: pointer;
           }
         }
       }

@@ -38,7 +38,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="nnsneo" :class="{active:isActive('nnsneo')}" >
+              <router-link to="nnsneo/auction" :class="{active:isActive('nnsneo')}" >
                 <span class="icon-png">
                   <img src="../../static/img/nns-s.png" alt="" v-if="isActive('nnsneo')">
                   <img src="../../static/img/nns-u.png" alt="" v-else>

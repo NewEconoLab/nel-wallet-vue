@@ -35,9 +35,9 @@ export default new Router({
                 {
                     path: 'nnsneo', component: NNSNeo, name: 'nnsneo',
                     children: [
-                        { path: 'auction', component: Auction },
-                        { path: 'myneoname', component: MyNeoName },
-                        { path: 'fbonus', component: Bonus }
+                        { path: 'auction', component: Auction, name: 'auction' },
+                        { path: 'myneoname', component: MyNeoName, name: 'myneoname' },
+                        { path: 'bonus', component: Bonus, name: 'bonus' }
                     ]
                 },
             ]
