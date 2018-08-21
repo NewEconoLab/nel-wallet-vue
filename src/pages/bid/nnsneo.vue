@@ -2,15 +2,12 @@
     <div class="container ">
         <div class="title-menu">
             <ul class="menu-box">
-                <li :class="{'active' : showType == 1}" @click="switchRoute('auction')">{{$t('nnsneo.auction')}}</li>
-                <li :class="{'active' : showType == 3}" @click="switchRoute('myneoname')">{{$t('nnsneo.myneoname')}}</li>
-                <li :class="{'active' : showType == 4}" @click="switchRoute('bonus')">{{$t('nnsneo.bonus')}}</li>
+                <router-link to="/nnsneo/auction" :class="{active:isActive('auction')}"> {{$t('nnsneo.auction')}}</router-link>
+                <router-link to="/nnsneo/myneoname" :class="{active:isActive('myneoname')}">{{$t('nnsneo.myneoname')}}</router-link>
+                <router-link to="/nnsneo/bonus" :class="{active:isActive('bonus')}">{{$t('nnsneo.bonus')}}</router-link>
             </ul>
         </div>
         <router-view class="content-box">
-            <neo-auction v-if="showType == 1"></neo-auction>
-            <my-neo v-if="showType == 3"></my-neo>
-            <bonus v-if="showType == 4"></bonus>
         </router-view>
     </div>
 </template>

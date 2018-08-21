@@ -47,7 +47,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="nns" :class="{active:isActive('nns')}">
+              <router-link to="nnstest" :class="{active:isActive('nnstest')}">
                 <span class="icon-png">
                   <img src="../../static/img/nns-s.png" alt="" v-if="isActive('nns')">
                   <img src="../../static/img/nns-u.png" alt="" v-else>

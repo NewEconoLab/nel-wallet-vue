@@ -28,7 +28,6 @@ export default class FeatureComponent extends Vue
 
     mounted()
     {
-        // console.log(this.$router.currentRoute.name);
         if (this.$router.currentRoute.fullPath.length <= 1)
         {
             this.$router.push("login");
@@ -46,9 +45,7 @@ export default class FeatureComponent extends Vue
 
     isActive(page: string)
     {
-        console.log(this.$router.currentRoute.path);
-
-        return "/" + page == this.$router.currentRoute.path;
+        return this.$router.currentRoute.fullPath.includes(page);
     }
 
     beforeDestroy()
