@@ -19,7 +19,7 @@ const MyNeoName = Vue.component('MyNeoName', (resolve) => require([ '../pages/bi
 const Bonus = Vue.component('Bonus', (resolve) => require([ '../pages/bid/bonus.vue' ], resolve));
 
 export default new Router({
-    mode: 'history',
+    mode: 'hash',
     routes: [
         { path: '*', redirect: '/404' },
         { path: '/', redirect: '/login' },

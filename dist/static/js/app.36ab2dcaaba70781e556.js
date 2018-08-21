@@ -3162,7 +3162,7 @@ var Auction = vue_1.default.component('Auction', function (resolve) { return __w
 var MyNeoName = vue_1.default.component('MyNeoName', function (resolve) { return __webpack_require__.e/* require */(9).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("ogHy")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
 var Bonus = vue_1.default.component('Bonus', function (resolve) { return __webpack_require__.e/* require */(4).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("6M52")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
 exports.default = new vue_router_1.default({
-    mode: 'history',
+    mode: 'hash',
     routes: [
         { path: '*', redirect: '/404' },
         { path: '/', redirect: '/login' },
