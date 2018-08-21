@@ -21,6 +21,8 @@ const Bonus = Vue.component('Bonus', (resolve) => require([ '../pages/bid/bonus.
 export default new Router({
     mode: 'history',
     routes: [
+        { path: '*', redirect: '/404' },
+        { path: '/', redirect: '/login' },
         {
             path: '/login', component: Login, name: "login"
         },
