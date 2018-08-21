@@ -11,7 +11,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
             <li>
-              <router-link to="/balance" :class="{active:isActive('balance')}">
+              <router-link to="balance" :class="{active:isActive('balance')}">
                 <span class="icon-png">
                   <img src="../../static/img/balance-s.png" alt="" v-if="isActive('balance')">
                   <img src="../../static/img/balance-u.png" alt="" v-else>
@@ -20,7 +20,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/transfer" :class="{active:isActive('transfer')}">
+              <router-link to="transfer" :class="{active:isActive('transfer')}">
                 <span class="icon-png">
                   <img src="../../static/img/transfer-s.png" alt="" v-if="isActive('transfer')">
                   <img src="../../static/img/transfer-u.png" alt="" v-else>
@@ -29,7 +29,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/exchange" :class="{active:isActive('exchange')}">
+              <router-link to="exchange" :class="{active:isActive('exchange')}">
                 <span class="icon-png">
                   <img src="../../static/img/exchange-s.png" alt="" v-if="isActive('exchange')">
                   <img src="../../static/img/exchange-u.png" alt="" v-else>
