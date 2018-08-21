@@ -268,6 +268,7 @@ export class WWW
         var r = json[ "result" ]
         return r;
     }
+
     /**
      * 发送合约调用
      * @param scriptaddr 合约参数脚本
@@ -278,6 +279,35 @@ export class WWW
         var value = await fetch(str, { "method": "get" });
         var json = await value.json();
         var r = json[ "result" ][ 0 ];
+        return r;
+    }
+
+    /**
+     * 获得全量的地址列表的数据
+     * @param address 地址
+     * @param currentpage 当前页码
+     * @param pagesize 页面条数
+     */
+    static async getauctioninfobyaddress(address: string, currentpage: number, pagesize: number)
+    {
+        var postdata = WWW.makeRpcPostBody("getauctioninfobyaddress", address, currentpage, pagesize);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+
+    /**
+     * 根据id和address更新列表数据
+     * @param address 地址
+     * @param ids id 列表
+     */
+    static async getauctioninfobyaucitonid(address: string, ids: string[])
+    {
+        var postdata = WWW.makeRpcPostBody("getauctioninfobyaucitonid", address, ids);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
         return r;
     }
 
@@ -293,6 +323,7 @@ export class WWW
         var r = json[ "result" ];
         return r;
     }
+
     /**
      * 获得时间轴的域名详情
      * @param domain 域名
@@ -307,6 +338,7 @@ export class WWW
         var r = json[ "result" ];
         return r;
     }
+
     /**
      * 获得bonus 历史记录
      * @param address 地址
@@ -370,6 +402,10 @@ export class WWW
         }
     }
 
+    /**
+     * 获得交易对应的notify
+     * @param txid 
+     */
     static async getNotify(txid: string)
     {
         var postdata = WWW.makeRpcPostBody("getnotify", txid);
@@ -379,6 +415,10 @@ export class WWW
         return r;
     }
 
+    /**
+     * 查询交易的状态
+     * @param txid 
+     */
     static async hastx(txid: string)
     {
         var postdata = WWW.makeRpcPostBody("hastx", txid);
@@ -388,6 +428,10 @@ export class WWW
         return r;
     }
 
+    /**
+     * 查询交易对应notify的方法名
+     * @param txid 
+     */
     static async hascontract(txid: string)
     {
         var postdata = WWW.makeRpcPostBody("hascontract", txid);

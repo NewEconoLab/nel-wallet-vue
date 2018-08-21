@@ -327,7 +327,7 @@ export class TaskManager
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
+                if (result && result.displayNameList && result.displayNameList.includes("startAuction"))
                 {
                     task.state = TaskState.success;
                     Store.session_open.delete(task.message.domain);
@@ -355,11 +355,11 @@ export class TaskManager
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("addprice")) //检测是否有对应的通知 addprice
+                if (result && result.displayNameList && result.displayNameList.includes("assetManagement")) //检测是否有对应的通知 addprice
                 {
                     task.state = TaskState.success;
                     Store.session_open.delete(task.message.domain);
-                } else if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
+                } else if (result && result.displayNameList && result.displayNameList.includes("raiseEndsAuction"))
                 {
                     task.state = TaskState.fail;
                     Store.session_open.delete(task.message.domain);

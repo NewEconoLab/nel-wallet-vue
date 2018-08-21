@@ -14,7 +14,7 @@ export default class NNSSell
         // tools.nnstool.initRootDomain(domainarr.reverse[ 0 ]);
         var domainarr: string[] = domain.split('.');
         var nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(domainarr);
-        let data = tools.contract.buildScript(tools.nnstool.root_neo.register, "getSellingStateByFullhash", [ "(hex256)" + nnshash.toString() ]);
+        let data = tools.contract.buildScript(tools.nnstool.root_neo.register, "getAuctionStateByFullhash", [ "(hex256)" + nnshash.toString() ]);
         let result = await tools.wwwtool.rpc_getInvokescript(data);
         let domainInfo: DomainInfo = await tools.nnstool.getOwnerInfo(nnshash, Consts.baseContract);
         let info = new SellDomainInfo();
@@ -197,7 +197,7 @@ export default class NNSSell
                 "(str)" + subname
             ];
 
-            let data = tools.contract.buildScript_random(register, "openbid", param);
+            let data = tools.contract.buildScript_random(register, "startAuction", param);
             let res = await tools.contract.contractInvokeTrans_attributes(data);
             return res
         } catch (error)

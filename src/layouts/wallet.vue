@@ -11,7 +11,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
             <li>
-              <router-link to="balance" :class="{active:isActive('balance')}">
+              <router-link :to="{name:'balance'}" :class="{active:isActive('balance')}">
                 <span class="icon-png">
                   <img src="../../static/img/balance-s.png" alt="" v-if="isActive('balance')">
                   <img src="../../static/img/balance-u.png" alt="" v-else>
@@ -20,7 +20,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="transfer" :class="{active:isActive('transfer')}">
+              <router-link :to="{name:'transfer'}" :class="{active:isActive('transfer')}">
                 <span class="icon-png">
                   <img src="../../static/img/transfer-s.png" alt="" v-if="isActive('transfer')">
                   <img src="../../static/img/transfer-u.png" alt="" v-else>
@@ -29,7 +29,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="exchange" :class="{active:isActive('exchange')}">
+              <router-link :to="{name:'exchange'}" :class="{active:isActive('exchange')}">
                 <span class="icon-png">
                   <img src="../../static/img/exchange-s.png" alt="" v-if="isActive('exchange')">
                   <img src="../../static/img/exchange-u.png" alt="" v-else>
@@ -38,7 +38,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="nnsneo/auction" :class="{active:isActive('nnsneo')}" >
+              <router-link :to="{name:'auction'}" :class="{active:isActive('nnsneo')}" >
                 <span class="icon-png">
                   <img src="../../static/img/nns-s.png" alt="" v-if="isActive('nnsneo')">
                   <img src="../../static/img/nns-u.png" alt="" v-else>
@@ -47,7 +47,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="nnstest" :class="{active:isActive('nnstest')}">
+              <router-link :to="{name:'nnstest'}" :class="{active:isActive('nnstest')}">
                 <span class="icon-png">
                   <img src="../../static/img/nns-s.png" alt="" v-if="isActive('nns')">
                   <img src="../../static/img/nns-u.png" alt="" v-else>
@@ -56,7 +56,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="setting" :class="{active:isActive('setting')}">
+              <router-link :to="{name:'setting'}" :class="{active:isActive('setting')}">
                 <span class="icon-png">
                   <img src="../../static/img/settings-s.png" alt="" v-if="isActive('setting')">
                   <img src="../../static/img/settings-u.png" alt="" v-else>
@@ -68,7 +68,7 @@
           <div class="tranhistory-box">
             <div class="tranhistory-img">
               <img src="../../static/img/history.png" alt="" @click="onshowHistory">
-              <div class="add-task" v-if="taskNumber">{{taskNumber>99?99:taskNumber}}<span v-if="taskNumber>99">+</span></div>
+              <div class="add-task" v-if="taskNumber">{{taskNumber>99?99:taskNumber}}<span v-if="taskNumber">+</span></div>
             </div>
             <div class="tranhistory-wrap" v-if="showHistory">
               <div class="tranhistory-listbox">
@@ -301,7 +301,6 @@
                         <span class="red-text" v-if="item.state==2">{{$t('operation.fail')}}</span>
                       </div>
                     </div>
-                    <!-- <div v-if="item.tasktype == taskNumber"></div> -->
                   </div>
                 </div>
                 <div class="notask" v-if="taskList.length == 0">{{$t('operation.nodata')}}</div>

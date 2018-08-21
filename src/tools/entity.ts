@@ -431,7 +431,7 @@ export class UTXO
 export class Consts
 {
     // static baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";0x954f285a93eed7b4aed9396a7806a5812f1a5950;0x537758fbe85505801faa7d7d7b75b37686ad7e2d;
-    static readonly baseContract = Neo.Uint160.parse("77e193f1af44a61ed3613e6e3442a0fc809bb4b8");
+    static readonly baseContract = Neo.Uint160.parse("8e813d36b159400e4889ba0aed0c42b02dd58e9e");
     static readonly registerContract = Neo.Uint160.parse("d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c");
     // static domainContract = '954f285a93eed7b4aed9396a7806a5812f1a5950';
 }
@@ -1055,6 +1055,46 @@ export class NeoAuction_Withdraw
         this.isShow = false;
         this.error = false;
     }
+}
+
+/**
+ * 区块时间类
+ */
+export interface BlockTime
+{
+    blockindex: number;
+    blocktime: number;
+    txid: string;
+}
+/**
+ * 加价地址类
+ */
+export interface AuctionAddress
+{
+    address: string;
+    totalValue: number;
+    lastTime: BlockTime;
+    accountTime: BlockTime,
+    getdomainTime: BlockTime,
+    addpricelist: BlockTime
+}
+
+export interface Auction
+{
+    auctionId: string;
+    domain: string;
+    parenthash: string;
+    fulldomain: string;
+    domainTTL: string;
+    auctionState: string;
+    startTime: BlockTime;
+    startAddress: string;
+    maxPrice: number;
+    maxBuyer: string;
+    endTime: BlockTime;
+    endAddress: string;
+    lastTime: BlockTime;
+    addwholist: AuctionAddress[];
 }
 
 /**

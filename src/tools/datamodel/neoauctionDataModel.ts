@@ -1,4 +1,4 @@
-import { MyAuction, LoginInfo } from "../entity";
+import { MyAuction, LoginInfo, Auction } from "../entity";
 import { tools } from "../importpack";
 
 export class NeoaucionData
@@ -10,7 +10,10 @@ export class NeoaucionData
         //获得加价列表
         try
         {
-            let res = await tools.wwwtool.api_getBidListByAddress(address);
+            let res = await tools.wwwtool.getauctioninfobyaddress(address, 1, 10);
+            let auctionList: Auction[] = res[ 0 ].list as Auction[];
+            console.log(auctionList[ 0 ].addwholist[ 0 ]);
+
             let arr = new Array<MyAuction>();
             //获得session列表
             let obj = this.session_open.getList();
