@@ -1,4 +1,4 @@
-webpackJsonp([9],{
+webpackJsonp([8],{
 
 /***/ "+jyM":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -43,6 +43,20 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_Spinner = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "0YXJ":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAaCAYAAACgoey0AAAAAXNSR0IArs4c6QAAAd1JREFUSA291L1LQlEUAPBzrlpZQy0tQS0FBZYhtPYPtKSYUY1BRRS+tqSWtmxKpaX+gSKThsCtSRqioDCDIlpss0nIjNR7utcSHmIvfb7XXe7Xu+f3znkfADpb2JNa2V8km87jwPQe5MT33jN35xHfU7eeGLrhH2ycFz6uI957V6N4szAQUF+Jly5E6WcawZuGyxiBXZT+MORJbdMW1RWzrovqzYSIB8K3qbN933PnX2cMhSUmSj+RL+QuQ76HQS3ccPgbh0Eqfl6GvcmJ33BT4DJG0Mk5noU8yfVauHlwOXViRBAMee4Oj30vdvUN4K47+SYWOtSLZowR4AZtFrcSdaRlfJmx6aiECMDFi6WryNT9uJzLjMXa/zVEKCCwBXOfsUY+Vo09w7dEtq/MYvH6TxwJmXHOcKFGwPLLZbWMSVRui7m+1si7gYhHPdau+elob76imVtqRM6ANpXTkWAFrPTmwQhZxmhOiTnjFUzdmwKL5/cI1pZJJTr0qMbUY8NhBIzbbe1zS9H+rBqqHhsKi89lRxkd3sAt5NVQ9dyYHwhCniGbXTt1BupB5U00nbEobZox5vbHHDfVWWnNm4UTrWifWo4NZLSQWnu6YVHa1bZux8HSARZqBf5r7QvVEomMCsloFQAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ "1Iz4":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABeFJREFUWAndmE1M3EUYxtkFNl6swJ700la92KS34qFADE1DEFjKoQf14OfJxKD2w8Rq40EhUSDWaGJi6kc8qAcPlQVE0pSYQi9wM2kvVcoFL+Uj5aBZYPH3jDNkdnZ2F1EIcZLNzH/e533e5/+fmXdmtqpqn5fEv9E3PDzcmEgkLm1ubh6DJxVw5bDNYnutu7t7JrBt+3HHAsfHxx/M5XI3iVRXIdpKKpU60t7e/nsFXNScjPZGOicnJ+/zu9fX1zM8S9y1hoaGA3ylhP9Tn2zCWCzNv0vI5fpjdUWB2Ww2w1D+trq6+gftm7SfEBFD95BqhvF6c3Pzqtp+UZ9s6nNY+YpDXOIUt+8Ta5cVODo6+jzkV3A8TLB12o/RntgOcRjM+kyIQ1ziFLdihFj/uaRACF/Y2Nj4HHCS8hb1A9QfUqcg/p7fSZ8o1kaImePCyke+4kin0wcsZ1IxyomsiRFLHISXsSWJ8UZXV9eAxZ3Blsd2lucm9WFftLZYddd2OuwQXOdsXz9ca3B9YEVWdXZ2fhWSFK1inDI4aViNuEwm48Rt+YJ5F8yx6urqrzs6Or5D5OaW0WuASYyNjT2FgGfBzMJ10TObJlznJZKHPJgeMFkfUySQyTsH4JCGgLft98G71R4ZGbmQz+f74J8jEzzsxymYg3b5H+JN1kkTmm97UviClxSTYIfDFFQgsLW19U+At3CoWVpa0hvtSSHme4qp2NLgBy0QKAPAl6lyfPLXmR+DPng32oqhWIppYxeEKZqDsuKkhWLSgt4uNrkdy9TU1P0rKyvnwHfze1T9+NzmN1xXVzcYS+LOlzhabG/zrH37dLhADJcDa2/VloSD2SGoleeUHsaZuE86nF+zQk+wQr8Ae9Dvd22CzrPSX2Sla8srKizIH+ls5zcN9qoA1As1NTVZt3ebL8ibPE6Qn7AXbfwEeIb89K2c/WLFXcUPTrOlDdTW1s4Ks7a2ptON0kcLtk04TsZEkqCf5gW/8Xlte4W6jQ8z4wROQ3aczms2mN5EtruI+0RBrKOpNKzLy8u/4KMv168pACbvY7AlNYT0XcA2X19ffzQcbjAJRL5CnXa+tFton8DnBrxNZiehU29cRWrpCUmco1/bOXcQkuvkyiJxwkowvBfJcS0KKh+63/F5wOjFP/b79PJkkHtOk1vF5rC5HXEiw/mUJR2QED+A37Y2sxPh0+3bSrU9DUaTE1gKH+0n2CMyuDkXBdlOh8HHrPBy2JhtRwJjRLvVtyOBDN2vEmRXa1ltDoPP7bLAEkYnMCe7JmgJXEE3wX6wHUoljqMAowdrO682PsOqKxVPg9FkVjHOun0dZ/VcITWYY7qI6F+MpRntEKSZ5/BpsbtB0UqWOJtmlAvn5ROKA1OUZtCgNKPYJqe6PLi/E7UU79etzgyxBNq97zO1GRrdtt5U231qtcOi7Ys5c9Qm7lMMmUk/+GzrsCBufLQXN/J7v+xhwQXX1ZD2BL8UBEM4uTuEg/ynNR9jEJG642hRaP/92Q9QtAIR9SkAc/vabXESohjutmhj+/qqCgTquM3bmHsr+7KumntSFAtx5t5d8ciPojuI1JFfp9w9KYqlmASbq3jk5016AXIKz/cxP0ySDVUqv+mwqfMcxCZVhRg9yyaMsPKJYRRDsbDp2vlqiImS41RwcWeebN2NsblJbbiYP70cuQqOTC4I2F5EfuSeETDkz2uJw27uxBxqX4pd3LfSjCNRDcmXOOsLXBYBZ7paXUMZij53wQE2w68J+9ZhU75+QVAau7qm+TXSPgtXUnNOw+q+XClxcixYJOpwRSLlyDM8+b7FxcV7ThyBT/MzdwiHj9UIMuqElQ8Yc1u0XGZYy4kTZ0mBMuqTQ9xD0ywc2rdotyE+K/s/KdanTRzo1sjdEXdsWH3e6BD7AEuc1fL3VxjkC/pA/Fp0AvFOwsZdfQyj2/gX1GmT8JGQy48XtqOLJATFnvfdX8ChSLt3a8huYDNntwCjy7hsbe6OG9j/H49/AYljkl57gl2DAAAAAElFTkSuQmCC"
 
 /***/ }),
 
@@ -1353,6 +1367,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "5yhA":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAARdJREFUWAntlQEOgyAMRWXZMdyBvMgurvdgbRYI/HXGT1QWVxIjLW35PkgdBh9OwAlchECMcZJnlqf3UA1TwhrSRJyzzMdkd34vIYRHpSFhq5wdDNRx66CB2tIFUriMYCdoQKFc/0tQm6321tQ2tr4Rb9mooy5Kg8w+DGZsFSfxzY3/Q0f6QkbEWmxrPcw77Q7KxunIq3/t2kdWa6i8WmwwsJ7Y5X3U4zcH5p1G0FTDOFE5k2vFYj2xNx0x5uXaXxdyBDdprYd5d25bKnqR6FE3pLIg+Mg7+JS9VOQ+A9HuU5WvgjqOJMirMzJcoAGFcjlBCpcR/PMEy0a9S2M1ILS4cv8sCe7bWFtkvXNUnGrx4QScwCUIvABtdIyIA8H7nwAAAABJRU5ErkJggg=="
+
+/***/ }),
+
 /***/ "6Trz":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2319,6 +2340,13 @@ var DomainState;
 
 /***/ }),
 
+/***/ "7ppm":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "8Qnm":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2608,6 +2636,13 @@ exports.default = SgasTool;
 
 /***/ }),
 
+/***/ "AT6x":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAY9JREFUWAnt1j1Pg0AYB/ACLjC0g4uTiS9LHXQ0LkYrk4Td3S/jx2kgkChY4+iqg4OJJk4mxhVYAP9P9AjGphwxvbvEu6FwL7n78dxbBwOddATkRsAQNXwQBBeGYRxivDPf9195xzV5G/61HXBbdV0foJ+bMAzXefsTBrQs6xzIOyA3+yCFTTFFLI7jYVmWV0DuA/uMouOu6RYKJGSSJKOiKC4JiewLoEeLkMKBfZFSgH2Q0oC8SKlAHqR0YBdyhRpQwuEZYWedfuXE/uZ53h5wA44HFIyoUNhB3RZ0vePoybra6HodAR0BHYH/EoHmqsNN8oQTfFuFD8dBHeM/okeW5iYBbqgC7ttQM0tzFzuOs4M78RrQPXzBo2maE8/z3lhDWc9migmQpumqasgfQBWRv4CqIZtNQjCWXNf9sG37BPl7rMlxVVWzKIrWWL3I59wIMgCtySzLZsjvyto4C4EElY3sBMpGzl2DhGonWpM4JycoY2ty2q5f5jsXkAAMibV4i43zvkyU7ltHQKUIfAJioeZB8JpkMwAAAABJRU5ErkJggg=="
+
+/***/ }),
+
 /***/ "AU0D":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2658,6 +2693,98 @@ var Component = normalizeComponent(
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "Blow":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAA9JJREFUWAntmFlIVFEYxxst2g3LMCuwHgoiWzBIIsUSKwgihCAiMEqCHoKK6KHtod4iCupBn4IKWigiLChoeWlVghYqsMgWWrWFtLTScvr9Z86ZOVwnlbk3hfKD35zvfGf5/nPvOXfr06fXeo9A145AOBwuhqOwF6Z2bVQ39ELMQDgMrn2jsr4b0neeAiFbjbIHlGtM/TPlT8jvfIa/2AMB/aEGGmGiTYW/EmQVNpZsmZLsQDNuEOVIeBsKhR47c1Ubf5QTS8r1K7CRrLUwnqM131GwzPg1TqxnXIQt17nEdJoPwRlVsI8QO+09o85kRcgGeA/WHuIU9agob3IETYMfcBsGe9uTrftdg27eOiphaGbDNLkNfvwgBaYaISE/grxjgxTonTuQ+n8lsM0cMq3DwCzII5iGKq2/AezifoEpDGIiBJXBC7B2EycviLl9z4GQEqNK18BKuGLqbyizfSfwMwECUuEG6NGqRHNRhmAPyHb6md/3WASkwwdwn2QkMgdkp/0m8btJviDgHYxEjHs6c4ywl34F+hqPqDFwB2RVsBTWQh3IzoHvZ8KkRJJ4HjwBmRUUrYXDrTjPTUVP3HOSSpLMIJL1hW0gEbJyyIJS0GaphTzIgAMg0w7fBH6XVMeSSZANZ0GmB9JSOwJfgr7DVRtTSX01NIDsFIx22wPzmXgh2NN2HX+KOzn1TJDAa25cPrFcuAUyLYtib58u1xmsW1UhLIGpMAR2wC+Q7YMh3gmJzYQWuAfDE7QPI14BMi2PLTACCkG5pnvHtKvTSdevarAmUY9MpZ7SvgzFxhJLge2gdxJrT3EWxTo5DvEV8AFkr6NF7FcfAIY63eMuDWlw33S9QKm7gXagTPfZSfHecY/4KnXAlHQ/HIE20LqbHO8Z94jPhmaQeXOVx3s6Hh11DZOdgMhTMWUWPINPkOl0j7jEtKP1DqK1V2Db8TeDbLeNuSXxxaA/cRIiO5tyNDyDrzDW9ne3/SwTrOSdIvJMR/mW2HVIh3HgNZ0O3UGe09fdvZWm4wTvAFPX2dBBUK7IcyTlG+rKpReuhALv0iCbGy0iu08CZkAL1Nu4U+rlSLe6sfxre3tTc6F+sFfRot2vjXtz5dIzcS4S6H5qLyMH8dfBVZAdA/3jdkZ8ozpgunzoYrwLmuAHzGw3gABxN9ch6m6u49QT5tLAAqgF1y5S+eP9lDZ9QLKXDztOX7fKEomzMdrzwZtLG2YUxATGHGegPgYtAK2fKrjE+mil7NCYVGu4CBrgPGP0zaZDY0wGHdxcl5VLArHIPuhwgt7Gf+EI/AYMyEAT7TlxigAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ "Fxcc":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABA5JREFUWAndmLtrVEEUxhOxSISIYLU2YmkhCDEWigSCBC0CaVO5sUhlBIs0ASEhYBVSWYt/QjRFJKiFMTYWEQRtNImNNopFCo2PrL/v7py7c2fn3t3Ejbt44MvMPec7j507r5uurv9ZKpXKAFgDOyAU6WQbaMsYkLgEvoJGIk5pv0UeataRJD0Bd4TnY+ApONodiHTOJo64qURipbaw07BAgo2ADRy/0b4Bgy7ICdeuUtt2GNjpVn2ufBUDnWJtgEzhYQw9FxZIgDKcRXAK/AKnwUozgeFlxPmsoFQMxVLMRZeD7h4Fx3HwG0imwRGwoAdEC+B50qtUZvJCY591HHHlI1GMXqCYEuUo58WI6nHwi5vySdjmgS+Tvt3vQ5r0ifTnA/uUszdfJA6aczZymeIsOPY5sAzGQLfpw1Y2xxF3LrTrGb1fZMM5KYdNIJmOBTwInXIlGauLMT8FpB5H/Enbm89srYVcmt/KKQm3s2wyCNpKJAtZy8E9KVeSsboFFSeCOAhsxWUmdbHn/qzkskWnnLbHFgeDqIViRUYnt0WA1we0nayDbQf1peszXqzFrsUmUa7oAjlsjhB0XopkJ8RL+hfBORAVfIYw3AMnA8JZnoVrcK5zqug4jInFVq5+uP20H8ESPp9SBwznQd7BP5YSvQ78IbALJM+ARr3koL50EnH0Q+oE/ZgIEVEtyS0o2cN4WMP7AtAvtfNTts/gLr+mQpsKfL2610AjdwfchrNLmwocHaOaHtquPoAzcDJnNhzluAGOA5NLdPSDXsDXG0w2S5tvhXMmIVf5ml8SjZIKiYpsjkNTmY2SAiU8zWnJTmqqPlcyo5QaIx34r5xPdGL7LvD0uiXrvr6oX6V79dQpiryxwddqlTS8iIqTMPFpEDY1O34yYLmvJ2W3ubPfAt+7um2bKPoZxnlXRMqzWYE/RGBom1okUB+4gLqJWAynqjXOZjeihzVLfs+rIalJy1yFxbYZmb6AjthmOnuj1lAxiuFRdxm1NspHbJhXxQkFnyF0saPOqNqgc486/JexXwF6g4+BpP6oq+prf3HU3mWbd7OXBe2NLb8s1KpyPZIMesV13nWL4jr3wkpx7bry6zM0euXP7GEshu+86S2ge+It8K9EuZRz09WQn5dfogXSuZ+dKp0Cx/OKRG/fEHQTmcz7uVhvOo41mUWH0v8mLufFiepx9ovUd6vmiX19aQtq378+rGKKKAN73TaJVZymwQyQzBg/bGVLGNXW31stVsN/eWQWSZiACXsf3SjYAprEb8Ew+iXaPYnzGcZJMRRrC4y6HHT/UhiJzBc/zxNudJ7Q1t2CpAOySSb89DxnYvm2lvVJUgJ5X4KYUhGn4c27ZYX5gUg8ADrzn+h+oQfZ/wM4TtvTqspNkQAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ "Gc41":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var VLink_vue_1 = __webpack_require__("N5E8");
+var vue_class_component_1 = __webpack_require__("c+8m");
+var vue_1 = __webpack_require__("/5sW");
+var Main = /** @class */ (function (_super) {
+    __extends(Main, _super);
+    function Main() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.loginshow = false;
+        _this.currentLanguage = sessionStorage.getItem("language") == "cn"
+            ? "中文"
+            : "English";
+        return _this;
+    }
+    Main.prototype.mounted = function () {
+        if (this.$root["currentRoute"] == "") {
+            this.$root["currentRoute"] = "#login";
+        }
+        if (this.$root["currentRoute"] == "#login") {
+            document.body.classList.add("login-body");
+            this.loginshow = false;
+        }
+        else {
+            document.body.classList.remove("login-body");
+            this.loginshow = true;
+        }
+    };
+    Main.prototype.cutLanguage = function (lang) {
+        switch (lang) {
+            case 1:
+                this.currentLanguage = "English";
+                sessionStorage.setItem("language", "en");
+                this.$i18n.locale = "en";
+                break;
+            case 2:
+                this.currentLanguage = "中文";
+                sessionStorage.setItem("language", "cn");
+                this.$i18n.locale = "cn";
+                break;
+            default:
+                break;
+        }
+    };
+    Main = __decorate([
+        vue_class_component_1.default({
+            components: {
+                VLink: VLink_vue_1.default
+            }
+        })
+    ], Main);
+    return Main;
+}(vue_1.default));
+exports.default = Main;
+
 
 /***/ }),
 
@@ -3374,6 +3501,58 @@ var neotools = /** @class */ (function () {
 }());
 exports.neotools = neotools;
 
+
+/***/ }),
+
+/***/ "PPZq":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./src/layouts/wallet.ts
+var wallet = __webpack_require__("YRcM");
+var wallet_default = /*#__PURE__*/__webpack_require__.n(wallet);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-a2e982c2","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',{attrs:{"id":"wallet"}},[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"blockheight"},[_c('div',{staticClass:"container"},[_c('span',[_vm._v(_vm._s(_vm.$t('operation.welcome')))]),_vm._v(" "),_c('span',{staticClass:"fright"},[_vm._v(_vm._s(_vm.$t('navbar.blockheight'))+"："+_vm._s(_vm.blockheight))])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('router-link',{class:{active:_vm.isActive('balance')},attrs:{"to":"/wallet/balance"}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('balance'))?_c('img',{attrs:{"src":__webpack_require__("5yhA"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("Yj+Z"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('balance.balance'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('transfer')},attrs:{"to":"/wallet/transfer"}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('transfer'))?_c('img',{attrs:{"src":__webpack_require__("njKD"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("AT6x"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('transfer.transfer'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('exchange')},attrs:{"to":"/wallet/exchange"}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('exchange'))?_c('img',{attrs:{"src":__webpack_require__("rVEi"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("w5Tq"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('exchange.title'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('nnsneo')},attrs:{"to":"/wallet/nnsneo"}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('nnsneo'))?_c('img',{attrs:{"src":__webpack_require__("Blow"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("rjrR"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('nns.nns'))+"(.neo)\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('nns')},attrs:{"to":"/wallet/nns"}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('nns'))?_c('img',{attrs:{"src":__webpack_require__("Blow"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("rjrR"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('nns.nns'))+"(.test)\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('setting')},attrs:{"to":"/wallet/setting"}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('setting'))?_c('img',{attrs:{"src":__webpack_require__("Fxcc"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("1Iz4"),"alt":""}})]),_vm._v(" \n              "+_vm._s(_vm.$t('setting.settings'))+"\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"tranhistory-box"},[_c('div',{staticClass:"tranhistory-img"},[_c('img',{attrs:{"src":__webpack_require__("Rsmh"),"alt":""},on:{"click":_vm.onshowHistory}}),_vm._v(" "),(_vm.taskNumber)?_c('div',{staticClass:"add-task"},[_vm._v(_vm._s(_vm.taskNumber>99?99:_vm.taskNumber)),(_vm.taskNumber>99)?_c('span',[_vm._v("+")]):_vm._e()]):_vm._e()]),_vm._v(" "),(_vm.showHistory)?_c('div',{staticClass:"tranhistory-wrap"},[_c('div',{staticClass:"tranhistory-listbox"},[_c('div',{staticClass:"tranhistory-title"},[_c('div',{staticClass:"tranhistory-close",on:{"click":function($event){_vm.showHistory=!_vm.showHistory}}},[_c('img',{attrs:{"src":__webpack_require__("fgqV"),"alt":""}})]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.title')))]),_vm._v(" "),_c('div',{staticClass:"tranhistory-tips"},[_vm._v(_vm._s(_vm.$t('operation.tips')))])]),_vm._v(" "),(_vm.taskList.length != 0)?_c('div',{staticClass:"tranhistory-list"},_vm._l((_vm.taskList),function(item){return _c('div',{key:item.tasktype,staticClass:"th-onelist"},[(item.tasktype == 0)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.transfer')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.toaddress))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" "+_vm._s(item.message.assetname))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 1)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.openauction')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 2)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.raisebid')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" SGas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 3)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.exchange')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.count)+" Gas")]),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("0YXJ"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.count)+" SGas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 4)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.exchange')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.count)+" SGas")]),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("0YXJ"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.count)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 5)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.topup')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" SGas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 6)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.withdraw')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+"Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 7)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.requestgas')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waitinggas'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"green-text"},[_vm._v(_vm._s(_vm.$t('operation.sentok')))]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 8)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.addrmapping'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.address))])])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 9)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.addrresolver'))+" "+_vm._s(item.resolver))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 10)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.renew')))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 11)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.getdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 12)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.recover')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" SGas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 13)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.gasclaim')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText)+" ")]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"},[_vm._v(_vm._s(_vm.$t('operation.txid'))+" "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e()])})):_vm._e(),_vm._v(" "),(_vm.taskList.length == 0)?_c('div',{staticClass:"notask"},[_vm._v(_vm._s(_vm.$t('operation.nodata')))]):_vm._e()])]):_vm._e()])])])]),_vm._v(" "),_c('router-view')],1)}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var layouts_wallet = (esExports);
+// CONCATENATED MODULE: ./src/layouts/wallet.vue
+function injectStyle (ssrContext) {
+  __webpack_require__("7ppm")
+}
+var normalizeComponent = __webpack_require__("VU/8")
+/* script */
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  wallet_default.a,
+  layouts_wallet,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+
+/* harmony default export */ var src_layouts_wallet = __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ "Rsmh":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAVRJREFUWAntWMsNgkAQBblw0hsF0AY1YC80gRV4tAyutmAVno1cTcQ3xgSz/yEsrGYneRFmZ2eeb8MObJIINgxDB6xlnUAn2YiOle8HsX4qOnT3JKlubIo/hbnMC01BiXMkKEnCdEQFmYJJ4VFBSRKm468U7Jl/3hTunIuj4NFUkTk2Z66xNLpdAzyo7U00mtuMGT1coUAFXCcQpDmVB0pyShQqgDODJMUWciaPHhTMgAPwBHRGYxSTeaRiTo3ie+AGiEa+vXn2QqMgUgKXL4Z0XS5U3q0MCOXA6YPcbZY9irMP2rOFGkHLCYS5xCBWA/RAiEa+ejVRUTzcbQbkwt2oQS7cVgdy4b4sgFwLzGWt68Pj9HVPycDsjp+ta2JLXI+DhZ0l5j3MIRiPPlSKBt/qIkHVsnF8UUGOWqrYqKBKFY5PUhAdQ3nKz0nqEqvpmb93yv8C+0dSxxOcCgwAAAAASUVORK5CYII="
 
 /***/ }),
 
@@ -4428,6 +4607,222 @@ exports.TaskManager = TaskManager;
 
 /***/ }),
 
+/***/ "YRcM":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("/5sW");
+var vue_class_component_1 = __webpack_require__("c+8m");
+var Main_vue_1 = __webpack_require__("l7Tq");
+var VLink_vue_1 = __webpack_require__("N5E8");
+var taskmanager_1 = __webpack_require__("XfB5");
+var entity_1 = __webpack_require__("6nHw");
+var StorageMap_1 = __webpack_require__("slXE");
+var FeatureComponent = /** @class */ (function (_super) {
+    __extends(FeatureComponent, _super);
+    function FeatureComponent() {
+        var _this = _super.call(this) || this;
+        _this.blockheight = 0;
+        _this.showHistory = false;
+        _this.taskList = [];
+        _this.taskNumber = sessionStorage.getItem("newTaskNumber") ? parseInt(sessionStorage.getItem("newTaskNumber")) : 0;
+        return _this;
+    }
+    FeatureComponent.prototype.mounted = function () {
+        var arr = sessionStorage.getItem("login-info-arr");
+        if (!arr || arr.length == 0) {
+            window.location.hash = "#login";
+        }
+        this.getHeight();
+        entity_1.TaskFunction.taskHistory = this.taskHistory;
+        entity_1.TaskFunction.heightRefresh = this.getHeight;
+        entity_1.TaskFunction.newTaskNumber = this.newTaskNumber;
+    };
+    FeatureComponent.prototype.isActive = function (page) {
+        console.log(this.$router.currentRoute.path);
+        return "/wallet/" + page == this.$router.currentRoute.path;
+    };
+    FeatureComponent.prototype.beforeDestroy = function () {
+        this.clearTimer();
+    };
+    FeatureComponent.prototype.getHeight = function () {
+        this.blockheight = StorageMap_1.default.blockheight.select("height");
+    };
+    FeatureComponent.prototype.onshowHistory = function () {
+        this.showHistory = !this.showHistory;
+        this.taskNumber = 0;
+        sessionStorage.setItem("newTaskNumber", this.taskNumber.toString());
+        this.taskHistory();
+    };
+    FeatureComponent.prototype.newTaskNumber = function () {
+        this.taskNumber++;
+        sessionStorage.setItem("newTaskNumber", this.taskNumber.toString());
+    };
+    FeatureComponent.prototype.taskHistory = function () {
+        var _this = this;
+        this.clearTimer();
+        var list = taskmanager_1.TaskManager.taskStore.getList();
+        this.taskList = [];
+        for (var type in list) {
+            if (list.hasOwnProperty(type)) {
+                var tasks = list[type];
+                switch (parseInt(type)) {
+                    case entity_1.TaskType.tranfer:
+                        this.makeTaskList(tasks, entity_1.TaskType.tranfer);
+                        break;
+                    case entity_1.TaskType.openAuction:
+                        this.makeTaskList(tasks, entity_1.TaskType.openAuction);
+                        break;
+                    case entity_1.TaskType.addPrice:
+                        this.makeTaskList(tasks, entity_1.TaskType.addPrice);
+                        break;
+                    case entity_1.TaskType.getDomain:
+                        this.makeTaskList(tasks, entity_1.TaskType.getDomain);
+                        break;
+                    case entity_1.TaskType.gasToSgas:
+                        this.makeTaskList(tasks, entity_1.TaskType.gasToSgas);
+                        break;
+                    case entity_1.TaskType.sgasToGas:
+                        this.makeTaskList(tasks, entity_1.TaskType.sgasToGas);
+                        break;
+                    case entity_1.TaskType.topup:
+                        this.makeTaskList(tasks, entity_1.TaskType.topup);
+                        break;
+                    case entity_1.TaskType.withdraw:
+                        this.makeTaskList(tasks, entity_1.TaskType.withdraw);
+                        break;
+                    case entity_1.TaskType.getGasTest:
+                        this.makeTaskList(tasks, entity_1.TaskType.getGasTest);
+                        break;
+                    case entity_1.TaskType.domainMapping:
+                        this.makeTaskList(tasks, entity_1.TaskType.domainMapping);
+                        break;
+                    case entity_1.TaskType.domainResovle:
+                        this.makeTaskList(tasks, entity_1.TaskType.domainResovle);
+                        break;
+                    case entity_1.TaskType.domainRenewal:
+                        this.makeTaskList(tasks, entity_1.TaskType.domainRenewal);
+                        break;
+                    case entity_1.TaskType.recoverSgas:
+                        this.makeTaskList(tasks, entity_1.TaskType.recoverSgas);
+                        break;
+                    case entity_1.TaskType.ClaimGas:
+                        this.makeTaskList(tasks, entity_1.TaskType.ClaimGas);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        this.taskList.sort(function (n1, n2) {
+            return n1.startTime > n2.startTime ? -1 : 1;
+        });
+        this.taskList.forEach(function (v) {
+            if (v.state == 0) {
+                _this.timer(v);
+            }
+        });
+    };
+    FeatureComponent.prototype.makeHref = function () {
+        var str = "testwallet.nel.group";
+        // let currentHost = window.location.hostname;
+        var href = "";
+        if (str.includes("testwallet")) {
+            href = "https://scan.nel.group/#testnet/";
+        }
+        else {
+            href = "https://scan.nel.group/#mainnet/";
+        }
+        return href;
+    };
+    FeatureComponent.prototype.makeTaskList = function (tasks, tasktype) {
+        for (var i in tasks) {
+            var arr = [];
+            var href = this.makeHref();
+            arr["tasktype"] = tasktype;
+            arr["startTime"] = tasks[i].startTime;
+            arr["txid"] = tasks[i].txid.substring(0, 6) + "..." + tasks[i].txid.substring(tasks[i].txid.length - 6);
+            arr["txidhref"] = href + "transaction/" + tasks[i].txid;
+            arr["height"] = tasks[i].height;
+            arr["state"] = tasks[i].state;
+            arr["addrhref"] = href + "address/" + (tasks[i].message.toaddress ? tasks[i].message.toaddress : tasks[i].message.address);
+            arr["message"] = tasks[i].message;
+            arr["domainhref"] = href + "nns/" + (tasks[i].message.domain ? tasks[i].message.domain : "");
+            arr["resolver"] = "" + (tasks[i].message.contract ? (tasks[i].message.contract.substring(0, 4) + "..." + tasks[i].message.contract.substring(tasks[i].message.contract.length - 4)) : "");
+            this.taskList.push(arr);
+        }
+    };
+    FeatureComponent.prototype.timer = function (item) {
+        var _this = this;
+        if (item.timer) {
+            clearInterval(item.timer);
+        }
+        var pendingText = '';
+        var seconds = '' + (new Date().getTime() - item["startTime"]) / 1000;
+        pendingText = "(" + parseInt(seconds) + "s)";
+        this.$set(item, 'pendingText', pendingText);
+        var timer = setInterval(function () {
+            if (item.state != 0) {
+                clearInterval(timer);
+            }
+            var seconds = '' + (new Date().getTime() - item["startTime"]) / 1000;
+            pendingText = "(" + parseInt(seconds) + "s)";
+            _this.$set(item, 'pendingText', pendingText);
+        }, 1000);
+        item.timer = timer;
+    };
+    FeatureComponent.prototype.clearTimer = function () {
+        this.taskList.forEach(function (v) {
+            if (v.timer) {
+                clearInterval(v.timer);
+                v.timer = null;
+            }
+        });
+    };
+    FeatureComponent = __decorate([
+        vue_class_component_1.default({
+            components: {
+                VLink: VLink_vue_1.default,
+                MainLayout: Main_vue_1.default
+            }
+        }),
+        __metadata("design:paramtypes", [])
+    ], FeatureComponent);
+    return FeatureComponent;
+}(vue_1.default));
+exports.default = FeatureComponent;
+
+
+/***/ }),
+
+/***/ "Yj+Z":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAARpJREFUWAntltENwiAQhotxjDqQL4zhUI7RFxfqHniX9EfSIOEqRzG5JgYs6H1+vx5Ok11mwAz8twEH/GVZ7s65Zwhhxr0zRmJYieHhvX9x/QsgRoBjFhbELOC6YgJzRB6tYq3nSEkSyifFaLAnhKSWAUps5faawZwVyb3hDcY2I/lUNXtbNX41g60av5pBNFtp4+dGnSakBpgW4Tki5znBx7OWn5euboBp5NtZeyuBYU3tO4gCv47dADlWMrfyg+e14N0i3v7fVcWawqsBbqbm/a8yLV4zV4sYkdZAlPaoGTwa6d64msGSFcmaAUps5faawZwVyb3hDcY206qxSux828ssWIsGWzVWvPHRUXpWH61jrzMDZqCXgTfzHmZQoUeFngAAAABJRU5ErkJggg=="
+
+/***/ }),
+
 /***/ "ar5l":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4897,6 +5292,66 @@ exports.NNSTool = NNSTool;
 
 /***/ }),
 
+/***/ "dQfh":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "fgqV":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAWtJREFUWAntWFsOwjAMG5wGzs9xgG+4xXAmKpXQhaTxBggqRVNXx/b6WtVh+Jdf7IFxHDdrf/ec5lYbAfCAd0c8d7ptqfpdSzRFe74AsEGcEFIuiP08mtMiGogrQopo26MHwA4h5qQsahL8Yq7W8o1aI5Hek2mNNIExA2jcNKLKLJ2TScjkqr55GBjEDI4HU7qSEcjkah9mXQnJ3vVydd9zyj636LY1mVeCpskI1uyZaKNH2IOJ6obwlgGrLSSSBbeMtN5ldVL5DUNlQZjzMyUaTVYmUZ1OJy9XuEfn6TzoSfoqjOo9GdbPGeKGOTnf1QfQ981Dy4jVtsr08BjwYBYxGxGOYClmewR7crrMZoQyuS6zDAEGR9Msk5jJNZmlE4KVxkkjaoxLmjtN0DClX3VrdCdqB456WAsJcnl0RkhZ5T8Knfrf7bo8OiBJgJTznKMjy8IRTfv6rZABaF+BFSDx+Q5Nov0/VX8P3ADlEi1to8Kl3wAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ "l7Tq":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/layouts/Main.vue
+var Main = __webpack_require__("Gc41");
+var Main_default = /*#__PURE__*/__webpack_require__.n(Main);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-69128e48","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v(_vm._s(_vm.$t('navbar.toggle')))]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])]),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('div',{staticClass:"logo"}),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/#testnet","target":"_blank"}},[_vm._v(_vm._s(_vm.$t('navbar.explorer')))])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel"},[_vm._v(_vm._s(_vm.$t('navbar.wallet')))])])]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{staticClass:"active",attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))])]),_vm._v(" "),_c('li',{attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"target":"_blank","href":"https://wallet.nel.group/#login","id":"maina"}},[_vm._v(_vm._s(_vm.$t('navbar.mainnet')))])])])]),_vm._v(" "),(_vm.loginshow)?_c('li',[_c('v-link',{ref:"login",attrs:{"href":"#login"}},[_vm._v(_vm._s(_vm.$t('navbar.logout')))])],1):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text"},[_vm._v(_vm._s(_vm.currentLanguage))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{class:_vm.currentLanguage=='English'?'active':'',attrs:{"id":"testnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(1)}}},[_vm._v("English")])]),_vm._v(" "),_c('li',{class:_vm.currentLanguage!='English'?'active':'',attrs:{"id":"mainnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(2)}}},[_vm._v("中文")])])])])])])])]),_vm._v(" "),_vm._t("default")],2)}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var layouts_Main = (esExports);
+// CONCATENATED MODULE: ./src/layouts/Main.vue
+function injectStyle (ssrContext) {
+  __webpack_require__("dQfh")
+}
+var normalizeComponent = __webpack_require__("VU/8")
+/* script */
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  Main_default.a,
+  layouts_Main,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+
+/* harmony default export */ var src_layouts_Main = __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+
 /***/ "lJF1":
 /***/ (function(module, exports) {
 
@@ -4948,6 +5403,13 @@ var Hint = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Hint;
 
+
+/***/ }),
+
+/***/ "njKD":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAOFJREFUWAntlTEOgkAQRVkPAIWNlZWn0Yt5F0ujtZWh1MbG6CEsbNc3iSSbECxAwhD+JD8syzL8fbNkskwhAhMhEGPcojNautwyxnbI4oH8mcRUjkpkIZOtjxH0ClSRfDJ2WW6ZbF3i9EWVO6XRZfyLZKgSs+jAeF3dD3x9hRAK8zAb2EjT599NDzQvAiIgAlMjkHaSO5tfOQFwpJNszEvaSXIn5sxGrHmhF8/RBVnc0KK2aOgJTMnkX4owJpJXzFq4PpMy2flcUmL7u0dFsuy86z4SfEmeuO77yK+cIuCRwAfE+1pRvWhd/wAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -5826,6 +6288,20 @@ exports.CoinTool = CoinTool;
 
 /***/ }),
 
+/***/ "rVEi":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAxRJREFUWAntmM1LFVEYxu+UhhSRIW0ytY+FRJCYSIs0aWcQRLuKENoF0ieB/gm1CGqT7aKNqyD6D4IoCKJyFS1KswiisMi00HT6PbdzxrnX+zFzZu5lAl/4zZmZc97nPJ6597xzzeXWIuMr4Pt+G7Rk0ibGuuErvIH9mTOJqT6wMcVJtkxiyIMLsAQKmezK4kr+FyaHWb0FLSMReSW9uMuN+CZyNsK6mLl/GH8FRk3ue9rjnudN0JaNSAYxtReFE3AEdsNmiGvQJ2cJtoVypzjvx+RH2viBsVa4A7NQqzhQyVlDuU7c9NN3F/aYMb9pn8Fz+ASLEOkJME6h8fvgHKwHhR73q/xZnAPmBmAGbNzjJNEeRv4OeGEFaUfieArGktgBH0AxB0NBp+MJGp2gamLDzZzmR2HcqCzSnnL0FKShUWxOj9UtEOsFu1fddlNZyUKrHdJZOckidgsU+vy1r0zldobGoMRMuD9WY64RoQkjdt/NUmEWWk1wGc4U9qy+YkwDnISjq3u5Q8d2+AaKSyUH1fAmcx7Oz+z7v2h32anC1aCZmyphCred/V+u63GrSWyk3WJFwgY3cNNuoNpU6x0yplA5XMifcQgb/MG1NTZjB9SxbTNzzdN+t/MGpY6C/Y5nrxcCLe9TO6Bcy1h98FX4x8hVGUwah4zANO2XRGKYGwEbg4nESEaoA+wX9GYiPYTC5rQJ20fjrIvGGChUJHqTCBWb63QWM4kYOg0qq4pxZz2Sa2FuCN2fckZMg1v1IjFs7iXXiR4r+V2gVzgbKq0DpVYv+BaX6iRJ29BVuGb6tUc9gWP02X3LdFVs9Lqv8a3QAwehCRRv4Sw7weP8VZwDJnqgVqGfEfo5IdNlo+IKkvUZJsHWxmXOtUep4sR53Wd4TrmzoBV7BA9Ytde0FaPqJPyFetV/CDtBk1yHG1Dtj2NIQSh3HlNzBXfTuJBJmASFtoTzaeimqoGpsMllri+mOkEaYqVMcq/qxySNuSNrFJnk0u+LnFyvgcak6rD+Odldr3ljzYOxFkhUUWJNuDbYcQX+AsP9ch3qDqBmAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ "rjrR":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABW9JREFUWAntmH1I3VUYx6de9ZZviBpWAxfDRWQ0WzgExRwrK8qXGdIydWyEq7aWDYPaIumvClthgyXRbEusLF+uRau2one2FhnBqs3Nshe9ORAsV77b53v5ncu9uob3/n4E1R54eJ5zznPO8z3PeZ5zz+8uWXKe/uMRiHBqf93d3WsjIiI2wt65ubkXS0pKvnZibdsA29vbL3C73c2AqQoANI7+UHFx8TMBfWGpkWHNCpgUExPzAM0qonYMvnt2dnYncgJu7OzszAswDUt1hTXLmtTU1BTLkQrc7zMzM+ugExriuAcjIyP3RkVFVdL8xDIPS9iKYEpKyoUATMPzkAFnoTgiyVi61Q5b2AIYHR39G55PwZd1dXXdYFAAbL2lf2f6wpW2i8Tj8VQCqFXHDIgu9GTkrfDI9PR07rzIhozTNkB5JOfqyLmHUVPVBuw3AN1KFb+vth1yBKAAULFXUxSfox4bHR3Nr66uPmMHmJlrKwfNIpIc569EbQ71D6fAaV3HALJWlBaEHDsVLeYkQK3nOP1/AFIgs1b4lIeOkWMRdLlciVwv1EmEu7m5OdophI4A7Onp2QSwd+EYgK1KT0//iLtxtRMgbVccQMq4pDuJ3iSA3oaTAZpPe0i/JOXl5QN2gNqKIG/BKMDVA2YGvp1HqqgAfRcgL+bYN9kBp7m2AE5NTSnvVgCmv7S0tMsCM8fTq0U6/VdZfWELWwD7+vr0QNATP62joyPDoKCis6TzeP3J9IUrbeUgR3xpbGzsm0RqJSCPwE+j6334CPIi5IHx8fGNFRUV3n8cIM+s63G6ByDLATZsATI4plF+gTMYO04kN5eVlX1gBkORIR9xQ0ODC3A7AfSWBW4P1boSEDWAmcF5P3re2NjYtbT3YnM5hfQOc+qZG7K/kI5YeUZl7sbpLQAZAUgdxbFfEWlra0uNj4//GfUo78B89YkAdhf2jagqqE7kVip9UGOLoUXviPvuZp74Hwocjj4D3HUGnBzFxcX5XjOMBW0aMM9T7YX0f8HcdZjqEl+7GHCyCVpMHS0tLe6kpKTVHEsaC56YmJjo57tXd52OVRtqIvF3kPhjsjfEN0kOc/QF9y1zChkfMWOSFFQSBfU4a2ymqRx9lNTQ93SWfLH+SfL0K9pBFASQV3EWR/gCFjmyYpIeACdZdAXyNLyN43sZ6SflVXZ29g466rFL0ADzvoe3EeE3/IaWwpHXoD6FbQo2g8hLAmxeou9eoq7ry0f+I25tbU0EnJznYHQQ3oXeZ4H7kd0WzAenFQC3AZvHUCc59meRbbSXEZVWfqOvlE0g4Xwf7RLW/1PgjC/kcfqr4CcC7f0ASfCbGMjC8DUWKYK3A0q58wP9CVy+QUemRYieC7EF1j8JZUTsPjZRia6IJsIb4AUEsFTYjd3rvb29N8oXRmvki/5qinGpmeQHyECu1elB+t50/NAPoX8KJzN5GTKIMjMzE5iXoYUB97EZpK01dNSZpi9QEukraCu9PGzS944EpCpbvuIoxrMCNAlaiJGPyBcBWIWjSY5s2PQbyUJnGPNis1T5a/ppF1i6rp0FxLjpn+/rGvmi6v2+tAsfUWVpVOtRGhkY7UP2stBtyDzar7DDO9B9kUX6iU1sx64Rm1N0qip1fFtou4hUPpWpT9EgmudrP4NfGl/or5Im65E+X/4j5lo4zYJK0n6Ma2D9dSZwh7g26swEZBANDAzsxuY57JfDT8IP0p5C3nM2cJosX+T3najyVQ0bXwe5wu4PdOCPoOnU7rivipiUybPp8PDw8KHa2topM/53kiPOJQ3WMG+UjR4AnCJ6TtKvDxd8EUbK1cNer/c9y5dwLTitcy52fvDfGoG/ANUKeD3MewLDAAAAAElFTkSuQmCC"
+
+/***/ }),
+
 /***/ "s6Yv":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6515,6 +6991,13 @@ exports.default = Toast;
 
 /***/ }),
 
+/***/ "w5Tq":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABGdJREFUWAntmF1IVEEUx3U/UqxQEUOw0gqMDAqJCAqpHntx/Qgf+lgQDIogS4LsIRB6qB4irIeyHgIpAklX96WeIsiCKMgSiQLT1MKQdvuU1faj39nu3W7X9e6966704MB1zsyc85//nDlzZtaMjMXyn3ugp6dnVXd3d0GyNG3JGpqx6+3trcjMzHxht9ufIG8yY6PXSSvBUCi0FIIFfGV83mRIppVgbW3t43A43BSJRMJ4pkRIst2b9V4yamcaDaZqjDg8BrlLfOKQ98Fg0AX5l2bwF4SgEIHkUYWk0wpJywQ7OjqWZmdn52RlZVkKD+IxaLPZmiHZYsWTpggSNxscDkcNsbQb8LV4YDmyJYLYYRIJYVuoEMygPcJ2V9bV1Y3TH7c44vYqnZ2dncV46wxA++laBnBMXSvHOhMIehvapZis4LNOkJipBOAmxusU4ADyU8g+p/5I3y9O6F/GdBoV0Wd8I99hZLui2zIwMNBvZBfXg2zpTuLFg2G+GEOqg+qiy+V6Je1kSldX10rC5JCWXFVV1YVEWLM8AFAJQH0ArcR4Ci8dqa6uFoJJFxL0eoy9YJYpIC1myInurECH3DmFXJDxxlSTY8GnzZKbRRDvbaVzrwywrTcAuiNysoVDthrbfzzHgs9bwfsnBp1O5wGMJZH6p6enLQHFm5RcWZ7MtmqxYgTb29udeG0XgDL+oL6+flSrmIzs8/ke5ufnS3Ke5IDdMsJobW11VFRU7CUEvtbU1NxTdWMEi4qKCumULZHS96ea39+GhgZJTZfMoEBuOwu5w9Ms4PV6ywmvYbGLHRK8l0c7RzpZxbjUC1kgp6Y0J9dirjq3luASOqMJlBwoSXVBC06R2JcSguzMH1HjQRS+MRAlhuxTFRawXqXMNQWPL+q8sRjkwn5HQpUHQe7MzMwTVWGuGt0D6Bb6/f6rSqzNpWqqn13boSiOTkxMTKpGs24SdcCoJohPMR5NQ5Dcwwm9b6SfaEy5vfrxXB54beAdV21iMah2JKp15N4COJjIJtE4t5e8EYXcL55ft7X6lgjqyQFUxc0wpgW0KvNq2ge5RsXuLqH2TIthmmA8cmzFGy2YVRlybmLvOnYOvDfG7dWix4gdEv2Atq0j1w/YvDwnv+xIyHLDuJV5/OS+g/FuL8NDwvVjI8OfBCj6boOYPNmv8Q0iq3lLu5a4Ml5CPapfDNYWlLbxZYsy/UN8DYTKI2nriyFBj8ezhZXKCzrlBVI/IHs7EAicxXMf5prAcItJ2J9Y/TBAawQAUPkBPknbjmy4OP2E2Ijtd+yGkB+ypR5+G7/W6+nbCSdR/l3RC2ipQvAC4BfxrOHi9BNxAMJ4a8rtdv/Ujxm1ExIUYy1JmvLSbua1cUXG0l1MpRnSifxYcuHBEWrxXBukm6jTXkx5UGWh8yR8Iycgf5nxiKqT6toSQZlcRzJD/jNAsPelmpiKZ2qLVWWpNdst9/BnDouloNdipVXmNijgqlLfcGmdaxF8Ph74DWFU4koKB9gcAAAAAElFTkSuQmCC"
+
+/***/ }),
+
 /***/ "wOXa":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6872,6 +7355,7 @@ var vue_router_1 = __webpack_require__("/ocq");
 // import Transfer from './pages/transfer/transfer.vue'
 // import Balance from './pages/balance/balance.vue'
 var app_vue_1 = __webpack_require__("5VpT");
+var wallet_vue_1 = __webpack_require__("PPZq");
 vue_1.default.use(vue_router_1.default);
 vue_1.default.use(vue_i18n_1.default);
 vue_1.default.use(index_1.default);
@@ -6879,14 +7363,14 @@ vue_1.default.config.productionTip = false;
 /**
  * 使用 require 实现按需加载
  */
-var Balance = vue_1.default.component('Balance', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(5)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("v8qo")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
-var Login = vue_1.default.component('Login', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(4)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Luci")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
-var Transfer = vue_1.default.component('Transfer', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(3)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Oz3I")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
-var Exchange = vue_1.default.component('Exchange', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(2)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("eL9F")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
-var NNSNeo = vue_1.default.component('NNSNeo', function (resolve) { return Promise.all/* require */([__webpack_require__.e(1), __webpack_require__.e(0)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("C0Cu")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
-var NNS = vue_1.default.component('NNS', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(6)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("RN/i")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
-var Settings = vue_1.default.component('Settings', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(7)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
-var notFound = vue_1.default.component('notFound', function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(8)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("c5Mg")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var Balance = vue_1.default.component('Balance', function (resolve) { return __webpack_require__.e/* require */(4).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("v8qo")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var Login = vue_1.default.component('Login', function (resolve) { return __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Luci")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var Transfer = vue_1.default.component('Transfer', function (resolve) { return __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Oz3I")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var Exchange = vue_1.default.component('Exchange', function (resolve) { return __webpack_require__.e/* require */(1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("eL9F")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var NNSNeo = vue_1.default.component('NNSNeo', function (resolve) { return __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("C0Cu")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var NNS = vue_1.default.component('NNS', function (resolve) { return __webpack_require__.e/* require */(6).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("RN/i")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var Settings = vue_1.default.component('Settings', function (resolve) { return __webpack_require__.e/* require */(5).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
+var notFound = vue_1.default.component('notFound', function (resolve) { return __webpack_require__.e/* require */(7).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("c5Mg")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); });
 // // const Wallet = Vue.component('Wallet', (resolve) => require([ './layout/wallet.vue' ], resolve));
 var language = sessionStorage.getItem("language");
 !!language ? language : language = 'en';
@@ -6899,15 +7383,22 @@ var i18n = new vue_i18n_1.default({
     },
 });
 var router = new vue_router_1.default({
-    mode: 'hash',
+    mode: 'history',
     routes: [
-        { path: '/balance', component: Balance },
-        { path: '/transfer', component: Transfer },
-        { path: '/exchange', component: Exchange },
-        { path: '/nnsneo', component: NNSNeo },
-        { path: '/nns', component: NNS },
-        { path: '/setting', component: Settings },
-        { path: '/', component: Login }
+        {
+            path: '/', component: Login,
+        },
+        {
+            path: '/wallet', component: wallet_vue_1.default,
+            children: [
+                { path: 'balance', component: Balance },
+                { path: 'transfer', component: Transfer },
+                { path: 'exchange', component: Exchange },
+                { path: 'nnsneo', component: NNSNeo },
+                { path: 'nns', component: NNS },
+                { path: 'setting', component: Settings },
+            ]
+        }
     ]
 });
 new vue_1.default({

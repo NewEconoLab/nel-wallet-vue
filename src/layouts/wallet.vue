@@ -11,7 +11,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
             <li>
-              <router-link to="balance" :class="{active:isActive('balance')}">
+              <router-link to="/wallet/balance" :class="{active:isActive('balance')}">
                 <span class="icon-png">
                   <img src="../../static/img/balance-s.png" alt="" v-if="isActive('balance')">
                   <img src="../../static/img/balance-u.png" alt="" v-else>
@@ -20,7 +20,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="transfer" :class="{active:isActive('transfer')}">
+              <router-link to="/wallet/transfer" :class="{active:isActive('transfer')}">
                 <span class="icon-png">
                   <img src="../../static/img/transfer-s.png" alt="" v-if="isActive('transfer')">
                   <img src="../../static/img/transfer-u.png" alt="" v-else>
@@ -29,7 +29,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="exchange" :class="{active:isActive('exchange')}">
+              <router-link to="/wallet/exchange" :class="{active:isActive('exchange')}">
                 <span class="icon-png">
                   <img src="../../static/img/exchange-s.png" alt="" v-if="isActive('exchange')">
                   <img src="../../static/img/exchange-u.png" alt="" v-else>
@@ -38,7 +38,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="nnsneo" :class="{active:isActive('nnsneo')}" >
+              <router-link to="/wallet/nnsneo" :class="{active:isActive('nnsneo')}" >
                 <span class="icon-png">
                   <img src="../../static/img/nns-s.png" alt="" v-if="isActive('nnsneo')">
                   <img src="../../static/img/nns-u.png" alt="" v-else>
@@ -47,7 +47,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="nns" :class="{active:isActive('nns')}">
+              <router-link to="/wallet/nns" :class="{active:isActive('nns')}">
                 <span class="icon-png">
                   <img src="../../static/img/nns-s.png" alt="" v-if="isActive('nns')">
                   <img src="../../static/img/nns-u.png" alt="" v-else>
@@ -56,7 +56,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="setting" :class="{active:isActive('setting')}">
+              <router-link to="/wallet/setting" :class="{active:isActive('setting')}">
                 <span class="icon-png">
                   <img src="../../static/img/settings-s.png" alt="" v-if="isActive('setting')">
                   <img src="../../static/img/settings-u.png" alt="" v-else>
@@ -314,8 +314,7 @@
       </div>
       <!--/.container -->
     </nav>
-
-    <slot></slot>
+    <router-view></router-view>
   </main-layout>
 </template>
 

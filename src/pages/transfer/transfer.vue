@@ -1,5 +1,5 @@
 <template>
-    <wallet-layout>
+    <div>
         <div class="container">
             <div class="title">
                 <span>{{$t('transfer.transfer')}}</span>
@@ -103,7 +103,7 @@
             </div>
         </div>        
         <v-toast ref="toast" ></v-toast>
-    </wallet-layout>
+    </div>
 </template>
 
 <script lang="ts" src="./transfer.ts">

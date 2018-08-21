@@ -1,5 +1,4 @@
 <template>
-    <wallet-layout>
         <div class="container">
             <div class="title">
                 <span>{{$t('setting.settings')}}</span>
@@ -26,7 +25,6 @@
                 </div>
             </div>
         </div>
-    </wallet-layout>
 </template>
 
 <script lang="ts" src="./settings.ts">

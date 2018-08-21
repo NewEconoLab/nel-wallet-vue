@@ -1,5 +1,5 @@
 <template>
-  <wallet-layout>
+  <div>
     <div class="container ">
       <div class="title">
         <span>{{$t('nns.title1')}}</span>
@@ -80,7 +80,7 @@
         <div v-if="mapping_err=='1'" class="err-color">{{$t('nns.alertmessage2')}} </div>
       </div>
     </v-alert>
-  </wallet-layout>
+  </div>
 </template>
 
 <script lang="ts" src="./nns.ts">

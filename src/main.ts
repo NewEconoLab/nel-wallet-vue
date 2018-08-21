@@ -11,6 +11,7 @@ import VueRouter from 'vue-router';
 // import Transfer from './pages/transfer/transfer.vue'
 // import Balance from './pages/balance/balance.vue'
 import App from './pages/app.vue'
+import Wallet from './layouts/wallet.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
@@ -46,15 +47,22 @@ const i18n = new VueI18n({
 });
 
 const router = new VueRouter({
-    mode: 'hash',
+    mode: 'history',
     routes: [
-        { path: '/balance', component: Balance },
-        { path: '/transfer', component: Transfer },
-        { path: '/exchange', component: Exchange },
-        { path: '/nnsneo', component: NNSNeo },
-        { path: '/nns', component: NNS },
-        { path: '/setting', component: Settings },
-        { path: '/', component: Login }
+        {
+            path: '/', component: Login,
+        },
+        {
+            path: '/wallet', component: Wallet,
+            children: [
+                { path: 'balance', component: Balance },
+                { path: 'transfer', component: Transfer },
+                { path: 'exchange', component: Exchange },
+                { path: 'nnsneo', component: NNSNeo },
+                { path: 'nns', component: NNS },
+                { path: 'setting', component: Settings },
+            ]
+        }
     ]
 })
 

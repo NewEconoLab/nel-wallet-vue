@@ -43,7 +43,7 @@ export default class FeatureComponent extends Vue
     {
         console.log(this.$router.currentRoute.path);
 
-        return "/" + page == this.$router.currentRoute.path;
+        return "/wallet/" + page == this.$router.currentRoute.path;
     }
 
     beforeDestroy()

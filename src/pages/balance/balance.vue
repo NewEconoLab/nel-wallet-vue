@@ -1,5 +1,4 @@
 <template>
-  <wallet-layout>
     <div class="container">
       <div class="title" style="padding-bottom:28px;">
         <span>{{$t('balance.title1')}}</span>
@@ -61,8 +60,7 @@
         </div>
       </div>
       <div style="height:30px"></div>
-    </div>
-
+      
     <!-- 地址选框 -->
     <div class="modal fade" id="selectAddr" tabindex="-1">
       <div class="modal-dialog" role="document">
@@ -92,7 +90,7 @@
         </div>
       </div>
     </div>
-  </wallet-layout>
+    </div>
 </template>
 
 <script lang="ts" src="./balance.ts">

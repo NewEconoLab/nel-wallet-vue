@@ -1,5 +1,4 @@
 <template>
-  <wallet-layout>
     <div class="container ">
         <div class="title-menu">
             <ul class="menu-box">
@@ -8,13 +7,12 @@
                 <li :class="{'active' : showType == 4}" @click="switchRoute('bonus')">{{$t('nnsneo.bonus')}}</li>
             </ul>
         </div>
-        <div class="content-box">
+        <router-view class="content-box">
             <neo-auction v-if="showType == 1"></neo-auction>
             <my-neo v-if="showType == 3"></my-neo>
             <bonus v-if="showType == 4"></bonus>
-        </div>
+        </router-view>
     </div>
-  </wallet-layout>
 </template>
 
 <script lang="ts" src="./nnsneo.ts">
