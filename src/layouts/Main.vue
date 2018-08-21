@@ -32,12 +32,12 @@
                   <a id="testa">{{$t('navbar.testnet')}}</a>
                 </li>
                 <li id="mainnet-btn">
-                  <a target="_blank" href="https://wallet.nel.group/#login" id="maina">{{$t('navbar.mainnet')}}</a>
+                  <a target="_blank" href="https://wallet.nel.group/login" id="maina">{{$t('navbar.mainnet')}}</a>
                 </li>
               </ul>
             </li>
             <li v-if="loginshow">
-              <v-link ref="login" href="#login">{{$t('navbar.logout')}}</v-link>
+              <router-link to="login" >{{$t('navbar.logout')}}</router-link>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

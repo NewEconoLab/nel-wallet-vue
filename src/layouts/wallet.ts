@@ -28,10 +28,15 @@ export default class FeatureComponent extends Vue
 
     mounted()
     {
+        // console.log(this.$router.currentRoute.name);
+        if (this.$router.currentRoute.fullPath.length <= 1)
+        {
+            this.$router.push("login");
+        }
         let arr = sessionStorage.getItem("login-info-arr");
         if (!arr || arr.length == 0)
         {
-            window.location.hash = "#login";
+            this.$router.push("login");
         }
         this.getHeight()
         TaskFunction.taskHistory = this.taskHistory;
@@ -43,7 +48,7 @@ export default class FeatureComponent extends Vue
     {
         console.log(this.$router.currentRoute.path);
 
-        return "/wallet/" + page == this.$router.currentRoute.path;
+        return "/" + page == this.$router.currentRoute.path;
     }
 
     beforeDestroy()

@@ -50,10 +50,10 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/', component: Login,
+            path: '/login', component: Login,
         },
         {
-            path: '/wallet', component: Wallet,
+            path: '/', component: Wallet, name: "index",
             children: [
                 { path: 'balance', component: Balance },
                 { path: 'transfer', component: Transfer },
