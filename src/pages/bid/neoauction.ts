@@ -112,7 +112,7 @@ export default class NeoAuction extends Vue
      */
     async getBidList(address)
     {
-        this.myAuctionList = await NeoaucionData.getBidList(address);
+        // this.myAuctionList = await NeoaucionData.getBidList(address);
     }
 
     async topupStateRefresh()

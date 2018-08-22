@@ -1062,21 +1062,21 @@ export class NeoAuction_Withdraw
  */
 export interface BlockTime
 {
-    blockindex: number;
-    blocktime: number;
-    txid: string;
+    blockindex: number; //区块高度
+    blocktime: number;  //区块时间戳
+    txid: string;       //交易id
 }
 /**
  * 加价地址类
  */
 export interface AuctionAddress
 {
-    address: string;
-    totalValue: number;
-    lastTime: BlockTime;
-    accountTime: BlockTime,
-    getdomainTime: BlockTime,
-    addpricelist: BlockTime
+    address: string;            //出价地址
+    totalValue: number;         //累计出价金额
+    lastTime: BlockTime;        //最后交易的时间
+    accountTime: BlockTime,     //退币的时间
+    getdomainTime: BlockTime,   //获得域名的时间
+    addpricelist: BlockTime     //加价类列表
 }
 
 export interface Auction
@@ -1090,11 +1090,11 @@ export interface Auction
     startTime: BlockTime;
     startAddress: string;
     maxPrice: number;
-    maxBuyer: string;
-    endTime: BlockTime;
-    endAddress: string;
-    lastTime: BlockTime;
-    addwholist: AuctionAddress[];
+    maxBuyer: string;               //最大出价者
+    endTime: BlockTime;             //结束时间 (五天后自动结束则为空)
+    endAddress: string;             //结束地址 (五天后自动结束则为空)
+    lastTime: BlockTime;            //最后出价时间
+    addwholist: AuctionAddress[];   //加价地址类列表
 }
 
 /**
