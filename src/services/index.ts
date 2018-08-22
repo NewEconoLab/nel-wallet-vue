@@ -1,5 +1,8 @@
+import { AuctionInfoService } from "./AuctionInfoService";
 import { AuctionService } from "./AuctionServices";
 
-export default {
-    auctionServices: AuctionService
+export namespace services
+{
+    export const auctionInfo = AuctionInfoService;
+    export const auction = AuctionService;
 }

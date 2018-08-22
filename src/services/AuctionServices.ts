@@ -1,17 +1,23 @@
 import { Auction, AuctionState, AuctionView, AuctionInfoView } from "../entity/AuctionEntitys";
 import { tools } from "../tools/importpack";
-import { AuctionStore } from "../store/AuctionStore";
-import { MyAuction } from "../tools/entity";
+import { store } from "../store/index";
 
 /**
- * 竞拍方法类
- */
+* 竞拍方法类
+*/
 export class AuctionService
 {
     //竞拍列表
     static auctionList: Auction[];
-    static auctionStore: AuctionStore = new AuctionStore();
+    static auctionStore = new store.auction();
 
+    /**
+     * 获得列表数据
+     * @param address 地址
+     * @param currentPage 当前有页码
+     * @param pageSize 分页条数
+     * @returns AuctionView[]
+     */
     static async getMyAuctionList(address: string, currentPage: number, pageSize: number): Promise<AuctionView[]>
     {
         let viewlist: AuctionView[] = [];

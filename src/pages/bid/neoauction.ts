@@ -8,7 +8,8 @@ import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
 import { AuctionService } from "../../services/AuctionServices";
-import { Auction, AuctionView } from "entity/AuctionEntitys";
+import { Auction, AuctionView } from "../../entity/AuctionEntitys";
+import { services } from "../../services/index";
 @Component({
     components: {
         "auction-info": AuctionInfo
@@ -114,7 +115,7 @@ export default class NeoAuction extends Vue
      */
     async getBidList(address)
     {
-        this.auctionlist = await AuctionService.getMyAuctionList(address, 1, 10);
+        this.auctionlist = await services.auction.getMyAuctionList(address, 1, 10);
     }
 
     async topupStateRefresh()
@@ -145,6 +146,7 @@ export default class NeoAuction extends Vue
     {
         this.auctionPageSession.put("id", item.id)
         this.auctionPageSession.put('show', true);
+        services.auctionInfo.auctionId = item.id;
         this.auctionPage = !this.auctionPage
     }
 

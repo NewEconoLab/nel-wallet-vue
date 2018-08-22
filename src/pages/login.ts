@@ -3,7 +3,6 @@ import { Component } from "vue-property-decorator";
 import MainLayout from "../layouts/Main.vue";
 import { WalletOtcgo, LoginInfo, currentInfo, LoginType } from "../tools/entity";
 import { tools } from "../tools/importpack";
-/// <reference path="../tools/neo-ts.d.ts"/>
 /// <reference path="../tools/number.ts"/>
 
 declare const mui;

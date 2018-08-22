@@ -33,7 +33,7 @@ export class AuctionStore implements StoreInterface
     }
     queryStore(id: string)
     {
-        return this.session.select(id);
+        return this.session.select(id) as Auction;
     }
 
 

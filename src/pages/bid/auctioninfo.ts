@@ -8,8 +8,8 @@ import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
-import { AuctionInfoView, auctionBtnState } from "../../entity/AuctionEntitys";
-import { AuctionService } from "services/AuctionServices";
+import { AuctionInfoView, auctionBtnState, Auction } from "../../entity/AuctionEntitys";
+import { services } from "../../services/index";
 @Component({
     components: {}
 })
@@ -30,8 +30,6 @@ export default class AuctionInfo extends Vue
     isGetDomainWait: boolean;
     isRecoverWait: boolean;
     openToast: Function;
-    process: Process;
-    width: number;
 
     constructor()
     {
@@ -39,19 +37,18 @@ export default class AuctionInfo extends Vue
         let auctionMsg = new tools.sessionstoretool("auctionPage");
         let id = auctionMsg.select("id");
         this.address = LoginInfo.getCurrentAddress();
-        this.auctionId = id
-        this.auctionInfo = AuctionService.getAuctionInfoById(this.auctionId);
+        this.auctionId = id;
+        services.auctionInfo.auctionId = id;
+        this.auctionInfo = services.auctionInfo.getAuctionInfo();
         this.myBidPrice = "";
         this.updatePrice = "0";
         this.inputErrorCode = 0;
-        this.fee = 0
+        this.fee = 0;
         this.remaining = 0;
         this.balanceOf = '';
         this.bidState = 2;
-        this.fee = 0
-        this.remaining = 0
-        this.process = new Process(new Date().getTime());
-        this.width = 0;
+        this.fee = 0;
+        this.remaining = 0;
         this.bidPrice = "";
         this.isReceived = false;
         this.isGetDomainWait = false;
@@ -73,15 +70,10 @@ export default class AuctionInfo extends Vue
 
     async init()
     {
-        // this.balanceOf = await tools.nnssell.getBalanceOf();
         this.balanceOf = this.auctionInfo.totalValue + "";
-        this.fee = accMul(this.myBidPrice, 0.10);
-
-        this.remaining = accSub(this.myBidPrice, this.fee);
-        // this.initProcess();
-        // await this.getSessionBidDetail(domain);
-        // await this.getBidDetail(this.auctionId, this.currentpage, 5);
-        let waitstate = Store.auctionInfo.select(domain);
+        this.fee = accMul(this.auctionInfo.totalValue, 0.10);
+        this.remaining = accSub(this.auctionInfo.totalValue, this.fee);
+        let waitstate = Store.auctionInfo.select(this.auctionInfo.domain);
         this.isGetDomainWait = !!waitstate && !!waitstate[ "isGetDomainWait" ];
         this.isRecoverWait = !!waitstate && !!waitstate[ "isRecoverWait" ];
 
@@ -98,7 +90,8 @@ export default class AuctionInfo extends Vue
         switch (this.domainAuctionInfo.domainstate)
         {
             case DomainState.end1:  //第五天结束或者随机期结束
-                this.process.state = "" + this.$t('auction.ended');
+                this.process.
+                 = "" + this.$t('auction.ended');
                 a = accDiv(oldtime, 5 * 5 * 60 * 1000);
                 break;
             case DomainState.end2:  //第三天结束
@@ -126,7 +119,6 @@ export default class AuctionInfo extends Vue
 
     /**
      * 初始化竞拍域名的详情状态信息
-     */
     async initAuctionInfo(domain: string)
     {
         let info = await tools.nnssell.getSellingStateByDomain(domain);
@@ -164,13 +156,14 @@ export default class AuctionInfo extends Vue
         let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
         this.updatePrice = mybidprice.toString();
     }
+     */
 
     /**
      * 加价验证
      */
     myBidInput()
     {
-        let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
+        let mybidprice = !!this.auctionInfo.totalValue ? this.auctionInfo.totalValue : 0;
         if (!!this.bidPrice)
         {
             if (/\./.test(this.bidPrice))
@@ -189,7 +182,7 @@ export default class AuctionInfo extends Vue
         let balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
         let sum = bidPrice.add(Neo.Fixed8.parse(this.bidPrice + ""));
         this.updatePrice = sum.toString();
-        if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.domainAuctionInfo.maxPrice)) <= 0)
+        if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.auctionInfo.maxPrice + '')) <= 0)
         {
             this.bidState = 2;
         } else
@@ -210,7 +203,7 @@ export default class AuctionInfo extends Vue
     async getDomain()
     {
         let height = Store.blockheight.select("height");
-        let info = await tools.nnssell.getSellingStateByDomain(this.domainAuctionInfo.domain);
+        let info = await tools.nnssell.getSellingStateByDomain(this.auctionInfo.domain);
         if (!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
         {
             let data1 = await tools.nnssell.bidSettlement(info.id.toString());
@@ -218,9 +211,9 @@ export default class AuctionInfo extends Vue
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             let txid = res[ "txid" ];
             this.isGetDomainWait = true;
-            Store.auctionInfo.put(this.domainAuctionInfo.domain, true, "isGetDomainWait");
+            Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
             TaskManager.addTask(
-                new Task(height, ConfirmType.recharge, txid, { domain: this.domainAuctionInfo.domain }),
+                new Task(height, ConfirmType.recharge, txid, { domain: this.auctionInfo.domain }),
                 TaskType.getDomain
             )
         } else
@@ -239,9 +232,9 @@ export default class AuctionInfo extends Vue
                 }
                 let res = await tools.wwwtool.api_postRawTransaction(data);
                 let txid = res[ "txid" ];
-                Store.auctionInfo.put(this.domainAuctionInfo.domain, true, "isGetDomainWait");
+                Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
                 TaskManager.addTask(
-                    new Task(height, ConfirmType.contract, txid, { domain: this.domainAuctionInfo.domain }),
+                    new Task(height, ConfirmType.contract, txid, { domain: this.auctionInfo.domain }),
                     TaskType.getDomain
                 )
             }
@@ -337,21 +330,21 @@ export default class AuctionInfo extends Vue
         try
         {
             let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
-            let res = await tools.nnssell.raise(this.domainAuctionInfo.domain, count);
+            let res = await tools.nnssell.raise(this.auctionInfo.domain, count);
             if (!res.err)
                 this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             let txid = res.info;
             let amount = this.bidPrice;
-            NeoaucionData.setBidSession(this.domainAuctionInfo, this.bidPrice, txid);
+            // NeoaucionData.setBidSession(this.auctionInfo, this.bidPrice, txid);
             let height = Store.blockheight.select('height');
             let task = new Task(
-                height, ConfirmType.contract, res.info, { domain: this.domainAuctionInfo.domain, amount }
+                height, ConfirmType.contract, res.info, { domain: this.auctionInfo.domain, amount }
             )
             tools.taskManager.addTask(task, TaskType.addPrice);
             this.bidPrice = "";
             this.bidState = 2;
 
-            await this.getSessionBidDetail(this.domainAuctionInfo.domain);
+            await this.getSessionBidDetail(this.auctionInfo.domain);
         } catch (error)
         {
             console.log(error);
@@ -361,7 +354,7 @@ export default class AuctionInfo extends Vue
 
     async recoverSgas()
     {
-        let id = this.domainAuctionInfo.id;
+        let id = this.auctionId;
         let data = await tools.nnssell.bidSettlement(id);
         if (!data)
             return;
@@ -374,10 +367,10 @@ export default class AuctionInfo extends Vue
                 this.isRecoverWait = true;
                 let txid = res[ "txid" ];
                 TaskManager.addTask(
-                    new Task(height, ConfirmType.tranfer, txid, { domain: this.domainAuctionInfo.domain, amount: this.myBidPrice }),
+                    new Task(height, ConfirmType.tranfer, txid, { domain: this.auctionInfo.domain, amount: this.myBidPrice }),
                     TaskType.recoverSgas
                 );
-                Store.auctionInfo.put(this.domainAuctionInfo.domain, true, "isRecoverWait");
+                Store.auctionInfo.put(this.auctionInfo.domain, true, "isRecoverWait");
             }
         } catch (error)
         {
