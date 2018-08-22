@@ -340,6 +340,12 @@ export class sessionStoreTool
     {
         return sessionStoreTool.getTable(this.table);
     }
+
+    setList(list: any)
+    {
+        sessionStorage.setItem(this.table, JSON.stringify(list));
+    }
+
 }
 
 export class StaticStore

@@ -7,6 +7,8 @@ import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
+import { AuctionService } from "../../services/AuctionServices";
+import { Auction, AuctionView } from "entity/AuctionEntitys";
 @Component({
     components: {
         "auction-info": AuctionInfo
@@ -20,7 +22,6 @@ export default class NeoAuction extends Vue
     alert_myBid: string;
     address: string;
     myAuctionList: MyAuction[] = [];
-    domainInfo: MyAuction[] = [];
     domain: string;
     btn_start: number;
     isshowToast: boolean;//是否显示toast
@@ -43,6 +44,7 @@ export default class NeoAuction extends Vue
     isSearchTime: boolean;//是否为查询状态 false为未查询
     searchDomain: string;//查询域名
     searchAuctionList: MyAuction[] = [];
+    auctionlist: AuctionView[];
 
     constructor()
     {
@@ -52,7 +54,6 @@ export default class NeoAuction extends Vue
         this.auctionPage = false;
         this.auctionMsg_alert = new MyAuction();
         this.myAuctionList = [];
-        this.domainInfo = [];
         this.domain = "";
         this.alert_myBid = "";
         this.address = LoginInfo.getCurrentAddress();
@@ -81,6 +82,7 @@ export default class NeoAuction extends Vue
         this.isSearchTime = false;
         this.searchDomain = "";
         this.searchAuctionList = [];
+        this.auctionlist = [];
     }
 
     async mounted()
@@ -112,7 +114,7 @@ export default class NeoAuction extends Vue
      */
     async getBidList(address)
     {
-        // this.myAuctionList = await NeoaucionData.getBidList(address);
+        this.auctionlist = await AuctionService.getMyAuctionList(address, 1, 10);
     }
 
     async topupStateRefresh()
@@ -139,10 +141,9 @@ export default class NeoAuction extends Vue
      * 显示竞拍详情
      * @param item 域名的竞拍信息
      */
-    onGoBidInfo(item)
+    onGoBidInfo(item: AuctionView)
     {
-        this.domainInfo = item;
-        this.auctionPageSession.put("domain", item.domain)
+        this.auctionPageSession.put("id", item.id)
         this.auctionPageSession.put('show', true);
         this.auctionPage = !this.auctionPage
     }

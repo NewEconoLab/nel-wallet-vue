@@ -2,16 +2,14 @@ import { tools } from "./importpack";
 import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts, DomainState, MyAuction } from "./entity";
 export default class NNSSell
 {
-    constructor()
-    {
-    }
+    constructor() { }
+
     /**
      * 获得竞拍域名详情
      * @param domain 域名
      */
     static async getSellingStateByDomain(domain: string)
     {
-        // tools.nnstool.initRootDomain(domainarr.reverse[ 0 ]);
         var domainarr: string[] = domain.split('.');
         var nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(domainarr);
         let data = tools.contract.buildScript(tools.nnstool.root_neo.register, "getAuctionStateByFullhash", [ "(hex256)" + nnshash.toString() ]);

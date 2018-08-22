@@ -1,5 +1,6 @@
 import { tools } from "./importpack";
 import Buffer from "buffer";
+import { AuctionState } from "../entity/AuctionEntitys";
 
 export interface currentInfo
 {
@@ -744,6 +745,46 @@ export class MyAuction
         this.endTime = 0;
         this.startAuctionTime = 0;
         this.startTimeStr = "";
+    }
+
+    initAuciton(auction: Auction)
+    {
+        this.domain = auction.domain;
+        this.startTimeStr = tools.timetool.getTime(auction.startTime.blocktime);
+        this.maxBuyer = auction.maxBuyer;
+        this.maxPrice = auction.maxPrice + "";
+        // this.owner = auction.addwholist
+        switch (auction.auctionState)
+        {
+            case AuctionState.open:
+                this.domainstate = DomainState.fixed
+                break;
+            case AuctionState.fixed:
+                this.domainstate = DomainState.fixed;
+                break;
+
+            case AuctionState.random:
+                this.domainstate = DomainState.random;
+                break;
+
+            case AuctionState.end:
+                this.domainstate = DomainState.open;    //end
+                break;
+
+            case AuctionState.expire:
+                this.domainstate = DomainState.open;
+                break;
+
+            case AuctionState.pass:
+                this.domainstate = DomainState.open //end
+                break;
+            case AuctionState.watting:
+                this.domainstate = DomainState.end1;    //watting
+                break;
+
+            default:
+                break;
+        }
     }
 
     async initSelling(info: SellDomainInfo)

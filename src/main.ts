@@ -39,6 +39,9 @@ new Vue({
 
 //初始化鼠标随机方法
 Neo.Cryptography.RandomNumberGenerator.startCollectors();
+//初始化根域名
+tools.nnstool.initRootDomain("neo");
+tools.nnstool.initRootDomain("test");
 
 setInterval(() =>
 {

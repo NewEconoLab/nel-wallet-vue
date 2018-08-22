@@ -60,21 +60,21 @@
                 </div>
             </div>
             <!-- 加载列表 -->
-            <div class="form-box mbottom" v-if="myAuctionList&&!isSearchTime" v-for="(item,index) in myAuctionList" :key="index">
+            <div class="form-box mbottom" v-if="auctionlist&&!isSearchTime" v-for="(item,index) in auctionlist" :key="index">
                 <div class="msg-list">
                     <div class="msg-neoname">
                         {{item.domain}}
                     </div>
                     <div class="msg-status">
                         {{$t('auction.status')}}: 
-                        <span v-if="item.auctionState=='1'" class="status-being">{{$t('auction.fixedperiod')}}</span>
-                        <span v-if="item.auctionState=='2'" class="status-random">{{$t('auction.randomperiod')}}</span>
-                        <span v-if="item.auctionState=='3'" class="status-random">{{$t('auction.waiting')}}</span>
-                        <span v-if="item.auctionState=='0'" class="status-ended">{{$t('auction.ended')}}</span>
+                        <span v-if="item.state=='0001'" class="status-random">{{$t('auction.waiting')}}</span>
+                        <span v-if="item.state=='0101'" class="status-being">{{$t('auction.fixedperiod')}}</span>
+                        <span v-if="item.state=='0301'" class="status-random">{{$t('auction.randomperiod')}}</span>
+                        <span v-if="item.state=='0401'" class="status-ended">{{$t('auction.ended')}}</span>
                         <v-hint>
                           <div class="hint-img">
-                            <img src="../../../static/img/notice-g.png" alt="" v-if="item.auctionState=='1'">
-                            <img src="../../../static/img/notice-b.png" alt="" v-if="item.auctionState=='2'">                              
+                            <img src="../../../static/img/notice-g.png" alt="" v-if="item.state=='0101'">
+                            <img src="../../../static/img/notice-b.png" alt="" v-if="item.state=='0301'">                              
                           </div>
                           <div class="hint-content">  
                               <p>{{$t('auction.statustips')}}</p>
@@ -86,24 +86,24 @@
                         {{$t('auction.lastauctionprice')}}: <span>{{item.maxPrice}}</span> SGas
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer != address">
-                        {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }}: <span>{{$t('auction.other')}} （ {{item.maxBuyer}} ）</span>
+                        {{item.state!='0401'?$t('auction.currentbidder'):$t('auction.buyer') }}: <span>{{$t('auction.other')}} （ {{item.maxBuyer}} ）</span>
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer == address">
-                        {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }}: <span class="bidder-me">{{$t('auction.me')}} （ {{address}} ）</span>
+                        {{item.state!='0401'?$t('auction.currentbidder'):$t('auction.buyer') }}: <span class="bidder-me">{{$t('auction.me')}} （ {{address}} ）</span>
                     </div>
                     <div class="msg-time">
-                        {{$t('auction.bidstarttimemsg')}}: <span>{{item.startTimeStr}}</span>
+                        {{$t('auction.bidstarttimemsg')}}: <span>{{item.startTime}}</span>
                     </div>
                     <div v-if="item.bidListSession" v-for="(value,key) in item.bidListSession" :key="key">
                       {{value}}
                     </div>
                 </div>
                 <div class="btn-right">
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='1'||item.auctionState=='2'" @click="onGoBidInfo(item)">{{$t('btn.bid')}}</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer==address && item.receivedState==0" @click="onGoBidInfo(item)">{{$t('btn.getdomain')}}</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer!=address && item.receivedState==0" @click="onGoBidInfo(item)">{{$t('btn.recoversgas')}}</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer!=address && item.receivedState>0" @click="onGoBidInfo(item)">{{$t('btn.receivedsgas')}}</button>
-                    <button class="btn btn-nel btn-bid" v-if="item.auctionState=='0' && item.maxBuyer==address && item.receivedState>0" @click="onGoBidInfo(item)">{{$t('btn.receivednns')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.btnState==0" @click="onGoBidInfo(item)">{{$t('btn.bid')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.btnState==1" @click="onGoBidInfo(item)">{{$t('btn.getdomain')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.btnState==2" @click="onGoBidInfo(item)">{{$t('btn.recoversgas')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.btnState==3" @click="onGoBidInfo(item)">{{$t('btn.receivedsgas')}}</button>
+                    <button class="btn btn-nel btn-bid" v-if="item.btnState==4" @click="onGoBidInfo(item)">{{$t('btn.receivednns')}}</button>
                 </div>
             </div>
             <!-- 查询列表 -->
