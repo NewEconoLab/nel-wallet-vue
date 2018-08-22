@@ -19,7 +19,7 @@ const MyNeoName = resolve => require([ '../pages/bid/myneo.vue' ], resolve);
 const Bonus = resolve => require([ '../pages/bid/bonus.vue' ], resolve);
 
 export default new Router({
-    mode: 'hash',
+    mode: 'history',
     routes: [
         { path: '/', redirect: '/login' },
         {
