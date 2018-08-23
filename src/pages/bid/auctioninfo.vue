@@ -7,7 +7,7 @@
         </div>
         <div class="form-box">
             <div class="filename">{{$t('auction.domain')}}: {{auctionInfo.domain}}</div>
-            <div class="status" v-if="auctionInfo.state=='0101'">{{$t('auction.status')}}: <span class="status-being">{{$t('auction.fixedperiod')}}</span> </div>
+            <div class="status" v-if="auctionInfo.state=='0201'">{{$t('auction.status')}}: <span class="status-being">{{$t('auction.fixedperiod')}}</span> </div>
             <div class="status" v-if="auctionInfo.state=='0301'">{{$t('auction.status')}}: <span class="status-random">{{$t('auction.randomperiod')}}</span></div>
             <div class="status" v-if="auctionInfo.state=='0401'">{{$t('auction.status')}}: <span class="status-ended">{{$t('auction.ended')}}</span> </div>
             <div class="highest-price">{{$t('auction.highest')}}: {{auctionInfo.maxPrice}} SGas</div>   
@@ -80,10 +80,9 @@
             <label>{{$t('auction.status')}}</label>
             <div class="process-box">
               <div :class="auctionInfo.process.timearr.length==3?'process':'process long'" :style="'width:'+auctionInfo.process.width+'%'">
-                <div class="process-tips">{{auctionInfo.process.state}} </div>
-                <!-- <div class="process-fff">
-                  <img src="../../../static/img/going.png" alt="">
-                </div> -->
+                <div v-if="auctionInfo.process.state='0201'" class="process-tips">{{ $t('auction.fixedperiod')}} </div>
+                <div v-if="auctionInfo.process.state='0301'" class="process-tips">{{ $t('auction.randomperiod')}} </div>
+                <div v-if="auctionInfo.process.state='0401'" class="process-tips">{{ $t('auction.ended')}} </div>
               </div>
               <div class="starts">{{auctionInfo.process.date}}
                 <br/>{{auctionInfo.process.time}}</div>
@@ -99,24 +98,7 @@
           </div>
           <!-- process-wrapper end  -->
           <div class="auction-tips">{{$t('auction.tips')}} <p> {{$t('auction.statustips')}}</p><p style="">{{$t('auction.statustips2')}}</p></div>
-          <!-- timeling-wrapper start -->
-          <div class="timeling-wrapper">
-            <div class="first"></div>
-            <!-- <div class="list" v-for="(item,index) in bidDetailList" :key="index">
-              <div class="line"></div>
-              <div class="infos">
-                <span>{{item.addPriceTime}}</span>
-                <p v-if="!item.maxBuyer">{{$t('auction.auctionopen')}}</p>
-                <p style="font-size:12px;" v-if="item.maxBuyer != address && item.maxBuyer">{{$t('auction.other')}}（ <span style="font-size:12px;">{{item.maxBuyer}}</span>  ）</p>
-                <p class="bidder-me" v-if="item.maxBuyer == address">{{$t('auction.me')}}（ <span>{{item.maxBuyer}}</span> ）</p>
-                <em v-if="item.maxBuyer!=''">{{$t('auction.price')}} {{item.maxPrice}} SGas</em>
-              </div>
-            </div> -->
-          </div>
-          <!-- timeling-wrapper end -->
-          <div class="viewmore">
-            <button class="btn btn-nel" v-if="btnShowmore" @click="getMoreBidDetail">{{$t('btn.viewmore')}}</button>
-          </div>
+
         </div>
         <v-toast ref="toast" ></v-toast>
     </div>

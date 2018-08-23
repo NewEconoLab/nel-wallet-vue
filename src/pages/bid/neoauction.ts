@@ -106,6 +106,7 @@ export default class NeoAuction extends Vue
         this.regBalance = await tools.nnssell.getBalanceOf();
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
+        services.auction.updateAuctionList(this.address);
         this.getBidList(this.address);
     }
 

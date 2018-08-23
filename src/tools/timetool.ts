@@ -35,4 +35,26 @@ export default class DateTool
             return this.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(time));
         }
     }
+
+    static currentTime(time?: number | string): number
+    {
+        if (time)
+        {
+            let num = this.getDate(time).getTime();
+            return accDiv(num, 1000);
+        }
+        return parseInt(accDiv(new Date().getTime(), 1000).toString());
+    }
+
+    static getDate(time: string | number): Date
+    {
+        if (typeof time == "number")
+        {
+            time = (time.toString().length < 14) ? time * 1000 : time;
+            return new Date(time as number);
+        } else
+        {
+            return new Date(time as string);
+        }
+    }
 }

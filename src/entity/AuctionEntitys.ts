@@ -1,11 +1,11 @@
-import { DomainState } from "../tools/entity";
+import { DomainState, LoginInfo } from "../tools/entity";
 import { tools } from "../tools/importpack";
 import { services } from "../services/index";
 
 /**
  * 区块时间类
  */
-export interface BlockTime
+export class BlockTime
 {
     blockindex: number; //区块高度
     blocktime: number;  //区块时间戳
@@ -15,14 +15,20 @@ export interface BlockTime
 /**
  * 加价地址类
  */
-export interface AuctionAddress
+export class AuctionAddress
 {
     address: string;            //出价地址
     totalValue: number;         //累计出价金额
     lastTime: BlockTime;        //最后交易的时间
-    accountTime: BlockTime,     //退币的时间
-    getdomainTime: BlockTime,   //获得域名的时间
-    addpricelist: BlockTime     //加价类列表
+    accountTime: BlockTime;     //退币的时间
+    getdomainTime: BlockTime;   //获得域名的时间
+    addpricelist: BlockTime;     //加价类列表
+
+    constructor(addres: string, totalValue: number)
+    {
+        this.address = addres;
+        this.totalValue = totalValue;
+    }
 }
 
 /**
@@ -44,6 +50,7 @@ export interface Auction
     endAddress: string;             //结束地址 (五天后自动结束则为空)
     lastTime: BlockTime;            //最后出价时间
     addwholist: AuctionAddress[];   //加价地址类列表
+    addWho: AuctionAddress;
 }
 
 /**
@@ -70,17 +77,38 @@ export class AuctionView
     state: AuctionState;
     maxPrice: number;               //最大竞标出价
     maxBuyer: string;               //最大出价者
-    startTime: string;
+    startTimeStr: string;
     btnState: auctionBtnState;
+    addwho: AuctionAddress;
+    startTime: BlockTime;
+    lastTime: BlockTime;
+    endTime: BlockTime;
     //传入Auction初始化域名显示对象
     constructor(auction: Auction)
     {
-        let addwho = auction.addwholist[ 0 ];
+        let currentAddress = LoginInfo.getCurrentAddress();
+        if (!auction.addwholist)
+        {
+            this.addwho = new AuctionAddress(currentAddress, 0);
+        } else
+        {
+            for (let index = 0; index < auction.addwholist.length; index++)
+            {
+                const addrwho = auction.addwholist[ index ];
+                if (addrwho.address == currentAddress)
+                {
+                    this.addwho = addrwho;
+                }
+            }
+        }
         this.id = auction.auctionId;
         this.domain = auction.fulldomain;
         this.maxBuyer = auction.maxBuyer;
         this.maxPrice = auction.maxPrice;
-        this.startTime = tools.timetool.getTime(auction.startTime.blocktime);
+        this.startTime = auction.startTime;
+        this.endTime = auction.endTime;
+        this.lastTime = auction.lastTime;
+        this.startTimeStr = tools.timetool.getTime(auction.startTime.blocktime);
         this.state = auction.auctionState;
         if (this.state == AuctionState.open)
         {
@@ -92,12 +120,12 @@ export class AuctionView
         }
         if (this.state == AuctionState.end)
         {
-            if (auction.maxBuyer == addwho.address)
+            if (auction.maxBuyer == this.addwho.address)
             {
-                this.btnState = addwho.getdomainTime ? auctionBtnState.receivedname : auctionBtnState.getdomain;
+                this.btnState = this.addwho.getdomainTime ? auctionBtnState.receivedname : auctionBtnState.getdomain;
             } else
             {
-                this.btnState = addwho.accountTime ? auctionBtnState.receivedsgas : auctionBtnState.recoversgas;
+                this.btnState = this.addwho.accountTime ? auctionBtnState.receivedsgas : auctionBtnState.recoversgas;
             }
         } else
         {
@@ -108,14 +136,11 @@ export class AuctionView
 
 export class AuctionInfoView extends AuctionView
 {
-    totalValue: number;
     process: Process;
     constructor(auction: Auction)
     {
         super(auction);
-        let addwho = auction.addwholist[ 0 ];
-        this.totalValue = addwho.totalValue;
-        this.process = services.auctionInfo.getProcess(auction);
+        this.process = services.auctionInfo.getProcess(this);
     }
 }
 export enum auctionBtnState
@@ -140,9 +165,10 @@ export class Process
     constructor(start: number | string)
     {
         this.timearr = [];
-        this.startTime = typeof start == "string" ? new Date(start as string).getTime() : start as number;
-        this.date = tools.timetool.dateFtt("yyyy/MM/dd", new Date(this.startTime));
-        this.time = tools.timetool.dateFtt("hh:mm:ss", new Date(this.startTime));
+        this.startTime = typeof start == "string" ? tools.timetool.currentTime(start) : start as number;
+        let startdate = tools.timetool.getDate(this.startTime);
+        this.date = tools.timetool.dateFtt("yyyy/MM/dd", startdate);
+        this.time = tools.timetool.dateFtt("hh:mm:ss", startdate);
         this.width = 0;
         for (let i = 1; i <= 5; i++)
         {
@@ -161,10 +187,10 @@ export class Process
                 default:
                     break;
             }
-            let time = this.startTime + 300000 * i;
+            let time = this.startTime + 300 * i;
 
-            let date = tools.timetool.dateFtt("yyyy/MM/dd", new Date(time));
-            let times = tools.timetool.dateFtt("hh:mm:ss", new Date(time));
+            let date = tools.timetool.dateFtt("yyyy/MM/dd", tools.timetool.getDate(time));
+            let times = tools.timetool.dateFtt("hh:mm:ss", tools.timetool.getDate(time));
             element.date = date;
             element.time = times;
             this.timearr.push(element);

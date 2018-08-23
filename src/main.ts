@@ -42,6 +42,8 @@ Neo.Cryptography.RandomNumberGenerator.startCollectors();
 //初始化根域名
 tools.nnstool.initRootDomain("neo");
 tools.nnstool.initRootDomain("test");
+console.log(tools.nnstool.root_neo.register.toString());
+
 
 setInterval(() =>
 {

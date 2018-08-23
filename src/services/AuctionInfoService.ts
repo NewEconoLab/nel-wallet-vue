@@ -1,5 +1,6 @@
 import { store } from "../store/index";
-import { Process, Auction, AuctionState, AuctionInfoView } from "../entity/AuctionEntitys";
+import { Process, Auction, AuctionState, AuctionInfoView, AuctionView } from "../entity/AuctionEntitys";
+import { tools } from "../tools/importpack";
 export class AuctionInfoService
 {
     static auctionId: string;
@@ -18,34 +19,35 @@ export class AuctionInfoService
      * 时间轴
      * @param auction 竞拍类
      */
-    static getProcess(auction: Auction)
+    static getProcess(auction: AuctionInfoView)
     {
-        let addWho = auction.addwholist[ 0 ];
         let process = new Process(auction.startTime.blocktime);
-        let currenttime = !auction.endTime ? new Date().getTime() : auction.endTime.blocktime;
+        let currenttime = !!auction.endTime && !!auction.endTime.blocktime ? auction.endTime.blocktime : tools.timetool.currentTime();
         let oldtime = accSub(currenttime, auction.startTime.blocktime);
         let a: number = 0;
-        if (auction.auctionState == AuctionState.fixed || auction.auctionState == AuctionState.open)
+        if (auction.state == AuctionState.fixed)
         {
             process.state = AuctionState.fixed;
-            a = accDiv(oldtime, 5 * 3 * 60 * 1000);
+            a = accDiv(oldtime, 3 * 5 * 60);
             process.timearr.length = 3;
         }
-        else if (auction.auctionState == AuctionState.random)
+        else if (auction.state == AuctionState.random)
         {
             process.state = AuctionState.random;
-            a = accDiv(oldtime, 5 * 5 * 60 * 1000);
+            a = accDiv(oldtime, 5 * 5 * 60);
             process.timearr.length = 5;
         } else
         {
             process.state = AuctionState.end;
-            let subtime = accSub(addWho.lastTime.blocktime, auction.startTime.blocktime);
-            if (subtime < 5 * 2 * 60 * 1000)  //判断第三天有无出价
+            let subtime = accSub(auction.addwho.lastTime.blocktime, auction.startTime.blocktime);
+            if (subtime < 2 * 5 * 60)  //判断第三天有无出价
             {
-                a = accDiv(oldtime, 3 * 5 * 60 * 1000);
+                a = accDiv(oldtime, 3 * 5 * 60);
+                process.timearr.length = 3;
             } else
             {
-                a = accDiv(oldtime, 5 * 5 * 60 * 1000);
+                a = accDiv(oldtime, 5 * 5 * 60);
+                process.timearr.length = 5;
             }
         }
         let width = a >= 1 ? 100 : accMul(a, 100);

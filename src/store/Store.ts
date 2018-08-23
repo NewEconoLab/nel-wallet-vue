@@ -1,7 +1,7 @@
 export interface StoreInterface
 {
     tablename: string;
-    setSotre(data): void;
+    setSotre(...param: any[]): void;
     getSotre(): any;
     queryStore(...param: any[]): any;
 }

@@ -9,6 +9,7 @@ export class AuctionService
 {
     //竞拍列表
     static auctionList: Auction[];
+    static auctionViewList: AuctionView[];
     static auctionStore = new store.auction();
 
     /**
@@ -20,15 +21,16 @@ export class AuctionService
      */
     static async getMyAuctionList(address: string, currentPage: number, pageSize: number): Promise<AuctionView[]>
     {
-        let viewlist: AuctionView[] = [];
+        this.auctionViewList = [];
         let auctions = await this.getAuctionList(address, currentPage, pageSize);
+        auctions = !auctions ? [] : auctions;
         for (let index = 0; index < auctions.length; index++)
         {
             const auction = auctions[ index ];
             let view = new AuctionView(auction);
-            viewlist.push(view);
+            this.auctionViewList.push(view);
         }
-        return viewlist;
+        return this.auctionViewList;
     }
 
     /**
@@ -41,15 +43,21 @@ export class AuctionService
     {
         try
         {
+            let list: Auction[] = this.auctionStore.getSotre();
+            if (list && list.length > 0)
+            {
+                return list;
+            }
             //从列表种拉取数据
             let result = await tools.wwwtool.getauctioninfobyaddress(address, currentPage, pageSize);
             if (result)
             {
-                this.auctionList = result[ 0 ].list as Auction[];
+                let auctionList = result[ 0 ].list as Auction[];
                 //对比信息并保存至缓存
-                this.auctionStore.setSotre(this.auctionList);
+                this.auctionStore.setSotre(auctionList, address);
                 //获得处理后的缓存数据
-                this.auctionList = this.auctionStore.getSotre() as Auction[];
+                auctionList = this.auctionStore.getSotre() as Auction[];
+                console.log(auctionList);
                 return this.auctionList;
             } else
             {
@@ -67,21 +75,21 @@ export class AuctionService
      */
     static async updateAuctionList(address: string)
     {
+        let auctionList = this.auctionStore.getSotre();
         let ids: string[] = [];
         //获得所有需要更新的域名竞拍id
-        for (let index = 0; index < this.auctionList.length; index++)
+        for (let index = 0; index < auctionList.length; index++)
         {
-            const auction = this.auctionList[ index ];
-            if (auction.auctionState != AuctionState.end)
+            const auction = auctionList[ index ];
+            if (auction.auctionState == AuctionState.end && auction.addWho)
             {
-                let addrWho = auction.addwholist[ 0 ];
-                if (auction.maxBuyer == addrWho.address)    //未领取的域名需要更新
+                if (auction.maxBuyer == auction.addWho.address)    //未领取的域名需要更新
                 {
-                    if (!addrWho.getdomainTime)
+                    if (!auction.addWho.getdomainTime)
                         ids.push(auction.auctionId);
                 } else                                      //未退币的域名需要更新
                 {
-                    if (!addrWho.accountTime)
+                    if (!auction.addWho.accountTime)
                         ids.push(auction.auctionId);
                 }
             } else                                          //未结束的域名都需要更新
@@ -93,7 +101,7 @@ export class AuctionService
         if (result)
         {
             let list = result[ 0 ].list as Auction[];
-            this.auctionStore.setSotre(list);
+            this.auctionStore.setSotre(list, address);
             this.auctionList = this.auctionStore.getSotre();
         }
     }

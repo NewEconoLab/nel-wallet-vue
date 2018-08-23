@@ -1,19 +1,34 @@
 import { StoreInterface } from "./Store";
-import { Auction } from "entity/AuctionEntitys";
+import { Auction, AuctionState } from "../entity/AuctionEntitys";
 import { sessionStoreTool } from "../tools/storagetool";
 
 export class AuctionStore implements StoreInterface
 {
     tablename: string = "AUCTION_LIST";
     session: sessionStoreTool = new sessionStoreTool(this.tablename);
-    setSotre(data: Auction[]): void
+    setSotre(data: Auction[], address: string): void
     {
         let list = this.session.getList();
         list = list ? list : {};
         for (let index = 0; index < data.length; index++)
         {
             const auction = data[ index ];
-            list[ auction.fulldomain ] = auction;
+            if (auction.auctionState != AuctionState.pass)
+            {
+                if (auction.addwholist)
+                {
+                    for (let i = 0; i < auction.addwholist.length; i++)
+                    {
+                        let who = auction.addwholist[ i ];
+                        if (who.address == address)
+                        {
+                            auction.addWho = who;
+                        }
+                    }
+
+                }
+                list[ auction.auctionId ] = auction;
+            }
         }
         this.session.setList(list);
     }

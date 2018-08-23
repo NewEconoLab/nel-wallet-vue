@@ -36,10 +36,13 @@ export default class AuctionInfo extends Vue
         super();
         let auctionMsg = new tools.sessionstoretool("auctionPage");
         let id = auctionMsg.select("id");
+        if (id)
+        {
+            this.auctionId = id;
+            services.auctionInfo.auctionId = id;
+            this.auctionInfo = services.auctionInfo.getAuctionInfo();
+        }
         this.address = LoginInfo.getCurrentAddress();
-        this.auctionId = id;
-        services.auctionInfo.auctionId = id;
-        this.auctionInfo = services.auctionInfo.getAuctionInfo();
         this.myBidPrice = "";
         this.updatePrice = "0";
         this.inputErrorCode = 0;
@@ -53,69 +56,31 @@ export default class AuctionInfo extends Vue
         this.isReceived = false;
         this.isGetDomainWait = false;
         this.isRecoverWait = false;
-
+        this.init()
     }
 
     async mounted()
     {
-        if (this.auctionInfo.btnState != auctionBtnState.receivedname
-            &&
-            this.auctionInfo.btnState != auctionBtnState.receivedsgas)
-        {
-            TaskManager.functionList = [];
-            TaskManager.functionList.push(this.init);
-        }
-        TaskFunction.auctionStateUpdate = this.init;
+        // if (this.auctionInfo.btnState != auctionBtnState.receivedname
+        //     &&
+        //     this.auctionInfo.btnState != auctionBtnState.receivedsgas)
+        // {
+        //     TaskManager.functionList = [];
+        //     TaskManager.functionList.push(this.init);
+        // }
+        // TaskFunction.auctionStateUpdate = this.init;
     }
 
     async init()
     {
-        this.balanceOf = this.auctionInfo.totalValue + "";
-        this.fee = accMul(this.auctionInfo.totalValue, 0.10);
-        this.remaining = accSub(this.auctionInfo.totalValue, this.fee);
+        this.balanceOf = await tools.nnssell.getBalanceOf();
+        this.fee = accMul(this.auctionInfo.addwho.totalValue, 0.10);
+        this.remaining = accSub(this.auctionInfo.addwho.totalValue, this.fee);
         let waitstate = Store.auctionInfo.select(this.auctionInfo.domain);
         this.isGetDomainWait = !!waitstate && !!waitstate[ "isGetDomainWait" ];
         this.isRecoverWait = !!waitstate && !!waitstate[ "isRecoverWait" ];
 
     }
-
-    /**
-     * 初始化时间轴
-    initProcess()
-    {
-        this.process = new Process(this.domainAuctionInfo.startAuctionTime);
-        let currenttime = this.domainAuctionInfo.endTime > 0 ? this.domainAuctionInfo.endTime : new Date().getTime();
-        let oldtime = accSub(currenttime, this.domainAuctionInfo.startAuctionTime);
-        let a: number = 0;
-        switch (this.domainAuctionInfo.domainstate)
-        {
-            case DomainState.end1:  //第五天结束或者随机期结束
-                this.process.
-                 = "" + this.$t('auction.ended');
-                a = accDiv(oldtime, 5 * 5 * 60 * 1000);
-                break;
-            case DomainState.end2:  //第三天结束
-                this.process.state = "" + this.$t('auction.ended');
-                a = accDiv(oldtime, 5 * 3 * 60 * 1000);
-                this.process.timearr.length = 3;
-                break;
-            case DomainState.fixed:
-                this.process.state = "" + this.$t('auction.fixedperiod');
-                a = accDiv(oldtime, 5 * 3 * 60 * 1000);
-                this.process.timearr.length = 3;
-                break;
-            case DomainState.random:
-                this.process.state = "" + this.$t('auction.randomperiod');
-                a = accDiv(oldtime, 5 * 5 * 60 * 1000);
-                this.process.timearr.length = 5;
-                break;
-            default:
-                break;
-        }
-        let width = a >= 1 ? 100 : accMul(a, 100);
-        this.width = parseInt(width.toString());
-    }
-     */
 
     /**
      * 初始化竞拍域名的详情状态信息
@@ -163,7 +128,7 @@ export default class AuctionInfo extends Vue
      */
     myBidInput()
     {
-        let mybidprice = !!this.auctionInfo.totalValue ? this.auctionInfo.totalValue : 0;
+        let mybidprice = !!this.auctionInfo.addwho.totalValue ? this.auctionInfo.addwho.totalValue : 0;
         if (!!this.bidPrice)
         {
             if (/\./.test(this.bidPrice))

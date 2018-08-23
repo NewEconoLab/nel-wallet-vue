@@ -68,7 +68,7 @@
                     <div class="msg-status">
                         {{$t('auction.status')}}: 
                         <span v-if="item.state=='0001'" class="status-random">{{$t('auction.waiting')}}</span>
-                        <span v-if="item.state=='0101'" class="status-being">{{$t('auction.fixedperiod')}}</span>
+                        <span v-if="item.state=='0201'" class="status-being">{{$t('auction.fixedperiod')}}</span>
                         <span v-if="item.state=='0301'" class="status-random">{{$t('auction.randomperiod')}}</span>
                         <span v-if="item.state=='0401'" class="status-ended">{{$t('auction.ended')}}</span>
                         <v-hint>
@@ -92,7 +92,7 @@
                         {{item.state!='0401'?$t('auction.currentbidder'):$t('auction.buyer') }}: <span class="bidder-me">{{$t('auction.me')}} （ {{address}} ）</span>
                     </div>
                     <div class="msg-time">
-                        {{$t('auction.bidstarttimemsg')}}: <span>{{item.startTime}}</span>
+                        {{$t('auction.bidstarttimemsg')}}: <span>{{item.startTimeStr}}</span>
                     </div>
                     <div v-if="item.bidListSession" v-for="(value,key) in item.bidListSession" :key="key">
                       {{value}}
@@ -158,7 +158,7 @@
             </div>
         </div>
         <!-- 竞拍域名详情页 -->
-        <auction-info v-if="auctionPage" @onBack="onBack" :item="domainInfo"></auction-info>
+        <auction-info v-if="auctionPage" @onBack="onBack"></auction-info>
         <!-- 域名开标弹窗 -->
         <div class="auction-wrap" v-if="auctionShow">
           <div class="auction-box">
