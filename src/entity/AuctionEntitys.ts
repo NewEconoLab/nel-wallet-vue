@@ -34,7 +34,7 @@ export class AuctionAddress
 /**
  * 竞拍类
  */
-export interface Auction
+export class Auction
 {
     auctionId: string;              //竞拍会id
     domain: string;                 //二级域名 string
@@ -51,6 +51,11 @@ export interface Auction
     lastTime: BlockTime;            //最后出价时间
     addwholist: AuctionAddress[];   //加价地址类列表
     addWho: AuctionAddress;
+
+    constructor()
+    {
+
+    }
 }
 
 /**
@@ -134,6 +139,9 @@ export class AuctionView
     }
 }
 
+/**
+ * 加价详情显示类
+ */
 export class AuctionInfoView extends AuctionView
 {
     process: Process;
@@ -143,14 +151,20 @@ export class AuctionInfoView extends AuctionView
         this.process = services.auctionInfo.getProcess(this);
     }
 }
+/**
+ * 按钮状态 状态 ENUM
+ */
 export enum auctionBtnState
 {
     bid, getdomain, recoversgas, receivedsgas, receivedname
 }
 
-
+/**
+ * 时间轴类
+ */
 export class Process
 {
+
     timearr: Array<{
         msg: string;
         date: string;

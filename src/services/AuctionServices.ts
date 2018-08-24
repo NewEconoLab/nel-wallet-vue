@@ -1,6 +1,7 @@
-import { Auction, AuctionState, AuctionView, AuctionInfoView } from "../entity/AuctionEntitys";
+import { Auction, AuctionState, AuctionView, AuctionInfoView, AuctionAddress } from "../entity/AuctionEntitys";
 import { tools } from "../tools/importpack";
 import { store } from "../store/index";
+import { LoginInfo } from "../tools/entity";
 
 /**
 * 竞拍方法类
@@ -115,5 +116,46 @@ export class AuctionService
         let auction = this.auctionStore.queryStore(id);
         let view = new AuctionInfoView(auction);
         return view;
+    }
+
+    /**
+     * 开标方法类
+     * @param domain 
+     * @param amount 
+     */
+    static async auctionRaise(domain: string, amount: number)
+    {
+        try
+        {
+            //加价
+            let result = await tools.nnssell.raise(domain, amount);
+            if (!result.err)
+            {
+                let txid = result.info;
+                let auction = new Auction()
+                auction.auctionId = txid;
+                //根据标地id查询域名状态
+                let res = await tools.wwwtool.getauctioninfobyaucitonid(LoginInfo.getCurrentAddress(), [ txid ]);
+                if (res)
+                {
+                    let auctionstate = res[ 0 ].list[ 0 ] as Auction;
+                }
+            }
+        } catch (error)
+        {
+
+        }
+    }
+
+    /**
+     * 竞拍缓存添加方法
+     * @param auction 竞拍方法
+     */
+    static pushAuctionToSession(auction: Auction)
+    {
+        let address = LoginInfo.getCurrentAddress();
+        let sessionlist = this.auctionStore.getSotre();
+        sessionlist.push(auction);
+        this.auctionStore.setSotre(sessionlist, address)
     }
 }
