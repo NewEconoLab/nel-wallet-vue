@@ -212,7 +212,7 @@ export default class AuctionInfo extends Vue
         this.openToast = this.$refs.toast[ "isShow" ];
         try
         {
-            let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
+            let count = parseFloat(this.bidPrice)
             let res = await services.auction.auctionRaise(this.auctionInfo.id, this.auctionInfo.domain, count);
             if (!res.err)
                 this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);

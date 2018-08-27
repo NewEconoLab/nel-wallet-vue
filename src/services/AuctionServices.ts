@@ -130,13 +130,8 @@ export class AuctionService
         let auction = new Auction();
         if (info.id)
         {
-            let address = LoginInfo.getCurrentAddress();
-            let result = await tools.wwwtool.getauctioninfobyaucitonid("", [ info.id.toString() ]);
-            if (result && result[ 0 ])
-            {
-                let list = result[ 0 ].list as Auction[];
-                auction.parse(list[ 0 ], address);
-            }
+            auction = await tools.nnssell.getAuctionByStateInfo(info);
+            return auction;
         }
         return auction;
 

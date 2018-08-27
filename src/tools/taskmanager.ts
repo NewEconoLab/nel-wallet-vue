@@ -494,7 +494,7 @@ export class TaskManager
             } else
             {
                 let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("setResolveData")) //如果返回的通知有 setResolveData则域名映射设置成功
+                if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) //如果返回的通知有 setResolveData则域名映射设置成功
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainMapping)

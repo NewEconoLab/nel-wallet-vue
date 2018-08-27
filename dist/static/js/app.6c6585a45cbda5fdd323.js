@@ -4919,7 +4919,7 @@ var TaskManager = /** @class */ (function () {
                             }
                             else {
                                 var result = ress[task.txid]; //获取通知数组
-                                if (result && result.displayNameList && result.displayNameList.includes("setResolveData")) {
+                                if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.domainMapping)
                                         entity_1.TaskFunction.domainMapping(task.message['domain'], task.message['address']);
@@ -6115,7 +6115,7 @@ var AuctionService = /** @class */ (function () {
      */
     AuctionService.queryAuctionByDomain = function (subname, rootname) {
         return __awaiter(this, void 0, void 0, function () {
-            var info, auction, address, result, list;
+            var info, auction;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.nnssell.getSellingStateByDomain([subname, rootname].join("."))];
@@ -6123,15 +6123,10 @@ var AuctionService = /** @class */ (function () {
                         info = _a.sent();
                         auction = new AuctionEntitys_1.Auction();
                         if (!info.id) return [3 /*break*/, 3];
-                        address = entity_1.LoginInfo.getCurrentAddress();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaucitonid("", [info.id.toString()])];
+                        return [4 /*yield*/, importpack_1.tools.nnssell.getAuctionByStateInfo(info)];
                     case 2:
-                        result = _a.sent();
-                        if (result && result[0]) {
-                            list = result[0].list;
-                            auction.parse(list[0], address);
-                        }
-                        _a.label = 3;
+                        auction = _a.sent();
+                        return [2 /*return*/, auction];
                     case 3: return [2 /*return*/, auction];
                 }
             });
@@ -7447,12 +7442,13 @@ var NNSSell = /** @class */ (function () {
      */
     NNSSell.raise = function (id, amount) {
         return __awaiter(this, void 0, void 0, function () {
-            var who, data, res;
+            var who, count, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress()).buffer);
-                        data = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "raise", ["(hex160)" + who.toString(), "(hex256)" + id, "(int)" + amount]);
+                        count = Neo.Fixed8.parse(amount.toString()).getData().toNumber();
+                        data = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "raise", ["(hex160)" + who.toString(), "(hex256)" + id, "(int)" + count]);
                         return [4 /*yield*/, importpack_1.tools.contract.contractInvokeTrans_attributes(data)];
                     case 1:
                         res = _a.sent();
@@ -7461,12 +7457,57 @@ var NNSSell = /** @class */ (function () {
             });
         });
     };
+    /**
+     *
+     * @param info 域名状态信息
+     */
     NNSSell.getAuctionByStateInfo = function (info) {
         return __awaiter(this, void 0, void 0, function () {
-            var auction;
+            var auction, startTime, currentTime, dtime, lastTime, dlast;
             return __generator(this, function (_a) {
-                auction = new AuctionEntitys_1.Auction();
-                return [2 /*return*/, auction];
+                switch (_a.label) {
+                    case 0:
+                        auction = new AuctionEntitys_1.Auction();
+                        auction.auctionId = info.id.toString();
+                        auction.fulldomain = info.domain;
+                        auction.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+                        auction.maxPrice = !info.maxPrice ? 0 : accDiv(info.maxPrice.toString(), 100000000);
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
+                    case 1:
+                        startTime = _a.sent();
+                        currentTime = new Date().getTime();
+                        dtime = currentTime - startTime * 1000;
+                        if (!(dtime > 109500000)) return [3 /*break*/, 2];
+                        auction.auctionState = AuctionEntitys_1.AuctionState.expire;
+                        return [3 /*break*/, 5];
+                    case 2:
+                        if (!(dtime > 900000)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()))];
+                    case 3:
+                        lastTime = _a.sent();
+                        dlast = lastTime - startTime;
+                        //最大金额为0，无人加价，流拍数据，或者域名到期，都可以重新开标
+                        if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0) {
+                            auction.auctionState = AuctionEntitys_1.AuctionState.pass;
+                        }
+                        else if (dlast < 600) {
+                            auction.auctionState = AuctionEntitys_1.AuctionState.end;
+                        }
+                        else if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0) {
+                            auction.auctionState = AuctionEntitys_1.AuctionState.end;
+                        }
+                        else if (dtime < 1500000) {
+                            auction.auctionState = AuctionEntitys_1.AuctionState.random;
+                        }
+                        else {
+                            auction.auctionState = AuctionEntitys_1.AuctionState.end;
+                        }
+                        return [3 /*break*/, 5];
+                    case 4:
+                        auction.auctionState = AuctionEntitys_1.AuctionState.fixed;
+                        _a.label = 5;
+                    case 5: return [2 /*return*/, auction];
+                }
             });
         });
     };

@@ -1,6 +1,6 @@
 import { tools } from "./importpack";
 import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts, DomainState, MyAuction } from "./entity";
-import { Auction } from "../entity/AuctionEntitys";
+import { Auction, AuctionState } from "../entity/AuctionEntitys";
 export default class NNSSell
 {
     constructor() { }
@@ -218,20 +218,72 @@ export default class NNSSell
                 LoginInfo.getCurrentAddress()
                 ).buffer
         );
-
+        let count = Neo.Fixed8.parse(amount.toString()).getData().toNumber()
         let data = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
             "raise",
-            [ "(hex160)" + who.toString(), "(hex256)" + id, "(int)" + amount ]
+            [ "(hex160)" + who.toString(), "(hex256)" + id, "(int)" + count ]
         );
         let res = await tools.contract.contractInvokeTrans_attributes(data);
         return res;
     }
 
+    /**
+     * 
+     * @param info 域名状态信息
+     */
     static async getAuctionByStateInfo(info: SellDomainInfo): Promise<Auction>
     {
         let auction = new Auction();
+        auction.auctionId = info.id.toString();
+        auction.fulldomain = info.domain;
+        auction.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
+        auction.maxPrice = !info.maxPrice ? 0 : accDiv(info.maxPrice.toString(), 100000000);
 
+        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
+        //根据开标的区块高度获得开标的时间
+        let currentTime = new Date().getTime();
+        let dtime = currentTime - startTime * 1000; //时间差值;
+        //如果超过到期时间
+        if (dtime > 109500000)
+            auction.auctionState = AuctionState.expire;
+        else if (dtime > 900000)
+        {
+
+            //获得最后一次出价时间和开始时间的时间戳
+            let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
+            let dlast = lastTime - startTime;
+
+            //最大金额为0，无人加价，流拍数据，或者域名到期，都可以重新开标
+            if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0)  
+            {
+                auction.auctionState = AuctionState.pass;
+            }
+            //先判断最后出价时间是否大于第三天
+            else if (dlast < 600)
+            {
+                auction.auctionState = AuctionState.end;
+            }
+            //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
+            else if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
+            {
+                auction.auctionState = AuctionState.end;
+            }
+            //如果不超过五天则是随机器
+            else if (dtime < 1500000)
+            {
+                auction.auctionState = AuctionState.random;
+            }
+            //超过五天则是结束 
+            else
+            {
+                auction.auctionState = AuctionState.end;
+            }
+        }
+        else
+        {
+            auction.auctionState = AuctionState.fixed;
+        }
         return auction;
     }
 
