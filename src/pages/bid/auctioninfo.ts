@@ -61,14 +61,6 @@ export default class AuctionInfo extends Vue
 
     async mounted()
     {
-        // if (this.auctionInfo.btnState != auctionBtnState.receivedname
-        //     &&
-        //     this.auctionInfo.btnState != auctionBtnState.receivedsgas)
-        // {
-        //     TaskManager.functionList = [];
-        //     TaskManager.functionList.push(this.init);
-        // }
-        // TaskFunction.auctionStateUpdate = this.init;
     }
 
     async init()
@@ -81,47 +73,6 @@ export default class AuctionInfo extends Vue
         this.isRecoverWait = !!waitstate && !!waitstate[ "isRecoverWait" ];
 
     }
-
-    /**
-     * 初始化竞拍域名的详情状态信息
-    async initAuctionInfo(domain: string)
-    {
-        let info = await tools.nnssell.getSellingStateByDomain(domain);
-        //获取状态
-        let myauction = await tools.nnssell.getMyAuctionState(info);
-        this.domainAuctionInfo = myauction;
-        let balance = await tools.nnssell.getBalanceOfBid(info.id);
-        this.domainAuctionInfo.balanceOfSelling = accDiv(balance.toString(), 100000000).toString();
-        this.myBidPrice = this.domainAuctionInfo.balanceOfSelling;
-
-        //判断竞拍是否结束
-        if (this.domainAuctionInfo.auctionState == "0")
-        {
-            try
-            {
-                let stateMsg = await tools.wwwtool.getDomainState(this.address, "0x" + this.domainAuctionInfo.id);
-                this.myBidPrice = stateMsg[ "mybidprice" ];
-            } catch (error)
-            {
-                this.myBidPrice = "0";
-            }
-
-            //判断在该域名下的竞拍金额是否大于零
-            let compare = balance.compareTo(Neo.BigInteger.Zero);
-            this.domainAuctionInfo.receivedState = compare < 0 ? 0 : 1;
-            if (compare == 0)
-            {
-                this.isReceived = true;
-            } else
-            {
-                this.isReceived = false;
-            }
-        }
-
-        let mybidprice = !!this.myBidPrice && this.myBidPrice != '' ? this.myBidPrice : 0;
-        this.updatePrice = mybidprice.toString();
-    }
-     */
 
     /**
      * 加价验证
@@ -178,7 +129,7 @@ export default class AuctionInfo extends Vue
             this.isGetDomainWait = true;
             Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
             TaskManager.addTask(
-                new Task(height, ConfirmType.recharge, txid, { domain: this.auctionInfo.domain }),
+                new Task(ConfirmType.recharge, txid, { domain: this.auctionInfo.domain }),
                 TaskType.getDomain
             )
         } else
@@ -199,7 +150,7 @@ export default class AuctionInfo extends Vue
                 let txid = res[ "txid" ];
                 Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
                 TaskManager.addTask(
-                    new Task(height, ConfirmType.contract, txid, { domain: this.auctionInfo.domain }),
+                    new Task(ConfirmType.contract, txid, { domain: this.auctionInfo.domain }),
                     TaskType.getDomain
                 )
             }
@@ -252,39 +203,6 @@ export default class AuctionInfo extends Vue
         }
     }
 
-    /**
-     * 时间轴列表
-     * @param domain 域名
-     * @param currentpage 当前页数
-     * @param pagesize 分页条数
-    async getBidDetail(id, currentpage, pagesize)
-    {
-        let res = await tools.wwwtool.api_getBidDetail(id, currentpage, pagesize);
-        if (res)
-        {
-            if (res[ 0 ].count < pagesize)
-            {
-                this.btnShowmore = false;
-            } else
-            {
-                this.btnShowmore = true;
-            }
-            if (res[ 0 ].list.length < pagesize)
-            {
-                this.btnShowmore = false;
-            } else
-            {
-                this.btnShowmore = true;
-            }
-            for (let i in res[ 0 ].list)
-            {
-                res[ 0 ].list[ i ].addPriceTime = tools.timetool.getTime(res[ 0 ].list[ i ].addPriceTime);
-                this.bidDetailList.push(res[ 0 ].list[ i ]);
-            }
-
-        }
-    }
-     */
 
     /**
      * 
@@ -295,21 +213,12 @@ export default class AuctionInfo extends Vue
         try
         {
             let count = Neo.Fixed8.parse(this.bidPrice).getData().toNumber();
-            let res = await tools.nnssell.raise(this.auctionInfo.domain, count);
+            let res = await services.auction.auctionRaise(this.auctionInfo.id, this.auctionInfo.domain, count);
             if (!res.err)
                 this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
-            let txid = res.info;
-            let amount = this.bidPrice;
-            // NeoaucionData.setBidSession(this.auctionInfo, this.bidPrice, txid);
-            let height = Store.blockheight.select('height');
-            let task = new Task(
-                height, ConfirmType.contract, res.info, { domain: this.auctionInfo.domain, amount }
-            )
-            tools.taskManager.addTask(task, TaskType.addPrice);
             this.bidPrice = "";
             this.bidState = 2;
-
-            await this.getSessionBidDetail(this.auctionInfo.domain);
+            // await this.getSessionBidDetail(this.auctionInfo.domain);
         } catch (error)
         {
             console.log(error);
@@ -332,7 +241,7 @@ export default class AuctionInfo extends Vue
                 this.isRecoverWait = true;
                 let txid = res[ "txid" ];
                 TaskManager.addTask(
-                    new Task(height, ConfirmType.tranfer, txid, { domain: this.auctionInfo.domain, amount: this.myBidPrice }),
+                    new Task(ConfirmType.tranfer, txid, { domain: this.auctionInfo.domain, amount: this.myBidPrice }),
                     TaskType.recoverSgas
                 );
                 Store.auctionInfo.put(this.auctionInfo.domain, true, "isRecoverWait");

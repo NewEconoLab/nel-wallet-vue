@@ -999,13 +999,13 @@ export class Task
     state: TaskState;
     startTime: number;
     constructor(
-        height: number,
         type: ConfirmType,
         txid: string,
         messgae?
     )
     {
-        this.height = height;
+        let oldBlock = new tools.sessionstoretool("block");
+        this.height = oldBlock.select('height');
         this.type = type;
         this.confirm = 0;
         this.txid = txid;

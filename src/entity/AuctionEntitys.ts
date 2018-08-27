@@ -1,4 +1,4 @@
-import { DomainState, LoginInfo } from "../tools/entity";
+import { DomainState, LoginInfo, SellDomainInfo } from "../tools/entity";
 import { tools } from "../tools/importpack";
 import { services } from "../services/index";
 
@@ -54,6 +54,43 @@ export class Auction
 
     constructor()
     {
+    }
+    parse(json: any, address)
+    {
+        if (typeof json == 'string') { }
+        if (typeof json == 'object')
+        {
+            this.auctionId = json[ "auctionId" ];
+            this.fulldomain = json[ "fulldomain" ];
+            this.domain = json[ "domain" ];
+            this.parenthash = json[ "parenthash" ];
+            this.domainTTL = json[ "domainTTL" ];
+            this.auctionState = json[ "auctionState" ];
+            this.startTime = json[ "startTime" ];
+            this.startAddress = json[ "startAddress" ];
+            this.maxBuyer = json[ "maxBuyer" ];
+            this.maxPrice = json[ "maxPrice" ];
+            this.endTime = json[ "endTime" ];
+            this.endAddress = json[ "endAddress" ];
+            this.lastTime = json[ "lastTime" ];
+            this.addwholist = json[ "addwholist" ];
+            if (this.addwholist)
+            {
+                this.addWho = this.addwholist.find(addWho =>
+                {
+                    return addWho.address == address;
+                })
+            }
+        }
+    }
+
+    formAuctionInfo(auction: SellDomainInfo)
+    {
+        this.auctionId = auction.id.toString();
+        this.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(auction.maxBuyer);
+        this.maxPrice = accDiv(auction.maxPrice.toString(), 10000000);
+        this.fulldomain = auction.domain;
+
 
     }
 }

@@ -164,14 +164,14 @@
           <div class="auction-box">
             <div class="auction-title">{{$t('auction.acutiontitle')}}</div>
             <div class="wrap-msg">
-              <div class="domain-name">{{$t('auction.domain')}}: {{auctionMsg_alert.domain}}</div>
+              <div class="domain-name">{{$t('auction.domain')}}: {{raiseAuction.fulldomain}}</div>
               <div class="auction-status">{{$t('auction.status')}}:                
-                <span v-if="auctionMsg_alert.auctionState=='1'" class="status-being">{{$t('auction.fixedperiod')}}</span>
-                <span v-if="auctionMsg_alert.auctionState=='2'" class="status-random">{{$t('auction.randomperiod')}}</span>
-                <span v-if="auctionMsg_alert.auctionState=='3'" class="status-random">{{$t('auction.waiting')}}</span>
-                <span v-if="auctionMsg_alert.auctionState=='0'" class="status-ended">{{$t('auction.ended')}}</span>
+                <span v-if="raiseAuction.auctionState=='0201'||raiseAuction.auctionState=='0101'" class="status-being">{{$t('auction.fixedperiod')}}</span>
+                <span v-else-if="raiseAuction.auctionState=='0301'" class="status-random">{{$t('auction.randomperiod')}}</span>
+                <span v-else-if="raiseAuction.auctionState=='0001'" class="status-random">{{$t('auction.waiting')}}</span>
+                <span v-else class="status-ended">{{$t('auction.ended')}}</span>
               </div>
-              <div class="auction-price">{{$t('auction.highest')}}: {{auctionMsg_alert.maxPrice}} SGas</div>
+              <div class="auction-price">{{$t('auction.highest')}}: {{raiseAuction.maxPrice}} SGas</div>
             </div>
             <div class="wrap-msg">
               <div class="my-bid">

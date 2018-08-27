@@ -122,7 +122,7 @@ export default class balance extends Vue
       {
         this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
         // this.getGas = 1;
-        let task = new Task(height, ConfirmType.tranfer, "", { amount: 10, address: this.currentAddress });
+        let task = new Task(ConfirmType.tranfer, "", { amount: 10, address: this.currentAddress });
         TaskManager.addTask(task, TaskType.getGasTest);
       }
       else if (res[ 0 ].code == "3002")//余额不足
@@ -208,7 +208,7 @@ export default class balance extends Vue
           this.claimbtn = false;
           this.loadmsg = "" + this.$t("balance.msg1");
           TaskManager.addTask(
-            new Task(height, ConfirmType.tranfer, res.info, { type: "Claim", amount: this.neoasset.neo, assetname: "NEO", toaddress: this.currentAddress }),
+            new Task(ConfirmType.tranfer, res.info, { type: "Claim", amount: this.neoasset.neo, assetname: "NEO", toaddress: this.currentAddress }),
             TaskType.tranfer
           );
           sessionStorage.setItem("claimState", "1");
@@ -232,7 +232,7 @@ export default class balance extends Vue
       let txid = res[ "txid" ];
       let amount = JSON.parse(res[ 'amount' ]);
       TaskManager.addTask(
-        new Task(height, ConfirmType.tranfer, txid, { amount }),
+        new Task(ConfirmType.tranfer, txid, { amount }),
         TaskType.ClaimGas
       );
       sessionStorage.setItem("claimState", "2");

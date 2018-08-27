@@ -8,8 +8,7 @@ export class AuctionInfoService
     {
         if (this.auctionId)
         {
-            let auction_Store = new store.auction();
-            let auction = auction_Store.queryStore(this.auctionId);
+            let auction = store.auction.queryStore(this.auctionId);
             let auctionInfo = new AuctionInfoView(auction);
             return auctionInfo;
         }

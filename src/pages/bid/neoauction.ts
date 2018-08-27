@@ -8,7 +8,7 @@ import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
 import { AuctionService } from "../../services/AuctionServices";
-import { Auction, AuctionView } from "../../entity/AuctionEntitys";
+import { Auction, AuctionView, AuctionState } from "../../entity/AuctionEntitys";
 import { services } from "../../services/index";
 @Component({
     components: {
@@ -37,7 +37,7 @@ export default class NeoAuction extends Vue
     isWithdraw: boolean = false;//是否可提取
     sessionWatting: sessionStoreTool;
     auctionPageSession: sessionStoreTool;
-    refresh: sessionStoreTool;
+    raiseAuction: Auction;   //加价弹框使用的域名信息
     myBalanceOfSelling: string;
     canAdded: boolean;
     checkState: number;
@@ -68,7 +68,6 @@ export default class NeoAuction extends Vue
         this.checkState = 0;
         this.alert_withdraw = new NeoAuction_Withdraw();
         this.alert_TopUp = new NeoAuction_TopUp();
-        this.refresh = new tools.sessionstoretool("refresh_auction");
         this.sessionWatting = new tools.sessionstoretool("session_watting");
         this.auctionPageSession = new tools.sessionstoretool("auctionPage");
         if (this.auctionPageSession.select("show"))
@@ -291,11 +290,7 @@ export default class NeoAuction extends Vue
             this.alert_withdraw.isShow = false;
 
             //任务管理器
-            let oldBlock = new tools.sessionstoretool("block");
-            let height = oldBlock.select('height');
-            let task = new Task(
-                height, ConfirmType.tranfer, res.info, { amount }
-            )
+            let task = new Task(ConfirmType.tranfer, res.info, { amount })
             tools.taskManager.addTask(task, TaskType.withdraw);
 
         }
@@ -315,10 +310,7 @@ export default class NeoAuction extends Vue
             let txid = res[ "txid" ];
             this.sessionWatting.put("topup", true);
             //任务管理器
-            let height = Store.blockheight.select('height');
-            let task = new Task(
-                height, ConfirmType.tranfer, txid, { amount }
-            )
+            let task = new Task(ConfirmType.tranfer, txid, { amount })
             tools.taskManager.addTask(task, TaskType.topup);
 
             this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup3"), 4000);
@@ -378,17 +370,11 @@ export default class NeoAuction extends Vue
      */
     async bidDomain()
     {
-        let res = await tools.nnssell.raise(this.auctionMsg_alert.domain, Neo.Fixed8.parse(this.alert_myBid).getData().toNumber());
+        let res = await services.auction.auctionRaise(this.raiseAuction.auctionId, this.raiseAuction.domain, parseFloat(this.alert_myBid));
         if (!res.err)
         {
             this.openToast("success", "" + this.$t("auction.successbid2"), 3000);
             this.auctionShow = !this.auctionShow;
-            NeoaucionData.setBidSession(this.auctionMsg_alert, this.alert_myBid, res.info);
-            let height = Store.blockheight.select('height');
-            let task = new Task(
-                height, ConfirmType.contract, res.info, { domain: this.auctionMsg_alert.domain, amount: this.alert_myBid }
-            )
-            tools.taskManager.addTask(task, TaskType.addPrice);
             this.alert_myBid = "";
         } else
         {
@@ -410,25 +396,8 @@ export default class NeoAuction extends Vue
             return;
         }
         this.btn_start = 0;
-        let res = await tools.nnssell.openbid(this.domain);
-        let auction = new MyAuction();
-        auction.domain = this.domain + ".neo";
-        auction.startAuctionTime = new Date().getTime();
-        auction.startTimeStr = tools.timetool.getTime(auction.startAuctionTime);
-
-        auction.auctionState = '3';
-        auction.maxPrice = "0";
-        // this.myAuctionList.unshift(auction);
-        NeoaucionData.setOpenSession(auction);
-        // await this.openAuction_confirm(res[ "info" ]);
-        let oldBlock = new tools.sessionstoretool("block");
-        let height = oldBlock.select('height');
-        let task = new Task(
-            height, ConfirmType.contract, res.info, { domain: auction.domain }
-        )
-        tools.taskManager.addTask(task, TaskType.openAuction);
+        let res = await services.auction.startAuction(this.domain, "neo");
         this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
-        this.getBidList(this.address);
         this.btn_start = 1;
         this.domain = "";
         this.checkState = 0;
@@ -456,62 +425,96 @@ export default class NeoAuction extends Vue
         let verify = /^[a-zA-Z0-9]{2,32}$/;
         if (!verify.test(this.domain))
         {
-            this.checkState = 4;
-            this.btn_start = 4;
+            this.checkState = this.btn_start = 4;
             return;
         }
-        let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        let auction: Auction = await services.auction.queryAuctionByDomain(this.domain, "neo");
 
-        // let myauction = await tools.nnssell.getMyAuctionState(info);
-
-        //是否开始域名竞拍 0:未开始竞拍
-        let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
-        if (sellstate == 0)
+        if (!auction.auctionId)
         {
             this.btn_start = 1;
             this.checkState = 1;
             return;
-        }
-        //根据开标的区块高度获得开标的时间
-        let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
-        let currentTime = new Date().getTime();
-        let dtime = currentTime - startTime * 1000; //时间差值;
-        // let state: number = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
-        //如果超过随机期
-        if (dtime > 900000)
-        {   //最大金额为0，无人加价，流拍数据，或者域名到期，都可以重新开标
-            if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000)  
-            {
-                this.checkState = this.btn_start = 1;
-                return;
-            }
-
-            //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
-            if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
-            {
-                this.checkState = this.btn_start = 3;
-                return;
-            }
-
-            if (dtime > 1500000)    //如果大于结束时间则按钮不可点
-            {
-                this.checkState = this.btn_start = 3;
-            } else
-            {
-                let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
-                let dlast = lastTime - startTime;
-                if (dlast < 600)
-                {
-                    this.checkState = this.btn_start = 3;
-                } else
-                {
-                    this.checkState = this.btn_start = 2;
-                }
-            }
         } else
         {
-            this.checkState = this.btn_start = 2
+            this.raiseAuction = auction;
+            switch (auction.auctionState)
+            {
+                case AuctionState.pass:
+
+                    this.checkState = this.btn_start = 1;
+                    break;
+                case AuctionState.expire:
+
+                    this.checkState = this.btn_start = 1;
+                    break;
+                case AuctionState.end:
+
+                    this.checkState = this.btn_start = 3;
+                    break;
+                case AuctionState.random:
+
+                    this.checkState = this.btn_start = 2;
+                    break;
+                case AuctionState.fixed:
+
+                    this.checkState = this.btn_start = 2;
+                    break;
+                case AuctionState.open:
+
+                    this.checkState = this.btn_start = 2;
+                    break;
+
+                default:
+                    break;
+            }
         }
+
+        // //是否开始域名竞拍 0:未开始竞拍
+        // let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
+        // if (sellstate == 0)
+        // {
+        // }
+        // //根据开标的区块高度获得开标的时间
+        // let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
+        // let currentTime = new Date().getTime();
+        // let dtime = currentTime - startTime * 1000; //时间差值;
+        // // let state: number = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
+        // //如果超过随机期
+        // if (dtime > 900000)
+        // {   //最大金额为0，无人加价，流拍数据，或者域名到期，都可以重新开标
+        //     if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000)  
+        //     {
+        //         this.checkState = this.btn_start = 1;
+        //         return;
+        //     }
+
+        //     //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
+        //     if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
+        //     {
+        //         this.checkState = this.btn_start = 3;
+        //         return;
+        //     }
+
+        //     if (dtime > 1500000)    //如果大于结束时间则按钮不可点
+        //     {
+        //         this.checkState = this.btn_start = 3;
+        //     } else
+        //     {
+        //         let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
+        //         let dlast = lastTime - startTime;
+        //         if (dlast < 600)
+        //         {
+        //             this.checkState = this.btn_start = 3;
+        //         } else
+        //         {
+        //             this.checkState = this.btn_start = 2;
+        //         }
+        //     }
+        // } else
+        // {
+        //     this.checkState = this.btn_start = 2
+        // }
 
     }
 

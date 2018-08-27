@@ -1,7 +1,7 @@
 import { Auction, AuctionState, AuctionView, AuctionInfoView, AuctionAddress } from "../entity/AuctionEntitys";
 import { tools } from "../tools/importpack";
 import { store } from "../store/index";
-import { LoginInfo } from "../tools/entity";
+import { LoginInfo, Task, ConfirmType, TaskType, SellDomainInfo, Result } from "../tools/entity";
 
 /**
 * 竞拍方法类
@@ -11,7 +11,6 @@ export class AuctionService
     //竞拍列表
     static auctionList: Auction[];
     static auctionViewList: AuctionView[];
-    static auctionStore = new store.auction();
 
     /**
      * 获得列表数据
@@ -28,8 +27,11 @@ export class AuctionService
         for (let index = 0; index < auctions.length; index++)
         {
             const auction = auctions[ index ];
-            let view = new AuctionView(auction);
-            this.auctionViewList.push(view);
+            if (auction.auctionState != AuctionState.watting)
+            {
+                let view = new AuctionView(auction);
+                this.auctionViewList.push(view);
+            }
         }
         return this.auctionViewList;
     }
@@ -44,7 +46,7 @@ export class AuctionService
     {
         try
         {
-            let list: Auction[] = this.auctionStore.getSotre();
+            let list: Auction[] = store.auction.getSotre();
             if (list && list.length > 0)
             {
                 return list;
@@ -55,10 +57,9 @@ export class AuctionService
             {
                 let auctionList = result[ 0 ].list as Auction[];
                 //对比信息并保存至缓存
-                this.auctionStore.setSotre(auctionList, address);
+                store.auction.setSotre(auctionList, address);
                 //获得处理后的缓存数据
-                auctionList = this.auctionStore.getSotre() as Auction[];
-                console.log(auctionList);
+                auctionList = store.auction.getSotre() as Auction[];
                 return this.auctionList;
             } else
             {
@@ -76,7 +77,7 @@ export class AuctionService
      */
     static async updateAuctionList(address: string)
     {
-        let auctionList = this.auctionStore.getSotre();
+        let auctionList = store.auction.getSotre();
         let ids: string[] = [];
         //获得所有需要更新的域名竞拍id
         for (let index = 0; index < auctionList.length; index++)
@@ -102,8 +103,8 @@ export class AuctionService
         if (result)
         {
             let list = result[ 0 ].list as Auction[];
-            this.auctionStore.setSotre(list, address);
-            this.auctionList = this.auctionStore.getSotre();
+            store.auction.setSotre(list, address);
+            this.auctionList = store.auction.getSotre();
         }
     }
 
@@ -113,9 +114,69 @@ export class AuctionService
      */
     static getAuctionInfoById(id: string)
     {
-        let auction = this.auctionStore.queryStore(id);
+        let auction = store.auction.queryStore(id);
         let view = new AuctionInfoView(auction);
         return view;
+    }
+
+    /**
+     * 根据域名查询竞标信息
+     * @param subname 二级域名
+     * @param rootname 根域名
+     */
+    static async queryAuctionByDomain(subname: string, rootname): Promise<Auction>
+    {
+        let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain([ subname, rootname ].join("."));
+        let auction = new Auction();
+        if (info.id)
+        {
+            let address = LoginInfo.getCurrentAddress();
+            let result = await tools.wwwtool.getauctioninfobyaucitonid("", [ info.id.toString() ]);
+            if (result && result[ 0 ])
+            {
+                let list = result[ 0 ].list as Auction[];
+                auction.parse(list[ 0 ], address);
+            }
+        }
+        return auction;
+
+    }
+
+    /**
+     * 开标方法
+     * @param subname 二级域名
+     * @param rootname 根域名
+     */
+    static async startAuction(subname: string, rootname: string): Promise<any>
+    {
+        let address = LoginInfo.getCurrentAddress()     //当前地址
+        let domain: string = [ subname, rootname ].join(".");
+        let roothash: Neo.Uint256 = tools.nnstool.nameHash(rootname);
+        let auction: Auction = new Auction();
+        try
+        {
+            let result = await tools.nnssell.startAuciton(subname, roothash);
+            let txid = result.info;
+            let task = new Task(ConfirmType.contract, txid, { domain: domain })
+            tools.taskManager.addTask(task, TaskType.openAuction);
+            let result2 = await tools.wwwtool.getauctioninfobyaucitonid(address, [ txid ]);
+            if (!!result2)
+            {
+                let list = result[ 0 ].list as Auction[];
+                auction.parse(list[ 0 ], address);
+            } else
+            {
+                auction.auctionId = txid;
+                auction.domain = subname;
+                auction.fulldomain = domain;
+                auction.auctionState = AuctionState.watting;
+            }
+            store.auction.push(auction);
+            return txid;
+        } catch (error)
+        {
+
+        }
     }
 
     /**
@@ -123,24 +184,41 @@ export class AuctionService
      * @param domain 
      * @param amount 
      */
-    static async auctionRaise(domain: string, amount: number)
+    static async auctionRaise(auctionId: string, domain: string, amount: number)
     {
+        let address = LoginInfo.getCurrentAddress();
+        let res = new Result()
         try
         {
             //加价
-            let result = await tools.nnssell.raise(domain, amount);
+            let result = await tools.nnssell.raise(auctionId, amount);
             if (!result.err)
             {
                 let txid = result.info;
-                let auction = new Auction()
-                auction.auctionId = txid;
+                let task = new Task(
+                    ConfirmType.contract, txid, { domain: domain, amount: amount }
+                )
+                tools.taskManager.addTask(task, TaskType.addPrice);
                 //根据标地id查询域名状态
-                let res = await tools.wwwtool.getauctioninfobyaucitonid(LoginInfo.getCurrentAddress(), [ txid ]);
+                let result2 = await tools.wwwtool.getauctioninfobyaucitonid("", [ auctionId ]);
+                let auction = new Auction()
                 if (res)
                 {
-                    let auctionstate = res[ 0 ].list[ 0 ] as Auction;
+                    res.err = false;
+                    res.info = txid;
+                    let list = result2[ 0 ].list as Auction[];
+                    auction.parse(list[ 0 ], address);
+                } else
+                {
+                    auction.auctionState = AuctionState.watting;
                 }
+                store.auction.push(auction);
+            } else
+            {
+                res.err = true;
+                res.info = "raise fail";
             }
+            return res;
         } catch (error)
         {
 
@@ -154,8 +232,8 @@ export class AuctionService
     static pushAuctionToSession(auction: Auction)
     {
         let address = LoginInfo.getCurrentAddress();
-        let sessionlist = this.auctionStore.getSotre();
+        let sessionlist = store.auction.getSotre();
         sessionlist.push(auction);
-        this.auctionStore.setSotre(sessionlist, address)
+        store.auction.setSotre(sessionlist, address)
     }
 }

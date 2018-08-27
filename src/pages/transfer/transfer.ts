@@ -200,7 +200,7 @@ export default class transfer extends Vue
                         let bear = num - parseFloat(this.amount);
                         this.balance.balance = bear;
                         TaskManager.addTask(
-                            new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
+                            new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
                             TaskType.tranfer
                         );
                         BalanceInfo.setBalanceSotre(this.balance, height);
@@ -236,9 +236,8 @@ export default class transfer extends Vue
                     let num = parseFloat(this.balance.balance + "");
                     let bear = num - parseFloat(this.amount);
                     this.balance.balance = bear;
-                    // var height = await tools.wwwtool.api_getHeight();
                     TaskManager.addTask(
-                        new Task(height, ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
+                        new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
                         TaskType.tranfer
                     );
                     BalanceInfo.setBalanceSotre(this.balance, height);

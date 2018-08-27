@@ -181,7 +181,7 @@ export default class NNSSell
     /**
      * 域名开标
      */
-    static async openbid(subname: string)
+    static async startAuciton(subname: string, roothash: Neo.Uint256)
     {
         try
         {
@@ -191,7 +191,7 @@ export default class NNSSell
             let register = tools.nnstool.root_neo.register;
             let param = [
                 '(hex160)' + who.toString(),
-                "(hex256)" + tools.nnstool.root_neo.roothash.toString(),
+                "(hex256)" + roothash.toString(),
                 "(str)" + subname
             ];
 
@@ -209,9 +209,8 @@ export default class NNSSell
      * 竞标加价
      * @param domain 域名
      */
-    static async raise(domain: string, amount: number)
+    static async raise(id: string, amount: number)
     {
-        let info = await this.getSellingStateByDomain(domain);
         let who = new Neo.Uint160(
             ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress
                 (
@@ -222,23 +221,10 @@ export default class NNSSell
         let data = tools.contract.buildScript_random(
             tools.nnstool.root_neo.register,
             "raise",
-            [ "(hex160)" + who.toString(), "(hex256)" + info.id.toString(), "(int)" + amount ]
+            [ "(hex160)" + who.toString(), "(hex256)" + id, "(int)" + amount ]
         );
         let res = await tools.contract.contractInvokeTrans_attributes(data);
         return res;
-    }
-
-    /**
-     * 
-     * @param time 
-     * @returns state(0:竞拍结束,1:正在竞拍, 2:随机时间)
-     */
-    static compareTime(time: number)
-    {
-        let currentTime = new Date().getTime();
-        let res = currentTime - time
-        let state: number = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
-        return state;
     }
 
     /**

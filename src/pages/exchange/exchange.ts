@@ -145,7 +145,7 @@ export default class Exchange extends Vue
                 let res = await tools.wwwtool.rechargeandtransfer(result.data, data);
                 let txid = res[ "txid" ];
                 TaskManager.addTask(
-                    new Task(height, ConfirmType.recharge, txid, { count: this.transcount }),
+                    new Task(ConfirmType.recharge, txid, { count: this.transcount }),
                     TaskType.sgasToGas
                 );
                 let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'SGas' } ];
@@ -164,7 +164,7 @@ export default class Exchange extends Vue
                 this.isCheckingTran = true;
                 let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
                 TaskManager.addTask(
-                    new Task(height, ConfirmType.tranfer, txid, { count: this.transcount }),
+                    new Task(ConfirmType.tranfer, txid, { count: this.transcount }),
                     TaskType.gasToSgas
                 );
                 let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' } ];

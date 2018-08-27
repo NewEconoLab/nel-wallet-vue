@@ -197,7 +197,7 @@ export class TaskManager
                                     let amount = JSON.parse(res[ 'amount' ]);
                                     let height = Store.blockheight.select("height");
                                     TaskManager.addTask(
-                                        new Task(height, ConfirmType.tranfer, txid, { amount }),
+                                        new Task(ConfirmType.tranfer, txid, { amount }),
                                         TaskType.ClaimGas
                                     );
                                     sessionStorage.setItem("claimState", "2");

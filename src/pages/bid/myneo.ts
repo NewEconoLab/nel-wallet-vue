@@ -164,7 +164,7 @@ export default class MyNeo extends Vue
             this.resolverState = 2;
             let txid = res.info;
             TaskManager.addTask(
-                new Task(TaskManager.getBlockHeight(), ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
+                new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
                 TaskType.domainResovle);
             this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
         }
@@ -181,7 +181,7 @@ export default class MyNeo extends Vue
             this.mappingState = 2;
             let txid = res.info;
             TaskManager.addTask(
-                new Task(TaskManager.getBlockHeight(), ConfirmType.contract, txid, { domain: this.domainInfo.domain, address: this.resolverAddress }),
+                new Task(ConfirmType.contract, txid, { domain: this.domainInfo.domain, address: this.resolverAddress }),
                 TaskType.domainMapping);
             this.domainEdit.put(this.domainInfo.domain, { state: "watting", address: this.resolverAddress }, "mapping");
         }
@@ -200,7 +200,7 @@ export default class MyNeo extends Vue
             this.renewalWatting = true;
             let txid = res.info;
             TaskManager.addTask(
-                new Task(TaskManager.getBlockHeight(), ConfirmType.contract, txid, { domain }),
+                new Task(ConfirmType.contract, txid, { domain }),
                 TaskType.domainRenewal);
             this.domainEdit.put(this.domainInfo.domain, "watting", "renewal");
         }
