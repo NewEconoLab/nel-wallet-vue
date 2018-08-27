@@ -1,5 +1,6 @@
 import { tools } from "./importpack";
 import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts, DomainState, MyAuction } from "./entity";
+import { Auction } from "../entity/AuctionEntitys";
 export default class NNSSell
 {
     constructor() { }
@@ -225,6 +226,13 @@ export default class NNSSell
         );
         let res = await tools.contract.contractInvokeTrans_attributes(data);
         return res;
+    }
+
+    static async getAuctionByStateInfo(info: SellDomainInfo): Promise<Auction>
+    {
+        let auction = new Auction();
+
+        return auction;
     }
 
     /**

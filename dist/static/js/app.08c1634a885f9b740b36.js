@@ -151,6 +151,22 @@ var DateTool = /** @class */ (function () {
             return this.dateFtt("yyyy/MM/dd hh:mm:ss", new Date(time));
         }
     };
+    DateTool.currentTime = function (time) {
+        if (time) {
+            var num = this.getDate(time).getTime();
+            return accDiv(num, 1000);
+        }
+        return parseInt(accDiv(new Date().getTime(), 1000).toString());
+    };
+    DateTool.getDate = function (time) {
+        if (typeof time == "number") {
+            time = (time.toString().length < 14) ? time * 1000 : time;
+            return new Date(time);
+        }
+        else {
+            return new Date(time);
+        }
+    };
     return DateTool;
 }());
 exports.default = DateTool;
@@ -1360,6 +1376,9 @@ var sessionStoreTool = /** @class */ (function () {
     sessionStoreTool.prototype.getList = function () {
         return sessionStoreTool.getTable(this.table);
     };
+    sessionStoreTool.prototype.setList = function (list) {
+        sessionStorage.setItem(this.table, JSON.stringify(list));
+    };
     return sessionStoreTool;
 }());
 exports.sessionStoreTool = sessionStoreTool;
@@ -1540,6 +1559,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var importpack_1 = __webpack_require__("VKSY");
+var AuctionEntitys_1 = __webpack_require__("Wj+m");
 var LoginType;
 (function (LoginType) {
     LoginType[LoginType["wif"] = 0] = "wif";
@@ -2095,6 +2115,38 @@ var MyAuction = /** @class */ (function () {
         this.startAuctionTime = 0;
         this.startTimeStr = "";
     }
+    MyAuction.prototype.initAuciton = function (auction) {
+        this.domain = auction.domain;
+        this.startTimeStr = importpack_1.tools.timetool.getTime(auction.startTime.blocktime);
+        this.maxBuyer = auction.maxBuyer;
+        this.maxPrice = auction.maxPrice + "";
+        // this.owner = auction.addwholist
+        switch (auction.auctionState) {
+            case AuctionEntitys_1.AuctionState.open:
+                this.domainstate = DomainState.fixed;
+                break;
+            case AuctionEntitys_1.AuctionState.fixed:
+                this.domainstate = DomainState.fixed;
+                break;
+            case AuctionEntitys_1.AuctionState.random:
+                this.domainstate = DomainState.random;
+                break;
+            case AuctionEntitys_1.AuctionState.end:
+                this.domainstate = DomainState.open; //end
+                break;
+            case AuctionEntitys_1.AuctionState.expire:
+                this.domainstate = DomainState.open;
+                break;
+            case AuctionEntitys_1.AuctionState.pass:
+                this.domainstate = DomainState.open; //end
+                break;
+            case AuctionEntitys_1.AuctionState.watting:
+                this.domainstate = DomainState.end1; //watting
+                break;
+            default:
+                break;
+        }
+    };
     MyAuction.prototype.initSelling = function (info) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -2274,8 +2326,9 @@ var TaskFunction = /** @class */ (function () {
 }());
 exports.TaskFunction = TaskFunction;
 var Task = /** @class */ (function () {
-    function Task(height, type, txid, messgae) {
-        this.height = height;
+    function Task(type, txid, messgae) {
+        var oldBlock = new importpack_1.tools.sessionstoretool("block");
+        this.height = oldBlock.select('height');
         this.type = type;
         this.confirm = 0;
         this.txid = txid;
@@ -2453,6 +2506,67 @@ var Spinner = /** @class */ (function (_super) {
     return Spinner;
 }(vue_property_decorator_1.Vue));
 exports.default = Spinner;
+
+
+/***/ }),
+
+/***/ "98rD":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var index_1 = __webpack_require__("VYSC");
+var AuctionEntitys_1 = __webpack_require__("Wj+m");
+var importpack_1 = __webpack_require__("VKSY");
+var AuctionInfoService = /** @class */ (function () {
+    function AuctionInfoService() {
+    }
+    AuctionInfoService.getAuctionInfo = function () {
+        if (this.auctionId) {
+            var auction = index_1.store.auction.queryStore(this.auctionId);
+            var auctionInfo = new AuctionEntitys_1.AuctionInfoView(auction);
+            return auctionInfo;
+        }
+    };
+    /**
+     * 时间轴
+     * @param auction 竞拍类
+     */
+    AuctionInfoService.getProcess = function (auction) {
+        var process = new AuctionEntitys_1.Process(auction.startTime.blocktime);
+        var currenttime = !!auction.endTime && !!auction.endTime.blocktime ? auction.endTime.blocktime : importpack_1.tools.timetool.currentTime();
+        var oldtime = accSub(currenttime, auction.startTime.blocktime);
+        var a = 0;
+        if (auction.state == AuctionEntitys_1.AuctionState.fixed) {
+            process.state = AuctionEntitys_1.AuctionState.fixed;
+            a = accDiv(oldtime, 3 * 5 * 60);
+            process.timearr.length = 3;
+        }
+        else if (auction.state == AuctionEntitys_1.AuctionState.random) {
+            process.state = AuctionEntitys_1.AuctionState.random;
+            a = accDiv(oldtime, 5 * 5 * 60);
+            process.timearr.length = 5;
+        }
+        else {
+            process.state = AuctionEntitys_1.AuctionState.end;
+            var subtime = accSub(auction.addwho.lastTime.blocktime, auction.startTime.blocktime);
+            if (subtime < 2 * 5 * 60) {
+                a = accDiv(oldtime, 3 * 5 * 60);
+                process.timearr.length = 3;
+            }
+            else {
+                a = accDiv(oldtime, 5 * 5 * 60);
+                process.timearr.length = 5;
+            }
+        }
+        var width = a >= 1 ? 100 : accMul(a, 100);
+        process.width = parseInt(width.toString());
+        return process;
+    };
+    return AuctionInfoService;
+}());
+exports.AuctionInfoService = AuctionInfoService;
 
 
 /***/ }),
@@ -2693,6 +2807,82 @@ var SgasTool = /** @class */ (function () {
     return SgasTool;
 }());
 exports.default = SgasTool;
+
+
+/***/ }),
+
+/***/ "9vCx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var AuctionEntitys_1 = __webpack_require__("Wj+m");
+var storagetool_1 = __webpack_require__("5LD5");
+var AuctionStore = /** @class */ (function () {
+    function AuctionStore() {
+        this.tablename = "AUCTION_LIST";
+        this.session = new storagetool_1.sessionStoreTool(this.tablename);
+    }
+    /**
+     * 更新缓存队列
+     * @param data
+     * @param address
+     */
+    AuctionStore.prototype.setSotre = function (data, address) {
+        var list = this.session.getList();
+        list = list ? list : {};
+        for (var index = 0; index < data.length; index++) {
+            var auction = data[index];
+            if (auction.auctionState != AuctionEntitys_1.AuctionState.pass) {
+                if (auction.addwholist) {
+                    for (var i = 0; i < auction.addwholist.length; i++) {
+                        var who = auction.addwholist[i];
+                        if (who.address == address) {
+                            auction.addWho = who;
+                        }
+                    }
+                }
+                list[auction.auctionId] = auction;
+            }
+        }
+        this.session.setList(list);
+    };
+    /**
+     *
+     * 从缓存中获得域名列表
+     */
+    AuctionStore.prototype.getSotre = function () {
+        var list = this.session.getList();
+        var auctions = [];
+        for (var key in list) {
+            if (list.hasOwnProperty(key)) {
+                var auction = list[key];
+                // if (auction[ "auctionState" ] != AuctionState.watting)
+                auctions.push(auction);
+            }
+        }
+        return auctions;
+    };
+    /**
+     * 往域名列表中塞值
+     * @param auction 域名信息
+     */
+    AuctionStore.prototype.push = function (auction) {
+        var list = this.session.getList();
+        list[auction.auctionId] = auction;
+        this.session.setList(list);
+    };
+    /**
+     * 查询对应id 的竞标信息
+     * @param id
+     */
+    AuctionStore.prototype.queryStore = function (id) {
+        return this.session.select(id);
+    };
+    return AuctionStore;
+}());
+exports.AuctionStore = AuctionStore;
 
 
 /***/ }),
@@ -3783,6 +3973,21 @@ var tools;
 
 /***/ }),
 
+/***/ "VYSC":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var AuctionStore_1 = __webpack_require__("9vCx");
+var store;
+(function (store) {
+    store.auction = new AuctionStore_1.AuctionStore();
+})(store = exports.store || (exports.store = {}));
+
+
+/***/ }),
+
 /***/ "VbKi":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3882,6 +4087,210 @@ var Bubble = /** @class */ (function (_super) {
     return Bubble;
 }(vue_property_decorator_1.Vue));
 exports.default = Bubble;
+
+
+/***/ }),
+
+/***/ "Wj+m":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var entity_1 = __webpack_require__("6nHw");
+var importpack_1 = __webpack_require__("VKSY");
+var index_1 = __webpack_require__("r84I");
+/**
+ * 区块时间类
+ */
+var BlockTime = /** @class */ (function () {
+    function BlockTime() {
+    }
+    return BlockTime;
+}());
+exports.BlockTime = BlockTime;
+/**
+ * 加价地址类
+ */
+var AuctionAddress = /** @class */ (function () {
+    function AuctionAddress(addres, totalValue) {
+        this.address = addres;
+        this.totalValue = totalValue;
+    }
+    return AuctionAddress;
+}());
+exports.AuctionAddress = AuctionAddress;
+/**
+ * 竞拍类
+ */
+var Auction = /** @class */ (function () {
+    function Auction() {
+    }
+    Auction.prototype.parse = function (json, address) {
+        if (typeof json == 'string') { }
+        if (typeof json == 'object') {
+            this.auctionId = json["auctionId"];
+            this.fulldomain = json["fulldomain"];
+            this.domain = json["domain"];
+            this.parenthash = json["parenthash"];
+            this.domainTTL = json["domainTTL"];
+            this.auctionState = json["auctionState"];
+            this.startTime = json["startTime"];
+            this.startAddress = json["startAddress"];
+            this.maxBuyer = json["maxBuyer"];
+            this.maxPrice = json["maxPrice"];
+            this.endTime = json["endTime"];
+            this.endAddress = json["endAddress"];
+            this.lastTime = json["lastTime"];
+            this.addwholist = json["addwholist"];
+            if (this.addwholist) {
+                this.addWho = this.addwholist.find(function (addWho) {
+                    return addWho.address == address;
+                });
+            }
+        }
+    };
+    Auction.prototype.formAuctionInfo = function (auction) {
+        this.auctionId = auction.id.toString();
+        this.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(auction.maxBuyer);
+        this.maxPrice = accDiv(auction.maxPrice.toString(), 10000000);
+        this.fulldomain = auction.domain;
+    };
+    return Auction;
+}());
+exports.Auction = Auction;
+/**
+ * 竞拍状态枚举类
+ */
+var AuctionState;
+(function (AuctionState) {
+    AuctionState["watting"] = "0001";
+    AuctionState["open"] = "0101";
+    AuctionState["fixed"] = "0201";
+    AuctionState["random"] = "0301";
+    AuctionState["end"] = "0401";
+    AuctionState["pass"] = "0501";
+    AuctionState["expire"] = "0601";
+})(AuctionState = exports.AuctionState || (exports.AuctionState = {}));
+/**
+ * 竞拍列表显示类
+ */
+var AuctionView = /** @class */ (function () {
+    //传入Auction初始化域名显示对象
+    function AuctionView(auction) {
+        var currentAddress = entity_1.LoginInfo.getCurrentAddress();
+        if (!auction.addwholist) {
+            this.addwho = new AuctionAddress(currentAddress, 0);
+        }
+        else {
+            for (var index = 0; index < auction.addwholist.length; index++) {
+                var addrwho = auction.addwholist[index];
+                if (addrwho.address == currentAddress) {
+                    this.addwho = addrwho;
+                }
+            }
+        }
+        this.id = auction.auctionId;
+        this.domain = auction.fulldomain;
+        this.maxBuyer = auction.maxBuyer;
+        this.maxPrice = auction.maxPrice;
+        this.startTime = auction.startTime;
+        this.endTime = auction.endTime;
+        this.lastTime = auction.lastTime;
+        this.startTimeStr = importpack_1.tools.timetool.getTime(auction.startTime.blocktime);
+        this.state = auction.auctionState;
+        if (this.state == AuctionState.open) {
+            this.state = AuctionState.fixed;
+        }
+        if (this.state == AuctionState.expire || this.state == AuctionState.pass) {
+            this.state = AuctionState.end;
+        }
+        if (this.state == AuctionState.end) {
+            if (auction.maxBuyer == this.addwho.address) {
+                this.btnState = this.addwho.getdomainTime ? auctionBtnState.receivedname : auctionBtnState.getdomain;
+            }
+            else {
+                this.btnState = this.addwho.accountTime ? auctionBtnState.receivedsgas : auctionBtnState.recoversgas;
+            }
+        }
+        else {
+            this.btnState = auctionBtnState.bid;
+        }
+    }
+    return AuctionView;
+}());
+exports.AuctionView = AuctionView;
+/**
+ * 加价详情显示类
+ */
+var AuctionInfoView = /** @class */ (function (_super) {
+    __extends(AuctionInfoView, _super);
+    function AuctionInfoView(auction) {
+        var _this = _super.call(this, auction) || this;
+        _this.process = index_1.services.auctionInfo.getProcess(_this);
+        return _this;
+    }
+    return AuctionInfoView;
+}(AuctionView));
+exports.AuctionInfoView = AuctionInfoView;
+/**
+ * 按钮状态 状态 ENUM
+ */
+var auctionBtnState;
+(function (auctionBtnState) {
+    auctionBtnState[auctionBtnState["bid"] = 0] = "bid";
+    auctionBtnState[auctionBtnState["getdomain"] = 1] = "getdomain";
+    auctionBtnState[auctionBtnState["recoversgas"] = 2] = "recoversgas";
+    auctionBtnState[auctionBtnState["receivedsgas"] = 3] = "receivedsgas";
+    auctionBtnState[auctionBtnState["receivedname"] = 4] = "receivedname";
+})(auctionBtnState = exports.auctionBtnState || (exports.auctionBtnState = {}));
+/**
+ * 时间轴类
+ */
+var Process = /** @class */ (function () {
+    function Process(start) {
+        this.timearr = [];
+        this.startTime = typeof start == "string" ? importpack_1.tools.timetool.currentTime(start) : start;
+        var startdate = importpack_1.tools.timetool.getDate(this.startTime);
+        this.date = importpack_1.tools.timetool.dateFtt("yyyy/MM/dd", startdate);
+        this.time = importpack_1.tools.timetool.dateFtt("hh:mm:ss", startdate);
+        this.width = 0;
+        for (var i = 1; i <= 5; i++) {
+            var element = { msg: "", date: "", time: "" };
+            switch (i) {
+                case 1:
+                    element.msg = "1";
+                    break;
+                case 3:
+                    element.msg = "2";
+                    break;
+                case 5:
+                    element.msg = "3";
+                    break;
+                default:
+                    break;
+            }
+            var time = this.startTime + 300 * i;
+            var date = importpack_1.tools.timetool.dateFtt("yyyy/MM/dd", importpack_1.tools.timetool.getDate(time));
+            var times = importpack_1.tools.timetool.dateFtt("hh:mm:ss", importpack_1.tools.timetool.getDate(time));
+            element.date = date;
+            element.time = times;
+            this.timearr.push(element);
+        }
+    }
+    return Process;
+}());
+exports.Process = Process;
 
 
 /***/ }),
@@ -4182,7 +4591,7 @@ var TaskManager = /** @class */ (function () {
                                                 var txid = res["txid"];
                                                 var amount = JSON.parse(res['amount']);
                                                 var height = StorageMap_1.default.blockheight.select("height");
-                                                TaskManager.addTask(new entity_1.Task(height, entity_1.ConfirmType.tranfer, txid, { amount: amount }), entity_1.TaskType.ClaimGas);
+                                                TaskManager.addTask(new entity_1.Task(entity_1.ConfirmType.tranfer, txid, { amount: amount }), entity_1.TaskType.ClaimGas);
                                                 sessionStorage.setItem("claimState", "2");
                                             }
                                         })
@@ -5528,6 +5937,322 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
+/***/ "oeIN":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var AuctionEntitys_1 = __webpack_require__("Wj+m");
+var importpack_1 = __webpack_require__("VKSY");
+var index_1 = __webpack_require__("VYSC");
+var entity_1 = __webpack_require__("6nHw");
+/**
+* 竞拍方法类
+*/
+var AuctionService = /** @class */ (function () {
+    function AuctionService() {
+    }
+    /**
+     * 获得列表数据
+     * @param address 地址
+     * @param currentPage 当前有页码
+     * @param pageSize 分页条数
+     * @returns AuctionView[]
+     */
+    AuctionService.getMyAuctionList = function (address, currentPage, pageSize) {
+        return __awaiter(this, void 0, void 0, function () {
+            var auctions, index, auction, view;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.auctionViewList = [];
+                        return [4 /*yield*/, this.getAuctionList(address, currentPage, pageSize)];
+                    case 1:
+                        auctions = _a.sent();
+                        auctions = !auctions ? [] : auctions;
+                        for (index = 0; index < auctions.length; index++) {
+                            auction = auctions[index];
+                            if (auction.auctionState != AuctionEntitys_1.AuctionState.watting) {
+                                view = new AuctionEntitys_1.AuctionView(auction);
+                                this.auctionViewList.push(view);
+                            }
+                        }
+                        return [2 /*return*/, this.auctionViewList];
+                }
+            });
+        });
+    };
+    /**
+     * 获得分页竞拍数据
+     * @param address 要查询的地址
+     * @param currentPage 当前页码
+     * @param pageSize 查询的条数
+     */
+    AuctionService.getAuctionList = function (address, currentPage, pageSize) {
+        return __awaiter(this, void 0, void 0, function () {
+            var list, result, auctionList, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        list = index_1.store.auction.getSotre();
+                        if (list && list.length > 0) {
+                            return [2 /*return*/, list];
+                        }
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaddress(address, currentPage, pageSize)];
+                    case 1:
+                        result = _a.sent();
+                        if (result) {
+                            auctionList = result[0].list;
+                            //对比信息并保存至缓存
+                            index_1.store.auction.setSotre(auctionList, address);
+                            //获得处理后的缓存数据
+                            auctionList = index_1.store.auction.getSotre();
+                            return [2 /*return*/, this.auctionList];
+                        }
+                        else {
+                            return [2 /*return*/, []];
+                        }
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 更新可能会有状态变化的域名数据
+     */
+    AuctionService.updateAuctionList = function (address) {
+        return __awaiter(this, void 0, void 0, function () {
+            var auctionList, ids, index, auction, result, list;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        auctionList = index_1.store.auction.getSotre();
+                        ids = [];
+                        //获得所有需要更新的域名竞拍id
+                        for (index = 0; index < auctionList.length; index++) {
+                            auction = auctionList[index];
+                            if (auction.auctionState == AuctionEntitys_1.AuctionState.end && auction.addWho) {
+                                if (auction.maxBuyer == auction.addWho.address) {
+                                    if (!auction.addWho.getdomainTime)
+                                        ids.push(auction.auctionId);
+                                }
+                                else {
+                                    if (!auction.addWho.accountTime)
+                                        ids.push(auction.auctionId);
+                                }
+                            }
+                            else {
+                                ids.push(auction.auctionId);
+                            }
+                        }
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaucitonid(address, ids)];
+                    case 1:
+                        result = _a.sent();
+                        if (result) {
+                            list = result[0].list;
+                            index_1.store.auction.setSotre(list, address);
+                            this.auctionList = index_1.store.auction.getSotre();
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 根据竞拍id获得竞拍详情
+     * @param id 竞拍id
+     */
+    AuctionService.getAuctionInfoById = function (id) {
+        var auction = index_1.store.auction.queryStore(id);
+        var view = new AuctionEntitys_1.AuctionInfoView(auction);
+        return view;
+    };
+    /**
+     * 根据域名查询竞标信息
+     * @param subname 二级域名
+     * @param rootname 根域名
+     */
+    AuctionService.queryAuctionByDomain = function (subname, rootname) {
+        return __awaiter(this, void 0, void 0, function () {
+            var info, auction, address, result, list;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, importpack_1.tools.nnssell.getSellingStateByDomain([subname, rootname].join("."))];
+                    case 1:
+                        info = _a.sent();
+                        auction = new AuctionEntitys_1.Auction();
+                        if (!info.id) return [3 /*break*/, 3];
+                        address = entity_1.LoginInfo.getCurrentAddress();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaucitonid("", [info.id.toString()])];
+                    case 2:
+                        result = _a.sent();
+                        if (result && result[0]) {
+                            list = result[0].list;
+                            auction.parse(list[0], address);
+                        }
+                        _a.label = 3;
+                    case 3: return [2 /*return*/, auction];
+                }
+            });
+        });
+    };
+    /**
+     * 开标方法
+     * @param subname 二级域名
+     * @param rootname 根域名
+     */
+    AuctionService.startAuction = function (subname, rootname) {
+        return __awaiter(this, void 0, void 0, function () {
+            var address, domain, roothash, auction, result, txid, task, result2, list, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        address = entity_1.LoginInfo.getCurrentAddress() //当前地址
+                        ;
+                        domain = [subname, rootname].join(".");
+                        roothash = importpack_1.tools.nnstool.nameHash(rootname);
+                        auction = new AuctionEntitys_1.Auction();
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 4, , 5]);
+                        return [4 /*yield*/, importpack_1.tools.nnssell.startAuciton(subname, roothash)];
+                    case 2:
+                        result = _a.sent();
+                        txid = result.info;
+                        task = new entity_1.Task(entity_1.ConfirmType.contract, txid, { domain: domain });
+                        importpack_1.tools.taskManager.addTask(task, entity_1.TaskType.openAuction);
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaucitonid(address, [txid])];
+                    case 3:
+                        result2 = _a.sent();
+                        if (!!result2) {
+                            list = result[0].list;
+                            auction.parse(list[0], address);
+                        }
+                        else {
+                            auction.auctionId = txid;
+                            auction.domain = subname;
+                            auction.fulldomain = domain;
+                            auction.auctionState = AuctionEntitys_1.AuctionState.watting;
+                        }
+                        index_1.store.auction.push(auction);
+                        return [2 /*return*/, txid];
+                    case 4:
+                        error_2 = _a.sent();
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 开标方法类
+     * @param domain
+     * @param amount
+     */
+    AuctionService.auctionRaise = function (auctionId, domain, amount) {
+        return __awaiter(this, void 0, void 0, function () {
+            var address, res, result, txid, task, result2, auction, list, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        address = entity_1.LoginInfo.getCurrentAddress();
+                        res = new entity_1.Result();
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 6, , 7]);
+                        return [4 /*yield*/, importpack_1.tools.nnssell.raise(auctionId, amount)];
+                    case 2:
+                        result = _a.sent();
+                        if (!!result.err) return [3 /*break*/, 4];
+                        txid = result.info;
+                        task = new entity_1.Task(entity_1.ConfirmType.contract, txid, { domain: domain, amount: amount });
+                        importpack_1.tools.taskManager.addTask(task, entity_1.TaskType.addPrice);
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaucitonid("", [auctionId])];
+                    case 3:
+                        result2 = _a.sent();
+                        auction = new AuctionEntitys_1.Auction();
+                        if (res) {
+                            res.err = false;
+                            res.info = txid;
+                            list = result2[0].list;
+                            auction.parse(list[0], address);
+                        }
+                        else {
+                            auction.auctionState = AuctionEntitys_1.AuctionState.watting;
+                        }
+                        index_1.store.auction.push(auction);
+                        return [3 /*break*/, 5];
+                    case 4:
+                        res.err = true;
+                        res.info = "raise fail";
+                        _a.label = 5;
+                    case 5: return [2 /*return*/, res];
+                    case 6:
+                        error_3 = _a.sent();
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 竞拍缓存添加方法
+     * @param auction 竞拍方法
+     */
+    AuctionService.pushAuctionToSession = function (auction) {
+        var address = entity_1.LoginInfo.getCurrentAddress();
+        var sessionlist = index_1.store.auction.getSotre();
+        sessionlist.push(auction);
+        index_1.store.auction.setSotre(sessionlist, address);
+    };
+    return AuctionService;
+}());
+exports.AuctionService = AuctionService;
+
+
+/***/ }),
+
 /***/ "pKg8":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6403,6 +7128,23 @@ exports.CoinTool = CoinTool;
 
 /***/ }),
 
+/***/ "r84I":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var AuctionInfoService_1 = __webpack_require__("98rD");
+var AuctionServices_1 = __webpack_require__("oeIN");
+var services;
+(function (services) {
+    services.auctionInfo = AuctionInfoService_1.AuctionInfoService;
+    services.auction = AuctionServices_1.AuctionService;
+})(services = exports.services || (exports.services = {}));
+
+
+/***/ }),
+
 /***/ "rVEi":
 /***/ (function(module, exports) {
 
@@ -6460,6 +7202,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var importpack_1 = __webpack_require__("VKSY");
 var entity_1 = __webpack_require__("6nHw");
+var AuctionEntitys_1 = __webpack_require__("Wj+m");
 var NNSSell = /** @class */ (function () {
     function NNSSell() {
     }
@@ -6670,7 +7413,7 @@ var NNSSell = /** @class */ (function () {
     /**
      * 域名开标
      */
-    NNSSell.openbid = function (subname) {
+    NNSSell.startAuciton = function (subname, roothash) {
         return __awaiter(this, void 0, void 0, function () {
             var addr, who, register, param, data, res, error_2;
             return __generator(this, function (_a) {
@@ -6682,7 +7425,7 @@ var NNSSell = /** @class */ (function () {
                         register = importpack_1.tools.nnstool.root_neo.register;
                         param = [
                             '(hex160)' + who.toString(),
-                            "(hex256)" + importpack_1.tools.nnstool.root_neo.roothash.toString(),
+                            "(hex256)" + roothash.toString(),
                             "(str)" + subname
                         ];
                         data = importpack_1.tools.contract.buildScript_random(register, "startAuction", param);
@@ -6702,34 +7445,30 @@ var NNSSell = /** @class */ (function () {
      * 竞标加价
      * @param domain 域名
      */
-    NNSSell.raise = function (domain, amount) {
+    NNSSell.raise = function (id, amount) {
         return __awaiter(this, void 0, void 0, function () {
-            var info, who, data, res;
+            var who, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getSellingStateByDomain(domain)];
-                    case 1:
-                        info = _a.sent();
+                    case 0:
                         who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress()).buffer);
-                        data = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "raise", ["(hex160)" + who.toString(), "(hex256)" + info.id.toString(), "(int)" + amount]);
+                        data = importpack_1.tools.contract.buildScript_random(importpack_1.tools.nnstool.root_neo.register, "raise", ["(hex160)" + who.toString(), "(hex256)" + id, "(int)" + amount]);
                         return [4 /*yield*/, importpack_1.tools.contract.contractInvokeTrans_attributes(data)];
-                    case 2:
+                    case 1:
                         res = _a.sent();
                         return [2 /*return*/, res];
                 }
             });
         });
     };
-    /**
-     *
-     * @param time
-     * @returns state(0:竞拍结束,1:正在竞拍, 2:随机时间)
-     */
-    NNSSell.compareTime = function (time) {
-        var currentTime = new Date().getTime();
-        var res = currentTime - time;
-        var state = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
-        return state;
+    NNSSell.getAuctionByStateInfo = function (info) {
+        return __awaiter(this, void 0, void 0, function () {
+            var auction;
+            return __generator(this, function (_a) {
+                auction = new AuctionEntitys_1.Auction();
+                return [2 /*return*/, auction];
+            });
+        });
     };
     /**
      * 判断域名状态
@@ -7491,6 +8230,10 @@ new vue_1.default({
 });
 //初始化鼠标随机方法
 Neo.Cryptography.RandomNumberGenerator.startCollectors();
+//初始化根域名
+importpack_1.tools.nnstool.initRootDomain("neo");
+importpack_1.tools.nnstool.initRootDomain("test");
+// console.log(tools.nnstool.root_neo.register.toString());
 setInterval(function () {
     var oldBlock = new importpack_1.tools.sessionstoretool("block");
     importpack_1.tools.wwwtool.api_getHeight()
