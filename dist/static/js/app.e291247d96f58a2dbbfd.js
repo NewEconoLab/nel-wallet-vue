@@ -3378,6 +3378,37 @@ exports.default = Contract;
 
 /***/ }),
 
+/***/ "I0Fu":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("/5sW");
+var cn_1 = __webpack_require__("wOXa");
+var en_1 = __webpack_require__("pKg8");
+var vue_i18n_1 = __webpack_require__("TXmL");
+vue_1.default.use(vue_i18n_1.default);
+var language = sessionStorage.getItem("language");
+if (!language) {
+    var lang = navigator.language; //常规浏览器语言和IE浏览器    
+    lang = lang.substr(0, 2); //截取lang前2位字符
+    console.log(lang);
+    language = (lang == 'zh' ? 'cn' : 'en');
+    sessionStorage.setItem('language', language);
+}
+/*---------使用语言包-----------*/
+exports.default = new vue_i18n_1.default({
+    locale: language,
+    messages: {
+        'cn': cn_1.default,
+        'en': en_1.default // 英文语言包
+    },
+});
+
+
+/***/ }),
+
 /***/ "JPeH":
 /***/ (function(module, exports) {
 
@@ -8238,33 +8269,19 @@ module.exports = "data:image/svg+xml;base64,DQo8c3ZnIHdpZHRoPSIyNHB4IiBoZWlnaHQ9
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
-var vue_i18n_1 = __webpack_require__("TXmL");
-var cn_1 = __webpack_require__("wOXa");
-var en_1 = __webpack_require__("pKg8");
 var importpack_1 = __webpack_require__("VKSY");
 var taskmanager_1 = __webpack_require__("XfB5");
 var index_1 = __webpack_require__("OrGm");
 var entity_1 = __webpack_require__("6nHw");
 var app_vue_1 = __webpack_require__("5VpT");
 var router_1 = __webpack_require__("LJj6");
-vue_1.default.use(vue_i18n_1.default);
+var I18n_1 = __webpack_require__("I0Fu");
 vue_1.default.use(index_1.default);
 // const notFound = () => import('./pages/404.vue');
 vue_1.default.config.productionTip = false;
-// // const Wallet = Vue.component('Wallet', (resolve) => require([ './layout/wallet.vue' ], resolve));
-var language = sessionStorage.getItem("language");
-!!language ? language : language = 'en';
-/*---------使用语言包-----------*/
-var i18n = new vue_i18n_1.default({
-    locale: language,
-    messages: {
-        'cn': cn_1.default,
-        'en': en_1.default // 英文语言包
-    },
-});
 new vue_1.default({
     el: '#app',
-    i18n: i18n,
+    i18n: I18n_1.default,
     render: function (h) { return h(app_vue_1.default); },
     router: router_1.default,
     components: index_1.default
