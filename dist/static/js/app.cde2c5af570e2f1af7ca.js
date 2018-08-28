@@ -2122,9 +2122,7 @@ var MyAuction = /** @class */ (function () {
         this.maxPrice = auction.maxPrice + "";
         // this.owner = auction.addwholist
         switch (auction.auctionState) {
-            case AuctionEntitys_1.AuctionState.open:
-                this.domainstate = DomainState.fixed;
-                break;
+            // case AuctionState.open: this.domainstate = DomainState.fixed   break;
             case AuctionEntitys_1.AuctionState.fixed:
                 this.domainstate = DomainState.fixed;
                 break;
@@ -4240,9 +4238,7 @@ var AuctionView = /** @class */ (function () {
         this.lastTime = auction.lastTime;
         this.startTimeStr = importpack_1.tools.timetool.getTime(auction.startTime.blocktime);
         this.state = auction.auctionState;
-        if (this.state == AuctionState.open) {
-            this.state = AuctionState.fixed;
-        }
+        // if (this.state == AuctionState.open){  this.state = AuctionState.fixed;      }
         if (this.state == AuctionState.expire || this.state == AuctionState.pass) {
             this.state = AuctionState.end;
         }
@@ -6039,7 +6035,7 @@ var AuctionService = /** @class */ (function () {
                         auctions = !auctions ? [] : auctions;
                         for (index = 0; index < auctions.length; index++) {
                             auction = auctions[index];
-                            if (auction.auctionState != AuctionEntitys_1.AuctionState.watting) {
+                            if (auction.auctionState != AuctionEntitys_1.AuctionState.open) {
                                 view = new AuctionEntitys_1.AuctionView(auction);
                                 this.auctionViewList.push(view);
                             }
@@ -6199,7 +6195,7 @@ var AuctionService = /** @class */ (function () {
                             auction.auctionId = txid;
                             auction.domain = subname;
                             auction.fulldomain = domain;
-                            auction.auctionState = AuctionEntitys_1.AuctionState.watting;
+                            auction.auctionState = AuctionEntitys_1.AuctionState.open;
                         }
                         index_1.store.auction.push(auction);
                         return [2 /*return*/, txid];
@@ -6245,7 +6241,7 @@ var AuctionService = /** @class */ (function () {
                             auction.parse(list[0], address);
                         }
                         else {
-                            auction.auctionState = AuctionEntitys_1.AuctionState.watting;
+                            auction.auctionState = AuctionEntitys_1.AuctionState.open;
                         }
                         index_1.store.auction.push(auction);
                         return [3 /*break*/, 5];

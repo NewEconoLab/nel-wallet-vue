@@ -13,7 +13,7 @@
             <div class="highest-price">{{$t('auction.highest')}}: {{auctionInfo.maxPrice}} SGas</div>   
             <div class="bidder" v-if="auctionInfo.maxBuyer != address">{{$t('auction.currentbidder')}}: <span>{{$t('auction.other')}}（ {{auctionInfo.maxBuyer}} ）</span> </div>
             <div class="bidder" v-if="auctionInfo.maxBuyer == address">{{$t('auction.currentbidder')}}: <span class="bidder-me">{{$t('auction.me')}}（ {{auctionInfo.maxBuyer}} ）</span> </div>
-            <div class="my-bid-sgas">{{$t('auction.mybidmsg')}}: <span class="status-ended">{{auctionInfo.totalValue}}</span>  SGas</div>     
+            <div class="my-bid-sgas">{{$t('auction.mybidmsg')}}: <span class="status-ended">{{auctionInfo.addwho.totalValue}}</span>  SGas</div>     
         </div>
         <!-- 域名领取 -->
         <div v-if="auctionInfo.btnState==1||auctionInfo.btnState==4">

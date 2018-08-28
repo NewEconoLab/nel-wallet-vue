@@ -756,9 +756,7 @@ export class MyAuction
         // this.owner = auction.addwholist
         switch (auction.auctionState)
         {
-            case AuctionState.open:
-                this.domainstate = DomainState.fixed
-                break;
+            // case AuctionState.open: this.domainstate = DomainState.fixed   break;
             case AuctionState.fixed:
                 this.domainstate = DomainState.fixed;
                 break;

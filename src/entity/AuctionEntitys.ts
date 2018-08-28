@@ -152,10 +152,7 @@ export class AuctionView
         this.lastTime = auction.lastTime;
         this.startTimeStr = tools.timetool.getTime(auction.startTime.blocktime);
         this.state = auction.auctionState;
-        if (this.state == AuctionState.open)
-        {
-            this.state = AuctionState.fixed;
-        }
+        // if (this.state == AuctionState.open){  this.state = AuctionState.fixed;      }
         if (this.state == AuctionState.expire || this.state == AuctionState.pass)
         {
             this.state = AuctionState.end;

@@ -27,7 +27,7 @@ export class AuctionService
         for (let index = 0; index < auctions.length; index++)
         {
             const auction = auctions[ index ];
-            if (auction.auctionState != AuctionState.watting)
+            if (auction.auctionState != AuctionState.open)
             {
                 let view = new AuctionView(auction);
                 this.auctionViewList.push(view);
@@ -164,7 +164,7 @@ export class AuctionService
                 auction.auctionId = txid;
                 auction.domain = subname;
                 auction.fulldomain = domain;
-                auction.auctionState = AuctionState.watting;
+                auction.auctionState = AuctionState.open;
             }
             store.auction.push(auction);
             return txid;
@@ -205,7 +205,7 @@ export class AuctionService
                     auction.parse(list[ 0 ], address);
                 } else
                 {
-                    auction.auctionState = AuctionState.watting;
+                    auction.auctionState = AuctionState.open;
                 }
                 store.auction.push(auction);
             } else

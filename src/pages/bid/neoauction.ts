@@ -105,7 +105,7 @@ export default class NeoAuction extends Vue
         this.regBalance = await tools.nnssell.getBalanceOf();
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
-        services.auction.updateAuctionList(this.address);
+        await services.auction.updateAuctionList(this.address);
         this.getBidList(this.address);
     }
 
@@ -460,10 +460,7 @@ export default class NeoAuction extends Vue
 
                     this.checkState = this.btn_start = 2;
                     break;
-                case AuctionState.open:
-
-                    this.checkState = this.btn_start = 2;
-                    break;
+                // case AuctionState.open:  this.checkState = this.btn_start = 2;   break;
 
                 default:
                     break;
