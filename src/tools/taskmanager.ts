@@ -320,18 +320,21 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+
+            let result = ress[ task.txid ]; //获取通知数组
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {
-                task.state = TaskState.fail;
-                Store.session_open.delete(task.message.domain);
-            } else
-            {
-                let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("startAuction"))
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                    Store.session_open.delete(task.message.domain);
+                }
+                else if (result && result.displayNameList && result.displayNameList.includes("startAuction"))
                 {
                     task.state = TaskState.success;
                     Store.session_open.delete(task.message.domain);
                 }
+
             }
             task.confirm++;
             return task;
@@ -349,20 +352,18 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+            let result = ress[ task.txid ]; //获取通知数组
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {
-                task.state = TaskState.fail;
-            } else
-            {
-                let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("assetManagement")) //检测是否有对应的通知 addprice
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                } else if (result && result.displayNameList && result.displayNameList.includes("assetManagement")) //检测是否有对应的通知 addprice
                 {
                     task.state = TaskState.success;
-                    Store.session_open.delete(task.message.domain);
                 } else if (result && result.displayNameList && result.displayNameList.includes("raiseEndsAuction"))
                 {
                     task.state = TaskState.fail;
-                    Store.session_open.delete(task.message.domain);
                 }
             }
             task.confirm++;
@@ -451,16 +452,17 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+            let result = ress[ task.txid ]; //获取通知数组
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {
-                task.state = TaskState.fail;
-                if (TaskFunction.domainResovle)
-                    TaskFunction.domainResovle(task.message[ 'domain' ]);
-                domainEdit.delete(task.message[ 'domain' ], 'resolver');
-            } else
-            {
-                let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) //检测是否有对应的通知 changeOwnerInfo
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainResovle)
+                        TaskFunction.domainResovle(task.message[ 'domain' ]);
+                    domainEdit.delete(task.message[ 'domain' ], 'resolver');
+                }
+                else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainResovle)
@@ -485,16 +487,17 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+            let result = ress[ task.txid ]; //获取通知数组
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {
-                task.state = TaskState.fail;
-                if (TaskFunction.domainMapping)
-                    TaskFunction.domainMapping(task[ 'domain' ], undefined)
-                domainEdit.delete(task.message[ 'domain' ], 'mapping');
-            } else
-            {
-                let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) //如果返回的通知有 setResolveData则域名映射设置成功
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainMapping)
+                        TaskFunction.domainMapping(task[ 'domain' ], undefined)
+                    domainEdit.delete(task.message[ 'domain' ], 'mapping');
+                }
+                else if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) //如果返回的通知有 setResolveData则域名映射设置成功
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainMapping)
@@ -519,16 +522,17 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+            let result = ress[ task.txid ]; //获取通知数组
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {
-                task.state = TaskState.fail;
-                if (TaskFunction.domainRenewal)
-                    TaskFunction.domainRenewal(task.message[ 'domain' ])
-                domainEdit.delete(task.message[ 'domain' ], 'renewal');
-            } else
-            {
-                let result = ress[ task.txid ]; //获取通知数组
-                if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo"))
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainRenewal)
+                        TaskFunction.domainRenewal(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'renewal');
+                }
+                else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo"))
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainRenewal)
@@ -583,15 +587,16 @@ export class TaskManager
                 }
             } else
             {
-                if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
+                if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
                 {
-                    task.state = TaskState.fail;
-                    Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
-                    if (TaskFunction.auctionStateUpdate)
-                        TaskFunction.auctionStateUpdate();
-                } else
-                {
-                    if (result && result.displayNameList && result.displayNameList.includes("domainstate"))
+                    if (result.vmstate == "FAULT, BREAK")
+                    {
+                        task.state = TaskState.fail;
+                        Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                        if (TaskFunction.auctionStateUpdate)
+                            TaskFunction.auctionStateUpdate();
+                    }
+                    else if (result && result.displayNameList && result.displayNameList.includes("collectDomain"))
                     {
                         task.state = TaskState.success;
                         Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');

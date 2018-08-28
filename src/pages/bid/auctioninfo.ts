@@ -1,14 +1,12 @@
 
 /// <reference path="../../tools/number.d.ts"/>
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
-import { sessionStoreTool } from "../../tools/storagetool";
-import { Process, LoginInfo, MyAuction, TaskType, ConfirmType, Task, DomainState, TaskFunction } from "../../tools/entity";
+import { LoginInfo, TaskType, ConfirmType, Task } from "../../tools/entity";
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
-import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
-import { AuctionInfoView, auctionBtnState, Auction } from "../../entity/AuctionEntitys";
+import { AuctionInfoView } from "../../entity/AuctionEntitys";
 import { services } from "../../services/index";
 @Component({
     components: {}
@@ -118,12 +116,25 @@ export default class AuctionInfo extends Vue
 
     async getDomain()
     {
-        let height = Store.blockheight.select("height");
-        let info = await tools.nnssell.getSellingStateByDomain(this.auctionInfo.domain);
-        if (!!info.balanceOfSelling && info.balanceOfSelling.compareTo(Neo.BigInteger.Zero) > 0)
+        if (this.auctionInfo.addwho.accountTime && this.auctionInfo.addwho.accountTime.blockindex > 0)
         {
-            let data1 = await tools.nnssell.bidSettlement(info.id.toString());
-            let data2 = await tools.nnssell.collectDomain(info.id.toString());
+            let data = await tools.nnssell.collectDomain(this.auctionInfo.id.toString());
+            if (!data)
+            {
+                return;
+            }
+            let res = await tools.wwwtool.api_postRawTransaction(data);
+            let txid = res[ "txid" ];
+            Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
+            TaskManager.addTask(
+                new Task(ConfirmType.contract, txid, { domain: this.auctionInfo.domain }),
+                TaskType.getDomain
+            )
+        }
+        else
+        {
+            let data1 = await tools.nnssell.bidSettlement(this.auctionInfo.id.toString());
+            let data2 = await tools.nnssell.collectDomain(this.auctionInfo.id.toString());
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             let txid = res[ "txid" ];
             this.isGetDomainWait = true;
@@ -132,80 +143,12 @@ export default class AuctionInfo extends Vue
                 new Task(ConfirmType.recharge, txid, { domain: this.auctionInfo.domain }),
                 TaskType.getDomain
             )
-        } else
-        {
-            if (!!info.owner && ThinNeo.Helper.GetAddressFromScriptHash(info.owner) == this.address)
-            {
-                this.isReceived = true;
-                this.isGetDomainWait = false;
-                return;
-            } else
-            {
-                let data = await tools.nnssell.collectDomain(info.id.toString());
-                if (!data)
-                {
-                    return;
-                }
-                let res = await tools.wwwtool.api_postRawTransaction(data);
-                let txid = res[ "txid" ];
-                Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
-                TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.auctionInfo.domain }),
-                    TaskType.getDomain
-                )
-            }
-        }
-
-    }
-
-    async getSessionBidDetail(domain)
-    {
-        let session_bid = new sessionStoreTool("bidSession");
-        let bidlist = session_bid.select(domain);
-        if (bidlist && Object.keys(bidlist).length > 0)
-        {
-            let arr = [];
-            for (const key in bidlist)
-            {
-                if (bidlist.hasOwnProperty(key))
-                {
-                    const element = bidlist[ key ];
-                    arr.push(element);
-                }
-            }
-            for (let n = 0; n < arr.length; n++)
-            {
-                if (n > 0)
-                {
-                    arr[ n ].amount = accAdd(parseFloat(arr[ n ].amount), parseFloat(arr[ n - 1 ].amount));
-                }
-            }
-            arr = arr.reverse();
-            for (const index in arr)
-            {
-                let i = parseInt(index);
-                const amount = arr[ i ][ "amount" ];
-                const txid = arr[ i ][ "txid" ];
-                if (!txid)
-                    break;
-                let txmsg = await tools.wwwtool.getrawtransaction(txid);
-                if (txmsg)
-                {
-                    session_bid.delete(domain, txid);
-                } else
-                {
-                    let bidmsg = { addPriceTime: "" + this.$t("auction.waitmsg1"), maxBuyer: '', maxPrice: '' };
-                    // this.bidDetailList.push(bidmsg)
-                    bidmsg.maxBuyer = this.address;
-                    bidmsg.maxPrice = accAdd(parseFloat(amount), parseFloat(this.myBidPrice ? this.myBidPrice : "0")).toString();
-                }
-            }
         }
     }
 
 
     /**
-     * 
+     * 11·
      */
     async bidDomain()
     {
@@ -234,7 +177,6 @@ export default class AuctionInfo extends Vue
             return;
         try
         {
-            let height = Store.blockheight.select("height")
             let res = await tools.wwwtool.api_postRawTransaction(data);
             if (res[ "txid" ])
             {
@@ -252,11 +194,6 @@ export default class AuctionInfo extends Vue
         }
     }
 
-    // getMoreBidDetail()
-    // {
-    //     this.currentpage += 1;
-    //     this.getBidDetail(this.domainAuctionInfo.id, this.currentpage, this.pagesize);
-    // }
     onBack()
     {
         this.$emit('onBack');

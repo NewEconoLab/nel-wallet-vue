@@ -4753,13 +4753,13 @@ var TaskManager = /** @class */ (function () {
                     case 1:
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) {
-                                task.state = entity_1.TaskState.fail;
-                                StorageMap_1.default.session_open.delete(task.message.domain);
-                            }
-                            else {
-                                var result = ress[task.txid]; //获取通知数组
-                                if (result && result.displayNameList && result.displayNameList.includes("startAuction")) {
+                            var result = ress[task.txid]; //获取通知数组
+                            if (result && result["vmstate"] && result["vmstate"] != "") {
+                                if (result.vmstate == "FAULT, BREAK") {
+                                    task.state = entity_1.TaskState.fail;
+                                    StorageMap_1.default.session_open.delete(task.message.domain);
+                                }
+                                else if (result && result.displayNameList && result.displayNameList.includes("startAuction")) {
                                     task.state = entity_1.TaskState.success;
                                     StorageMap_1.default.session_open.delete(task.message.domain);
                                 }
@@ -4786,18 +4786,16 @@ var TaskManager = /** @class */ (function () {
                     case 1:
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) {
-                                task.state = entity_1.TaskState.fail;
-                            }
-                            else {
-                                var result = ress[task.txid]; //获取通知数组
-                                if (result && result.displayNameList && result.displayNameList.includes("assetManagement")) {
+                            var result = ress[task.txid]; //获取通知数组
+                            if (result && result["vmstate"] && result["vmstate"] != "") {
+                                if (result.vmstate == "FAULT, BREAK") {
+                                    task.state = entity_1.TaskState.fail;
+                                }
+                                else if (result && result.displayNameList && result.displayNameList.includes("assetManagement")) {
                                     task.state = entity_1.TaskState.success;
-                                    StorageMap_1.default.session_open.delete(task.message.domain);
                                 }
                                 else if (result && result.displayNameList && result.displayNameList.includes("raiseEndsAuction")) {
                                     task.state = entity_1.TaskState.fail;
-                                    StorageMap_1.default.session_open.delete(task.message.domain);
                                 }
                             }
                             task.confirm++;
@@ -4900,15 +4898,15 @@ var TaskManager = /** @class */ (function () {
                         ress = _a.sent();
                         domainEdit = new storagetool_1.sessionStoreTool("domain-edit");
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) {
-                                task.state = entity_1.TaskState.fail;
-                                if (entity_1.TaskFunction.domainResovle)
-                                    entity_1.TaskFunction.domainResovle(task.message['domain']);
-                                domainEdit.delete(task.message['domain'], 'resolver');
-                            }
-                            else {
-                                var result = ress[task.txid]; //获取通知数组
-                                if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) {
+                            var result = ress[task.txid]; //获取通知数组
+                            if (result && result["vmstate"] && result["vmstate"] != "") {
+                                if (result.vmstate == "FAULT, BREAK") {
+                                    task.state = entity_1.TaskState.fail;
+                                    if (entity_1.TaskFunction.domainResovle)
+                                        entity_1.TaskFunction.domainResovle(task.message['domain']);
+                                    domainEdit.delete(task.message['domain'], 'resolver');
+                                }
+                                else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.domainResovle)
                                         entity_1.TaskFunction.domainResovle(task.message['domain']);
@@ -4938,15 +4936,15 @@ var TaskManager = /** @class */ (function () {
                         ress = _a.sent();
                         domainEdit = new storagetool_1.sessionStoreTool("domain-edit");
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) {
-                                task.state = entity_1.TaskState.fail;
-                                if (entity_1.TaskFunction.domainMapping)
-                                    entity_1.TaskFunction.domainMapping(task['domain'], undefined);
-                                domainEdit.delete(task.message['domain'], 'mapping');
-                            }
-                            else {
-                                var result = ress[task.txid]; //获取通知数组
-                                if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) {
+                            var result = ress[task.txid]; //获取通知数组
+                            if (result && result["vmstate"] && result["vmstate"] != "") {
+                                if (result.vmstate == "FAULT, BREAK") {
+                                    task.state = entity_1.TaskState.fail;
+                                    if (entity_1.TaskFunction.domainMapping)
+                                        entity_1.TaskFunction.domainMapping(task['domain'], undefined);
+                                    domainEdit.delete(task.message['domain'], 'mapping');
+                                }
+                                else if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.domainMapping)
                                         entity_1.TaskFunction.domainMapping(task.message['domain'], task.message['address']);
@@ -4976,15 +4974,15 @@ var TaskManager = /** @class */ (function () {
                         ress = _a.sent();
                         domainEdit = new storagetool_1.sessionStoreTool("domain-edit");
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) {
-                                task.state = entity_1.TaskState.fail;
-                                if (entity_1.TaskFunction.domainRenewal)
-                                    entity_1.TaskFunction.domainRenewal(task.message['domain']);
-                                domainEdit.delete(task.message['domain'], 'renewal');
-                            }
-                            else {
-                                var result = ress[task.txid]; //获取通知数组
-                                if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) {
+                            var result = ress[task.txid]; //获取通知数组
+                            if (result && result["vmstate"] && result["vmstate"] != "") {
+                                if (result.vmstate == "FAULT, BREAK") {
+                                    task.state = entity_1.TaskState.fail;
+                                    if (entity_1.TaskFunction.domainRenewal)
+                                        entity_1.TaskFunction.domainRenewal(task.message['domain']);
+                                    domainEdit.delete(task.message['domain'], 'renewal');
+                                }
+                                else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.domainRenewal)
                                         entity_1.TaskFunction.domainRenewal(task.message['domain']);
@@ -5039,14 +5037,14 @@ var TaskManager = /** @class */ (function () {
                                 }
                             }
                             else {
-                                if (task.confirm > 3) {
-                                    task.state = entity_1.TaskState.fail;
-                                    StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
-                                    if (entity_1.TaskFunction.auctionStateUpdate)
-                                        entity_1.TaskFunction.auctionStateUpdate();
-                                }
-                                else {
-                                    if (result && result.displayNameList && result.displayNameList.includes("domainstate")) {
+                                if (result && result["vmstate"] && result["vmstate"] != "") {
+                                    if (result.vmstate == "FAULT, BREAK") {
+                                        task.state = entity_1.TaskState.fail;
+                                        StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
+                                        if (entity_1.TaskFunction.auctionStateUpdate)
+                                            entity_1.TaskFunction.auctionStateUpdate();
+                                    }
+                                    else if (result && result.displayNameList && result.displayNameList.includes("collectDomain")) {
                                         task.state = entity_1.TaskState.success;
                                         StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                                         if (entity_1.TaskFunction.auctionStateUpdate)
