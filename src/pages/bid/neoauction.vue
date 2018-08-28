@@ -73,7 +73,7 @@
                         <span v-if="item.state=='0401'" class="status-ended">{{$t('auction.ended')}}</span>
                         <v-hint>
                           <div class="hint-img">
-                            <img src="../../../static/img/notice-g.png" alt="" v-if="item.state=='0101'">
+                            <img src="../../../static/img/notice-g.png" alt="" v-if="item.state=='0201'">
                             <img src="../../../static/img/notice-b.png" alt="" v-if="item.state=='0301'">                              
                           </div>
                           <div class="hint-content">  

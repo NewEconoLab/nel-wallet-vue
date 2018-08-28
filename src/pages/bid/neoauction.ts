@@ -370,7 +370,7 @@ export default class NeoAuction extends Vue
      */
     async bidDomain()
     {
-        let res = await services.auction.auctionRaise(this.raiseAuction.auctionId, this.raiseAuction.domain, parseFloat(this.alert_myBid));
+        let res = await services.auction.auctionRaise(this.raiseAuction.auctionId, this.raiseAuction.fulldomain, parseFloat(this.alert_myBid));
         if (!res.err)
         {
             this.openToast("success", "" + this.$t("auction.successbid2"), 3000);

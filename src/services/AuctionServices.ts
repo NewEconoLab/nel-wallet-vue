@@ -21,7 +21,7 @@ export class AuctionService
      */
     static async getMyAuctionList(address: string, currentPage: number, pageSize: number): Promise<AuctionView[]>
     {
-        this.auctionViewList = [];
+        let auctionViewList = [];
         let auctions = await this.getAuctionList(address, currentPage, pageSize);
         auctions = !auctions ? [] : auctions;
         for (let index = 0; index < auctions.length; index++)
@@ -30,10 +30,14 @@ export class AuctionService
             if (auction.auctionState != AuctionState.open)
             {
                 let view = new AuctionView(auction);
-                this.auctionViewList.push(view);
+                auctionViewList.push(view);
             }
         }
-        return this.auctionViewList;
+        auctionViewList.sort((a1, a2) =>
+        {
+            return a2.startTime.blocktime - a1.startTime.blocktime;
+        })
+        return auctionViewList;
     }
 
     /**
@@ -60,7 +64,7 @@ export class AuctionService
                 store.auction.setSotre(auctionList, address);
                 //获得处理后的缓存数据
                 auctionList = store.auction.getSotre() as Auction[];
-                return this.auctionList;
+                return auctionList;
             } else
             {
                 return [];
