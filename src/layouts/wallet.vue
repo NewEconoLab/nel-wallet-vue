@@ -305,8 +305,7 @@
                 </div>
                 <div class="notask" v-if="taskList.length == 0">{{$t('operation.nodata')}}</div>
               </div>
-            </div>
-            
+            </div>            
           </div>
         </div>
         <!--/.nav-collapse -->

@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="main-content">
     <nav class="navbar navbar-nel navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -116,5 +116,8 @@ export default class Main extends Vue {
 <style>
 .active-nel {
   border-bottom: 4px solid #ffffff;
+}
+.main-content {
+  padding-bottom: 80px;
 }
 </style>
