@@ -50,11 +50,6 @@ export class AuctionService
     {
         try
         {
-            let list: Auction[] = store.auction.getSotre();
-            if (list && list.length > 0)
-            {
-                return list;
-            }
             //从列表种拉取数据
             let result = await tools.wwwtool.getauctioninfobyaddress(address, currentPage, pageSize);
             if (result)
@@ -67,7 +62,8 @@ export class AuctionService
                 return auctionList;
             } else
             {
-                return [];
+                let list: Auction[] = store.auction.getSotre();
+                return list ? list : [];
             }
         } catch (error)
         {

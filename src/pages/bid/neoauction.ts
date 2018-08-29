@@ -10,6 +10,7 @@ import Store from "../../tools/StorageMap";
 import { AuctionService } from "../../services/AuctionServices";
 import { Auction, AuctionView, AuctionState } from "../../entity/AuctionEntitys";
 import { services } from "../../services/index";
+import { ScrollTools } from "../../tools/documentTools";
 @Component({
     components: {
         "auction-info": AuctionInfo
@@ -46,6 +47,7 @@ export default class NeoAuction extends Vue
     searchDomain: string;//查询域名
     searchAuctionList: MyAuction[] = [];
     auctionlist: AuctionView[];
+    currentpage: number = 1;
 
     constructor()
     {
@@ -90,7 +92,7 @@ export default class NeoAuction extends Vue
         await tools.nnstool.initRootDomain("neo");
         this.regBalance = await tools.nnssell.getBalanceOf();
         this.openToast = this.$refs.toast[ "isShow" ];
-        this.getBidList(this.address);
+        this.getBidList(this.address, 1);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable.toString() + " SGas";
@@ -98,6 +100,21 @@ export default class NeoAuction extends Vue
         TaskManager.functionList.push(this.refreshPage);
         TaskFunction.topup = this.topupStateRefresh;
         TaskFunction.withdraw = this.withdrawRefresh;
+        let scroll = new ScrollTools();
+        scroll.onScroll(bheight =>
+        {
+            if (bheight < 20)
+            {
+                console.log(this.currentpage);
+
+                this.getBidList(this.address, this.currentpage++)
+            }
+        })
+    }
+
+    next()
+    {
+
     }
 
     async refreshPage()
@@ -106,16 +123,16 @@ export default class NeoAuction extends Vue
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         await services.auction.updateAuctionList(this.address);
-        this.getBidList(this.address);
+        this.getBidList(this.address, 0);
     }
 
     /**
      * 获得参与过竞拍的域名列表
      * @param address 地址
      */
-    async getBidList(address)
+    async getBidList(address, page)
     {
-        this.auctionlist = await services.auction.getMyAuctionList(address, 1, 10);
+        this.auctionlist = await services.auction.getMyAuctionList(address, page, 5);
     }
 
     async topupStateRefresh()

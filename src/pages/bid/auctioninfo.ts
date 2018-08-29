@@ -96,7 +96,7 @@ export default class AuctionInfo extends Vue
         let balance = Neo.Fixed8.parse(!!this.balanceOf && this.balanceOf != '' ? this.balanceOf : '0');
         let sum = bidPrice.add(Neo.Fixed8.parse(this.bidPrice + ""));
         this.updatePrice = sum.toString();
-        if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse(this.auctionInfo.maxPrice + '')) <= 0)
+        if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse((this.auctionInfo.maxPrice ? this.auctionInfo.maxPrice : 0) + '')) <= 0)
         {
             this.bidState = 2;
         } else

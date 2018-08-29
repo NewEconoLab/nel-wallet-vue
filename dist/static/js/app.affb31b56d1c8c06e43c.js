@@ -6054,15 +6054,11 @@ var AuctionService = /** @class */ (function () {
      */
     AuctionService.getAuctionList = function (address, currentPage, pageSize) {
         return __awaiter(this, void 0, void 0, function () {
-            var list, result, auctionList, error_1;
+            var result, auctionList, list, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        list = index_1.store.auction.getSotre();
-                        if (list && list.length > 0) {
-                            return [2 /*return*/, list];
-                        }
                         return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaddress(address, currentPage, pageSize)];
                     case 1:
                         result = _a.sent();
@@ -6075,7 +6071,8 @@ var AuctionService = /** @class */ (function () {
                             return [2 /*return*/, auctionList];
                         }
                         else {
-                            return [2 /*return*/, []];
+                            list = index_1.store.auction.getSotre();
+                            return [2 /*return*/, list ? list : []];
                         }
                         return [3 /*break*/, 3];
                     case 2:
@@ -6305,7 +6302,7 @@ exports.default = {
         claim: "Claim",
         claiming: "Claiming",
         cancel: "Cancel",
-        openauction: "Open Auction",
+        openauction: "Start Auction",
         openingauction: "Opening Auction",
         bid: "Bid",
         getdomain: "Claim domain",
@@ -6580,11 +6577,11 @@ exports.default = {
     operation: {
         welcome: "Welcome!",
         title: "Operation record",
-        tips: "Tips : These records will be emptied when you logout or close the page.",
+        tips: "These records will be erased when you log out or close the page.",
         waiting: "Confirmation pending...",
         txid: "TXID:",
         transfer: "Transfer to",
-        openauction: "Open auction",
+        openauction: "Start Auction",
         raisebid: "Raise bid",
         exchange: "SGas exchange",
         topup: "Top up",
