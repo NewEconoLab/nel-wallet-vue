@@ -146,7 +146,7 @@ export class AuctionView
         this.id = auction.auctionId;
         this.domain = auction.fulldomain;
         this.maxBuyer = auction.maxBuyer;
-        this.maxPrice = auction.maxPrice;
+        this.maxPrice = auction.maxPrice ? auction.maxPrice : 0;
         this.startTime = auction.startTime;
         this.endTime = auction.endTime;
         this.lastTime = auction.lastTime;
