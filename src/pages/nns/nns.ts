@@ -44,7 +44,7 @@ export default class NNS extends Vue
         this.verifyDomainNumber = 0;
         this.alert_addr = "";
         this.alert_domain = "";
-        this.alert_contract = "0xabb0f1f3f035dd7ad80ca805fce58d62c517cc6b";
+        this.alert_contract = "0xdd19287ce0c25d4d539893df8d9639e5971a6fc0";
         this.alert_resolve = true;
         this.alert_resolver_disable = false;
         this.alert_mapping_disable = false;

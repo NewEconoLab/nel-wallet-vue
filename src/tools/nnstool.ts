@@ -263,7 +263,7 @@ export class NNSTool
             "(str)addr",
             "(str)" + str
         ]);
-        sb.EmitPushString("setResolveData");
+        sb.EmitPushString("setResolverData");
         sb.EmitAppCall(scriptaddress.reverse());
         var data = sb.ToArray();
         let res = await tools.coinTool.contractInvokeTrans_attributes(data);

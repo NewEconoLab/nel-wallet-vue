@@ -5699,7 +5699,7 @@ var NNSTool = /** @class */ (function () {
                             "(str)addr",
                             "(str)" + str
                         ]);
-                        sb.EmitPushString("setResolveData");
+                        sb.EmitPushString("setResolverData");
                         sb.EmitAppCall(scriptaddress.reverse());
                         data = sb.ToArray();
                         return [4 /*yield*/, importpack_1.tools.coinTool.contractInvokeTrans_attributes(data)];
@@ -6756,6 +6756,7 @@ var CoinTool = /** @class */ (function () {
     CoinTool.makeTran = function (utxos, targetaddr, assetid, sendcount) {
         //if (sendcount.compareTo(Neo.Fixed8.Zero) <= 0)
         //    throw new Error("can not send zero.");
+        var inputcount = sendcount.add(Neo.Fixed8.parse('0.00000001')); //添加一笔最小的手续费
         var res = new entity_1.Result();
         var us = utxos[assetid];
         if (us == undefined) {
@@ -6786,7 +6787,7 @@ var CoinTool = /** @class */ (function () {
             scraddr = us[i].addr;
             clonearr.shift(); //删除已塞入的utxo
             old.push(new entity_1.OldUTXO(us[i].txid, us[i].n));
-            if (count.compareTo(sendcount) > 0) {
+            if (count.compareTo(inputcount) > 0) {
                 break; //如果足够则跳出循环
             }
         }
@@ -6801,7 +6802,7 @@ var CoinTool = /** @class */ (function () {
                 tran.outputs.push(output);
             }
             //找零
-            var change = count.subtract(sendcount);
+            var change = count.subtract(inputcount);
             if (change.compareTo(Neo.Fixed8.Zero) > 0) {
                 var outputchange = new ThinNeo.TransactionOutput();
                 outputchange.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(scraddr);

@@ -111,6 +111,7 @@ export class CoinTool
     {
         //if (sendcount.compareTo(Neo.Fixed8.Zero) <= 0)
         //    throw new Error("can not send zero.");
+        let inputcount = sendcount.add(Neo.Fixed8.parse('0.00000001')); //添加一笔最小的手续费
         var res = new Result();
         var us = utxos[ assetid ];
         if (us == undefined)
@@ -147,7 +148,7 @@ export class CoinTool
             scraddr = us[ i ].addr;
             clonearr.shift();               //删除已塞入的utxo
             old.push(new OldUTXO(us[ i ].txid, us[ i ].n));
-            if (count.compareTo(sendcount) > 0) //判断输入是否足够
+            if (count.compareTo(inputcount) > 0) //判断输入是否足够
             {
                 break;      //如果足够则跳出循环
             }
@@ -168,7 +169,7 @@ export class CoinTool
             }
 
             //找零
-            var change = count.subtract(sendcount);
+            var change = count.subtract(inputcount);
             if (change.compareTo(Neo.Fixed8.Zero) > 0)
             {
                 var outputchange = new ThinNeo.TransactionOutput();
