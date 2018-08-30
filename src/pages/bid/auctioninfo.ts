@@ -101,7 +101,7 @@ export default class AuctionInfo extends Vue
             this.bidState = 2;
         } else
         {
-            let result = balance.compareTo(sum);
+            let result = balance.compareTo(Neo.Fixed8.parse(this.bidPrice + ""));
             if (result < 0)
             {
                 this.bidState = 2;
@@ -169,6 +169,9 @@ export default class AuctionInfo extends Vue
 
     }
 
+    /**
+     * 退回sgas
+     */
     async recoverSgas()
     {
         let id = this.auctionId;
