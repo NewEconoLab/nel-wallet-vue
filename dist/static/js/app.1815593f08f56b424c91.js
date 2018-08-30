@@ -2840,8 +2840,8 @@ var AuctionStore = /** @class */ (function () {
                             auction.addWho = who;
                         }
                     }
-                    list[auction.auctionId] = auction;
                 }
+                list[auction.auctionId] = auction;
             }
             else {
                 delete list[auction.auctionId];
