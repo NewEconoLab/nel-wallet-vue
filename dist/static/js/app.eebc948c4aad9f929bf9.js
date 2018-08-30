@@ -4764,6 +4764,10 @@ var TaskManager = /** @class */ (function () {
                                     task.state = entity_1.TaskState.success;
                                     StorageMap_1.default.session_open.delete(task.message.domain);
                                 }
+                                else {
+                                    task.state = entity_1.TaskState.fail;
+                                    StorageMap_1.default.session_open.delete(task.message.domain);
+                                }
                             }
                             task.confirm++;
                             return task;
@@ -4796,6 +4800,9 @@ var TaskManager = /** @class */ (function () {
                                     task.state = entity_1.TaskState.success;
                                 }
                                 else if (result && result.displayNameList && result.displayNameList.includes("raiseEndsAuction")) {
+                                    task.state = entity_1.TaskState.fail;
+                                }
+                                else {
                                     task.state = entity_1.TaskState.fail;
                                 }
                             }
@@ -4913,6 +4920,12 @@ var TaskManager = /** @class */ (function () {
                                         entity_1.TaskFunction.domainResovle(task.message['domain']);
                                     domainEdit.delete(task.message['domain'], 'resolver');
                                 }
+                                else {
+                                    task.state = entity_1.TaskState.fail;
+                                    if (entity_1.TaskFunction.domainResovle)
+                                        entity_1.TaskFunction.domainResovle(task.message['domain']);
+                                    domainEdit.delete(task.message['domain'], 'resolver');
+                                }
                             }
                             task.confirm++;
                             return task;
@@ -4951,6 +4964,12 @@ var TaskManager = /** @class */ (function () {
                                         entity_1.TaskFunction.domainMapping(task.message['domain'], task.message['address']);
                                     domainEdit.delete(task.message['domain'], 'mapping');
                                 }
+                                else {
+                                    task.state = entity_1.TaskState.fail;
+                                    if (entity_1.TaskFunction.domainMapping)
+                                        entity_1.TaskFunction.domainMapping(task['domain'], undefined);
+                                    domainEdit.delete(task.message['domain'], 'mapping');
+                                }
                             }
                             task.confirm++;
                             return task;
@@ -4985,6 +5004,12 @@ var TaskManager = /** @class */ (function () {
                                 }
                                 else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) {
                                     task.state = entity_1.TaskState.success;
+                                    if (entity_1.TaskFunction.domainRenewal)
+                                        entity_1.TaskFunction.domainRenewal(task.message['domain']);
+                                    domainEdit.delete(task.message['domain'], 'renewal');
+                                }
+                                else {
+                                    task.state = entity_1.TaskState.fail;
                                     if (entity_1.TaskFunction.domainRenewal)
                                         entity_1.TaskFunction.domainRenewal(task.message['domain']);
                                     domainEdit.delete(task.message['domain'], 'renewal');
@@ -5047,6 +5072,12 @@ var TaskManager = /** @class */ (function () {
                                     }
                                     else if (result && result.displayNameList && result.displayNameList.includes("collectDomain")) {
                                         task.state = entity_1.TaskState.success;
+                                        StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
+                                        if (entity_1.TaskFunction.auctionStateUpdate)
+                                            entity_1.TaskFunction.auctionStateUpdate();
+                                    }
+                                    else {
+                                        task.state = entity_1.TaskState.fail;
                                         StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                                         if (entity_1.TaskFunction.auctionStateUpdate)
                                             entity_1.TaskFunction.auctionStateUpdate();

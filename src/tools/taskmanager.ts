@@ -333,6 +333,10 @@ export class TaskManager
                 {
                     task.state = TaskState.success;
                     Store.session_open.delete(task.message.domain);
+                } else
+                {
+                    task.state = TaskState.fail;
+                    Store.session_open.delete(task.message.domain);
                 }
 
             }
@@ -362,6 +366,9 @@ export class TaskManager
                 {
                     task.state = TaskState.success;
                 } else if (result && result.displayNameList && result.displayNameList.includes("raiseEndsAuction"))
+                {
+                    task.state = TaskState.fail;
+                } else
                 {
                     task.state = TaskState.fail;
                 }
@@ -468,6 +475,12 @@ export class TaskManager
                     if (TaskFunction.domainResovle)
                         TaskFunction.domainResovle(task.message[ 'domain' ]);
                     domainEdit.delete(task.message[ 'domain' ], 'resolver');
+                } else
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainResovle)
+                        TaskFunction.domainResovle(task.message[ 'domain' ]);
+                    domainEdit.delete(task.message[ 'domain' ], 'resolver');
                 }
             }
             task.confirm++;
@@ -503,6 +516,12 @@ export class TaskManager
                     if (TaskFunction.domainMapping)
                         TaskFunction.domainMapping(task.message[ 'domain' ], task.message[ 'address' ])
                     domainEdit.delete(task.message[ 'domain' ], 'mapping');
+                } else
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainMapping)
+                        TaskFunction.domainMapping(task[ 'domain' ], undefined)
+                    domainEdit.delete(task.message[ 'domain' ], 'mapping');
                 }
             }
             task.confirm++;
@@ -535,6 +554,12 @@ export class TaskManager
                 else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo"))
                 {
                     task.state = TaskState.success;
+                    if (TaskFunction.domainRenewal)
+                        TaskFunction.domainRenewal(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'renewal');
+                } else
+                {
+                    task.state = TaskState.fail;
                     if (TaskFunction.domainRenewal)
                         TaskFunction.domainRenewal(task.message[ 'domain' ])
                     domainEdit.delete(task.message[ 'domain' ], 'renewal');
@@ -599,6 +624,12 @@ export class TaskManager
                     else if (result && result.displayNameList && result.displayNameList.includes("collectDomain"))
                     {
                         task.state = TaskState.success;
+                        Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                        if (TaskFunction.auctionStateUpdate)
+                            TaskFunction.auctionStateUpdate();
+                    } else
+                    {
+                        task.state = TaskState.fail;
                         Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
                         if (TaskFunction.auctionStateUpdate)
                             TaskFunction.auctionStateUpdate();
