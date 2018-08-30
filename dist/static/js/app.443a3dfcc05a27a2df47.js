@@ -2840,8 +2840,11 @@ var AuctionStore = /** @class */ (function () {
                             auction.addWho = who;
                         }
                     }
+                    list[auction.auctionId] = auction;
                 }
-                list[auction.auctionId] = auction;
+            }
+            else {
+                delete list[auction.auctionId];
             }
         }
         this.session.setList(list);
@@ -4239,10 +4242,8 @@ var AuctionView = /** @class */ (function () {
         this.startTimeStr = importpack_1.tools.timetool.getTime(auction.startTime.blocktime);
         this.state = auction.auctionState;
         // if (this.state == AuctionState.open){  this.state = AuctionState.fixed;      }
-        if (this.state == AuctionState.expire || this.state == AuctionState.pass) {
+        if (this.state == AuctionState.end || this.state == AuctionState.expire) {
             this.state = AuctionState.end;
-        }
-        if (this.state == AuctionState.end) {
             if (auction.maxBuyer == this.addwho.address) {
                 this.btnState = this.addwho.getdomainTime ? auctionBtnState.receivedname : auctionBtnState.getdomain;
             }

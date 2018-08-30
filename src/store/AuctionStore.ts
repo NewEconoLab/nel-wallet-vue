@@ -31,9 +31,12 @@ export class AuctionStore implements StoreInterface
                             auction.addWho = who;
                         }
                     }
-
+                    list[ auction.auctionId ] = auction;
                 }
-                list[ auction.auctionId ] = auction;
+            }
+            else
+            {
+                delete list[ auction.auctionId ];
             }
         }
         this.session.setList(list);
