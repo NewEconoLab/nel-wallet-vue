@@ -1,7 +1,8 @@
 import { sessionStoreTool } from "./storagetool";
-import { Task, TaskType, TaskState, TaskFunction, ConfirmType } from "./entity";
+import { Task, TaskType, TaskState, TaskFunction, ConfirmType, LoginInfo } from "./entity";
 import { tools } from "./importpack";
 import Store from "./StorageMap";
+import { services } from "../services/index";
 /**
  * 任务管理器
  */
@@ -89,6 +90,8 @@ export class TaskManager
         {
             TaskFunction.taskHistory();
         }
+
+        await services.auction.updateAuctionList(LoginInfo.getCurrentAddress());
         for (const index in this.functionList)
         {
             if (this.functionList.hasOwnProperty(index))

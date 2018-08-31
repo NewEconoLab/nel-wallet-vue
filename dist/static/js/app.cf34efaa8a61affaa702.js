@@ -4368,6 +4368,7 @@ var storagetool_1 = __webpack_require__("5LD5");
 var entity_1 = __webpack_require__("6nHw");
 var importpack_1 = __webpack_require__("VKSY");
 var StorageMap_1 = __webpack_require__("slXE");
+var index_1 = __webpack_require__("r84I");
 /**
  * 任务管理器
  */
@@ -4483,6 +4484,9 @@ var TaskManager = /** @class */ (function () {
                         if (entity_1.TaskFunction.taskHistory) {
                             entity_1.TaskFunction.taskHistory();
                         }
+                        return [4 /*yield*/, index_1.services.auction.updateAuctionList(entity_1.LoginInfo.getCurrentAddress())];
+                    case 33:
+                        _d.sent();
                         for (index in this.functionList) {
                             if (this.functionList.hasOwnProperty(index)) {
                                 element = this.functionList[index];
@@ -6151,6 +6155,8 @@ var AuctionService = /** @class */ (function () {
                             index_1.store.auction.setSotre(list, address);
                             this.auctionList = index_1.store.auction.getSotre();
                         }
+                        if (entity_1.TaskFunction.auctionStateUpdate)
+                            entity_1.TaskFunction.auctionStateUpdate();
                         return [2 /*return*/];
                 }
             });
@@ -6785,7 +6791,7 @@ var CoinTool = /** @class */ (function () {
     CoinTool.makeTran = function (utxos, targetaddr, assetid, sendcount) {
         //if (sendcount.compareTo(Neo.Fixed8.Zero) <= 0)
         //    throw new Error("can not send zero.");
-        var inputcount = sendcount.add(Neo.Fixed8.parse('0.00000001')); //添加一笔最小的手续费
+        // let inputcount = sendcount.add(Neo.Fixed8.parse('0.00000001')); //添加一笔最小的手续费
         var res = new entity_1.Result();
         var us = utxos[assetid];
         if (us == undefined) {
@@ -6816,7 +6822,7 @@ var CoinTool = /** @class */ (function () {
             scraddr = us[i].addr;
             clonearr.shift(); //删除已塞入的utxo
             old.push(new entity_1.OldUTXO(us[i].txid, us[i].n));
-            if (count.compareTo(inputcount) > 0) {
+            if (count.compareTo(sendcount) > 0) {
                 break; //如果足够则跳出循环
             }
         }
@@ -6831,7 +6837,7 @@ var CoinTool = /** @class */ (function () {
                 tran.outputs.push(output);
             }
             //找零
-            var change = count.subtract(inputcount);
+            var change = count.subtract(sendcount);
             if (change.compareTo(Neo.Fixed8.Zero) > 0) {
                 var outputchange = new ThinNeo.TransactionOutput();
                 outputchange.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(scraddr);

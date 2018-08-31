@@ -1,7 +1,7 @@
 import { Auction, AuctionState, AuctionView, AuctionInfoView, AuctionAddress } from "../entity/AuctionEntitys";
 import { tools } from "../tools/importpack";
 import { store } from "../store/index";
-import { LoginInfo, Task, ConfirmType, TaskType, SellDomainInfo, Result } from "../tools/entity";
+import { LoginInfo, Task, ConfirmType, TaskType, SellDomainInfo, Result, TaskFunction } from "../tools/entity";
 
 /**
 * 竞拍方法类
@@ -106,6 +106,8 @@ export class AuctionService
             store.auction.setSotre(list, address);
             this.auctionList = store.auction.getSotre();
         }
+        if (TaskFunction.auctionStateUpdate)
+            TaskFunction.auctionStateUpdate();
     }
 
     /**

@@ -3,11 +3,12 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, TaskType, ConfirmType, Task } from "../../tools/entity";
+import { LoginInfo, TaskType, ConfirmType, Task, TaskFunction } from "../../tools/entity";
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
-import { AuctionInfoView } from "../../entity/AuctionEntitys";
+import { AuctionInfoView, AuctionState, auctionBtnState } from "../../entity/AuctionEntitys";
 import { services } from "../../services/index";
+import { store } from "../../store/index";
 @Component({
     components: {}
 })
@@ -37,8 +38,8 @@ export default class AuctionInfo extends Vue
         if (id)
         {
             this.auctionId = id;
-            services.auctionInfo.auctionId = id;
-            this.auctionInfo = services.auctionInfo.getAuctionInfo();
+            let auction = store.auction.queryStore(this.auctionId);
+            this.auctionInfo = new AuctionInfoView(auction);
         }
         this.address = LoginInfo.getCurrentAddress();
         this.myBidPrice = "";
@@ -59,10 +60,23 @@ export default class AuctionInfo extends Vue
 
     async mounted()
     {
+        if (this.auctionInfo.btnState != auctionBtnState.receivedname && this.auctionInfo.btnState != auctionBtnState.receivedsgas)
+        {
+            // TaskManager.functionList.push(this.init);
+            TaskFunction.auctionStateUpdate = this.init;
+        }
     }
 
     async init()
     {
+        let auctionMsg = new tools.sessionstoretool("auctionPage");
+        let id = auctionMsg.select("id");
+        if (id)
+        {
+            this.auctionId = id;
+            let auction = store.auction.queryStore(this.auctionId);
+            this.auctionInfo = new AuctionInfoView(auction);
+        }
         this.balanceOf = await tools.nnssell.getBalanceOf();
         this.fee = accMul(this.auctionInfo.addwho.totalValue, 0.10);
         this.remaining = accSub(this.auctionInfo.addwho.totalValue, this.fee);

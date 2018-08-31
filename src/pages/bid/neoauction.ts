@@ -105,8 +105,6 @@ export default class NeoAuction extends Vue
         {
             if (bheight < 20)
             {
-                console.log(this.currentpage);
-
                 this.getBidList(this.address, this.currentpage++)
             }
         })
@@ -122,7 +120,7 @@ export default class NeoAuction extends Vue
         this.regBalance = await tools.nnssell.getBalanceOf();
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
-        await services.auction.updateAuctionList(this.address);
+        // await services.auction.updateAuctionList(this.address);
         this.getBidList(this.address, 0);
     }
 
