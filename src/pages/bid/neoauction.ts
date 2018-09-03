@@ -89,7 +89,7 @@ export default class NeoAuction extends Vue
 
     async mounted()
     {
-        await tools.nnstool.initRootDomain("neo");
+        // await tools.nnstool.initRootDomain("neo");
         this.regBalance = await tools.nnssell.getBalanceOf();
         this.openToast = this.$refs.toast[ "isShow" ];
         this.getBidList(this.address, 1);

@@ -80,9 +80,9 @@
             <label>{{$t('auction.status')}}</label>
             <div class="process-box">
               <div :class="auctionInfo.process.timearr.length==3?'process':'process long'" :style="'width:'+auctionInfo.process.width+'%'">
-                <div v-if="auctionInfo.process.state='0201'" class="process-tips">{{ $t('auction.fixedperiod')}} </div>
-                <div v-if="auctionInfo.process.state='0301'" class="process-tips">{{ $t('auction.randomperiod')}} </div>
-                <div v-if="auctionInfo.process.state='0401'" class="process-tips">{{ $t('auction.ended')}} </div>
+                <div v-if="auctionInfo.process.state=='0201'" class="process-tips">{{ $t('auction.fixedperiod')}} </div>
+                <div v-if="auctionInfo.process.state=='0301'" class="process-tips">{{ $t('auction.randomperiod')}} </div>
+                <div v-if="auctionInfo.process.state=='0401'" class="process-tips">{{ $t('auction.ended')}} </div>
               </div>
               <div class="starts">{{auctionInfo.process.date}}
                 <br/>{{auctionInfo.process.time}}</div>

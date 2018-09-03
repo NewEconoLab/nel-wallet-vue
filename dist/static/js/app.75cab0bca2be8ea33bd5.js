@@ -6058,7 +6058,7 @@ var AuctionService = /** @class */ (function () {
      */
     AuctionService.getMyAuctionList = function (address, currentPage, pageSize) {
         return __awaiter(this, void 0, void 0, function () {
-            var auctionViewList, auctions, index, auction, view;
+            var auctionViewList, auctions, index, auction, view, view;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -6070,8 +6070,16 @@ var AuctionService = /** @class */ (function () {
                         for (index = 0; index < auctions.length; index++) {
                             auction = auctions[index];
                             if (auction.auctionState != AuctionEntitys_1.AuctionState.open) {
-                                view = new AuctionEntitys_1.AuctionView(auction);
-                                auctionViewList.push(view);
+                                if (auction.auctionState == AuctionEntitys_1.AuctionState.end) {
+                                    if (auction.addWho) {
+                                        view = new AuctionEntitys_1.AuctionView(auction);
+                                        auctionViewList.push(view);
+                                    }
+                                }
+                                else {
+                                    view = new AuctionEntitys_1.AuctionView(auction);
+                                    auctionViewList.push(view);
+                                }
                             }
                         }
                         auctionViewList.sort(function (a1, a2) {
@@ -6133,14 +6141,16 @@ var AuctionService = /** @class */ (function () {
                         //获得所有需要更新的域名竞拍id
                         for (index = 0; index < auctionList.length; index++) {
                             auction = auctionList[index];
-                            if (auction.auctionState == AuctionEntitys_1.AuctionState.end && auction.addWho) {
-                                if (auction.maxBuyer == auction.addWho.address) {
-                                    if (!auction.addWho.getdomainTime)
-                                        ids.push(auction.auctionId);
-                                }
-                                else {
-                                    if (!auction.addWho.accountTime)
-                                        ids.push(auction.auctionId);
+                            if (auction.auctionState == AuctionEntitys_1.AuctionState.end) {
+                                if (auction.addWho) {
+                                    if (auction.maxBuyer == auction.addWho.address) {
+                                        if (!auction.addWho.getdomainTime)
+                                            ids.push(auction.auctionId);
+                                    }
+                                    else {
+                                        if (!auction.addWho.accountTime)
+                                            ids.push(auction.auctionId);
+                                    }
                                 }
                             }
                             else {

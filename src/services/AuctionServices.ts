@@ -29,8 +29,19 @@ export class AuctionService
             const auction = auctions[ index ];
             if (auction.auctionState != AuctionState.open)
             {
-                let view = new AuctionView(auction);
-                auctionViewList.push(view);
+                if (auction.auctionState == AuctionState.end)
+                {
+                    if (auction.addWho)
+                    {
+                        let view = new AuctionView(auction);
+                        auctionViewList.push(view);
+                    }
+                }
+                else
+                {
+                    let view = new AuctionView(auction);
+                    auctionViewList.push(view);
+                }
             }
         }
         auctionViewList.sort((a1, a2) =>
@@ -83,16 +94,19 @@ export class AuctionService
         for (let index = 0; index < auctionList.length; index++)
         {
             const auction = auctionList[ index ];
-            if (auction.auctionState == AuctionState.end && auction.addWho)
+            if (auction.auctionState == AuctionState.end)
             {
-                if (auction.maxBuyer == auction.addWho.address)    //未领取的域名需要更新
+                if (auction.addWho)
                 {
-                    if (!auction.addWho.getdomainTime)
-                        ids.push(auction.auctionId);
-                } else                                      //未退币的域名需要更新
-                {
-                    if (!auction.addWho.accountTime)
-                        ids.push(auction.auctionId);
+                    if (auction.maxBuyer == auction.addWho.address)    //未领取的域名需要更新
+                    {
+                        if (!auction.addWho.getdomainTime)
+                            ids.push(auction.auctionId);
+                    } else                                      //未退币的域名需要更新
+                    {
+                        if (!auction.addWho.accountTime)
+                            ids.push(auction.auctionId);
+                    }
                 }
             } else                                          //未结束的域名都需要更新
             {
