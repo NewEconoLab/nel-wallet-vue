@@ -312,6 +312,18 @@ export class WWW
     }
 
     /**
+     * 获得分页总条数
+     * @param address 地址
+     */
+    static async getauctioninfocount(address: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getauctioninfocount", address);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        return (json && json[ "result" ]) ? json[ "result" ][ 0 ][ "count" ] : 0;
+    }
+
+    /**
      * 根据地址查询参与竞拍的域名列表
      * @param address 要查询的地址
      */

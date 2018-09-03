@@ -61,20 +61,28 @@ export class AuctionService
     {
         try
         {
-            //从列表种拉取数据
-            let result = await tools.wwwtool.getauctioninfobyaddress(address, currentPage, pageSize);
-            if (result)
+            let auctionSessionList = store.auction.getSotre() as Auction[];
+            if (!!auctionSessionList && auctionSessionList.length > 0)
             {
-                let auctionList = result[ 0 ].list as Auction[];
-                //对比信息并保存至缓存
-                store.auction.setSotre(auctionList, address);
-                //获得处理后的缓存数据
-                auctionList = store.auction.getSotre() as Auction[];
-                return auctionList;
+                return auctionSessionList;
             } else
             {
-                let list: Auction[] = store.auction.getSotre();
-                return list ? list : [];
+                //从列表种拉取数据
+                let count = await tools.wwwtool.getauctioninfocount(address);
+                let result = await tools.wwwtool.getauctioninfobyaddress(address, 1, count);
+                if (result)
+                {
+                    let auctionList = result[ 0 ].list as Auction[];
+                    //对比信息并保存至缓存
+                    store.auction.setSotre(auctionList, address);
+                    //获得处理后的缓存数据
+                    auctionList = store.auction.getSotre() as Auction[];
+                    return auctionList;
+                } else
+                {
+                    let list: Auction[] = store.auction.getSotre();
+                    return list ? list : [];
+                }
             }
         } catch (error)
         {

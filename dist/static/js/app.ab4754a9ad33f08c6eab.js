@@ -760,6 +760,28 @@ var WWW = /** @class */ (function () {
         });
     };
     /**
+     * 获得分页总条数
+     * @param address 地址
+     */
+    WWW.getauctioninfocount = function (address) {
+        return __awaiter(this, void 0, void 0, function () {
+            var postdata, result, json;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        postdata = WWW.makeRpcPostBody("getauctioninfocount", address);
+                        return [4 /*yield*/, fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        return [2 /*return*/, (json && json["result"]) ? json["result"][0]["count"] : 0];
+                }
+            });
+        });
+    };
+    /**
      * 根据地址查询参与竞拍的域名列表
      * @param address 要查询的地址
      */
@@ -6098,13 +6120,19 @@ var AuctionService = /** @class */ (function () {
      */
     AuctionService.getAuctionList = function (address, currentPage, pageSize) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, auctionList, list, error_1;
+            var auctionSessionList, count, result, auctionList, list, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaddress(address, currentPage, pageSize)];
-                    case 1:
+                        _a.trys.push([0, 5, , 6]);
+                        auctionSessionList = index_1.store.auction.getSotre();
+                        if (!(!!auctionSessionList && auctionSessionList.length > 0)) return [3 /*break*/, 1];
+                        return [2 /*return*/, auctionSessionList];
+                    case 1: return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfocount(address)];
+                    case 2:
+                        count = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getauctioninfobyaddress(address, 1, count)];
+                    case 3:
                         result = _a.sent();
                         if (result) {
                             auctionList = result[0].list;
@@ -6118,11 +6146,12 @@ var AuctionService = /** @class */ (function () {
                             list = index_1.store.auction.getSotre();
                             return [2 /*return*/, list ? list : []];
                         }
-                        return [3 /*break*/, 3];
-                    case 2:
+                        _a.label = 4;
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
                         error_1 = _a.sent();
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 6];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
