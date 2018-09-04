@@ -202,6 +202,7 @@ export default {
         price: "Price: ",
         tips1: "Tip: The minimum bid increment is 0.1 SGas. If your bid is lower than the current highest bid, your raise will be unsuccessful.",
         isAvailable: "is available",
+        errmsg5: "Only",
         errmsg1: "Only",
         errmsg2: "SGas is available.",
         errmsg4: "Please enter the right format.",
