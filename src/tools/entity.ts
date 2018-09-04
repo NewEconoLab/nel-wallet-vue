@@ -39,6 +39,13 @@ export class alert
         this.title.innerText = title;
         this.alertError.textContent = "";
         this.alert.hidden = false;
+        this.input.onkeydown = (ev: any) =>
+        {
+            if (ev.keyCode == 13)
+            {
+                call(this.input.value);
+            }
+        }
         this.btn_confirm.onclick = () =>
         {
             call(this.input.value);
