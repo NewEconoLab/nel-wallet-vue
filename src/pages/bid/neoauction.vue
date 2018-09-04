@@ -222,7 +222,7 @@
                 <!-- <spinner-wrap v-else ></spinner-wrap> -->
               </div>
               <div v-if="alert_TopUp.error" class="status-ended err-msg">
-                {{$t('auction.errmsg1')}} {{alert_available}} {{$t('auction.errmsg3')}}
+                {{$t('auction.errmsg5')}} {{alert_available}} {{$t('auction.errmsg3')}}
               </div>
               <!-- <div v-else class="err-msg">
                 {{alert_available}} {{$t('auction.isAvailable')}}.

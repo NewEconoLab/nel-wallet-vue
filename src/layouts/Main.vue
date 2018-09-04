@@ -32,7 +32,7 @@
                   <a id="testa">{{$t('navbar.testnet')}}</a>
                 </li>
                 <li id="mainnet-btn">
-                  <a target="_blank" href="https://wallet.nel.group/login" id="maina">{{$t('navbar.mainnet')}}</a>
+                  <a target="_blank" href="https://wallet.nel.group" id="maina">{{$t('navbar.mainnet')}}</a>
                 </li>
               </ul>
             </li>
