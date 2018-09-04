@@ -252,7 +252,7 @@ export class CoinTool
     }
 
     /**
-     * 领取gas
+     * 从api中得到claim的交易体发送 Claim交易
      */
     static async claimgas()
     {
@@ -268,6 +268,9 @@ export class CoinTool
         return result
     }
 
+    /**
+     * 自己构造 claim交易
+     */
     static async claimGas()
     {
         var address = LoginInfo.getCurrentAddress();

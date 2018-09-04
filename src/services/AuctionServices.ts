@@ -84,7 +84,8 @@ export class AuctionService
                     return list ? list : [];
                 }
             }
-        } catch (error)
+        }
+        catch (error)
         {
 
         }
