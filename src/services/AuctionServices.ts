@@ -65,7 +65,8 @@ export class AuctionService
             if (!!auctionSessionList && auctionSessionList.length > 0)
             {
                 return auctionSessionList;
-            } else
+            }
+            else
             {
                 //从列表种拉取数据
                 let count = await tools.wwwtool.getauctioninfocount(address);
@@ -78,7 +79,8 @@ export class AuctionService
                     //获得处理后的缓存数据
                     auctionList = store.auction.getSotre() as Auction[];
                     return auctionList;
-                } else
+                }
+                else
                 {
                     let list: Auction[] = store.auction.getSotre();
                     return list ? list : [];
@@ -111,13 +113,15 @@ export class AuctionService
                     {
                         if (!auction.addWho.getdomainTime)
                             ids.push(auction.auctionId);
-                    } else                                      //未退币的域名需要更新
+                    }
+                    else                                      //未退币的域名需要更新
                     {
                         if (!auction.addWho.accountTime)
                             ids.push(auction.auctionId);
                     }
                 }
-            } else                                          //未结束的域名都需要更新
+            }
+            else                                          //未结束的域名都需要更新
             {
                 ids.push(auction.auctionId);
             }
@@ -184,7 +188,8 @@ export class AuctionService
             {
                 let list = result[ 0 ].list as Auction[];
                 auction.parse(list[ 0 ], address);
-            } else
+            }
+            else
             {
                 auction.auctionId = txid;
                 auction.domain = subname;
@@ -228,18 +233,21 @@ export class AuctionService
                     res.info = txid;
                     let list = result2[ 0 ].list as Auction[];
                     auction.parse(list[ 0 ], address);
-                } else
+                }
+                else
                 {
                     auction.auctionState = AuctionState.open;
                 }
                 store.auction.push(auction);
-            } else
+            }
+            else
             {
                 res.err = true;
                 res.info = "raise fail";
             }
             return res;
-        } catch (error)
+        }
+        catch (error)
         {
 
         }

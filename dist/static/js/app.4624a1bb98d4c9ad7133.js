@@ -2558,23 +2558,23 @@ var AuctionInfoService = /** @class */ (function () {
         var a = 0;
         if (auction.state == AuctionEntitys_1.AuctionState.fixed) {
             process.state = AuctionEntitys_1.AuctionState.fixed;
-            a = accDiv(oldtime, 3 * 5 * 60);
+            a = accDiv(oldtime, 3 * 24 * 60 * 60);
             process.timearr.length = 3;
         }
         else if (auction.state == AuctionEntitys_1.AuctionState.random) {
             process.state = AuctionEntitys_1.AuctionState.random;
-            a = accDiv(oldtime, 5 * 5 * 60);
+            a = accDiv(oldtime, 5 * 24 * 60 * 60);
             process.timearr.length = 5;
         }
         else {
             process.state = AuctionEntitys_1.AuctionState.end;
             var subtime = accSub(auction.addwho.lastTime.blocktime, auction.startTime.blocktime);
             if (subtime < 2 * 5 * 60) {
-                a = accDiv(oldtime, 3 * 5 * 60);
+                a = accDiv(oldtime, 3 * 24 * 60 * 60);
                 process.timearr.length = 3;
             }
             else {
-                a = accDiv(oldtime, 5 * 5 * 60);
+                a = accDiv(oldtime, 5 * 24 * 60 * 60);
                 process.timearr.length = 5;
             }
         }
@@ -4328,7 +4328,7 @@ var Process = /** @class */ (function () {
                 default:
                     break;
             }
-            var time = this.startTime + 300 * i;
+            var time = this.startTime + 24 * 60 * 60 * i;
             var date = importpack_1.tools.timetool.dateFtt("yyyy/MM/dd", importpack_1.tools.timetool.getDate(time));
             var times = importpack_1.tools.timetool.dateFtt("hh:mm:ss", importpack_1.tools.timetool.getDate(time));
             element.date = date;
@@ -6756,7 +6756,7 @@ var CoinTool = /** @class */ (function () {
                                 name = "NEO";
                             }
                             else if (id == CoinTool.id_SGAS.toString()) {
-                                name = "SGAS";
+                                name = "CGAS";
                             }
                             else {
                                 for (i in names) {

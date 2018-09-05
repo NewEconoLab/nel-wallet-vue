@@ -27,13 +27,13 @@ export class AuctionInfoService
         if (auction.state == AuctionState.fixed)
         {
             process.state = AuctionState.fixed;
-            a = accDiv(oldtime, 3 * 5 * 60);
+            a = accDiv(oldtime, 3 * 24 * 60 * 60);
             process.timearr.length = 3;
         }
         else if (auction.state == AuctionState.random)
         {
             process.state = AuctionState.random;
-            a = accDiv(oldtime, 5 * 5 * 60);
+            a = accDiv(oldtime, 5 * 24 * 60 * 60);
             process.timearr.length = 5;
         } else
         {
@@ -41,11 +41,11 @@ export class AuctionInfoService
             let subtime = accSub(auction.addwho.lastTime.blocktime, auction.startTime.blocktime);
             if (subtime < 2 * 5 * 60)  //判断第三天有无出价
             {
-                a = accDiv(oldtime, 3 * 5 * 60);
+                a = accDiv(oldtime, 3 * 24 * 60 * 60);
                 process.timearr.length = 3;
             } else
             {
-                a = accDiv(oldtime, 5 * 5 * 60);
+                a = accDiv(oldtime, 5 * 24 * 60 * 60);
                 process.timearr.length = 5;
             }
         }

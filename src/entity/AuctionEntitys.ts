@@ -232,7 +232,7 @@ export class Process
                 default:
                     break;
             }
-            let time = this.startTime + 300 * i;
+            let time = this.startTime + 24 * 60 * 60 * i;
 
             let date = tools.timetool.dateFtt("yyyy/MM/dd", tools.timetool.getDate(time));
             let times = tools.timetool.dateFtt("hh:mm:ss", tools.timetool.getDate(time));
