@@ -50,7 +50,7 @@ export class AuctionInfoService
             }
         }
         let width = a >= 1 ? 100 : accMul(a, 100);
-        process.width = parseInt(width.toString());
+        process.width = parseFloat(width.toFixed(2));
         return process;
     }
 }
