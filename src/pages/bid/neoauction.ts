@@ -6,8 +6,6 @@ import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_
 import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
-import Store from "../../tools/StorageMap";
-import { AuctionService } from "../../services/AuctionServices";
 import { Auction, AuctionView, AuctionState } from "../../entity/AuctionEntitys";
 import { services } from "../../services/index";
 import { ScrollTools } from "../../tools/documentTools";
@@ -75,7 +73,8 @@ export default class NeoAuction extends Vue
         if (this.auctionPageSession.select("show"))
         {
             this.auctionPage = true;
-        } else
+        }
+        else
         {
             this.auctionPage = false;
         }
@@ -186,7 +185,8 @@ export default class NeoAuction extends Vue
         if (parseFloat(this.alert_TopUp.input) > 0)
         {
             this.isTopup = true;
-        } else
+        }
+        else
         {
             this.isTopup = false;
         }
@@ -201,7 +201,8 @@ export default class NeoAuction extends Vue
         {
             this.alert_TopUp.input = balance.toString();
             this.alert_TopUp.error = true;
-        } else
+        }
+        else
         {
             this.alert_TopUp.error = false;
         }
@@ -215,7 +216,8 @@ export default class NeoAuction extends Vue
         if (parseFloat(this.alert_withdraw.input) > 0)
         {
             this.isWithdraw = true;
-        } else
+        }
+        else
         {
             this.isWithdraw = false;
         }
@@ -230,7 +232,8 @@ export default class NeoAuction extends Vue
         {
             this.alert_withdraw.input = balance.toString();
             this.alert_withdraw.error = true;
-        } else
+        }
+        else
         {
             this.alert_withdraw.error = false;
         }
@@ -257,7 +260,8 @@ export default class NeoAuction extends Vue
         if (this.sgasAvailable != 0)
         {
             this.isTopup = true;
-        } else
+        }
+        else
         {
             this.isTopup = false;
         }
@@ -284,7 +288,8 @@ export default class NeoAuction extends Vue
         if (this.regBalance != "0")
         {
             this.isWithdraw = true;
-        } else
+        }
+        else
         {
             this.isWithdraw = false;
         }
@@ -330,7 +335,8 @@ export default class NeoAuction extends Vue
 
             this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup3"), 4000);
             this.alert_TopUp.isShow = false;
-        } catch (error)
+        }
+        catch (error)
         {
             this.openToast("error", "" + this.$t("auction.fail"), 4000);
         }
@@ -377,7 +383,9 @@ export default class NeoAuction extends Vue
         if (amount > parseFloat(this.auctionMsg_alert.maxPrice))
         {
             this.canAdded = true;
-        } else { this.canAdded = false; }
+        }
+        else
+        { this.canAdded = false; }
     }
 
     /**
@@ -391,7 +399,8 @@ export default class NeoAuction extends Vue
             this.openToast("success", "" + this.$t("auction.successbid2"), 3000);
             this.auctionShow = !this.auctionShow;
             this.alert_myBid = "";
-        } else
+        }
+        else
         {
             console.log(res.info);
 
@@ -450,7 +459,8 @@ export default class NeoAuction extends Vue
             this.btn_start = 1;
             this.checkState = 1;
             return;
-        } else
+        }
+        else
         {
             this.raiseAuction = auction;
             switch (auction.auctionState)
@@ -482,52 +492,6 @@ export default class NeoAuction extends Vue
             }
         }
 
-        // //是否开始域名竞拍 0:未开始竞拍
-        // let sellstate = (info.startBlockSelling.compareTo(Neo.BigInteger.Zero));
-        // if (sellstate == 0)
-        // {
-        // }
-        // //根据开标的区块高度获得开标的时间
-        // let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
-        // let currentTime = new Date().getTime();
-        // let dtime = currentTime - startTime * 1000; //时间差值;
-        // // let state: number = res > 1500000 ? (res < 109500000 ? 0 : 3) : res < 900000 ? 1 : 2;
-        // //如果超过随机期
-        // if (dtime > 900000)
-        // {   //最大金额为0，无人加价，流拍数据，或者域名到期，都可以重新开标
-        //     if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0 || dtime > 109500000)  
-        //     {
-        //         this.checkState = this.btn_start = 1;
-        //         return;
-        //     }
-
-        //     //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
-        //     if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0)
-        //     {
-        //         this.checkState = this.btn_start = 3;
-        //         return;
-        //     }
-
-        //     if (dtime > 1500000)    //如果大于结束时间则按钮不可点
-        //     {
-        //         this.checkState = this.btn_start = 3;
-        //     } else
-        //     {
-        //         let lastTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()));
-        //         let dlast = lastTime - startTime;
-        //         if (dlast < 600)
-        //         {
-        //             this.checkState = this.btn_start = 3;
-        //         } else
-        //         {
-        //             this.checkState = this.btn_start = 2;
-        //         }
-        //     }
-        // } else
-        // {
-        //     this.checkState = this.btn_start = 2
-        // }
-
     }
 
     /**
@@ -538,7 +502,8 @@ export default class NeoAuction extends Vue
         if (this.searchDomain.length)
         {
             this.doSearchDomain();
-        } else
+        }
+        else
         {
             this.isSearchTime = false;
         }
@@ -552,7 +517,8 @@ export default class NeoAuction extends Vue
         {
             this.isSearchTime = true;
             this.searchAuctionList = await NeoaucionData.searchBidList(this.address, this.searchDomain);
-        } else
+        }
+        else
         {
             this.isSearchTime = false;
         }

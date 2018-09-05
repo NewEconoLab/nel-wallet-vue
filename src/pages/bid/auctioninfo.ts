@@ -113,14 +113,16 @@ export default class AuctionInfo extends Vue
         if (Neo.Fixed8.parse(this.updatePrice).compareTo(Neo.Fixed8.parse((this.auctionInfo.maxPrice ? this.auctionInfo.maxPrice : 0) + '')) <= 0)
         {
             this.bidState = 2;
-        } else
+        }
+        else
         {
             let result = balance.compareTo(Neo.Fixed8.parse(this.bidPrice + ""));
             if (result < 0)
             {
                 this.bidState = 2;
                 this.inputErrorCode = 1;
-            } else
+            }
+            else
             {
                 this.bidState = 0;
                 this.inputErrorCode = 0;
@@ -128,6 +130,9 @@ export default class AuctionInfo extends Vue
         }
     }
 
+    /**
+     * 领取域名
+     */
     async getDomain()
     {
         if (this.auctionInfo.addwho.accountTime && this.auctionInfo.addwho.accountTime.blockindex > 0)
@@ -205,7 +210,8 @@ export default class AuctionInfo extends Vue
                 );
                 Store.auctionInfo.put(this.auctionInfo.domain, true, "isRecoverWait");
             }
-        } catch (error)
+        }
+        catch (error)
         {
 
         }
