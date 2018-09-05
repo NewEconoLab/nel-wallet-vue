@@ -124,7 +124,7 @@
                         <div class="th-other">
                           <div class="th-number">
                             <a class="green-text" target="_blank" :href="item.domainhref">{{item.message.domain}}</a>
-                            <span>{{item.message.amount}} SGas</span>
+                            <span>{{item.message.amount}} CGas</span>
                           </div>
                         </div>
                       </div>
@@ -144,7 +144,7 @@
                           <div class="th-number">
                             <span>{{item.message.count}} Gas</span>
                             <img src="../../static/img/arrow.png" alt="">
-                            <span>{{item.message.count}} SGas</span>
+                            <span>{{item.message.count}} CGas</span>
                           </div>
                         </div>
                       </div>
@@ -162,7 +162,7 @@
                         <div class="th-typename">{{$t('operation.exchange')}}</div>
                         <div class="th-other">
                           <div class="th-number">
-                            <span>{{item.message.count}} SGas</span>
+                            <span>{{item.message.count}} CGas</span>
                             <img src="../../static/img/arrow.png" alt="">
                             <span>{{item.message.count}} Gas</span>
                           </div>
@@ -182,7 +182,7 @@
                         <div class="th-typename">{{$t('operation.topup')}}</div>
                         <div class="th-other">
                           <div class="th-number">
-                            <span>{{item.message.amount}} SGas</span>
+                            <span>{{item.message.amount}} CGas</span>
                           </div>
                         </div>
                       </div>
@@ -309,7 +309,7 @@
                         <div class="th-other">
                           <div class="th-number">
                             <a class="green-text" :href="item.domainhref" target="_blank">{{item.message.domain}}</a>
-                            <span>{{item.message.amount}} SGas</span>
+                            <span>{{item.message.amount}} CGas</span>
                           </div>
                         </div>
                       </div>
@@ -444,7 +444,7 @@
   z-index: 2;
   opacity: 1;
   width: 640px;
-  max-height: 800px;
+  max-height: 500px;
   overflow-y: auto;
 }
 .tranhistory-title {

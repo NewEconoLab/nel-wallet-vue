@@ -19,7 +19,7 @@
                 <div class="choose-wrap wrap-right">
                     <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png">
                     <div class="change-type">
-                      <span>SGas</span>
+                      <span>CGas</span>
                       <p>{{$t('exchange.balance')}}: <span>{{mySGas}}</span></p>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="choose-wrap wrap-left">
                     <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png" >
                     <div class="change-type">
-                      <span>SGas</span>
+                      <span>CGas</span>
                       <p>{{$t('exchange.balance')}}: <span>{{mySGas}}</span></p>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                       <input type="number" placeholder="0" v-model="transcount" @input="exchangeCount" autocomplete="off">
                     </div>
                     <div class="msg-icon">
-                      {{changeSGas?"SGas":"Gas"}}
+                      {{changeSGas?"CGas":"Gas"}}
                     </div>
                   </div>
                 </div>
@@ -79,7 +79,7 @@
                       <input type="number" :placeholder="$t('exchange.amount')" v-model="transcount" disabled>
                     </div>
                     <div class="msg-icon">
-                      {{changeSGas?"Gas":"SGas"}}
+                      {{changeSGas?"Gas":"CGas"}}
                     </div>
                   </div>
                 </div>
@@ -98,7 +98,7 @@
           <h3 class="tran-title">{{$t('exchange.waittitle')}}</h3>
           <div class="tran-history" v-for="(item,index) in exchangeList" :key="index">            
             <p v-if="item.trantype == 'Gas'">{{$t('exchange.tosgas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
-            <p v-if="item.trantype == 'SGas'">{{$t('exchange.togas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
+            <p v-if="item.trantype == 'CGas'">{{$t('exchange.togas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
           </div>
         </div>
     </div>

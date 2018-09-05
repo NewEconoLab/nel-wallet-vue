@@ -22,7 +22,7 @@
             <div class="history-box" v-if="isClaim">{{$t('bonus.wait2')}}</div>
             <div class="history-wrap" v-for="(item,index) in historyList" :key="index">
                 <div class="history-box">
-                    <div class="history-number dde">+ {{item.value}} SGas</div>
+                    <div class="history-number dde">+ {{item.value}} CGas</div>
                     <hr>
                     <div class="history-time">{{item.blocktime}}</div>
                 </div>

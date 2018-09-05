@@ -14,7 +14,7 @@
             <div class="form-box pall">
               <div class="msg-list">
                 <div class="sgas-count">
-                  <span>SGas</span><span class="num"> {{regBalance}}</span>
+                  <span>CGas</span><span class="num"> {{regBalance}}</span>
                 </div>
               </div>
               <div class="btn-right">
@@ -83,7 +83,7 @@
                         </v-hint>
                     </div>
                     <div class="msg-price">
-                        {{$t('auction.lastauctionprice')}}: <span>{{item.maxPrice}}</span> SGas
+                        {{$t('auction.lastauctionprice')}}: <span>{{item.maxPrice}}</span> CGas
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer != address">
                         {{item.state!='0401'?$t('auction.currentbidder'):$t('auction.buyer') }}: <span>{{$t('auction.other')}} （ {{item.maxBuyer}} ）</span>
@@ -130,7 +130,7 @@
                         </v-hint>
                     </div>
                     <div class="msg-price">
-                        {{$t('auction.lastauctionprice')}}: <span>{{item.maxPrice}}</span> SGas
+                        {{$t('auction.lastauctionprice')}}: <span>{{item.maxPrice}}</span> CGas
                     </div>
                     <div class="msg-bidder" v-if="item.maxBuyer != address">
                         {{item.auctionState>0?$t('auction.currentbidder'):$t('auction.buyer') }}: <span>{{$t('auction.other')}} （ {{item.maxBuyer}} ）</span>
@@ -171,7 +171,7 @@
                 <span v-else-if="raiseAuction.auctionState=='0001'" class="status-random">{{$t('auction.waiting')}}</span>
                 <span v-else class="status-ended">{{$t('auction.ended')}}</span>
               </div>
-              <div class="auction-price">{{$t('auction.highest')}}: {{raiseAuction.maxPrice}} SGas</div>
+              <div class="auction-price">{{$t('auction.highest')}}: {{raiseAuction.maxPrice}} CGas</div>
             </div>
             <div class="wrap-msg">
               <div class="my-bid">
@@ -179,7 +179,7 @@
                 <input class="bid-input" type="number" :placeholder="$t('auction.enterbid')" v-model="alert_myBid" @input="verifBidAmount" autocomplete="off">
               </div>
               <div class="my-bid">
-                {{$t('auction.yourbidmsg')}}: <span :class="{'status-being':canAdded,'status-ended':!canAdded}">{{myBalanceOfSelling}}</span> SGas
+                {{$t('auction.yourbidmsg')}}: <span :class="{'status-being':canAdded,'status-ended':!canAdded}">{{myBalanceOfSelling}}</span> CGas
               </div>
             </div>
             <div class="tips-msg">
@@ -260,10 +260,10 @@
                 <button v-else class="btn btn-nel btn-big" @click="withdraw"  :class="{'btn-disable':!isWithdraw}" :disabled="!isWithdraw">{{$t('btn.confirm')}}</button>
               </div>
               <div v-if="alert_withdraw.error" class="status-ended err-msg">
-                {{$t('auction.errmsg1')}} {{regBalance}} SGas {{$t('auction.errmsg3')}}
+                {{$t('auction.errmsg1')}} {{regBalance}} CGas {{$t('auction.errmsg3')}}
               </div>
               <div v-else class="err-msg">
-                {{regBalance}} SGas {{$t('auction.isAvailable')}}
+                {{regBalance}} CGas {{$t('auction.isAvailable')}}
               </div>
             </div>
             <div class="account-tips">
@@ -274,7 +274,7 @@
             </div>
           </div>
         </div>
-        <!-- <v-toast type="error" msg="Top up failed ! And your 100 GAS has been exchanged into 100 SGAS !"></v-toast> -->
+        <!-- <v-toast type="error" msg="Top up failed ! And your 100 GAS has been exchanged into 100 CGas !"></v-toast> -->
         <v-toast ref="toast" ></v-toast>
         <!-- <v-toast type="error" msg="Operation failed !"></v-toast> -->
     </div>
