@@ -348,16 +348,6 @@ export default class NeoAuction extends Vue
     async addBid()
     {
         let msg = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
-        let auction = await tools.nnssell.getMyAuctionState(msg);
-        let time = await tools.wwwtool.api_getBlockInfo(msg.startBlockSelling.toInt32());
-        auction.startAuctionTime = time * 1000;
-        auction.startTimeStr = tools.timetool.getTime(time);
-        auction.maxBuyer = msg.maxBuyer ? msg.maxBuyer.toString() : "";
-        auction.maxPrice = accDiv(msg.maxPrice.toString(), 100000000).toString();
-        auction.domain = this.domain + ".neo";
-        auction.balanceOfSelling = accDiv(msg.balanceOfSelling.toString(), 100000000).toString();
-        this.myBalanceOfSelling = auction.balanceOfSelling;
-        this.auctionMsg_alert = auction;
         this.auctionShow = !this.auctionShow;
     }
 
@@ -378,9 +368,9 @@ export default class NeoAuction extends Vue
             this.alert_myBid = this.regBalance;
             myBid = parseFloat(this.regBalance);
         }
-        let amount = accAdd(this.auctionMsg_alert.balanceOfSelling, myBid);
+        let amount = accAdd(this.raiseAuction.addWho.totalValue, myBid);
         this.myBalanceOfSelling = amount.toString();
-        if (amount > parseFloat(this.auctionMsg_alert.maxPrice))
+        if (amount > this.raiseAuction.maxPrice)
         {
             this.canAdded = true;
         }

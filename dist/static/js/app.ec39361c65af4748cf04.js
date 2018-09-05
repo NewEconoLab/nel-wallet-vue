@@ -4217,6 +4217,7 @@ var Auction = /** @class */ (function () {
         this.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(auction.maxBuyer);
         this.maxPrice = accDiv(auction.maxPrice.toString(), 10000000);
         this.fulldomain = auction.domain;
+        this.addWho = new AuctionAddress(entity_1.LoginInfo.getCurrentAddress(), 0);
     };
     return Auction;
 }());
@@ -7584,16 +7585,17 @@ var NNSSell = /** @class */ (function () {
                         auction.fulldomain = info.domain;
                         auction.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
                         auction.maxPrice = !info.maxPrice ? 0 : accDiv(info.maxPrice.toString(), 100000000);
+                        auction.addWho = new AuctionEntitys_1.AuctionAddress(entity_1.LoginInfo.getCurrentAddress(), accDiv(info.balanceOfSelling.toString(), 1000));
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
                     case 1:
                         startTime = _a.sent();
-                        currentTime = new Date().getTime();
-                        dtime = currentTime - startTime * 1000;
-                        if (!(dtime > 109500000)) return [3 /*break*/, 2];
+                        currentTime = importpack_1.tools.timetool.currentTime();
+                        dtime = currentTime - startTime;
+                        if (!(dtime > 365 * 24 * 60 * 60)) return [3 /*break*/, 2];
                         auction.auctionState = AuctionEntitys_1.AuctionState.expire;
                         return [3 /*break*/, 5];
                     case 2:
-                        if (!(dtime > 900000)) return [3 /*break*/, 4];
+                        if (!(dtime > 3 * 24 * 60 * 60)) return [3 /*break*/, 4];
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.lastBlock.toString()))];
                     case 3:
                         lastTime = _a.sent();
@@ -7602,13 +7604,13 @@ var NNSSell = /** @class */ (function () {
                         if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0) {
                             auction.auctionState = AuctionEntitys_1.AuctionState.pass;
                         }
-                        else if (dlast < 600) {
+                        else if (dlast < 2 * 24 * 60 * 60) {
                             auction.auctionState = AuctionEntitys_1.AuctionState.end;
                         }
                         else if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0) {
                             auction.auctionState = AuctionEntitys_1.AuctionState.end;
                         }
-                        else if (dtime < 1500000) {
+                        else if (dtime < 5 * 24 * 60 * 60) {
                             auction.auctionState = AuctionEntitys_1.AuctionState.random;
                         }
                         else {

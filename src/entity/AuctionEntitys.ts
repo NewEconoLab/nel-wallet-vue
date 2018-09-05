@@ -90,7 +90,7 @@ export class Auction
         this.maxBuyer = ThinNeo.Helper.GetAddressFromScriptHash(auction.maxBuyer);
         this.maxPrice = accDiv(auction.maxPrice.toString(), 10000000);
         this.fulldomain = auction.domain;
-
+        this.addWho = new AuctionAddress(LoginInfo.getCurrentAddress(), 0);
 
     }
 }

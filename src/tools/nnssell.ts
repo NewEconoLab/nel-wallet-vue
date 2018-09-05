@@ -1,6 +1,6 @@
 import { tools } from "./importpack";
 import { Domainmsg, DomainInfo, SellDomainInfo, NNSResult, ResultItem, DataType, LoginInfo, OldUTXO, Consts, DomainState, MyAuction } from "./entity";
-import { Auction, AuctionState } from "../entity/AuctionEntitys";
+import { Auction, AuctionState, AuctionAddress } from "../entity/AuctionEntitys";
 export default class NNSSell
 {
     constructor() { }
@@ -239,15 +239,15 @@ export default class NNSSell
         auction.fulldomain = info.domain;
         auction.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
         auction.maxPrice = !info.maxPrice ? 0 : accDiv(info.maxPrice.toString(), 100000000);
-
+        auction.addWho = new AuctionAddress(LoginInfo.getCurrentAddress(), accDiv(info.balanceOfSelling.toString(), 1000));
         let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
         //根据开标的区块高度获得开标的时间
-        let currentTime = new Date().getTime();
-        let dtime = currentTime - startTime * 1000; //时间差值;
+        let currentTime = tools.timetool.currentTime();
+        let dtime = currentTime - startTime; //时间差值;
         //如果超过到期时间
-        if (dtime > 109500000)
+        if (dtime > 365 * 24 * 60 * 60)
             auction.auctionState = AuctionState.expire;
-        else if (dtime > 900000)
+        else if (dtime > 3 * 24 * 60 * 60)
         {
 
             //获得最后一次出价时间和开始时间的时间戳
@@ -259,8 +259,8 @@ export default class NNSSell
             {
                 auction.auctionState = AuctionState.pass;
             }
-            //先判断最后出价时间是否大于第三天
-            else if (dlast < 600)
+            //先判断最后出价时间是否在第三天之前
+            else if (dlast < 2 * 24 * 60 * 60)
             {
                 auction.auctionState = AuctionState.end;
             }
@@ -270,7 +270,7 @@ export default class NNSSell
                 auction.auctionState = AuctionState.end;
             }
             //如果不超过五天则是随机器
-            else if (dtime < 1500000)
+            else if (dtime < 5 * 24 * 60 * 60)
             {
                 auction.auctionState = AuctionState.random;
             }
