@@ -4209,6 +4209,7 @@ var Auction = /** @class */ (function () {
                 this.addWho = this.addwholist.find(function (addWho) {
                     return addWho.address == address;
                 });
+                this.addWho = this.addWho ? this.addWho : new AuctionAddress(address, 0);
             }
         }
     };
@@ -7585,7 +7586,7 @@ var NNSSell = /** @class */ (function () {
                         auction.fulldomain = info.domain;
                         auction.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
                         auction.maxPrice = !info.maxPrice ? 0 : accDiv(info.maxPrice.toString(), 100000000);
-                        auction.addWho = new AuctionEntitys_1.AuctionAddress(entity_1.LoginInfo.getCurrentAddress(), accDiv(info.balanceOfSelling.toString(), 1000));
+                        auction.addWho = new AuctionEntitys_1.AuctionAddress(entity_1.LoginInfo.getCurrentAddress(), accDiv(info.balanceOfSelling.toString(), 100000000));
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()))];
                     case 1:
                         startTime = _a.sent();

@@ -239,7 +239,7 @@ export default class NNSSell
         auction.fulldomain = info.domain;
         auction.maxBuyer = !info.maxBuyer ? "" : ThinNeo.Helper.GetAddressFromScriptHash(info.maxBuyer);
         auction.maxPrice = !info.maxPrice ? 0 : accDiv(info.maxPrice.toString(), 100000000);
-        auction.addWho = new AuctionAddress(LoginInfo.getCurrentAddress(), accDiv(info.balanceOfSelling.toString(), 1000));
+        auction.addWho = new AuctionAddress(LoginInfo.getCurrentAddress(), accDiv(info.balanceOfSelling.toString(), 100000000));
         let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
         //根据开标的区块高度获得开标的时间
         let currentTime = tools.timetool.currentTime();

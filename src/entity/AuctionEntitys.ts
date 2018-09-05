@@ -79,7 +79,8 @@ export class Auction
                 this.addWho = this.addwholist.find(addWho =>
                 {
                     return addWho.address == address;
-                })
+                });
+                this.addWho = this.addWho ? this.addWho : new AuctionAddress(address, 0)
             }
         }
     }
