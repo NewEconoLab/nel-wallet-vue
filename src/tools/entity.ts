@@ -32,7 +32,7 @@ export class alert
     }
     static show(title: string, inputType: string, btnText: string, call)
     {
-        // btn btn-nel btn-big
+        // let res = new Result()
         this.btn_confirm.classList.add("btn", "btn-nel", "btn-big");
         this.btn_confirm.textContent = btnText;
         this.input.type = inputType;
@@ -53,7 +53,7 @@ export class alert
         this.btn_close.onclick = () =>
         {
             this.alert.hidden = true;
-            return;
+            call(false);
         }
     }
     static close()
@@ -119,6 +119,10 @@ export class LoginInfo
                 {
                     alert.show(msg_title, "password", msg_btn, passsword =>
                     {
+                        if (!passsword)
+                        {
+                            reject("签名中断")
+                        }
                         let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
                         tools.neotool.nep2ToWif(nep2, passsword)
                             .then((res) =>

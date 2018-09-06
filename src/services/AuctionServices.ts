@@ -249,7 +249,7 @@ export class AuctionService
         }
         catch (error)
         {
-
+            throw error;
         }
     }
 

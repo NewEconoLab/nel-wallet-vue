@@ -197,17 +197,23 @@ export class CoinTool
      */
     static async signData(tran: ThinNeo.Transaction): Promise<Uint8Array>
     {
-        let info = await LoginInfo.deblocking();
+        try
+        {
+            let info = await LoginInfo.deblocking();
+            let addr = LoginInfo.getCurrentAddress();
+            let current = LoginInfo.info
+            var msg = tran.GetMessage().clone();
+            var pubkey = current.pubkey.clone();
+            var prekey = current.prikey.clone();
+            var signdata = ThinNeo.Helper.Sign(msg, prekey);
+            tran.AddWitness(signdata, pubkey, addr);
+            var data: Uint8Array = tran.GetRawData();
+            return data;
+        } catch (error)
+        {
+            throw "Signature interrupt";
+        }
 
-        let addr = LoginInfo.getCurrentAddress();
-        let current = LoginInfo.info
-        var msg = tran.GetMessage().clone();
-        var pubkey = current.pubkey.clone();
-        var prekey = current.prikey.clone();
-        var signdata = ThinNeo.Helper.Sign(msg, prekey);
-        tran.AddWitness(signdata, pubkey, addr);
-        var data: Uint8Array = tran.GetRawData();
-        return data;
     }
 
     /**
@@ -231,22 +237,32 @@ export class CoinTool
             if (tran.witnesses == null)
                 tran.witnesses = [];
             let txid = tran.GetHash().clone().reverse().toHexString();
-            let data = await this.signData(tran);
-
-            var res: Result = new Result();
-            var height = await tools.wwwtool.api_getHeight();
-            var result = await tools.wwwtool.api_postRawTransaction(data);
-            if (result[ "sendrawtransactionresult" ])
+            let data;
+            try
             {
-                res.err = !result;
-                res.info = result[ 'txid' ];
-                let olds = tranres.info[ 'oldarr' ] as OldUTXO[];
-                olds.map(old => old.height = height);
-                OldUTXO.oldutxosPush(olds);
+                data = await this.signData(tran);
+                var res: Result = new Result();
+                var height = await tools.wwwtool.api_getHeight();
+                var result = await tools.wwwtool.api_postRawTransaction(data);
+                if (result[ "sendrawtransactionresult" ])
+                {
+                    res.err = !result;
+                    res.info = result[ 'txid' ];
+                    let olds = tranres.info[ 'oldarr' ] as OldUTXO[];
+                    olds.map(old => old.height = height);
+                    OldUTXO.oldutxosPush(olds);
+                }
+                return res;
+            } catch (error)
+            {
+                console.log(error);
+                throw error;
+
             }
-            return res;
         } catch (error) 
         {
+            console.log("error  input");
+
             throw error;
         }
     }

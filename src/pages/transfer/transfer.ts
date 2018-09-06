@@ -248,7 +248,12 @@ export default class transfer extends Vue
             }
         } catch (error)
         {
-            mui.alert("" + this.$t("transfer.msg4"));
+            if (error == "Signature interrupt")
+            {
+            } else
+            {
+                mui.alert("" + this.$t("transfer.msg4"));
+            }
         }
     }
     async history()

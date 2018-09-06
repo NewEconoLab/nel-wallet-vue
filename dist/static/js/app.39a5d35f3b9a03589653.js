@@ -1587,7 +1587,7 @@ var alert = /** @class */ (function () {
     }
     alert.show = function (title, inputType, btnText, call) {
         var _this = this;
-        // btn btn-nel btn-big
+        // let res = new Result()
         this.btn_confirm.classList.add("btn", "btn-nel", "btn-big");
         this.btn_confirm.textContent = btnText;
         this.input.type = inputType;
@@ -1604,7 +1604,7 @@ var alert = /** @class */ (function () {
         };
         this.btn_close.onclick = function () {
             _this.alert.hidden = true;
-            return;
+            call(false);
         };
     };
     alert.close = function () {
@@ -1666,6 +1666,9 @@ var LoginInfo = /** @class */ (function () {
                         }
                         if (current_1.type == LoginType.nep2 || LoginType.nep6) {
                             alert.show(msg_title, "password", msg_btn, function (passsword) {
+                                if (!passsword) {
+                                    reject("签名中断");
+                                }
                                 var nep2 = current_1.msg[LoginInfo.getCurrentAddress()];
                                 importpack_1.tools.neotool.nep2ToWif(nep2, passsword)
                                     .then(function (res) {
@@ -3325,7 +3328,7 @@ var Contract = /** @class */ (function () {
             param[_i] = arguments[_i];
         }
         return __awaiter(this, void 0, void 0, function () {
-            var address, script, have, addr, assetid, count, utxos, tranmsg, tran, data, height, result, olds;
+            var address, script, have, addr, assetid, count, utxos, tranmsg, tran, data, height, result, olds, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3346,14 +3349,17 @@ var Contract = /** @class */ (function () {
                         //塞入脚本
                         tran.extdata.script = script;
                         tran.extdata.gas = Neo.Fixed8.fromNumber(0);
-                        return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
+                        _a.label = 2;
                     case 2:
+                        _a.trys.push([2, 6, , 7]);
+                        return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
+                    case 3:
                         data = _a.sent();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
-                    case 3:
+                    case 4:
                         height = _a.sent();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 4:
+                    case 5:
                         result = _a.sent();
                         if (result["sendrawtransactionresult"]) {
                             olds = tranmsg.info['oldarr'];
@@ -3364,7 +3370,11 @@ var Contract = /** @class */ (function () {
                         else {
                             throw "Transaction send failure";
                         }
-                        return [2 /*return*/];
+                        return [3 /*break*/, 7];
+                    case 6:
+                        error_1 = _a.sent();
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -6335,7 +6345,7 @@ var AuctionService = /** @class */ (function () {
                     case 5: return [2 /*return*/, res];
                     case 6:
                         error_3 = _a.sent();
-                        return [3 /*break*/, 7];
+                        throw error_3;
                     case 7: return [2 /*return*/];
                 }
             });
@@ -6908,10 +6918,12 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.signData = function (tran) {
         return __awaiter(this, void 0, void 0, function () {
-            var info, addr, current, msg, pubkey, prekey, signdata, data;
+            var info, addr, current, msg, pubkey, prekey, signdata, data, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, entity_1.LoginInfo.deblocking()];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, entity_1.LoginInfo.deblocking()];
                     case 1:
                         info = _a.sent();
                         addr = entity_1.LoginInfo.getCurrentAddress();
@@ -6923,6 +6935,10 @@ var CoinTool = /** @class */ (function () {
                         tran.AddWitness(signdata, pubkey, addr);
                         data = tran.GetRawData();
                         return [2 /*return*/, data];
+                    case 2:
+                        error_1 = _a.sent();
+                        throw "Signature interrupt";
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -6935,7 +6951,7 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.rawTransaction = function (targetaddr, asset, count) {
         return __awaiter(this, void 0, void 0, function () {
-            var arr, add, n, _count, utxos, tranres, tran, txid, data, res, height, result, olds, error_1;
+            var arr, add, n, _count, utxos, tranres, tran, txid, data, res, height, result, olds, error_2, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -6948,21 +6964,25 @@ var CoinTool = /** @class */ (function () {
                         utxos = _a.sent();
                         _a.label = 2;
                     case 2:
-                        _a.trys.push([2, 6, , 7]);
+                        _a.trys.push([2, 9, , 10]);
                         tranres = CoinTool.makeTran(utxos, targetaddr, asset, _count);
                         tran = tranres.info['tran'];
                         if (tran.witnesses == null)
                             tran.witnesses = [];
                         txid = tran.GetHash().clone().reverse().toHexString();
-                        return [4 /*yield*/, this.signData(tran)];
+                        data = void 0;
+                        _a.label = 3;
                     case 3:
+                        _a.trys.push([3, 7, , 8]);
+                        return [4 /*yield*/, this.signData(tran)];
+                    case 4:
                         data = _a.sent();
                         res = new entity_1.Result();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
-                    case 4:
+                    case 5:
                         height = _a.sent();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 5:
+                    case 6:
                         result = _a.sent();
                         if (result["sendrawtransactionresult"]) {
                             res.err = !result;
@@ -6972,10 +6992,16 @@ var CoinTool = /** @class */ (function () {
                             entity_1.OldUTXO.oldutxosPush(olds);
                         }
                         return [2 /*return*/, res];
-                    case 6:
-                        error_1 = _a.sent();
-                        throw error_1;
-                    case 7: return [2 /*return*/];
+                    case 7:
+                        error_2 = _a.sent();
+                        console.log(error_2);
+                        throw error_2;
+                    case 8: return [3 /*break*/, 10];
+                    case 9:
+                        error_3 = _a.sent();
+                        console.log("error  input");
+                        throw error_3;
+                    case 10: return [2 /*return*/];
                 }
             });
         });

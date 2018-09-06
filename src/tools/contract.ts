@@ -160,20 +160,26 @@ export default class Contract
         //塞入脚本
         (tran.extdata as ThinNeo.InvokeTransData).script = script;
         (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(0);
-
-        let data = await CoinTool.signData(tran);
-        var height = await tools.wwwtool.api_getHeight();
-        var result = await tools.wwwtool.api_postRawTransaction(data);
-
-        if (result[ "sendrawtransactionresult" ])
+        try
         {
-            let olds = tranmsg.info[ 'oldarr' ] as OldUTXO[];
-            olds.map(old => old.height = height);
-            OldUTXO.oldutxosPush(olds);
-            return result[ "txid" ];
-        } else
+
+            let data = await CoinTool.signData(tran);
+            var height = await tools.wwwtool.api_getHeight();
+            var result = await tools.wwwtool.api_postRawTransaction(data);
+            if (result[ "sendrawtransactionresult" ])
+            {
+                let olds = tranmsg.info[ 'oldarr' ] as OldUTXO[];
+                olds.map(old => old.height = height);
+                OldUTXO.oldutxosPush(olds);
+                return result[ "txid" ];
+            } else
+            {
+                throw "Transaction send failure";
+
+            }
+
+        } catch (error)
         {
-            throw "Transaction send failure";
 
         }
     }
