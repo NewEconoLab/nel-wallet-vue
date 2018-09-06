@@ -205,7 +205,7 @@ export default class AuctionInfo extends Vue
                 this.isRecoverWait = true;
                 let txid = res[ "txid" ];
                 TaskManager.addTask(
-                    new Task(ConfirmType.tranfer, txid, { domain: this.auctionInfo.domain, amount: this.myBidPrice }),
+                    new Task(ConfirmType.tranfer, txid, { domain: this.auctionInfo.domain, amount: this.auctionInfo.addwho.totalValue }),
                     TaskType.recoverSgas
                 );
                 Store.auctionInfo.put(this.auctionInfo.domain, true, "isRecoverWait");

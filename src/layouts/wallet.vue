@@ -382,6 +382,7 @@
   line-height: 16px;
 }
 .navbar-wallet .active {
+  color: #fff;
   background: #151a1e;
   border-radius: 5px 5px 0px 0px;
 }
