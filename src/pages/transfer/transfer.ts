@@ -331,7 +331,7 @@ export default class transfer extends Vue
                             else
                             {
                                 let nep5 = await tools.wwwtool.getNep5Asset(asset);
-                                assetname = nep5[ "name" ];
+                                assetname = nep5[ "symbol" ];
                             }
                             let n = out[ "n" ];
                             if (arr[ address ] && arr[ address ][ assetname ])
@@ -359,7 +359,7 @@ export default class transfer extends Vue
                                 else
                                 {
                                     let nep5 = await tools.wwwtool.getNep5Asset(asset);
-                                    assetname = nep5[ "name" ];
+                                    assetname = nep5[ "symbol" ];
                                 }
 
                                 var assets = {}
