@@ -148,7 +148,7 @@ export default class Exchange extends Vue
                     new Task(ConfirmType.recharge, txid, { count: this.transcount }),
                     TaskType.sgasToGas
                 );
-                let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'CGas' } ];
+                let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'CGAS' } ];
                 sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
                 this.exchangebtn = false;
                 this.isCheckingTran = true;
