@@ -143,6 +143,7 @@ export class AuctionView
                     this.addwho = addrwho;
                 }
             }
+            this.addwho = this.addwho ? this.addwho : new AuctionAddress(currentAddress, 0);
         }
         this.id = auction.auctionId;
         this.domain = auction.fulldomain;
