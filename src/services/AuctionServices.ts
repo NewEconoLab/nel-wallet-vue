@@ -1,7 +1,7 @@
 import { Auction, AuctionState, AuctionView, AuctionInfoView, AuctionAddress } from "../entity/AuctionEntitys";
 import { tools } from "../tools/importpack";
 import { store } from "../store/index";
-import { LoginInfo, Task, ConfirmType, TaskType, SellDomainInfo, Result, TaskFunction } from "../tools/entity";
+import { LoginInfo, Task, ConfirmType, TaskType, SellDomainInfo, Result, TaskFunction, RootDomainInfo } from "../tools/entity";
 
 /**
 * 竞拍方法类
@@ -22,7 +22,7 @@ export class AuctionService
     static async getMyAuctionList(address: string, currentPage: number, pageSize: number): Promise<AuctionView[]>
     {
         let auctionViewList = [];
-        let auctions = await this.getAuctionList(address, currentPage, pageSize);
+        let auctions = await this.getAuctionList(address);
         auctions = !auctions ? [] : auctions;
         for (let index = 0; index < auctions.length; index++)
         {
@@ -57,7 +57,7 @@ export class AuctionService
      * @param currentPage 当前页码
      * @param pageSize 查询的条数
      */
-    static async getAuctionList(address: string, currentPage: number, pageSize: number): Promise<Auction[]>
+    static async getAuctionList(address: string): Promise<Auction[]>
     {
         try
         {
@@ -153,9 +153,9 @@ export class AuctionService
      * @param subname 二级域名
      * @param rootname 根域名
      */
-    static async queryAuctionByDomain(subname: string, rootname): Promise<Auction>
+    static async queryAuctionByDomain(subname: string, root: RootDomainInfo): Promise<Auction>
     {
-        let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain([ subname, rootname ].join("."));
+        let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(subname, root);
         let auction = new Auction();
         if (info.id)
         {
@@ -171,15 +171,14 @@ export class AuctionService
      * @param subname 二级域名
      * @param rootname 根域名
      */
-    static async startAuction(subname: string, rootname: string): Promise<any>
+    static async startAuction(subname: string, root: RootDomainInfo): Promise<any>
     {
         let address = LoginInfo.getCurrentAddress()     //当前地址
-        let domain: string = [ subname, rootname ].join(".");
-        let roothash: Neo.Uint256 = tools.nnstool.nameHash(rootname);
+        let domain: string = [ subname, root.rootname ].join(".");
         let auction: Auction = new Auction();
         try
         {
-            let result = await tools.nnssell.startAuciton(subname, roothash);
+            let result = await tools.nnssell.startAuciton(subname, root);
             let txid = result.info;
             let task = new Task(ConfirmType.contract, txid, { domain: domain })
             tools.taskManager.addTask(task, TaskType.openAuction);
@@ -209,14 +208,14 @@ export class AuctionService
      * @param domain 
      * @param amount 
      */
-    static async auctionRaise(auctionId: string, domain: string, amount: number)
+    static async auctionRaise(auctionId: string, domain: string, amount: number, register: Neo.Uint160)
     {
         let address = LoginInfo.getCurrentAddress();
         let res = new Result()
         try
         {
             //加价
-            let result = await tools.nnssell.raise(auctionId, amount);
+            let result = await tools.nnssell.raise(auctionId, amount, register);
             if (!result.err)
             {
                 let txid = result.info;

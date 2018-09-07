@@ -7,8 +7,8 @@ import { RootDomainInfo, Consts, LoginInfo, DomainInfo, DomainStatus, Result, NN
  */
 export class NNSTool
 {
-    static root_test: RootDomainInfo;
-    static root_neo: RootDomainInfo;
+    static ROOT_TEST: RootDomainInfo;
+    static ROOT_NEO: RootDomainInfo;
 
     constructor()
     {
@@ -21,20 +21,43 @@ export class NNSTool
      */
     static async initRootDomain(root: string)
     {
-        var test = new RootDomainInfo();
-        test.roothash = NNSTool.nameHash(root);
-        test.rootname = root;
+        var rootInfo = new RootDomainInfo();
+        rootInfo.roothash = NNSTool.nameHash(root);
+        rootInfo.rootname = root;
         var scriptaddress = Consts.baseContract;
-        var domain = await NNSTool.getOwnerInfo(test.roothash, scriptaddress);
-        test.owner = domain.owner;
-        test.register = domain.register;
-        test.resolver = domain.resolver;
-        test.ttl = domain.ttl;
-
-        //判断根域名进行初始化
-        root == "test" ? NNSTool.root_test = test : NNSTool.root_neo = test;
-
+        var domain = await NNSTool.getOwnerInfo(rootInfo.roothash, scriptaddress);
+        rootInfo.owner = domain.owner;
+        rootInfo.register = domain.register;
+        rootInfo.resolver = domain.resolver;
+        rootInfo.ttl = domain.ttl;
+        return rootInfo;
     }
+
+
+    static async getRootInfo(root: string): Promise<RootDomainInfo>
+    {
+        if (root == "test")
+        {
+            if (!this.ROOT_TEST)
+            {
+                let info = await this.initRootDomain(root);
+                this.ROOT_TEST = info;
+            }
+            return this.ROOT_TEST;
+        }
+        if (root == "neo")
+        {
+            if (!this.ROOT_NEO)
+            {
+                let info = await this.initRootDomain(root);
+                this.ROOT_NEO = info;
+            }
+            return this.ROOT_NEO;
+        }
+    }
+
+
+
 
     /**
      * @method 查询域名信息
@@ -56,16 +79,16 @@ export class NNSTool
     }
 
     /**
-     * 注册域名
+     * 先到先得——注册域名
      * @param doamin 域名字符串
      */
     static async registerDomain(doamin: string)
     {
-        var nnshash: Neo.Uint256 = NNSTool.nameHash(NNSTool.root_test.rootname);
+        var nnshash: Neo.Uint256 = NNSTool.nameHash(NNSTool.ROOT_TEST.rootname);
         // let domains = await NNSTool.getSubOwner(nnshash, subdomain, NNSTool.root_test.register);
         var address = LoginInfo.getCurrentAddress();
         var sb = new ThinNeo.ScriptBuilder();
-        var scriptaddress = NNSTool.root_test.register;
+        var scriptaddress = NNSTool.ROOT_TEST.register;
         //生成随机数
         let random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues<Uint8Array>(new Uint8Array(32));
         let random_int = Neo.BigInteger.fromUint8Array(random_uint8);

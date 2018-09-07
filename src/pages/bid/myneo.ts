@@ -193,8 +193,10 @@ export default class MyNeo extends Vue
      */
     async renewalDomain()
     {
+        let root = await tools.nnstool.getRootInfo("neo");
         let domain = this.domainInfo.domain;
-        let res = await tools.nnssell.renewDomain(domain);
+        let res = await
+            tools.nnssell.renewDomain(domain, root.register);
         if (!res.err)
         {
             this.renewalWatting = true;

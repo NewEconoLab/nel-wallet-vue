@@ -2,8 +2,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator"
 import AuctionInfo from "./auctioninfo.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState, TaskFunction } from "../../tools/entity";
-import { NeoaucionData } from "../../tools/datamodel/neoauctionDataModel";
+import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState, TaskFunction, RootDomainInfo } from "../../tools/entity";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 import { Auction, AuctionView, AuctionState } from "../../entity/AuctionEntitys";
@@ -21,7 +20,6 @@ export default class NeoAuction extends Vue
     auctionMsg_alert: MyAuction;
     alert_myBid: string;
     address: string;
-    myAuctionList: MyAuction[] = [];
     domain: string;
     btn_start: number;
     isshowToast: boolean;//是否显示toast
@@ -46,6 +44,7 @@ export default class NeoAuction extends Vue
     searchAuctionList: MyAuction[] = [];
     auctionlist: AuctionView[];
     currentpage: number = 1;
+    rootInfo: RootDomainInfo;
 
     constructor()
     {
@@ -54,7 +53,6 @@ export default class NeoAuction extends Vue
         this.auctionShow = false;
         this.auctionPage = false;
         this.auctionMsg_alert = new MyAuction();
-        this.myAuctionList = [];
         this.domain = "";
         this.alert_myBid = "";
         this.address = LoginInfo.getCurrentAddress();
@@ -88,8 +86,8 @@ export default class NeoAuction extends Vue
 
     async mounted()
     {
-        // await tools.nnstool.initRootDomain("neo");
-        this.regBalance = await tools.nnssell.getBalanceOf();
+        this.rootInfo = await tools.nnstool.getRootInfo("neo");
+        this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         this.openToast = this.$refs.toast[ "isShow" ];
         this.getBidList(this.address, 1);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
@@ -116,7 +114,7 @@ export default class NeoAuction extends Vue
 
     async refreshPage()
     {
-        this.regBalance = await tools.nnssell.getBalanceOf();
+        this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         // await services.auction.updateAuctionList(this.address);
@@ -136,7 +134,6 @@ export default class NeoAuction extends Vue
     {
         this.alert_TopUp.watting = false;
         this.sessionWatting.put("topup", false);
-        this.regBalance = await tools.nnssell.getBalanceOf();
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable + " CGAS";
@@ -146,7 +143,6 @@ export default class NeoAuction extends Vue
     {
         this.alert_withdraw.watting = false;
         this.sessionWatting.put("withdraw", false);
-        this.regBalance = await tools.nnssell.getBalanceOf();
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable + " CGAS";
@@ -244,7 +240,6 @@ export default class NeoAuction extends Vue
      */
     async openTopUp()
     {
-        this.regBalance = await tools.nnssell.getBalanceOf();
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable + " CGAS";
@@ -272,7 +267,6 @@ export default class NeoAuction extends Vue
      */
     async openWithdraw()
     {
-        this.regBalance = await tools.nnssell.getBalanceOf();
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
         this.alert_available = this.sgasAvailable + " CGAS";
@@ -302,7 +296,7 @@ export default class NeoAuction extends Vue
     {
         let amount = parseFloat(this.alert_withdraw.input);
         this.alert_withdraw.watting = true;
-        let res = await tools.nnssell.getMoneyBack(amount);
+        let res = await tools.nnssell.getMoneyBack(amount, this.rootInfo.register);
         if (!res.err)
         {
             this.openToast("success", amount + "" + this.$t("auction.successwithdraw2"), 4000);
@@ -324,7 +318,7 @@ export default class NeoAuction extends Vue
         let amount = this.alert_TopUp.input;
         try
         {
-            let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8));
+            let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8), this.rootInfo.register);
             let res = await tools.wwwtool.api_postRawTransaction(data);
             this.alert_TopUp.watting = true;
             let txid = res[ "txid" ];
@@ -347,7 +341,7 @@ export default class NeoAuction extends Vue
      */
     async addBid()
     {
-        let msg = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        let msg = await tools.nnssell.getSellingStateByDomain(this.domain, this.rootInfo);
         this.raiseAuction = await tools.nnssell.getAuctionByStateInfo(msg);
         this.myBalanceOfSelling = (this.raiseAuction.addWho && this.raiseAuction.addWho.totalValue) ? this.raiseAuction.addWho.totalValue.toString() : "0";
         this.auctionShow = !this.auctionShow;
@@ -390,7 +384,11 @@ export default class NeoAuction extends Vue
             this.canAdded = false;
             try
             {
-                let res = await services.auction.auctionRaise(this.raiseAuction.auctionId, this.raiseAuction.fulldomain, parseFloat(this.alert_myBid));
+                let res = await services.auction.auctionRaise(
+                    this.raiseAuction.auctionId,
+                    this.raiseAuction.fulldomain,
+                    parseFloat(this.alert_myBid),
+                    this.rootInfo.register);
                 if (!res.err)
                 {
                     this.canAdded = true;
@@ -423,7 +421,7 @@ export default class NeoAuction extends Vue
             return;
         }
         this.btn_start = 0;
-        let res = await services.auction.startAuction(this.domain, "neo");
+        let res = await services.auction.startAuction(this.domain, this.rootInfo);
         this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
         this.btn_start = 1;
         this.domain = "";
@@ -455,7 +453,7 @@ export default class NeoAuction extends Vue
             this.checkState = this.btn_start = 4;
             return;
         }
-        let auction: Auction = await services.auction.queryAuctionByDomain(this.domain, "neo");
+        let auction: Auction = await services.auction.queryAuctionByDomain(this.domain, this.rootInfo);
 
         if (!auction.auctionId)
         {
@@ -519,7 +517,7 @@ export default class NeoAuction extends Vue
         if (this.searchDomain.length)
         {
             this.isSearchTime = true;
-            this.searchAuctionList = await NeoaucionData.searchBidList(this.address, this.searchDomain);
+            // this.searchAuctionList = await NeoaucionData.searchBidList(this.address, this.searchDomain);
         }
         else
         {

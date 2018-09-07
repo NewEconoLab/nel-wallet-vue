@@ -3,7 +3,7 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, TaskType, ConfirmType, Task, TaskFunction } from "../../tools/entity";
+import { LoginInfo, TaskType, ConfirmType, Task, TaskFunction, RootDomainInfo } from "../../tools/entity";
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
 import { AuctionInfoView, AuctionState, auctionBtnState } from "../../entity/AuctionEntitys";
@@ -16,10 +16,12 @@ export default class AuctionInfo extends Vue
 {
     auctionId: string;
     auctionInfo: AuctionInfoView;
+
     address: string;
     myBidPrice: string;
     balanceOf: string;
     fee: number;
+    rootInfo: RootDomainInfo
     remaining: number;
     bidState: number;
     bidPrice: string;
@@ -55,14 +57,19 @@ export default class AuctionInfo extends Vue
         this.isReceived = false;
         this.isGetDomainWait = false;
         this.isRecoverWait = false;
-        this.init()
     }
 
     async mounted()
     {
-        if (this.auctionInfo.btnState != auctionBtnState.receivedname && this.auctionInfo.btnState != auctionBtnState.receivedsgas)
+        this.rootInfo = await tools.nnstool.getRootInfo("neo");
+        this.init();
+        if
+        (
+            this.auctionInfo.btnState != auctionBtnState.receivedname
+            &&
+            this.auctionInfo.btnState != auctionBtnState.receivedsgas
+        )
         {
-            // TaskManager.functionList.push(this.init);
             TaskFunction.auctionStateUpdate = this.init;
         }
     }
@@ -77,7 +84,7 @@ export default class AuctionInfo extends Vue
             let auction = store.auction.queryStore(this.auctionId);
             this.auctionInfo = new AuctionInfoView(auction);
         }
-        this.balanceOf = await tools.nnssell.getBalanceOf();
+        this.balanceOf = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         this.fee = accMul(this.auctionInfo.addwho.totalValue, 0.10);
         this.remaining = accSub(this.auctionInfo.addwho.totalValue, this.fee);
         let waitstate = Store.auctionInfo.select(this.auctionInfo.domain);
@@ -137,7 +144,7 @@ export default class AuctionInfo extends Vue
     {
         if (this.auctionInfo.addwho.accountTime && this.auctionInfo.addwho.accountTime.blockindex > 0)
         {
-            let data = await tools.nnssell.collectDomain(this.auctionInfo.id.toString());
+            let data = await tools.nnssell.collectDomain(this.auctionInfo.id.toString(), this.rootInfo.register);
             if (!data)
             {
                 return;
@@ -152,8 +159,8 @@ export default class AuctionInfo extends Vue
         }
         else
         {
-            let data1 = await tools.nnssell.bidSettlement(this.auctionInfo.id.toString());
-            let data2 = await tools.nnssell.collectDomain(this.auctionInfo.id.toString());
+            let data1 = await tools.nnssell.bidSettlement(this.auctionInfo.id.toString(), this.rootInfo.register);
+            let data2 = await tools.nnssell.collectDomain(this.auctionInfo.id.toString(), this.rootInfo.register);
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
             let txid = res[ "txid" ];
             this.isGetDomainWait = true;
@@ -175,7 +182,7 @@ export default class AuctionInfo extends Vue
         try
         {
             let count = parseFloat(this.bidPrice)
-            let res = await services.auction.auctionRaise(this.auctionInfo.id, this.auctionInfo.domain, count);
+            let res = await services.auction.auctionRaise(this.auctionInfo.id, this.auctionInfo.domain, count, this.rootInfo.register);
             if (!res.err)
                 this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             this.bidPrice = "";
@@ -194,7 +201,7 @@ export default class AuctionInfo extends Vue
     async recoverSgas()
     {
         let id = this.auctionId;
-        let data = await tools.nnssell.bidSettlement(id);
+        let data = await tools.nnssell.bidSettlement(id, this.rootInfo.register);
         if (!data)
             return;
         try
