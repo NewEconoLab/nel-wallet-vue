@@ -28,7 +28,7 @@ export default class MyNeo extends Vue
         this.isShowEdit = false;
         this.currentAddress = LoginInfo.getCurrentAddress();
         this.neonameList = null;
-        this.set_contract = "0xdd19287ce0c25d4d539893df8d9639e5971a6fc0";
+        this.set_contract = "0x6e2aea28af9c5febea0774759b1b76398e3167f1";
         this.domainEdit = new sessionStoreTool("domain-edit");
         this.renewalWatting = false;
         this.resolverAddress = "";
