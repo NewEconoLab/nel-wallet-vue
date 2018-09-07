@@ -348,6 +348,8 @@ export default class NeoAuction extends Vue
     async addBid()
     {
         let msg = await tools.nnssell.getSellingStateByDomain(this.domain + ".neo");
+        this.raiseAuction = await tools.nnssell.getAuctionByStateInfo(msg);
+        this.myBalanceOfSelling = (this.raiseAuction.addWho && this.raiseAuction.addWho.totalValue) ? this.raiseAuction.addWho.totalValue.toString() : "0";
         this.auctionShow = !this.auctionShow;
     }
 

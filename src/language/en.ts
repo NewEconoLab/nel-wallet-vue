@@ -256,9 +256,9 @@ export default {
         tips: "Tips: ",
         statustips: "The auction period is the first stage of the auction and its duration is 3 days, during which all bids are valid. An overtime bidding of up to 2 days will be triggered when someone bids on the last day of the auction period. Otherwise the auction ends at the end of the auction period.",
         statustips2: "The overtime bidding is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain. ",
-        toptips: "Tips: You have successfully submited your CGAS top up transaction. It will be confirmed and added to your Auction Account in the next block. Please be patient. ",
-        withdrawtips: "Tips: You have successfully submited your CGAS withdrawal transaction. It will be confirmed and added to your wallet in the next block. Please be patient. ",
-        getall: "Get all",
+        toptips: "Tips: When the system prompts you have successfully submited your CGAS top up transaction. It will be confirmed and added to your Auction Account in the next block. Please be patient.",
+        withdrawtips: "Tips: When the system prompts you have successfully submited your CGAS withdrawal transaction. It will be confirmed and added to your wallet in the next block. Please be patient.",
+        getall: "Max",
         nodata: "No related data was found."
     },
     exchange: {
