@@ -7,7 +7,7 @@ export class CoinTool
     static readonly id_GAS: string = "0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
     static readonly id_NEO: string = "0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
     static readonly id_SGAS: Neo.Uint160 = Neo.Uint160.parse('9121e89e8a0849857262d67c8408601b5e8e0524');
-    static readonly dapp_nnc: Neo.Uint160 = Neo.Uint160.parse("12329843449f29a66fb05974c2fb77713eb1689a");
+    static readonly dapp_nnc: Neo.Uint160 = Neo.Uint160.parse("fc732edee1efdf968c23c20a9628eaa5a6ccb934");
     static assetID2name: { [ id: string ]: string } = {};
     static name2assetID: { [ id: string ]: string } = {};
 

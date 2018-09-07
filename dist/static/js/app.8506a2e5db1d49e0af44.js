@@ -1925,7 +1925,7 @@ var Consts = /** @class */ (function () {
     function Consts() {
     }
     // static baseContract = "0x2172f8d5b17c2d45fa3ff58dee8e8a4c3f51ef72";0x954f285a93eed7b4aed9396a7806a5812f1a5950;0x537758fbe85505801faa7d7d7b75b37686ad7e2d;
-    Consts.baseContract = Neo.Uint160.parse("8e813d36b159400e4889ba0aed0c42b02dd58e9e");
+    Consts.baseContract = Neo.Uint160.parse("348387116c4a75e420663277d9c02049907128c7");
     Consts.registerContract = Neo.Uint160.parse("d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c");
     return Consts;
 }());
@@ -7254,7 +7254,7 @@ var CoinTool = /** @class */ (function () {
     CoinTool.id_GAS = "0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
     CoinTool.id_NEO = "0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
     CoinTool.id_SGAS = Neo.Uint160.parse('9121e89e8a0849857262d67c8408601b5e8e0524');
-    CoinTool.dapp_nnc = Neo.Uint160.parse("12329843449f29a66fb05974c2fb77713eb1689a");
+    CoinTool.dapp_nnc = Neo.Uint160.parse("fc732edee1efdf968c23c20a9628eaa5a6ccb934");
     CoinTool.assetID2name = {};
     CoinTool.name2assetID = {};
     return CoinTool;
