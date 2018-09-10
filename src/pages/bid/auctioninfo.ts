@@ -36,12 +36,10 @@ export default class AuctionInfo extends Vue
     {
         super();
         let auctionMsg = new tools.sessionstoretool("auctionPage");
-        let id = auctionMsg.select("id");
-        if (id)
+        if (services.auctionInfo_neo.auctionId)
         {
-            this.auctionId = id;
-            let auction = store.auction.queryStore(this.auctionId);
-            this.auctionInfo = new AuctionInfoView(auction);
+            this.auctionId = services.auctionInfo_neo.auctionId;
+            this.auctionInfo = services.auctionInfo_neo.getAuctionInfo();
         }
         this.address = LoginInfo.getCurrentAddress();
         this.myBidPrice = "";
@@ -76,13 +74,10 @@ export default class AuctionInfo extends Vue
 
     async init()
     {
-        let auctionMsg = new tools.sessionstoretool("auctionPage");
-        let id = auctionMsg.select("id");
-        if (id)
+        if (services.auctionInfo_neo.auctionId)
         {
-            this.auctionId = id;
-            let auction = store.auction.queryStore(this.auctionId);
-            this.auctionInfo = new AuctionInfoView(auction);
+            this.auctionId = services.auctionInfo_neo.auctionId;
+            this.auctionInfo = services.auctionInfo_neo.getAuctionInfo();
         }
         this.balanceOf = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         this.fee = accMul(this.auctionInfo.addwho.totalValue, 0.10);
@@ -182,7 +177,7 @@ export default class AuctionInfo extends Vue
         try
         {
             let count = parseFloat(this.bidPrice)
-            let res = await services.auction.auctionRaise(this.auctionInfo.id, this.auctionInfo.domain, count, this.rootInfo.register);
+            let res = await services.auction_neo.auctionRaise(this.auctionInfo.id, this.auctionInfo.domain, count, this.rootInfo.register);
             if (!res.err)
                 this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
             this.bidPrice = "";

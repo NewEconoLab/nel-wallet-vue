@@ -4,8 +4,14 @@ import { sessionStoreTool } from "../tools/storagetool";
 
 export class AuctionStore implements StoreInterface
 {
-    tablename: string = "AUCTION_LIST";
-    session: sessionStoreTool = new sessionStoreTool(this.tablename);
+    tablename: string;
+    session: sessionStoreTool;
+
+    constructor(table: string)
+    {
+        this.tablename = table;
+        this.session = new sessionStoreTool(table);
+    }
 
     /**
      * 更新缓存队列

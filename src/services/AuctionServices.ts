@@ -1,7 +1,7 @@
-import { Auction, AuctionState, AuctionView, AuctionInfoView, AuctionAddress } from "../entity/AuctionEntitys";
+import { Auction, AuctionState, AuctionView } from "../entity/AuctionEntitys";
 import { tools } from "../tools/importpack";
-import { store } from "../store/index";
 import { LoginInfo, Task, ConfirmType, TaskType, SellDomainInfo, Result, TaskFunction, RootDomainInfo } from "../tools/entity";
+import { AuctionStore } from "../store/AuctionStore";
 
 /**
 * 竞拍方法类
@@ -9,8 +9,14 @@ import { LoginInfo, Task, ConfirmType, TaskType, SellDomainInfo, Result, TaskFun
 export class AuctionService
 {
     //竞拍列表
-    static auctionList: Auction[];
-    static auctionViewList: AuctionView[];
+    auctionList: Auction[];
+    auctionViewList: AuctionView[];
+    store: AuctionStore;
+
+    constructor(store: AuctionStore)
+    {
+        this.store = store;
+    }
 
     /**
      * 获得列表数据
@@ -19,7 +25,7 @@ export class AuctionService
      * @param pageSize 分页条数
      * @returns AuctionView[]
      */
-    static async getMyAuctionList(address: string, currentPage: number, pageSize: number): Promise<AuctionView[]>
+    async getMyAuctionList(address: string, currentPage: number, pageSize: number): Promise<AuctionView[]>
     {
         let auctionViewList = [];
         let auctions = await this.getAuctionList(address);
@@ -57,11 +63,11 @@ export class AuctionService
      * @param currentPage 当前页码
      * @param pageSize 查询的条数
      */
-    static async getAuctionList(address: string): Promise<Auction[]>
+    async getAuctionList(address: string): Promise<Auction[]>
     {
         try
         {
-            let auctionSessionList = store.auction.getSotre() as Auction[];
+            let auctionSessionList = this.store.getSotre() as Auction[];
             if (!!auctionSessionList && auctionSessionList.length > 0)
             {
                 return auctionSessionList;
@@ -75,14 +81,14 @@ export class AuctionService
                 {
                     let auctionList = result[ 0 ].list as Auction[];
                     //对比信息并保存至缓存
-                    store.auction.setSotre(auctionList, address);
+                    this.store.setSotre(auctionList, address);
                     //获得处理后的缓存数据
-                    auctionList = store.auction.getSotre() as Auction[];
+                    auctionList = this.store.getSotre() as Auction[];
                     return auctionList;
                 }
-                else
+                else  
                 {
-                    let list: Auction[] = store.auction.getSotre();
+                    let list: Auction[] = this.store.getSotre();
                     return list ? list : [];
                 }
             }
@@ -97,9 +103,9 @@ export class AuctionService
     /**
      * 更新可能会有状态变化的域名数据
      */
-    static async updateAuctionList(address: string)
+    async updateAuctionList(address: string)
     {
-        let auctionList = store.auction.getSotre();
+        let auctionList = this.store.getSotre();
         let ids: string[] = [];
         //获得所有需要更新的域名竞拍id
         for (let index = 0; index < auctionList.length; index++)
@@ -130,22 +136,11 @@ export class AuctionService
         if (result)
         {
             let list = result[ 0 ].list as Auction[];
-            store.auction.setSotre(list, address);
-            this.auctionList = store.auction.getSotre();
+            this.store.setSotre(list, address);
+            this.auctionList = this.store.getSotre();
         }
         if (TaskFunction.auctionStateUpdate)
             TaskFunction.auctionStateUpdate();
-    }
-
-    /**
-     * 根据竞拍id获得竞拍详情
-     * @param id 竞拍id
-     */
-    static getAuctionInfoById(id: string)
-    {
-        let auction = store.auction.queryStore(id);
-        let view = new AuctionInfoView(auction);
-        return view;
     }
 
     /**
@@ -153,7 +148,7 @@ export class AuctionService
      * @param subname 二级域名
      * @param rootname 根域名
      */
-    static async queryAuctionByDomain(subname: string, root: RootDomainInfo): Promise<Auction>
+    async queryAuctionByDomain(subname: string, root: RootDomainInfo): Promise<Auction>
     {
         let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(subname, root);
         let auction = new Auction();
@@ -171,7 +166,7 @@ export class AuctionService
      * @param subname 二级域名
      * @param rootname 根域名
      */
-    static async startAuction(subname: string, root: RootDomainInfo): Promise<any>
+    async startAuction(subname: string, root: RootDomainInfo): Promise<any>
     {
         let address = LoginInfo.getCurrentAddress()     //当前地址
         let domain: string = [ subname, root.rootname ].join(".");
@@ -195,7 +190,7 @@ export class AuctionService
                 auction.fulldomain = domain;
                 auction.auctionState = AuctionState.open;
             }
-            store.auction.push(auction);
+            this.store.push(auction);
             return txid;
         } catch (error)
         {
@@ -208,7 +203,7 @@ export class AuctionService
      * @param domain 
      * @param amount 
      */
-    static async auctionRaise(auctionId: string, domain: string, amount: number, register: Neo.Uint160)
+    async auctionRaise(auctionId: string, domain: string, amount: number, register: Neo.Uint160)
     {
         let address = LoginInfo.getCurrentAddress();
         let res = new Result()
@@ -237,7 +232,7 @@ export class AuctionService
                 {
                     auction.auctionState = AuctionState.open;
                 }
-                store.auction.push(auction);
+                this.store.push(auction);
             }
             else
             {
@@ -256,11 +251,11 @@ export class AuctionService
      * 竞拍缓存添加方法
      * @param auction 竞拍方法
      */
-    static pushAuctionToSession(auction: Auction)
+    pushAuctionToSession(auction: Auction)
     {
         let address = LoginInfo.getCurrentAddress();
-        let sessionlist = store.auction.getSotre();
+        let sessionlist = this.store.getSotre();
         sessionlist.push(auction);
-        store.auction.setSotre(sessionlist, address)
+        this.store.setSotre(sessionlist, address)
     }
 }

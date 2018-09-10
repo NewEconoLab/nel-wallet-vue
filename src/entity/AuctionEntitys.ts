@@ -181,7 +181,6 @@ export class AuctionInfoView extends AuctionView
     constructor(auction: Auction)
     {
         super(auction);
-        this.process = services.auctionInfo.getProcess(this);
     }
 }
 /**
@@ -209,7 +208,7 @@ export class Process
     date: string;
     time: string;
 
-    constructor(start: number | string)
+    constructor(start: number | string, day: number)
     {
         this.timearr = [];
         this.startTime = typeof start == "string" ? tools.timetool.currentTime(start) : start as number;
@@ -234,7 +233,7 @@ export class Process
                 default:
                     break;
             }
-            let time = this.startTime + 24 * 60 * 60 * i;
+            let time = this.startTime + day * i;
 
             let date = tools.timetool.dateFtt("yyyy/MM/dd", tools.timetool.getDate(time));
             let times = tools.timetool.dateFtt("hh:mm:ss", tools.timetool.getDate(time));

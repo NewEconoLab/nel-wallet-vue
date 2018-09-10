@@ -68,14 +68,21 @@ export default class NeoAuction extends Vue
         this.alert_TopUp = new NeoAuction_TopUp();
         this.sessionWatting = new tools.sessionstoretool("session_watting");
         this.auctionPageSession = new tools.sessionstoretool("auctionPage");
-        if (this.auctionPageSession.select("show"))
+        if (services.auctionInfo_neo.auctionId)
         {
             this.auctionPage = true;
-        }
-        else
+        } else
         {
             this.auctionPage = false;
         }
+        // if (this.auctionPageSession.select("show"))
+        // {
+        //     this.auctionPage = true;
+        // }
+        // else
+        // {
+        //     this.auctionPage = false;
+        // }
         this.canAdded = false;
         this.myBalanceOfSelling = "";
         this.isSearchTime = false;
@@ -107,17 +114,12 @@ export default class NeoAuction extends Vue
         })
     }
 
-    next()
-    {
-
-    }
-
     async refreshPage()
     {
         this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5[ "nep5balance" ];
-        // await services.auction.updateAuctionList(this.address);
+        await services.auction_neo.updateAuctionList(this.address);
         this.getBidList(this.address, 1);
     }
 
@@ -127,7 +129,7 @@ export default class NeoAuction extends Vue
      */
     async getBidList(address, page)
     {
-        this.auctionlist = await services.auction.getMyAuctionList(address, page, 5);
+        this.auctionlist = await services.auction_neo.getMyAuctionList(address, page, 5);
     }
 
     async topupStateRefresh()
@@ -154,9 +156,9 @@ export default class NeoAuction extends Vue
      */
     onGoBidInfo(item: AuctionView)
     {
-        this.auctionPageSession.put("id", item.id)
-        this.auctionPageSession.put('show', true);
-        services.auctionInfo.auctionId = item.id;
+        // this.auctionPageSession.put("id", item.id)
+        // this.auctionPageSession.put('show', true);
+        services.auctionInfo_neo.auctionId = item.id;
         this.auctionPage = !this.auctionPage
     }
 
@@ -384,7 +386,7 @@ export default class NeoAuction extends Vue
             this.canAdded = false;
             try
             {
-                let res = await services.auction.auctionRaise(
+                let res = await services.auction_neo.auctionRaise(
                     this.raiseAuction.auctionId,
                     this.raiseAuction.fulldomain,
                     parseFloat(this.alert_myBid),
@@ -421,7 +423,7 @@ export default class NeoAuction extends Vue
             return;
         }
         this.btn_start = 0;
-        let res = await services.auction.startAuction(this.domain, this.rootInfo);
+        let res = await services.auction_neo.startAuction(this.domain, this.rootInfo);
         this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
         this.btn_start = 1;
         this.domain = "";
@@ -453,7 +455,7 @@ export default class NeoAuction extends Vue
             this.checkState = this.btn_start = 4;
             return;
         }
-        let auction: Auction = await services.auction.queryAuctionByDomain(this.domain, this.rootInfo);
+        let auction: Auction = await services.auction_neo.queryAuctionByDomain(this.domain, this.rootInfo);
 
         if (!auction.auctionId)
         {

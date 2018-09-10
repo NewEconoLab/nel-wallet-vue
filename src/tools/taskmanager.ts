@@ -91,7 +91,7 @@ export class TaskManager
             TaskFunction.taskHistory();
         }
 
-        await services.auction.updateAuctionList(LoginInfo.getCurrentAddress());
+        // await services.auction.updateAuctionList(LoginInfo.getCurrentAddress());
         for (const index in this.functionList)
         {
             if (this.functionList.hasOwnProperty(index))
