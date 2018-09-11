@@ -100,7 +100,7 @@ export default class MyNeo extends Vue
     {
         let timestamp = new Date().getTime();
         let copare = (new Neo.BigInteger(domain[ "ttl" ]).multiply(1000)).subtract(new Neo.BigInteger(timestamp));
-        let threeMonth = (5 * 60 * 1000) * 90;
+        let threeMonth = (24 * 60 * 60 * 1000) * 90;
         return copare.compareTo(threeMonth) < 0 ? false : true;    //小于threeMonth即将过期false
     }
 
