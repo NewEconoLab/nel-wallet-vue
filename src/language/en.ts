@@ -176,7 +176,7 @@ export default {
         title7: "Recover CGAS",
         entername: "type a name",
         checkavailable: "This name is available.",
-        checkbeing: "This name is currently in auction. Click 'New Bid' to purchase this name.",
+        checkbeing: 'This domain is currently under auction. Click "New bid" to bid for it.',
         checkformat: "Domain names must be English characters or numbers, and can only be 6 to 32 characters in length",
         checkbuyer: "This name is unavailable.",
         sendingmsg: "We are currently opening the auction. Please wait.",
