@@ -81,6 +81,12 @@
 <style lang="less" scoped>
 .tutorial-page {
   .model-wrap {
+    h3 {
+      display: block;
+      font-size: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
     p {
       margin: 10px 10px;
     }
@@ -88,6 +94,8 @@
       display: block;
       width: 900px;
       margin: 0 auto;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
     .ff6-text {
       font-size: 14px;

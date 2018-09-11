@@ -177,7 +177,7 @@ export default {
         entername: "type a name",
         checkavailable: "This name is available.",
         checkbeing: "This name is currently in auction. Click 'New Bid' to purchase this name.",
-        checkformat: "The length of .neo domain names will be limited to 6-32 characters",
+        checkformat: "Domain names must be English characters or numbers, and can only be 6 to 32 characters in length",
         checkbuyer: "This name is unavailable.",
         sendingmsg: "We are currently opening the auction. Please wait.",
         searchmsg: "Search by domain",
