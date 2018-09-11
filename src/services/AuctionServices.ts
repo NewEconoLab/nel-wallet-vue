@@ -155,7 +155,7 @@ export class AuctionService
         let auction = new Auction();
         if (info.id)
         {
-            let day = this.root.rootname == "neo" ? 34 * 60 * 60 : 5 * 60
+            let day = this.root.rootname == "neo" ? 24 * 60 * 60 : 5 * 60
             auction = await tools.nnssell.getAuctionByStateInfo(info, day);
             return auction;
         }
