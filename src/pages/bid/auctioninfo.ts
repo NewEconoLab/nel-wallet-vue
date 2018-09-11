@@ -80,6 +80,7 @@ export default class AuctionInfo extends Vue
             this.auctionInfo = services.auctionInfo_neo.getAuctionInfo();
         }
         this.balanceOf = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
+        this.updatePrice = this.balanceOf ? this.balanceOf : "0";
         this.fee = accMul(this.auctionInfo.addwho.totalValue, 0.10);
         this.remaining = accSub(this.auctionInfo.addwho.totalValue, this.fee);
         let waitstate = Store.auctionInfo.select(this.auctionInfo.domain);
