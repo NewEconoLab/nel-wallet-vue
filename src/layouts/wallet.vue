@@ -3,8 +3,11 @@
     <nav class="navbar navbar-wallet">
       <div class="blockheight">
         <div class="container">
-          <span>{{$t('operation.welcome')}}</span>
-          <span class="fright">{{$t('navbar.blockheight')}}：{{blockheight}}</span>
+          <span>{{$t('navbar.blockheight')}}：{{blockheight}}</span>
+          <div class="tranhistory-img fright">
+            <img src="../../static/img/history.png" alt="" @click="onshowHistory">
+            <div class="add-task" v-if="taskNumber">{{taskNumber>99?99:taskNumber}}<span v-if="taskNumber>99">+</span></div>
+          </div>
         </div>
       </div>
       <div class="container">        
@@ -66,10 +69,6 @@
             </li>
           </ul>
           <div class="tranhistory-box">
-            <div class="tranhistory-img">
-              <img src="../../static/img/history.png" alt="" @click="onshowHistory">
-              <div class="add-task" v-if="taskNumber">{{taskNumber>99?99:taskNumber}}<span v-if="taskNumber>99">+</span></div>
-            </div>
             <div class="tranhistory-wrap" v-if="showHistory">
               <div class="tranhistory-listbox">
                 <div class="tranhistory-title">
@@ -351,7 +350,9 @@
       </div>
       <!--/.container -->
     </nav>
-    <router-view></router-view>
+    <div class="wallet-content">
+      <router-view></router-view>
+    </div>    
   </main-layout>
 </template>
 
@@ -370,11 +371,14 @@
   border: none;
 }
 .navbar-wallet {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
   padding-top: 51px;
   background-color: #454f60;
 }
 .navbar-wallet .navbar-collapse {
-  padding-top: 30px;
+  padding-top: 5px;
 }
 .navbar-wallet a {
   font-size: 16px;
@@ -395,25 +399,32 @@
   height: 20px;
   vertical-align: middle;
 }
-.tranhistory-box {
-  /* border: 1px solid red; */
-  width: 16px;
-  float: right;
+.wallet-content {
+  padding-top: 185px;
 }
-.tranhistory-box .tranhistory-img {
+@media screen and (max-width: 1024px) {
+  .wallet-content {
+    padding-top: 235px;
+  }
+}
+.tranhistory-img {
   text-align: right;
-  margin-top: 15px;
   position: relative;
 }
-.tranhistory-box .tranhistory-img img {
+.tranhistory-img img {
   width: 16px;
   height: 20px;
   cursor: pointer;
 }
+.tranhistory-box {
+  width: 16px;
+  float: right;
+}
+
 .add-task {
   position: absolute;
-  top: -15px;
-  left: 15px;
+  top: -10px;
+  left: 10px;
   width: auto;
   padding: 0 5px 0 5px;
   height: 16px;
@@ -517,6 +528,8 @@ a.green-text {
 .red-text {
   font-size: 12px;
   color: #ff6a6a;
+  position: relative;
+  left: 46px;
 }
 .th-number a {
   display: block;

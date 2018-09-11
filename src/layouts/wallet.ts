@@ -92,9 +92,6 @@ export default class FeatureComponent extends Vue
                     case TaskType.addPrice:
                         this.makeTaskList(tasks, TaskType.addPrice);
                         break;
-                    case TaskType.getDomain:
-                        this.makeTaskList(tasks, TaskType.getDomain);
-                        break;
                     case TaskType.gasToSgas:
                         this.makeTaskList(tasks, TaskType.gasToSgas);
                         break;
@@ -118,6 +115,9 @@ export default class FeatureComponent extends Vue
                         break;
                     case TaskType.domainRenewal:
                         this.makeTaskList(tasks, TaskType.domainRenewal);
+                        break;
+                    case TaskType.getDomain:
+                        this.makeTaskList(tasks, TaskType.getDomain);
                         break;
                     case TaskType.recoverSgas:
                         this.makeTaskList(tasks, TaskType.recoverSgas);
