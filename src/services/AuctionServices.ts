@@ -12,6 +12,7 @@ export class AuctionService
     auctionList: Auction[];
     auctionViewList: AuctionView[];
     store: AuctionStore;
+    root: RootDomainInfo;
 
     constructor(store: AuctionStore)
     {
@@ -75,8 +76,8 @@ export class AuctionService
             else
             {
                 //从列表种拉取数据
-                let count = await tools.wwwtool.getauctioninfocount(address);
-                let result = await tools.wwwtool.getauctioninfobyaddress(address, 1, count);
+                let count = await tools.wwwtool.getauctioninfocount(address, "." + this.root.rootname);
+                let result = await tools.wwwtool.getauctioninfobyaddress(address, 1, count, "." + this.root.rootname);
                 if (result)
                 {
                     let auctionList = result[ 0 ].list as Auction[];
@@ -132,7 +133,7 @@ export class AuctionService
                 ids.push(auction.auctionId);
             }
         }
-        let result = await tools.wwwtool.getauctioninfobyaucitonid(address, ids);
+        let result = await tools.wwwtool.getauctioninfobyaucitonid(address, ids, "." + this.root.rootname);
         if (result)
         {
             let list = result[ 0 ].list as Auction[];
@@ -148,9 +149,9 @@ export class AuctionService
      * @param subname 二级域名
      * @param rootname 根域名
      */
-    async queryAuctionByDomain(subname: string, root: RootDomainInfo): Promise<Auction>
+    async queryAuctionByDomain(subname: string): Promise<Auction>
     {
-        let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(subname, root);
+        let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(subname, this.root);
         let auction = new Auction();
         if (info.id)
         {
@@ -166,18 +167,18 @@ export class AuctionService
      * @param subname 二级域名
      * @param rootname 根域名
      */
-    async startAuction(subname: string, root: RootDomainInfo): Promise<any>
+    async startAuction(subname: string): Promise<any>
     {
         let address = LoginInfo.getCurrentAddress()     //当前地址
-        let domain: string = [ subname, root.rootname ].join(".");
+        let domain: string = [ subname, this.root.rootname ].join(".");
         let auction: Auction = new Auction();
         try
         {
-            let result = await tools.nnssell.startAuciton(subname, root);
+            let result = await tools.nnssell.startAuciton(subname, this.root);
             let txid = result.info;
             let task = new Task(ConfirmType.contract, txid, { domain: domain })
             tools.taskManager.addTask(task, TaskType.openAuction);
-            let result2 = await tools.wwwtool.getauctioninfobyaucitonid(address, [ txid ]);
+            let result2 = await tools.wwwtool.getauctioninfobyaucitonid(address, [ txid ], "." + this.root.rootname);
             if (!!result2)
             {
                 let list = result[ 0 ].list as Auction[];
@@ -219,7 +220,7 @@ export class AuctionService
                 )
                 tools.taskManager.addTask(task, TaskType.addPrice);
                 //根据标地id查询域名状态
-                let result2 = await tools.wwwtool.getauctioninfobyaucitonid("", [ auctionId ]);
+                let result2 = await tools.wwwtool.getauctioninfobyaucitonid("", [ auctionId ], "." + this.root.rootname);
                 let auction = new Auction()
                 if (res)
                 {

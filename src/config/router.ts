@@ -12,11 +12,14 @@ const Login = resolve => require([ '../pages/login.vue' ], resolve);
 const Transfer = resolve => require([ '../pages/transfer/transfer.vue' ], resolve)
 const Exchange = resolve => require([ '../pages/exchange/exchange.vue' ], resolve);
 const NNSNeo = resolve => require([ '../pages/bid/nnsneo.vue' ], resolve);
-const NNS = resolve => require([ '../pages/nns/nns.vue' ], resolve);
 const Settings = resolve => require([ '../pages/setting/settings.vue' ], resolve);
 const Auction = resolve => require([ '../pages/bid/neoauction.vue' ], resolve);
 const MyNeoName = resolve => require([ '../pages/bid/myneo.vue' ], resolve);
 const Bonus = resolve => require([ '../pages/bid/bonus.vue' ], resolve);
+const NNSTest = resolve => require([ '../pages/bidtest/nnstest.vue' ], resolve);
+const AuctionTest = resolve => require([ '../pages/bidtest/neoauction.vue' ], resolve);
+const MyTestName = resolve => require([ '../pages/bidtest/myneo.vue' ], resolve);
+const BonusTest = resolve => require([ '../pages/bidtest/bonus.vue' ], resolve);
 
 export default new Router({
     mode: 'hash',
@@ -31,7 +34,14 @@ export default new Router({
                 { path: 'balance', component: Balance, name: 'balance' },
                 { path: 'transfer', component: Transfer, name: 'transfer' },
                 { path: 'exchange', component: Exchange, name: 'exchange' },
-                { path: 'nnstest', component: NNS, name: 'nnstest' },
+                {
+                    path: 'nnstest', component: NNSTest, name: 'nnstest',
+                    children: [
+                        { path: 'auction', component: AuctionTest, name: 'auctiontest' },
+                        { path: 'mytestname', component: MyTestName, name: 'mytestname' },
+                        { path: 'bonus', component: BonusTest, name: 'bonustest' }
+                    ]
+                },
                 { path: 'setting', component: Settings, name: 'setting' },
                 {
                     path: 'nnsneo', component: NNSNeo, name: 'nnsneo',

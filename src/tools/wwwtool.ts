@@ -288,9 +288,9 @@ export class WWW
      * @param currentpage 当前页码
      * @param pagesize 页面条数
      */
-    static async getauctioninfobyaddress(address: string, currentpage: number, pagesize: number)
+    static async getauctioninfobyaddress(address: string, currentpage: number, pagesize: number, root: string)
     {
-        var postdata = WWW.makeRpcPostBody("getauctioninfobyaddress", address, currentpage, pagesize);
+        var postdata = WWW.makeRpcPostBody("getauctioninfobyaddress", address, currentpage, pagesize, root);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         var r = json[ "result" ];
@@ -302,9 +302,9 @@ export class WWW
      * @param address 地址
      * @param ids id 列表
      */
-    static async getauctioninfobyaucitonid(address: string, ids: string[])
+    static async getauctioninfobyaucitonid(address: string, ids: string[], root: string)
     {
-        var postdata = WWW.makeRpcPostBody("getauctioninfobyaucitonid", address, ids);
+        var postdata = WWW.makeRpcPostBody("getauctioninfobyaucitonid", address, ids, root);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         var r = json[ "result" ];
@@ -315,9 +315,9 @@ export class WWW
      * 获得分页总条数
      * @param address 地址
      */
-    static async getauctioninfocount(address: string)
+    static async getauctioninfocount(address: string, root: string)
     {
-        var postdata = WWW.makeRpcPostBody("getauctioninfocount", address);
+        var postdata = WWW.makeRpcPostBody("getauctioninfocount", address, root);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         return (json && json[ "result" ]) ? json[ "result" ][ 0 ][ "count" ] : 0;

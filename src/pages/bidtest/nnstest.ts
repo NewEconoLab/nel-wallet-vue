@@ -6,7 +6,7 @@ import { tools } from "../../tools/importpack";
     components: {
     }
 })
-export default class NNSNeo extends Vue
+export default class NNSTest extends Vue
 {
     showType: number;
 
@@ -33,7 +33,7 @@ export default class NNSNeo extends Vue
 
     async mounted()
     {
-        services.auction_neo.root = await tools.nnstool.getRootInfo("neo");
+        services.auction_test.root = await tools.nnstool.getRootInfo("test");
     }
     isActive(model: string)
     {
