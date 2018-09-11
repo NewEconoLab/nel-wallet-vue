@@ -28,6 +28,9 @@ export default class NNSNeo extends Vue
             case "bonus":
                 this.showType = 4;
                 break;
+            case "tutorial":
+                this.showType = 5;
+                break;
         }
     }
 

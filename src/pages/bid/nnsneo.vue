@@ -4,7 +4,8 @@
             <ul class="menu-box">
                <li :class="{active:isActive('auction')}" > <router-link class="router-li" to="/nnsneo/auction"> {{$t('nnsneo.auction')}}</router-link></li>
                <li :class="{active:isActive('myneoname')}"><router-link class="router-li" to="/nnsneo/myneoname" >{{$t('nnsneo.myneoname')}}</router-link></li>                
-               <li :class="{active:isActive('bonus')}"><router-link class="router-li" to="/nnsneo/bonus">{{$t('nnsneo.bonus')}}</router-link></li>                
+               <li :class="{active:isActive('bonus')}"><router-link class="router-li" to="/nnsneo/bonus">{{$t('nnsneo.bonus')}}</router-link></li>  
+               <li :class="{active:isActive('tutorial')}"><router-link class="router-li" to="/nnsneo/tutorial">{{$t('nnsneo.tutorial')}}</router-link></li>              
             </ul>
         </div>
         <router-view class="content-box">

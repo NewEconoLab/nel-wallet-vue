@@ -163,7 +163,8 @@ export default {
     nnsneo: {
         auction: "域名竞拍",
         myneoname: "我的域名管理",
-        bonus: "我的分红"
+        bonus: "我的分红",
+        tutorial: "竞拍教程"
     },
     auction: {
         title1: "域名竞拍",

@@ -391,7 +391,7 @@
   border-radius: 5px 5px 0px 0px;
 }
 .navbar-wallet li {
-  width: 175px;
+  width: 180px;
   text-align: center;
 }
 .icon-png img {
