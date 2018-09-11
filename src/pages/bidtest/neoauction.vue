@@ -77,8 +77,8 @@
                             <img src="../../../static/img/notice-b.png" alt="" v-if="item.state=='0301'">                              
                           </div>
                           <div class="hint-content">  
-                              <p>{{$t('auction.statustips')}}</p>
-                              <p>{{$t('auction.statustips2')}}</p>
+                              <p>{{$t('auction.teststatustips')}}</p>
+                              <p>{{$t('auction.teststatustips2')}}</p>
                           </div>
                         </v-hint>
                     </div>
@@ -124,8 +124,8 @@
                             <img src="../../../static/img/notice-b.png" alt="" v-if="item.auctionState=='2'">                              
                           </div>
                           <div class="hint-content">  
-                              <p>{{$t('auction.statustips')}}</p>
-                              <p>{{$t('auction.statustips2')}}</p>
+                              <p>{{$t('auction.teststatustips')}}</p>
+                              <p>{{$t('auction.teststatustips2')}}</p>
                           </div>
                         </v-hint>
                     </div>

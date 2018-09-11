@@ -97,7 +97,7 @@
             </div>
           </div>
           <!-- process-wrapper end  -->
-          <div class="auction-tips">{{$t('auction.tips')}} <p> {{$t('auction.statustips')}}</p><p style="">{{$t('auction.statustips2')}}</p></div>
+          <div class="auction-tips">{{$t('auction.tips')}} <p> {{$t('auction.teststatustips')}}</p><p style="">{{$t('auction.teststatustips2')}}</p></div>
 
         </div>
         <v-toast ref="toast" ></v-toast>
