@@ -61,7 +61,7 @@ export default class MyNeoTest extends Vue
 
     async getAllNeoName(address)
     {
-        let res = await tools.wwwtool.getnnsinfo(address, '.neo');
+        let res = await tools.wwwtool.getnnsinfo(address, '.test');
         //从缓存取状态数据
         let list = res;
         if (list && list.length)
