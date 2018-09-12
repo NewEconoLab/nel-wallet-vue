@@ -193,7 +193,7 @@ export default class MyNeoTest extends Vue
      */
     async renewalDomain()
     {
-        let root = await tools.nnstool.getRootInfo("neo");
+        let root = await tools.nnstool.getRootInfo("test");
         let domain = this.domainInfo.domain;
         let res = await
             tools.nnssell.renewDomain(domain, root.register);

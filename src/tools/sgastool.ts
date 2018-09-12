@@ -95,7 +95,7 @@ export default class SgasTool
             tran.attributes = new Array<ThinNeo.Attribute>(1);
             tran.attributes[ 0 ] = new ThinNeo.Attribute();
             tran.attributes[ 0 ].usage = ThinNeo.TransactionAttributeUsage.Script;
-            tran.attributes[ 0 ].data = scriptHash; // ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
+            tran.attributes[ 0 ].data = scriptHash;
 
             let sb = new ThinNeo.ScriptBuilder();
             sb.EmitPushString("whatever")
