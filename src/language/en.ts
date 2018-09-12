@@ -25,9 +25,9 @@ export default {
         openingauction: "Opening Auction",
         bid: "Bid",
         getdomain: "Claim domain",
-        recoversgas: "Recover CGAS",
+        recoversgas: "Reclaim CGAS",
         gettingdomain: "Claiming domain",
-        recoveringsgas: "Recovering CGAS",
+        recoveringsgas: "Reclaiming CGAS",
         receivedsgas: "Received",
         receivednns: "Received",
         newbid: "New Bid",
@@ -84,7 +84,7 @@ export default {
         downloadmsg: "You can click the ‘download’ button to save your keystore file!",
         download: "Download",
         msg: "Do not lose it!",
-        msg2: "It can’t be recovered if you lose it."
+        msg2: "It can’t be reclaimed if you lose it."
     },
     balance: {
         balance: "Balance",
@@ -173,7 +173,7 @@ export default {
         title4: "Raise my bid",
         title5: "Timeline",
         title6: "Claim domain",
-        title7: "Recover CGAS",
+        title7: "Reclaim CGAS",
         entername: "type a name",
         checkavailable: "This name is available.",
         checkbeing: 'This domain is currently under auction. Click "New bid" to bid for it.',
@@ -316,7 +316,7 @@ export default {
         addrresolver: "Address resolver:",
         renew: "Renewal expiration time",
         getdomain: "Get domain",
-        recover: "Recover CGAS",
+        recover: "Reclaim CGAS",
         gasclaim: "Gas claim",
         nodata: "There is no data",
         fail: "Operation failed",
