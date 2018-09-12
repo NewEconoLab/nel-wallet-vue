@@ -289,13 +289,11 @@ export default {
         tips: "注意 : 您需要在成功确认地址解析器之后，才能进行地址映射。"
     },
     bonus: {
-        title1: "我的分红",
-        title2: "历史",
-        msg: "未领取的CGAS",
-        wait1: "发送请求...",
-        wait2: "等待确认...",
-        wait3: "CGAS 领取...",
-        wait4: "领取成功!"
+        title: "分红记录",
+        mydividend: "我的分红 ：",
+        distribution: "奖金池快照 ：",
+        mytotal: "我持有的NNC总量 ：",
+        snapshot: "快照时间 ："
     },
     operation: {
         welcome: "欢迎!",

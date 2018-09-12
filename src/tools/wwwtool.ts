@@ -473,5 +473,20 @@ export class WWW
 
         }
     }
+    /**查询分红 */
+    static async getbonushistbyaddress(address: string, page: number, pagesize: number)
+    {
+        var postdata = WWW.makeRpcPostBody("getbonushistbyaddress", address, page, pagesize);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
+            return r;
+        } else
+        {
+            throw "not data";
 
+        }
+    }
 }
