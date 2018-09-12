@@ -7,7 +7,7 @@
            <div class="mybonus">
             {{$t('bonus.mydividend')}}<span class="dde">{{item.addrBonus}}</span> CGAS
            </div>
-           <div>{{$t('bonus.distribution')}}{{item.totalBonus}} CGas</div>
+           <div>{{$t('bonus.distribution')}}{{item.totalValue}} CGas</div>
            <div>{{$t('bonus.mytotal')}}{{item.balance}} NNC</div>
            <div>{{$t('bonus.snapshot')}} {{item.blocktime}}</div>
         </div>
