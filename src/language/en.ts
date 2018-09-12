@@ -289,13 +289,11 @@ export default {
         tips: "Tips : Address mapping can only be performed after the address resolver is confirmed by you. "
     },
     bonus: {
-        title1: "Bonus",
-        title2: "History",
-        msg: "CGAS available to claim",
-        wait1: "Sending a transaction...",
-        wait2: "Waiting for confirmation of transfer...",
-        wait3: "CGAS claiming...",
-        wait4: "Your CGAS claim is successful!"
+        title: "Bouns History",
+        mydividend: "My dividends: ",
+        distribution: "Distribution pool snapshot: ",
+        mytotal: "My total NNC holdings: ",
+        snapshot: "Snapshot time:"
     },
     tutorial: {
 
