@@ -265,6 +265,12 @@ export class NNSTool
         return res;
     }
 
+    /**
+     * 设置解析器映射地址
+     * @param domain 域名
+     * @param str 映射内容
+     * @param resolve 解析器
+     */
     static async setResolveData(domain: string, str: string, resolve: string)
     {
         let hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress())
