@@ -109,7 +109,7 @@ export class CoinTool
      */
     static makeTran(utxos: { [ id: string ]: UTXO[] }, targetaddr: string, assetid: string, sendcount: Neo.Fixed8): Result
     {
-        //if (sendcount.compareTo(Neo.Fixed8.Zero) <= 0)
+        // if (sendcount.compareTo(Neo.Fixed8.Zero) <= 0)
         //    throw new Error("can not send zero.");
         // let inputcount = sendcount.add(Neo.Fixed8.parse('0.00000001')); //添加一笔最小的手续费
         var res = new Result();
@@ -120,6 +120,13 @@ export class CoinTool
             // res.info = "no enough money.";
             throw new Error("no enough money.");
         }
+
+        for (const i in us)
+        {
+            let utxo = us[ i ];
+            // utxo.count.add()
+        }
+
 
         var tran = new ThinNeo.Transaction();
         tran.type = ThinNeo.TransactionType.ContractTransaction;
@@ -137,6 +144,42 @@ export class CoinTool
         var count: Neo.Fixed8 = Neo.Fixed8.Zero;
         var clonearr = [].concat(us);       //用于返回剩余可用的utxo
         var old: OldUTXO[] = []
+
+
+
+        let gasutxos = utxos[ assetid ];
+        let sumcount = Neo.Fixed8.Zero; //初始化
+        for (let i = 0; i < gasutxos.length; i++) //循环塞入utxo用于判断总数是否足够
+        {
+            sumcount.add(gasutxos[ i ].count);
+        }
+        if (tools.coinTool.id_GAS == assetid)   //如果转账的金额是gas
+        {
+            let addcount = sendcount.add(Neo.Fixed8.parse('0.00000001'));
+            if (sumcount.compareTo(addcount) > 0)
+            {
+                for (const index in gasutxos)
+                {
+                    var input = new ThinNeo.TransactionInput();
+                    input.hash = gasutxos[ i ].txid.hexToBytes().reverse();
+                    input.index = gasutxos[ i ].n;
+                    input[ "_addr" ] = gasutxos[ i ].addr;//利用js的隨意性，臨時傳個值
+                    tran.inputs.push(input);        //将utxo塞入input
+                    count = count.add(gasutxos[ i ].count);//添加至count中
+                    scraddr = gasutxos[ i ].addr;
+                    clonearr.shift();               //删除已塞入的utxo
+                    old.push(new OldUTXO(gasutxos[ i ].txid, gasutxos[ i ].n));
+                    if (count.compareTo(addcount) > 0) //判断输入是否足够
+                    {
+                        break;      //如果足够则跳出循环
+                    }
+                }
+            }
+        } else
+        {
+
+        }
+
         for (var i = 0; i < us.length; i++)
         {
             var input = new ThinNeo.TransactionInput();
@@ -189,6 +232,28 @@ export class CoinTool
         return res;
     }
 
+    static creatInuptAndOutup(utxos: UTXO[], sendcount: Neo.Fixed8, target: string)
+    {
+        let res = {} as { inputs: ThinNeo.TransactionInput[], ouputs: ThinNeo.TransactionOutput[] };
+        res[ "inputs" ] = [];
+        res[ "ouputs" ] = [];
+        let scraddr = "";
+        for (var i = 0; i < utxos.length; i++)
+        {
+            var input = new ThinNeo.TransactionInput();
+            input.hash = utxos[ i ].txid.hexToBytes().reverse();
+            input.index = utxos[ i ].n;
+            input[ "_addr" ] = utxos[ i ].addr;//利用js的隨意性，臨時傳個值
+            res.inputs.push(input);        //将utxo塞入input
+            sendcount = sendcount.add(utxos[ i ].count);//添加至count中
+            scraddr = utxos[ i ].addr;
+            if (sendcount.compareTo(sendcount) > 0) //判断输入是否足够
+            {
+                break;      //如果足够则跳出循环
+            }
+        }
+        return res;
+    }
 
     /**
      * 构造并发送交易
