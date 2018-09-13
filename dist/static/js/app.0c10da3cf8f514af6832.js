@@ -6268,7 +6268,7 @@ exports.default = {
         addrmapping: "Address mapping:",
         addrresolver: "Address resolver:",
         renew: "Renewal expiration time",
-        getdomain: "Get domain",
+        getdomain: "Claim domain",
         recover: "Reclaim CGAS",
         gasclaim: "Gas claim",
         nodata: "There is no data",
@@ -6747,20 +6747,14 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.nep5Transaction = function (address, tatgeraddr, asset, amount) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, decimals, numarr, v, i, bnum, intv, sb, scriptaddress, random_uint8, random_int, result;
+            var res, decimals, intv, sb, scriptaddress, random_uint8, random_int, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, importpack_1.tools.wwwtool.getNep5Asset(asset)];
                     case 1:
                         res = _a.sent();
                         decimals = res["decimals"];
-                        numarr = amount.split(".");
-                        decimals -= (numarr.length == 1 ? 0 : numarr[1].length);
-                        v = 1;
-                        for (i = 0; i < decimals; i++)
-                            v *= 10;
-                        bnum = new Neo.BigInteger(amount.replace(".", ""));
-                        intv = bnum.multiply(v).toString();
+                        intv = amount.toFixed(decimals).replace(".", "");
                         sb = new ThinNeo.ScriptBuilder();
                         scriptaddress = asset.hexToBytes().reverse();
                         random_uint8 = Neo.Cryptography.RandomNumberGenerator.getRandomValues(new Uint8Array(32));
