@@ -389,19 +389,11 @@ export class CoinTool
      * @param asset nep5资产id
      * @param amount 转账数额
      */
-    static async nep5Transaction(address: string, tatgeraddr, asset: string, amount: string)
+    static async nep5Transaction(address: string, tatgeraddr, asset: string, amount: number)
     {
         let res = await tools.wwwtool.getNep5Asset(asset);
         var decimals = res[ "decimals" ] as number;
-        var numarr = amount.split(".");
-        decimals -= (numarr.length == 1 ? 0 : numarr[ 1 ].length);
-
-        var v = 1;
-        for (var i = 0; i < decimals; i++)
-            v *= 10;
-        var bnum = new Neo.BigInteger(amount.replace(".", ""));
-        var intv = bnum.multiply(v).toString();
-
+        let intv = amount.toFixed(decimals).replace(".", "")
         var sb = new ThinNeo.ScriptBuilder();
         var scriptaddress = asset.hexToBytes().reverse();
         //生成随机数

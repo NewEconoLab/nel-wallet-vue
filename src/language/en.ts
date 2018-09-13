@@ -315,7 +315,7 @@ export default {
         addrmapping: "Address mapping:",
         addrresolver: "Address resolver:",
         renew: "Renewal expiration time",
-        getdomain: "Get domain",
+        getdomain: "Claim domain",
         recover: "Reclaim CGAS",
         gasclaim: "Gas claim",
         nodata: "There is no data",

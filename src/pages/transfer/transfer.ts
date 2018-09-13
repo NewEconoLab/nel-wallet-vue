@@ -182,7 +182,7 @@ export default class transfer extends Vue
                 let height = Store.blockheight.select("height");
                 if (!!this.balance[ "type" ] && this.balance.type == "nep5")
                 {
-                    let res = await tools.coinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, this.amount);
+                    let res = await tools.coinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, parseFloat(this.amount));
                     if (!res[ "err" ])
                     {
                         mui.toast("" + this.$t("transfer.msg2"));
