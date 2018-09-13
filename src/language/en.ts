@@ -23,7 +23,7 @@ export default {
         cancel: "Cancel",
         openauction: "Start Auction",
         openingauction: "Opening Auction",
-        bid: "Bid",
+        bid: "Place bid",
         getdomain: "Claim domain",
         recoversgas: "Reclaim CGAS",
         gettingdomain: "Claiming domain",
