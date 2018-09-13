@@ -1669,7 +1669,7 @@ var LoginInfo = /** @class */ (function () {
                 language = sessionStorage.getItem("language");
                 if (!language || language == 'en') {
                     msg_title = "Please enter your password ";
-                    msg_btn = "confirm";
+                    msg_btn = "Confirm";
                     msg_error = "Password error ";
                 }
                 else {
@@ -6035,7 +6035,7 @@ exports.default = {
         cancel: "Cancel",
         openauction: "Start Auction",
         openingauction: "Opening Auction",
-        bid: "Bid",
+        bid: "Place bid",
         getdomain: "Claim domain",
         recoversgas: "Reclaim CGAS",
         gettingdomain: "Claiming domain",
