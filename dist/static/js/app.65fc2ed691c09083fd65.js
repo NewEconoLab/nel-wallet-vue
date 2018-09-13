@@ -5985,7 +5985,7 @@ exports.default = {
         recoveringsgas: "Reclaiming CGAS",
         receivedsgas: "Claimed",
         receivednns: "Claimed",
-        newbid: "New Bid",
+        newbid: "Join Auction",
         viewmore: "View more",
         edit: "Edit",
         renewal: "Renew",
@@ -6131,7 +6131,7 @@ exports.default = {
         title7: "Reclaim CGAS",
         entername: "type a name",
         checkavailable: "This name is available.",
-        checkbeing: 'This domain is currently under auction. Click "New bid" to bid for it.',
+        checkbeing: 'This domain is currently under auction. Click "Join Auction" to bid for it.',
         checkformat: "Domain names must be English characters or numbers, and can only be 6 to 32 characters in length",
         checkbuyer: "This name is unavailable.",
         sendingmsg: "We are currently opening the auction. Please wait.",
@@ -6834,7 +6834,7 @@ var CoinTool = /** @class */ (function () {
     };
     CoinTool.id_GAS = "0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
     CoinTool.id_NEO = "0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
-    CoinTool.id_SGAS = Neo.Uint160.parse('9121e89e8a0849857262d67c8408601b5e8e0524');
+    CoinTool.id_SGAS = Neo.Uint160.parse('74f2dc36a68fdc4682034178eb2220729231db76');
     CoinTool.dapp_nnc = Neo.Uint160.parse("fc732edee1efdf968c23c20a9628eaa5a6ccb934");
     CoinTool.assetID2name = {};
     CoinTool.name2assetID = {};
