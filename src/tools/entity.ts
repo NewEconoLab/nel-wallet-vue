@@ -84,7 +84,7 @@ export class LoginInfo
         if (!language || language == 'en')
         {
             msg_title = "Please enter your password ";
-            msg_btn = "confirm";
+            msg_btn = "Confirm";
             msg_error = "Password error ";
         } else
         {
