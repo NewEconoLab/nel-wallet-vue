@@ -40,13 +40,6 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ "/9tG":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "0YXJ":
 /***/ (function(module, exports) {
 
@@ -131,7 +124,7 @@ var DateTool = /** @class */ (function () {
     DateTool.getTime = function (date) {
         date = date.toString().length == 10 ? date * 1000 : date;
         var time = new Date(date);
-        var language = sessionStorage.getItem("language");
+        var language = localStorage.getItem("language");
         if (!language || language == 'en') {
             return new Date(time).toUTCString();
         }
@@ -1666,7 +1659,7 @@ var LoginInfo = /** @class */ (function () {
                 msg_title = "";
                 msg_btn = "";
                 msg_error = "";
-                language = sessionStorage.getItem("language");
+                language = localStorage.getItem("language");
                 if (!language || language == 'en') {
                     msg_title = "Please enter your password ";
                     msg_btn = "Confirm";
@@ -2930,7 +2923,7 @@ var Main = /** @class */ (function (_super) {
     function Main() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.loginshow = false;
-        _this.currentLanguage = sessionStorage.getItem("language") == "cn"
+        _this.currentLanguage = localStorage.getItem("language") == "cn"
             ? "中文"
             : "English";
         return _this;
@@ -2952,12 +2945,12 @@ var Main = /** @class */ (function (_super) {
         switch (lang) {
             case 1:
                 this.currentLanguage = "English";
-                sessionStorage.setItem("language", "en");
+                localStorage.setItem("language", "en");
                 this.$i18n.locale = "en";
                 break;
             case 2:
                 this.currentLanguage = "中文";
-                sessionStorage.setItem("language", "cn");
+                localStorage.setItem("language", "cn");
                 this.$i18n.locale = "cn";
                 break;
             default:
@@ -3340,13 +3333,13 @@ var cn_1 = __webpack_require__("wOXa");
 var en_1 = __webpack_require__("pKg8");
 var vue_i18n_1 = __webpack_require__("TXmL");
 vue_1.default.use(vue_i18n_1.default);
-var language = sessionStorage.getItem("language");
+var language = localStorage.getItem("language");
 if (!language) {
     var lang = navigator.language; //常规浏览器语言和IE浏览器    
     lang = lang.substr(0, 2); //截取lang前2位字符
     console.log(lang);
     language = (lang == 'zh' ? 'cn' : 'en');
-    sessionStorage.setItem('language', language);
+    localStorage.setItem('language', language);
 }
 /*---------使用语言包-----------*/
 exports.default = new vue_i18n_1.default({
@@ -5372,6 +5365,13 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
+/***/ "Z4VB":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "ar5l":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5884,7 +5884,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
-/***/ "juQG":
+/***/ "jism":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5903,9 +5903,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__ = __webpack_require__("Gc41");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_47065faa_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__ = __webpack_require__("juQG");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_11c9d615_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__ = __webpack_require__("jism");
 function injectStyle (ssrContext) {
-  __webpack_require__("/9tG")
+  __webpack_require__("Z4VB")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -5923,7 +5923,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_47065faa_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_11c9d615_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -6225,6 +6225,7 @@ exports.default = {
         errmsg1: "Only",
         errmsg2: "CGAS is available.",
         errmsg4: "Please enter the right format.",
+        nobalance: "Insufficient balance. Please recharge to avail the services.",
         goback: "Go back",
         waitmsg1: "Waiting for confirmation",
         waitmsg2: "Your raise will be confirmed after a new block is generated. Please wait.",
@@ -7064,7 +7065,7 @@ var NNSSell = /** @class */ (function () {
                         domainInfo = _b.sent();
                         info = new entity_1.SellDomainInfo();
                         info.copyDomainInfoToThis(domainInfo);
-                        info.domain = domain;
+                        info.domain = [domain, root.rootname].join(".");
                         _b.label = 3;
                     case 3:
                         _b.trys.push([3, 6, , 7]);
@@ -7846,6 +7847,7 @@ exports.default = {
         errmsg1: "您当前的竞拍账户仅拥有",
         errmsg2: "CGAS.",
         errmsg4: "请输入正确的格式。",
+        nobalance: "余额不足，请充值",
         goback: "返回",
         waitmsg1: "未确认",
         waitmsg2: "您的加价将会在新区块生成之后被确认，请耐心等待...",

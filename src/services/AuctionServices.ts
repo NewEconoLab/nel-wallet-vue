@@ -217,7 +217,7 @@ export class AuctionService
             {
                 let txid = result.info;
                 let task = new Task(
-                    ConfirmType.contract, txid, { domain: [ domain, this.root.rootname ].join("."), amount: amount }
+                    ConfirmType.contract, txid, { domain: domain, amount: amount }
                 )
                 tools.taskManager.addTask(task, TaskType.addPrice);
                 //根据标地id查询域名状态

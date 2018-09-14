@@ -17,7 +17,7 @@ export default class NNSSell
         let domainInfo: DomainInfo = await tools.nnstool.getOwnerInfo(nnshash, Consts.baseContract);
         let info = new SellDomainInfo();
         info.copyDomainInfoToThis(domainInfo);
-        info.domain = domain;
+        info.domain = [ domain, root.rootname ].join(".");
         try
         {
             var state = result.state as string;
