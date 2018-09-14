@@ -147,6 +147,7 @@ export class CoinTool
 
 
 
+        let fee = Neo.Fixed8.parse('0.00000001');
         let gasutxos = utxos[ assetid ];
         let sumcount = Neo.Fixed8.Zero; //初始化
         for (let i = 0; i < gasutxos.length; i++) //循环塞入utxo用于判断总数是否足够
@@ -155,20 +156,20 @@ export class CoinTool
         }
         if (tools.coinTool.id_GAS == assetid)   //如果转账的金额是gas
         {
-            let addcount = sendcount.add(Neo.Fixed8.parse('0.00000001'));
+            let addcount = sendcount.add(fee);
             if (sumcount.compareTo(addcount) > 0)
             {
                 for (const index in gasutxos)
                 {
                     var input = new ThinNeo.TransactionInput();
-                    input.hash = gasutxos[ i ].txid.hexToBytes().reverse();
-                    input.index = gasutxos[ i ].n;
-                    input[ "_addr" ] = gasutxos[ i ].addr;//利用js的隨意性，臨時傳個值
+                    input.hash = gasutxos[ index ].txid.hexToBytes().reverse();
+                    input.index = gasutxos[ index ].n;
+                    input[ "_addr" ] = gasutxos[ index ].addr;//利用js的隨意性，臨時傳個值
                     tran.inputs.push(input);        //将utxo塞入input
-                    count = count.add(gasutxos[ i ].count);//添加至count中
-                    scraddr = gasutxos[ i ].addr;
+                    count = count.add(gasutxos[ index ].count);//添加至count中
+                    scraddr = gasutxos[ index ].addr;
                     clonearr.shift();               //删除已塞入的utxo
-                    old.push(new OldUTXO(gasutxos[ i ].txid, gasutxos[ i ].n));
+                    old.push(new OldUTXO(gasutxos[ index ].txid, gasutxos[ index ].n));
                     if (count.compareTo(addcount) > 0) //判断输入是否足够
                     {
                         break;      //如果足够则跳出循环
@@ -177,7 +178,34 @@ export class CoinTool
             }
         } else
         {
-
+            for (const index in gasutxos)
+            {
+                var input = new ThinNeo.TransactionInput();
+                input.hash = gasutxos[ index ].txid.hexToBytes().reverse();
+                input.index = gasutxos[ index ].n;
+                input[ "_addr" ] = gasutxos[ index ].addr;//利用js的隨意性，臨時傳個值
+                tran.inputs.push(input);        //将utxo塞入input
+                count = count.add(gasutxos[ index ].count);//添加至count中
+                scraddr = gasutxos[ index ].addr;
+                clonearr.shift();               //删除已塞入的utxo
+                old.push(new OldUTXO(gasutxos[ index ].txid, gasutxos[ index ].n));
+                if (count.compareTo(fee) > 0) //判断输入是否足够
+                {
+                    break;      //如果足够则跳出循环
+                }
+            }
+            if (count.compareTo(fee) > 0)
+            {
+                let change = count.subtract(fee);
+                if (change.compareTo(Neo.Fixed8.Zero) > 0)
+                {
+                    var outputchange = new ThinNeo.TransactionOutput();
+                    outputchange.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(scraddr);
+                    outputchange.value = change;
+                    outputchange.assetId = assetid.hexToBytes().reverse();
+                    tran.outputs.push(outputchange);
+                }
+            }
         }
 
         for (var i = 0; i < us.length; i++)
