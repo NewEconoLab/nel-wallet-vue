@@ -108,7 +108,8 @@ export default class Contract
      */
     static async contractInvokeTrans_attributes(script: Uint8Array)
     {
-        // let script = this.buildScript(appCall, method, param);
+        var utxos = await CoinTool.getassets();
+        var gass = utxos[ tools.coinTool.id_GAS ];
         var addr = LoginInfo.getCurrentAddress()
         var tran: ThinNeo.Transaction = new ThinNeo.Transaction();
         //合约类型
@@ -122,6 +123,16 @@ export default class Contract
         tran.attributes[ 0 ] = new ThinNeo.Attribute();
         tran.attributes[ 0 ].usage = ThinNeo.TransactionAttributeUsage.Script;
         tran.attributes[ 0 ].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
+        if (gass)
+        {
+            let feeres = tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.parse("0.00000001"));
+            tran.inputs = feeres.inputs.map(input =>
+            {
+                input.hash = input.hash.reverse();
+                return input
+            });
+            tran.outputs = feeres.outputs;
+        }
 
         if (tran.witnesses == null)
             tran.witnesses = [];
