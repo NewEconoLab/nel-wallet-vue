@@ -60,7 +60,8 @@ export default class AuctionInfo extends Vue
     async mounted()
     {
         this.rootInfo = await tools.nnstool.getRootInfo("neo");
-        this.init();
+        await this.init();
+        this.updatePrice = this.auctionInfo.addwho.totalValue.toString() ? this.auctionInfo.addwho.totalValue.toString() : "0";
         if
         (
             this.auctionInfo.btnState != auctionBtnState.receivedname
@@ -80,7 +81,6 @@ export default class AuctionInfo extends Vue
             this.auctionInfo = services.auctionInfo_neo.getAuctionInfo();
         }
         this.balanceOf = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
-        this.updatePrice = this.auctionInfo.addwho.totalValue.toString() ? this.auctionInfo.addwho.totalValue.toString() : "0";
         this.fee = accMul(this.auctionInfo.addwho.totalValue, 0.10);
         this.remaining = accSub(this.auctionInfo.addwho.totalValue, this.fee);
         let waitstate = Store.auctionInfo.select(this.auctionInfo.domain);
