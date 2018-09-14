@@ -80,7 +80,7 @@ export class LoginInfo
         let msg_title = "";
         let msg_btn = "";
         let msg_error = "";
-        let language = sessionStorage.getItem("language");
+        let language = localStorage.getItem("language");
         if (!language || language == 'en')
         {
             msg_title = "Please enter your password ";

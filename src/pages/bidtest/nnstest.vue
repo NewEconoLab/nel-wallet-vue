@@ -5,6 +5,7 @@
                <li :class="{active:isActive('auctiontest')}" > <router-link class="router-li" :to="{name:'auctiontest'}" > {{$t('nnsneo.auction')}}</router-link></li>
                <li :class="{active:isActive('mytestname')}"><router-link class="router-li" :to="{name:'mytestname'}" >{{$t('nnsneo.myneoname')}}</router-link></li>                
                <!-- <li :class="{active:isActive('bonustest')}"><router-link class="router-li" :to="{name:'bonustest'}">{{$t('nnsneo.bonus')}}</router-link></li>                 -->
+               <li :class="{active:isActive('tutorial')}"><router-link class="router-li" :to="{name:'tutorial'}">{{$t('nnsneo.tutorial')}}</router-link></li>
             </ul>
         </div>
         <router-view class="content-box">

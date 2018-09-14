@@ -45,6 +45,7 @@ export default class NeoAuctionTest extends Vue
     auctionlist: AuctionView[];
     currentpage: number = 1;
     rootInfo: RootDomainInfo;
+    checkBid: boolean = false;//检测账户是否有余额
 
     constructor()
     {
@@ -347,10 +348,12 @@ export default class NeoAuctionTest extends Vue
         this.raiseAuction = await tools.nnssell.getAuctionByStateInfo(msg);
         this.myBalanceOfSelling = (this.raiseAuction.addWho && this.raiseAuction.addWho.totalValue) ? this.raiseAuction.addWho.totalValue.toString() : "0";
         this.auctionShow = !this.auctionShow;
+        this.alert_myBid = "";
     }
 
     verifBidAmount()
     {
+        this.checkBid = false;
         if (!!this.alert_myBid)
         {
             if (/\./.test(this.alert_myBid))
@@ -365,6 +368,11 @@ export default class NeoAuctionTest extends Vue
             this.canAdded = false;
             this.alert_myBid = this.regBalance;
             myBid = parseFloat(this.regBalance);
+        }
+        if (this.regBalance == '0')
+        {
+            this.checkBid = true;
+            return false
         }
         let amount = accAdd(this.raiseAuction.addWho.totalValue, myBid);
         this.myBalanceOfSelling = amount.toString();

@@ -178,6 +178,7 @@
                 <span>{{$t('auction.raisebid')}}: </span>
                 <input class="bid-input" type="number" :placeholder="$t('auction.enterbid')" v-model="alert_myBid" @input="verifBidAmount" autocomplete="off">
               </div>
+              <div class="err-msg status-ended" v-if="checkBid">{{$t('auction.nobalance')}}</div>
               <div class="my-bid">
                 {{$t('auction.yourbidmsg')}}: <span :class="{'status-being':canAdded,'status-ended':!canAdded}">{{myBalanceOfSelling}}</span> CGAS
               </div>
@@ -306,6 +307,10 @@
         cursor: not-allowed;
       }
     }
+  }
+  .err-msg {
+    font-size: 12px;
+    margin-top: 10px;
   }
   .page-one {
     .tips-box {
@@ -587,10 +592,6 @@
               cursor: pointer;
             }
           }
-        }
-        .err-msg {
-          font-size: 12px;
-          margin-top: 10px;
         }
       }
       .account-tips {

@@ -26,7 +26,7 @@ export default class DateTool
     {
         date = date.toString().length == 10 ? date * 1000 : date;
         let time = new Date(date);
-        let language = sessionStorage.getItem("language");
+        let language = localStorage.getItem("language");
         if (!language || language == 'en')
         {
             return new Date(time).toUTCString();

@@ -207,6 +207,7 @@ export default {
         errmsg1: "Only",
         errmsg2: "CGAS is available.",
         errmsg4: "Please enter the right format.",
+        nobalance: "You have insufficient CGAS left in your auction account. Please top it up.",
         goback: "Go back",
         waitmsg1: "Waiting for confirmation",
         waitmsg2: "Your raise will be confirmed after a new block is generated. Please wait.",

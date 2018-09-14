@@ -78,7 +78,7 @@ import { tools } from "../tools/importpack";
 })
 export default class Main extends Vue {
   loginshow: boolean = false;
-  currentLanguage: string = sessionStorage.getItem("language") == "cn"
+  currentLanguage: string = localStorage.getItem("language") == "cn"
     ? "中文"
     : "English";
   mounted() {
@@ -98,12 +98,12 @@ export default class Main extends Vue {
     switch (lang) {
       case 1:
         this.currentLanguage = "English";
-        sessionStorage.setItem("language", "en");
+        localStorage.setItem("language", "en");
         this.$i18n.locale = "en";
         break;
       case 2:
         this.currentLanguage = "中文";
-        sessionStorage.setItem("language", "cn");
+        localStorage.setItem("language", "cn");
         this.$i18n.locale = "cn";
         break;
       default:

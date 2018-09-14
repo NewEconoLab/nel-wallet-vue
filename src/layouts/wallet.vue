@@ -402,7 +402,7 @@
 .wallet-content {
   padding-top: 185px;
 }
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1199px) {
   .wallet-content {
     padding-top: 235px;
   }

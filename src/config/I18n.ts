@@ -4,7 +4,7 @@ import en from "../language/en"
 import VueI18n from 'vue-i18n'
 
 Vue.use(VueI18n);
-let language = sessionStorage.getItem("language");
+let language = localStorage.getItem("language");
 if (!language)
 {
     var lang = navigator.language;//常规浏览器语言和IE浏览器    
@@ -12,7 +12,7 @@ if (!language)
     console.log(lang);
 
     language = (lang == 'zh' ? 'cn' : 'en');
-    sessionStorage.setItem('language', language);
+    localStorage.setItem('language', language);
 }
 
 /*---------使用语言包-----------*/
