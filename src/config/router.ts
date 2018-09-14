@@ -21,6 +21,7 @@ const AuctionTest = resolve => require([ '../pages/bidtest/neoauction.vue' ], re
 const MyTestName = resolve => require([ '../pages/bidtest/myneo.vue' ], resolve);
 const BonusTest = resolve => require([ '../pages/bidtest/bonus.vue' ], resolve);
 const Tutorial = resolve => require([ '../pages/bid/tutorial.vue' ], resolve);
+const TutorialTest = resolve => require([ '../pages/bidtest/tutorial.vue' ], resolve);
 
 export default new Router({
     mode: 'hash',
@@ -40,7 +41,8 @@ export default new Router({
                     children: [
                         { path: 'auction', component: AuctionTest, name: 'auctiontest' },
                         { path: 'mytestname', component: MyTestName, name: 'mytestname' },
-                        { path: 'bonus', component: BonusTest, name: 'bonustest' }
+                        { path: 'bonus', component: BonusTest, name: 'bonustest' },
+                        { path: 'tutorial', component: TutorialTest, name: 'tutorial' }
                     ]
                 },
                 { path: 'setting', component: Settings, name: 'setting' },
