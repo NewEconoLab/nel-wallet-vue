@@ -67,7 +67,14 @@ export class CoinTool
             for (let i = 0; i < utxos.length; i++)
             {
                 let utxo = utxos[ i ];
-                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height <= 2)
+                if (utxo.txid == old.txid)
+                {
+                    console.log(old);
+                    console.log(utxo);
+                    console.log(height - old.height);
+
+                }
+                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height < 3)
                 {
                     findutxo = true;
                     utxos.splice(i, 1);
@@ -181,9 +188,10 @@ export class CoinTool
     static creatInuptAndOutup(utxos: UTXO[], sendcount: Neo.Fixed8, target?: string)
     {
         let count = Neo.Fixed8.Zero;
-        let res = {} as { inputs: ThinNeo.TransactionInput[], outputs: ThinNeo.TransactionOutput[] };
+        let res = {} as { inputs: ThinNeo.TransactionInput[], outputs: ThinNeo.TransactionOutput[], oldutxo: OldUTXO[] };
         res[ "inputs" ] = [];
         res[ "outputs" ] = [];
+        res[ "oldutxo" ] = [];
         let scraddr = "";
         let assetId: Uint8Array;
         for (var i = 0; i < utxos.length; i++)
@@ -196,6 +204,8 @@ export class CoinTool
             count = count.add(utxos[ i ].count);//添加至count中
             scraddr = utxos[ i ].addr;
             assetId = utxos[ i ].asset.hexToBytes().reverse();
+            let old = new OldUTXO(utxos[ i ].txid, utxos[ i ].n);
+            res.oldutxo.push(old);
             if (count.compareTo(sendcount) > 0) //判断输入是否足够
             {
                 break;      //如果足够则跳出循环

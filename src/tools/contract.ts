@@ -123,9 +123,14 @@ export default class Contract
         tran.attributes[ 0 ] = new ThinNeo.Attribute();
         tran.attributes[ 0 ].usage = ThinNeo.TransactionAttributeUsage.Script;
         tran.attributes[ 0 ].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
+        let feeres: {
+            inputs: ThinNeo.TransactionInput[];
+            outputs: ThinNeo.TransactionOutput[];
+            oldutxo: OldUTXO[];
+        };
         if (gass)
         {
-            let feeres = tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.parse("0.00000001"));
+            feeres = tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.parse("0.00000001"));
             tran.inputs = feeres.inputs.map(input =>
             {
                 input.hash = input.hash.reverse();
@@ -145,15 +150,10 @@ export default class Contract
         res.info = result[ "txid" ];
         if (!res.err)
         {
-            let olds: OldUTXO[] = [];
-
-            for (const i in tran.inputs)
+            if (feeres && feeres.oldutxo)
             {
-                const input = tran.inputs[ i ];
-                olds.push(new OldUTXO(input.hash.reverse().toHexString(), input.index))
+                OldUTXO.oldutxosPush(feeres.oldutxo);
             }
-            olds.map(old => old.height = height);
-            OldUTXO.oldutxosPush(olds);
         }
         return res;
     }

@@ -99,7 +99,7 @@ export class NNSTool
         sb.EmitPushString("requestSubDomain");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
-        var res = await tools.coinTool.contractInvokeTrans_attributes(data);
+        var res = await tools.contract.contractInvokeTrans_attributes(data);
         if (!res.err)
         {
             // WWW.setnnsinfo(address,doamin,);
@@ -261,7 +261,7 @@ export class NNSTool
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
 
-        let res = await tools.coinTool.contractInvokeTrans_attributes(data);
+        let res = await tools.contract.contractInvokeTrans_attributes(data);
         return res;
     }
 
@@ -295,7 +295,7 @@ export class NNSTool
         sb.EmitPushString("setResolverData");
         sb.EmitAppCall(scriptaddress.reverse());
         var data = sb.ToArray();
-        let res = await tools.coinTool.contractInvokeTrans_attributes(data);
+        let res = await tools.contract.contractInvokeTrans_attributes(data);
         return res;
     }
 

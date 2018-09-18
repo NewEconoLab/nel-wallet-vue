@@ -661,6 +661,28 @@ var WWW = /** @class */ (function () {
             });
         });
     };
+    //获取转账域名地址    
+    WWW.getresolvedaddress = function (domain) {
+        return __awaiter(this, void 0, void 0, function () {
+            var postdata, result, json, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        postdata = WWW.makeRpcPostBody("getresolvedaddress", domain);
+                        return [4 /*yield*/, fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        if (json["result"] == null)
+                            return [2 /*return*/, null];
+                        r = json["result"][0];
+                        return [2 /*return*/, r];
+                }
+            });
+        });
+    };
     //获取地址下所有的域名
     WWW.getnnsinfo = function () {
         var params = [];
@@ -1881,6 +1903,8 @@ var OldUTXO = /** @class */ (function () {
     function OldUTXO(txid, n) {
         this.n = n;
         this.txid = txid;
+        var oldBlock = new importpack_1.tools.sessionstoretool("block");
+        this.height = oldBlock.select('height');
     }
     OldUTXO.oldutxosPush = function (olds) {
         var arr = this.getOldutxos();
@@ -3175,7 +3199,7 @@ var Contract = /** @class */ (function () {
      */
     Contract.contractInvokeTrans_attributes = function (script) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxos, gass, addr, tran, feeres, data, res, result, height, olds, i, input;
+            var utxos, gass, addr, tran, feeres, data, res, result, height;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, cointool_1.CoinTool.getassets()];
@@ -3218,13 +3242,9 @@ var Contract = /** @class */ (function () {
                         res.err = !result["sendrawtransactionresult"];
                         res.info = result["txid"];
                         if (!res.err) {
-                            olds = [];
-                            for (i in tran.inputs) {
-                                input = tran.inputs[i];
-                                olds.push(new entity_1.OldUTXO(input.hash.reverse().toHexString(), input.index));
+                            if (feeres && feeres.oldutxo) {
+                                entity_1.OldUTXO.oldutxosPush(feeres.oldutxo);
                             }
-                            olds.map(function (old) { return old.height = height; });
-                            entity_1.OldUTXO.oldutxosPush(olds);
                         }
                         return [2 /*return*/, res];
                 }
@@ -5507,7 +5527,7 @@ var NNSTool = /** @class */ (function () {
                         sb.EmitPushString("requestSubDomain");
                         sb.EmitAppCall(scriptaddress);
                         data = sb.ToArray();
-                        return [4 /*yield*/, importpack_1.tools.coinTool.contractInvokeTrans_attributes(data)];
+                        return [4 /*yield*/, importpack_1.tools.contract.contractInvokeTrans_attributes(data)];
                     case 1:
                         res = _a.sent();
                         if (!res.err) {
@@ -5671,7 +5691,7 @@ var NNSTool = /** @class */ (function () {
                         sb.EmitPushString("owner_SetResolver");
                         sb.EmitAppCall(scriptaddress);
                         data = sb.ToArray();
-                        return [4 /*yield*/, importpack_1.tools.coinTool.contractInvokeTrans_attributes(data)];
+                        return [4 /*yield*/, importpack_1.tools.contract.contractInvokeTrans_attributes(data)];
                     case 1:
                         res = _a.sent();
                         return [2 /*return*/, res];
@@ -5712,7 +5732,7 @@ var NNSTool = /** @class */ (function () {
                         sb.EmitPushString("setResolverData");
                         sb.EmitAppCall(scriptaddress.reverse());
                         data = sb.ToArray();
-                        return [4 /*yield*/, importpack_1.tools.coinTool.contractInvokeTrans_attributes(data)];
+                        return [4 /*yield*/, importpack_1.tools.contract.contractInvokeTrans_attributes(data)];
                     case 1:
                         res = _a.sent();
                         return [2 /*return*/, res];
@@ -6101,7 +6121,8 @@ exports.default = {
         msg4: "-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction.",
         msg5: "available",
         waiting: "Waiting for transaction confirmation",
-        errdomain: "This domain hasn't been mapped to any address"
+        errdomain: "This domain hasn't been mapped to any address",
+        timeMsg: "Expiry date: "
     },
     nns: {
         nns: "NNS",
@@ -6415,7 +6436,12 @@ var CoinTool = /** @class */ (function () {
                             findutxo = false;
                             for (i_1 = 0; i_1 < utxos.length; i_1++) {
                                 utxo = utxos[i_1];
-                                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height <= 2) {
+                                if (utxo.txid == old.txid) {
+                                    console.log(old);
+                                    console.log(utxo);
+                                    console.log(height - old.height);
+                                }
+                                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height < 3) {
                                     findutxo = true;
                                     utxos.splice(i_1, 1);
                                 }
@@ -6515,6 +6541,7 @@ var CoinTool = /** @class */ (function () {
         var res = {};
         res["inputs"] = [];
         res["outputs"] = [];
+        res["oldutxo"] = [];
         var scraddr = "";
         var assetId;
         for (var i = 0; i < utxos.length; i++) {
@@ -6526,6 +6553,8 @@ var CoinTool = /** @class */ (function () {
             count = count.add(utxos[i].count); //添加至count中
             scraddr = utxos[i].addr;
             assetId = utxos[i].asset.hexToBytes().reverse();
+            var old = new entity_1.OldUTXO(utxos[i].txid, utxos[i].n);
+            res.oldutxo.push(old);
             if (count.compareTo(sendcount) > 0) {
                 break; //如果足够则跳出循环
             }
@@ -7685,7 +7714,8 @@ exports.default = {
         msg4: "您没有足够的utxo进行交易，请等待高度变化后再尝试下笔交易",
         msg5: "可用",
         waiting: "等待交易确认",
-        errdomain: "该域名尚未映射地址"
+        errdomain: "该域名尚未映射地址",
+        timeMsg: "有效期至: "
     },
     nns: {
         nns: "NNS",

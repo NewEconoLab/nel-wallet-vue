@@ -346,6 +346,8 @@ export class OldUTXO
     {
         this.n = n;
         this.txid = txid;
+        let oldBlock = new tools.sessionstoretool("block");
+        this.height = oldBlock.select('height');
     }
 
     static oldutxosPush(olds: OldUTXO[])
