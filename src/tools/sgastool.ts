@@ -38,40 +38,14 @@ export default class SgasTool
         // var login = LoginInfo.getCurrentLogin();
 
         //获取sgas合约地址的资产列表
-        var utxos_assets = await tools.coinTool.getsgasAssets();
-        //筛选出sgas合约地址的gas的utxo
-        var us = utxos_assets[ tools.coinTool.id_GAS ];
-        if (us == undefined)
-        {
-            return;
-        }
+        var utxos_assets = await tools.coinTool.getavailableutxos(transcount);
 
-        //接口等待提供
-        //检查sgas地址拥有的gas的utxo是否有被标记过
-        for (var i = us.length - 1; i >= 0; i--)
-        {
-            if (us[ i ].n > 0)
-            {
-                continue;
-            }
-
-            let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "getRefundTarget", [ "(hex256)" + us[ i ].txid.toString() ]);
-            var r = await tools.wwwtool.rpc_getInvokescript(script);
-            if (r)
-            {
-                var stack = r[ 'stack' ];
-                var value = stack[ 0 ][ "value" ].toString();
-                if (value.length > 0)
-                {
-                    delete us[ i ];
-                }
-            }
-        }
         //sgas 自己给自己转账   用来生成一个utxo  合约会把这个utxo标记给发起的地址使用
         try
         {
             var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
-            var makeTranRes: Result = tools.coinTool.makeTran(utxos_assets, nepAddress, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
+            let count = Neo.Fixed8.fromNumber(transcount).subtract(Neo.Fixed8.fromNumber(0.00000001));
+            var makeTranRes: Result = tools.coinTool.makeTran(utxos_assets, nepAddress, tools.coinTool.id_GAS, count);
         }
         catch (e)
         {

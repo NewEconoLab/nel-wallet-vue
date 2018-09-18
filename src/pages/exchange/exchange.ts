@@ -122,14 +122,9 @@ export default class Exchange extends Vue
         {
             try
             {   //sgas->gas
+                let feecount = Neo.Fixed8.parse(this.transcount).subtract(Neo.Fixed8.fromNumber(0.00000001));
                 this.isCheckingTran = true;
-                console.log("筛选utxo --------------------");
-                console.log(new Date().getTime());
-
                 let result = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
-
-                console.log(new Date().getTime());
-                console.log("筛选结束-------------------");
 
                 // 已经确认
                 //tx的第一个utxo就是给自己的
@@ -137,18 +132,18 @@ export default class Exchange extends Vue
                 utxo.addr = LoginInfo.getCurrentAddress();
                 utxo.txid = result.txid;
                 utxo.asset = tools.coinTool.id_GAS;
-                utxo.count = Neo.Fixed8.parse(this.transcount);
+                utxo.count = feecount;
                 utxo.n = 0;
 
                 //把这个txid里的utxo[0]的value转给自己
-                let data = await tools.sgastool.makeRefundTransaction_tranGas(utxo, this.transcount.toString());
+                let data = await tools.sgastool.makeRefundTransaction_tranGas(utxo, Neo.Fixed8.parse(feecount.toString()));
                 let res = await tools.wwwtool.rechargeandtransfer(result.data, data);
                 let txid = res[ "txid" ];
                 TaskManager.addTask(
                     new Task(ConfirmType.recharge, txid, { count: this.transcount }),
                     TaskType.sgasToGas
                 );
-                let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'CGAS' } ];
+                let tranObj = [ { 'trancount': this.transcount, 'txid': result.txid, 'trantype': 'CGAS' } ];
                 sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
                 this.exchangebtn = false;
                 this.isCheckingTran = true;

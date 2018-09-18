@@ -146,7 +146,7 @@ export class CoinTool
         }
         if (tools.coinTool.id_GAS == assetid)   //如果转账的金额是gas
         {
-            let addcount = sendcount.add(fee);
+            // let addcount = sendcount.add(fee);
             let tranRes = this.creatInuptAndOutup(gasutxos, sendcount, targetaddr);
             tran.inputs = tranRes.inputs;
             tran.outputs = tranRes.outputs;
@@ -475,46 +475,20 @@ export class CoinTool
     /**
      * @method 获得Sgas账户下的utxo
      */
-    static async getsgasAssets(): Promise<{ [ id: string ]: UTXO[] }>
+    static async getavailableutxos(count: number): Promise<{ [ id: string ]: UTXO[] }>
     {
-        //获得高度
-        var height = await tools.wwwtool.api_getHeight();
-        var scriptHash = ThinNeo.Helper.GetAddressFromScriptHash(this.id_SGAS);
-        var utxos = await tools.wwwtool.api_getUTXO(scriptHash);   //获得utxo
-
-        var olds = OldUTXO.getOldutxos();       //获得以标记的utxo(交易过的utxo 存储在本地的标记)
-        var olds2 = new Array<OldUTXO>();       //
-        for (let n = 0; n < olds.length; n++)
-        {
-            const old = olds[ n ];
-            let findutxo = false;
-            for (let i = 0; i < utxos.length; i++)
-            {
-                let utxo = utxos[ i ];
-                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height <= 2)
-                {
-                    findutxo = true;
-                    utxos.splice(i, 1);
-                }
-            }
-            if (findutxo)
-            {
-                olds2.push(old);
-            }
-        }
-        OldUTXO.setOldutxos(olds2);
+        let currentaddr = LoginInfo.getCurrentAddress();
+        let utxos = await tools.wwwtool.getavailableutxos(currentaddr, count);
         var assets = {};        //对utxo进行归类，并且将count由string转换成 Neo.Fixed8
+        var addr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        var asset = tools.coinTool.id_GAS;
+        assets[ asset ] = [];
         for (var i in utxos)
         {
             var item = utxos[ i ];
-            var asset = item.asset;
-            if (assets[ asset ] == undefined || assets[ asset ] == null)
-            {
-                assets[ asset ] = [];
-            }
             let utxo = new UTXO();
-            utxo.addr = item.addr;
-            utxo.asset = item.asset;
+            utxo.addr = addr;
+            utxo.asset = asset;
             utxo.n = item.n;
             utxo.txid = item.txid;
             utxo.count = Neo.Fixed8.parse(item.value);

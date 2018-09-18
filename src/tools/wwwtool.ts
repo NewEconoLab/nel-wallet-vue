@@ -377,6 +377,23 @@ export class WWW
         return r;
     }
 
+
+    /**
+     * 获得bonus 历史记录
+     * @param address 地址
+     * @param currentpage 当前页码
+     * @param pagesize 条数
+     */
+    static async getavailableutxos(address: string, count: number)
+    {
+        var postdata = WWW.makeRpcPostBody("getavailableutxos", address, count);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+
+
     /**
      * 两笔交易提交给服务器发送
      * @param data1 第一笔交易数据
