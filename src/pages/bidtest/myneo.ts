@@ -157,16 +157,24 @@ export default class MyNeoTest extends Vue
      */
     async setresolve()
     {
-        let contract = this.set_contract.hexToBytes().reverse();
-        let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
-        if (!res.err)
+        let oldstate: number = this.resolverState;  //保存当前按钮状态
+        try
         {
             this.resolverState = 2;
-            let txid = res.info;
-            TaskManager.addTask(
-                new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
-                TaskType.domainResovle);
-            this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
+            let contract = this.set_contract.hexToBytes().reverse();
+            let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
+                    TaskType.domainResovle);
+                this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
+            }
+        }
+        catch (error)
+        {
+            this.resolverState = oldstate;
         }
     }
 

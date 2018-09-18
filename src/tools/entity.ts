@@ -52,7 +52,7 @@ export class alert
         }
         this.btn_close.onclick = () =>
         {
-            this.alert.hidden = true;
+            this.close();
             call(false);
         }
     }
@@ -121,42 +121,52 @@ export class LoginInfo
                     {
                         if (!passsword)
                         {
-                            reject("签名中断")
+                            reject("签名中断");
                         }
-                        let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
-                        tools.neotool.nep2ToWif(nep2, passsword)
-                            .then((res) =>
-                            {
-                                LoginInfo.info = res.info as LoginInfo;
-                                alert.close();
-                                resolve(LoginInfo.info);
-                            })
-                            .catch(err =>
-                            {
-                                alert.error(msg_error)
-                            })
+                        else
+                        {
+                            let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
+                            tools.neotool.nep2ToWif(nep2, passsword)
+                                .then((res) =>
+                                {
+                                    LoginInfo.info = res.info as LoginInfo;
+                                    alert.close();
+                                    resolve(LoginInfo.info);
+                                })
+                                .catch(err =>
+                                {
+                                    alert.error(msg_error)
+                                })
+                        }
                     })
                 } if (current.type == LoginType.otcgo)
                 {
                     alert.show(msg_title, "password", msg_btn, password =>
                     {
-                        let json = current.msg;
-                        let otcgo = new WalletOtcgo();
-                        otcgo.fromJsonStr(JSON.stringify(json));
-                        otcgo.otcgoDecrypt(password);
-                        const result = otcgo.doValidatePwd();
-                        if (result)
+                        if (!password)
                         {
-                            var info: LoginInfo = new LoginInfo();
-                            info.address = otcgo.address;
-                            info.prikey = otcgo.prikey;
-                            info.pubkey = otcgo.pubkey;
-                            LoginInfo.info = info;
-                            alert.close();
-                            resolve(info);
-                        } else
+                            reject("签名中断")
+                        }
+                        else
                         {
-                            alert.error(msg_error)
+                            let json = current.msg;
+                            let otcgo = new WalletOtcgo();
+                            otcgo.fromJsonStr(JSON.stringify(json));
+                            otcgo.otcgoDecrypt(password);
+                            const result = otcgo.doValidatePwd();
+                            if (result)
+                            {
+                                var info: LoginInfo = new LoginInfo();
+                                info.address = otcgo.address;
+                                info.prikey = otcgo.prikey;
+                                info.pubkey = otcgo.pubkey;
+                                LoginInfo.info = info;
+                                alert.close();
+                                resolve(info);
+                            } else
+                            {
+                                alert.error(msg_error)
+                            }
                         }
                     })
                 }
@@ -187,6 +197,7 @@ export class LoginInfo
         close.onclick = () =>
         {
             alert.hidden = true;
+            input.value = "";
             return;
         }
     }

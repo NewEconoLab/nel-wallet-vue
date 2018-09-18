@@ -157,16 +157,23 @@ export default class MyNeo extends Vue
      */
     async setresolve()
     {
-        let contract = this.set_contract.hexToBytes().reverse();
-        let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
-        if (!res.err)
+        let oldstate = this.resolverState;
+        try
         {
             this.resolverState = 2;
-            let txid = res.info;
-            TaskManager.addTask(
-                new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
-                TaskType.domainResovle);
-            this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
+            let contract = this.set_contract.hexToBytes().reverse();
+            let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
+                    TaskType.domainResovle);
+                this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
+            }
+        } catch (error)
+        {
+            this.resolverState = oldstate;
         }
     }
 
@@ -175,17 +182,26 @@ export default class MyNeo extends Vue
      */
     async mappingData()
     {
-        let res = await tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver);
-        if (!res.err)
+        let oldstate = this.mappingState;
+        try
         {
             this.mappingState = 2;
-            let txid = res.info;
-            TaskManager.addTask(
-                new Task(ConfirmType.contract, txid, { domain: this.domainInfo.domain, address: this.resolverAddress }),
-                TaskType.domainMapping);
-            this.domainEdit.put(this.domainInfo.domain, { state: "watting", address: this.resolverAddress }, "mapping");
-        }
+            let res = await tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver);
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo.domain, address: this.resolverAddress }),
+                    TaskType.domainMapping);
+                this.domainEdit.put(this.domainInfo.domain, { state: "watting", address: this.resolverAddress }, "mapping");
+            } else
+            {
 
+            }
+        } catch (error)
+        {
+            this.mappingState = oldstate;
+        }
     }
 
     /**

@@ -1658,7 +1658,7 @@ var alert = /** @class */ (function () {
             call(_this.input.value);
         };
         this.btn_close.onclick = function () {
-            _this.alert.hidden = true;
+            _this.close();
             call(false);
         };
     };
@@ -1724,36 +1724,43 @@ var LoginInfo = /** @class */ (function () {
                                 if (!passsword) {
                                     reject("签名中断");
                                 }
-                                var nep2 = current_1.msg[LoginInfo.getCurrentAddress()];
-                                importpack_1.tools.neotool.nep2ToWif(nep2, passsword)
-                                    .then(function (res) {
-                                    LoginInfo.info = res.info;
-                                    alert.close();
-                                    resolve(LoginInfo.info);
-                                })
-                                    .catch(function (err) {
-                                    alert.error(msg_error);
-                                });
+                                else {
+                                    var nep2 = current_1.msg[LoginInfo.getCurrentAddress()];
+                                    importpack_1.tools.neotool.nep2ToWif(nep2, passsword)
+                                        .then(function (res) {
+                                        LoginInfo.info = res.info;
+                                        alert.close();
+                                        resolve(LoginInfo.info);
+                                    })
+                                        .catch(function (err) {
+                                        alert.error(msg_error);
+                                    });
+                                }
                             });
                         }
                         if (current_1.type == LoginType.otcgo) {
                             alert.show(msg_title, "password", msg_btn, function (password) {
-                                var json = current_1.msg;
-                                var otcgo = new WalletOtcgo();
-                                otcgo.fromJsonStr(JSON.stringify(json));
-                                otcgo.otcgoDecrypt(password);
-                                var result = otcgo.doValidatePwd();
-                                if (result) {
-                                    var info = new LoginInfo();
-                                    info.address = otcgo.address;
-                                    info.prikey = otcgo.prikey;
-                                    info.pubkey = otcgo.pubkey;
-                                    LoginInfo.info = info;
-                                    alert.close();
-                                    resolve(info);
+                                if (!password) {
+                                    reject("签名中断");
                                 }
                                 else {
-                                    alert.error(msg_error);
+                                    var json = current_1.msg;
+                                    var otcgo = new WalletOtcgo();
+                                    otcgo.fromJsonStr(JSON.stringify(json));
+                                    otcgo.otcgoDecrypt(password);
+                                    var result = otcgo.doValidatePwd();
+                                    if (result) {
+                                        var info = new LoginInfo();
+                                        info.address = otcgo.address;
+                                        info.prikey = otcgo.prikey;
+                                        info.pubkey = otcgo.pubkey;
+                                        LoginInfo.info = info;
+                                        alert.close();
+                                        resolve(info);
+                                    }
+                                    else {
+                                        alert.error(msg_error);
+                                    }
                                 }
                             });
                         }
@@ -1781,6 +1788,7 @@ var LoginInfo = /** @class */ (function () {
         };
         close.onclick = function () {
             alert.hidden = true;
+            input.value = "";
             return;
         };
     };
