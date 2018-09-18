@@ -39,7 +39,7 @@
                             </div>
                             <p v-if="isDomain">
                                 <img class="transfer-icon" src="../../../static/img/transfer.png" alt="">
-                                <span class="map-address">{{toaddress}}</span>
+                                <span class="map-address">{{tipAddress}}</span>
                             </p>
                         </div>
                         <div class="col-sm-3 mess">

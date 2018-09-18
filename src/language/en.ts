@@ -121,7 +121,8 @@ export default {
         msg4: "-_-!!!You don't have enough change, you have to wait for the block height to change before you can make the next transaction.",
         msg5: "available",
         waiting: "Waiting for transaction confirmation",
-        errdomain: "This domain hasn't been mapped to any address"
+        errdomain: "This domain hasn't been mapped to any address",
+        timeMsg: "Expiry date: "
     },
     nns: {
         nns: "NNS",

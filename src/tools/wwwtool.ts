@@ -255,6 +255,17 @@ export class WWW
         var r = json[ "result" ][ 0 ]
         return r;
     }
+    //获取转账域名地址    
+    static async getresolvedaddress(domain: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getresolvedaddress", domain);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ] == null)
+            return null;
+        var r = json[ "result" ][ 0 ]
+        return r;
+    }
 
     //获取地址下所有的域名
     static async getnnsinfo(...params): Promise<string[]>

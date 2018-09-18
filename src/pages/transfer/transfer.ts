@@ -6,6 +6,8 @@ import Component from "vue-class-component";
 import { tools } from "../../tools/importpack";
 import Store from '../../tools/StorageMap';
 import { TaskManager } from '../../tools/taskmanager';
+import DateTool from 'tools/timetool';
+import { Watch } from 'vue-property-decorator';
 
 declare const mui;
 @Component({
@@ -17,7 +19,9 @@ export default class transfer extends Vue
 {
     target: string;
     isDomain: boolean;
-    toaddress: string;
+    toaddress: string;    //转账地址
+    expiryTime: string;   //域名到期时间
+    tipAddress: string;    //域名转账提示
     amount: string;
     asset: string;
     balances: BalanceInfo[] = [];
@@ -39,10 +43,23 @@ export default class transfer extends Vue
         this.target = "";
         this.isDomain = false;
         this.toaddress = "";
+        this.expiryTime = "";
+        this.tipAddress = "";
         this.amount = "";
         this.asset = "";
         this.txpage = 1;
         // this.openToast = this.$refs.toast[ "isShow" ];
+    }
+    @Watch("$i18n.locale")
+    valueChange(val, oldval)
+    {
+        if (val == "cn")
+        {
+            this.tipAddress = this.toaddress + " " + this.$t("transfer.timeMsg") + this.expiryTime;
+        } else
+        {
+            this.tipAddress = this.toaddress + " " + this.$t("transfer.timeMsg") + this.expiryTime;
+        }
     }
     mounted() 
     {
@@ -97,10 +114,13 @@ export default class transfer extends Vue
         if (isDomain)
         {
             this.target = this.target.toLowerCase();
-            let addr = await tools.nnstool.resolveData(this.target);
-            if (addr)
+            let res = await tools.wwwtool.getresolvedaddress(this.target);
+            // let addr = await tools.nnstool.resolveData(this.target);
+            if (res)
             {
-                this.toaddress = addr;
+                this.toaddress = res.data
+                this.expiryTime = tools.timetool.getTime(res.TTL);
+                this.tipAddress = this.toaddress + " " + this.$t("transfer.timeMsg") + this.expiryTime;
                 this.isDomain = true;
                 this.addrerr = 1;
                 this.isAddress = true;
@@ -109,6 +129,8 @@ export default class transfer extends Vue
             else
             {
                 this.toaddress = "";
+                this.expiryTime = "";
+                this.tipAddress = "";
                 this.addrerr = 2;
                 this.isDomain = false;
                 this.isAddress = false;
@@ -133,18 +155,23 @@ export default class transfer extends Vue
         }
         else if (neoDomain)
         {
-            let mapping = await tools.nnstool.resolveData(this.target);
-            if (mapping.length)
+            let res = await tools.wwwtool.getresolvedaddress(this.target);
+            // let addr = await tools.nnstool.resolveData(this.target);
+            if (res)
             {
-                this.toaddress = mapping;
-                this.addrerr = 1;
+                this.toaddress = res.data
+                this.expiryTime = tools.timetool.getTime(res.TTL);
+                this.tipAddress = this.toaddress + " " + this.$t("transfer.timeMsg") + this.expiryTime;
                 this.isDomain = true;
+                this.addrerr = 1;
                 this.isAddress = true;
                 return true;
             }
             else
             {
                 this.toaddress = "";
+                this.expiryTime = "";
+                this.tipAddress = "";
                 this.addrerr = 4;
                 this.isDomain = false;
                 this.isAddress = false;
