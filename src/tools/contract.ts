@@ -140,8 +140,21 @@ export default class Contract
 
         var res: Result = new Result();
         var result = await tools.wwwtool.api_postRawTransaction(data);
+        var height = await tools.wwwtool.api_getHeight();
         res.err = !result[ "sendrawtransactionresult" ];
         res.info = result[ "txid" ];
+        if (!res.err)
+        {
+            let olds: OldUTXO[] = [];
+
+            for (const i in tran.inputs)
+            {
+                const input = tran.inputs[ i ];
+                olds.push(new OldUTXO(input.hash.reverse().toHexString(), input.index))
+            }
+            olds.map(old => old.height = height);
+            OldUTXO.oldutxosPush(olds);
+        }
         return res;
     }
 

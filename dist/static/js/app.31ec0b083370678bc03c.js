@@ -3175,7 +3175,7 @@ var Contract = /** @class */ (function () {
      */
     Contract.contractInvokeTrans_attributes = function (script) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxos, gass, addr, tran, feeres, data, res, result;
+            var utxos, gass, addr, tran, feeres, data, res, result, height, olds, i, input;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, cointool_1.CoinTool.getassets()];
@@ -3212,8 +3212,20 @@ var Contract = /** @class */ (function () {
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
                     case 3:
                         result = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
+                    case 4:
+                        height = _a.sent();
                         res.err = !result["sendrawtransactionresult"];
                         res.info = result["txid"];
+                        if (!res.err) {
+                            olds = [];
+                            for (i in tran.inputs) {
+                                input = tran.inputs[i];
+                                olds.push(new entity_1.OldUTXO(input.hash.reverse().toHexString(), input.index));
+                            }
+                            olds.map(function (old) { return old.height = height; });
+                            entity_1.OldUTXO.oldutxosPush(olds);
+                        }
                         return [2 /*return*/, res];
                 }
             });
