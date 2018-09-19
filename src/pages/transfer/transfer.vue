@@ -39,13 +39,13 @@
                             </div>
                             <p v-if="isDomain">
                                 <img class="transfer-icon" src="../../../static/img/transfer.png" alt="">
-                                <span class="map-address">{{tipAddress}}</span>
+                                <span class="map-address">{{toaddress}}</span>
                             </p>
                         </div>
                         <div class="col-sm-3 mess">
                             <p v-if="addrerr==2||addrerr==4"><img src="../../../static/img/wrong.svg" alt="">&nbsp;&nbsp;{{$t('transfer.errdomain')}} </p>
                             <p v-if="addrerr==3"><img src="../../../static/img/wrong.svg" alt="">&nbsp;&nbsp;{{$t('transfer.msg1')}} </p>
-                            <p v-if="addrerr==1"><img src="../../../static/img/correct.svg" alt=""></p>
+                            <p v-if="addrerr==1"><img src="../../../static/img/correct.svg" alt="">&nbsp;{{tipAddress}}</p>
                         </div>
                     </div>
                     <div class="col-sm-12" :class="amounterr!=''?(amounterr == 'true' ?'err':'success') :''">
