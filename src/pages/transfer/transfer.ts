@@ -55,10 +55,10 @@ export default class transfer extends Vue
     {
         if (val == "cn")
         {
-            this.tipAddress = this.toaddress + " " + this.$t("transfer.timeMsg") + this.expiryTime;
+            this.tipAddress = "" + this.$t("transfer.timeMsg") + this.expiryTime;
         } else
         {
-            this.tipAddress = this.toaddress + " " + this.$t("transfer.timeMsg") + this.expiryTime;
+            this.tipAddress = "" + this.$t("transfer.timeMsg") + this.expiryTime;
         }
     }
     mounted() 
@@ -120,7 +120,7 @@ export default class transfer extends Vue
             {
                 this.toaddress = res.data
                 this.expiryTime = tools.timetool.getTime(res.TTL);
-                this.tipAddress = this.toaddress + " " + this.$t("transfer.timeMsg") + this.expiryTime;
+                this.tipAddress = "" + this.$t("transfer.timeMsg") + this.expiryTime;
                 this.isDomain = true;
                 this.addrerr = 1;
                 this.isAddress = true;
@@ -143,12 +143,14 @@ export default class transfer extends Vue
             {
                 this.toaddress = this.target;
                 this.addrerr = 1;
+                this.tipAddress = "";
                 this.isAddress = true;
                 return true;
             } else
             {
                 this.toaddress = "";
                 this.addrerr = 3;
+                this.tipAddress = "";
                 this.isAddress = false;
                 return false;
             }
@@ -161,7 +163,7 @@ export default class transfer extends Vue
             {
                 this.toaddress = res.data
                 this.expiryTime = tools.timetool.getTime(res.TTL);
-                this.tipAddress = this.toaddress + " " + this.$t("transfer.timeMsg") + this.expiryTime;
+                this.tipAddress = "" + this.$t("transfer.timeMsg") + this.expiryTime;
                 this.isDomain = true;
                 this.addrerr = 1;
                 this.isAddress = true;
