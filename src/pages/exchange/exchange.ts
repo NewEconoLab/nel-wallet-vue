@@ -122,7 +122,7 @@ export default class Exchange extends Vue
         {
             try
             {   //sgas->gas
-                let feecount = Neo.Fixed8.parse(this.transcount).subtract(Neo.Fixed8.fromNumber(0.00000001));
+                let trancount = Neo.Fixed8.parse(this.transcount);
                 this.isCheckingTran = true;
                 let result = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
 
@@ -132,11 +132,11 @@ export default class Exchange extends Vue
                 utxo.addr = LoginInfo.getCurrentAddress();
                 utxo.txid = result.txid;
                 utxo.asset = tools.coinTool.id_GAS;
-                utxo.count = feecount;
+                utxo.count = trancount
                 utxo.n = 0;
 
                 //把这个txid里的utxo[0]的value转给自己
-                let data = await tools.sgastool.makeRefundTransaction_tranGas(utxo, Neo.Fixed8.parse(feecount.toString()));
+                let data = await tools.sgastool.makeRefundTransaction_tranGas(utxo, trancount);
                 let res = await tools.wwwtool.rechargeandtransfer(result.data, data);
                 let txid = res[ "txid" ];
                 TaskManager.addTask(

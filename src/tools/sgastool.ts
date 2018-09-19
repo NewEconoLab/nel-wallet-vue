@@ -34,23 +34,50 @@ export default class SgasTool
      */
     static async makeRefundTransaction(transcount)
     {
-        // 查询SGAS余额
-        // var login = LoginInfo.getCurrentLogin();
-
         //获取sgas合约地址的资产列表
-        var utxos_assets = await tools.coinTool.getavailableutxos(transcount);
+        let utxos_current = await tools.coinTool.getassets();
+        let utxos_cgas = await tools.wwwtool.getavailableutxos(LoginInfo.getCurrentAddress(), transcount);
+        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        let gass: UTXO[] = utxos_current[ tools.coinTool.id_GAS ];
+        var cgass: UTXO[] = []
+        for (var i in utxos_cgas)
+        {
+            var item = utxos_cgas[ i ];
+            let utxo = new UTXO();
+            utxo.addr = nepAddress;
+            utxo.asset = tools.coinTool.id_GAS;
+            utxo.n = item.n;
+            utxo.txid = item.txid;
+            utxo.count = Neo.Fixed8.parse(item.value);
+            cgass.push(utxo);
+        }
+        var tran: ThinNeo.Transaction = new ThinNeo.Transaction();
+        //合约类型
+        tran.inputs = [];
+        tran.outputs = [];
+        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+        tran.extdata = new ThinNeo.InvokeTransData();
 
         //sgas 自己给自己转账   用来生成一个utxo  合约会把这个utxo标记给发起的地址使用
         try
         {
-            var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
-            let count = Neo.Fixed8.fromNumber(transcount).subtract(Neo.Fixed8.fromNumber(0.00000001));
-            var makeTranRes: Result = tools.coinTool.makeTran(utxos_assets, nepAddress, tools.coinTool.id_GAS, count);
+            let cgasRes = tools.coinTool.creatInuptAndOutup(cgass, Neo.Fixed8.fromNumber(transcount), nepAddress);
+            let feeRes = tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.fromNumber(0.00000001));
+            tran.inputs = cgasRes.inputs;
+            tran.outputs = cgasRes.outputs;
+            if (feeRes)
+            {
+                tran.inputs = tran.inputs.concat(feeRes.inputs);
+                tran.outputs = tran.outputs.concat(feeRes.outputs);
+            }
+            for (const i in tran.inputs)
+            {
+                tran.inputs[ i ].hash = tran.inputs[ i ].hash.reverse();
+            }
         }
         catch (e)
         {
-            // this.makeRefundTransaction_error("SGAS余额不足")
-            return;
+            throw "";
         }
 
         var r = await tools.wwwtool.api_getcontractstate(tools.coinTool.id_SGAS.toString())
@@ -60,10 +87,8 @@ export default class SgasTool
 
             var scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress())
 
-            var tran: any = makeTranRes.info.tran;
             tran.type = ThinNeo.TransactionType.InvocationTransaction;
-            tran.extdata = new ThinNeo.InvokeTransData();
-            (tran.extdata).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "refund", [ "(bytes)" + scriptHash.toHexString() ]);
+            (tran.extdata as ThinNeo.InvokeTransData).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "refund", [ "(bytes)" + scriptHash.toHexString() ]);
 
             //附加鉴证
             tran.attributes = new Array<ThinNeo.Attribute>(1);
@@ -80,11 +105,6 @@ export default class SgasTool
             //做提款人的签名
             var data = await tools.coinTool.signData(tran);
             return { txid, data };
-
-            // 发送交易请求
-            // r = await tools.wwwtool.api_postRawTransaction(data);
-            // throw "Transaction send failed";
-
         }
         else
         {
@@ -101,25 +121,30 @@ export default class SgasTool
      */
     static async makeRefundTransaction_tranGas(utxo, transcount)
     {
-        // 生成转换请求
-        var utxos_assets = {}
-        utxos_assets[ tools.coinTool.id_GAS ] = [];
-        utxos_assets[ tools.coinTool.id_GAS ].push(utxo);
+        var tran: ThinNeo.Transaction = new ThinNeo.Transaction();
+        //合约类型
+        tran.inputs = [];
+        tran.outputs = [];
+        tran.type = ThinNeo.TransactionType.ContractTransaction;
+        tran.version = 0;
+        tran.extdata = null;
+        tran.attributes = []
 
         try
         {
-            let addr = LoginInfo.getCurrentAddress();
-            var makeTranRes: Result = tools.coinTool.makeTran(utxos_assets, addr, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
-        }
-        catch (e)
+            let fee = Neo.Fixed8.fromNumber(0.00000001);                //网络费用
+            let sendcount = transcount.subtract(fee);    //由于转账使用的utxo和需要转换的金额一样大所以输入只需要塞入减去交易费的金额，utxo也足够使用交易费
+            let tranRes = tools.coinTool.creatInuptAndOutup([ utxo ], sendcount, LoginInfo.getCurrentAddress());   //创建交易
+            tran.inputs = tranRes.inputs;
+            tran.outputs = tranRes.outputs;
+            if (tran.outputs && tran.outputs.length > 1)
+            {
+                tran.outputs[ 1 ].value = tran.outputs[ 1 ].value.subtract(fee);    //扣掉交易费部分
+            }
+        } catch (error)
         {
-            return
+
         }
-
-        var tran: ThinNeo.Transaction = makeTranRes.info.tran;
-        tran.type = ThinNeo.TransactionType.ContractTransaction;
-        tran.version = 0;
-
         //sign and broadcast
         //做智能合约的签名
         var r = await tools.wwwtool.api_getcontractstate(tools.coinTool.id_SGAS.toString())
