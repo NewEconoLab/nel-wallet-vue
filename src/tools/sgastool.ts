@@ -88,14 +88,15 @@ export default class SgasTool
             var scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress())
 
             tran.type = ThinNeo.TransactionType.InvocationTransaction;
-            (tran.extdata as ThinNeo.InvokeTransData).script = tools.contract.buildScript(tools.coinTool.id_SGAS, "refund", [ "(bytes)" + scriptHash.toHexString() ]);
+            (tran.extdata as ThinNeo.InvokeTransData).script
+                = tools.contract.buildScript(tools.coinTool.id_SGAS, "refund", [ "(bytes)" + scriptHash.toHexString() ]);
 
             //附加鉴证
             tran.attributes = new Array<ThinNeo.Attribute>(1);
             tran.attributes[ 0 ] = new ThinNeo.Attribute();
             tran.attributes[ 0 ].usage = ThinNeo.TransactionAttributeUsage.Script;
             tran.attributes[ 0 ].data = scriptHash;
-
+            //构建一个script
             let sb = new ThinNeo.ScriptBuilder();
             sb.EmitPushString("whatever")
             sb.EmitPushNumber(new Neo.BigInteger(250));
@@ -137,9 +138,10 @@ export default class SgasTool
             let tranRes = tools.coinTool.creatInuptAndOutup([ utxo ], sendcount, LoginInfo.getCurrentAddress());   //创建交易
             tran.inputs = tranRes.inputs;
             tran.outputs = tranRes.outputs;
-            if (tran.outputs && tran.outputs.length > 1)
+            tran.outputs.length = 1;  //去掉找零的部分，只保留一个转账位
+            for (const n in tran.inputs)
             {
-                tran.outputs[ 1 ].value = tran.outputs[ 1 ].value.subtract(fee);    //扣掉交易费部分
+                tran.inputs[ n ].hash = tran.inputs[ n ].hash.reverse();
             }
         } catch (error)
         {
@@ -152,7 +154,6 @@ export default class SgasTool
         if (r && r[ 'script' ])
         {
             var sgasScript = r[ 'script' ].hexToBytes();
-
             var sb = new ThinNeo.ScriptBuilder();
             sb.EmitPushNumber(new Neo.BigInteger(0));
             sb.EmitPushNumber(new Neo.BigInteger(0));

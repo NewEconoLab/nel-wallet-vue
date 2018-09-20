@@ -238,7 +238,14 @@ export default class NNSSell
         auction.addWho = new AuctionAddress(LoginInfo.getCurrentAddress(), accDiv(info.balanceOfSelling.toString(), 100000000));
         let startTime = await tools.wwwtool.api_getBlockInfo(parseInt(info.startBlockSelling.toString()));
         //根据开标的区块高度获得开标的时间
+        let ttltime = parseInt(info.ttl);
         let currentTime = tools.timetool.currentTime();
+
+        if (ttltime > currentTime)
+        {
+            auction.auctionState = AuctionState.end;
+            return auction;
+        }
         let dtime = currentTime - startTime; //时间差值;
         //如果超过到期时间
         if (dtime > 365 * day)
