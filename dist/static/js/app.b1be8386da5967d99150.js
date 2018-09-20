@@ -2695,32 +2695,59 @@ var SgasTool = /** @class */ (function () {
      */
     SgasTool.makeRefundTransaction = function (transcount) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxos_assets, nepAddress, count, makeTranRes, r, sgasScript, scriptHash, tran, sb, txid, data;
+            var utxos_current, utxos_cgas, nepAddress, gass, cgass, i, item, utxo, tran, cgasRes, feeRes, i_1, r, sgasScript, scriptHash, sb, txid, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, importpack_1.tools.coinTool.getavailableutxos(transcount)];
+                    case 0: return [4 /*yield*/, importpack_1.tools.coinTool.getassets()];
                     case 1:
-                        utxos_assets = _a.sent();
-                        //sgas 自己给自己转账   用来生成一个utxo  合约会把这个utxo标记给发起的地址使用
-                        try {
-                            nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(importpack_1.tools.coinTool.id_SGAS);
-                            count = Neo.Fixed8.fromNumber(transcount).subtract(Neo.Fixed8.fromNumber(0.00000001));
-                            makeTranRes = importpack_1.tools.coinTool.makeTran(utxos_assets, nepAddress, importpack_1.tools.coinTool.id_GAS, count);
-                        }
-                        catch (e) {
-                            // this.makeRefundTransaction_error("SGAS余额不足")
-                            return [2 /*return*/];
-                        }
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getcontractstate(importpack_1.tools.coinTool.id_SGAS.toString())];
+                        utxos_current = _a.sent();
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.getavailableutxos(entity_1.LoginInfo.getCurrentAddress(), transcount)];
                     case 2:
-                        r = _a.sent();
-                        if (!(r && r['script'])) return [3 /*break*/, 4];
-                        sgasScript = r['script'].hexToBytes();
-                        scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress());
-                        tran = makeTranRes.info.tran;
+                        utxos_cgas = _a.sent();
+                        nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(importpack_1.tools.coinTool.id_SGAS);
+                        gass = utxos_current[importpack_1.tools.coinTool.id_GAS];
+                        cgass = [];
+                        for (i in utxos_cgas) {
+                            item = utxos_cgas[i];
+                            utxo = new entity_1.UTXO();
+                            utxo.addr = nepAddress;
+                            utxo.asset = importpack_1.tools.coinTool.id_GAS;
+                            utxo.n = item.n;
+                            utxo.txid = item.txid;
+                            utxo.count = Neo.Fixed8.parse(item.value);
+                            cgass.push(utxo);
+                        }
+                        tran = new ThinNeo.Transaction();
+                        //合约类型
+                        tran.inputs = [];
+                        tran.outputs = [];
                         tran.type = ThinNeo.TransactionType.InvocationTransaction;
                         tran.extdata = new ThinNeo.InvokeTransData();
-                        (tran.extdata).script = importpack_1.tools.contract.buildScript(importpack_1.tools.coinTool.id_SGAS, "refund", ["(bytes)" + scriptHash.toHexString()]);
+                        //sgas 自己给自己转账   用来生成一个utxo  合约会把这个utxo标记给发起的地址使用
+                        try {
+                            cgasRes = importpack_1.tools.coinTool.creatInuptAndOutup(cgass, Neo.Fixed8.fromNumber(transcount), nepAddress);
+                            feeRes = importpack_1.tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.fromNumber(0.00000001));
+                            tran.inputs = cgasRes.inputs;
+                            tran.outputs = cgasRes.outputs;
+                            if (feeRes) {
+                                tran.inputs = tran.inputs.concat(feeRes.inputs);
+                                tran.outputs = tran.outputs.concat(feeRes.outputs);
+                            }
+                            for (i_1 in tran.inputs) {
+                                tran.inputs[i_1].hash = tran.inputs[i_1].hash.reverse();
+                            }
+                        }
+                        catch (e) {
+                            throw "";
+                        }
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_getcontractstate(importpack_1.tools.coinTool.id_SGAS.toString())];
+                    case 3:
+                        r = _a.sent();
+                        if (!(r && r['script'])) return [3 /*break*/, 5];
+                        sgasScript = r['script'].hexToBytes();
+                        scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(entity_1.LoginInfo.getCurrentAddress());
+                        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+                        tran.extdata.script = importpack_1.tools.contract.buildScript(importpack_1.tools.coinTool.id_SGAS, "refund", ["(bytes)" + scriptHash.toHexString()]);
                         //附加鉴证
                         tran.attributes = new Array(1);
                         tran.attributes[0] = new ThinNeo.Attribute();
@@ -2732,10 +2759,10 @@ var SgasTool = /** @class */ (function () {
                         tran.AddWitnessScript(sgasScript, sb.ToArray());
                         txid = tran.GetHash().clone().reverse().toHexString();
                         return [4 /*yield*/, importpack_1.tools.coinTool.signData(tran)];
-                    case 3:
+                    case 4:
                         data = _a.sent();
                         return [2 /*return*/, { txid: txid, data: data }];
-                    case 4: throw "Contract acquisition failure";
+                    case 5: throw "Contract acquisition failure";
                 }
             });
         });
@@ -2747,23 +2774,30 @@ var SgasTool = /** @class */ (function () {
      */
     SgasTool.makeRefundTransaction_tranGas = function (utxo, transcount) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxos_assets, addr, makeTranRes, tran, r, sgasScript, sb, trandata;
+            var tran, fee, sendcount, tranRes, r, sgasScript, sb, trandata;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        utxos_assets = {};
-                        utxos_assets[importpack_1.tools.coinTool.id_GAS] = [];
-                        utxos_assets[importpack_1.tools.coinTool.id_GAS].push(utxo);
-                        try {
-                            addr = entity_1.LoginInfo.getCurrentAddress();
-                            makeTranRes = importpack_1.tools.coinTool.makeTran(utxos_assets, addr, importpack_1.tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
-                        }
-                        catch (e) {
-                            return [2 /*return*/];
-                        }
-                        tran = makeTranRes.info.tran;
+                        tran = new ThinNeo.Transaction();
+                        //合约类型
+                        tran.inputs = [];
+                        tran.outputs = [];
                         tran.type = ThinNeo.TransactionType.ContractTransaction;
                         tran.version = 0;
+                        tran.extdata = null;
+                        tran.attributes = [];
+                        try {
+                            fee = Neo.Fixed8.fromNumber(0.00000001);
+                            sendcount = transcount.subtract(fee);
+                            tranRes = importpack_1.tools.coinTool.creatInuptAndOutup([utxo], sendcount, entity_1.LoginInfo.getCurrentAddress());
+                            tran.inputs = tranRes.inputs;
+                            tran.outputs = tranRes.outputs;
+                            if (tran.outputs && tran.outputs.length > 1) {
+                                tran.outputs[1].value = tran.outputs[1].value.subtract(fee); //扣掉交易费部分
+                            }
+                        }
+                        catch (error) {
+                        }
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getcontractstate(importpack_1.tools.coinTool.id_SGAS.toString())];
                     case 1:
                         r = _a.sent();
