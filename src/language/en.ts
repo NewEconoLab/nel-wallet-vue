@@ -28,7 +28,7 @@ export default {
         recoversgas: "Reclaim CGAS",
         gettingdomain: "Claiming domain",
         recoveringsgas: "Reclaiming CGAS",
-        receivedsgas: "Claimed",
+        receivedsgas: "Reclaimed",
         receivednns: "Claimed",
         newbid: "Join Auction",
         viewmore: "View more",
