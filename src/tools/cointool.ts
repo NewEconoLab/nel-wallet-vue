@@ -166,6 +166,8 @@ export class CoinTool
             tran.inputs = tran.inputs.concat(tranRes.inputs);
             tran.outputs = tran.outputs.concat(tranRes.outputs);
         }
+        if (tran.witnesses == null)
+            tran.witnesses = [];
 
         for (const i in tran.inputs)
         {

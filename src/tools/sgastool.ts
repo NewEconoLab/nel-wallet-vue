@@ -189,19 +189,4 @@ export default class SgasTool
 
         return amount.AsInteger().toString();
     }
-
-    static async claim()
-    {
-        let who = new Neo.Uint160(
-            ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress
-                (
-                LoginInfo.getCurrentAddress()
-                ).buffer
-        );
-        let data = tools.contract.buildScript(tools.coinTool.dapp_nnc, "claim", [ "(hex160)" + who.toString() ]);
-        let res = await tools.contract.contractInvokeTrans(data);
-        console.log(res);
-        return res;
-        //prikey,Config.dapp_nnc, "claim", "(bytes)" + strhash
-    }
 }

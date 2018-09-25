@@ -186,7 +186,6 @@ export default class Contract
         (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(0);
         try
         {
-
             let data = await CoinTool.signData(tran);
             var height = await tools.wwwtool.api_getHeight();
             var result = await tools.wwwtool.api_postRawTransaction(data);
