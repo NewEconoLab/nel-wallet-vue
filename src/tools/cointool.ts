@@ -132,7 +132,7 @@ export class CoinTool
         tran.attributes = [];
         utxos[ assetid ].sort((a, b) =>
         {
-            return a.count.compareTo(b.count);
+            return b.count.compareTo(a.count);
         });
         var old: OldUTXO[] = []
         tran.outputs = [];

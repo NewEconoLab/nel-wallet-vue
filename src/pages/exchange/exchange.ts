@@ -2,9 +2,10 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../../layouts/wallet.vue";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, BalanceInfo, UTXO, TaskFunction, Task, ConfirmType, TaskType } from '../../tools/entity';
+import { LoginInfo, BalanceInfo, UTXO, TaskFunction, Task, ConfirmType, TaskType, Result } from '../../tools/entity';
 import { TaskManager } from "../../tools/taskmanager";
 import Store from "../../tools/StorageMap";
+import { services } from "../../services/index";
 @Component({
     components: {
         "wallet-layout": WalletLayout
@@ -157,16 +158,33 @@ export default class Exchange extends Vue
             try
             {   //gas->sgas
                 this.isCheckingTran = true;
-                let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
-                TaskManager.addTask(
-                    new Task(ConfirmType.tranfer, txid, { count: this.transcount }),
-                    TaskType.gasToSgas
-                );
-                let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' } ];
-                sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
-                this.isShowTranLog();
+                // let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
+                let res: Result = await services.exchange.exchangeCGas(parseFloat(this.transcount));
+                if (res.err)
+                {
+                    let notify: Function = this.$refs.notify[ "open" ];
+                    let code = res.info[ "code" ]
+                    if (code == "1006")
+                        notify("Your UTXO is too scattered, which may cause the CGAS conversion to fail (GAS will also be lost). Please transfer some GAS( the amount shall be no less than your conversion amount) to your own address first and then convert GAS into CGAS after the transfer operation is confirmed.");
+                    if (code == "-100")
+                    {
+                        notify("testtt");
+                    }
+                    this.isCheckingTran = false;
+                } else
+                {
+                    let txid = res.info
+                    TaskManager.addTask(
+                        new Task(ConfirmType.tranfer, txid, { count: this.transcount }),
+                        TaskType.gasToSgas
+                    );
+                    let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' } ];
+                    sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
+                    this.isShowTranLog();
+                }
             } catch (error)
             {
+                this.isCheckingTran = false;
                 console.error(error);
             }
         }

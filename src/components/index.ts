@@ -5,6 +5,7 @@ import Spinner from './Spinner.vue';
 import Toast from './toast.vue';
 import Valert from './Valert.vue';
 import Vlink from './VLink.vue';
+import Notify from './Notify.vue';
 
 export default {
     install(Vue)
@@ -16,5 +17,6 @@ export default {
         Vue.component('v-toast', Toast);
         Vue.component('v-alert', Valert);
         Vue.component('v-link', Vlink);
+        Vue.component("v-notify", Notify);
     }
 }

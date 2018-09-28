@@ -101,6 +101,7 @@
             <p v-if="item.trantype == 'CGAS'">{{$t('exchange.togas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
           </div>
         </div>
+        <v-notify ref="notify"></v-notify>
     </div>
 </template>
 <script lang="ts" src="./exchange.ts">
