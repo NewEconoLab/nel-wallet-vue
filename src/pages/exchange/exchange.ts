@@ -165,11 +165,9 @@ export default class Exchange extends Vue
                     let notify: Function = this.$refs.notify[ "open" ];
                     let code = res.info[ "code" ]
                     if (code == "1006")
-                        notify("Your UTXO is too scattered, which may cause the CGAS conversion to fail (GAS will also be lost). Please transfer some GAS( the amount shall be no less than your conversion amount) to your own address first and then convert GAS into CGAS after the transfer operation is confirmed.");
-                    if (code == "-100")
-                    {
-                        notify("testtt");
-                    }
+                        notify(this.$t("notify.utxo"));
+                    // if (code == "-100")
+                    //     notify("testtt");
                     this.isCheckingTran = false;
                 } else
                 {

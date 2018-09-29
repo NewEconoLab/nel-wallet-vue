@@ -324,5 +324,9 @@ export default {
         fail: "Operation failed",
         waitinggas: "Waiting for system confirmation",
         sentok: "System sent"
+    },
+    notify: {
+        utxo: "Your UTXO is too scattered, which may cause the CGAS conversion to fail (GAS will also be lost). Please transfer some GAS( the amount shall be no less than your conversion amount) to your own address first and then convert GAS into CGAS after the transfer operation is confirmed.",
+        fee: "Note: When there is enough GAS in your wallet, we will automatically add a fee to ensure your operation will be confirmed fast. "
     }
 }

@@ -51,7 +51,7 @@ export default class NNSSell
     }
 
     /**
-     * 获得
+     * 获得竞拍id对应的竞拍总额
      * @param id 竞拍id
      */
     static async getBalanceOfBid(id: Neo.Uint256, register: Neo.Uint160)
