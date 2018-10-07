@@ -1,4 +1,4 @@
-import { LoginInfo, BalanceInfo, Result, NeoAsset, Transactionforaddr, Transaction, History, Nep5Balance, Task, ConfirmType, TaskType } from '../../tools/entity';
+import { LoginInfo, BalanceInfo, Result, NeoAsset, Transactionforaddr, Transaction, Nep5Balance, Task, ConfirmType, TaskType } from '../../tools/entity';
 import WalletLayout from "../../layouts/wallet.vue";
 import axios from "axios"
 import Vue from "vue";
@@ -8,6 +8,8 @@ import Store from '../../tools/StorageMap';
 import { TaskManager } from '../../tools/taskmanager';
 import DateTool from 'tools/timetool';
 import { Watch } from 'vue-property-decorator';
+import { services } from '../../services';
+import { History } from '../../entity/TransferEntitys';
 
 declare const mui;
 @Component({
@@ -215,25 +217,25 @@ export default class transfer extends Vue
                     if (!res[ "err" ])
                     {
                         mui.toast("" + this.$t("transfer.msg2"));
-                        let his: History = new History();
-                        his.address = this.toaddress;
-                        his.asset = this.asset;
-                        his.value = this.amount;
-                        his.txtype = "in";
-                        his[ "waiting" ] = true;
-                        his.time = tools.timetool.getTime(new Date().getTime())
-                        his.assetname = this.balance.names;
-                        his.txid = res.info;
-                        this.txs = [ his ].concat(this.txs);
+                        // let his: History = new History();
+                        // his.address = this.toaddress;
+                        // his.asset = this.asset;
+                        // his.value = this.amount;
+                        // his.txtype = "in";
+                        // his[ "waiting" ] = true;
+                        // his.time = tools.timetool.getTime(new Date().getTime())
+                        // his.assetname = this.balance.names;
+                        // his.txid = res.info;
+                        // this.txs = [ his ].concat(this.txs);
                         let num = parseFloat(this.balance.balance + "");
                         let bear = num - parseFloat(this.amount);
                         this.balance.balance = bear;
                         TaskManager.addTask(
-                            new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
+                            new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: this.balance.names, toaddress: this.toaddress }),
                             TaskType.tranfer
                         );
                         BalanceInfo.setBalanceSotre(this.balance, height);
-                        History.setHistoryStore(his, height);
+                        // History.setHistoryStore(his, height);
                         this.amount = "";
                         tools.storagetool.setStorage("current-height", height + "");
                     }
@@ -253,24 +255,24 @@ export default class transfer extends Vue
                     }
                     this.isNumber = false;
                     let his: History = new History();
-                    his.address = this.toaddress;
-                    his.asset = this.asset;
-                    his.value = this.amount;
-                    his.txtype = "in";
-                    his[ "waiting" ] = true;
-                    his.time = tools.timetool.getTime(new Date().getTime())
-                    his.assetname = this.balance.names;
-                    his.txid = res.info;
-                    this.txs = [ his ].concat(this.txs);
+                    // his.address = this.toaddress;
+                    // his.asset = this.asset;
+                    // his.value = this.amount;
+                    // his.txtype = "in";
+                    // his[ "waiting" ] = true;
+                    // his.time = tools.timetool.getTime(new Date().getTime())
+                    // his.assetname = this.balance.names;
+                    // his.txid = res.info;
+                    // this.txs = [ his ].concat(this.txs);
                     let num = parseFloat(this.balance.balance + "");
                     let bear = num - parseFloat(this.amount);
                     this.balance.balance = bear;
                     TaskManager.addTask(
-                        new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: his.assetname, toaddress: this.toaddress }),
+                        new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: this.balance.names, toaddress: this.toaddress }),
                         TaskType.tranfer
                     );
                     BalanceInfo.setBalanceSotre(this.balance, height);
-                    History.setHistoryStore(his, height);
+                    // History.setHistoryStore(his, height);
                     this.amount = "";
                     tools.storagetool.setStorage("current-height", height + "");
                 }
@@ -287,149 +289,150 @@ export default class transfer extends Vue
     }
     async history()
     {
-        await tools.coinTool.initAllAsset();
-        var currentAddress = LoginInfo.getCurrentAddress();
-        var res = await tools.wwwtool.gettransbyaddress(currentAddress, 5, this.txpage);
-        var h = await tools.wwwtool.api_getHeight();
-        res = res ? res : []; //将空值转为长度0的数组
-        this.txpage == 1 && res.length > 5 ? this.cutshow = false : this.cutshow = true;
-        History.delHistoryStoreByHeight(h);
-        let his = History.getHistoryStore();
-        if (res.length > 0)
-        {
-            this.txs = [];
-            if (his.length)
-            {
-                his.map(hi => { this.txs.push(hi.history) });
-            }
-            for (let index = 0; index < res.length; index++)
-            {
-                const tx = res[ index ];
-                let txid = tx[ "txid" ] as string;
-                txid = txid.replace('0x', '');
-                let vins = tx[ "vin" ];
-                let type = tx[ "type" ];
-                let vouts = tx[ "vout" ];
-                let value = tx[ "value" ];
-                let txtype = tx[ "txType" ];
-                let assetType = tx[ "assetType" ]
-                let blockindex = tx[ "blockindex" ];
-                let time: number = tx[ "blocktime" ].includes("$date") ? JSON.parse(tx[ "blocktime" ])[ "$date" ] : parseInt(tx[ "blocktime" ] + "000");
-                let date: string = tools.timetool.getTime(time);
+        this.txs = services.transfer.history();
+        // await tools.coinTool.initAllAsset();
+        // var currentAddress = LoginInfo.getCurrentAddress();
+        // var res = await tools.wwwtool.gettransbyaddress(currentAddress, 5, this.txpage);
+        // var h = await tools.wwwtool.api_getHeight();
+        // res = res ? res : []; //将空值转为长度0的数组
+        // this.txpage == 1 && res.length > 5 ? this.cutshow = false : this.cutshow = true;
+        // History.delHistoryStoreByHeight(h);
+        // let his = History.getHistoryStore();
+        // if (res.length > 0)
+        // {
+        //     this.txs = [];
+        //     if (his.length)
+        //     {
+        //         his.map(hi => { this.txs.push(hi.history) });
+        //     }
+        //     for (let index = 0; index < res.length; index++)
+        //     {
+        //         const tx = res[ index ];
+        //         let txid = tx[ "txid" ] as string;
+        //         txid = txid.replace('0x', '');
+        //         let vins = tx[ "vin" ];
+        //         let type = tx[ "type" ];
+        //         let vouts = tx[ "vout" ];
+        //         let value = tx[ "value" ];
+        //         let txtype = tx[ "txType" ];
+        //         let assetType = tx[ "assetType" ]
+        //         let blockindex = tx[ "blockindex" ];
+        //         let time: number = tx[ "blocktime" ].includes("$date") ? JSON.parse(tx[ "blocktime" ])[ "$date" ] : parseInt(tx[ "blocktime" ] + "000");
+        //         let date: string = tools.timetool.getTime(time);
 
-                if (type == "out")
-                {
-                    if (vins && vins.length == 1)
-                    {
-                        let assetname = "";
-                        const vin = vins[ 0 ];
-                        let asset = vin[ "asset" ];
-                        let amount = value[ asset ];
-                        let address = vin[ "address" ];
-                        if (assetType == "utxo")
-                        {
-                            assetname = tools.coinTool.assetID2name[ asset ];
-                        }
-                        else
-                        {
-                            let nep5 = await tools.wwwtool.getNep5Asset(asset);
-                            assetname = nep5[ "name" ];
-                        }
-                        var history = new History();
-                        history.time = date;
-                        history.txid = txid;
-                        history.assetname = assetname;
-                        history.address = address;
-                        history.value = parseFloat(amount).toString();
-                        history.txtype = type;
-                        this.txs.push(history);
-                    }
-                }
-                else
-                {
-                    var arr = {}
-                    let currcount = 0;
-                    for (const index in vouts)
-                    {
-                        let i = parseInt(index);
-                        const out = vouts[ i ];
-                        let address = out[ "address" ];
-                        let amount = out[ "value" ];
-                        let asset = out[ "asset" ];
-                        let assetname = "";
+        //         if (type == "out")
+        //         {
+        //             if (vins && vins.length == 1)
+        //             {
+        //                 let assetname = "";
+        //                 const vin = vins[ 0 ];
+        //                 let asset = vin[ "asset" ];
+        //                 let amount = value[ asset ];
+        //                 let address = vin[ "address" ];
+        //                 if (assetType == "utxo")
+        //                 {
+        //                     assetname = tools.coinTool.assetID2name[ asset ];
+        //                 }
+        //                 else
+        //                 {
+        //                     let nep5 = await tools.wwwtool.getNep5Asset(asset);
+        //                     assetname = nep5[ "name" ];
+        //                 }
+        //                 var history = new History();
+        //                 history.time = date;
+        //                 history.txid = txid;
+        //                 history.assetname = assetname;
+        //                 history.address = address;
+        //                 history.value = parseFloat(amount).toString();
+        //                 history.txtype = type;
+        //                 this.txs.push(history);
+        //             }
+        //         }
+        //         else
+        //         {
+        //             var arr = {}
+        //             let currcount = 0;
+        //             for (const index in vouts)
+        //             {
+        //                 let i = parseInt(index);
+        //                 const out = vouts[ i ];
+        //                 let address = out[ "address" ];
+        //                 let amount = out[ "value" ];
+        //                 let asset = out[ "asset" ];
+        //                 let assetname = "";
 
-                        if (address != currentAddress)
-                        {
-                            if (assetType == "utxo")
-                                assetname = tools.coinTool.assetID2name[ asset ];
-                            else
-                            {
-                                let nep5 = await tools.wwwtool.getNep5Asset(asset);
-                                assetname = nep5[ "symbol" ];
-                            }
-                            let n = out[ "n" ];
-                            if (arr[ address ] && arr[ address ][ assetname ])
-                            {
-                                arr[ address ][ assetname ] += amount;
-                            } else
-                            {
-                                var assets = {}
-                                assets[ assetname ] = amount;
-                                arr[ address ] = assets;
-                            }
-                        } else { currcount++ }
-                    }
-                    if (currcount == vouts.length)
-                    {
-                        for (const asset in value)
-                        {
-                            if (value.hasOwnProperty(asset))
-                            {
-                                const amount = value[ asset ];
+        //                 if (address != currentAddress)
+        //                 {
+        //                     if (assetType == "utxo")
+        //                         assetname = tools.coinTool.assetID2name[ asset ];
+        //                     else
+        //                     {
+        //                         let nep5 = await tools.wwwtool.getNep5Asset(asset);
+        //                         assetname = nep5[ "symbol" ];
+        //                     }
+        //                     let n = out[ "n" ];
+        //                     if (arr[ address ] && arr[ address ][ assetname ])
+        //                     {
+        //                         arr[ address ][ assetname ] += amount;
+        //                     } else
+        //                     {
+        //                         var assets = {}
+        //                         assets[ assetname ] = amount;
+        //                         arr[ address ] = assets;
+        //                     }
+        //                 } else { currcount++ }
+        //             }
+        //             if (currcount == vouts.length)
+        //             {
+        //                 for (const asset in value)
+        //                 {
+        //                     if (value.hasOwnProperty(asset))
+        //                     {
+        //                         const amount = value[ asset ];
 
-                                let assetname = "";
-                                if (assetType == "utxo")
-                                    assetname = tools.coinTool.assetID2name[ asset ];
-                                else
-                                {
-                                    let nep5 = await tools.wwwtool.getNep5Asset(asset);
-                                    assetname = nep5[ "symbol" ];
-                                }
+        //                         let assetname = "";
+        //                         if (assetType == "utxo")
+        //                             assetname = tools.coinTool.assetID2name[ asset ];
+        //                         else
+        //                         {
+        //                             let nep5 = await tools.wwwtool.getNep5Asset(asset);
+        //                             assetname = nep5[ "symbol" ];
+        //                         }
 
-                                var assets = {}
-                                assets[ assetname ] = amount;
-                                arr[ currentAddress ] = assets;
-                            }
-                        }
-                    }
-                    for (const address in arr)
-                    {
-                        if (arr.hasOwnProperty(address))
-                        {
-                            const data = arr[ address ];
-                            for (const asset in data)
-                            {
-                                if (data.hasOwnProperty(asset))
-                                {
-                                    const amount = data[ asset ];
-                                    var history = new History();
-                                    history.time = date;
-                                    history.txid = txid;
-                                    history.assetname = asset;
-                                    history.address = address;
-                                    history.value = parseFloat(amount).toString();
-                                    history.txtype = type;
-                                    this.txs.push(history);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //分页判断
-        res.length < 5 ? this.nextpage = false : this.nextpage = true;    //判断是否是最后一页
-        this.txpage > 1 && res == 0 ? this.txpage-- : this.txpage;   //判断是否到最后一页
+        //                         var assets = {}
+        //                         assets[ assetname ] = amount;
+        //                         arr[ currentAddress ] = assets;
+        //                     }
+        //                 }
+        //             }
+        //             for (const address in arr)
+        //             {
+        //                 if (arr.hasOwnProperty(address))
+        //                 {
+        //                     const data = arr[ address ];
+        //                     for (const asset in data)
+        //                     {
+        //                         if (data.hasOwnProperty(asset))
+        //                         {
+        //                             const amount = data[ asset ];
+        //                             var history = new History();
+        //                             history.time = date;
+        //                             history.txid = txid;
+        //                             history.assetname = asset;
+        //                             history.address = address;
+        //                             history.value = parseFloat(amount).toString();
+        //                             history.txtype = type;
+        //                             this.txs.push(history);
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // //分页判断
+        // res.length < 5 ? this.nextpage = false : this.nextpage = true;    //判断是否是最后一页
+        // this.txpage > 1 && res == 0 ? this.txpage-- : this.txpage;   //判断是否到最后一页
 
     }
 

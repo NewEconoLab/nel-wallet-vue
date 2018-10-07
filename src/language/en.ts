@@ -122,7 +122,9 @@ export default {
         msg5: "available",
         waiting: "Waiting for transaction confirmation",
         errdomain: "This domain hasn't been mapped to any address",
-        timeMsg: "Expiry date: "
+        timeMsg: "Expiry date: ",
+        netfee: "Network fee",
+        sysfee: "System fee"
     },
     nns: {
         nns: "NNS",

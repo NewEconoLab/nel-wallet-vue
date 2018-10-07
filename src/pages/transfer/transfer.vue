@@ -80,13 +80,15 @@
                 <div>
                     <div class="title"></div>
                     <div v-for="tx in txs" class="history" :key="tx.index">
-                        <div class="number" :class="tx.txtype">
-                            {{tx.txtype == 'out'?'+ ':'- '}}{{tx.value}}&nbsp;{{tx.assetname}}</div>
-                        <div class="address">{{tx.txtype == 'out'?$t('transfer.from'):$t('transfer.to')}} : {{tx.address}}</div>
+                        <div class="number" :class="tx.fromOrTo">
+                            {{tx.fromOrTo == 'from'?'+ ':'- '}}{{tx.value.toString()}}&nbsp;{{tx.assetSymbol}}</div>
+                        <div class="address">{{tx.fromOrTo == 'from'?$t('transfer.from'):$t('transfer.to')}} : {{tx.addr}}</div>
                         <div class="time">
                             <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">
                                 {{tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)}}
-                            </a> &nbsp;{{tx.time}}
+                            </a>&nbsp; &nbsp;{{tx.blocktime}}
+                            &nbsp;&nbsp;{{$t("transfer.netfee")}}: {{tx.netfee}} GAS
+                            &nbsp;&nbsp;{{$t("transfer.sysfee")}}: {{tx.sysfee}} Gas
                             <div v-if="tx.waiting">({{$t('transfer.waiting')}})</div>
                         </div>
                     </div>
@@ -217,10 +219,10 @@
   font-size: 20px;
   line-height: 20px;
 }
-.number.out {
+.number.from {
   color: #2dde4f;
 }
-.number.in {
+.number.to {
   color: #ff6a6a;
 }
 .history .address {

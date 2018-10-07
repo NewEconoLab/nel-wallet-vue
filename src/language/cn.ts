@@ -122,7 +122,9 @@ export default {
         msg5: "可用",
         waiting: "等待交易确认",
         errdomain: "该域名尚未映射地址",
-        timeMsg: "有效期至: "
+        timeMsg: "有效期至: ",
+        netfee: "网络费",
+        sysfee: "系统费"
     },
     nns: {
         nns: "NNS",
