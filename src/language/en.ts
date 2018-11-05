@@ -35,6 +35,8 @@ export default {
         edit: "Edit",
         renewal: "Renew",
         renewaling: "Renewing",
+        setOwner: "Set owner",
+        settingOwner: "Setting owner",
         exchange: "Exchange",
         exchanging: "Exchanging",
         withdraw: "Withdraw",
@@ -288,6 +290,7 @@ export default {
         expiring: "Expiring soon",
         edittitle: "Edit information",
         neoname: "Neo Name",
+        owner: "Owner Address",
         notconfigure: "not configured",
         expired: "Expired",
         tips: "Tips : Address mapping can only be performed after the address resolver is confirmed by you. "

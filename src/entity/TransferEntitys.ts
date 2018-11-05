@@ -17,45 +17,42 @@ export class History
     blockindex: number;
     blocktime: number;
     isNep5: boolean;
+    from: string[];
+    to: string[]
 
-    static paresTx(txs): History[]
+    paresTx(txs)
     {
-        let txid = txs[ "txid" ];
-        let addr = txs[ "addr" ];
-        let txType = txs[ "txType" ];
-        let netfee = txs[ "netfee" ];
-        let sysfee = txs[ "sysfee" ];
-        let blockindex = txs[ "blockindex" ];
-        let blocktime = txs[ "blocktime" ];
-        let isNep5 = txs[ "isNep5" ];
-        blocktime = tools.timetool.getTime(parseInt(blocktime));
-        let historys: History[] = []
-        for (const assetid in txs[ "detail" ])
+        this.txid = txs[ "txid" ];
+        this.addr = txs[ "addr" ];
+        this.txType = txs[ "txType" ];
+        this.netfee = txs[ "netfee" ];
+        this.sysfee = txs[ "sysfee" ];
+        this.blockindex = txs[ "blockindex" ];
+        this.blocktime = txs[ "blocktime" ];
+        this.isNep5 = txs[ "isNep5" ];
+        const detail = txs[ "detail" ];
+        if (detail)
         {
-            const detail = txs[ "detail" ][ assetid ];
-            let history = new History();
-            history.txid = txid;
-            history.addr = addr;
-            history.txType = txType;
-            history.netfee = netfee;
-            history.sysfee = sysfee;
-            history.blockindex = blockindex;
-            history.blocktime = blocktime;
-            history.isNep5 = isNep5;
-            history.assetId = assetid;
-            history.fromOrTo = detail[ "fromOrTo" ];
-            history.assetType = detail[ "assetType" ];
-            history.assetName = detail[ "assetName" ];
-            history.assetSymbol = detail[ "assetSymbol" ];
-            history.assetDecimals = detail[ "assetDecimals" ];
-            history.value = Neo.Fixed8.parse(detail[ "value" ]);
-            if (tools.coinTool.id_GAS == assetid)
-                history.assetName = history.assetSymbol = "GAS";
-            if (tools.coinTool.id_NEO == assetid)
-                history.assetName = history.assetSymbol = "NEO";
-            historys.push(history);
+            this.to = detail[ "to" ];
+            this.from = detail[ "from" ];
+            this.assetId = detail[ "assetId" ];
+            this.assetType = detail[ "assetType" ];
+            this.assetName = detail[ "assetName" ];
+            this.assetSymbol = detail[ "assetSymbol" ];
+            this.assetDecimals = detail[ "assetDecimals" ];
+            this.value = Neo.Fixed8.parse(detail[ "value" ]);
+            //判断form or to
+            this.fromOrTo = parseFloat(detail[ `value` ]) > 0 ? `from` : `to`;
+            this.addr = (this.fromOrTo === 'to' ? (detail[ "to" ] ? detail[ 'to' ][ 0 ] : "") : (detail[ 'from' ] ? detail[ 'from' ][ 0 ] : ""))
+            if (tools.coinTool.id_GAS == this.assetId)
+            {
+                this.assetName = this.assetSymbol = "GAS";
+            }
+            if (tools.coinTool.id_NEO == this.assetId)
+            {
+                this.assetName = this.assetSymbol = "NEO";
+            }
         }
-        return historys;
     }
 
 }

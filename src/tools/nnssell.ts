@@ -31,11 +31,11 @@ export default class NNSSell
             var stackarr = result[ "stack" ] as any[];
             let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[ 0 ].subItem
             info.id = stack[ 0 ].AsHash256();
-            info.startBlockSelling = stack[ 4 ].AsInteger();
-            info.endBlock = stack[ 5 ].AsInteger();
-            info.maxPrice = stack[ 6 ].AsInteger();
-            info.maxBuyer = stack[ 7 ].AsHash160();
-            info.lastBlock = stack[ 8 ].AsInteger();
+            info.startBlockSelling = stack[ 5 ].AsInteger();
+            info.endBlock = stack[ 6 ].AsInteger();
+            info.maxPrice = stack[ 7 ].AsInteger();
+            info.maxBuyer = stack[ 8 ].AsHash160();
+            info.lastBlock = stack[ 9 ].AsInteger();
             if (!!info.id)
             {   //竞拍id不为空则查询域名下的余额
                 info.balanceOfSelling = await this.getBalanceOfBid(info.id, root.register);

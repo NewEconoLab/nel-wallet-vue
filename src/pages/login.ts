@@ -63,6 +63,7 @@ export default class login extends Vue
     //初始化随机数生成器
     //该随机数生成器原理是，手机鼠标事件，所以早点打开效果好
     Neo.Cryptography.RandomNumberGenerator.startCollectors();
+    // this.test();
   }
 
   mounted()
@@ -323,6 +324,31 @@ export default class login extends Vue
           this.download_name = this.walletname + ".json";
         }
       });
+    }
+  }
+
+  test()
+  {
+    for (let index = 0; index < 10000; index++)
+    {
+      try
+      {
+        var sb = new ThinNeo.ScriptBuilder();
+        sb.EmitParamJson([]);//第二个参数是个数组
+        sb.EmitPushString("mintTokens");
+        sb.EmitAppCall(tools.coinTool.id_SGAS);
+        let data = sb.ToArray();
+        console.log(index);
+
+
+      } catch (error)
+      {
+        console.log(index);
+
+        console.log(error);
+
+      }
+
     }
   }
 

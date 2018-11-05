@@ -232,6 +232,35 @@ export class NNSTool
     }
 
     /**
+     * 域名转让
+     * @param domain 
+     * @param newOwner 
+     */
+    static async setOwner(domain: string, newOwner: string): Promise<Result>
+    {
+        const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress());
+        const hashstr = hash.reverse().toHexString();
+        const ownerHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(newOwner);
+        const ownerHashStr = ownerHash.reverse().toHexString();
+        const arr = domain.split(".");
+        const nnshash: Neo.Uint256 = tools.nnstool.nameHashArray(arr);
+        const scriptaddress = Consts.baseContract;
+
+        const data = tools.contract.buildScript_random(
+            scriptaddress,
+            "owner_SetOwner",
+            [
+                "(hex160)" + hashstr,
+                "(hex256)" + nnshash.toString(),
+                "(hex160)" + ownerHashStr
+            ]
+        );
+
+        let res = await tools.contract.contractInvokeTrans_attributes(data);
+        return res;
+    }
+
+    /**
      * 生成解析器
      * @param protocol 
      * @param nnshash 
@@ -401,7 +430,7 @@ export class NNSTool
     static verifyDomain(domain)
     {
         //check domain valid
-        var reg = /^(.+\.)(test|TEST|[a-z][a-z])$/;
+        var reg = /^(.+\.)(test|TEST|neo|NEO[a-z][a-z])$/;
         if (!reg.test(domain))
         {
             return false;

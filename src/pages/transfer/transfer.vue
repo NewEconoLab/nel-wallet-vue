@@ -81,7 +81,12 @@
                     <div class="title"></div>
                     <div v-for="tx in txs" class="history" :key="tx.index">
                         <div class="number" :class="tx.fromOrTo">
-                            {{tx.fromOrTo == 'from'?'+ ':'- '}}{{tx.value.toString()}}&nbsp;{{tx.assetSymbol}}</div>
+                            {{tx.fromOrTo === 'from'?'+ ':'- '}}{{tx.value.toString()}}&nbsp;{{tx.assetSymbol}}
+                        </div>
+                        <!-- 
+                        <div v-if="tx.formOrTo==='from'">
+                            <div class="address">{{tx.fromOrTo == 'from'?$t('transfer.from'):$t('transfer.to')}} : {{tx.addr}}</div>
+                        </div> -->
                         <div class="address">{{tx.fromOrTo == 'from'?$t('transfer.from'):$t('transfer.to')}} : {{tx.addr}}</div>
                         <div class="time">
                             <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">

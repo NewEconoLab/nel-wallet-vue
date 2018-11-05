@@ -77,6 +77,9 @@ export class TaskManager
                     case TaskType.domainRenewal:
                         await this.confirm_renewal(tasks);
                         break;
+                    case TaskType.domainTransfer:
+                        await this.confirm_domain_transfer(tasks);
+                        break;
                     default:
                         break;
                 }
@@ -490,6 +493,42 @@ export class TaskManager
             return task;
         });
         this.taskStore.put(TaskType.domainResovle.toString(), taskarr); //保存修改的状态
+    }
+
+    static async confirm_domain_transfer(tasks: Task[])
+    {
+        let ress = await this.getResult(tasks);
+        let domainEdit = new sessionStoreTool("domain-edit");
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
+        {
+            let result = ress[ task.txid ];
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            {
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainTransfer)
+                        TaskFunction.domainTransfer(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'domain_transfer');
+                }
+                else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo"))
+                {
+                    task.state = TaskState.success;
+                    if (TaskFunction.domainTransfer)
+                        TaskFunction.domainTransfer(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'domain_transfer');
+                } else
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainTransfer)
+                        TaskFunction.domainTransfer(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'domain_transfer');
+                }
+            }
+            task.confirm++;
+            return task;
+        });
+        this.taskStore.put(TaskType.domainTransfer.toString(), taskarr);
     }
 
     /**

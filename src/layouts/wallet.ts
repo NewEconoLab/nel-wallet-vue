@@ -125,6 +125,9 @@ export default class FeatureComponent extends Vue
                     case TaskType.ClaimGas:
                         this.makeTaskList(tasks, TaskType.ClaimGas);
                         break;
+                    case TaskType.domainTransfer:
+                        this.makeTaskList(tasks, TaskType.domainTransfer);
+                        break;
                     default:
                         break;
                 }

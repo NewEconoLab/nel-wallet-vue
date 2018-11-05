@@ -145,7 +145,6 @@ export default class Contract
 
         var res: Result = new Result();
         var result = await tools.wwwtool.api_postRawTransaction(data);
-        var height = await tools.wwwtool.api_getHeight();
         res.err = !result[ "sendrawtransactionresult" ];
         res.info = result[ "txid" ];
         if (!res.err)

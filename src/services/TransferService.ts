@@ -1,16 +1,18 @@
 import { History } from "../entity/TransferEntitys";
+import { tools } from "../tools/importpack";
 
 export class TransferService
 {
-    history()
+    async history(address: string, pagesize: number, pageindex: number)
     {
-        let transactionHistory: History[] = [];
+        const transactionHistory: History[] = [];
+        const txs = await tools.wwwtool.gettransbyaddressnew(address, pagesize, pageindex)
 
-        for (const key in this.txs)
+        for (const key in txs)
         {
-            let tx = this.txs[ key ];
-            let hiss = History.paresTx(tx);
-            transactionHistory = transactionHistory.concat(hiss);
+            const his = new History()
+            his.paresTx(txs[ key ])
+            transactionHistory.push(his);
         }
         return transactionHistory;
     }
@@ -25,7 +27,7 @@ export class TransferService
                 "vout": [
                     {
                         "n": 0,
-                        "asset": "0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b".length,
+                        "asset": "0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b",
                         "value": "100000000",
                         "address": "AJ6hqJYnyLLmCT6Cfb7m1R3aXQAEWbeVVo"
                     }

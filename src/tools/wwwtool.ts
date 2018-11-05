@@ -47,6 +47,21 @@ export class WWW
         return r;
     }
 
+    static async gettransbyaddressnew(address: string, pagesize: number, pageindex: number)
+    {
+        var postdata =
+            WWW.makeRpcPostBody(
+                "gettransbyaddressNew",
+                address,
+                pagesize,
+                pageindex
+            );
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r ? r : [];
+    }
+
     static async  api_getHeight()
     {
         var str = WWW.makeRpcUrl(WWW.api, "getblockcount");

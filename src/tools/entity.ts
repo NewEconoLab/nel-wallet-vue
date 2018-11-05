@@ -1007,6 +1007,7 @@ export class TaskFunction
     static domainMapping: Function;//域名映射
     static domainResovle: Function;//域名合约地址
     static domainRenewal: Function;//续约显示
+    static domainTransfer: Function;
     static auctionStateUpdate: Function;
     static newTaskNumber: Function;//更新阅读数
 }
@@ -1189,6 +1190,7 @@ export enum TaskType
     getDomain,//领取域名
     recoverSgas,//退回sgas
     ClaimGas,//领取Gas
+    domainTransfer,
 }
 
 /**
