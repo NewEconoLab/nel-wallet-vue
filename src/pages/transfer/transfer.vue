@@ -91,7 +91,7 @@
                         <div class="time">
                             <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">
                                 {{tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)}}
-                            </a>&nbsp; &nbsp;{{tx.blocktime}}
+                            </a>&nbsp; &nbsp;{{tx.time}}
                             &nbsp;&nbsp;{{$t("transfer.netfee")}}: {{tx.netfee}} GAS
                             &nbsp;&nbsp;{{$t("transfer.sysfee")}}: {{tx.sysfee}} Gas
                             <div v-if="tx.waiting">({{$t('transfer.waiting')}})</div>

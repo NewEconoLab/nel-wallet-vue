@@ -16,6 +16,7 @@ export class History
     sysfee: Neo.Fixed8;
     blockindex: number;
     blocktime: number;
+    time: string;
     isNep5: boolean;
     from: string[];
     to: string[]
@@ -29,6 +30,7 @@ export class History
         this.sysfee = txs[ "sysfee" ];
         this.blockindex = txs[ "blockindex" ];
         this.blocktime = txs[ "blocktime" ];
+        this.time = tools.timetool.getTime(this.blocktime);
         this.isNep5 = txs[ "isNep5" ];
         const detail = txs[ "detail" ];
         if (detail)
