@@ -40,6 +40,7 @@ export default class MyNeo extends Vue
         this.mappingistrue = false;
         this.currentdomain = "";
         this.ownerState = 3
+        this.ownerAddress = "";
     }
 
     mounted()
