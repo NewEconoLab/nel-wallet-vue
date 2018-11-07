@@ -75,6 +75,7 @@ export default class MyNeo extends Vue
         this.mappingistrue = res;
     }
 
+
     verifySetOwner()
     {
         const domain = this.domainEdit.select(this.currentdomain);
@@ -82,7 +83,7 @@ export default class MyNeo extends Vue
         {
             this.ownerState = 2;
         }
-        else if (!this.ownerAddress)
+        else if (this.domainInfo.expired || !this.ownerAddress)
         {
             this.ownerState = 3;
         }
@@ -90,8 +91,6 @@ export default class MyNeo extends Vue
         {
             const res = tools.neotool.verifyAddress(this.ownerAddress);
             this.ownerState = res ? 1 : 3;
-            console.log(this.ownerState);
-
         }
     }
 
