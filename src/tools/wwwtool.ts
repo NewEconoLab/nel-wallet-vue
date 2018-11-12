@@ -338,6 +338,20 @@ export class WWW
     }
 
     /**
+     * 根据id和address更新列表数据
+     * @param address 地址
+     * @param ids id 列表
+     */
+    static async getdomainauctioninfo(domain: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getdomainauctioninfo", domain);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+
+    /**
      * 获得分页总条数
      * @param address 地址
      */

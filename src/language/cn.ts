@@ -212,6 +212,7 @@ export default {
         errmsg1: "您当前的竞拍账户仅拥有",
         errmsg2: "CGAS.",
         errmsg4: "请输入正确的格式。",
+        errmsg6: "您的出价低于最高出价的百分之十",
         nobalance: "余额不足，请充值",
         goback: "返回",
         waitmsg1: "未确认",

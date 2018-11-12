@@ -60,6 +60,7 @@
                 </div>
                 <div v-if="inputErrorCode==1" class="err-msg status-ended">{{$t('auction.errmsg1')}} {{balanceOf}} {{$t('auction.errmsg2')}}</div>
                 <div v-if="inputErrorCode==2" class="err-msg status-ended">{{$t('auction.errmsg4')}}</div>
+                <div v-if="inputErrorCode==3" class="err-msg status-ended">{{$t('auction.errmsg6')}}</div>
             </div>
             <div class="my-sgas">{{$t('auction.mywillbid')}}: <span :class="updatePrice<=auctionInfo.maxPrice||inputErrorCode==1?'status-ended':'status-being'">{{updatePrice}}</span> CGAS</div>
             <div class="tips-msg">

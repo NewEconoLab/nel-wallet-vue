@@ -368,10 +368,10 @@ export class TaskManager
                 if (result.vmstate == "FAULT, BREAK")
                 {
                     task.state = TaskState.fail;
-                } else if (result && result.displayNameList && result.displayNameList.includes("assetManagement")) //检测是否有对应的通知 addprice
+                } else if (result && result.displayNameList && result.displayNameList.includes("raise")) //检测是否有对应的通知 addprice
                 {
                     task.state = TaskState.success;
-                } else if (result && result.displayNameList && result.displayNameList.includes("raiseEndsAuction"))
+                } else if (result && result.displayNameList && result.displayNameList.includes("bidSettlement"))
                 {
                     task.state = TaskState.fail;
                 } else

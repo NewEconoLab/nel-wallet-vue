@@ -212,6 +212,7 @@ export default {
         errmsg1: "Only",
         errmsg2: "CGAS is available.",
         errmsg4: "Please enter the right format.",
+        errmsg6: "Your bid raise must not be less than 10% of the current highest bid price",
         nobalance: "You have insufficient CGAS left in your auction account. Please top it up.",
         goback: "Go back",
         waitmsg1: "Waiting for confirmation",

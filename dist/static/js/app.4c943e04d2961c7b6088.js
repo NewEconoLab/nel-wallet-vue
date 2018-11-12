@@ -801,6 +801,30 @@ var WWW = /** @class */ (function () {
         });
     };
     /**
+     * 根据id和address更新列表数据
+     * @param address 地址
+     * @param ids id 列表
+     */
+    WWW.getdomainauctioninfo = function (domain) {
+        return __awaiter(this, void 0, void 0, function () {
+            var postdata, result, json, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        postdata = WWW.makeRpcPostBody("getdomainauctioninfo", domain);
+                        return [4 /*yield*/, fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        r = json["result"];
+                        return [2 /*return*/, r];
+                }
+            });
+        });
+    };
+    /**
      * 获得分页总条数
      * @param address 地址
      */
@@ -3907,8 +3931,8 @@ var neotools = /** @class */ (function () {
                         if (info == "finish") {
                             var pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(result);
                             var address = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
-                            var wif = ThinNeo.Helper.GetWifFromPrivateKey(result);
-                            var hexkey = result.toHexString();
+                            // var wif = ThinNeo.Helper.GetWifFromPrivateKey(result as Uint8Array);
+                            // var hexkey = (result as Uint8Array).toHexString();
                             // console.log(info + "|" + address + " wif=" + wif);
                             res.err = false;
                             res.info = { pubkey: pubkey, address: address, prikey: result };
@@ -4918,10 +4942,10 @@ var TaskManager = /** @class */ (function () {
                                 if (result.vmstate == "FAULT, BREAK") {
                                     task.state = entity_1.TaskState.fail;
                                 }
-                                else if (result && result.displayNameList && result.displayNameList.includes("assetManagement")) {
+                                else if (result && result.displayNameList && result.displayNameList.includes("raise")) {
                                     task.state = entity_1.TaskState.success;
                                 }
-                                else if (result && result.displayNameList && result.displayNameList.includes("raiseEndsAuction")) {
+                                else if (result && result.displayNameList && result.displayNameList.includes("bidSettlement")) {
                                     task.state = entity_1.TaskState.fail;
                                 }
                                 else {
@@ -6449,6 +6473,7 @@ exports.default = {
         errmsg1: "Only",
         errmsg2: "CGAS is available.",
         errmsg4: "Please enter the right format.",
+        errmsg6: "Your bid raise must not be less than 10% of the current highest bid price",
         nobalance: "You have insufficient CGAS left in your auction account. Please top it up.",
         goback: "Go back",
         waitmsg1: "Waiting for confirmation",
@@ -8038,6 +8063,7 @@ exports.default = {
         errmsg1: "您当前的竞拍账户仅拥有",
         errmsg2: "CGAS.",
         errmsg4: "请输入正确的格式。",
+        errmsg6: "您的出价低于最高出价的百分之十",
         nobalance: "余额不足，请充值",
         goback: "返回",
         waitmsg1: "未确认",

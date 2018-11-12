@@ -457,7 +457,7 @@ export default class NeoAuction extends Vue
         }
         this.domain = this.domain.toLowerCase();
         this.domain = this.domain.trim();
-        let verify = /^[a-zA-Z0-9]{6,32}$/;
+        let verify = /^[a-zA-Z0-9]{2,32}$/;
         if (!verify.test(this.domain))
         {
             this.checkState = this.btn_start = 4;

@@ -40,3 +40,21 @@ Number.prototype.add = function (arg: number | string)
     }
     return (arg1 + arg2) / m;
 }
+
+
+export function toNumFixed(params: number | string, num: number)
+{
+    let res: number = 0;
+    if (params.toString().includes('.'))
+    {
+        const arr = params.toString().split('.');
+        arr[ 1 ] = arr[ 1 ].split('')[ num - 1 ];
+        res = parseFloat(arr.join('.'));
+        console.log(arr);
+    }
+    else
+    {
+        res = parseFloat(params.toString());
+    }
+    return res;
+}

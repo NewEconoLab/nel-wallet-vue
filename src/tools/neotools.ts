@@ -214,8 +214,8 @@ export class neotools
                     {
                         var pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(result as Uint8Array);
                         var address = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
-                        var wif = ThinNeo.Helper.GetWifFromPrivateKey(result as Uint8Array);
-                        var hexkey = (result as Uint8Array).toHexString();
+                        // var wif = ThinNeo.Helper.GetWifFromPrivateKey(result as Uint8Array);
+                        // var hexkey = (result as Uint8Array).toHexString();
                         // console.log(info + "|" + address + " wif=" + wif);
                         res.err = false;
                         res.info = { pubkey: pubkey, address: address, prikey: result as Uint8Array };

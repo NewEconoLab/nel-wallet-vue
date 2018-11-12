@@ -151,13 +151,12 @@ export class AuctionService
      */
     async queryAuctionByDomain(subname: string): Promise<Auction>
     {
-        let info: SellDomainInfo = await tools.nnssell.getSellingStateByDomain(subname, this.root);
+        const res = await tools.wwwtool.getdomainauctioninfo([ subname, this.root.rootname ].join('.'));
+        const info = res ? res[ 0 ] : undefined;
         let auction = new Auction();
-        if (info.id)
+        if (info)
         {
-            let day = this.root.rootname == "neo" ? 24 * 60 * 60 : 5 * 60
-            auction = await tools.nnssell.getAuctionByStateInfo(info, day);
-            return auction;
+            auction.parse(info, LoginInfo.getCurrentAddress());
         }
         return auction;
 
