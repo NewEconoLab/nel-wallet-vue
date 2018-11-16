@@ -269,7 +269,9 @@ export default {
         toptips: "注意: 当系统提示您充值成功之后，仍需要一个区块的时间来确认这笔操作，请耐心等待。",
         withdrawtips: "注意: 当系统提示您提取成功之后，仍需要一个区块的时间来确认这笔操作，请耐心等待。",
         getall: "全部",
-        nodata: "没有查询到相关数据"
+        nodata: "没有查询到相关数据",
+        Bidder: "出价者",
+        Status: "状态",
     },
     exchange: {
         title: "CGAS兑换",
@@ -294,6 +296,14 @@ export default {
         neoname: "域名",
         notconfigure: "未配置",
         expired: "已过期",
+        transfer: "转让",
+        transferto: "转让到",
+        transferring: "转让中",
+        domaintransfer: "转让域名",
+        msg: "请输入你想转让到的地址",
+        transferDomainMsg1: "您确定要将",
+        transferDomainMsg2: "转让给",
+        transferDomainMsg3: "吗?",
         tips: "注意 : 您需要在成功确认地址解析器之后，才能进行地址映射。"
     },
     bonus: {

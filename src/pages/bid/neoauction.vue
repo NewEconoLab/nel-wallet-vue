@@ -36,6 +36,7 @@
                 <button v-if="btn_start==2" class="btn btn-nel btn-big" @click="addBid">{{$t('btn.newbid')}}</button>
                 <button v-if="btn_start==3" class="btn btn-nel btn-big btn-disable" disabled="disabled">{{$t('btn.newbid')}}</button>
                 <button v-if="!domain.length||btn_start==4" class="btn btn-nel btn-big btn-disable" disabled="disabled">{{$t('btn.openauction')}}</button>
+                <button class="btn btn-nel btn-big" >查看详情</button>
                 <!-- <span class="waiting-msg">{{$t('auction.sendingmsg')}}</span> -->
                 <div v-if="checkState==1 && !!domain.length" class="msg-box status-being">
                     <img src="../../../static/img/correct.svg" alt="">
@@ -273,6 +274,33 @@
             <div class="account-close" @click="alert_withdraw.isShow=!alert_withdraw.isShow">
               <span aria-hidden="true" >&times;</span>
             </div>
+          </div>
+        </div>
+        <!-- 域名出售详情弹窗 -->
+        <div class="domaininfo-wrap">
+          <div class="domaininfo-box">
+            <div class="domaininfo-title">
+              <span>域名详情</span>
+            </div>
+            <div class="domaininfo-text">
+              <span>域名 : Bennyrepublic1234.test</span>
+            </div>
+            <div class="domaininfo-text">
+              <span>域名到期时间 : 2019/07/09 10:43:41</span>
+            </div>
+            <div class="domaininfo-text">
+              <span>出售价格 : 55 NNC</span>
+            </div>
+            <div class="domaininfo-btn">
+              <button class="btn btn-nel btn-big" >购买</button>
+              <div class="error-tips">
+                <img src="../../../static/img/error.png" alt="">
+                <span>NNC的余额不足，无法购买。</span>
+              </div>
+            </div> 
+            <div class="domaininfo-close">
+              <span aria-hidden="true" >&times;</span>
+            </div>           
           </div>
         </div>
         <!-- <v-toast type="error" msg="Top up failed ! And your 100 GAS has been exchanged into 100 CGAS !"></v-toast> -->
@@ -599,6 +627,67 @@
         color: #c5c5c5;
       }
       .account-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+      }
+    }
+  }
+  .domaininfo-wrap {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    z-index: 1030;
+    .domaininfo-box {
+      background: #454f60;
+      padding: 30px 50px 50px 50px;
+      width: 80%;
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -moz-transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 5px;
+      font-size: 16px;
+      .domaininfo-title {
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+      .domaininfo-text {
+        margin-top: 50px;
+        font-size: 16px;
+        color: #ffffff;
+        line-height: 16px;
+      }
+      .domaininfo-btn {
+        text-align: center;
+        margin-top: 50px;
+        .error-tips {
+          font-size: 12px;
+          color: #f76260;
+          margin-top: 10px;
+          img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 5px;
+          }
+          span {
+            vertical-align: middle;
+          }
+        }
+      }
+      .domaininfo-close {
         position: absolute;
         top: 20px;
         right: 20px;

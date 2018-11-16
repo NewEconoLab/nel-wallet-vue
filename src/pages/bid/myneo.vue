@@ -1,7 +1,34 @@
 <template>
     <div class="myneo-box">
         <div class="title">
+            <span>我的收入</span>
+        </div>    
+        <div class="form-box">
+            <div class="nnc-wrap">
+              <strong>未提取的NNC：<span>0</span></strong>
+              <p>注意 : 出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。</p>
+            </div>
+            <div class="btn-right">
+                <button class="btn btn-nel btn-bid">提取</button>                
+            </div>
+        </div>
+        <div class="title">
             <span>{{$t('myneoname.title')}}</span>
+            <div class="search-domain">
+               <div class="seach-box">
+                    <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')" autocomplete="off"  >
+                    <img src="../../../static/img/seach.png" alt="">
+                </div>
+                <div class="select-box">
+                  <label>状态：</label>
+                    <select  class="form-control">
+                      <option value="">全部</option>
+                      <option value="me">上架中</option>
+                      <option value="other">未出售</option>
+                    </select>
+                </div>
+              <!-- <img src="" alt=""> -->
+            </div>
         </div>
         <div class="form-box" v-if="neonameList" v-for="(item,index) in neonameList" :key="index">
             <div class="neoname">
@@ -13,8 +40,78 @@
             <div class="time-msg" v-if="item.expired">( {{$t('myneoname.time')}}:  <span class="ff6">{{$t('myneoname.expired')}}</span> )</div>
             <div class="btn-right">
                 <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
+                <button v-if="verifySetOwner(item.domain)===2" class="btn btn-nel btn-bid" disabled="true">{{$t('myneoname.transferring')}}</button>
+                <button v-else class="btn btn-nel btn-bid" @click="showTranferDomain(item)">{{$t('myneoname.transfer')}}</button>
+                <button class="btn btn-nel btn-bid" >出售</button>                
+            </div>
+            <!-- <div class="btn-right">
+              <div class="status-text">出售中</div>
+              <button class="btn btn-nel btn-bid" >下架</button>
+            </div> -->            
+        </div>
+        <div class="mydomain-page">
+          <div class="page-msg" >第1页，共2页</div>
+            <div class="page" >
+              <div class="page-previous">
+                  <img src="../../../static/img/lefttrangle.svg" alt="">
+              </div>
+              <div style="width:1px;"></div>
+              <div class="page-next">
+                  <img src="../../../static/img/righttrangle.svg" alt="">
+              </div>
+              <input type="text" value="lasf" class="input-wrapper">
+              <div class="gopage">Go</div>
             </div>
         </div>
+        <div class="title">
+            <span>我的出售记录</span>
+        </div>    
+        <div class="form-box">
+            <div class="sale-list-wraper">
+              <div class="sale-content">
+                <div class="sale-domainname">
+                  benny1.neo
+                </div>
+                <p>
+                  <span class="sale-time">售出时间：12:38:10 2018-02-24</span>
+                  <span class="sale-price">售出金额：100 NNC</span>
+                </p>
+              </div>
+              <div class="sale-content">
+                <div class="sale-domainname">
+                  benny12.neo
+                </div>
+                <p>
+                  <span class="sale-time">售出时间：12:38:10 2018-02-24</span>
+                  <span class="sale-price">售出金额：100 NNC</span>
+                </p>
+              </div>
+              <div class="sale-content">
+                <div class="sale-domainname">
+                  benny123.neo
+                </div>
+                <p>
+                  <span class="sale-time">售出时间：12:38:10 2018-02-24</span>
+                  <span class="sale-price">售出金额：100 NNC</span>
+                </p>
+              </div>              
+            </div>
+            <div class="page-msg" >第1页，共2页</div>
+            <div class="page" >
+              <div class="page-previous">
+                  <img src="../../../static/img/lefttrangle.svg" alt="">
+              </div>
+              <div style="width:1px;"></div>
+              <div class="page-next">
+                  <img src="../../../static/img/righttrangle.svg" alt="">
+              </div>
+              <input type="text" value="lasf" class="input-wrapper">
+              <div class="gopage">Go</div>
+            </div>
+        </div>
+        <!-- 提示弹筐 -->
+        <v-toast ref="toast" ></v-toast>
+        <!-- 域名映射弹筐 -->
         <div class="edit-wrap" v-if="isShowEdit">
           <div class="edit-box">
             <div class="edit-title">{{$t('myneoname.edittitle')}}</div>
@@ -54,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="edit-input">
+                <!-- <div class="edit-input">
                     <div class="input-msg">
                         {{$t('myneoname.owner')}}:
                     </div>
@@ -63,10 +160,10 @@
                         <button v-if="ownerState==1" class="btn btn-nel btn-big" @click="setowner">{{$t('btn.setOwner')}}</button>
                         <button v-else-if="ownerState==2"  class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.settingOwner')}}</button>
                         <button v-else-if="ownerState==3"  class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.setOwner')}}</button>
-                        <!--button  v-if="renewalWatting" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.setOwner')}}</button-->
-                        <!-- <spinner-wrap v-if="renewalWatting"  style="margin-left:20px"></spinner-wrap> -->
+                        <button  v-if="renewalWatting" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.setOwner')}}</button-->
+                        <!-- <spinner-wrap v-if="renewalWatting"  style="margin-left:20px"></spinner-wrap>
                     </div>
-                </div>
+                </div> -->
                 <div class="edit-input">
                     <div class="input-msg">
                         {{$t('myneoname.time')}}:
@@ -84,6 +181,69 @@
               <span aria-hidden="true" @click="isShowEdit=!isShowEdit">&times;</span>
             </div>
           </div>
+        </div>        
+        <!-- 转让弹筐 -->            
+        <div class="alert-wrap" id="alertview-domaintranfer"  v-if="alertShow">
+          <div class="alert-box">
+            <div class="alert-title" id="alert-title">
+              {{$t('myneoname.domaintransfer')}}
+            </div>
+            <div class="line-wrap">
+              <div class="line-msg">
+                {{$t('auction.domain')+" : "+domainInfo.domain}}
+              </div>
+              <div class="line-msg">
+              {{$t('myneoname.transferto')+" :"}}
+              </div>
+              <div class="line-box" id="alert-box">
+                <input id="alert-input" type="text" v-model="ownerAddress" @input="verifySetOwner" class="" autocomplete="off">
+                <button  v-if="ownerState==1" @click="setowner" id="alert-confirm" class="btn btn-nel btn-big">
+                  {{$t('myneoname.transfer')}}
+                </button>
+                <button v-else-if="ownerState==3" id="alert-confirm" disabled="true" class="btn btn-nel btn-big">
+                  {{$t('myneoname.transfer')}}
+                </button>
+              </div>
+              <div class="err-msg" id="alert-error">
+              </div>
+            </div>
+            <div class="alert-tips">
+              
+            </div>
+            <div class="alert-close" id="alert-close" @click="alertShow=false">
+              <span aria-hidden="true">&times;</span>
+            </div>
+          </div>
+        </div> 
+        <!-- 转让弹筐-end -->
+        <div class="sale-wrapper">
+          <div class="sale-box">
+            <div class="sale-title">
+              <h4>域名出售</h4>
+              <p>注意 : 出售中的域名将会在域名过期后自动下架，请注意对快到期的域名进行下架并续约，以免错失域名。</p>
+            </div>
+            <div class="sale-domain">
+              <span>域名 : Bennyrepublic1234.test</span>
+            </div>
+            <div class="sale-smallbox">
+              <div class="smallbox-label">
+                域名到期时间 :
+              </div>
+              <div class="smallbox-div">2019/07/09 10:43:41</div>
+            </div>
+            <div class="sale-smallbox">
+              <div class="smallbox-label">
+                设置出售价格（NNC） : 
+              </div>
+              <div class="smallbox-input">
+                <input type="text" class="sale-input">
+                <button class="btn btn-nel btn-big btn-disable">上架</button>
+              </div>     
+            </div>
+            <div class="sale-close">
+              <span aria-hidden="true">&times;</span>
+            </div>
+          </div>          
         </div>
     </div>
 </template>
@@ -95,6 +255,49 @@
   .ff6 {
     color: #ff6a6a;
   }
+  .title {
+    .search-domain {
+      display: inline-block;
+      .seach-box {
+        background: none;
+        border: 1px solid #ffffff;
+        border-radius: 5px;
+        display: inline-block;
+        width: 230px;
+        height: 38px;
+        margin-left: 20px;
+        position: relative;
+        input {
+          background: none;
+          text-align: left;
+          width: 210px;
+          &::-webkit-input-placeholder {
+            font-size: 14px;
+            color: #b2b2b2;
+            line-height: 14px;
+          }
+        }
+        img {
+          width: 24px;
+          height: 24px;
+          position: absolute;
+          top: 6px;
+          right: 6px;
+        }
+      }
+      .select-box {
+        margin-left: 20px;
+        display: inline-block;
+        label {
+          margin-right: 10px;
+        }
+        select {
+          width: 80px;
+          display: inline-block;
+        }
+      }
+    }
+  }
   .form-box {
     background: #454f60;
     border-radius: 5px;
@@ -102,21 +305,50 @@
     font-size: 14px;
     margin-bottom: 20px;
     position: relative;
+    .nnc-wrap {
+      padding: 15px 0;
+      strong {
+        font-size: 20px;
+        font-weight: 500;
+        span {
+          font-size: 30px;
+        }
+      }
+      p {
+        font-size: 14px;
+        color: #c5c5c5;
+        margin-top: 20px;
+      }
+    }
     .neoname {
       font-size: 16px;
+      margin-top: 25px;
     }
     .neoname,
     .addr-resolver,
-    .addr-mapping,
-    .time-msg {
+    .addr-mapping {
       margin-bottom: 10px;
+    }
+    .time-msg {
+      margin-bottom: 45px;
     }
     .btn-right {
       position: absolute;
       top: 50%;
       right: 30px;
-      margin-top: -19px;
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -o-transform: translateY(-50%);
+      transform: translateY(-50%);
+      .btn {
+        margin-bottom: 20px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
       .btn-bid {
+        display: block;
         padding: 0;
         font-size: 18px;
         width: 110px;
@@ -125,6 +357,60 @@
           font-size: 14px;
         }
       }
+    }
+    .sale-list-wraper {
+      padding: 10px;
+      .sale-content {
+        border: 1px solid #b2b2b2;
+        border-radius: 5px;
+        padding: 15px 15px 10px 15px;
+        margin-bottom: 20px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        .sale-domainname {
+          font-size: 20px;
+          font-weight: 500;
+          border-bottom: 1px solid #f2f2f2;
+          padding-bottom: 15px;
+        }
+        p {
+          font-size: 12px;
+          margin-top: 10px;
+          color: #fff;
+          margin-bottom: 0;
+          .sale-time {
+            margin-right: 30px;
+          }
+        }
+      }
+    }
+  }
+  .page {
+    .page-previous,
+    .page-next {
+      background: #55637b;
+    }
+    .input-wrapper {
+      width: 50px;
+      background: #ffffff;
+      border-radius: 5px;
+      margin-left: 10px;
+      margin-right: 10px;
+      padding: 5px;
+      height: 38px;
+      color: #333;
+      font-size: 16px;
+    }
+    .gopage {
+      width: 50px;
+      height: 38px;
+      line-height: 38px;
+      font-size: 16px;
+      color: #ffffff;
+      text-align: center;
+      background: #55637b;
+      border-radius: 5px;
     }
   }
   .edit-wrap {
@@ -209,6 +495,81 @@
         }
       }
       .edit-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+      }
+    }
+  }
+  .sale-wrapper {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    z-index: 1030;
+    .sale-box {
+      background: #454f60;
+      padding: 30px 50px 50px 50px;
+      width: 80%;
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -moz-transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 5px;
+      font-size: 16px;
+      .sale-title {
+        h4 {
+          font-size: 20px;
+        }
+      }
+      .sale-domain {
+        font-size: 16px;
+        color: #ffffff;
+        margin-top: 50px;
+      }
+      .sale-smallbox {
+        margin-top: 50px;
+        .smallbox-label {
+          margin-bottom: 20px;
+          font-size: 16px;
+        }
+        .smallbox-div {
+          width: 68%;
+          height: 56px;
+          line-height: 56px;
+          background: #6d7480;
+          border: 1px solid #b2b2b2;
+          border-radius: 5px;
+          font-size: 16px;
+          color: #c5c5c5;
+          padding-left: 20px;
+        }
+        .smallbox-input {
+          width: 100%;
+          .sale-input {
+            width: 68%;
+            height: 56px;
+            line-height: 56px;
+            background: none;
+            border: 1px solid #b2b2b2;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #fff;
+            display: inline-block;
+          }
+        }
+      }
+      .sale-close {
         position: absolute;
         top: 20px;
         right: 20px;

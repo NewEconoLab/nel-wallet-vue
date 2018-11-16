@@ -1,7 +1,7 @@
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, Domainmsg, DomainInfo, DomainStatus, Consts, TaskFunction, Task, TaskType, ConfirmType } from "../../tools/entity";
+import { LoginInfo, TaskFunction, Task, TaskType, ConfirmType } from "../../tools/entity";
 import { sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 @Component({
@@ -24,6 +24,9 @@ export default class MyNeo extends Vue
     renewalWatting: boolean;
     ownerTransfer: boolean;
     currentdomain: string;
+    alertMessage: string;
+    alertShow: boolean;
+    openToast: Function;
 
     constructor()
     {
@@ -41,6 +44,9 @@ export default class MyNeo extends Vue
         this.currentdomain = "";
         this.ownerState = 3
         this.ownerAddress = "";
+        this.alertMessage = "";
+        this.alertShow = false;
+        this.openToast = null;
     }
 
     mounted()
@@ -52,6 +58,7 @@ export default class MyNeo extends Vue
         TaskFunction.domainMapping = this.mappingTask;
         TaskFunction.domainRenewal = this.renewalTask;
         TaskFunction.domainTransfer = this.domainTransferTask;
+        this.openToast = this.$refs.toast[ "isShow" ];
     }
 
 
@@ -76,17 +83,17 @@ export default class MyNeo extends Vue
     }
 
 
-    verifySetOwner()
+    verifySetOwner(currentdomain: string)
     {
-        const domain = this.domainEdit.select(this.currentdomain);
+        const domain = this.domainEdit.select(currentdomain);
         if (domain && domain[ `domain_transfer` ] && domain[ `domain_transfer` ] === "watting")
         {
             this.ownerState = 2;
         }
-        else if (this.domainInfo.expired || !this.ownerAddress)
-        {
-            this.ownerState = 3;
-        }
+        // else if (this.domainInfo.expired || !this.ownerAddress)
+        // {
+        //     this.ownerState = 3;
+        // }
         else
         {
             const res = tools.neotool.verifyAddress(this.ownerAddress);
@@ -167,7 +174,7 @@ export default class MyNeo extends Vue
         this.renewalWatting = false;
         this.isShowEdit = !this.isShowEdit;
         this.currentdomain = item.domain;
-        this.verifySetOwner();
+        this.verifySetOwner(this.currentdomain);
 
         let domain = this.domainEdit.select(item.domain);
         if (domain)
@@ -195,8 +202,21 @@ export default class MyNeo extends Vue
     /**
      * 设置所有者 转让域名
      */
+    showTranferDomain(item)
+    {
+        this.domainInfo = item;
+        this.ownerAddress = "";
+        this.ownerState = 3;
+        this.alertShow = true;
+    }
+    closeTranferDomain()
+    {
+        this.ownerAddress = "";
+        this.alertShow = false;
+    }
     async setowner()
     {
+        this.openToast = this.$refs.toast[ "isShow" ];
         const oldstate = this.ownerState;
         try
         {
@@ -212,18 +232,22 @@ export default class MyNeo extends Vue
             {
                 const txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], address: this.ownerAddress }),
                     TaskType.domainTransfer);
                 this.domainEdit.put(this.domainInfo.domain, "watting", "domain_transfer");
+                this.closeTranferDomain();
+                this.openToast("success", "" + this.$t("auction.waitmsg2"), 5000);
             } else
             {
                 this.ownerState = oldstate;
+                this.openToast("error", "" + this.$t("errormsg.interface"), 3000);
                 throw new Error("Transaction send failed");
             }
         } catch (error)
         {
             console.log("ERROR!!");
             this.ownerState = oldstate;
+            this.closeTranferDomain()
         }
     }
 

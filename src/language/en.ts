@@ -269,7 +269,9 @@ export default {
         toptips: "Tips: When the system prompts you have successfully submited your CGAS top up transaction. It will be confirmed and added to your Auction Account in the next block. Please be patient.",
         withdrawtips: "Tips: When the system prompts you have successfully submited your CGAS withdrawal transaction. It will be confirmed and added to your wallet in the next block. Please be patient.",
         getall: "Max",
-        nodata: "No related data was found."
+        nodata: "No related data was found.",
+        Bidder: "Bidder",
+        Status: "Status",
     },
     exchange: {
         title: "CGAS Exchange",
@@ -294,6 +296,14 @@ export default {
         owner: "Owner Address",
         notconfigure: "not configured",
         expired: "Expired",
+        transfer: "Transfer",
+        transferto: "Transfer to",
+        transferring: "Transferring",
+        domaintransfer: "Transfer domain",
+        msg: "Please enter the address you want to transfer to",
+        transferDomainMsg1: "Are you sure to transfer",
+        transferDomainMsg2: "to",
+        transferDomainMsg3: "?",
         tips: "Tips : Address mapping can only be performed after the address resolver is confirmed by you. "
     },
     bonus: {

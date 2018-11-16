@@ -482,6 +482,7 @@
   position: fixed;
   top: 124px;
   right: 0;
+  z-index: 1;
   width: 640px;
   padding: 25px 40px;
   border-bottom: 1px solid #454f60;
