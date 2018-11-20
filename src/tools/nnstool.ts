@@ -259,6 +259,40 @@ export class NNSTool
         let res = await tools.contract.contractInvokeTrans_attributes(data);
         return res;
     }
+    /**
+     * 域名出售
+     * @param domain 
+     * @param newOwner 
+     */
+    static async saleDomain(domain: string, price: string): Promise<Result>
+    {
+        // const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress());
+        // const hashstr = hash.reverse().toHexString();
+        const arr = domain.split(".").reverse();
+        arr[ 0 ] = "(str)" + arr[ 0 ]
+        arr[ 1 ] = "(str)" + arr[ 1 ]
+        const scriptaddress = Consts.saleContract;
+        const count = Neo.Fixed8.parse(price).getData().toNumber()
+
+        try
+        {
+            const data = tools.contract.buildScript_random(
+                scriptaddress,
+                "launch",
+                [
+                    arr,
+                    "(int)" + count
+                ]
+            );
+
+            let res = await tools.contract.contractInvokeTrans_attributes(data);
+            return res;
+        } catch (error)
+        {
+            console.log(error);
+            throw new Error("")
+        }
+    }
 
     /**
      * 生成解析器

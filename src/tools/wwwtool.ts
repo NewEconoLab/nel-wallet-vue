@@ -546,4 +546,25 @@ export class WWW
 
         }
     }
+    /**
+     * 根据地址查询已出售已成交列表
+     * @param address 当前地址
+     * @param page 当前页码
+     * @param pagesize 每页条数
+     */
+    static async getHasBuyListByAddress(address: string, page: number, pagesize: number)
+    {
+        var postdata = WWW.makeRpcPostBody("getHasBuyListByAddress", address, page, pagesize);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
+    }
 }

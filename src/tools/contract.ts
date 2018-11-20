@@ -27,7 +27,7 @@ export default class Contract
      * @param method 方法名
      * @param param 参数
      */
-    static buildScript_random(appCall: Neo.Uint160, method: string, param: string[]): Uint8Array
+    static buildScript_random(appCall: Neo.Uint160, method: string, param: any[]): Uint8Array
     {
         var sb = new ThinNeo.ScriptBuilder();
         //生成随机数

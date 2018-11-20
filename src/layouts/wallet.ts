@@ -154,11 +154,11 @@ export default class FeatureComponent extends Vue
         let href = "";
         if (str.includes("testwallet"))
         {
-            href = "https://scan.nel.group/#testnet/"
+            href = "https://scan.nel.group/test/"
 
         } else
         {
-            href = "https://scan.nel.group/#mainnet/"
+            href = "https://scan.nel.group/"
         }
         return href;
     }
@@ -177,7 +177,7 @@ export default class FeatureComponent extends Vue
             arr[ "state" ] = tasks[ i ].state;
             arr[ "addrhref" ] = href + "address/" + (tasks[ i ].message.toaddress ? tasks[ i ].message.toaddress : tasks[ i ].message.address);
             arr[ "message" ] = tasks[ i ].message;
-            arr[ "domainhref" ] = href + "nns/" + (tasks[ i ].message.domain ? tasks[ i ].message.domain : "");
+            arr[ "domainhref" ] = href + "nnsinfo/" + (tasks[ i ].message.domain ? tasks[ i ].message.domain : "");
             arr[ "resolver" ] = "" + (tasks[ i ].message.contract ? (tasks[ i ].message.contract.substring(0, 4) + "..." + tasks[ i ].message.contract.substring(tasks[ i ].message.contract.length - 4)) : "");
             this.taskList.push(arr);
         }

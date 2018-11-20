@@ -12,6 +12,7 @@
                 <button class="btn btn-nel btn-bid">提取</button>                
             </div>
         </div>
+        <!-- 域名列表 -->
         <div class="title">
             <span>{{$t('myneoname.title')}}</span>
             <div class="search-domain">
@@ -30,7 +31,10 @@
               <!-- <img src="" alt=""> -->
             </div>
         </div>
-        <div class="form-box" v-if="neonameList" v-for="(item,index) in neonameList" :key="index">
+        <div class="mydomain-tips">
+          注意 : 如果您要转让或出售您的地址，请确保域名的地址映射栏处于未配置的状态（设置过的域名请在在编辑页中使用重置功能。）
+        </div>
+        <div class="form-box" v-if="neonameList" v-for="(item,index) in showMydomainList" :key="index">
             <div class="neoname">
                 {{item.domain}}
             </div>
@@ -42,7 +46,8 @@
                 <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
                 <button v-if="verifySetOwner(item.domain)===2" class="btn btn-nel btn-bid" disabled="true">{{$t('myneoname.transferring')}}</button>
                 <button v-else class="btn btn-nel btn-bid" @click="showTranferDomain(item)">{{$t('myneoname.transfer')}}</button>
-                <button class="btn btn-nel btn-bid" >出售</button>                
+                <button class="btn btn-nel btn-bid" :class="{'btn-disable':item.resolverAddress}" :disabled="!!item.resolverAddress" @click="onShowSaleDialog(item)" >出售</button>
+                <span></span>                
             </div>
             <!-- <div class="btn-right">
               <div class="status-text">出售中</div>
@@ -52,32 +57,34 @@
         <div class="mydomain-page">
           <div class="page-msg" >第1页，共2页</div>
             <div class="page" >
-              <div class="page-previous">
+              <div class="page-previous" @click="myDomainPrevious()">
                   <img src="../../../static/img/lefttrangle.svg" alt="">
               </div>
               <div style="width:1px;"></div>
-              <div class="page-next">
+              <div class="page-next" @click="myDomainNext()">
                   <img src="../../../static/img/righttrangle.svg" alt="">
               </div>
               <input type="text" value="lasf" class="input-wrapper">
               <div class="gopage">Go</div>
             </div>
         </div>
+        <!-- 域名列表 end -->
+        <!-- 出售记录 -->
         <div class="title">
             <span>我的出售记录</span>
         </div>    
         <div class="form-box">
-            <div class="sale-list-wraper">
+            <div class="sale-list-wraper" v-if="saleOutDomainList" v-for="(item,index) in saleOutDomainList" :key="index">
               <div class="sale-content">
                 <div class="sale-domainname">
-                  benny1.neo
+                  {{item.fullDomain}}
                 </div>
                 <p>
-                  <span class="sale-time">售出时间：12:38:10 2018-02-24</span>
-                  <span class="sale-price">售出金额：100 NNC</span>
+                  <span class="sale-time">售出时间：{{item.blocktime}}</span>
+                  <span class="sale-price">售出金额：{{item.price}} NNC</span>
                 </p>
               </div>
-              <div class="sale-content">
+              <!-- <div class="sale-content">
                 <div class="sale-domainname">
                   benny12.neo
                 </div>
@@ -94,21 +101,22 @@
                   <span class="sale-time">售出时间：12:38:10 2018-02-24</span>
                   <span class="sale-price">售出金额：100 NNC</span>
                 </p>
-              </div>              
+              </div>               -->
             </div>
             <div class="page-msg" >第1页，共2页</div>
             <div class="page" >
-              <div class="page-previous">
+              <div class="page-previous" @click="mySaleDomainPrevious()">
                   <img src="../../../static/img/lefttrangle.svg" alt="">
               </div>
               <div style="width:1px;"></div>
-              <div class="page-next">
+              <div class="page-next" @click="mySaleDomainNext()">
                   <img src="../../../static/img/righttrangle.svg" alt="">
               </div>
               <input type="text" value="lasf" class="input-wrapper">
               <div class="gopage">Go</div>
             </div>
         </div>
+        <!-- 出售记录 end -->
         <!-- 提示弹筐 -->
         <v-toast ref="toast" ></v-toast>
         <!-- 域名映射弹筐 -->
@@ -215,33 +223,34 @@
             </div>
           </div>
         </div> 
-        <!-- 转让弹筐-end -->
-        <div class="sale-wrapper">
+        <!-- 出售弹筐 -->
+        <div class="sale-wrapper" v-if="isShowSaleBox">
           <div class="sale-box">
             <div class="sale-title">
               <h4>域名出售</h4>
               <p>注意 : 出售中的域名将会在域名过期后自动下架，请注意对快到期的域名进行下架并续约，以免错失域名。</p>
             </div>
             <div class="sale-domain">
-              <span>域名 : Bennyrepublic1234.test</span>
+              <span>域名 : {{domainInfo.domain}}</span>
             </div>
             <div class="sale-smallbox">
               <div class="smallbox-label">
                 域名到期时间 :
               </div>
-              <div class="smallbox-div">2019/07/09 10:43:41</div>
+              <div class="smallbox-div">{{domainInfo.ttl}}</div>
             </div>
             <div class="sale-smallbox">
               <div class="smallbox-label">
                 设置出售价格（NNC） : 
               </div>
               <div class="smallbox-input">
-                <input type="text" class="sale-input">
-                <button class="btn btn-nel btn-big btn-disable">上架</button>
+                <input type="number" class="sale-input" v-model="domainSalePrice" @input="verifySalePrice" />
+                <button v-if="onSaleState==0" class="btn btn-nel btn-big" :class="{'btn-disable':!isOKSale}" :disabled="!isOKSale" @click="toSaleDomain">上架</button>
+                <button v-if="onSaleState==1" class="btn btn-nel btn-big btn-disable" disabled>上架中</button>
               </div>     
             </div>
             <div class="sale-close">
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true" @click="isShowSaleBox=!isShowSaleBox">&times;</span>
             </div>
           </div>          
         </div>
@@ -298,6 +307,33 @@
       }
     }
   }
+  .btn {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &.btn-disable {
+      background: #77bcf6;
+      opacity: 1;
+    }
+  }
+  .btn-bid {
+    display: block;
+    padding: 0;
+    font-size: 18px;
+    width: 110px;
+    height: 38px;
+    // &.btn-disable {
+    //   // font-size: 14px;
+    //   background: #77bcf6;
+    //   opacity: 1;
+    // }
+  }
+  .mydomain-tips {
+    font-size: 14px;
+    color: #c5c5c5;
+    padding: 0 20px 20px 20px;
+  }
   .form-box {
     background: #454f60;
     border-radius: 5px;
@@ -341,22 +377,6 @@
       -ms-transform: translateY(-50%);
       -o-transform: translateY(-50%);
       transform: translateY(-50%);
-      .btn {
-        margin-bottom: 20px;
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-      .btn-bid {
-        display: block;
-        padding: 0;
-        font-size: 18px;
-        width: 110px;
-        height: 38px;
-        &.btn-disable {
-          font-size: 14px;
-        }
-      }
     }
     .sale-list-wraper {
       padding: 10px;
@@ -505,7 +525,6 @@
     }
   }
   .sale-wrapper {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;

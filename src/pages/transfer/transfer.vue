@@ -89,7 +89,7 @@
                         </div> -->
                         <div class="address">{{tx.fromOrTo == 'from'?$t('transfer.from'):$t('transfer.to')}} : {{tx.addr}}</div>
                         <div class="time">
-                            <a :href="'https://scan.nel.group/#testnet/transaction/'+tx.txid" target="_blank">
+                            <a :href="'https://scan.nel.group/test/transaction/'+tx.txid" target="_blank">
                                 {{tx.txid.substring(0, 4) + '...' + tx.txid.substring(tx.txid.length - 4)}}
                             </a>&nbsp; &nbsp;{{tx.time}}
                             &nbsp;&nbsp;{{$t("transfer.netfee")}}: {{tx.netfee}} GAS

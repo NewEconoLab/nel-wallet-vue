@@ -459,6 +459,7 @@ export class Consts
     static readonly baseContract = Neo.Uint160.parse("348387116c4a75e420663277d9c02049907128c7");
     static readonly registerContract = Neo.Uint160.parse("d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c");
     // static domainContract = '954f285a93eed7b4aed9396a7806a5812f1a5950';
+    static readonly saleContract = Neo.Uint160.parse("7a64879a21b80e96a8bc91e0f07adc49b8f3521e");
 }
 
 export class DomainInfo
@@ -1191,6 +1192,7 @@ export enum TaskType
     recoverSgas,//退回sgas
     ClaimGas,//领取Gas
     domainTransfer,
+    saleDomain,//出售域名
 }
 
 /**
@@ -1218,4 +1220,11 @@ export enum DomainState
     end2,
     expire,
     pass,
+}
+export interface SaleDomainList
+{
+    blockindex: number,
+    fullDomain: string,
+    price: string,
+    blocktime: string
 }
