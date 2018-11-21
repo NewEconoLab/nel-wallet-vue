@@ -36,7 +36,7 @@
                 <button v-if="btn_start==2" class="btn btn-nel btn-big" @click="addBid">{{$t('btn.newbid')}}</button>
                 <button v-if="btn_start==3" class="btn btn-nel btn-big btn-disable" disabled="disabled">{{$t('btn.newbid')}}</button>
                 <button v-if="!domain.length||btn_start==4" class="btn btn-nel btn-big btn-disable" disabled="disabled">{{$t('btn.openauction')}}</button>
-                <button class="btn btn-nel btn-big" >查看详情</button>
+                <button v-if="btn_start==5" class="btn btn-nel btn-big" @click="toShowSaleBox" >查看详情</button>
                 <!-- <span class="waiting-msg">{{$t('auction.sendingmsg')}}</span> -->
                 <div v-if="checkState==1 && !!domain.length" class="msg-box status-being">
                     <img src="../../../static/img/correct.svg" alt="">
@@ -45,6 +45,10 @@
                 <div v-if="checkState==2" class="msg-box status-being">
                     <img src="../../../static/img/correct.svg" alt="">
                     <span>{{$t('auction.checkbeing')}}</span>
+                </div>
+                <div v-if="checkState==5" class="msg-box status-being">
+                    <img src="../../../static/img/correct.svg" alt="">
+                    <span>{{$t('auction.checksale')}}</span>
                 </div>
                 <div v-if="checkState==3" class="msg-box status-ended">
                     <span>{{$t('auction.checkbuyer')}}</span>
@@ -277,28 +281,29 @@
           </div>
         </div>
         <!-- 域名出售详情弹窗 -->
-        <div class="domaininfo-wrap">
+        <div class="domaininfo-wrap" v-if="isShowSaleBox">
           <div class="domaininfo-box">
             <div class="domaininfo-title">
               <span>域名详情</span>
             </div>
             <div class="domaininfo-text">
-              <span>域名 : Bennyrepublic1234.test</span>
+              <span>域名 : {{saleDomainInfo && saleDomainInfo.domain}}</span>
             </div>
             <div class="domaininfo-text">
-              <span>域名到期时间 : 2019/07/09 10:43:41</span>
+              <span>域名到期时间 : {{saleDomainInfo && saleDomainInfo.ttl}}</span>
             </div>
             <div class="domaininfo-text">
-              <span>出售价格 : 55 NNC</span>
+              <span>出售价格 : {{saleDomainInfo && saleDomainInfo.price}} NNC</span>
             </div>
             <div class="domaininfo-btn">
-              <button class="btn btn-nel btn-big" >购买</button>
-              <div class="error-tips">
+              <button class="btn btn-nel btn-big" v-if="address === (saleDomainInfo && saleDomainInfo.owner)">下架</button>
+              <button class="btn btn-nel btn-big" v-else :class="{'btn-disable':!isOKSale}" :disabled="!isOKSale">购买</button>
+              <div class="error-tips" v-if="!isOKSale">
                 <img src="../../../static/img/error.png" alt="">
                 <span>NNC的余额不足，无法购买。</span>
               </div>
             </div> 
-            <div class="domaininfo-close">
+            <div class="domaininfo-close" @click="isShowSaleBox = !isShowSaleBox">
               <span aria-hidden="true" >&times;</span>
             </div>           
           </div>
@@ -637,7 +642,6 @@
     }
   }
   .domaininfo-wrap {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;

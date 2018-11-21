@@ -552,14 +552,29 @@ export class WWW
      * @param page 当前页码
      * @param pagesize 每页条数
      */
-    static async getHasBuyListByAddress(address: string, page: number, pagesize: number)
+    static async getHasBuyListByAddress(address: string, type: string, page: number, pagesize: number)
     {
-        var postdata = WWW.makeRpcPostBody("getHasBuyListByAddress", address, page, pagesize);
+        var postdata = WWW.makeRpcPostBody("getHasBuyListByAddress", address, type, page, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         if (json[ "result" ])
         {
             var r = json[ "result" ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
+    }
+    static async getSaleDomainInfo(domain: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getNNSfixedSellingInfo", domain);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
             return r;
         } else
         {

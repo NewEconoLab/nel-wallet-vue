@@ -32,9 +32,11 @@ export default class MyNeo extends Vue
     domainSalePrice: string; // 出售价格
     isOKSale: boolean;  // 是否上架
     onSaleState: number; // 上架状态 0为可上架，1为正在上架，2为不可上架
-    saleOutDomainList: SaleDomainList[]; // 出售成功的列表
+    saleOutDomainList: SaleDomainList[]; // 出售成功的列表    
     salePage: PageUtil; //域名成功出售的分页
     myDomainListPage: PageUtil; //我的域名列表的分页    
+    inputSalePage: string = '';//出售记录的翻页
+
 
     constructor()
     {
@@ -61,8 +63,8 @@ export default class MyNeo extends Vue
         this.isOKSale = false;
         this.onSaleState = 0;
         this.saleOutDomainList = [];
-        this.salePage = new PageUtil(15, 5);
-        this.myDomainListPage = new PageUtil(15, 2);
+        this.salePage = new PageUtil(0, 5);
+        this.myDomainListPage = new PageUtil(15, 10);
     }
 
     mounted()
@@ -75,7 +77,8 @@ export default class MyNeo extends Vue
         TaskFunction.domainRenewal = this.renewalTask;
         TaskFunction.domainTransfer = this.domainTransferTask;
         this.openToast = this.$refs.toast[ "isShow" ];
-        this.getSaleDomainList("ASBhJFN3XiDu38EdEQyMY3N2XwGh1gd5WW")
+        this.getSaleDomainList(this.currentAddress, true, this.salePage);
+
 
     }
 
@@ -148,6 +151,8 @@ export default class MyNeo extends Vue
                 list[ i ][ "ttl" ] = tools.timetool.getTime(res[ i ][ "ttl" ])
             }
             this.neonameList = list;
+            console.log(list);
+
             this.showMydomainList = this.mydomainListByPage(list);
 
         }
@@ -448,6 +453,9 @@ export default class MyNeo extends Vue
             {
                 this.onSaleState = 1;
             }
+        } else
+        {
+            this.onSaleState = 0;
         }
     }
     /**
@@ -490,8 +498,8 @@ export default class MyNeo extends Vue
             {
                 let txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], price: this.domainSalePrice }),
-                    TaskType.domainResovle);
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], amount: this.domainSalePrice }),
+                    TaskType.saleDomain);
                 this.domainEdit.put(this.domainInfo.domain, "watting", "sale");
                 this.closeSaleDialog();
                 this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
@@ -505,13 +513,24 @@ export default class MyNeo extends Vue
      * 获取域名已出售成功的列表
      * @param address 当前地址
      */
-    async getSaleDomainList(address: string)
+    async getSaleDomainList(address: string, first: boolean, pageUtil: PageUtil)
     {
-        let res = await tools.wwwtool.getHasBuyListByAddress(address, this.salePage.currentPage, this.salePage.pageSize);
+        let res = null;
+        if (first)
+        {
+            res = await tools.wwwtool.getHasBuyListByAddress("ASBhJFN3XiDu38EdEQyMY3N2XwGh1gd5WW", 'test', 1, 1);
+        } else
+        {
+            res = await tools.wwwtool.getHasBuyListByAddress("ASBhJFN3XiDu38EdEQyMY3N2XwGh1gd5WW", 'test', pageUtil.currentPage, pageUtil.pageSize);
+        }
         console.log(res);
         if (res)
         {
-            this.saleOutDomainList = res.map((key) =>
+            if (first)
+            {
+                this.salePage = new PageUtil(res[ 0 ].count, 1)
+            }
+            this.saleOutDomainList = res[ 0 ].list.map((key) =>
             {
                 console.log(key);
                 const newObj = {
@@ -522,12 +541,16 @@ export default class MyNeo extends Vue
                 }
                 return newObj;
             });
+        } else
+        {
+            this.salePage = new PageUtil(0, 0);
         }
+
     }
     /**
-     * 域名售出列表上一页
+     * 域名出售列表上一页
      */
-    mySaleDomainPrevious = () =>
+    mySaleDomainPrevious()
     {
         console.log("上");
         const current = this.salePage.currentPage;
@@ -536,12 +559,12 @@ export default class MyNeo extends Vue
             return;
         }
         this.salePage.currentPage--;
-        this.getSaleDomainList(this.currentAddress);
+        this.getSaleDomainList(this.currentAddress, false, this.salePage);
     }
     /**
-     * 域名列表下一页
+     * 域名出售列表下一页
      */
-    mySaleDomainNext = () =>
+    mySaleDomainNext()
     {
         console.log("下");
         const current = this.salePage.currentPage;
@@ -550,6 +573,71 @@ export default class MyNeo extends Vue
             return;
         }
         this.salePage.currentPage++;
-        this.getSaleDomainList(this.currentAddress)
+        this.getSaleDomainList(this.currentAddress, false, this.salePage)
+    }
+    /**
+     * 出售列表跳转输入
+     */
+    onInputSalePageChange = (event: any) =>
+    {
+        const value = parseInt('' + event.target.value, 10);
+        if (event.target.value && isNaN(event.target.value))
+        {
+            return false;
+        }
+        // const num = parseInt(event.target.value, 10);
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (value <= 0)
+        {
+            this.inputSalePage = '';
+            return false;
+        }
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (value > this.salePage.totalPage)
+        {
+            return false
+        }
+        this.inputSalePage = event.target.value;
+        return true;
+    }
+    /**
+     * 页面跳转
+     */
+    goSalePage()
+    {
+        console.log("tiao");
+        console.log(this.inputSalePage);
+
+        if (this.inputSalePage != '' && this.inputSalePage != '0')
+        {
+            this.pageTo(this.inputSalePage);
+        }
+    }
+    pageTo = (page: string) =>
+    {
+        let current = parseInt('' + page, 10);
+
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (current < 0 || current > this.salePage.totalPage)
+        {
+            return;
+        }
+        // 如果跳转页码等于当前页码，则中断
+        if (current == this.salePage.currentPage)
+        {
+            return;
+        }
+        this.salePage.currentPage = current
+        console.log(this.salePage);
+
+        this.getSaleDomainList(this.currentAddress, false, this.salePage);
+    }
+    // 回车跳转页
+    onInputSaleKeyDown = (event: any) =>
+    {
+        if (event.keyCode === 13)
+        {
+            this.pageTo(this.inputSalePage);
+        }
     }
 }

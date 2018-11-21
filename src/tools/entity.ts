@@ -657,7 +657,14 @@ export class DomainStatus
         return obj;
     }
 }
-
+export interface DomainSaleInfo
+{
+    domain: string,
+    owner: string,
+    ttl: string,
+    price: string,
+    state: string
+}
 export class WalletOtcgo
 {
     address: string;

@@ -184,6 +184,7 @@ export default {
         checkbeing: "此域名正在进行竞拍。",
         checkformat: "域名长度需要在6～32个字节之间，只能是字母和数字。",
         checkbuyer: "此域名已经被其他人竞拍了。",
+        checksale: "该域名正在出售中。",
         sendingmsg: "正在发送交易，请耐心等待...",
         searchmsg: "按域名搜索",
         status: "状态",

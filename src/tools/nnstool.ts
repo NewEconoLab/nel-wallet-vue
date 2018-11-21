@@ -293,6 +293,70 @@ export class NNSTool
             throw new Error("")
         }
     }
+    /**
+     * 下架域名
+     * @param domain 域名
+     */
+    static async unSaleDomain(domain: string): Promise<Result>
+    {
+        // const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress());
+        // const hashstr = hash.reverse().toHexString();
+        const arr = domain.split(".").reverse();
+        arr[ 0 ] = "(str)" + arr[ 0 ]
+        arr[ 1 ] = "(str)" + arr[ 1 ]
+        const scriptaddress = Consts.saleContract;
+
+        try
+        {
+            const data = tools.contract.buildScript_random(
+                scriptaddress,
+                "discontinue",
+                [
+                    arr
+                ]
+            );
+
+            let res = await tools.contract.contractInvokeTrans_attributes(data);
+            return res;
+        } catch (error)
+        {
+            console.log(error);
+            throw new Error("")
+        }
+    }
+    /**
+     * 购买域名
+     * @param domain 域名
+     * @param address 购买者
+     */
+    static async buyDomain(domain: string, address: string): Promise<Result>
+    {
+        const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress());
+        const hashstr = hash.reverse().toHexString();
+        const arr = domain.split(".").reverse();
+        arr[ 0 ] = "(str)" + arr[ 0 ]
+        arr[ 1 ] = "(str)" + arr[ 1 ]
+        const scriptaddress = Consts.saleContract;
+
+        try
+        {
+            const data = tools.contract.buildScript_random(
+                scriptaddress,
+                "buy",
+                [
+                    "(hex160)" + hashstr,
+                    arr
+                ]
+            );
+
+            let res = await tools.contract.contractInvokeTrans_attributes(data);
+            return res;
+        } catch (error)
+        {
+            console.log(error);
+            throw new Error("")
+        }
+    }
 
     /**
      * 生成解析器

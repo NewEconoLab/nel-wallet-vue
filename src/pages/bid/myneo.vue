@@ -42,26 +42,33 @@
             <div class="addr-mapping">( {{$t('myneoname.mapping')}}: {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
             <div class="time-msg" v-if="!item.expired">( {{$t('myneoname.time')}}: {{item.ttl}} <span class="ff6" v-if="!item.expiring">{{$t('myneoname.expiring')}}</span> )</div>
             <div class="time-msg" v-if="item.expired">( {{$t('myneoname.time')}}:  <span class="ff6">{{$t('myneoname.expired')}}</span> )</div>
-            <div class="btn-right">
+            <div class="btn-right" v-if="!item.expired">
                 <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
                 <button v-if="verifySetOwner(item.domain)===2" class="btn btn-nel btn-bid" disabled="true">{{$t('myneoname.transferring')}}</button>
                 <button v-else class="btn btn-nel btn-bid" @click="showTranferDomain(item)">{{$t('myneoname.transfer')}}</button>
-                <button class="btn btn-nel btn-bid" :class="{'btn-disable':item.resolverAddress}" :disabled="!!item.resolverAddress" @click="onShowSaleDialog(item)" >出售</button>
-                <span></span>                
+                <button 
+                  class="btn btn-nel btn-bid" 
+                  data-toggle="tooltip" 
+                  data-placement="bottom" 
+                  title="请在编辑窗口清空地址映射" 
+                  :class="{'btn-disable':item.resolverAddress}" 
+                  :disabled="!!item.resolverAddress" 
+                  @click="onShowSaleDialog(item)" 
+                >出售</button>
             </div>
-            <!-- <div class="btn-right">
+            <!-- <div class="btn-right" v-if="!item.expired">
               <div class="status-text">出售中</div>
               <button class="btn btn-nel btn-bid" >下架</button>
-            </div> -->            
+            </div>             -->
         </div>
         <div class="mydomain-page">
           <div class="page-msg" >第1页，共2页</div>
             <div class="page" >
-              <div class="page-previous" @click="myDomainPrevious()">
+              <div class="page-previous" @click="myDomainPrevious">
                   <img src="../../../static/img/lefttrangle.svg" alt="">
               </div>
               <div style="width:1px;"></div>
-              <div class="page-next" @click="myDomainNext()">
+              <div class="page-next" @click="myDomainNext" >
                   <img src="../../../static/img/righttrangle.svg" alt="">
               </div>
               <input type="text" value="lasf" class="input-wrapper">
@@ -103,17 +110,17 @@
                 </p>
               </div>               -->
             </div>
-            <div class="page-msg" >第1页，共2页</div>
-            <div class="page" >
-              <div class="page-previous" @click="mySaleDomainPrevious()">
+            <div class="page-msg" v-if="salePage" >第{{salePage.currentPage}}页，共{{salePage.totalPage}}页</div>
+            <div class="page" v-if="salePage" >
+              <div class="page-previous" @click="mySaleDomainPrevious" :class="{'notallow':(salePage.currentPage == 1)}">
                   <img src="../../../static/img/lefttrangle.svg" alt="">
               </div>
               <div style="width:1px;"></div>
-              <div class="page-next" @click="mySaleDomainNext()">
+              <div class="page-next" @click="mySaleDomainNext" :class="{'notallow':(salePage.currentPage == salePage.totalPage)}">
                   <img src="../../../static/img/righttrangle.svg" alt="">
               </div>
-              <input type="text" value="lasf" class="input-wrapper">
-              <div class="gopage">Go</div>
+              <input type="number"  class="input-wrapper" v-model="inputSalePage" @input="onInputSalePageChange" @keydown="onInputSaleKeyDown">
+              <div class="gopage" @click="goSalePage" :class="{'donot':onInputSalePageChange}">Go</div>
             </div>
         </div>
         <!-- 出售记录 end -->
@@ -410,6 +417,9 @@
     .page-previous,
     .page-next {
       background: #55637b;
+      &.notallow {
+        background: #33393d;
+      }
     }
     .input-wrapper {
       width: 50px;
@@ -431,6 +441,9 @@
       text-align: center;
       background: #55637b;
       border-radius: 5px;
+      &.donot {
+        background: #33393d;
+      }
     }
   }
   .edit-wrap {

@@ -184,6 +184,7 @@ export default {
         checkbeing: 'This domain is currently under auction. Click "Join Auction" to bid for it.',
         checkformat: "Domain names must be English characters or numbers, and can only be 6 to 32 characters in length",
         checkbuyer: "This name is unavailable.",
+        checksale: "该域名正在出售中。",
         sendingmsg: "We are currently opening the auction. Please wait.",
         searchmsg: "Search by domain",
         status: "Status",
