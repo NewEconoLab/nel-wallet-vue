@@ -1200,6 +1200,8 @@ export enum TaskType
     ClaimGas,//领取Gas
     domainTransfer,
     saleDomain,//出售域名
+    unSaleDomain,//下架域名
+    buyDomain,//购买域名
 }
 
 /**

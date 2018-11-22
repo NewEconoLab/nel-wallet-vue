@@ -297,7 +297,7 @@
             </div>
             <div class="domaininfo-btn">
               <button class="btn btn-nel btn-big" v-if="address === (saleDomainInfo && saleDomainInfo.owner)">下架</button>
-              <button class="btn btn-nel btn-big" v-else :class="{'btn-disable':!isOKSale}" :disabled="!isOKSale">购买</button>
+              <button class="btn btn-nel btn-big" v-else :class="{'btn-disable':!isOKSale}" :disabled="!isOKSale" @click="toBuyDomain">购买</button>
               <div class="error-tips" v-if="!isOKSale">
                 <img src="../../../static/img/error.png" alt="">
                 <span>NNC的余额不足，无法购买。</span>

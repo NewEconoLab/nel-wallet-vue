@@ -549,10 +549,8 @@ export default class NeoAuction extends Vue
     async toShowSaleBox()
     {
         this.isShowSaleBox = !this.isShowSaleBox;
-        console.log(this.address);
         let domainName = this.domain + '.neo';
         let res = await tools.wwwtool.getSaleDomainInfo(domainName);
-        console.log(res);
         if (res)
         {
             this.saleDomainInfo = {
@@ -563,8 +561,6 @@ export default class NeoAuction extends Vue
                 state: res.state
             }
         }
-        console.log(this.saleDomainInfo.owner);
-
         this.getNNCAmount();
 
     }
@@ -573,8 +569,7 @@ export default class NeoAuction extends Vue
      */
     async getNNCAmount()
     {
-        let res = await tools.wwwtool.getnep5balanceofaddress(this.nncAssetid, this.address)
-        console.log(res);
+        let res = await tools.wwwtool.getnep5balanceofaddress(this.nncAssetid, this.address);
         if (res)
         {
             // this.nncAmount = res.nep5balance;
@@ -597,8 +592,24 @@ export default class NeoAuction extends Vue
     /**
      * 购买域名
      */
-    toGetDomain()
+    async toBuyDomain()
     {
-
+        try
+        {
+            let res = await tools.nnstool.buyDomain(this.saleDomainInfo.domain, this.saleDomainInfo.price);
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { domain: this.saleDomainInfo.domain, amount: this.saleDomainInfo.price }),
+                    TaskType.unSaleDomain);
+                // this.domainEdit.put(this.domainInfo.domain, "watting", "unsale");
+                // this.closeUnSaleDialog();
+                this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+            }
+        } catch (error)
+        {
+            // this.resolverState = oldstate;
+        }
     }
 }

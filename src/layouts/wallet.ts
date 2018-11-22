@@ -130,6 +130,10 @@ export default class FeatureComponent extends Vue
                         break;
                     case TaskType.saleDomain:
                         this.makeTaskList(tasks, TaskType.saleDomain);
+                        break;
+                    case TaskType.unSaleDomain:
+                        this.makeTaskList(tasks, TaskType.unSaleDomain);
+                        break;
                     default:
                         break;
                 }

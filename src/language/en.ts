@@ -42,7 +42,12 @@ export default {
         withdraw: "Withdraw",
         topup: "Top up",
         getGas: "Request Gas",
-        gettingGas: "Requesting Gas"
+        gettingGas: "Requesting Gas",
+        sell: "Sell",
+        selling: "Selling",
+        delist: "Delist",
+        delisting: "Delisting",
+        check: "Confirm"
     },
     toast: {
         msg1: "Loading ...",
@@ -218,7 +223,6 @@ export default {
         goback: "Go back",
         waitmsg1: "Waiting for confirmation",
         waitmsg2: "Your raise will be confirmed after a new block is generated. Please wait.",
-        waitmsg3: "Your sale the domain will be confirmed after a new block is generated. Please wait.",
         getdomaintips: "Tip: After successfully claiming your domain, you can modify its settings in Domain Management.",
         waitgetdomain: "Your operation will be confirmed after the new block is generated. Please wait patiently...",
         fee: "Fee",
@@ -306,7 +310,15 @@ export default {
         transferDomainMsg1: "Are you sure to transfer",
         transferDomainMsg2: "to",
         transferDomainMsg3: "?",
-        tips: "Tips : Address mapping can only be performed after the address resolver is confirmed by you. "
+        tips: "Tips : Address mapping can only be performed after the address resolver is confirmed by you. ",
+        waitmsg2: "Your transfer the domain name will be confirmed after a new block is generated. Please wait.",
+        waitmsg3: "Your sell the domain will be confirmed after a new block is generated. Please wait.",
+        waitmsg4: "Your delist the domain will be confirmed after a new block is generated. Please wait.",
+        myIncome: "My income",
+        unclaimed: "Unclaimed NNC",
+        all: "All",
+        note: "Tips: The NNC income from selling domain names is shown here. You can claim it into your wallet by clicking the Claim button.",
+        note2: "Tips: If you want to sell a domain name, please make sure it’s not mapped to a wallet address (Please use the Reset function in the Edit page to make it unmapped.)",
     },
     bonus: {
         title: "Bouns History",

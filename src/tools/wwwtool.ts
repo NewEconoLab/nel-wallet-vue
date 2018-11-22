@@ -152,7 +152,15 @@ export class WWW
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         var r = json[ "result" ][ 0 ];
-        return r;
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
     }
 
     /**

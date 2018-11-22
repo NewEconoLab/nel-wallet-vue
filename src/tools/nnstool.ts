@@ -300,10 +300,8 @@ export class NNSTool
     static async unSaleDomain(domain: string): Promise<Result>
     {
         // const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress());
-        // const hashstr = hash.reverse().toHexString();
-        const arr = domain.split(".").reverse();
-        arr[ 0 ] = "(str)" + arr[ 0 ]
-        arr[ 1 ] = "(str)" + arr[ 1 ]
+        // const hashstr = hash.reverse().toHexString(); 
+        const domainHash = tools.nnstool.domainToHash(domain);
         const scriptaddress = Consts.saleContract;
 
         try
@@ -312,11 +310,13 @@ export class NNSTool
                 scriptaddress,
                 "discontinue",
                 [
-                    arr
+                    "(hex256)" + domainHash.toString()
                 ]
             );
 
             let res = await tools.contract.contractInvokeTrans_attributes(data);
+            console.log(res);
+
             return res;
         } catch (error)
         {
@@ -329,27 +329,54 @@ export class NNSTool
      * @param domain 域名
      * @param address 购买者
      */
-    static async buyDomain(domain: string, address: string): Promise<Result>
+    static async buyDomain(domain: string, amount: string): Promise<Result>
     {
         const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress());
         const hashstr = hash.reverse().toHexString();
-        const arr = domain.split(".").reverse();
-        arr[ 0 ] = "(str)" + arr[ 0 ]
-        arr[ 1 ] = "(str)" + arr[ 1 ]
+        const domainHash = tools.nnstool.domainToHash(domain);
         const scriptaddress = Consts.saleContract;
 
         try
         {
-            const data = tools.contract.buildScript_random(
-                scriptaddress,
-                "buy",
+            const result = await tools.wwwtool.getNep5Asset(tools.coinTool.id_NNC.toString());
+            if (!result)
+            {
+                return;
+            }
+            // const amount = Neo.Fixed8.fromNumber(0.1333333);
+            const value = parseFloat(amount).toFixed(result.decimals).replace(".", "");
+            // num.toFixed(result.decimals).replace(".", "")
+            let sb = new ThinNeo.ScriptBuilder();
+            //transfer
+            sb.EmitParamJson([
+                "(addr)" + LoginInfo.getCurrentAddress(),//from
+                "(addr)" + "ALafN3UBtDhsy3Z4LNwKKhrmBC5fXvomCP",//to
+                "(int)" + value //value
+            ]);//参数倒序入
+            sb.EmitPushString("transfer");//参数倒序入
+            sb.EmitAppCall(tools.coinTool.id_NNC);//nep5脚本
+
+            //setMoneyIn
+            sb.EmitParamJson(
                 [
                     "(hex160)" + hashstr,
-                    arr
+                    "(hex256)" + domainHash.toString()
                 ]
-            );
+            )
+            sb.EmitPushString("setMoneyIn")
+            sb.EmitAppCall(scriptaddress)
 
-            let res = await tools.contract.contractInvokeTrans_attributes(data);
+            //buy
+            sb.EmitParamJson(
+                [
+                    "(hex160)" + hashstr,
+                    "(hex256)" + domainHash.toString()
+                ]
+            )
+            sb.EmitPushString("buy")
+            sb.EmitAppCall(scriptaddress)
+
+            let res = await tools.contract.contractInvokeTrans_attributes(sb.ToArray());
             return res;
         } catch (error)
         {
@@ -524,6 +551,10 @@ export class NNSTool
         return hash;
     }
 
+    static domainToHash(domain: string): Neo.Uint256
+    {
+        return this.nameHashArray(domain.split("."));
+    }
 
     static verifyDomain(domain)
     {

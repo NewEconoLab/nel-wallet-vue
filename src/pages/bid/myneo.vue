@@ -22,10 +22,10 @@
                 </div>
                 <div class="select-box">
                   <label>状态：</label>
-                    <select  class="form-control">
-                      <option value="">全部</option>
-                      <option value="me">上架中</option>
-                      <option value="other">未出售</option>
+                    <select  class="form-control" @change="selectSellDomain()" v-model="sellStatus">
+                      <option value="all">全部</option>
+                      <option value="0901">上架中</option>
+                      <option value="">未出售</option>
                     </select>
                 </div>
               <!-- <img src="" alt=""> -->
@@ -42,7 +42,7 @@
             <div class="addr-mapping">( {{$t('myneoname.mapping')}}: {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
             <div class="time-msg" v-if="!item.expired">( {{$t('myneoname.time')}}: {{item.ttl}} <span class="ff6" v-if="!item.expiring">{{$t('myneoname.expiring')}}</span> )</div>
             <div class="time-msg" v-if="item.expired">( {{$t('myneoname.time')}}:  <span class="ff6">{{$t('myneoname.expired')}}</span> )</div>
-            <div class="btn-right" v-if="!item.expired">
+            <div class="btn-right" v-if="!item.expired && item.state!='0901'">
                 <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
                 <button v-if="verifySetOwner(item.domain)===2" class="btn btn-nel btn-bid" disabled="true">{{$t('myneoname.transferring')}}</button>
                 <button v-else class="btn btn-nel btn-bid" @click="showTranferDomain(item)">{{$t('myneoname.transfer')}}</button>
@@ -56,23 +56,24 @@
                   @click="onShowSaleDialog(item)" 
                 >出售</button>
             </div>
-            <!-- <div class="btn-right" v-if="!item.expired">
+            <div class="btn-right" v-if="!item.expired && item.state == '0901'">
               <div class="status-text">出售中</div>
-              <button class="btn btn-nel btn-bid" >下架</button>
-            </div>             -->
+              <button v-if="onUnSaleState == 0" class="btn btn-nel btn-bid" @click="onShowUnSaleDialog(item)">下架</button>
+              <button v-if="onUnSaleState == 1" class="btn btn-nel btn-bid btn-disable" disabled>下架中</button>
+            </div>            
         </div>
         <div class="mydomain-page">
-          <div class="page-msg" >第1页，共2页</div>
+          <div class="page-msg" >第{{myDomainListPage.currentPage}}页，共{{myDomainListPage.totalPage}}页</div>
             <div class="page" >
-              <div class="page-previous" @click="myDomainPrevious">
+              <div class="page-previous" @click="myDomainPrevious" :class="{'notallow':(myDomainListPage.currentPage == 1)}">
                   <img src="../../../static/img/lefttrangle.svg" alt="">
               </div>
               <div style="width:1px;"></div>
-              <div class="page-next" @click="myDomainNext" >
+              <div class="page-next" @click="myDomainNext" :class="{'notallow':(myDomainListPage.currentPage == myDomainListPage.totalPage)}">
                   <img src="../../../static/img/righttrangle.svg" alt="">
               </div>
-              <input type="text" value="lasf" class="input-wrapper">
-              <div class="gopage">Go</div>
+              <input type="text" v-model="inputMyneoPage" class="input-wrapper" @input="onInputMyneoPageChange" @keydown="onInputMyneoKeyDown">
+              <div class="gopage" @click="goMyneoPage" >Go</div>
             </div>
         </div>
         <!-- 域名列表 end -->
@@ -91,24 +92,6 @@
                   <span class="sale-price">售出金额：{{item.price}} NNC</span>
                 </p>
               </div>
-              <!-- <div class="sale-content">
-                <div class="sale-domainname">
-                  benny12.neo
-                </div>
-                <p>
-                  <span class="sale-time">售出时间：12:38:10 2018-02-24</span>
-                  <span class="sale-price">售出金额：100 NNC</span>
-                </p>
-              </div>
-              <div class="sale-content">
-                <div class="sale-domainname">
-                  benny123.neo
-                </div>
-                <p>
-                  <span class="sale-time">售出时间：12:38:10 2018-02-24</span>
-                  <span class="sale-price">售出金额：100 NNC</span>
-                </p>
-              </div>               -->
             </div>
             <div class="page-msg" v-if="salePage" >第{{salePage.currentPage}}页，共{{salePage.totalPage}}页</div>
             <div class="page" v-if="salePage" >
@@ -120,7 +103,7 @@
                   <img src="../../../static/img/righttrangle.svg" alt="">
               </div>
               <input type="number"  class="input-wrapper" v-model="inputSalePage" @input="onInputSalePageChange" @keydown="onInputSaleKeyDown">
-              <div class="gopage" @click="goSalePage" :class="{'donot':onInputSalePageChange}">Go</div>
+              <div class="gopage" @click="goSalePage">Go</div>
             </div>
         </div>
         <!-- 出售记录 end -->
@@ -261,6 +244,20 @@
             </div>
           </div>          
         </div>
+        <!-- 下架弹筐 -->
+        <div class="sale-wrapper" v-if="isUnSaleBox">
+          <div class="sale-box">
+             <div class="unsale-tips">
+               <span>您确定要将 " {{domainInfo.domain}} " 下架吗？</span>
+             </div>
+             <div class="unsale-btn">                
+                <button class="btn btn-nel btn-big" @click="toUnSellDomain">确定</button>
+              </div>
+            <div class="sale-close">
+              <span aria-hidden="true" @click="isUnSaleBox=!isUnSaleBox">&times;</span>
+            </div>
+          </div>          
+        </div>
     </div>
 </template>
 <script lang="ts" src="./myneo.ts">
@@ -384,6 +381,12 @@
       -ms-transform: translateY(-50%);
       -o-transform: translateY(-50%);
       transform: translateY(-50%);
+      .status-text {
+        font-size: 18px;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 30px;
+      }
     }
     .sale-list-wraper {
       padding: 10px;
@@ -417,8 +420,10 @@
     .page-previous,
     .page-next {
       background: #55637b;
+      cursor: pointer;
       &.notallow {
         background: #33393d;
+        cursor: not-allowed;
       }
     }
     .input-wrapper {
@@ -441,8 +446,10 @@
       text-align: center;
       background: #55637b;
       border-radius: 5px;
+      cursor: pointer;
       &.donot {
         background: #33393d;
+        cursor: not-allowed;
       }
     }
   }
@@ -608,6 +615,16 @@
         width: 30px;
         height: 30px;
         font-size: 30px;
+      }
+      .unsale-tips {
+        text-align: center;
+        margin-top: 80px;
+        margin-bottom: 50px;
+        font-size: 16px;
+        color: #ffffff;
+      }
+      .unsale-btn {
+        text-align: center;
       }
     }
   }
