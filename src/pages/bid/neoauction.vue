@@ -36,7 +36,7 @@
                 <button v-if="btn_start==2" class="btn btn-nel btn-big" @click="addBid">{{$t('btn.newbid')}}</button>
                 <button v-if="btn_start==3" class="btn btn-nel btn-big btn-disable" disabled="disabled">{{$t('btn.newbid')}}</button>
                 <button v-if="!domain.length||btn_start==4" class="btn btn-nel btn-big btn-disable" disabled="disabled">{{$t('btn.openauction')}}</button>
-                <button v-if="btn_start==5" class="btn btn-nel btn-big" @click="toShowSaleBox" >查看详情</button>
+                <!-- <button v-if="btn_start==5" class="btn btn-nel btn-big" @click="toShowSaleBox" >查看详情</button> -->
                 <!-- <span class="waiting-msg">{{$t('auction.sendingmsg')}}</span> -->
                 <div v-if="checkState==1 && !!domain.length" class="msg-box status-being">
                     <img src="../../../static/img/correct.svg" alt="">
@@ -46,10 +46,10 @@
                     <img src="../../../static/img/correct.svg" alt="">
                     <span>{{$t('auction.checkbeing')}}</span>
                 </div>
-                <div v-if="checkState==5" class="msg-box status-being">
+                <!-- <div v-if="checkState==5" class="msg-box status-being">
                     <img src="../../../static/img/correct.svg" alt="">
                     <span>{{$t('auction.checksale')}}</span>
-                </div>
+                </div> -->
                 <div v-if="checkState==3" class="msg-box status-ended">
                     <span>{{$t('auction.checkbuyer')}}</span>
                 </div>
@@ -296,7 +296,7 @@
               <span>出售价格 : {{saleDomainInfo && saleDomainInfo.price}} NNC</span>
             </div>
             <div class="domaininfo-btn">
-              <button class="btn btn-nel btn-big" v-if="address === (saleDomainInfo && saleDomainInfo.owner)">下架</button>
+              <button class="btn btn-nel btn-big" v-if="address === (saleDomainInfo && saleDomainInfo.owner)" @click="isUnSaleBox = !isUnSaleBox">下架</button>
               <button class="btn btn-nel btn-big" v-else :class="{'btn-disable':!isOKSale}" :disabled="!isOKSale" @click="toBuyDomain">购买</button>
               <div class="error-tips" v-if="!isOKSale">
                 <img src="../../../static/img/error.png" alt="">
@@ -307,6 +307,20 @@
               <span aria-hidden="true" >&times;</span>
             </div>           
           </div>
+        </div>
+        <!-- 下架弹筐 -->
+        <div class="sale-wrapper" v-if="isUnSaleBox">
+          <div class="sale-box">
+             <div class="unsale-tips">
+               <span>您确定要将 " {{saleDomainInfo.domain}} " 下架吗？</span>
+             </div>
+             <div class="unsale-btn">                
+                <button class="btn btn-nel btn-big" @click="toUnSellDomain">确定</button>
+              </div>
+            <div class="sale-close">
+              <span aria-hidden="true" @click="isUnSaleBox=!isUnSaleBox">&times;</span>
+            </div>
+          </div>          
         </div>
         <!-- <v-toast type="error" msg="Top up failed ! And your 100 GAS has been exchanged into 100 CGAS !"></v-toast> -->
         <v-toast ref="toast" ></v-toast>
@@ -698,6 +712,48 @@
         width: 30px;
         height: 30px;
         font-size: 30px;
+      }
+    }
+  }
+  .sale-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    z-index: 1030;
+    .sale-box {
+      background: #454f60;
+      padding: 30px 50px 50px 50px;
+      width: 80%;
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -moz-transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 5px;
+      font-size: 16px;
+      .sale-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+      }
+      .unsale-tips {
+        text-align: center;
+        margin-top: 80px;
+        margin-bottom: 50px;
+        font-size: 16px;
+        color: #ffffff;
+      }
+      .unsale-btn {
+        text-align: center;
       }
     }
   }

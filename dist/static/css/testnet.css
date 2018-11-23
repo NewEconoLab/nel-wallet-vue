@@ -482,7 +482,7 @@ table>tbody>tr {
 }
 
 .page {
-    width: 101px;
+    width: auto;
     height: 38px;
     margin: 0 auto;
     /* Firefox */

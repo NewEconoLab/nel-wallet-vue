@@ -80,6 +80,12 @@ export class TaskManager
                     case TaskType.domainTransfer:
                         await this.confirm_domain_transfer(tasks);
                         break;
+                    case TaskType.saleDomain:
+                        await this.confirm_sale(tasks);
+                        break;
+                    case TaskType.unSaleDomain:
+                        await this.confirm_unsale(tasks);
+                        break;
                     default:
                         break;
                 }
@@ -756,5 +762,86 @@ export class TaskManager
         }
         this.taskStore.put(TaskType.getGasTest.toString(), taskarr);
     }
+    /**
+     * 域名出售操作跟踪
+     * @param tasks 
+     */
+    static async confirm_sale(tasks: Task[])
+    {
+        let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
+        let domainEdit = new sessionStoreTool("domain-edit");
+        //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
+        {
+            let result = ress[ task.txid ]; //获取通知数组
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            {
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainSale)
+                        TaskFunction.domainSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'sale');
+                }
+                else if (result && result.displayNameList && result.displayNameList.includes("NNSfixedSellingLaunched"))
+                {
+                    task.state = TaskState.success;
+                    if (TaskFunction.domainSale)
+                        TaskFunction.domainSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'sale');
+                } else
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainSale)
+                        TaskFunction.domainSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'sale');
+                }
+            }
+            task.confirm++;
+            return task;
+        });
+        this.taskStore.put(TaskType.saleDomain.toString(), taskarr); //保存修改的状态
+    }
+    /**
+     * 域名出售操作跟踪
+     * @param tasks 
+     */
+    static async confirm_unsale(tasks: Task[])
+    {
+        let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
+        let domainEdit = new sessionStoreTool("domain-edit");
+        //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
+        {
+            let result = ress[ task.txid ]; //获取通知数组
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            {
 
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainUnSale)
+                        TaskFunction.domainUnSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'unsale');
+                }
+                else if (result && result.displayNameList && result.displayNameList.includes("NNSfixedSellingDiscontinued"))
+                {
+                    task.state = TaskState.success;
+                    if (TaskFunction.domainUnSale)
+                        TaskFunction.domainUnSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'unsale');
+                } else
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainUnSale)
+                        TaskFunction.domainUnSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'unsale');
+                }
+
+            }
+            task.confirm++;
+            return task;
+        });
+        this.taskStore.put(TaskType.unSaleDomain.toString(), taskarr); //保存修改的状态
+    }
 }

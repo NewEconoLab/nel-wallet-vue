@@ -81,10 +81,27 @@ export default class MyNeo extends Vue
         TaskFunction.domainMapping = this.mappingTask;
         TaskFunction.domainRenewal = this.renewalTask;
         TaskFunction.domainTransfer = this.domainTransferTask;
+        TaskFunction.domainSale = this.domainSaleTask;
+        TaskFunction.domainUnSale = this.domainUnSaleTask;
         this.openToast = this.$refs.toast[ "isShow" ];
         this.getSaleDomainList(this.currentAddress, true, this.salePage);
     }
-
+    domainUnSaleTask(domain)
+    {
+        if (domain == this.currentdomain)
+        {
+            this.onUnSaleState = 0;
+        }
+        this.getAllNeoName(this.currentAddress);
+    }
+    domainSaleTask(domain)
+    {
+        if (domain == this.currentdomain)
+        {
+            this.onSaleState = 0;
+        }
+        this.getAllNeoName(this.currentAddress);
+    }
 
     domainTransferTask(domain)
     {
@@ -545,9 +562,8 @@ export default class MyNeo extends Vue
         this.domainInfo = item;
         this.isShowSaleBox = !this.isShowSaleBox;
         this.currentdomain = item.domain;
-
         let domain = this.domainEdit.select(item.domain);
-
+        this.domainSalePrice = '';
         if (domain)
         {
             if (domain[ 'sale' ] && domain[ 'sale' ] === 'watting')
@@ -646,6 +662,7 @@ export default class MyNeo extends Vue
     closeUnSaleDialog()
     {
         this.isUnSaleBox = !this.isUnSaleBox;
+        this.onUnSaleState = 1;
     }
     /**
      * 获取域名已出售成功的列表

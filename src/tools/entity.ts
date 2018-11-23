@@ -1018,6 +1018,8 @@ export class TaskFunction
     static domainTransfer: Function;
     static auctionStateUpdate: Function;
     static newTaskNumber: Function;//更新阅读数
+    static domainSale: Function;//域名出售
+    static domainUnSale: Function;//域名下架
 }
 
 export class Task
