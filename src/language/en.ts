@@ -223,6 +223,7 @@ export default {
         goback: "Go back",
         waitmsg1: "Waiting for confirmation",
         waitmsg2: "Your raise will be confirmed after a new block is generated. Please wait.",
+        waitmsg3: "Your buy the domain will be confirmed after a new block is generated. Please wait.",
         getdomaintips: "Tip: After successfully claiming your domain, you can modify its settings in Domain Management.",
         waitgetdomain: "Your operation will be confirmed after the new block is generated. Please wait patiently...",
         fee: "Fee",

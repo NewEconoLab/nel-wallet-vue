@@ -1,6 +1,6 @@
 <template>
     <div class="myneo-box">
-        <!-- <div class="title">
+        <div class="title">
             <span>我的收入</span>
         </div>    
         <div class="form-box">
@@ -9,13 +9,14 @@
               <p>注意 : 出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。</p>
             </div>
             <div class="btn-right">
-                <button class="btn btn-nel btn-bid">提取</button>                
+                <!-- <button class="btn btn-nel btn-bid" @click="toGetMyNNC">提取</button> -->
+                <button class="btn btn-nel btn-bid btn-disable">提取中</button>                  
             </div>
-        </div> -->
+        </div>
         <!-- 域名列表 -->
         <div class="title">
             <span>{{$t('myneoname.title')}}</span>
-            <!-- <div class="search-domain">
+            <div class="search-domain">
                <div class="seach-box">
                     <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')" autocomplete="off"  >
                     <img src="../../../static/img/seach.png" alt="">
@@ -28,11 +29,12 @@
                       <option value="">未出售</option>
                     </select>
                 </div>
-            </div> -->
+              <!-- <img src="" alt=""> -->
+            </div>
         </div>
-        <!-- <div class="mydomain-tips">
+        <div class="mydomain-tips">
           注意 : 如果您要转让或出售您的地址，请确保域名的地址映射栏处于未配置的状态（设置过的域名请在在编辑页中使用重置功能。）
-        </div> -->
+        </div>
         <div class="form-box" v-if="neonameList" v-for="(item,index) in showMydomainList" :key="index">
             <div class="neoname">
                 {{item.domain}}
@@ -41,11 +43,11 @@
             <div class="addr-mapping">( {{$t('myneoname.mapping')}}: {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
             <div class="time-msg" v-if="!item.expired">( {{$t('myneoname.time')}}: {{item.ttl}} <span class="ff6" v-if="!item.expiring">{{$t('myneoname.expiring')}}</span> )</div>
             <div class="time-msg" v-if="item.expired">( {{$t('myneoname.time')}}:  <span class="ff6">{{$t('myneoname.expired')}}</span> )</div>
-            <div class="btn-right" v-if="!item.expired">
+            <div class="btn-right" v-if="!item.expired && item.state!='0901'">
                 <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
                 <button v-if="verifySetOwner(item.domain)===2" class="btn btn-nel btn-bid" disabled="true">{{$t('myneoname.transferring')}}</button>
                 <button v-else class="btn btn-nel btn-bid" @click="showTranferDomain(item)">{{$t('myneoname.transfer')}}</button>
-                <!-- <button 
+                <button 
                   class="btn btn-nel btn-bid" 
                   data-toggle="tooltip" 
                   data-placement="bottom" 
@@ -53,13 +55,13 @@
                   :class="{'btn-disable':item.resolverAddress}" 
                   :disabled="!!item.resolverAddress" 
                   @click="onShowSaleDialog(item)" 
-                >出售</button> -->
+                >出售</button>
             </div>
-            <!-- <div class="btn-right" v-if="!item.expired && item.state == '0901'">
+            <div class="btn-right" v-if="!item.expired && item.state == '0901'">
               <div class="status-text">出售中</div>
               <button v-if="onUnSaleState == 0" class="btn btn-nel btn-bid" @click="onShowUnSaleDialog(item)">下架</button>
               <button v-if="onUnSaleState == 1" class="btn btn-nel btn-bid btn-disable" disabled>下架中</button>
-            </div>             -->
+            </div>            
         </div>
         <div class="mydomain-page">
           <div class="page-msg" >第{{myDomainListPage.currentPage}}页，共{{myDomainListPage.totalPage}}页</div>
@@ -77,7 +79,7 @@
         </div>
         <!-- 域名列表 end -->
         <!-- 出售记录 -->
-        <!-- <div class="title">
+        <div class="title">
             <span>我的出售记录</span>
         </div>    
         <div class="form-box">
@@ -104,7 +106,7 @@
               <input type="number"  class="input-wrapper" v-model="inputSalePage" @input="onInputSalePageChange" @keydown="onInputSaleKeyDown">
               <div class="gopage" @click="goSalePage">Go</div>
             </div>
-        </div> -->
+        </div>
         <!-- 出售记录 end -->
         <!-- 提示弹筐 -->
         <v-toast ref="toast" ></v-toast>

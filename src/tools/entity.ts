@@ -1020,6 +1020,7 @@ export class TaskFunction
     static newTaskNumber: Function;//更新阅读数
     static domainSale: Function;//域名出售
     static domainUnSale: Function;//域名下架
+    static domainBuy: Function;//域名购买
 }
 
 export class Task
@@ -1204,6 +1205,7 @@ export enum TaskType
     saleDomain,//出售域名
     unSaleDomain,//下架域名
     buyDomain,//购买域名
+    getMyNNC,//获取收入的NNC
 }
 
 /**

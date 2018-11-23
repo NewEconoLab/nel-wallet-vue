@@ -515,7 +515,7 @@ export default class NeoAuction extends Vue
                     this.checkState = this.btn_start = 1;
                     break;
                 case AuctionState.sale:
-                    this.checkState = this.btn_start = 3;
+                    this.checkState = this.btn_start = 5;
                     break;
                 // case AuctionState.open:  this.checkState = this.btn_start = 2;   break;
 
@@ -608,17 +608,10 @@ export default class NeoAuction extends Vue
     {
         try
         {
-            let res = await tools.nnstool.buyDomain(this.saleDomainInfo.domain, this.saleDomainInfo.price);
-            if (!res.err)
-            {
-                let txid = res.info;
-                TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.saleDomainInfo.domain, amount: this.saleDomainInfo.price }),
-                    TaskType.unSaleDomain);
-                // this.domainEdit.put(this.domainInfo.domain, "watting", "unsale");
-                // this.closeUnSaleDialog();
-                this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
-            }
+            let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
+            console.log(res);
+            this.isShowSaleBox = !this.isShowSaleBox;
+            this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
         } catch (error)
         {
             // this.resolverState = oldstate;

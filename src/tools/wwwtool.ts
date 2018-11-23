@@ -554,6 +554,22 @@ export class WWW
 
         }
     }
+
+    static async getbonusbyaddress(address: string, page: number, pagesize: number)
+    {
+        var postdata = WWW.makeRpcPostBody("getbonusbyaddress", address, page, pagesize);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
+    }
     /**
      * 根据地址查询已出售已成交列表
      * @param address 当前地址

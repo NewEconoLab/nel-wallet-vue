@@ -3,6 +3,7 @@ import { AuctionService } from "./AuctionServices";
 import { store } from "../store/index";
 import { ExchangeService } from "./ExchangeServices";
 import { TransferService } from "./TransferService";
+import { DomainBuyService } from "./DomainBuyService";
 
 export namespace services
 {
@@ -12,4 +13,5 @@ export namespace services
     export const auctionInfo_test = new AuctionInfoService(store.auction_test, 5 * 60);
     export const exchange = new ExchangeService();
     export const transfer = new TransferService();
+    export const buyAuction_neo = new DomainBuyService();
 }

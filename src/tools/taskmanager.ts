@@ -86,6 +86,9 @@ export class TaskManager
                     case TaskType.unSaleDomain:
                         await this.confirm_unsale(tasks);
                         break;
+                    case TaskType.buyDomain:
+                        await this.confirm_buyDomain(tasks);
+                        break;
                     default:
                         break;
                 }
@@ -803,7 +806,7 @@ export class TaskManager
         this.taskStore.put(TaskType.saleDomain.toString(), taskarr); //保存修改的状态
     }
     /**
-     * 域名出售操作跟踪
+     * 域名下架操作跟踪
      * @param tasks 
      */
     static async confirm_unsale(tasks: Task[])
@@ -843,5 +846,45 @@ export class TaskManager
             return task;
         });
         this.taskStore.put(TaskType.unSaleDomain.toString(), taskarr); //保存修改的状态
+    }
+    /**
+     * 域名购买操作跟踪
+     * @param tasks 
+     */
+    static async confirm_buyDomain(tasks: Task[])
+    {
+        let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
+        let domainEdit = new sessionStoreTool("domain-edit");
+        //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
+        {
+            let result = ress[ task.txid ]; //获取通知数组
+            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            {
+                if (result.vmstate == "FAULT, BREAK")
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainSale)
+                        TaskFunction.domainSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'buy');
+                }
+                else if (result && result.displayNameList && result.displayNameList.includes("NNSfixedSellingBuy"))
+                {
+                    task.state = TaskState.success;
+                    if (TaskFunction.domainSale)
+                        TaskFunction.domainSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'buy');
+                } else
+                {
+                    task.state = TaskState.fail;
+                    if (TaskFunction.domainSale)
+                        TaskFunction.domainSale(task.message[ 'domain' ])
+                    domainEdit.delete(task.message[ 'domain' ], 'buy');
+                }
+            }
+            task.confirm++;
+            return task;
+        });
+        this.taskStore.put(TaskType.buyDomain.toString(), taskarr); //保存修改的状态
     }
 }

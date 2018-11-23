@@ -580,7 +580,8 @@ export default class MyNeo extends Vue
      */
     closeSaleDialog()
     {
-        this.domainSalePrice = "";
+        this.domainSalePrice = '';
+        this.isOKSale = false;
         this.isShowSaleBox = !this.isShowSaleBox;
     }
     // 判断输入金额是否正确
@@ -787,6 +788,28 @@ export default class MyNeo extends Vue
         if (event.keyCode === 13)
         {
             this.pageTo(this.inputSalePage);
+        }
+    }
+    /**
+     * 提取我的nnc
+     */
+    async toGetMyNNC()
+    {
+        try
+        {
+            let res = await tools.nnstool.getMyNNC();
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { amount: this.domainInfo[ 'domain' ] }),
+                    TaskType.getMyNNC);
+                // this.domainEdit.put(this.domainInfo.domain, "watting", "unsale");
+                // this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+            }
+        } catch (error)
+        {
+            // this.resolverState = oldstate;
         }
     }
 }
