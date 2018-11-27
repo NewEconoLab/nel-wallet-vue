@@ -99,7 +99,6 @@ export default class MyNeo extends Vue
     async getMyNNC()
     {
         let res = await tools.wwwtool.getNNCFromSellingHash(this.currentAddress);
-        console.log(res);
         if (res)
         {
             this.myNNCBalance = res[ "balance" ];
@@ -485,7 +484,6 @@ export default class MyNeo extends Vue
      */
     toSearchDomain()
     {
-        console.log(this.InputDomainName);
         let newList = [];
         Object.keys(this.neonameList).filter((keys: string) =>
         {
@@ -496,7 +494,6 @@ export default class MyNeo extends Vue
             }
             return false;
         })
-        console.log(newList);
 
         this.myDomainListPage.totalCount = newList.length;
         this.showMydomainList = this.mydomainListByPage(newList);

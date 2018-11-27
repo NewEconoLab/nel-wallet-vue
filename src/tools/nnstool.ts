@@ -292,7 +292,6 @@ export class NNSTool
             return res;
         } catch (error)
         {
-            console.log(error);
             throw new Error("")
         }
     }
@@ -317,12 +316,10 @@ export class NNSTool
             );
 
             let res = await tools.contract.contractInvokeTrans_attributes(data);
-            console.log(res);
 
             return res;
         } catch (error)
         {
-            console.log(error);
             throw new Error("")
         }
     }
@@ -386,8 +383,6 @@ export class NNSTool
                 "(hex160)" + hashstr,
                 "(hex256)" + domainHash.toString()
             ]);
-        console.log("打印buysb");
-        console.log(buysb);
         const data2 = await tools.contract.buildInvokeTransData_attributes(buysb);
         return data2;
     }
@@ -411,12 +406,9 @@ export class NNSTool
             );
 
             let res = await tools.contract.contractInvokeTrans_attributes(data);
-            console.log("发送交易");
-            console.log(res);
             return res;
         } catch (error)
         {
-            console.log(error);
             throw new Error("")
         }
     }

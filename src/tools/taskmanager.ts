@@ -776,9 +776,6 @@ export class TaskManager
     {
         let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
         let domainEdit = new sessionStoreTool("domain-edit");
-        console.log("出售");
-        console.log(domainEdit);
-
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
@@ -861,15 +858,10 @@ export class TaskManager
     {
         let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
         let buyDomain = new sessionStoreTool("buyDomain");
-        console.log("购买");
-        console.log(buyDomain);
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            console.log("打印task");
-            console.log(task);
             let result = ress[ task.txid ]; //获取通知数组
-            console.log(result);
             if (task.type == ConfirmType.recharge)
             {
                 if (result && result[ 'errCode' ]) //检测是否有对应的通知 changeOwnerInfo
@@ -911,7 +903,6 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            console.log(task);
             let result = ress[ task.txid ]; //获取通知数组
             if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {

@@ -43,7 +43,6 @@ export default class BonusTest extends Vue
         {
             for (let i in list)
             {
-                console.log(list[ i ].blocktime)
                 list[ i ].blocktime = tools.timetool.getTime(list[ i ].blocktime ? list[ i ].blocktime : "0");
             }
             this.historyList = list;

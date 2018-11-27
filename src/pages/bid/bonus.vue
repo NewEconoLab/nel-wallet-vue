@@ -12,8 +12,10 @@
               <p>快照时间 : 2018/09/07 16:34:05</p>
             </div>
             <div class="btn-right">
-                <button class="btn btn-nel btn-bid btn-disable">申请中</button>
-                <button class="btn btn-nel btn-bid" @click="toApplyBonus" :class="{'btn-disable':!isApplyBonus}" :disabled="!isApplyBonus">申请</button>                  
+               <button class="btn btn-nel btn-bid btn-disable" v-if="isApplyBonus ==2">申请中</button>
+                <button class="btn btn-nel btn-bid btn-disable" v-else-if="isApplyBonus ==3">已发放</button>  
+                <button class="btn btn-nel btn-bid" v-else @click="toApplyBonus" :class="{'btn-disable':isApplyBonus ==0}" :disabled="isApplyBonus==0">申请</button>
+                              
             </div>
         </div>           
         <div class="title" v-if="myBonusPageUtil.totalCount!=0">

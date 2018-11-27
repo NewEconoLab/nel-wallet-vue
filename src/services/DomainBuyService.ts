@@ -9,18 +9,6 @@ export class DomainBuyService
         const data1 = await tools.nnstool.registerNNC(amount);
         const data2 = await tools.nnstool.buyDomain(domain);
         const res = await tools.wwwtool.rechargeandtransfer(data1, data2);
-        console.log("交易发送结果");
-        console.log(res);
-
-        // if (res)
-        // {
-        //     let txid = res[ "txid" ];
-        //     tools.taskManager.addTask(
-        //         new Task(ConfirmType.contract, txid, { domain: domain, amount: amount }),
-        //         TaskType.buyDomain);
-        //     domainEdit.put(domain, "watting", "buy");
-        //     return txid;
-        // }
         if (res && res[ 'errCode' ]) //检测是否有对应的通知 changeOwnerInfo
         {
             switch (res[ 'errCode' ])

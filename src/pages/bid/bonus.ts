@@ -15,7 +15,7 @@ export default class Bonus extends Vue
     isBonusPage: boolean; // 是否显示分红分页
     bonusList: any; // 我的分红列表
     myBonus: string; // 我的分红
-    isApplyBonus: boolean; // 是否可申请分红
+    isApplyBonus: number; // 是否可申请分红,0为不可申请，1为可申请，2为正在申请，3为已发放
     applyStatus: number;// 申请状态 0为可申请，1为申请中，2为不可申请
     constructor()
     {
@@ -28,7 +28,7 @@ export default class Bonus extends Vue
         this.myBonusPageUtil = new PageUtil(0, 5);
         this.isBonusPage = false;
         this.myBonus = '0';
-        this.isApplyBonus = false;
+        this.isApplyBonus = 0;
         this.initMyBonus(this.currentAddress);
         this.initHistory(this.currentAddress, true);
         this.initBonusHistory(this.currentAddress, true);
@@ -37,17 +37,23 @@ export default class Bonus extends Vue
     async initMyBonus(address: string)
     {
         let res: MyBonus = await tools.wwwtool.getcurrentbonus(address);
-        console.log(res);
         if (res)
         {
             this.myBonus = res.send;
             if (res.txid != '')
             {
                 this.myBonus = '0';
-                this.isApplyBonus = false;
+                this.isApplyBonus = 3;
             } else
             {
-                this.isApplyBonus = true;
+                if (res.applied)
+                {
+                    this.isApplyBonus = 2;
+                } else
+                {
+                    this.isApplyBonus = 1;
+                }
+
             }
         }
     }
@@ -55,13 +61,12 @@ export default class Bonus extends Vue
     async toApplyBonus()
     {
         let res = await tools.wwwtool.applybonus(this.currentAddress);
-        console.log(res);
         if (res[ 0 ].result)
         {
-            this.applyStatus = 1;
+            this.applyStatus = 2;
         } else
         {
-
+            this.applyStatus = 1;
         }
     }
     //初始化History
