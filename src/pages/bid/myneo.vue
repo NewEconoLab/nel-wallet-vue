@@ -5,12 +5,12 @@
         </div>    
         <div class="form-box">
             <div class="nnc-wrap">
-              <strong>未提取的NNC：<span>0</span></strong>
+              <strong>未提取的NNC：<span>{{myNNCBalance}}</span></strong>
               <p>注意 : 出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。</p>
             </div>
-            <div class="btn-right">
-                <!-- <button class="btn btn-nel btn-bid" @click="toGetMyNNC">提取</button> -->
-                <button class="btn btn-nel btn-bid btn-disable">提取中</button>                  
+            <div class="btn-right">                
+                <button class="btn btn-nel btn-bid btn-disable" v-if="isCanGetNNC == 2">提取中</button> 
+                <button class="btn btn-nel btn-bid" @click="toGetMyNNC" v-else :class="{'btn-disable':isCanGetNNC==0}" :disabled="isCanGetNNC==0">提取</button>                 
             </div>
         </div>
         <!-- 域名列表 -->
@@ -18,7 +18,7 @@
             <span>{{$t('myneoname.title')}}</span>
             <div class="search-domain">
                <div class="seach-box">
-                    <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')" autocomplete="off"  >
+                    <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')" autocomplete="off" v-model="InputDomainName" >
                     <img src="../../../static/img/seach.png" alt="">
                 </div>
                 <div class="select-box">

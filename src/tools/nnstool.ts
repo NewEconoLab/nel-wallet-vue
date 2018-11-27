@@ -362,7 +362,7 @@ export class NNSTool
         //把TXID包进Array里
         sb.EmitPushNumber(Neo.BigInteger.fromString("1"));
         sb.Emit(ThinNeo.OpCode.PACK);
-        sb.EmitPushString("setmoneyin");
+        sb.EmitPushString("setMoneyIn");
         sb.EmitAppCall(register);
         let script = sb.ToArray();
         let data1 = await tools.contract.buildInvokeTransData_attributes(script);
@@ -386,6 +386,8 @@ export class NNSTool
                 "(hex160)" + hashstr,
                 "(hex256)" + domainHash.toString()
             ]);
+        console.log("打印buysb");
+        console.log(buysb);
         const data2 = await tools.contract.buildInvokeTransData_attributes(buysb);
         return data2;
     }
@@ -409,6 +411,7 @@ export class NNSTool
             );
 
             let res = await tools.contract.contractInvokeTrans_attributes(data);
+            console.log("发送交易");
             console.log(res);
             return res;
         } catch (error)

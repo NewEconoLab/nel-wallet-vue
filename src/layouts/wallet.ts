@@ -137,6 +137,9 @@ export default class FeatureComponent extends Vue
                     case TaskType.buyDomain:
                         this.makeTaskList(tasks, TaskType.buyDomain);
                         break;
+                    case TaskType.getMyNNC:
+                        this.makeTaskList(tasks, TaskType.getMyNNC);
+                        break;
                     default:
                         break;
                 }

@@ -89,6 +89,9 @@ export class TaskManager
                     case TaskType.buyDomain:
                         await this.confirm_buyDomain(tasks);
                         break;
+                    case TaskType.getMyNNC:
+                        await this.confirm_getNNC(tasks);
+                        break;
                     default:
                         break;
                 }
@@ -773,6 +776,9 @@ export class TaskManager
     {
         let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
         let domainEdit = new sessionStoreTool("domain-edit");
+        console.log("出售");
+        console.log(domainEdit);
+
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
@@ -854,37 +860,87 @@ export class TaskManager
     static async confirm_buyDomain(tasks: Task[])
     {
         let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
-        let domainEdit = new sessionStoreTool("domain-edit");
+        let buyDomain = new sessionStoreTool("buyDomain");
+        console.log("购买");
+        console.log(buyDomain);
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
+            console.log("打印task");
+            console.log(task);
+            let result = ress[ task.txid ]; //获取通知数组
+            console.log(result);
+            if (task.type == ConfirmType.recharge)
+            {
+                if (result && result[ 'errCode' ]) //检测是否有对应的通知 changeOwnerInfo
+                {
+                    switch (result[ 'errCode' ])
+                    {
+                        case '0000'://成功
+                            task.state = TaskState.success;
+                            // if (TaskFunction.domainUnSale)
+                            //     TaskFunction.domainUnSale(task.message[ 'domain' ])
+                            buyDomain.delete(task.message[ 'domain' ], 'buy');
+                            break;
+                        case '3001'://失败
+                            task.state = TaskState.fail;
+                            buyDomain.delete(task.message[ 'domain' ], 'buy');
+                            break;
+                        case '3002'://失败
+                            task.state = TaskState.fail;
+                            buyDomain.delete(task.message[ 'domain' ], 'buy');
+                            break;
+                    }
+                }
+            }
+
+            task.confirm++;
+            return task;
+        });
+
+        this.taskStore.put(TaskType.buyDomain.toString(), taskarr); //保存修改的状态
+    }
+    /**
+     * 提取NNC
+     * @param tasks 
+     */
+    static async confirm_getNNC(tasks: Task[])
+    {
+        let ress = await this.getResult(tasks); //得到所有的watting返回的查询结果
+        let getNNC = new sessionStoreTool("getnnc");
+        //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
+        let taskarr = this.forConfirm(tasks, (task: Task) =>
+        {
+            console.log(task);
             let result = ress[ task.txid ]; //获取通知数组
             if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {
+
                 if (result.vmstate == "FAULT, BREAK")
                 {
                     task.state = TaskState.fail;
-                    if (TaskFunction.domainSale)
-                        TaskFunction.domainSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'buy');
+                    if (TaskFunction.getNNC)
+                        TaskFunction.getNNC();
+                    getNNC.delete('getnnc');
                 }
-                else if (result && result.displayNameList && result.displayNameList.includes("NNSfixedSellingBuy"))
+                else if (result && result.displayNameList && result.displayNameList.includes("getMoneyBack"))
                 {
                     task.state = TaskState.success;
-                    if (TaskFunction.domainSale)
-                        TaskFunction.domainSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'buy');
+                    if (TaskFunction.getNNC)
+                        TaskFunction.getNNC();
+                    getNNC.delete('getnnc');
                 } else
                 {
                     task.state = TaskState.fail;
-                    if (TaskFunction.domainSale)
-                        TaskFunction.domainSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'buy');
+                    if (TaskFunction.getNNC)
+                        TaskFunction.getNNC();
+                    getNNC.delete('getnnc');
                 }
+
             }
             task.confirm++;
             return task;
         });
-        this.taskStore.put(TaskType.buyDomain.toString(), taskarr); //保存修改的状态
+        this.taskStore.put(TaskType.getMyNNC.toString(), taskarr); //保存修改的状态
     }
 }

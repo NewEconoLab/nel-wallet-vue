@@ -606,12 +606,22 @@ export default class NeoAuction extends Vue
      */
     async toBuyDomain()
     {
+        console.log("购买开始");
+
         try
         {
+            this.isShowSaleBox = false;
             let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
+            console.log("最后结果");
             console.log(res);
-            this.isShowSaleBox = !this.isShowSaleBox;
-            this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
+            if (res)
+            {
+                this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
+            } else
+            {
+                this.openToast("error", "" + this.$t("auction.waitmsg3"), 5000);
+            }
+
         } catch (error)
         {
             // this.resolverState = oldstate;

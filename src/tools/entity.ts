@@ -1021,6 +1021,7 @@ export class TaskFunction
     static domainSale: Function;//域名出售
     static domainUnSale: Function;//域名下架
     static domainBuy: Function;//域名购买
+    static getNNC: Function;//提取NNC
 }
 
 export class Task
@@ -1240,4 +1241,15 @@ export interface SaleDomainList
     fullDomain: string,
     price: string,
     blocktime: string
+}
+export interface MyBonus
+{
+    addr: string,
+    assetid: string,
+    balance: string,
+    send: string,
+    txid: string,
+    sendAssetid: string,
+    height: number,
+    applied: boolean
 }

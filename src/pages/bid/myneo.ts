@@ -41,6 +41,10 @@ export default class MyNeo extends Vue
     unSaleDomain: string = '';//下架域名
     onUnSaleState: number = 0;//下架状态，0为可下架，1为正在下架
     sellStatus: string = "all";//筛选出售状态，默认all为全部，0901为出售，空为未出售
+    nncGet: sessionStoreTool;
+    myNNCBalance: string; // 我的NNC
+    isCanGetNNC: number // 是否获取NNC 0为不可提取，1为可提取，2为正在提取
+    InputDomainName: string = '';// 搜索域名
 
 
     constructor()
@@ -70,11 +74,15 @@ export default class MyNeo extends Vue
         this.saleOutDomainList = [];
         this.salePage = new PageUtil(0, 5);
         this.myDomainListPage = new PageUtil(0, 5);
+        this.nncGet = new sessionStoreTool("getnnc");
+        this.myNNCBalance = '0';
+        this.isCanGetNNC = 0;
     }
 
     mounted()
     {
         tools.nnstool.initRootDomain("neo");
+        this.getMyNNC();
         this.getAllNeoName(this.currentAddress);
         //初始化 任务管理器的执行机制
         TaskFunction.domainResovle = this.resolverTask;
@@ -83,8 +91,25 @@ export default class MyNeo extends Vue
         TaskFunction.domainTransfer = this.domainTransferTask;
         TaskFunction.domainSale = this.domainSaleTask;
         TaskFunction.domainUnSale = this.domainUnSaleTask;
+        TaskFunction.getNNC = this.getMyNNC;
         this.openToast = this.$refs.toast[ "isShow" ];
         this.getSaleDomainList(this.currentAddress, true, this.salePage);
+    }
+    async getMyNNC()
+    {
+        let res = await tools.wwwtool.getNNCFromSellingHash(this.currentAddress);
+        console.log(res);
+        if (res)
+        {
+            this.myNNCBalance = res[ "balance" ];
+            this.isCanGetNNC = 1;
+            if (this.myNNCBalance == "0")
+            {
+                this.isCanGetNNC = 0;
+            }
+        }
+
+
     }
     domainUnSaleTask(domain)
     {
@@ -795,6 +820,7 @@ export default class MyNeo extends Vue
      */
     async toGetMyNNC()
     {
+        this.isCanGetNNC = 2;
         try
         {
             let res = await tools.nnstool.getMyNNC();
@@ -802,10 +828,10 @@ export default class MyNeo extends Vue
             {
                 let txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { amount: this.domainInfo[ 'domain' ] }),
+                    new Task(ConfirmType.contract, txid, { amount: this.myNNCBalance }),
                     TaskType.getMyNNC);
-                // this.domainEdit.put(this.domainInfo.domain, "watting", "unsale");
-                // this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+                this.nncGet.put("getnnc", true);
+                this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
             }
         } catch (error)
         {

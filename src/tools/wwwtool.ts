@@ -571,6 +571,25 @@ export class WWW
         }
     }
     /**
+     * 出售域名获取NNC的收益
+     * @param address 当前地址
+     */
+    static async getNNCFromSellingHash(address: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getNNCfromSellingHash", address);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
+    }
+    /**
      * 根据地址查询已出售已成交列表
      * @param address 当前地址
      * @param page 当前页码
@@ -591,9 +610,51 @@ export class WWW
 
         }
     }
+    /**
+     * 获取域名的上架信息
+     * @param domain 域名
+     */
     static async getSaleDomainInfo(domain: string)
     {
         var postdata = WWW.makeRpcPostBody("getNNSfixedSellingInfo", domain);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
+    }
+    /**
+     * 获取我的分红详情
+     * @param addr 当前地址
+     */
+    static async getcurrentbonus(addr: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getcurrentbonus", addr);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json[ "result" ])
+        {
+            var r = json[ "result" ][ 0 ];
+            return r;
+        } else
+        {
+            throw "not data";
+
+        }
+    }
+    /**
+     * 申请领取分红
+     * @param addr 当前地址
+     */
+    static async applybonus(addr: string)
+    {
+        var postdata = WWW.makeRpcPostBody("applybonus", addr);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         if (json[ "result" ])

@@ -6,41 +6,20 @@
         </div>    
         <div class="form-box">
             <div class="nnc-wrap">
-              <strong>累计可领取分红 : <span class="dde">0</span> CGAS</strong>
+              <strong>累计可领取分红 : <span class="dde">{{myBonus}}</span> CGAS</strong>
+              <p>奖金池快照 : 40 CGas</p>
+              <p>我持有的NNC总量 : 100 NNC</p>
+              <p>快照时间 : 2018/09/07 16:34:05</p>
             </div>
             <div class="btn-right">
-                <!-- <button class="btn btn-nel btn-bid" @click="toGetMyNNC">提取</button> -->
-                <button class="btn btn-nel btn-bid btn-disable">申请</button>                  
+                <button class="btn btn-nel btn-bid btn-disable">申请中</button>
+                <button class="btn btn-nel btn-bid" @click="toApplyBonus" :class="{'btn-disable':!isApplyBonus}" :disabled="!isApplyBonus">申请</button>                  
             </div>
-        </div>
-        <div class="title">
+        </div>           
+        <div class="title" v-if="myBonusPageUtil.totalCount!=0">
             <span>{{$t('bonus.title')}}</span>
         </div>
-        <div class="form-box">
-          <div class="mybonus-wrap" v-for="(item,index) in historyList" :key="index">
-            <!-- <div class="mybonus">
-            {{$t('bonus.mydividend')}}<span class="dde">{{item.addrBonus}}</span> CGAS
-            </div> -->
-            <div class="linetop-text">{{$t('bonus.distribution')}}{{item.totalValue}} CGas</div>
-            <div class="linetop-text">{{$t('bonus.mytotal')}}{{item.balance}} NNC</div>
-            <hr>
-            <div class="linedown-text">{{$t('bonus.snapshot')}} {{item.blocktime}}</div>
-          </div> 
-          <div class="page-msg" >第{{pageUtil.currentPage}}页，共{{pageUtil.totalPage}}页</div>
-          <div class="page" v-if="isPage">
-            <div class="page-previous" @click="previous">
-                <img src="../../../static/img/lefttrangle.svg" alt="">
-            </div>
-            <div style="width:1px;"></div>
-            <div class="page-next" @click="next">
-                <img src="../../../static/img/righttrangle.svg" alt="">
-            </div>
-          </div>          
-        </div>        
-        <div class="title">
-            <span>{{$t('bonus.title')}}</span>
-        </div>
-        <div class="form-box">
+        <div class="form-box" v-if="myBonusPageUtil.totalCount!=0">
            <div class="mybonus-wrap" v-for="(item,index) in bonusList" :key="index">
             <!-- <div class="mybonus">
             {{$t('bonus.mydividend')}}<span class="dde">{{item.addrBonus}}</span> CGAS
@@ -49,13 +28,13 @@
             <hr>
             <div class="linedown-text">{{item.blocktime}}</div>
           </div> 
-          <div class="page-msg" >第{{myBonusPageUtil.currentPage}}页，共{{myBonusPageUtil.totalPage}}页</div>
+          <div class="page-msg" v-if="isBonusPage">第{{myBonusPageUtil.currentPage}}页，共{{myBonusPageUtil.totalPage}}页</div>
           <div class="page" v-if="isBonusPage">
-            <div class="page-previous" @click="previous">
+            <div class="page-previous" @click="previousBonus">
                 <img src="../../../static/img/lefttrangle.svg" alt="">
             </div>
             <div style="width:1px;"></div>
-            <div class="page-next" @click="next">
+            <div class="page-next" @click="nextBonus">
                 <img src="../../../static/img/righttrangle.svg" alt="">
             </div>
           </div>  
@@ -93,13 +72,17 @@
     color: #ffffff;
     position: relative;
     .nnc-wrap {
-      padding: 15px 0;
       strong {
         font-size: 20px;
         font-weight: 500;
         span {
           font-size: 30px;
         }
+      }
+      p {
+        font-size: 14px;
+        color: #ffffff;
+        margin-bottom: 5px;
       }
     }
     .mybonus-wrap {
