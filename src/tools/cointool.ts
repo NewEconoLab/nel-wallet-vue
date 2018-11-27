@@ -141,11 +141,14 @@ export class CoinTool
 
         let fee = Neo.Fixed8.parse('0.00000001');
         let sumcount = Neo.Fixed8.Zero; //初始化
-        for (let i = 0; i < gasutxos.length; i++) //循环塞入utxo用于判断总数是否足够
+        if (gasutxos)
         {
-            sumcount.add(gasutxos[ i ].count);
+            for (let i = 0; i < gasutxos.length; i++) //循环塞入utxo用于判断总数是否足够
+            {
+                sumcount.add(gasutxos[ i ].count);
+            }
         }
-        if (tools.coinTool.id_GAS == assetid)   //如果转账的金额是gas
+        if (gasutxos && tools.coinTool.id_GAS == assetid)   //如果转账的金额是gas
         {
             // let addcount = sendcount.add(fee);
             let tranRes = this.creatInuptAndOutup(gasutxos, sendcount, targetaddr);
@@ -157,10 +160,13 @@ export class CoinTool
             }
         } else
         {
-            // 创建 fee的输入输出
-            let feeRes = this.creatInuptAndOutup(gasutxos, fee);
-            tran.inputs = tran.inputs.concat(feeRes.inputs);
-            tran.outputs = tran.outputs.concat(feeRes.outputs);
+            if (gasutxos)
+            {
+                // 创建 fee的输入输出
+                let feeRes = this.creatInuptAndOutup(gasutxos, fee);
+                tran.inputs = tran.inputs.concat(feeRes.inputs);
+                tran.outputs = tran.outputs.concat(feeRes.outputs);
+            }
 
             //构造原本想要交易的输入输出
             let tranRes = this.creatInuptAndOutup(us, sendcount, targetaddr);
