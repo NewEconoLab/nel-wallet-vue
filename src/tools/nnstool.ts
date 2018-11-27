@@ -395,7 +395,7 @@ export class NNSTool
      * 获取收益的nnc
      * @param address 地址
      */
-    static async getMyNNC(): Promise<Result>
+    static async getAllMyNNC(): Promise<Result>
     {
         const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress());
         const hashstr = hash.reverse().toHexString();

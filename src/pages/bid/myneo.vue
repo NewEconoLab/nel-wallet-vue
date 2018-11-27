@@ -18,7 +18,7 @@
             <span>{{$t('myneoname.title')}}</span>
             <div class="search-domain">
                <div class="seach-box">
-                    <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')" autocomplete="off" v-model="InputDomainName" >
+                    <input type="search" name="" id="" :placeholder="$t('auction.searchmsg')" autocomplete="off" v-model="InputDomainName" @input="toSearchDomain" >
                     <img src="../../../static/img/seach.png" alt="">
                 </div>
                 <div class="select-box">
@@ -64,8 +64,8 @@
             </div>            
         </div>
         <div class="mydomain-page">
-          <div class="page-msg" >第{{myDomainListPage.currentPage}}页，共{{myDomainListPage.totalPage}}页</div>
-            <div class="page" >
+          <div class="page-msg" v-if="myDomainListPage">第{{myDomainListPage.currentPage}}页，共{{myDomainListPage.totalPage}}页</div>
+            <div class="page" v-if="myDomainListPage && myDomainListPage.totalCount>myDomainListPage.pageSize">
               <div class="page-previous" @click="myDomainPrevious" :class="{'notallow':(myDomainListPage.currentPage == 1)}">
                   <img src="../../../static/img/lefttrangle.svg" alt="">
               </div>
@@ -95,7 +95,7 @@
               </div>
             </div>
             <div class="page-msg" v-if="salePage" >第{{salePage.currentPage}}页，共{{salePage.totalPage}}页</div>
-            <div class="page" v-if="salePage" >
+            <div class="page" v-if="salePage && salePage.totalCount>salePage.pageSize" >
               <div class="page-previous" @click="mySaleDomainPrevious" :class="{'notallow':(salePage.currentPage == 1)}">
                   <img src="../../../static/img/lefttrangle.svg" alt="">
               </div>

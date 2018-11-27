@@ -83,7 +83,7 @@ export default class MyNeo extends Vue
     {
         tools.nnstool.initRootDomain("neo");
         this.getMyNNC();
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
         //初始化 任务管理器的执行机制
         TaskFunction.domainResovle = this.resolverTask;
         TaskFunction.domainMapping = this.mappingTask;
@@ -92,6 +92,7 @@ export default class MyNeo extends Vue
         TaskFunction.domainSale = this.domainSaleTask;
         TaskFunction.domainUnSale = this.domainUnSaleTask;
         TaskFunction.getNNC = this.getMyNNC;
+        tools.taskManager.functionList.push(this.getAllNeoName);
         this.openToast = this.$refs.toast[ "isShow" ];
         this.getSaleDomainList(this.currentAddress, true, this.salePage);
     }
@@ -103,7 +104,7 @@ export default class MyNeo extends Vue
         {
             this.myNNCBalance = res[ "balance" ];
             this.isCanGetNNC = 1;
-            if (this.myNNCBalance == "0")
+            if (parseFloat(this.myNNCBalance) == 0)
             {
                 this.isCanGetNNC = 0;
             }
@@ -117,7 +118,7 @@ export default class MyNeo extends Vue
         {
             this.onUnSaleState = 0;
         }
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
     }
     domainSaleTask(domain)
     {
@@ -125,7 +126,7 @@ export default class MyNeo extends Vue
         {
             this.onSaleState = 0;
         }
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
     }
 
     domainTransferTask(domain)
@@ -134,7 +135,7 @@ export default class MyNeo extends Vue
         {
             this.ownerTransfer = false;
         }
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
     }
 
     verifyMapping()
@@ -167,9 +168,9 @@ export default class MyNeo extends Vue
         }
     }
 
-    async getAllNeoName(address)
+    async getAllNeoName()
     {
-        let res = await tools.wwwtool.getnnsinfo(address, '.neo');
+        let res = await tools.wwwtool.getnnsinfo(this.currentAddress, '.neo');
 
         //从缓存取状态数据
         let list = res;
@@ -407,7 +408,7 @@ export default class MyNeo extends Vue
         {
             this.renewalWatting = false;
         }
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
     }
 
     /**
@@ -416,7 +417,7 @@ export default class MyNeo extends Vue
      */
     mappingTask(domain, address)
     {
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
         if (this.currentdomain == domain)
         {
             this.mappingState = 1;
@@ -437,7 +438,7 @@ export default class MyNeo extends Vue
         {
             this.resolverState = 1;
         }
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
     }
     /**
      * 筛选功能
@@ -478,6 +479,27 @@ export default class MyNeo extends Vue
             this.myDomainListPage.totalCount = newList.length;
             this.showMydomainList = this.mydomainListByPage(newList);
         }
+    }
+    /**
+     * 输入查询功能
+     */
+    toSearchDomain()
+    {
+        console.log(this.InputDomainName);
+        let newList = [];
+        Object.keys(this.neonameList).filter((keys: string) =>
+        {
+            if (this.neonameList[ keys ].domain.indexOf(this.InputDomainName) !== -1)
+            {
+                newList.push(this.neonameList[ keys ]);
+                return true;
+            }
+            return false;
+        })
+        console.log(newList);
+
+        this.myDomainListPage.totalCount = newList.length;
+        this.showMydomainList = this.mydomainListByPage(newList);
     }
     /**
      * 域名列表分页功能
@@ -699,16 +721,18 @@ export default class MyNeo extends Vue
         let res = null;
         if (first)
         {
-            res = await tools.wwwtool.getHasBuyListByAddress("ASBhJFN3XiDu38EdEQyMY3N2XwGh1gd5WW", 'test', 1, 1);
+            res = await tools.wwwtool.getHasBuyListByAddress(address, 'neo', 1, 5);
         } else
         {
-            res = await tools.wwwtool.getHasBuyListByAddress("ASBhJFN3XiDu38EdEQyMY3N2XwGh1gd5WW", 'test', pageUtil.currentPage, pageUtil.pageSize);
+            res = await tools.wwwtool.getHasBuyListByAddress(address, 'neo', pageUtil.currentPage, pageUtil.pageSize);
         }
         if (res)
         {
             if (first)
             {
-                this.salePage = new PageUtil(res[ 0 ].count, 1)
+                this.salePage = new PageUtil(res[ 0 ].count, 5);
+                console.log(this.salePage.totalCount > this.salePage.pageSize);
+
             }
             this.saleOutDomainList = res[ 0 ].list.map((key) =>
             {
@@ -823,7 +847,7 @@ export default class MyNeo extends Vue
         this.isCanGetNNC = 2;
         try
         {
-            let res = await tools.nnstool.getMyNNC();
+            let res = await tools.nnstool.getAllMyNNC();
             if (!res.err)
             {
                 let txid = res.info;
@@ -831,11 +855,12 @@ export default class MyNeo extends Vue
                     new Task(ConfirmType.contract, txid, { amount: this.myNNCBalance }),
                     TaskType.getMyNNC);
                 this.nncGet.put("getnnc", true);
-                this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+                this.openToast("success", "" + this.$t("balance.successmsg"), 5000);
             }
         } catch (error)
         {
-            // this.resolverState = oldstate;
+            this.getMyNNC();
+            this.openToast("error", "" + this.$t("balance.errmsg1"), 5000);
         }
     }
 }
