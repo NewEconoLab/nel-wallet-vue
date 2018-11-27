@@ -17,6 +17,9 @@ export default class Bonus extends Vue
     myBonus: string; // 我的分红
     isApplyBonus: number; // 是否可申请分红,0为不可申请，1为可申请，2为正在申请，3为已发放
     applyStatus: number;// 申请状态 0为可申请，1为申请中，2为不可申请
+    totalSend: string = '0';//快照总量
+    blocktime: string = '';//快照时间
+    mybalance: string = '0';//我的持有金额
     constructor()
     {
         super();
@@ -37,9 +40,14 @@ export default class Bonus extends Vue
     async initMyBonus(address: string)
     {
         let res: MyBonus = await tools.wwwtool.getcurrentbonus(address);
+        console.log(res);
         if (res)
         {
             this.myBonus = res.send;
+            this.totalSend = res.totalSend;
+            this.mybalance = res.balance;
+            const time = parseInt(res.blocktime);
+            this.blocktime = tools.timetool.getTime(time ? time : 0);
             if (res.txid != '')
             {
                 this.myBonus = '0';

@@ -1251,5 +1251,7 @@ export interface MyBonus
     txid: string,
     sendAssetid: string,
     height: number,
-    applied: boolean
+    applied: boolean,
+    totalSend: string,
+    blocktime: string
 }

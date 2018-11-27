@@ -7,9 +7,9 @@
         <div class="form-box">
             <div class="nnc-wrap">
               <strong>累计可领取分红 : <span class="dde">{{myBonus}}</span> CGAS</strong>
-              <p>奖金池快照 : 40 CGas</p>
-              <p>我持有的NNC总量 : 100 NNC</p>
-              <p>快照时间 : 2018/09/07 16:34:05</p>
+              <p>奖金池快照 : {{totalSend}} CGas</p>
+              <p>我持有的NNC总量 : {{mybalance}} NNC</p>
+              <p>快照时间 : {{blocktime}}</p>
             </div>
             <div class="btn-right">
                <button class="btn btn-nel btn-bid btn-disable" v-if="isApplyBonus ==2">申请中</button>
