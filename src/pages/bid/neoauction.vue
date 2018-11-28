@@ -442,7 +442,7 @@
         <div class="domaininfo-text">
           <span>{{$t('auction.saleprice')}} : {{saleDomainInfo && saleDomainInfo.price}} NNC</span>
         </div>
-        <div class="domaininfo-btn">
+        <div class="domaininfo-btn" v-if="saleDomainInfo && saleDomainInfo.state == '0901'">
           <button
             class="btn btn-nel btn-big"
             v-if="address === (saleDomainInfo && saleDomainInfo.owner)"
@@ -455,7 +455,10 @@
             :disabled="!isOKSale"
             @click="toBuyDomain"
           >{{$t('btn.buy')}}</button>
-          <div class="error-tips" v-if="!isOKSale">
+          <div
+            class="error-tips"
+            v-if="!isOKSale && (address !== (saleDomainInfo && saleDomainInfo.owner))"
+          >
             <img src="../../../static/img/error.png" alt>
             <span>{{$t('auction.unbuytips')}}</span>
           </div>

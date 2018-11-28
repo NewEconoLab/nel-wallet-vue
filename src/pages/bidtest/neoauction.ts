@@ -603,6 +603,7 @@ export default class NeoAuctionTest extends Vue
         {
             this.isShowSaleBox = false;
             this.domain = '';
+            this.checkState = this.btn_start = 1;
             let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
             if (res)
             {
@@ -622,6 +623,8 @@ export default class NeoAuctionTest extends Vue
      */
     async toUnSellDomain()
     {
+        this.domain = '';
+        this.checkState = this.btn_start = 1;
         try
         {
             let res = await tools.nnstool.unSaleDomain(this.saleDomainInfo.domain);
