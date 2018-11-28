@@ -240,6 +240,7 @@ export class LoginInfo
     static getCurrentAddress(): string
     {
         return tools.storagetool.getStorage("current-address");
+        // return "AVJQf2yhaPS611NaGeTwCqUqLQww9zvrvx";
     }
     static setCurrentAddress(str: string)
     {

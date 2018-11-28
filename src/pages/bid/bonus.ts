@@ -40,7 +40,6 @@ export default class Bonus extends Vue
     async initMyBonus(address: string)
     {
         let res: MyBonus = await tools.wwwtool.getcurrentbonus(address);
-        console.log(res);
         if (res)
         {
             this.myBonus = res.send;

@@ -47,7 +47,12 @@ export default {
         selling: "出售中",
         delist: "下架",
         delisting: "下架中",
-        check: "确认"
+        check: "确认",
+        lookinfo: "查看详情",
+        buy: "购买",
+        apply: "申请",
+        applying: "申请中",
+        applyed: "已发放"
     },
     toast: {
         msg1: "登陆中...",
@@ -279,6 +284,9 @@ export default {
         nodata: "没有查询到相关数据",
         Bidder: "出价者",
         Status: "状态",
+        domaininfo: "域名详情",
+        saleprice: "出售价格",
+        unbuytips: "NNC的余额不足，无法购买。"
     },
     exchange: {
         title: "CGAS兑换",
@@ -318,15 +326,31 @@ export default {
         myIncome: "我的收入",
         unclaimed: "未提取的NNC",
         all: "全部",
-        note: "出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。",
+        note: "注意 : 出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。",
         note2: "注意 : 如果您要出售您的地址，请确保域名的地址映射栏处于未配置的状态（设置过的域名请在在编辑页中使用重置功能。）",
+        btntip: "请在编辑窗口清空地址映射",
+        status: "状态",
+        selling: "上架中",
+        unsell: "未出售",
+        mysellrecord: "我的出售记录",
+        selltime: "售出时间：",
+        sellprice: "售出金额：",
+        domainsell: "域名出售",
+        selltips: "注意 : 出售中的域名将会在域名过期后自动下架，请注意对快到期的域名进行下架并续约，以免错失域名。",
+        domainname: "域名",
+        setprice: "设置出售价格",
+        surecheck1: "您确定要将 ",
+        surecheck2: " 下架吗？"
     },
     bonus: {
-        title: "分红记录",
-        mydividend: "我的分红 ：",
+        title: "分红",
+        title2: "分红历史",
+        mydividend: "可领取分红 ：",
         distribution: "奖金池快照 ：",
         mytotal: "我持有的NNC总量 ：",
-        snapshot: "快照时间 ："
+        snapshot: "快照时间 ：",
+        tips: "注意: 为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。"
+
     },
     operation: {
         welcome: "欢迎!",
@@ -356,5 +380,10 @@ export default {
     notify: {
         utxo: "您的UTXO过于分散，将可能造成CGAS兑换失败（GAS也会损失），请先对自己的地址执行一次不小于兑换金额的转账，待转账操作生效后再行兑换",
         fee: "注意：当您的钱包有足够的Gas时，我们会自动添加一笔 0.00000001 Gas 的手续费，确保交易快速确认"
+    },
+    page: {
+        page: "第",
+        total1: "页，共 ",
+        total2: " 页"
     }
 }

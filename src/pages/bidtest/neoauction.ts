@@ -554,7 +554,7 @@ export default class NeoAuctionTest extends Vue
     async toShowSaleBox()
     {
         this.isShowSaleBox = !this.isShowSaleBox;
-        let domainName = this.domain + '.neo';
+        let domainName = this.domain + '.test';
         let res = await tools.wwwtool.getSaleDomainInfo(domainName);
         if (res)
         {

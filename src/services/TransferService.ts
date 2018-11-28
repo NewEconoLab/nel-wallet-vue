@@ -6,7 +6,8 @@ export class TransferService
     async history(address: string, pagesize: number, pageindex: number)
     {
         const transactionHistory: History[] = [];
-        const txs = await tools.wwwtool.gettransbyaddressnew(address, pagesize, pageindex)
+        const txs = await tools.wwwtool.gettransbyaddress(address, pagesize, pageindex)
+        console.log(txs);
 
         for (const key in txs)
         {

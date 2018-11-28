@@ -1,47 +1,66 @@
 <template>
-    <div class="bonus-wrap">
-      <div class="bonus-tips">注意: 为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。</div>
-      <div class="title">
-            <span>分红</span>
-        </div>    
-        <div class="form-box">
-            <div class="nnc-wrap">
-              <strong>累计可领取分红 : <span class="dde">{{myBonus}}</span> CGAS</strong>
-              <p>奖金池快照 : {{totalSend}} CGas</p>
-              <p>我持有的NNC总量 : {{mybalance}} NNC</p>
-              <p>快照时间 : {{blocktime}}</p>
-            </div>
-            <div class="btn-right">
-               <button class="btn btn-nel btn-bid btn-disable" v-if="isApplyBonus ==2">申请中</button>
-                <button class="btn btn-nel btn-bid btn-disable" v-else-if="isApplyBonus ==3">已发放</button>  
-                <button class="btn btn-nel btn-bid" v-else @click="toApplyBonus" :class="{'btn-disable':isApplyBonus ==0}" :disabled="isApplyBonus==0">申请</button>
-                              
-            </div>
-        </div>           
-        <div class="title" v-if="myBonusPageUtil.totalCount!=0">
-            <span>{{$t('bonus.title')}}</span>
-        </div>
-        <div class="form-box" v-if="myBonusPageUtil.totalCount!=0">
-           <div class="mybonus-wrap" v-for="(item,index) in bonusList" :key="index">
-            <!-- <div class="mybonus">
-            {{$t('bonus.mydividend')}}<span class="dde">{{item.addrBonus}}</span> CGAS
-            </div> -->
-            <div class="linetop-text mybonus-text"><span class="dde">+{{item.send}}</span> CGas</div>
-            <hr>
-            <div class="linedown-text">{{item.blocktime}}</div>
-          </div> 
-          <div class="page-msg" v-if="isBonusPage">第{{myBonusPageUtil.currentPage}}页，共{{myBonusPageUtil.totalPage}}页</div>
-          <div class="page" v-if="isBonusPage">
-            <div class="page-previous" @click="previousBonus">
-                <img src="../../../static/img/lefttrangle.svg" alt="">
-            </div>
-            <div style="width:1px;"></div>
-            <div class="page-next" @click="nextBonus">
-                <img src="../../../static/img/righttrangle.svg" alt="">
-            </div>
-          </div>  
-        </div>
+  <div class="bonus-wrap">
+    <div class="bonus-tips">{{$t('bonus.tips')}}</div>
+    <div class="title">
+      <span>{{$t('bonus.title')}}</span>
     </div>
+    <div class="form-box">
+      <div class="nnc-wrap">
+        <strong>
+          {{$t('bonus.mydividend')}}
+          <span class="dde">{{myBonus}}</span> CGAS
+        </strong>
+        <p>{{$t('bonus.distribution')}}{{totalSend}} CGas</p>
+        <p>{{$t('bonus.mytotal')}}{{mybalance}} NNC</p>
+        <p>{{$t('bonus.snapshot')}}{{blocktime}}</p>
+      </div>
+      <div class="btn-right">
+        <button
+          class="btn btn-nel btn-bid btn-disable"
+          v-if="isApplyBonus ==2"
+        >{{$t('btn.applying')}}</button>
+        <button
+          class="btn btn-nel btn-bid btn-disable"
+          v-else-if="isApplyBonus ==3"
+        >{{$t('btn.applyed')}}</button>
+        <button
+          class="btn btn-nel btn-bid"
+          v-else
+          @click="toApplyBonus"
+          :class="{'btn-disable':isApplyBonus ==0}"
+          :disabled="isApplyBonus==0"
+        >{{$t('btn.apply')}}</button>
+      </div>
+    </div>
+    <div class="title" v-if="myBonusPageUtil.totalCount!=0">
+      <span>{{$t('bonus.title2')}}</span>
+    </div>
+    <div class="form-box" v-if="myBonusPageUtil.totalCount!=0">
+      <div class="mybonus-wrap" v-for="(item,index) in bonusList" :key="index">
+        <!-- <div class="mybonus">
+            {{$t('bonus.mydividend')}}<span class="dde">{{item.addrBonus}}</span> CGAS
+        </div>-->
+        <div class="linetop-text mybonus-text">
+          <span class="dde">+{{item.send}}</span> CGas
+        </div>
+        <hr>
+        <div class="linedown-text">{{item.blocktime}}</div>
+      </div>
+      <div
+        class="page-msg"
+        v-if="isBonusPage"
+      >{{$t('page.page')}}{{myBonusPageUtil.currentPage}}{{$t('page.total1')}}{{myBonusPageUtil.totalPage}}{{$t('page.total2')}}</div>
+      <div class="page" v-if="isBonusPage">
+        <div class="page-previous" @click="previousBonus">
+          <img src="../../../static/img/lefttrangle.svg" alt>
+        </div>
+        <div style="width:1px;"></div>
+        <div class="page-next" @click="nextBonus">
+          <img src="../../../static/img/righttrangle.svg" alt>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script lang="ts" src="./bonus.ts">
 </script>

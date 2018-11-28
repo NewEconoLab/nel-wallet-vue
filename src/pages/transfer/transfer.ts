@@ -271,6 +271,8 @@ export default class transfer extends Vue
     async history()
     {
         this.txs = await services.transfer.history(LoginInfo.getCurrentAddress(), 5, this.txpage);
+        console.log(this.txs);
+
     }
 
     async awaitHeight()

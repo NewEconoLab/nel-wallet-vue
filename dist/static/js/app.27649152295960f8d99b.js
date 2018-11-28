@@ -2068,6 +2068,7 @@ var LoginInfo = /** @class */ (function () {
     };
     LoginInfo.getCurrentAddress = function () {
         return importpack_1.tools.storagetool.getStorage("current-address");
+        // return "AVJQf2yhaPS611NaGeTwCqUqLQww9zvrvx";
     };
     LoginInfo.setCurrentAddress = function (str) {
         importpack_1.tools.storagetool.setStorage("current-address", str);
@@ -3788,15 +3789,15 @@ var Balance = function (resolve) { return __webpack_require__.e/* require */(8).
 var Login = function (resolve) { return __webpack_require__.e/* require */(7).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Luci")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Transfer = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(6)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Oz3I")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Exchange = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(5)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("eL9F")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var NNSNeo = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(9)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("C0Cu")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Settings = function (resolve) { return __webpack_require__.e/* require */(10).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var NNSNeo = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(11)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("C0Cu")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Settings = function (resolve) { return __webpack_require__.e/* require */(12).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Auction = function (resolve) { return Promise.all/* require */([__webpack_require__.e(4), __webpack_require__.e(0)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("jrmo")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var MyNeoName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(11)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("ogHy")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var MyNeoName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(10)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("ogHy")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Bonus = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(13)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("6M52")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var NNSTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(14)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("PWmH")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var NNSTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(15)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("PWmH")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var AuctionTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(3), __webpack_require__.e(0)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("dtBB")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var MyTestName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(15)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("bnm1")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var BonusTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(12)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("t94M")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var MyTestName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(9)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("bnm1")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var BonusTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(14)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("t94M")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Tutorial = function (resolve) { return __webpack_require__.e/* require */(1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("8G7y")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var TutorialTest = function (resolve) { return __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("nQWj")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 exports.default = new vue_router_1.default({
@@ -6962,7 +6963,12 @@ exports.default = {
         selling: "Selling",
         delist: "Delist",
         delisting: "Delisting",
-        check: "Confirm"
+        check: "Confirm",
+        lookinfo: "查看详情",
+        buy: "Buy",
+        apply: "Apply",
+        applying: "Applying",
+        applyed: "Distributed"
     },
     toast: {
         msg1: "Loading ...",
@@ -7104,7 +7110,7 @@ exports.default = {
         checkbeing: 'This domain is currently under auction. Click "Join Auction" to bid for it.',
         checkformat: "Domain names must be English characters or numbers, and can only be 6 to 32 characters in length",
         checkbuyer: "This name is unavailable.",
-        checksale: "该域名正在出售中。",
+        checksale: "This name is on selling.",
         sendingmsg: "We are currently opening the auction. Please wait.",
         searchmsg: "Search by domain",
         status: "Status",
@@ -7194,6 +7200,9 @@ exports.default = {
         nodata: "No related data was found.",
         Bidder: "Bidder",
         Status: "Status",
+        domaininfo: "域名详情",
+        saleprice: "出售价格",
+        unbuytips: "NNC的余额不足，无法购买。"
     },
     exchange: {
         title: "CGAS Exchange",
@@ -7235,13 +7244,28 @@ exports.default = {
         all: "All",
         note: "Tips: The NNC income from selling domain names is shown here. You can claim it into your wallet by clicking the Claim button.",
         note2: "Tips: If you want to sell a domain name, please make sure it’s not mapped to a wallet address (Please use the Reset function in the Edit page to make it unmapped.)",
+        btntip: "Clear the address map in the edit window",
+        status: "Status",
+        selling: "On Selling",
+        unsell: "Unsold",
+        mysellrecord: "My sales record",
+        selltime: "The sale of the time：",
+        sellprice: "Sold amount：",
+        domainsell: "The domain name for sale",
+        selltips: "Tips: the domain name for sale will be automatically removed after the domain name expires. Please note to remove and renew the expired domain name to avoid missing the domain name.",
+        domainname: "Domain name",
+        setprice: "Set the sale price",
+        surecheck1: "Are you sure you want to take ",
+        surecheck2: " off the shelf?"
     },
     bonus: {
-        title: "Bouns History",
-        mydividend: "My dividends: ",
+        title: "Bonus",
+        title2: "Bonus History",
+        mydividend: "Dividends claimable: ",
         distribution: "Distribution pool snapshot: ",
         mytotal: "My total NNC holdings: ",
-        snapshot: "Snapshot time:"
+        snapshot: "Snapshot time:",
+        tips: 'Tips: In order to prevent network congestion caused by the previous airdrop of CGAS dividends, we changed it to a claim-based NNS dividends distribution. You need to click the "Apply" button  and the CGAS dividends will be distributed within one week following your claim.'
     },
     tutorial: {},
     operation: {
@@ -7272,7 +7296,12 @@ exports.default = {
     notify: {
         utxo: "Your UTXO is too scattered, which may cause the CGAS conversion to fail (GAS will also be lost). Please transfer some GAS( the amount shall be no less than your conversion amount) to your own address first and then convert GAS into CGAS after the transfer operation is confirmed.",
         fee: "Note: When there is enough GAS in your wallet, we will automatically add a fee to ensure your operation will be confirmed fast. "
-    }
+    },
+    page: {
+        page: "Page",
+        total1: ",",
+        total2: " pages in total"
+    },
 };
 
 
@@ -8590,7 +8619,12 @@ exports.default = {
         selling: "出售中",
         delist: "下架",
         delisting: "下架中",
-        check: "确认"
+        check: "确认",
+        lookinfo: "查看详情",
+        buy: "购买",
+        apply: "申请",
+        applying: "申请中",
+        applyed: "已发放"
     },
     toast: {
         msg1: "登陆中...",
@@ -8822,6 +8856,9 @@ exports.default = {
         nodata: "没有查询到相关数据",
         Bidder: "出价者",
         Status: "状态",
+        domaininfo: "域名详情",
+        saleprice: "出售价格",
+        unbuytips: "NNC的余额不足，无法购买。"
     },
     exchange: {
         title: "CGAS兑换",
@@ -8861,15 +8898,30 @@ exports.default = {
         myIncome: "我的收入",
         unclaimed: "未提取的NNC",
         all: "全部",
-        note: "出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。",
+        note: "注意 : 出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。",
         note2: "注意 : 如果您要出售您的地址，请确保域名的地址映射栏处于未配置的状态（设置过的域名请在在编辑页中使用重置功能。）",
+        btntip: "请在编辑窗口清空地址映射",
+        status: "状态",
+        selling: "上架中",
+        unsell: "未出售",
+        mysellrecord: "我的出售记录",
+        selltime: "售出时间：",
+        sellprice: "售出金额：",
+        domainsell: "域名出售",
+        selltips: "注意 : 出售中的域名将会在域名过期后自动下架，请注意对快到期的域名进行下架并续约，以免错失域名。",
+        domainname: "域名",
+        setprice: "设置出售价格",
+        surecheck1: "您确定要将 ",
+        surecheck2: " 下架吗？"
     },
     bonus: {
-        title: "分红记录",
-        mydividend: "我的分红 ：",
+        title: "分红",
+        title2: "分红历史",
+        mydividend: "可领取分红 ：",
         distribution: "奖金池快照 ：",
         mytotal: "我持有的NNC总量 ：",
-        snapshot: "快照时间 ："
+        snapshot: "快照时间 ：",
+        tips: "注意: 为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。"
     },
     operation: {
         welcome: "欢迎!",
@@ -8899,6 +8951,11 @@ exports.default = {
     notify: {
         utxo: "您的UTXO过于分散，将可能造成CGAS兑换失败（GAS也会损失），请先对自己的地址执行一次不小于兑换金额的转账，待转账操作生效后再行兑换",
         fee: "注意：当您的钱包有足够的Gas时，我们会自动添加一笔 0.00000001 Gas 的手续费，确保交易快速确认"
+    },
+    page: {
+        page: "第",
+        total1: "页，共 ",
+        total2: " 页"
     }
 };
 

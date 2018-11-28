@@ -47,7 +47,12 @@ export default {
         selling: "Selling",
         delist: "Delist",
         delisting: "Delisting",
-        check: "Confirm"
+        check: "Confirm",
+        lookinfo: "查看详情",
+        buy: "Buy",
+        apply: "Apply",
+        applying: "Applying",
+        applyed: "Distributed"
     },
     toast: {
         msg1: "Loading ...",
@@ -189,7 +194,7 @@ export default {
         checkbeing: 'This domain is currently under auction. Click "Join Auction" to bid for it.',
         checkformat: "Domain names must be English characters or numbers, and can only be 6 to 32 characters in length",
         checkbuyer: "This name is unavailable.",
-        checksale: "该域名正在出售中。",
+        checksale: "This name is on selling.",
         sendingmsg: "We are currently opening the auction. Please wait.",
         searchmsg: "Search by domain",
         status: "Status",
@@ -279,6 +284,9 @@ export default {
         nodata: "No related data was found.",
         Bidder: "Bidder",
         Status: "Status",
+        domaininfo: "域名详情",
+        saleprice: "出售价格",
+        unbuytips: "NNC的余额不足，无法购买。"
     },
     exchange: {
         title: "CGAS Exchange",
@@ -320,13 +328,28 @@ export default {
         all: "All",
         note: "Tips: The NNC income from selling domain names is shown here. You can claim it into your wallet by clicking the Claim button.",
         note2: "Tips: If you want to sell a domain name, please make sure it’s not mapped to a wallet address (Please use the Reset function in the Edit page to make it unmapped.)",
+        btntip: "Clear the address map in the edit window",
+        status: "Status",
+        selling: "On Selling",
+        unsell: "Unsold",
+        mysellrecord: "My sales record",
+        selltime: "The sale of the time：",
+        sellprice: "Sold amount：",
+        domainsell: "The domain name for sale",
+        selltips: "Tips: the domain name for sale will be automatically removed after the domain name expires. Please note to remove and renew the expired domain name to avoid missing the domain name.",
+        domainname: "Domain name",
+        setprice: "Set the sale price",
+        surecheck1: "Are you sure you want to take ",
+        surecheck2: " off the shelf?"
     },
     bonus: {
-        title: "Bouns History",
-        mydividend: "My dividends: ",
+        title: "Bonus",
+        title2: "Bonus History",
+        mydividend: "Dividends claimable: ",
         distribution: "Distribution pool snapshot: ",
         mytotal: "My total NNC holdings: ",
-        snapshot: "Snapshot time:"
+        snapshot: "Snapshot time:",
+        tips: 'Tips: In order to prevent network congestion caused by the previous airdrop of CGAS dividends, we changed it to a claim-based NNS dividends distribution. You need to click the "Apply" button  and the CGAS dividends will be distributed within one week following your claim.'
     },
     tutorial: {
 
@@ -359,5 +382,10 @@ export default {
     notify: {
         utxo: "Your UTXO is too scattered, which may cause the CGAS conversion to fail (GAS will also be lost). Please transfer some GAS( the amount shall be no less than your conversion amount) to your own address first and then convert GAS into CGAS after the transfer operation is confirmed.",
         fee: "Note: When there is enough GAS in your wallet, we will automatically add a fee to ensure your operation will be confirmed fast. "
-    }
+    },
+    page: {
+        page: "Page",
+        total1: ",",
+        total2: " pages in total"
+    },
 }

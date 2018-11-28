@@ -1,24 +1,28 @@
 <template>
   <div class="myneo-box">
     <div class="title">
-      <span>我的收入</span>
+      <span>{{$t('myneoname.myIncome')}}</span>
     </div>
     <div class="form-box">
       <div class="nnc-wrap">
-        <strong>未提取的NNC：
+        <strong>
+          {{$t('myneoname.unclaimed')}}：
           <span>{{myNNCBalance}}</span>
         </strong>
-        <p>注意 : 出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。</p>
+        <p>{{$t('myneoname.note')}}</p>
       </div>
       <div class="btn-right">
-        <button class="btn btn-nel btn-bid btn-disable" v-if="isCanGetNNC == 2">提取中</button>
+        <button
+          class="btn btn-nel btn-bid btn-disable"
+          v-if="isCanGetNNC == 2"
+        >{{$t('btn.claiming')}}</button>
         <button
           class="btn btn-nel btn-bid"
           @click="toGetMyNNC"
           v-else
           :class="{'btn-disable':isCanGetNNC==0}"
           :disabled="isCanGetNNC==0"
-        >提取</button>
+        >{{$t('btn.claim')}}</button>
       </div>
     </div>
     <!-- 域名列表 -->
@@ -38,17 +42,17 @@
           <img src="../../../static/img/seach.png" alt>
         </div>
         <div class="select-box">
-          <label>状态：</label>
+          <label>{{$t('myneoname.status')}}：</label>
           <select class="form-control" @change="selectSellDomain()" v-model="sellStatus">
-            <option value="all">全部</option>
-            <option value="0901">上架中</option>
-            <option value>未出售</option>
+            <option value="all">{{$t('myneoname.all')}}</option>
+            <option value="0901">{{$t('myneoname.selling')}}</option>
+            <option value>{{$t('myneoname.unsell')}}</option>
           </select>
         </div>
         <!-- <img src="" alt=""> -->
       </div>
     </div>
-    <div class="mydomain-tips">注意 : 如果您要转让或出售您的地址，请确保域名的地址映射栏处于未配置的状态（设置过的域名请在在编辑页中使用重置功能。）</div>
+    <div class="mydomain-tips">{{$t('myneoname.note2')}}</div>
     <div class="form-box" v-if="neonameList" v-for="(item,index) in showMydomainList" :key="index">
       <div class="neoname">{{item.domain}}</div>
       <div
@@ -59,7 +63,10 @@
       >( {{$t('myneoname.mapping')}}: {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
       <div class="time-msg" v-if="!item.expired">
         ( {{$t('myneoname.time')}}: {{item.ttl}}
-        <span class="ff6" v-if="!item.expiring">{{$t('myneoname.expiring')}}</span> )
+        <span
+          class="ff6"
+          v-if="!item.expiring"
+        >{{$t('myneoname.expiring')}}</span> )
       </div>
       <div class="time-msg" v-if="item.expired">
         ( {{$t('myneoname.time')}}:
@@ -81,27 +88,31 @@
           class="btn btn-nel btn-bid"
           data-toggle="tooltip"
           data-placement="bottom"
-          title="请在编辑窗口清空地址映射"
+          :title="$t('myneoname.btntip')"
           :class="{'btn-disable':item.resolverAddress}"
           :disabled="!!item.resolverAddress"
           @click="onShowSaleDialog(item)"
-        >出售</button>
+        >{{$t('btn.sell')}}</button>
       </div>
       <div class="btn-right" v-if="!item.expired && item.state == '0901'">
-        <div class="status-text">出售中</div>
+        <div class="status-text">{{$t('btn.selling')}}</div>
         <button
           v-if="onUnSaleState == 0"
           class="btn btn-nel btn-bid"
           @click="onShowUnSaleDialog(item)"
-        >下架</button>
-        <button v-if="onUnSaleState == 1" class="btn btn-nel btn-bid btn-disable" disabled>下架中</button>
+        >{{$t('btn.delist')}}</button>
+        <button
+          v-if="onUnSaleState == 1"
+          class="btn btn-nel btn-bid btn-disable"
+          disabled
+        >{{$t('btn.delisting')}}</button>
       </div>
     </div>
     <div class="mydomain-page">
       <div
         class="page-msg"
         v-if="myDomainListPage"
-      >第{{myDomainListPage.currentPage}}页，共{{myDomainListPage.totalPage}}页</div>
+      >{{$t('page.page')}}{{myDomainListPage.currentPage}}{{$t('page.total1')}}{{myDomainListPage.totalPage}}{{$t('page.total2')}}</div>
       <div
         class="page"
         v-if="myDomainListPage && myDomainListPage.totalCount>myDomainListPage.pageSize"
@@ -134,7 +145,7 @@
     <!-- 域名列表 end -->
     <!-- 出售记录 -->
     <div class="title">
-      <span>我的出售记录</span>
+      <span>{{$t('myneoname.mysellrecord')}}</span>
     </div>
     <div class="form-box">
       <div
@@ -146,12 +157,15 @@
         <div class="sale-content">
           <div class="sale-domainname">{{item.fullDomain}}</div>
           <p>
-            <span class="sale-time">售出时间：{{item.blocktime}}</span>
-            <span class="sale-price">售出金额：{{item.price}} NNC</span>
+            <span class="sale-time">{{$t('myneoname.selltime')}}{{item.blocktime}}</span>
+            <span class="sale-price">{{$t('myneoname.sellprice')}}{{item.price}} NNC</span>
           </p>
         </div>
       </div>
-      <div class="page-msg" v-if="salePage">第{{salePage.currentPage}}页，共{{salePage.totalPage}}页</div>
+      <div
+        class="page-msg"
+        v-if="salePage"
+      >{{$t('page.page')}}{{salePage.currentPage}}{{$t('page.total1')}}{{salePage.totalPage}}{{$t('page.total2')}}</div>
       <div class="page" v-if="salePage && salePage.totalCount>salePage.pageSize">
         <div
           class="page-previous"
@@ -346,18 +360,18 @@
     <div class="sale-wrapper" v-if="isShowSaleBox">
       <div class="sale-box">
         <div class="sale-title">
-          <h4>域名出售</h4>
-          <p>注意 : 出售中的域名将会在域名过期后自动下架，请注意对快到期的域名进行下架并续约，以免错失域名。</p>
+          <h4>{{$t('myneoname.domainsell')}}</h4>
+          <p>{{$t('myneoname.selltips')}}</p>
         </div>
         <div class="sale-domain">
-          <span>域名 : {{domainInfo.domain}}</span>
+          <span>{{$t('myneoname.domainname')}}: {{domainInfo.domain}}</span>
         </div>
         <div class="sale-smallbox">
-          <div class="smallbox-label">域名到期时间 :</div>
+          <div class="smallbox-label">{{$t('myneoname.time')}}:</div>
           <div class="smallbox-div">{{domainInfo.ttl}}</div>
         </div>
         <div class="sale-smallbox">
-          <div class="smallbox-label">设置出售价格（NNC） :</div>
+          <div class="smallbox-label">{{$t('myneoname.setprice')}}（NNC） :</div>
           <div class="smallbox-input">
             <input
               type="number"
@@ -371,8 +385,12 @@
               :class="{'btn-disable':!isOKSale}"
               :disabled="!isOKSale"
               @click="toSaleDomain"
-            >上架</button>
-            <button v-if="onSaleState==1" class="btn btn-nel btn-big btn-disable" disabled>上架中</button>
+            >{{$t('btn.sell')}}</button>
+            <button
+              v-if="onSaleState==1"
+              class="btn btn-nel btn-big btn-disable"
+              disabled
+            >{{$t('btn.selling')}}</button>
           </div>
         </div>
         <div class="sale-close">
@@ -384,10 +402,10 @@
     <div class="sale-wrapper" v-if="isUnSaleBox">
       <div class="sale-box">
         <div class="unsale-tips">
-          <span>您确定要将 " {{domainInfo.domain}} " 下架吗？</span>
+          <span>{{$t('myneoname.surecheck1')}}{{domainInfo.domain}}{{$t('myneoname.surecheck2')}}</span>
         </div>
         <div class="unsale-btn">
-          <button class="btn btn-nel btn-big" @click="toUnSellDomain">确定</button>
+          <button class="btn btn-nel btn-big" @click="toUnSellDomain">{{$t('btn.check')}}</button>
         </div>
         <div class="sale-close">
           <span aria-hidden="true" @click="isUnSaleBox=!isUnSaleBox">&times;</span>

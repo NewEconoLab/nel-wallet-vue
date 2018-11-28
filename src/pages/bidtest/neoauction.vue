@@ -36,7 +36,7 @@
             @input="queryDomainState"
             autocomplete="off"
           >
-          <span>.test</span>
+          <span>.neo</span>
         </div>
         <button
           v-if="btn_start==0"
@@ -60,7 +60,11 @@
           class="btn btn-nel btn-big btn-disable"
           disabled="disabled"
         >{{$t('btn.openauction')}}</button>
-        <button v-if="btn_start==5" class="btn btn-nel btn-big" @click="toShowSaleBox">查看详情</button>
+        <button
+          v-if="btn_start==5"
+          class="btn btn-nel btn-big"
+          @click="toShowSaleBox"
+        >{{$t('btn.lookinfo')}}</button>
         <!-- <span class="waiting-msg">{{$t('auction.sendingmsg')}}</span> -->
         <div v-if="checkState==1 && !!domain.length" class="msg-box status-being">
           <img src="../../../static/img/correct.svg" alt>
@@ -121,8 +125,8 @@
                 <img src="../../../static/img/notice-b.png" alt v-if="item.state=='0301'">
               </div>
               <div class="hint-content">
-                <p>{{$t('auction.teststatustips')}}</p>
-                <p>{{$t('auction.teststatustips2')}}</p>
+                <p>{{$t('auction.statustips')}}</p>
+                <p>{{$t('auction.statustips2')}}</p>
               </div>
             </v-hint>
           </div>
@@ -202,8 +206,8 @@
                 <img src="../../../static/img/notice-b.png" alt v-if="item.auctionState=='2'">
               </div>
               <div class="hint-content">
-                <p>{{$t('auction.teststatustips')}}</p>
-                <p>{{$t('auction.teststatustips2')}}</p>
+                <p>{{$t('auction.statustips')}}</p>
+                <p>{{$t('auction.statustips2')}}</p>
               </div>
             </v-hint>
           </div>
@@ -427,33 +431,33 @@
     <div class="domaininfo-wrap" v-if="isShowSaleBox">
       <div class="domaininfo-box">
         <div class="domaininfo-title">
-          <span>域名详情</span>
+          <span>{{$t('auction.domaininfo')}}</span>
         </div>
         <div class="domaininfo-text">
-          <span>域名 : {{saleDomainInfo && saleDomainInfo.domain}}</span>
+          <span>{{$t('auction.domain')}} : {{saleDomainInfo && saleDomainInfo.domain}}</span>
         </div>
         <div class="domaininfo-text">
-          <span>域名到期时间 : {{saleDomainInfo && saleDomainInfo.ttl}}</span>
+          <span>{{$t('myneoname.time')}} : {{saleDomainInfo && saleDomainInfo.ttl}}</span>
         </div>
         <div class="domaininfo-text">
-          <span>出售价格 : {{saleDomainInfo && saleDomainInfo.price}} NNC</span>
+          <span>{{$t('auction.saleprice')}} : {{saleDomainInfo && saleDomainInfo.price}} NNC</span>
         </div>
         <div class="domaininfo-btn">
           <button
             class="btn btn-nel btn-big"
             v-if="address === (saleDomainInfo && saleDomainInfo.owner)"
             @click="isUnSaleBox = !isUnSaleBox"
-          >下架</button>
+          >{{$t('btn.delist')}}</button>
           <button
             class="btn btn-nel btn-big"
             v-else
             :class="{'btn-disable':!isOKSale}"
             :disabled="!isOKSale"
             @click="toBuyDomain"
-          >购买</button>
+          >{{$t('btn.buy')}}</button>
           <div class="error-tips" v-if="!isOKSale">
             <img src="../../../static/img/error.png" alt>
-            <span>NNC的余额不足，无法购买。</span>
+            <span>{{$t('auction.unbuytips')}}</span>
           </div>
         </div>
         <div class="domaininfo-close" @click="isShowSaleBox = !isShowSaleBox">
@@ -465,10 +469,10 @@
     <div class="sale-wrapper" v-if="isUnSaleBox">
       <div class="sale-box">
         <div class="unsale-tips">
-          <span>您确定要将 " {{saleDomainInfo.domain}} " 下架吗？</span>
+          <span>{{$t('myneoname.surecheck1')}} " {{saleDomainInfo.domain}} " {{$t('myneoname.surecheck1')}}</span>
         </div>
         <div class="unsale-btn">
-          <button class="btn btn-nel btn-big" @click="toUnSellDomain">确定</button>
+          <button class="btn btn-nel btn-big" @click="toUnSellDomain">{{$t('btn.check')}}</button>
         </div>
         <div class="sale-close">
           <span aria-hidden="true" @click="isUnSaleBox=!isUnSaleBox">&times;</span>
