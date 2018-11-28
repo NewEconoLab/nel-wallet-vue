@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { tools } from "../../tools/importpack";
-import { LoginInfo, Domainmsg, DomainInfo, DomainStatus, Consts, TaskFunction, Task, TaskType, ConfirmType } from "../../tools/entity";
+import { LoginInfo, Domainmsg, DomainInfo, DomainStatus, Consts, TaskFunction, Task, TaskType, ConfirmType, SaleDomainList, PageUtil } from "../../tools/entity";
 import { sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 @Component({
@@ -12,6 +12,7 @@ export default class MyNeo extends Vue
     isShowEdit: boolean;
     currentAddress: string = "";   //获取当前地址
     neonameList: any;
+    showMydomainList: any;
     domainInfo: any;
     set_contract: string;
     resolverAddress: string;
@@ -24,6 +25,26 @@ export default class MyNeo extends Vue
     renewalWatting: boolean;
     ownerTransfer: boolean;
     currentdomain: string;
+    alertMessage: string;
+    alertShow: boolean;
+    openToast: Function;
+    isShowSaleBox: boolean; // 显示出价弹筐
+    domainSalePrice: string; // 出售价格
+    isOKSale: boolean;  // 是否上架
+    onSaleState: number; // 上架状态 0为可上架，1为正在上架，2为不可上架
+    saleOutDomainList: SaleDomainList[]; // 出售成功的列表    
+    salePage: PageUtil; //域名成功出售的分页
+    myDomainListPage: PageUtil; //我的域名列表的分页    
+    inputSalePage: string = '';//出售记录的翻页
+    inputMyneoPage: string = '';//域名列表的翻页
+    isUnSaleBox: boolean = false;//下架弹筐
+    unSaleDomain: string = '';//下架域名
+    onUnSaleState: number = 0;//下架状态，0为可下架，1为正在下架
+    sellStatus: string = "all";//筛选出售状态，默认all为全部，0901为出售，空为未出售
+    nncGet: sessionStoreTool;
+    myNNCBalance: string; // 我的NNC
+    isCanGetNNC: number // 是否获取NNC 0为不可提取，1为可提取，2为正在提取
+    InputDomainName: string = '';// 搜索域名
 
     constructor()
     {
@@ -31,6 +52,7 @@ export default class MyNeo extends Vue
         this.isShowEdit = false;
         this.currentAddress = LoginInfo.getCurrentAddress();
         this.neonameList = null;
+        this.showMydomainList = null;
         this.set_contract = "0x6e2aea28af9c5febea0774759b1b76398e3167f1";
         this.domainEdit = new sessionStoreTool("domain-edit");
         this.renewalWatting = false;
@@ -41,19 +63,69 @@ export default class MyNeo extends Vue
         this.currentdomain = "";
         this.ownerState = 3
         this.ownerAddress = "";
+        this.alertMessage = "";
+        this.alertShow = false;
+        this.openToast = null;
+        this.isShowSaleBox = false;
+        this.domainSalePrice = '';
+        this.isOKSale = false;
+        this.onSaleState = 0;
+        this.saleOutDomainList = [];
+        this.salePage = new PageUtil(0, 5);
+        this.myDomainListPage = new PageUtil(0, 5);
+        this.nncGet = new sessionStoreTool("getnnc");
+        this.myNNCBalance = '0';
+        this.isCanGetNNC = 0;
     }
 
     mounted()
     {
         tools.nnstool.initRootDomain("test");
-        this.getAllNeoName(this.currentAddress);
+        this.getMyNNC();
+        this.getAllNeoName();
         //初始化 任务管理器的执行机制
         TaskFunction.domainResovle = this.resolverTask;
         TaskFunction.domainMapping = this.mappingTask;
         TaskFunction.domainRenewal = this.renewalTask;
         TaskFunction.domainTransfer = this.domainTransferTask;
+        TaskFunction.domainSale = this.domainSaleTask;
+        TaskFunction.domainUnSale = this.domainUnSaleTask;
+        TaskFunction.getNNC = this.getMyNNC;
+        tools.taskManager.functionList.push(this.getAllNeoName);
+        this.openToast = this.$refs.toast[ "isShow" ];
+        this.getSaleDomainList(this.currentAddress, true, this.salePage);
     }
+    async getMyNNC()
+    {
+        let res = await tools.wwwtool.getNNCFromSellingHash(this.currentAddress);
+        if (res)
+        {
+            this.myNNCBalance = res[ "balance" ];
+            this.isCanGetNNC = 1;
+            if (parseFloat(this.myNNCBalance) == 0)
+            {
+                this.isCanGetNNC = 0;
+            }
+        }
 
+
+    }
+    domainUnSaleTask(domain)
+    {
+        if (domain == this.currentdomain)
+        {
+            this.onUnSaleState = 0;
+        }
+        this.getAllNeoName();
+    }
+    domainSaleTask(domain)
+    {
+        if (domain == this.currentdomain)
+        {
+            this.onSaleState = 0;
+        }
+        this.getAllNeoName();
+    }
 
     domainTransferTask(domain)
     {
@@ -61,7 +133,7 @@ export default class MyNeo extends Vue
         {
             this.ownerTransfer = false;
         }
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
     }
 
     verifyMapping()
@@ -82,10 +154,10 @@ export default class MyNeo extends Vue
         {
             this.ownerState = 2;
         }
-        else if (this.domainInfo.expired || !this.ownerAddress)
-        {
-            this.ownerState = 3;
-        }
+        // else if (this.domainInfo.expired || !this.ownerAddress)
+        // {
+        //     this.ownerState = 3;
+        // }
         else
         {
             const res = tools.neotool.verifyAddress(this.ownerAddress);
@@ -93,9 +165,9 @@ export default class MyNeo extends Vue
         }
     }
 
-    async getAllNeoName(address)
+    async getAllNeoName()
     {
-        let res = await tools.wwwtool.getnnsinfo(address, '.test');
+        let res = await tools.wwwtool.getnnsinfo(this.currentAddress, '.test');
         //从缓存取状态数据
         let list = res;
         if (list && list.length)
@@ -121,6 +193,8 @@ export default class MyNeo extends Vue
                 list[ i ][ "ttl" ] = tools.timetool.getTime(res[ i ][ "ttl" ])
             }
             this.neonameList = list;
+            this.myDomainListPage.totalCount = list.length;
+            this.showMydomainList = this.mydomainListByPage(list);
         }
     }
 
@@ -188,14 +262,31 @@ export default class MyNeo extends Vue
             {
                 this.renewalWatting = true;
             }
+            if (domain[ 'unsale' ] && domain[ 'unsale' ] === 'watting')
+            {
+                this.onUnSaleState = 1;
+            }
         }
     }
 
     /**
      * 设置所有者 转让域名
      */
+    showTranferDomain(item)
+    {
+        this.domainInfo = item;
+        this.ownerAddress = "";
+        this.ownerState = 3;
+        this.alertShow = true;
+    }
+    closeTranferDomain()
+    {
+        this.ownerAddress = "";
+        this.alertShow = false;
+    }
     async setowner()
     {
+        this.openToast = this.$refs.toast[ "isShow" ];
         const oldstate = this.ownerState;
         try
         {
@@ -211,18 +302,22 @@ export default class MyNeo extends Vue
             {
                 const txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], address: this.ownerAddress }),
                     TaskType.domainTransfer);
                 this.domainEdit.put(this.domainInfo.domain, "watting", "domain_transfer");
+                this.closeTranferDomain();
+                this.openToast("success", "" + this.$t("myneoname.waitmsg2"), 5000);
             } else
             {
                 this.ownerState = oldstate;
+                this.openToast("error", "" + this.$t("errormsg.interface"), 3000);
                 throw new Error("Transaction send failed");
             }
         } catch (error)
         {
             console.log("ERROR!!");
             this.ownerState = oldstate;
+            this.closeTranferDomain()
         }
     }
 
@@ -310,7 +405,7 @@ export default class MyNeo extends Vue
         {
             this.renewalWatting = false;
         }
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
     }
 
     /**
@@ -319,7 +414,7 @@ export default class MyNeo extends Vue
      */
     mappingTask(domain, address)
     {
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
         if (this.currentdomain == domain)
         {
             this.mappingState = 1;
@@ -340,7 +435,427 @@ export default class MyNeo extends Vue
         {
             this.resolverState = 1;
         }
-        this.getAllNeoName(this.currentAddress);
+        this.getAllNeoName();
+    }
+    /**
+     * 筛选功能
+     */
+    selectSellDomain()
+    {
+        this.myDomainListPage.currentPage = 1;
+        if (this.sellStatus == 'all')
+        {
+            this.myDomainListPage.totalCount = this.neonameList.length;
+            this.showMydomainList = this.mydomainListByPage(this.neonameList);
+        } else if (this.sellStatus == '0901')
+        {
+            let newList = [];
+            Object.keys(this.neonameList).filter((keys: string) =>
+            {
+                if (this.neonameList[ keys ].state == '0901')
+                {
+                    newList.push(this.neonameList[ keys ]);
+                    return true;
+                }
+                return false;
+            })
+            this.myDomainListPage.totalCount = newList.length;
+            this.showMydomainList = this.mydomainListByPage(newList);
+        } else
+        {
+            let newList = [];
+            Object.keys(this.neonameList).filter((keys: string) =>
+            {
+                if (this.neonameList[ keys ].state != '0901')
+                {
+                    newList.push(this.neonameList[ keys ]);
+                    return true;
+                }
+                return false;
+            })
+            this.myDomainListPage.totalCount = newList.length;
+            this.showMydomainList = this.mydomainListByPage(newList);
+        }
+    }
+    /**
+     * 输入查询功能
+     */
+    toSearchDomain()
+    {
+        let newList = [];
+        Object.keys(this.neonameList).filter((keys: string) =>
+        {
+            if (this.neonameList[ keys ].domain.indexOf(this.InputDomainName) !== -1)
+            {
+                newList.push(this.neonameList[ keys ]);
+                return true;
+            }
+            return false;
+        })
+
+        this.myDomainListPage.totalCount = newList.length;
+        this.showMydomainList = this.mydomainListByPage(newList);
+    }
+    /**
+     * 域名列表分页功能
+     */
+    mydomainListByPage(arrlist)
+    {
+        const startNum = this.myDomainListPage.pageSize * (this.myDomainListPage.currentPage - 1);
+        const list = [ ...arrlist ];
+        const result = list.slice(startNum, startNum + this.myDomainListPage.pageSize);
+        return result;
+    }
+    /**
+     * 域名列表上一页
+     */
+    myDomainPrevious()
+    {
+
+        const current = this.myDomainListPage.currentPage;
+        if (current - 1 <= 0)
+        {
+            return;
+        }
+        this.myDomainListPage.currentPage--;
+        this.showMydomainList = this.mydomainListByPage(this.neonameList);
+    }
+    /**
+     * 域名列表下一页
+     */
+    myDomainNext()
+    {
+        const current = this.myDomainListPage.currentPage;
+        if (current + 1 > this.myDomainListPage.totalPage)
+        {
+            return;
+        }
+        this.myDomainListPage.currentPage++;
+        this.showMydomainList = this.mydomainListByPage(this.neonameList);
+    }
+    /**
+     * 域名列表跳转输入
+     */
+    onInputMyneoPageChange = (event: any) =>
+    {
+        const value = parseInt('' + event.target.value, 10);
+        if (event.target.value && isNaN(event.target.value))
+        {
+            return false;
+        }
+        // const num = parseInt(event.target.value, 10);
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (value <= 0)
+        {
+            this.inputMyneoPage = '';
+            return false;
+        }
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (value > this.myDomainListPage.totalPage)
+        {
+            return false
+        }
+        this.inputMyneoPage = event.target.value;
+        return true;
+    }
+    /**
+     * 域名列表翻页
+     */
+    goMyneoPage()
+    {
+
+        if (this.inputMyneoPage != '' && this.inputMyneoPage != '0')
+        {
+            this.pageToMyneo(this.inputMyneoPage);
+        }
+    }
+    pageToMyneo(page: string)
+    {
+        let current = parseInt('' + page, 10);
+
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (current < 0 || current > this.myDomainListPage.totalPage)
+        {
+            return;
+        }
+        // 如果跳转页码等于当前页码，则中断
+        if (current == this.myDomainListPage.currentPage)
+        {
+            return;
+        }
+        this.myDomainListPage.currentPage = current
+        this.showMydomainList = this.mydomainListByPage(this.neonameList);
+    }
+    // 域名列表回车翻页
+    onInputMyneoKeyDown(event: any)
+    {
+        if (event.keyCode === 13)
+        {
+            this.pageToMyneo(this.inputMyneoPage);
+        }
     }
 
+    /**
+     * 打开出售模块
+     * @param item 域名详情
+     */
+    onShowSaleDialog(item)
+    {
+        this.domainInfo = item;
+        this.isShowSaleBox = !this.isShowSaleBox;
+        this.currentdomain = item.domain;
+        let domain = this.domainEdit.select(item.domain);
+        this.domainSalePrice = '';
+        if (domain)
+        {
+            if (domain[ 'sale' ] && domain[ 'sale' ] === 'watting')
+            {
+                this.onSaleState = 1;
+            }
+        } else
+        {
+            this.onSaleState = 0;
+        }
+    }
+    /**
+     * 关闭出售模块
+     */
+    closeSaleDialog()
+    {
+        this.domainSalePrice = '';
+        this.isOKSale = false;
+        this.isShowSaleBox = !this.isShowSaleBox;
+    }
+    // 判断输入金额是否正确
+    verifySalePrice()
+    {
+        if (parseFloat(this.domainSalePrice) <= 0 || this.domainSalePrice == '')
+        {
+            this.isOKSale = false;
+            return false;
+        }
+        if (/\./.test(this.domainSalePrice) && this.domainSalePrice.split('.')[ 1 ].length > 1)
+        {
+            this.domainSalePrice = this.domainSalePrice.substr(0, (this.domainSalePrice.toString().indexOf(".")) + 2);
+            return false;
+        }
+        this.isOKSale = true;
+    }
+    /**
+     * 出售
+     */
+    async toSaleDomain()
+    {
+        // this.domainEdit.put(this.domainInfo.domain, { state: "watting", price: this.salePrice }, "sale");
+        try
+        {
+            // this.resolverState = 2;
+            let res = await tools.nnstool.saleDomain(this.domainInfo[ "domain" ], this.domainSalePrice);
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], amount: this.domainSalePrice }),
+                    TaskType.saleDomain);
+                this.domainEdit.put(this.domainInfo.domain, "watting", "sale");
+                this.closeSaleDialog();
+                this.openToast("success", "" + this.$t("myneoname.waitmsg3"), 5000);
+            }
+        } catch (error)
+        {
+            // this.resolverState = oldstate;
+        }
+    }
+    /**
+     * 下架
+     */
+    async toUnSellDomain()
+    {
+        try
+        {
+            let res = await tools.nnstool.unSaleDomain(this.domainInfo[ "domain" ]);
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ] }),
+                    TaskType.unSaleDomain);
+                this.domainEdit.put(this.domainInfo.domain, "watting", "unsale");
+                this.closeUnSaleDialog();
+                this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+            }
+        } catch (error)
+        {
+            // this.resolverState = oldstate;
+        }
+    }
+    /**
+     * 打开下架窗口
+     * @param item 域名信息
+     */
+    onShowUnSaleDialog(item)
+    {
+        this.domainInfo = item;
+        this.isUnSaleBox = !this.isUnSaleBox;
+        this.currentdomain = item.domain;
+    }
+    /**
+     * 关闭出售模块
+     */
+    closeUnSaleDialog()
+    {
+        this.isUnSaleBox = !this.isUnSaleBox;
+        this.onUnSaleState = 1;
+    }
+    /**
+     * 获取域名已出售成功的列表
+     * @param address 当前地址
+     */
+    async getSaleDomainList(address: string, first: boolean, pageUtil: PageUtil)
+    {
+        let res = null;
+        if (first)
+        {
+            res = await tools.wwwtool.getHasBuyListByAddress(address, '.test', 1, 5);
+        } else
+        {
+            res = await tools.wwwtool.getHasBuyListByAddress(address, '.test', pageUtil.currentPage, pageUtil.pageSize);
+        }
+        if (res)
+        {
+            if (first)
+            {
+                this.salePage = new PageUtil(res[ 0 ].count, 5);
+                console.log(this.salePage.totalCount > this.salePage.pageSize);
+
+            }
+            this.saleOutDomainList = res[ 0 ].list.map((key) =>
+            {
+                const newObj = {
+                    blockindex: key.blockindex,
+                    fullDomain: key.fullDomain,
+                    price: key.price,
+                    blocktime: tools.timetool.getTime(key.blocktime)
+                }
+                return newObj;
+            });
+        } else
+        {
+            this.salePage = new PageUtil(0, 0);
+        }
+
+    }
+    /**
+     * 域名出售列表上一页
+     */
+    mySaleDomainPrevious()
+    {
+        const current = this.salePage.currentPage;
+        if (current - 1 <= 0)
+        {
+            return;
+        }
+        this.salePage.currentPage--;
+        this.getSaleDomainList(this.currentAddress, false, this.salePage);
+    }
+    /**
+     * 域名出售列表下一页
+     */
+    mySaleDomainNext()
+    {
+        const current = this.salePage.currentPage;
+        if (current + 1 > this.salePage.totalPage)
+        {
+            return;
+        }
+        this.salePage.currentPage++;
+        this.getSaleDomainList(this.currentAddress, false, this.salePage)
+    }
+    /**
+     * 出售列表跳转输入
+     */
+    onInputSalePageChange = (event: any) =>
+    {
+        const value = parseInt('' + event.target.value, 10);
+        if (event.target.value && isNaN(event.target.value))
+        {
+            return false;
+        }
+        // const num = parseInt(event.target.value, 10);
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (value <= 0)
+        {
+            this.inputSalePage = '';
+            return false;
+        }
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (value > this.salePage.totalPage)
+        {
+            return false
+        }
+        this.inputSalePage = event.target.value;
+        return true;
+    }
+    /**
+     * 页面跳转
+     */
+    goSalePage()
+    {
+
+        if (this.inputSalePage != '' && this.inputSalePage != '0')
+        {
+            this.pageTo(this.inputSalePage);
+        }
+    }
+    pageTo(page: string)
+    {
+        let current = parseInt('' + page, 10);
+
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (current < 0 || current > this.salePage.totalPage)
+        {
+            return;
+        }
+        // 如果跳转页码等于当前页码，则中断
+        if (current == this.salePage.currentPage)
+        {
+            return;
+        }
+        this.salePage.currentPage = current
+
+
+        this.getSaleDomainList(this.currentAddress, false, this.salePage);
+    }
+    // 回车跳转页
+    onInputSaleKeyDown(event: any) 
+    {
+        if (event.keyCode === 13)
+        {
+            this.pageTo(this.inputSalePage);
+        }
+    }
+    /**
+     * 提取我的nnc
+     */
+    async toGetMyNNC()
+    {
+        this.isCanGetNNC = 2;
+        try
+        {
+            let res = await tools.nnstool.getAllMyNNC();
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { amount: this.myNNCBalance }),
+                    TaskType.getMyNNC);
+                this.nncGet.put("getnnc", true);
+                this.openToast("success", "" + this.$t("balance.successmsg"), 5000);
+            }
+        } catch (error)
+        {
+            this.getMyNNC();
+            this.openToast("error", "" + this.$t("balance.errmsg1"), 5000);
+        }
+    }
 }

@@ -718,10 +718,10 @@ export default class MyNeo extends Vue
         let res = null;
         if (first)
         {
-            res = await tools.wwwtool.getHasBuyListByAddress(address, 'neo', 1, 5);
+            res = await tools.wwwtool.getHasBuyListByAddress(address, '.neo', 1, 5);
         } else
         {
-            res = await tools.wwwtool.getHasBuyListByAddress(address, 'neo', pageUtil.currentPage, pageUtil.pageSize);
+            res = await tools.wwwtool.getHasBuyListByAddress(address, '.neo', pageUtil.currentPage, pageUtil.pageSize);
         }
         if (res)
         {

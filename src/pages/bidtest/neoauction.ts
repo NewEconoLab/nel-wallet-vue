@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator"
 import AuctionInfo from "./auctioninfo.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState, TaskFunction, RootDomainInfo } from "../../tools/entity";
+import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState, TaskFunction, RootDomainInfo, DomainSaleInfo } from "../../tools/entity";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 import { Auction, AuctionView, AuctionState } from "../../entity/AuctionEntitys";
@@ -46,6 +46,12 @@ export default class NeoAuctionTest extends Vue
     currentpage: number = 1;
     rootInfo: RootDomainInfo;
     checkBid: boolean = false;//检测账户是否有余额
+    isShowSaleBox: boolean = false; // 是否显示购买弹筐
+    saleDomainInfo: DomainSaleInfo; // 出售域名的详情
+    isOKSale: boolean = true;//是否具备购买资格
+    // nncAssetid: string = '0xfc732edee1efdf968c23c20a9628eaa5a6ccb934';//nnc资产id
+    domainEdit: sessionStoreTool;
+    isUnSaleBox: boolean = false;//下架弹筐
 
     constructor()
     {
@@ -69,6 +75,7 @@ export default class NeoAuctionTest extends Vue
         this.alert_TopUp = new NeoAuction_TopUp();
         this.sessionWatting = new tools.sessionstoretool("session_watting");
         this.auctionPageSession = new tools.sessionstoretool("auctionPage");
+        this.saleDomainInfo = null;
         if (services.auctionInfo_test.auctionId)
         {
             this.auctionPage = true;
@@ -90,6 +97,7 @@ export default class NeoAuctionTest extends Vue
         this.searchDomain = "";
         this.searchAuctionList = [];
         this.auctionlist = [];
+        this.domainEdit = new sessionStoreTool("domain-edit");
     }
 
     async mounted()
@@ -496,6 +504,12 @@ export default class NeoAuctionTest extends Vue
 
                     this.checkState = this.btn_start = 2;
                     break;
+                case AuctionState.old:
+                    this.checkState = this.btn_start = 1;
+                    break;
+                case AuctionState.sale:
+                    this.checkState = this.btn_start = 5;
+                    break;
                 // case AuctionState.open:  this.checkState = this.btn_start = 2;   break;
 
                 default:
@@ -532,6 +546,98 @@ export default class NeoAuctionTest extends Vue
         else
         {
             this.isSearchTime = false;
+        }
+    }
+    /**
+     * 获取域名购买信息
+     */
+    async toShowSaleBox()
+    {
+        this.isShowSaleBox = !this.isShowSaleBox;
+        let domainName = this.domain + '.neo';
+        let res = await tools.wwwtool.getSaleDomainInfo(domainName);
+        if (res)
+        {
+            this.saleDomainInfo = {
+                domain: res.domain,
+                owner: res.owner,
+                ttl: tools.timetool.getTime(res.ttl),
+                price: res.price,
+                state: res.state
+            }
+        }
+        this.getNNCAmount();
+
+    }
+    /**
+     * 获取地址nnc余额
+     */
+    async getNNCAmount()
+    {
+        let res = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_NNC.toString(), this.address);
+        if (res)
+        {
+            // this.nncAmount = res.nep5balance;
+            const salePrice = parseFloat(this.saleDomainInfo.price);
+            const nnc = parseFloat(res.nep5balance);
+            if (salePrice > nnc)
+            {
+                this.isOKSale = false;
+            } else
+            {
+                this.isOKSale = true;
+            }
+
+        }
+        else
+        {
+            this.isOKSale = false;
+        }
+    }
+    /**
+     * 购买域名
+     */
+    async toBuyDomain()
+    {
+        try
+        {
+            this.isShowSaleBox = false;
+            let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
+            if (res)
+            {
+                this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
+            } else
+            {
+                this.openToast("error", "" + this.$t("auction.waitmsg3"), 5000);
+            }
+
+        } catch (error)
+        {
+            // this.resolverState = oldstate;
+        }
+    }
+    /**
+     * 下架
+     */
+    async toUnSellDomain()
+    {
+        try
+        {
+            let res = await tools.nnstool.unSaleDomain(this.saleDomainInfo.domain);
+            if (!res.err)
+            {
+                let txid = res.info;
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { domain: this.saleDomainInfo.domain }),
+                    TaskType.unSaleDomain);
+                this.domainEdit.put(this.saleDomainInfo.domain, "watting", "unsale");
+                this.isShowSaleBox = !this.isShowSaleBox;
+                this.isUnSaleBox = !this.isUnSaleBox;
+                this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+            }
+        } catch (error)
+        {
+            // this.resolverState = oldstate;
         }
     }
 }
