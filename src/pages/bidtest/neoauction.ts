@@ -602,6 +602,7 @@ export default class NeoAuctionTest extends Vue
         try
         {
             this.isShowSaleBox = false;
+            this.domain = '';
             let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
             if (res)
             {

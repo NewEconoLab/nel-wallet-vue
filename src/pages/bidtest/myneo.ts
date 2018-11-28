@@ -726,8 +726,6 @@ export default class MyNeo extends Vue
             if (first)
             {
                 this.salePage = new PageUtil(res[ 0 ].count, 5);
-                console.log(this.salePage.totalCount > this.salePage.pageSize);
-
             }
             this.saleOutDomainList = res[ 0 ].list.map((key) =>
             {

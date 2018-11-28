@@ -16,7 +16,6 @@ export default class Bonus extends Vue
     bonusList: any; // 我的分红列表
     myBonus: string; // 我的分红
     isApplyBonus: number; // 是否可申请分红,0为不可申请，1为可申请，2为正在申请，3为已发放
-    applyStatus: number;// 申请状态 0为可申请，1为申请中，2为不可申请
     totalSend: string = '0';//快照总量
     blocktime: string = '';//快照时间
     mybalance: string = '0';//我的持有金额
@@ -70,10 +69,10 @@ export default class Bonus extends Vue
         let res = await tools.wwwtool.applybonus(this.currentAddress);
         if (res.result)
         {
-            this.applyStatus = 2;
+            this.isApplyBonus = 2;
         } else
         {
-            this.applyStatus = 1;
+            this.isApplyBonus = 1;
         }
     }
     // //初始化History
