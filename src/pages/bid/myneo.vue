@@ -753,6 +753,7 @@
             width: 68%;
             height: 56px;
             line-height: 56px;
+            padding: 10px 15px;
             background: none;
             border: 1px solid #b2b2b2;
             border-radius: 5px;

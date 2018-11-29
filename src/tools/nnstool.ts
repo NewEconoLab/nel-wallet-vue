@@ -330,7 +330,7 @@ export class NNSTool
         {
             return;
         }
-        const register = Neo.Uint160.parse("7a64879a21b80e96a8bc91e0f07adc49b8f3521e");
+        const register = Consts.saleContract;
         // const amount = Neo.Fixed8.fromNumber(0.1333333);
         const value = parseFloat(amount).toFixed(result.decimals).replace(".", "");
         let addressto = ThinNeo.Helper.GetAddressFromScriptHash(register);

@@ -350,7 +350,6 @@ export default {
         mytotal: "我持有的NNC总量 ：",
         snapshot: "快照时间 ：",
         tips: "注意: 为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。"
-
     },
     operation: {
         welcome: "欢迎!",

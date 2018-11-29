@@ -904,6 +904,7 @@ export class TaskManager
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
             let result = ress[ task.txid ]; //获取通知数组
+            console.log(result);
             if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {
 

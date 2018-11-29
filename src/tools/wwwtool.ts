@@ -555,6 +555,12 @@ export class WWW
         }
     }
 
+    /**
+     * 获取分红记录列表
+     * @param address 
+     * @param page 
+     * @param pagesize 
+     */
     static async getbonusbyaddress(address: string, page: number, pagesize: number)
     {
         var postdata = WWW.makeRpcPostBody("getbonusbyaddress", address, page, pagesize);
