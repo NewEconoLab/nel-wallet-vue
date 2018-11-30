@@ -1208,6 +1208,7 @@ export enum TaskType
     unSaleDomain,//下架域名
     buyDomain,//购买域名
     getMyNNC,//获取收入的NNC
+    requestNNC,//索取NNC
 }
 
 /**

@@ -320,9 +320,9 @@ export default {
         transferDomainMsg2: "转让给",
         transferDomainMsg3: "吗?",
         tips: "注意 : 您需要在成功确认地址解析器之后，才能进行地址映射。",
-        waitmsg2: "您的域名转让将会在新区块生成之后被确认，请耐心等待...",
-        waitmsg3: "您的域名出售将会在新区块生成之后被确认，请耐心等待...",
-        waitmsg4: "您的域名下架将会在新区块生成之后被确认，请耐心等待...",
+        waitmsg2: "操作成功 ! 该域名将会在被区块确认之后转让给目标地址 !",
+        waitmsg3: "操作成功 ! 该域名将会在被区块确认之后上架 !",
+        waitmsg4: "操作成功 ! 该域名将会在被区块确认之后下架 !",
         myIncome: "我的收入",
         unclaimed: "未提取的NNC",
         all: "全部",
@@ -374,7 +374,12 @@ export default {
         nodata: "没有数据",
         fail: "操作失败",
         waitinggas: "等待系统发送",
-        sentok: "系统已发送"
+        sentok: "系统已发送",
+        list: "上架",
+        delist: "下架",
+        buy: "购买",
+        claimnnc: "提取NNC",
+        requestnnc: "索取NNC"
     },
     notify: {
         utxo: "您的UTXO过于分散，将可能造成CGAS兑换失败（GAS也会损失），请先对自己的地址执行一次不小于兑换金额的转账，待转账操作生效后再行兑换",

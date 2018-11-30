@@ -48,7 +48,7 @@ export default {
         delist: "Delist",
         delisting: "Delisting",
         check: "Confirm",
-        lookinfo: "查看详情",
+        lookinfo: "View details",
         buy: "Buy",
         apply: "Apply",
         applying: "Applying",
@@ -284,9 +284,9 @@ export default {
         nodata: "No related data was found.",
         Bidder: "Bidder",
         Status: "Status",
-        domaininfo: "域名详情",
-        saleprice: "出售价格",
-        unbuytips: "NNC的余额不足，无法购买。"
+        domaininfo: "Domain information",
+        saleprice: "Selling price",
+        unbuytips: "You can’t buy it due to insufficient NNC balance."
     },
     exchange: {
         title: "CGAS Exchange",
@@ -314,15 +314,15 @@ export default {
         transfer: "Transfer",
         transferto: "Transfer to",
         transferring: "Transferring",
-        domaintransfer: "Transfer domain",
+        domaintransfer: "Domain transfer",
         msg: "Please enter the address you want to transfer to",
         transferDomainMsg1: "Are you sure to transfer",
         transferDomainMsg2: "to",
         transferDomainMsg3: "?",
         tips: "Tips : Address mapping can only be performed after the address resolver is confirmed by you. ",
-        waitmsg2: "Your transfer the domain name will be confirmed after a new block is generated. Please wait.",
-        waitmsg3: "Your sell the domain will be confirmed after a new block is generated. Please wait.",
-        waitmsg4: "Your delist the domain will be confirmed after a new block is generated. Please wait.",
+        waitmsg2: "Successful operation! This domain will be transferred to the target address after it’s confirmed in the block.",
+        waitmsg3: "Successful operation! This domain will be listed after it’s confirmed in the block.",
+        waitmsg4: "Successful operation! This domain will be delisted after it’s confirmed in the block.",
         myIncome: "My income",
         unclaimed: "Unclaimed NNC",
         all: "All",
@@ -335,12 +335,12 @@ export default {
         mysellrecord: "My sales record",
         selltime: "The sale of the time：",
         sellprice: "Sold amount：",
-        domainsell: "The domain name for sale",
-        selltips: "Tips: the domain name for sale will be automatically removed after the domain name expires. Please note to remove and renew the expired domain name to avoid missing the domain name.",
+        domainsell: "Domain for sale",
+        selltips: "Tips: The domain name on sale will be automatically delisted after the domain name expires, so as not to lose the domain name, please delist the nearly expired domain to renew it.",
         domainname: "Domain name",
-        setprice: "Set the sale price",
-        surecheck1: "Are you sure you want to take ",
-        surecheck2: " off the shelf?"
+        setprice: "Set selling price",
+        surecheck1: "Are you sure to delist ",
+        surecheck2: "?"
     },
     bonus: {
         title: "Bonus",
@@ -377,7 +377,12 @@ export default {
         nodata: "There is no data",
         fail: "Operation failed",
         waitinggas: "Waiting for system confirmation",
-        sentok: "System sent"
+        sentok: "System sent",
+        list: "List",
+        delist: "Delist",
+        buy: "Buy",
+        claimnnc: "NNC Claim",
+        requestnnc: "Request NNC"
     },
     notify: {
         utxo: "Your UTXO is too scattered, which may cause the CGAS conversion to fail (GAS will also be lost). Please transfer some GAS( the amount shall be no less than your conversion amount) to your own address first and then convert GAS into CGAS after the transfer operation is confirmed.",
