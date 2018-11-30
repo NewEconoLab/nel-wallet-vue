@@ -197,7 +197,19 @@ export default class MyNeo extends Vue
             }
             this.neonameList = list;
             this.myDomainListPage.totalCount = list.length;
-            this.showMydomainList = this.mydomainListByPage(list);
+            if (this.InputDomainName != '')
+            {
+                this.toSearchDomain();
+            } else
+            {
+                if (this.sellStatus == 'all')
+                {
+                    this.showMydomainList = this.mydomainListByPage(list);
+                } else
+                {
+                    this.selectSellDomain();
+                }
+            }
         }
     }
 
@@ -445,6 +457,7 @@ export default class MyNeo extends Vue
     selectSellDomain()
     {
         this.myDomainListPage.currentPage = 1;
+        this.InputDomainName = '';
         if (this.sellStatus == 'all')
         {
             this.myDomainListPage.totalCount = this.neonameList.length;
@@ -485,6 +498,7 @@ export default class MyNeo extends Vue
     toSearchDomain()
     {
         let newList = [];
+        this.sellStatus = 'all';
         Object.keys(this.neonameList).filter((keys: string) =>
         {
             if (this.neonameList[ keys ].domain.indexOf(this.InputDomainName) !== -1)
