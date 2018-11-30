@@ -179,7 +179,7 @@ export default class NeoAuctionTest extends Vue
         TaskManager.functionList = [];
         TaskManager.functionList.push(this.refreshPage);
         this.refreshPage()
-
+        services.auctionInfo_neo.auctionId = null;
         this.auctionPageSession.put('show', false);
         this.auctionPage = false;
     }

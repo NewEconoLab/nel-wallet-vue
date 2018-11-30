@@ -76,6 +76,7 @@ export default class NeoAuction extends Vue
         this.sessionWatting = new tools.sessionstoretool("session_watting");
         this.auctionPageSession = new tools.sessionstoretool("auctionPage");
         this.saleDomainInfo = null;
+
         if (services.auctionInfo_neo.auctionId)
         {
             this.auctionPage = true;
@@ -177,7 +178,7 @@ export default class NeoAuction extends Vue
         // this.auctionPageSession.put("id", item.id)
         // this.auctionPageSession.put('show', true);
         services.auctionInfo_neo.auctionId = item.id;
-        this.auctionPage = !this.auctionPage
+        this.auctionPage = true;
     }
 
     /**
@@ -190,6 +191,7 @@ export default class NeoAuction extends Vue
         this.refreshPage()
 
         this.auctionPageSession.put('show', false);
+        services.auctionInfo_neo.auctionId = null;
         this.auctionPage = false;
     }
 
