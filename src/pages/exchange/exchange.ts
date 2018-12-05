@@ -183,7 +183,7 @@ export default class Exchange extends Vue
             } catch (error)
             {
                 this.isCheckingTran = false;
-                console.error(error);
+                // console.error(error);
             }
         }
     }

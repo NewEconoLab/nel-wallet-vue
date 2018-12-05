@@ -25,12 +25,16 @@ export default class balance extends Vue
   chooseAddress: string = "";
   loadmsg: string = "";
   claimbtn: boolean = true;
+  nncBalance: string = '0';
   /**
    * 是否可领取gas 0为可领取状态，1为不可以领取,2为正在领取
    */
   getGas: number;
   openToast: Function;
-
+  /**
+   * 是否可领取NNC 0为可领取状态，1为不可以领取,2为正在领取
+   */
+  getNNC: number;
   constructor()
   {
     super();
@@ -41,6 +45,7 @@ export default class balance extends Vue
     this.neoasset.claim = '';
     this.chooseAddressarr = new Array();
     this.getGas = 0;
+    this.getNNC = 0;
     // this.chooseAddressarr = tools.storagetool.getLoginArr();
   }
   // Component method
@@ -62,7 +67,7 @@ export default class balance extends Vue
     TaskFunction.claimGas = this.startClaimGas;
     TaskFunction.claimState = this.claimState;
     TaskFunction.getGasTest = this.btnState;
-
+    TaskFunction.getNNCTest = this.nncBtnState;
   }
 
   async initGetGas()
@@ -82,11 +87,33 @@ export default class balance extends Vue
         this.btnState(2);
       }
     }
+    let nncres = await tools.wwwtool.api_hasclaimnnc(this.currentAddress);
+    if (nncres)
+    {
+      if (nncres[ 0 ].code == "3001")//可领取
+      {
+        this.nncBtnState(0);
+      } else if (nncres[ 0 ].code == "3002")//可再次领取
+      {
+        this.nncBtnState(0);
+      } else if (nncres[ 0 ].code == "3004")//已领取
+      {
+        this.nncBtnState(1);
+      } else if (nncres[ 0 ].code == "3003")//正在领取
+      {
+        this.nncBtnState(2);
+      }
+    }
   }
-
+  // 索取gas按钮状态
   btnState(state: number)
   {
     this.getGas = state;
+  }
+  // 索取nnc按钮状态
+  nncBtnState(state: number)
+  {
+    this.getNNC = state;
   }
 
   claimState(state: number)
@@ -152,7 +179,47 @@ export default class balance extends Vue
       this.getGas = 0;
     }
   }
-
+  //手动领取测试NNC
+  async getTestNNC()
+  {
+    this.getNNC = 2;
+    let res = await tools.wwwtool.api_claimNNC(this.currentAddress);
+    if (res)
+    {
+      if (res[ 0 ].code == "3003")//交易处理中
+      {
+        this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
+        // this.getGas = 1;
+        let task = new Task(ConfirmType.tranfer, "", { amount: 100, address: this.currentAddress });
+        TaskManager.addTask(task, TaskType.requestNNC);
+      }
+      else if (res[ 0 ].code == "3012")//余额不足
+      {
+        this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
+        this.getNNC = 0;
+      }
+      else if (res[ 0 ].code == "3004")//已领取
+      {
+        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+        this.getNNC = 1;
+      }
+      else if (res[ 0 ].code == "3011")//超出领取金额
+      {
+        this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
+        this.getNNC = 1;
+      }
+      else
+      {
+        this.openToast("error", "" + this.$t("balance.errmsg3"), 4000);
+        this.getNNC = 0;
+      }
+    }
+    else
+    {
+      this.openToast("error", "" + this.$t("balance.errmsg3"), 4000);
+      this.getNNC = 0;
+    }
+  }
   addressSwitch()
   {
     LoginInfo.setCurrentAddress(this.chooseAddress);
@@ -172,6 +239,7 @@ export default class balance extends Vue
     let height = await tools.wwwtool.api_getHeight();
     this.neoasset.neo = 0;
     this.neoasset.gas = 0;
+
     if (balances) //余额不唯空
     {
       let sum1 = Neo.Fixed8.parse(clamis[ "gas" ].toFixed(8));
@@ -190,6 +258,17 @@ export default class balance extends Vue
             this.neoasset.gas = balance.balance;
           }
         });
+      // 获取nnc资产
+      Object.keys(nep5balances).filter((keys: string) =>
+      {
+        const nnc = '0x' + tools.coinTool.id_NNC.toString();
+        if (nep5balances[ keys ].assetid == nnc)
+        {
+          this.nncBalance = nep5balances[ keys ].balance
+          return true;
+        }
+        return false;
+      })
     }
     this.balances = await BalanceInfo.getBalancesByArr(balances, nep5balances, height);
     tools.storagetool.setStorage("balances_asset", JSON.stringify(this.balances));

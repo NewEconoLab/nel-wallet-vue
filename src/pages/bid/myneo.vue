@@ -60,7 +60,12 @@
       >( {{$t('myneoname.resolver')}}: {{item.resolver ? item.resolver : $t('myneoname.notconfigure')}} )</div>
       <div
         class="addr-mapping"
+        v-if="!item.expired && item.state!='0901'"
       >( {{$t('myneoname.mapping')}}: {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
+      <div
+        class="addr-mapping"
+        v-if="!item.expired && item.state == '0901'"
+      >( {{$t('auction.saleprice')}}: {{item.price ? item.price : "0"}} NNC)</div>
       <div class="time-msg" v-if="!item.expired">
         ( {{$t('myneoname.time')}}: {{item.ttl}}
         <span
@@ -74,13 +79,12 @@
       </div>
       <div class="btn-right" v-if="!item.expired && item.state!='0901'">
         <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
-        <button
-          v-if="verifySetOwner(item.domain)===2"
+        <!-- <button
+          v-if="ownerState===2"
           class="btn btn-nel btn-bid"
           disabled="true"
-        >{{$t('myneoname.transferring')}}</button>
+        >{{$t('myneoname.transferring')}}</button>-->
         <button
-          v-else
           class="btn btn-nel btn-bid"
           @click="showTranferDomain(item)"
         >{{$t('myneoname.transfer')}}</button>
@@ -335,18 +339,30 @@
               class
               autocomplete="off"
             >
-            <button
-              v-if="ownerState==1"
-              @click="setowner"
-              id="alert-confirm"
-              class="btn btn-nel btn-big"
-            >{{$t('myneoname.transfer')}}</button>
-            <button
-              v-else-if="ownerState==3"
-              id="alert-confirm"
-              disabled="true"
-              class="btn btn-nel btn-big"
-            >{{$t('myneoname.transfer')}}</button>
+            <p class="alert-address" v-if="domainAddress!=''">
+              <img class="transfer-icon" src="../../../static/img/transfer.png" alt>
+              <span class="map-address">{{domainAddress}} &nbsp;{{domainExpire}}</span>
+            </p>
+            <div class="btn-box">
+              <button
+                v-if="ownerState==1"
+                @click="setowner"
+                id="alert-confirm"
+                class="btn btn-nel btn-big"
+              >{{$t('myneoname.transfer')}}</button>
+              <button
+                v-else-if="ownerState==2"
+                id="alert-confirm"
+                disabled="true"
+                class="btn btn-nel btn-big"
+              >{{$t('myneoname.transferring')}}</button>
+              <button
+                v-else-if="ownerState==3"
+                id="alert-confirm"
+                disabled="true"
+                class="btn btn-nel btn-big btn-disable"
+              >{{$t('myneoname.transfer')}}</button>
+            </div>
           </div>
           <div class="err-msg" id="alert-error"></div>
         </div>
@@ -422,6 +438,30 @@
   .ff6 {
     color: #ff6a6a;
   }
+  .line-wrap {
+    margin-bottom: 0;
+    .line-box {
+      .alert-address {
+        width: 100%;
+        display: inline-block;
+        .transfer-icon {
+          width: 13px;
+          height: 13px;
+          margin-left: 10px;
+          margin-right: 8px;
+          vertical-align: middle;
+        }
+      }
+      input {
+        width: 100% !important;
+      }
+      .btn-box {
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
+  }
+
   .title {
     .search-domain {
       display: inline-block;

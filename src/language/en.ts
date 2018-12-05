@@ -52,7 +52,9 @@ export default {
         buy: "Buy",
         apply: "Apply",
         applying: "Applying",
-        applyed: "Distributed"
+        applyed: "Distributed",
+        getNNC: "Request NNC",
+        gettingNNC: "Requesting NNC",
     },
     toast: {
         msg1: "Loading ...",
@@ -114,7 +116,8 @@ export default {
         errmsg1: "Operation failed! And You can try it again later!",
         errmsg2: "Insufficient inventory! And You can try it again later!",
         errmsg3: "Data exception！And You can try it again later!",
-        successmsg: "Successful operation！Please wait for a moment."
+        successmsg: "Successful operation！Please wait for a moment.",
+        tipsnnc: "You can click this button to request 100 NNC. It can only be clicked once in 24 hours. ",
     },
     transfer: {
         transfer: "Transfer",
@@ -340,7 +343,7 @@ export default {
         domainname: "Domain name",
         setprice: "Set selling price",
         surecheck1: "Are you sure to delist ",
-        surecheck2: "?"
+        surecheck2: "?",
     },
     bonus: {
         title: "Bonus",
@@ -382,7 +385,8 @@ export default {
         delist: "Delist",
         buy: "Buy",
         claimnnc: "NNC Claim",
-        requestnnc: "Request NNC"
+        requestnnc: "Request NNC",
+        domaintransfer: "Domain transfer",
     },
     notify: {
         utxo: "Your UTXO is too scattered, which may cause the CGAS conversion to fail (GAS will also be lost). Please transfer some GAS( the amount shall be no less than your conversion amount) to your own address first and then convert GAS into CGAS after the transfer operation is confirmed.",

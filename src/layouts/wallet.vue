@@ -499,7 +499,7 @@
                               target="_blank"
                             >{{item.message.domain}}</a>
                             <span>
-                              {{$t('operation.domainTransfer')}}
+                              {{$t('operation.domaintransfer')}}
                               <a
                                 class="green-text"
                                 :href="item.addrhref"

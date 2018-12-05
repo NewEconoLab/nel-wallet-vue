@@ -96,7 +96,7 @@ export class WWW
         var r = json[ "result" ];
         return r;
     }
-    /**判断是否可以获取gas */
+    /**判断是否获取了gas */
     static async api_hasclaimgas(address: string)
     {
         var postdata =
@@ -118,6 +118,34 @@ export class WWW
             WWW.makeRpcPostBody(
                 "claimgas",
                 address, num
+            );
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+    /**判断是否获取了NNC */
+    static async api_hasclaimnnc(address: string)
+    {
+        var postdata =
+            WWW.makeRpcPostBody(
+                "hasClaimNNC",
+                address
+            );
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+    /**
+     * 获取测试网NNC
+     */
+    static async api_claimNNC(address: string)
+    {
+        var postdata =
+            WWW.makeRpcPostBody(
+                "claimNNC",
+                address
             );
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();

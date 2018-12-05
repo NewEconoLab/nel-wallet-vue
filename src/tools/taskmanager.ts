@@ -92,6 +92,9 @@ export class TaskManager
                     case TaskType.getMyNNC:
                         await this.confirm_getNNC(tasks);
                         break;
+                    case TaskType.requestNNC:
+                        await this.confirm_requestNNC(tasks);
+                        break;
                     default:
                         break;
                 }
@@ -904,7 +907,6 @@ export class TaskManager
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
             let result = ress[ task.txid ]; //获取通知数组
-            console.log(result);
             if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
             {
 
@@ -934,5 +936,48 @@ export class TaskManager
             return task;
         });
         this.taskStore.put(TaskType.getMyNNC.toString(), taskarr); //保存修改的状态
+    }
+    /**
+     * 获取 测试 NNC
+     * @param tasks 
+     */
+    static async confirm_requestNNC(tasks: Task[])
+    {
+        let taskarr: Task[] = []
+        for (let index = 0; index < tasks.length; index++)
+        {
+            const task = tasks[ index ];
+            if (task.state == TaskState.watting)
+            {
+                let res = await tools.wwwtool.api_hasclaimnnc(task.message.address);
+                if (res)
+                {
+                    if (res[ 0 ].code == "3001")//可领取
+                    {
+                        task.state = TaskState.fail;
+                        if (TaskFunction.getNNCTest)
+                            TaskFunction.getNNCTest(0);//可领取
+                    } else if (res[ 0 ].code == "3002")//可再次领取
+                    {
+                        task.state = TaskState.fail;
+                        if (TaskFunction.getNNCTest)
+                            TaskFunction.getNNCTest(0);//可领取
+                    } else if (res[ 0 ].code == "3004")//已领取
+                    {
+                        task.state = TaskState.success;
+                        if (TaskFunction.getNNCTest)
+                            TaskFunction.getNNCTest(1);//已领取
+                    } else if (res[ 0 ].code == "3003")//正在领取
+                    {
+                        task.state = TaskState.watting;
+                        if (TaskFunction.getNNCTest)
+                            TaskFunction.getNNCTest(2);//已领取
+                    }
+                }
+            }
+            task.confirm++;
+            taskarr.push(task);
+        }
+        this.taskStore.put(TaskType.requestNNC.toString(), taskarr);
     }
 }

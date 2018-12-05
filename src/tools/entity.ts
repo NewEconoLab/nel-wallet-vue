@@ -1023,6 +1023,7 @@ export class TaskFunction
     static domainUnSale: Function;//域名下架
     static domainBuy: Function;//域名购买
     static getNNC: Function;//提取NNC
+    static getNNCTest: Function;//测试网领取NNC
 }
 
 export class Task

@@ -52,7 +52,9 @@ export default {
         buy: "购买",
         apply: "申请",
         applying: "申请中",
-        applyed: "已发放"
+        applyed: "已发放",
+        getNNC: "索取NNC",
+        gettingNNC: "NNC领取中",
     },
     toast: {
         msg1: "登陆中...",
@@ -114,7 +116,8 @@ export default {
         errmsg1: "操作失败！请您稍后再进行尝试！",
         errmsg2: "库存不足！请您稍后再进行尝试！",
         errmsg3: "数据异常！请您稍后再进行尝试！",
-        successmsg: "操作成功！正在领取中，请稍等。"
+        successmsg: "操作成功！正在领取中，请稍等。",
+        tipsnnc: "您可以通过点击此按钮来获取100NNC, 该按钮每24小时只能点击一次。"
     },
     transfer: {
         transfer: "转账",
@@ -379,7 +382,8 @@ export default {
         delist: "下架",
         buy: "购买",
         claimnnc: "提取NNC",
-        requestnnc: "索取NNC"
+        requestnnc: "索取NNC",
+        domaintransfer: "转让域名",
     },
     notify: {
         utxo: "您的UTXO过于分散，将可能造成CGAS兑换失败（GAS也会损失），请先对自己的地址执行一次不小于兑换金额的转账，待转账操作生效后再行兑换",

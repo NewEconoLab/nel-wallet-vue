@@ -20,7 +20,7 @@ export default class MyNeo extends Vue
     mappingistrue: boolean;
     mappingState: number;
     resolverState: number;
-    ownerState: number;
+    ownerState: number; // 转让状态 1为可转让，2为正在转让，3为不可转让
     domainEdit: sessionStoreTool;
     renewalWatting: boolean;
     ownerTransfer: boolean;
@@ -45,6 +45,8 @@ export default class MyNeo extends Vue
     myNNCBalance: string; // 我的NNC
     isCanGetNNC: number // 是否获取NNC 0为不可提取，1为可提取，2为正在提取
     InputDomainName: string = '';// 搜索域名
+    domainAddress: string = '';// 转让的域名映射地址
+    domainExpire: string = '';// 域名的过期日期
 
     constructor()
     {
@@ -131,7 +133,7 @@ export default class MyNeo extends Vue
     {
         if (domain == this.currentdomain)
         {
-            this.ownerTransfer = false;
+            this.ownerState = 0;
         }
         this.getAllNeoName();
     }
@@ -147,21 +149,65 @@ export default class MyNeo extends Vue
         this.mappingistrue = res;
     }
 
+    verifyDomain(domain)
+    {
+        //check domain valid
+        var reg = /^(.+\.)(test|TEST|neo|NEO[a-z][a-z])$/;
+        if (!reg.test(domain))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     verifySetOwner()
     {
-        const domain = this.domainEdit.select(this.currentdomain);
-        if (domain && domain[ `domain_transfer` ] && domain[ `domain_transfer` ] === "watting")
+        if (this.ownerState == 2)
         {
-            this.ownerState = 2;
+            return false;
         }
         // else if (this.domainInfo.expired || !this.ownerAddress)
         // {
         //     this.ownerState = 3;
         // }
-        else
+
+        let isDomain = this.verifyDomain(this.ownerAddress);
+        if (!isDomain)
         {
             const res = tools.neotool.verifyAddress(this.ownerAddress);
             this.ownerState = res ? 1 : 3;
+            this.domainAddress = "";
+            this.domainExpire = "";
+        } else
+        {
+            const domainName = this.ownerAddress.toLowerCase();
+            this.getDomainAddress(domainName);
+        }
+    }
+    /**
+     * 获取域名映射的地址
+     * @param domainName 域名
+     */
+    async getDomainAddress(domainName: string)
+    {
+        let res = await tools.wwwtool.getresolvedaddress(domainName);
+        if (res)
+        {
+            this.domainAddress = res.data;
+            let time = tools.timetool.getTime(res.TTL);
+            this.domainExpire = "" + this.$t("transfer.timeMsg") + time;
+            this.ownerState = 1;
+            return true;
+        }
+        else
+        {
+            this.domainAddress = "";
+            this.domainExpire = "";
+            this.ownerState = 3;
+            return false;
         }
     }
 
@@ -252,7 +298,7 @@ export default class MyNeo extends Vue
         this.renewalWatting = false;
         this.isShowEdit = !this.isShowEdit;
         this.currentdomain = item.domain;
-        this.verifySetOwner();
+        // this.verifySetOwner();
 
         let domain = this.domainEdit.select(item.domain);
         if (domain)
@@ -270,9 +316,9 @@ export default class MyNeo extends Vue
             {
                 this.renewalWatting = true;
             }
-            if (domain[ 'owner' ] && domain[ 'owner' ] === 'watting')
+            if (domain[ 'domain_transfer' ] && domain[ 'domain_transfer' ] === 'watting')
             {
-                this.renewalWatting = true;
+                this.ownerState = 1;
             }
             if (domain[ 'unsale' ] && domain[ 'unsale' ] === 'watting')
             {
@@ -289,7 +335,21 @@ export default class MyNeo extends Vue
         this.domainInfo = item;
         this.ownerAddress = "";
         this.ownerState = 3;
+        this.domainAddress = '';
+        this.domainExpire = '';
         this.alertShow = true;
+        this.currentdomain = item.domain;
+        let domain = this.domainEdit.select(item.domain);
+        if (domain)
+        {
+            if (domain[ 'domain_transfer' ] && domain[ 'domain_transfer' ] === 'watting')
+            {
+                this.ownerState = 2;
+            }
+        } else
+        {
+            this.ownerState = 1;
+        }
     }
     closeTranferDomain()
     {
@@ -309,12 +369,18 @@ export default class MyNeo extends Vue
             }
             LoginInfo.info = null;
             this.ownerState = 2;
-            const res = await tools.nnstool.setOwner(this.domainInfo[ "domain" ], this.ownerAddress);
+            let transferAddress = this.ownerAddress;
+            if (this.domainAddress != '')
+            {
+                transferAddress = this.domainAddress;
+            }
+
+            const res = await tools.nnstool.setOwner(this.domainInfo[ "domain" ], transferAddress);
             if (!res.err)
             {
                 const txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], address: this.ownerAddress }),
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], address: transferAddress }),
                     TaskType.domainTransfer);
                 this.domainEdit.put(this.domainInfo.domain, "watting", "domain_transfer");
                 this.closeTranferDomain();
@@ -322,7 +388,7 @@ export default class MyNeo extends Vue
             } else
             {
                 this.ownerState = oldstate;
-                this.openToast("error", "" + this.$t("errormsg.interface"), 3000);
+                this.openToast("error", "" + this.$t("errormsg.msg3"), 3000);
                 throw new Error("Transaction send failed");
             }
         } catch (error)
