@@ -38,11 +38,16 @@ export default class Bonus extends Vue
         let res: MyBonus = await tools.wwwtool.getcurrentbonus(address);
         if (res)
         {
-            this.myBonus = res.send;
+            this.myBonus = parseFloat(res.send) != 0 ? res.send : '0';
             this.totalSend = res.totalSend;
             this.mybalance = res.balance;
             const time = parseInt(res.blocktime);
             this.blocktime = tools.timetool.getTime(time ? time : 0);
+            if (this.myBonus == '0')
+            {
+                this.isApplyBonus = 0;
+                return
+            }
             if (res.txid != '')
             {
                 this.myBonus = '0';
@@ -56,7 +61,6 @@ export default class Bonus extends Vue
                 {
                     this.isApplyBonus = 1;
                 }
-
             }
         }
     }
