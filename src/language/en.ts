@@ -352,7 +352,8 @@ export default {
         distribution: "Distribution pool snapshot: ",
         mytotal: "My total NNC holdings: ",
         snapshot: "Snapshot time:",
-        tips: 'Tips: In order to prevent network congestion caused by the previous airdrop of CGAS dividends, we changed it to a claim-based NNS dividends distribution. You need to click the "Apply" button  and the CGAS dividends will be distributed within one week following your claim.'
+        tips: 'Tips: In order to prevent network congestion caused by the previous airdrop of CGAS dividends, we changed it to a claim-based NNS dividends distribution. You need to click the "Apply" button  and the CGAS dividends will be distributed within one week following your claim.',
+        waiting: "Successful operation！It will be distributed within one week following your claim."
     },
     tutorial: {
 

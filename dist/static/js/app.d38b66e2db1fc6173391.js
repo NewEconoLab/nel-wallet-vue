@@ -3842,11 +3842,11 @@ var NNSNeo = function (resolve) { return Promise.all/* require */([__webpack_req
 var Settings = function (resolve) { return __webpack_require__.e/* require */(11).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Auction = function (resolve) { return Promise.all/* require */([__webpack_require__.e(3), __webpack_require__.e(0)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("jrmo")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var MyNeoName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(9)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("ogHy")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Bonus = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(12)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("6M52")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Bonus = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(13)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("6M52")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var NNSTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(14)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("PWmH")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var AuctionTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(4), __webpack_require__.e(0)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("dtBB")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var MyTestName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(15)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("bnm1")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var BonusTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(13)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("t94M")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var BonusTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(12)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("t94M")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Tutorial = function (resolve) { return __webpack_require__.e/* require */(1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("8G7y")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var TutorialTest = function (resolve) { return __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("nQWj")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 exports.default = new vue_router_1.default({
@@ -7386,7 +7386,8 @@ exports.default = {
         distribution: "Distribution pool snapshot: ",
         mytotal: "My total NNC holdings: ",
         snapshot: "Snapshot time:",
-        tips: 'Tips: In order to prevent network congestion caused by the previous airdrop of CGAS dividends, we changed it to a claim-based NNS dividends distribution. You need to click the "Apply" button  and the CGAS dividends will be distributed within one week following your claim.'
+        tips: 'Tips: In order to prevent network congestion caused by the previous airdrop of CGAS dividends, we changed it to a claim-based NNS dividends distribution. You need to click the "Apply" button  and the CGAS dividends will be distributed within one week following your claim.',
+        waiting: "Successful operation！It will be distributed within one week following your claim."
     },
     tutorial: {},
     operation: {
@@ -9058,7 +9059,8 @@ exports.default = {
         distribution: "奖金池快照 ：",
         mytotal: "我持有的NNC总量 ：",
         snapshot: "快照时间 ：",
-        tips: "注意: 为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。"
+        tips: "注意: 为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。",
+        waiting: "操作成功，分红会在您申请的一周内发放。"
     },
     operation: {
         welcome: "欢迎!",

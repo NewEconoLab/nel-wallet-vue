@@ -60,6 +60,8 @@
         </div>
       </div>
     </div>
+    <!-- 提示弹筐 -->
+    <v-toast ref="toast"></v-toast>
   </div>
 </template>
 <script lang="ts" src="./bonus.ts">
