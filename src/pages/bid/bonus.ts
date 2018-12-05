@@ -58,7 +58,6 @@ export default class Bonus extends Vue
                 }
 
             }
-            this.isApplyBonus = 1;
         }
     }
     // 申请领取分红
