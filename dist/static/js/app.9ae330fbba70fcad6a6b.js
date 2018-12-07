@@ -879,6 +879,25 @@ var WWW = /** @class */ (function () {
             });
         });
     };
+    WWW.searchDomainStatus = function (domain) {
+        return __awaiter(this, void 0, void 0, function () {
+            var postdata, result, json, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        postdata = WWW.makeRpcPostBody("getdomainstate", domain);
+                        return [4 /*yield*/, fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        r = json["result"];
+                        return [2 /*return*/, r];
+                }
+            });
+        });
+    };
     /**
      * 获得分页总条数
      * @param address 地址

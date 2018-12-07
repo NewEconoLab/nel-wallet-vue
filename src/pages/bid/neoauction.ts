@@ -450,10 +450,14 @@ export default class NeoAuction extends Vue
         }
         this.btn_start = 0;
         let res = await services.auction_neo.startAuction(this.domain);
-        this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
         this.btn_start = 1;
         this.domain = "";
         this.checkState = 0;
+        if (!res)
+        {
+            return false;
+        }
+        this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
     }
 
 
@@ -481,49 +485,91 @@ export default class NeoAuction extends Vue
             this.checkState = this.btn_start = 4;
             return;
         }
-        let auction: Auction = await services.auction_neo.queryAuctionByDomain(this.domain);
+        const domainName = this.domain + ".neo"
+        let searchResult = await tools.wwwtool.searchDomainStatus(domainName);
 
-        if (!auction.auctionId)
+        if (!searchResult)
         {
             this.btn_start = 1;
             this.checkState = 1;
-            return;
+            return false;
         }
-        else
+        // btn_start 0为开标中，1为可开标，2为可加价，3为结束期，4为输入域名错误，5为上架状态
+        switch (searchResult[ 0 ].state)
         {
-            this.raiseAuction = auction;
-            switch (auction.auctionState)
-            {
-                case AuctionState.pass:
-                    this.checkState = this.btn_start = 1;
-                    break;
-                case AuctionState.expire:
-
-                    this.checkState = this.btn_start = 1;
-                    break;
-                case AuctionState.end:
-
-                    this.checkState = this.btn_start = 3;
-                    break;
-                case AuctionState.random:
-
-                    this.checkState = this.btn_start = 2;
-                    break;
-                case AuctionState.fixed:
-                    this.checkState = this.btn_start = 2;
-                    break;
-                case AuctionState.old:
-                    this.checkState = this.btn_start = 1;
-                    break;
-                case AuctionState.sale:
-                    this.checkState = this.btn_start = 5;
-                    break;
-                // case AuctionState.open:  this.checkState = this.btn_start = 2;   break;
-
-                default:
-                    break;
-            }
+            case AuctionState.pass:
+                this.checkState = this.btn_start = 1;
+                break;
+            case AuctionState.expire:
+                this.checkState = this.btn_start = 1;
+                break;
+            case AuctionState.end:
+                this.checkState = this.btn_start = 3;
+                break;
+            case AuctionState.random:
+                this.checkState = this.btn_start = 2;
+                break;
+            case AuctionState.fixed:
+                this.checkState = this.btn_start = 2;
+                break;
+            case AuctionState.old:
+                this.checkState = this.btn_start = 1;
+                break;
+            case AuctionState.sale:
+                this.checkState = this.btn_start = 5;
+                break;
+            case AuctionState.open:
+                this.checkState = this.btn_start = 1;
+                break;
+            case AuctionState.watting:
+                this.checkState = this.btn_start = 0;
+                break;
+            default:
+                break;
         }
+
+        // let auction: Auction = await services.auction_neo.queryAuctionByDomain(this.domain);
+
+        // if (!auction.auctionId)
+        // {
+        //     this.btn_start = 1;
+        //     this.checkState = 1;
+        //     return;
+        // }
+        // else
+        // {
+        //     this.raiseAuction = auction;
+        //     switch (auction.auctionState)
+        //     {
+        //         case AuctionState.pass:
+        //             this.checkState = this.btn_start = 1;
+        //             break;
+        //         case AuctionState.expire:
+
+        //             this.checkState = this.btn_start = 1;
+        //             break;
+        //         case AuctionState.end:
+
+        //             this.checkState = this.btn_start = 3;
+        //             break;
+        //         case AuctionState.random:
+
+        //             this.checkState = this.btn_start = 2;
+        //             break;
+        //         case AuctionState.fixed:
+        //             this.checkState = this.btn_start = 2;
+        //             break;
+        //         case AuctionState.old:
+        //             this.checkState = this.btn_start = 1;
+        //             break;
+        //         case AuctionState.sale:
+        //             this.checkState = this.btn_start = 5;
+        //             break;
+        //         // case AuctionState.open:  this.checkState = this.btn_start = 2;   break;
+        //         default:
+        //             break;
+        //     }
+        // }
 
     }
 

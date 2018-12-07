@@ -387,6 +387,15 @@ export class WWW
         return r;
     }
 
+    static async searchDomainStatus(domain: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getdomainstate", domain);
+        var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        var r = json[ "result" ];
+        return r;
+    }
+
     /**
      * 获得分页总条数
      * @param address 地址
