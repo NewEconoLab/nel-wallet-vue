@@ -195,7 +195,7 @@ export default {
         entername: "type a name",
         checkavailable: "This name is available.",
         checkbeing: 'This domain is currently under auction. Click "Join Auction" to bid for it.',
-        checkformat: "Domain names must be English characters or numbers, and can only be 6 to 32 characters in length",
+        checkformat: "Domain names must be English characters or numbers, and can only be 2 to 32 characters in length",
         checkbuyer: "This name is unavailable.",
         checksale: "This name is on selling.",
         sendingmsg: "We are currently opening the auction. Please wait.",

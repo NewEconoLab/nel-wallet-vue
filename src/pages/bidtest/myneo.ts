@@ -48,6 +48,7 @@ export default class MyNeo extends Vue
     domainAddress: string = '';// 转让的域名映射地址
     domainExpire: string = '';// 域名的过期日期
     showListType: string = 'sale';// 我的交易记录显示类型
+    isFirstFlag: boolean = true;//初始调用交易记录
 
     constructor()
     {
@@ -84,8 +85,7 @@ export default class MyNeo extends Vue
     mounted()
     {
         tools.nnstool.initRootDomain("test");
-        this.getMyNNC();
-        this.getAllNeoName();
+        this.initPage();
         //初始化 任务管理器的执行机制
         TaskFunction.domainResovle = this.resolverTask;
         TaskFunction.domainMapping = this.mappingTask;
@@ -94,9 +94,21 @@ export default class MyNeo extends Vue
         TaskFunction.domainSale = this.domainSaleTask;
         TaskFunction.domainUnSale = this.domainUnSaleTask;
         TaskFunction.getNNC = this.getMyNNC;
-        tools.taskManager.functionList.push(this.getAllNeoName);
+        tools.taskManager.functionList.push(this.initPage);
         this.openToast = this.$refs.toast[ "isShow" ];
-        this.getSaleDomainList(this.currentAddress, true, this.salePage);
+    }
+    initPage()
+    {
+        this.getMyNNC();
+        this.getAllNeoName();
+        if (this.isFirstFlag)
+        {
+            this.getSaleDomainList(this.currentAddress, true, this.salePage);
+            this.isFirstFlag = false;
+        } else
+        {
+            this.getSaleDomainList(this.currentAddress, false, this.salePage);
+        }
     }
     async getMyNNC()
     {
@@ -110,8 +122,6 @@ export default class MyNeo extends Vue
                 this.isCanGetNNC = 0;
             }
         }
-
-
     }
     domainUnSaleTask(domain)
     {

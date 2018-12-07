@@ -195,7 +195,7 @@ export default {
         entername: "请输入您想要的域名",
         checkavailable: "此域名可以进行竞拍。",
         checkbeing: "此域名正在进行竞拍。",
-        checkformat: "域名长度需要在6～32个字节之间，只能是字母和数字。",
+        checkformat: "域名长度需要在2～32个字节之间，只能是字母和数字。",
         checkbuyer: "此域名已经被其他人竞拍了。",
         checksale: "该域名正在出售中。",
         sendingmsg: "正在发送交易，请耐心等待...",
