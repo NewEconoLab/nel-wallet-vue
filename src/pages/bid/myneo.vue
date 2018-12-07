@@ -150,6 +150,15 @@
     <!-- 出售记录 -->
     <div class="title">
       <span>{{$t('myneoname.mysellrecord')}}</span>
+      <div class="search-domain">
+        <div class="select-box">
+          <label>{{$t('myneoname.type')}}：</label>
+          <select class="form-control" @change="selectSellOrBuy()" v-model="showListType">
+            <option value="sale">{{$t('myneoname.salelist')}}</option>
+            <option value="buy">{{$t('myneoname.buylist')}}</option>
+          </select>
+        </div>
+      </div>
     </div>
     <div class="form-box">
       <div

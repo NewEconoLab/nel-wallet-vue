@@ -76,6 +76,7 @@ export default class NeoAuctionTest extends Vue
         this.sessionWatting = new tools.sessionstoretool("session_watting");
         this.auctionPageSession = new tools.sessionstoretool("auctionPage");
         this.saleDomainInfo = null;
+
         if (services.auctionInfo_test.auctionId)
         {
             this.auctionPage = true;
@@ -179,8 +180,8 @@ export default class NeoAuctionTest extends Vue
         TaskManager.functionList = [];
         TaskManager.functionList.push(this.refreshPage);
         this.refreshPage()
-        services.auctionInfo_neo.auctionId = null;
         this.auctionPageSession.put('show', false);
+        services.auctionInfo_test.auctionId = null;
         this.auctionPage = false;
     }
 

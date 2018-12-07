@@ -189,7 +189,6 @@ export default class NeoAuction extends Vue
         TaskManager.functionList = [];
         TaskManager.functionList.push(this.refreshPage);
         this.refreshPage()
-
         this.auctionPageSession.put('show', false);
         services.auctionInfo_neo.auctionId = null;
         this.auctionPage = false;

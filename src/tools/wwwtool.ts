@@ -626,12 +626,14 @@ export class WWW
     /**
      * 根据地址查询已出售已成交列表
      * @param address 当前地址
+     * @param type 域名类型“neo or test”
+     * @param showtype 显示类型“sale or buy”
      * @param page 当前页码
      * @param pagesize 每页条数
      */
-    static async getHasBuyListByAddress(address: string, type: string, page: number, pagesize: number)
+    static async getSaleOrBuyList(address: string, type: string, showtype: string, page: number, pagesize: number)
     {
-        var postdata = WWW.makeRpcPostBody("getHasBuyListByAddress", address, type, page, pagesize);
+        var postdata = WWW.makeRpcPostBody("getDomainSellingListByAddress", address, type, showtype, page, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         if (json[ "result" ])
@@ -640,7 +642,7 @@ export class WWW
             return r;
         } else
         {
-            throw "not data";
+            return null;
 
         }
     }

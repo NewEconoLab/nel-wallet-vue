@@ -47,6 +47,7 @@ export default class MyNeo extends Vue
     InputDomainName: string = '';// 搜索域名
     domainAddress: string = '';// 转让的域名映射地址
     domainExpire: string = '';// 域名的过期日期
+    showListType: string = 'sale';// 我的交易记录显示类型
 
 
     constructor()
@@ -790,18 +791,33 @@ export default class MyNeo extends Vue
         this.onUnSaleState = 1;
     }
     /**
+     * 筛选显示出售列表或者购买列表
+     */
+    selectSellOrBuy()
+    {
+        this.salePage.currentPage = 1;
+        if (this.showListType == 'sale')
+        {
+            this.getSaleDomainList(this.currentAddress, true, this.salePage);
+        } else if (this.showListType == 'buy')
+        {
+            this.getSaleDomainList(this.currentAddress, true, this.salePage);
+        }
+    }
+    /**
      * 获取域名已出售成功的列表
      * @param address 当前地址
      */
     async getSaleDomainList(address: string, first: boolean, pageUtil: PageUtil)
     {
         let res = null;
+        this.saleOutDomainList = [];
         if (first)
         {
-            res = await tools.wwwtool.getHasBuyListByAddress(address, '.neo', 1, 5);
+            res = await tools.wwwtool.getSaleOrBuyList(address, '.neo', this.showListType, 1, 5);
         } else
         {
-            res = await tools.wwwtool.getHasBuyListByAddress(address, '.neo', pageUtil.currentPage, pageUtil.pageSize);
+            res = await tools.wwwtool.getSaleOrBuyList(address, '.neo', this.showListType, pageUtil.currentPage, pageUtil.pageSize);
         }
         if (res)
         {
@@ -812,16 +828,15 @@ export default class MyNeo extends Vue
             this.saleOutDomainList = res[ 0 ].list.map((key) =>
             {
                 const newObj = {
-                    blockindex: key.blockindex,
                     fullDomain: key.fullDomain,
                     price: key.price,
-                    blocktime: tools.timetool.getTime(key.blocktime)
+                    blocktime: tools.timetool.getTime(key.time)
                 }
                 return newObj;
             });
         } else
         {
-            this.salePage = new PageUtil(0, 0);
+            this.salePage = new PageUtil(0, 5);
         }
 
     }

@@ -335,15 +335,18 @@ export default {
         status: "状态",
         selling: "上架中",
         unsell: "未出售",
-        mysellrecord: "我的出售记录",
-        selltime: "售出时间：",
-        sellprice: "售出金额：",
+        mysellrecord: "我的交易记录",
+        selltime: "交易时间：",
+        sellprice: "交易金额：",
         domainsell: "域名出售",
         selltips: "注意 : 出售中的域名将会在域名过期后自动下架，请注意对快到期的域名进行下架并续约，以免错失域名。",
         domainname: "域名",
         setprice: "设置出售价格",
         surecheck1: "您确定要将 ",
-        surecheck2: " 下架吗？"
+        surecheck2: " 下架吗？",
+        type: "类型",
+        salelist: "出售",
+        buylist: "购买"
     },
     bonus: {
         title: "分红",
