@@ -8988,7 +8988,7 @@ exports.default = {
         asset: "资产",
         errmsg3: "是可用的",
         tipsmsg4: "注意：当你在使用Gas进行充值时，充值进你的“拍卖账户”之前，他会自动转换成CGAS，整个过程需要两个区块的确认时间，请耐心等待...",
-        yourbalance: "您的钱包账户",
+        yourbalance: "您的钱包",
         waiting: "等待",
         successwithdraw: "提取成功",
         successtop: "充值成功",
