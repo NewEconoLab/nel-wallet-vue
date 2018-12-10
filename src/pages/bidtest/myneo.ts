@@ -207,10 +207,10 @@ export default class MyNeo extends Vue
         let res = await tools.wwwtool.getresolvedaddress(domainName);
         if (res)
         {
-            this.domainAddress = res.data;
+            this.domainAddress = res.data != '' ? res.data : '' + this.$t("transfer.errdomain");
             let time = tools.timetool.getTime(res.TTL);
             this.domainExpire = "" + this.$t("transfer.timeMsg") + time;
-            this.ownerState = 1;
+            this.ownerState = res.data != '' ? 1 : 3;
             return true;
         }
         else
