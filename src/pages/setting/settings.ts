@@ -28,6 +28,10 @@ export default class Settings extends Vue
     visibleWif()
     {
         this.wifshow = (this.wifshow == true ? false : true);
+        if (this.wifshow == true)
+        {
+            LoginInfo.info = null;
+        }
         LoginInfo.deblocking()
             .then(info =>
             {
@@ -55,9 +59,9 @@ export default class Settings extends Vue
                 wallet.scrypt.r = 8;
                 wallet.scrypt.p = 8;
                 wallet.accounts = [];
-                wallet.accounts[ 0 ] = new ThinNeo.nep6account();
-                wallet.accounts[ 0 ].address = LoginInfo.getCurrentAddress();
-                mui.prompt("" + this.$t("setting.msg3"), "" + this.$t("setting.msg4"), "" + this.$t("setting.msg5"), [ "" + this.$t("btn.cancel"), "" + this.$t("btn.confirm") ], (e) =>
+                wallet.accounts[0] = new ThinNeo.nep6account();
+                wallet.accounts[0].address = LoginInfo.getCurrentAddress();
+                mui.prompt("" + this.$t("setting.msg3"), "" + this.$t("setting.msg4"), "" + this.$t("setting.msg5"), ["" + this.$t("btn.cancel"), "" + this.$t("btn.confirm")], (e) =>
                 {
                     if (e.index == 1)
                     {
@@ -65,11 +69,11 @@ export default class Settings extends Vue
                         {
                             if (info == "finish")
                             {
-                                wallet.accounts[ 0 ].nep2key = result;
-                                wallet.accounts[ 0 ].contract = new ThinNeo.contract();
-                                wallet.accounts[ 0 ].contract.script = ThinNeo.Helper.GetAddressCheckScriptFromPublicKey(msg.pubkey).toHexString();
+                                wallet.accounts[0].nep2key = result;
+                                wallet.accounts[0].contract = new ThinNeo.contract();
+                                wallet.accounts[0].contract.script = ThinNeo.Helper.GetAddressCheckScriptFromPublicKey(msg.pubkey).toHexString();
                                 var jsonstr = JSON.stringify(wallet.toJson());
-                                var blob = new Blob([ ThinNeo.Helper.String2Bytes(jsonstr) ]);
+                                var blob = new Blob([ThinNeo.Helper.String2Bytes(jsonstr)]);
                                 this.href = URL.createObjectURL(blob);
                             }
                         });

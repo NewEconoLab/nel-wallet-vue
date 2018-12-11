@@ -63,7 +63,7 @@ export default class transfer extends Vue
     }
     mounted() 
     {
-        this.openToast = this.$refs.toast[ "isShow" ];
+        this.openToast = this.$refs.toast["isShow"];
         var str = tools.storagetool.getStorage("balances_asset");
         if (str == null)
             this.balances = new Array<BalanceInfo>();
@@ -71,10 +71,10 @@ export default class transfer extends Vue
         {
             this.balances = JSON.parse(str) as BalanceInfo[];
             var choose = tools.storagetool.getStorage("transfer_choose");
-            this.asset = (choose == null ? this.balances[ 0 ].asset : choose);
+            this.asset = (choose == null ? this.balances[0].asset : choose);
             var n: number = this.balances.findIndex(b => b.asset == this.asset);
             n = n < 0 ? 0 : n;
-            this.balance = this.balances[ n ];
+            this.balance = this.balances[n];
             this.history();
             // this.awaitHeight();
         }
@@ -92,7 +92,7 @@ export default class transfer extends Vue
         this.asset = assetid
         tools.storagetool.setStorage("transfer_choose", assetid);
         var n: number = this.balances.findIndex(b => b.asset == this.asset);
-        this.balance = this.balances[ n ];
+        this.balance = this.balances[n];
         this.verify_Amount();
     }
 
@@ -209,27 +209,26 @@ export default class transfer extends Vue
             if (this.verify_addr() && this.verify_Amount())
             {
                 let height = Store.blockheight.select("height");
-                if (!!this.balance[ "type" ] && this.balance.type == "nep5")
+                if (!!this.balance["type"] && this.balance.type == "nep5")
                 {
                     let res = await tools.coinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, parseFloat(this.amount));
-                    if (!res[ "err" ])
+                    TaskManager.addTask(
+                        new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: this.balance.names, toaddress: this.toaddress }),
+                        TaskType.tranfer
+                    );
+                    if (!res["err"])
                     {
                         mui.toast("" + this.$t("transfer.msg2"));
                         let num = parseFloat(this.balance.balance + "");
                         let bear = num - parseFloat(this.amount);
                         this.balance.balance = bear;
-                        TaskManager.addTask(
-                            new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: this.balance.names, toaddress: this.toaddress }),
-                            TaskType.tranfer
-                        );
                         BalanceInfo.setBalanceSotre(this.balance, height);
-                        // History.setHistoryStore(his, height);
                         this.amount = "";
                         tools.storagetool.setStorage("current-height", height + "");
                     }
                     else
                     {
-                        mui.alert("" + this.$t("transfer.msg3"));
+                        this.openToast("error", "" + this.$t("transfer.msg3") + res.info, 3000);
                     }
                 } else
                 {
@@ -242,7 +241,6 @@ export default class transfer extends Vue
                         this.openToast("success", "" + this.$t("transfer.msg2"), 3000);
                     }
                     this.isNumber = false;
-                    let his: History = new History();
                     let num = parseFloat(this.balance.balance + "");
                     let bear = num - parseFloat(this.amount);
                     this.balance.balance = bear;
@@ -251,7 +249,6 @@ export default class transfer extends Vue
                         TaskType.tranfer
                     );
                     BalanceInfo.setBalanceSotre(this.balance, height);
-                    // History.setHistoryStore(his, height);
                     this.amount = "";
                     tools.storagetool.setStorage("current-height", height + "");
                 }

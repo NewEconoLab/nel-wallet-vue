@@ -60,7 +60,7 @@ export default class balance extends Vue
       this.claimbtn = false;
       this.loadmsg = (claimState == "1") ? "" + this.$t("balance.msg2") : "" + this.$t("balance.msg3");
     }
-    this.openToast = this.$refs.toast[ "isShow" ];
+    this.openToast = this.$refs.toast["isShow"];
 
     TaskManager.functionList = [];
     TaskManager.functionList.push(this.getBalances);
@@ -76,13 +76,13 @@ export default class balance extends Vue
     let res = await tools.wwwtool.api_hasclaimgas(this.currentAddress);
     if (res)
     {
-      if (res[ 0 ].code == "3010")//可领取
+      if (res[0].code == "3010")//可领取
       {
         this.btnState(0);
-      } else if (res[ 0 ].code == "3012")//已领取
+      } else if (res[0].code == "3012")//已领取
       {
         this.btnState(1);
-      } else if (res[ 0 ].code == "3011")//正在领取
+      } else if (res[0].code == "3011")//正在领取
       {
         this.btnState(2);
       }
@@ -90,16 +90,16 @@ export default class balance extends Vue
     let nncres = await tools.wwwtool.api_hasclaimnnc(this.currentAddress);
     if (nncres)
     {
-      if (nncres[ 0 ].code == "3001")//可领取
+      if (nncres[0].code == "3001")//可领取
       {
         this.nncBtnState(0);
-      } else if (nncres[ 0 ].code == "3002")//可再次领取
+      } else if (nncres[0].code == "3002")//可再次领取
       {
         this.nncBtnState(0);
-      } else if (nncres[ 0 ].code == "3004")//已领取
+      } else if (nncres[0].code == "3004")//已领取
       {
         this.nncBtnState(1);
-      } else if (nncres[ 0 ].code == "3003")//正在领取
+      } else if (nncres[0].code == "3003")//正在领取
       {
         this.nncBtnState(2);
       }
@@ -144,25 +144,24 @@ export default class balance extends Vue
     let res = await tools.wwwtool.api_claimgas(this.currentAddress, 10);
     if (res)
     {
-      let height = Store.blockheight.select("height");
-      if (res[ 0 ].code == "3000")//交易待发送
+      if (res[0].code == "3000")//交易待发送
       {
         this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
         // this.getGas = 1;
         let task = new Task(ConfirmType.tranfer, "", { amount: 10, address: this.currentAddress });
         TaskManager.addTask(task, TaskType.getGasTest);
       }
-      else if (res[ 0 ].code == "3002")//余额不足
+      else if (res[0].code == "3002")//余额不足
       {
         this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
         this.getGas = 0;
       }
-      else if (res[ 0 ].code == "3003")//已领取
+      else if (res[0].code == "3003")//已领取
       {
         this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
         this.getGas = 1;
       }
-      else if (res[ 0 ].code == "3004")//超出领取金额
+      else if (res[0].code == "3004")//超出领取金额
       {
         this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
         this.getGas = 1;
@@ -186,24 +185,24 @@ export default class balance extends Vue
     let res = await tools.wwwtool.api_claimNNC(this.currentAddress);
     if (res)
     {
-      if (res[ 0 ].code == "3003")//交易处理中
+      if (res[0].code == "3003")//交易处理中
       {
         this.openToast("success", "" + this.$t("balance.successmsg"), 4000);
         // this.getGas = 1;
         let task = new Task(ConfirmType.tranfer, "", { amount: 100, address: this.currentAddress });
         TaskManager.addTask(task, TaskType.requestNNC);
       }
-      else if (res[ 0 ].code == "3012")//余额不足
+      else if (res[0].code == "3012")//余额不足
       {
         this.openToast("error", "" + this.$t("balance.errmsg2"), 4000);
         this.getNNC = 0;
       }
-      else if (res[ 0 ].code == "3004")//已领取
+      else if (res[0].code == "3004")//已领取
       {
         this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
         this.getNNC = 1;
       }
-      else if (res[ 0 ].code == "3011")//超出领取金额
+      else if (res[0].code == "3011")//超出领取金额
       {
         this.openToast("error", "" + this.$t("balance.errmsg1"), 4000);
         this.getNNC = 1;
@@ -233,8 +232,8 @@ export default class balance extends Vue
     tools.coinTool.initAllAsset();
     //获得balance列表
     var balances = await tools.wwwtool.api_getBalance(this.currentAddress) as BalanceInfo[];
-    var clamis = await tools.wwwtool.api_getclaimgas(this.currentAddress, 0);
-    var clamis2 = await tools.wwwtool.api_getclaimgas(this.currentAddress, 1);
+    var claims = await tools.wwwtool.api_getclaimgas(this.currentAddress, 0);
+    var claims2 = await tools.wwwtool.api_getclaimgas(this.currentAddress, 1);
     var nep5balances = await tools.wwwtool.api_getnep5Balance(this.currentAddress) as Nep5Balance[];
     let height = await tools.wwwtool.api_getHeight();
     this.neoasset.neo = 0;
@@ -242,8 +241,8 @@ export default class balance extends Vue
 
     if (balances) //余额不唯空
     {
-      let sum1 = Neo.Fixed8.parse(clamis[ "gas" ].toFixed(8));
-      let sum2 = Neo.Fixed8.parse(clamis2[ "gas" ].toFixed(8));
+      let sum1 = Neo.Fixed8.parse(claims["gas"].toFixed(8));
+      let sum2 = Neo.Fixed8.parse(claims2["gas"].toFixed(8));
       let sum = sum1.add(sum2).toString()
       this.neoasset.claim = sum;   //塞入claim
       balances.forEach //取NEO 和GAS
@@ -262,9 +261,9 @@ export default class balance extends Vue
       Object.keys(nep5balances).filter((keys: string) =>
       {
         const nnc = '0x' + tools.coinTool.id_NNC.toString();
-        if (nep5balances[ keys ].assetid == nnc)
+        if (nep5balances[keys].assetid == nnc)
         {
-          this.nncBalance = nep5balances[ keys ].balance
+          this.nncBalance = nep5balances[keys].balance
           return true;
         }
         return false;
@@ -305,11 +304,11 @@ export default class balance extends Vue
   {
     let height = Store.blockheight.select("height");
     let res = await tools.coinTool.claimGas();
-    if (res[ "sendrawtransactionresult" ])
+    if (res["sendrawtransactionresult"])
     {
       this.loadmsg = "" + this.$t("balance.msg3");
-      let txid = res[ "txid" ];
-      let amount = JSON.parse(res[ 'amount' ]);
+      let txid = res["txid"];
+      let amount = JSON.parse(res['amount']);
       TaskManager.addTask(
         new Task(ConfirmType.tranfer, txid, { amount }),
         TaskType.ClaimGas

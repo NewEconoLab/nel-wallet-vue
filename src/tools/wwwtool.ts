@@ -5,12 +5,12 @@ export class WWW
     static apiaggr: string = "https://apiwallet.nel.group/api/testnet";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
-        if (url[ url.length - 1 ] != '/')
+        if (url[url.length - 1] != '/')
             url = url + "/";
         var urlout = url + "?jsonrpc=2.0&id=1&method=" + method + "&params=[";
         for (var i = 0; i < _params.length; i++)
         {
-            urlout += JSON.stringify(_params[ i ]);
+            urlout += JSON.stringify(_params[i]);
             if (i != _params.length - 1)
                 urlout += ",";
         }
@@ -20,15 +20,15 @@ export class WWW
     static makeRpcPostBody(method: string, ..._params: any[]): {}
     {
         var body = {};
-        body[ "jsonrpc" ] = "2.0";
-        body[ "id" ] = 1;
-        body[ "method" ] = method;
+        body["jsonrpc"] = "2.0";
+        body["id"] = 1;
+        body["method"] = method;
         var params = [];
         for (var i = 0; i < _params.length; i++)
         {
-            params.push(_params[ i ]);
+            params.push(_params[i]);
         }
-        body[ "params" ] = params;
+        body["params"] = params;
         return body;
     }
 
@@ -43,7 +43,7 @@ export class WWW
             );
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -58,7 +58,7 @@ export class WWW
             );
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r ? r : [];
     }
 
@@ -67,8 +67,8 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getblockcount");
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json[ "result" ];
-        var height = parseInt(r[ 0 ][ "blockcount" ] as string) - 1;
+        var r = json["result"];
+        var height = parseInt(r[0]["blockcount"] as string) - 1;
         return height;
     }
     static async api_getBlockInfo(index: number)
@@ -76,8 +76,8 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getblocktime", index);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json[ "result" ];
-        var time = parseInt(r[ 0 ][ "time" ] as string);
+        var r = json["result"];
+        var time = parseInt(r[0]["time"] as string);
         return time;
     }
     static async api_getAllAssets()
@@ -85,7 +85,7 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getallasset");
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
     static async api_getUTXO(address: string)
@@ -93,7 +93,7 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getutxo", address);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
     /**判断是否获取了gas */
@@ -106,7 +106,7 @@ export class WWW
             );
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
     /**
@@ -121,7 +121,7 @@ export class WWW
             );
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
     /**判断是否获取了NNC */
@@ -134,7 +134,7 @@ export class WWW
             );
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
     /**
@@ -149,7 +149,7 @@ export class WWW
             );
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -158,7 +158,7 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getallnep5assetofaddress", address, 1);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
     static async api_getBalance(address: string)
@@ -166,7 +166,7 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getbalance", address);
         var value = await fetch(str, { "method": "get" });
         var json = await value.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -179,10 +179,10 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getnep5asset", asset);
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
-        if (json[ "result" ])
+        var r = json["result"][0];
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
@@ -201,7 +201,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getnep5balanceofaddress", asset, address);
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
+        var r = json["result"][0];
         return r;
     }
 
@@ -210,7 +210,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getaddresstxs", address, size, page);
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -219,13 +219,13 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("sendrawtransaction", data.toHexString());
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
-            throw json[ 'error' ];
+            throw json['error'];
         }
     }
 
@@ -237,10 +237,10 @@ export class WWW
             var str = WWW.makeRpcUrl(WWW.api, "getclaimgas", address);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         if (r == undefined)
-            return 0;
-        return r[ 0 ];
+            return { gas: 0 };
+        return r[0];
     }
 
     static async api_getclaimtxhex(address: string): Promise<string>
@@ -248,10 +248,10 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getclaimtxhex", address);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         if (r == undefined)
             return "";
-        return r[ 0 ][ "claimtxhex" ];
+        return r[0]["claimtxhex"];
     }
 
     static async  rpc_getHeight()
@@ -259,7 +259,7 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getblockcount");
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         var height = parseInt(r as string) - 1;
         return height;
     }
@@ -269,9 +269,9 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getstorage", scripthash.toHexString(), key.toHexString());
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        if (json[ "result" ] == null)
+        if (json["result"] == null)
             return null;
-        var r = json[ "result" ] as string;
+        var r = json["result"] as string;
         return r;
     }
 
@@ -280,9 +280,9 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "invokescript", scripthash.toHexString());
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        if (json[ "result" ] == null)
+        if (json["result"] == null)
             return null;
-        var r = json[ "result" ][ 0 ]
+        var r = json["result"][0]
         return r;
     }
     static async getrawtransaction(txid: string)
@@ -290,9 +290,9 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getrawtransaction", txid);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        if (!json[ "result" ])
+        if (!json["result"])
             return null;
-        var r = json[ "result" ][ 0 ]
+        var r = json["result"][0]
         return r;
     }
     //获取nep5的交易详情
@@ -301,9 +301,9 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getnep5transferbytxid", txid);
         var result = await fetch(str, { "method": "get" });
         var json = await result.json();
-        if (!json[ "result" ])
+        if (!json["result"])
             return null;
-        var r = json[ "result" ][ 0 ]
+        var r = json["result"][0]
         return r;
     }
     //获取转账域名地址    
@@ -312,9 +312,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getresolvedaddress", domain);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ] == null)
+        if (json["result"] == null)
             return null;
-        var r = json[ "result" ][ 0 ]
+        var r = json["result"][0]
         return r;
     }
 
@@ -325,9 +325,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getdomainbyaddress", ...params);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ] == null)
+        if (json["result"] == null)
             return null;
-        var r = json[ "result" ]
+        var r = json["result"]
         return r;
     }
 
@@ -340,7 +340,7 @@ export class WWW
         var str = WWW.makeRpcUrl(WWW.api, "getcontractstate", scriptaddr);
         var value = await fetch(str, { "method": "get" });
         var json = await value.json();
-        var r = json[ "result" ][ 0 ];
+        var r = json["result"][0];
         return r;
     }
 
@@ -355,7 +355,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getauctioninfobyaddress", address, currentpage, pagesize, root);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -369,7 +369,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getauctioninfobyaucitonid", address, ids, root);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -383,7 +383,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getdomainauctioninfo", domain);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -392,7 +392,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getdomainstate", domain);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -405,7 +405,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getauctioninfocount", address, root);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        return (json && json[ "result" ]) ? json[ "result" ][ 0 ][ "count" ] : 0;
+        return (json && json["result"]) ? json["result"][0]["count"] : 0;
     }
 
     /**
@@ -417,7 +417,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getbidlistbyaddress", address);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -432,7 +432,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getbiddetailbydomain", id, currentpage, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -447,7 +447,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getbonushistbyaddress", address, currentpage, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
+        var r = json["result"][0];
         return r;
     }
 
@@ -463,7 +463,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getavailableutxos", address, count);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ];
+        var r = json["result"];
         return r;
     }
 
@@ -478,7 +478,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("rechargeandtransfer", data1.toHexString(), data2.toHexString());
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
+        var r = json["result"][0];
         return r;
     }
 
@@ -491,7 +491,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getrechargeandtransfer", txid);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
+        var r = json["result"][0];
         return r;
     }
 
@@ -505,9 +505,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getdomainstate", address, id);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
@@ -525,7 +525,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getnotify", txid);
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
+        var r = json["result"][0];
         return r;
     }
 
@@ -538,7 +538,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("hastx", txid);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
+        var r = json["result"][0];
         return r;
     }
 
@@ -551,7 +551,7 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("hascontract", txid);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        var r = json[ "result" ][ 0 ];
+        var r = json["result"][0];
         return r;
     }
 
@@ -565,9 +565,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("searchdomainbyaddress", address, domain);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
@@ -581,9 +581,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getbonushistbyaddress", address, page, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
@@ -603,9 +603,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getbonusbyaddress", address, page, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
@@ -622,9 +622,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getNNCfromSellingHash", address);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
@@ -645,9 +645,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getDomainSellingListByAddress", address, type, showtype, page, pagesize);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ];
+            var r = json["result"];
             return r;
         } else
         {
@@ -664,9 +664,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getNNSfixedSellingInfo", domain);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
@@ -683,9 +683,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("getcurrentbonus", addr);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
@@ -702,9 +702,9 @@ export class WWW
         var postdata = WWW.makeRpcPostBody("applybonus", addr);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
-        if (json[ "result" ])
+        if (json["result"])
         {
-            var r = json[ "result" ][ 0 ];
+            var r = json["result"][0];
             return r;
         } else
         {
