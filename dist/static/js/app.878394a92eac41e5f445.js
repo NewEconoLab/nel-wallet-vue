@@ -5,16 +5,22 @@ webpackJsonp([16],{
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Spinner_vue__ = __webpack_require__("8Qnm");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Spinner_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Spinner_vue__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Spinner_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Spinner_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2a361166_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Spinner_vue__ = __webpack_require__("5+yY");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/Spinner.vue
+var Spinner = __webpack_require__("8Qnm");
+var Spinner_default = /*#__PURE__*/__webpack_require__.n(Spinner);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1d4a9de1","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Spinner.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner-wrap",class:_vm.isbig?'spinner-big':''},[_vm._m(0,false,false)])}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner"},[_c('div',{staticClass:"spinner-container container1"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container2"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container3"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_Spinner = (esExports);
+// CONCATENATED MODULE: ./src/components/Spinner.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("9gbT")
+  __webpack_require__("7VBB")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -23,19 +29,19 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-2a361166"
+var __vue_scopeId__ = "data-v-1d4a9de1"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Spinner_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2a361166_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Spinner_vue__["a" /* default */],
+  Spinner_default.a,
+  components_Spinner,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_components_Spinner = __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
@@ -54,28 +60,27 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
-/***/ "2ZIe":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "2v9N":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Selected_vue__ = __webpack_require__("TaBq");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Selected_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Selected_vue__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Selected_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Selected_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1585bb70_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Selected_vue__ = __webpack_require__("FmI8");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/Selected.vue
+var Selected = __webpack_require__("TaBq");
+var Selected_default = /*#__PURE__*/__webpack_require__.n(Selected);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-cd4756de","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Selected.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"asset-select-box"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),_vm._m(0,false,false)]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.list),function(val,key){return _c('li',{key:key,class:_vm.selection==key?'active':'',attrs:{"role":"presentation"},on:{"click":function($event){_vm.switchVal(key)}}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"}},[_vm._v(_vm._s(val))])])}))])}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_Selected = (esExports);
+// CONCATENATED MODULE: ./src/components/Selected.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("Q+Sz")
+  __webpack_require__("UOl0")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -84,19 +89,19 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-1585bb70"
+var __vue_scopeId__ = "data-v-cd4756de"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Selected_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1585bb70_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Selected_vue__["a" /* default */],
+  Selected_default.a,
+  components_Selected,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_components_Selected = __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
@@ -162,17 +167,6 @@ exports.default = DateTool;
 
 /***/ }),
 
-/***/ "5+yY":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner-wrap",class:_vm.isbig?'spinner-big':''},[_vm._m(0)])}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"spinner"},[_c('div',{staticClass:"spinner-container container1"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container2"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})]),_vm._v(" "),_c('div',{staticClass:"spinner-container container3"},[_c('div',{staticClass:"circle1"}),_vm._v(" "),_c('div',{staticClass:"circle2"}),_vm._v(" "),_c('div',{staticClass:"circle3"}),_vm._v(" "),_c('div',{staticClass:"circle4"})])])}]
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
 /***/ "50aY":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -193,8 +187,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -603,7 +597,7 @@ var WWW = /** @class */ (function () {
                         json = _a.sent();
                         r = json["result"];
                         if (r == undefined)
-                            return [2 /*return*/, 0];
+                            return [2 /*return*/, { gas: 0 }];
                         return [2 /*return*/, r[0]];
                 }
             });
@@ -1409,17 +1403,6 @@ exports.WWW = WWW;
 
 /***/ }),
 
-/***/ "5EbJ":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hint-box"},[_c('div',{staticClass:"hint-msg"},[_vm._t("default")],2)])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
 /***/ "5LD5":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1440,8 +1423,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -1807,18 +1790,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ var app = ({});
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-61c0d4de","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/app.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-8c6ab5d0","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/pages/app.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('router-view')}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var pages_app = (esExports);
 // CONCATENATED MODULE: ./src/pages/app.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("Y4zF")
+  __webpack_require__("BKOO")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -1827,7 +1809,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-61c0d4de"
+var __vue_scopeId__ = "data-v-8c6ab5d0"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -1844,6 +1826,13 @@ var Component = normalizeComponent(
 
 /***/ }),
 
+/***/ "5bIc":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "5yhA":
 /***/ (function(module, exports) {
 
@@ -1856,16 +1845,22 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_hint_vue__ = __webpack_require__("lXdV");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_hint_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_hint_vue__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_hint_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_hint_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_39ca30cf_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_hint_vue__ = __webpack_require__("5EbJ");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/hint.vue
+var hint = __webpack_require__("lXdV");
+var hint_default = /*#__PURE__*/__webpack_require__.n(hint);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-613f161c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/hint.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hint-box"},[_c('div',{staticClass:"hint-msg"},[_vm._t("default")],2)])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_hint = (esExports);
+// CONCATENATED MODULE: ./src/components/hint.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("ojCp")
+  __webpack_require__("5bIc")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -1874,19 +1869,19 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-39ca30cf"
+var __vue_scopeId__ = "data-v-613f161c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_hint_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_39ca30cf_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_hint_vue__["a" /* default */],
+  hint_default.a,
+  components_hint,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_components_hint = __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
@@ -1921,8 +1916,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -2166,8 +2161,7 @@ var BalanceInfo = /** @class */ (function () {
     };
     BalanceInfo.getBalancesByArr = function (balances, nep5balances, height) {
         var balancearr = [];
-        if (balances) //余额不唯空
-         {
+        if (balances) {
             balances.map(function (item) {
                 item.names = importpack_1.tools.coinTool.assetID2name[item.asset];
                 var a = importpack_1.tools.storagetool.getStorage(item.asset);
@@ -2864,7 +2858,7 @@ var DomainState;
 
 /***/ }),
 
-/***/ "85su":
+/***/ "7VBB":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -2896,7 +2890,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var vue_property_decorator_1 = __webpack_require__("443i");
+var vue_property_decorator_1 = __webpack_require__("EOM2");
 var Spinner = /** @class */ (function (_super) {
     __extends(Spinner, _super);
     function Spinner() {
@@ -2940,8 +2934,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -3153,35 +3147,6 @@ exports.default = SgasTool;
 
 /***/ }),
 
-/***/ "9gbT":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "A5AY":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',{attrs:{"id":"wallet"}},[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"blockheight"},[_c('div',{staticClass:"container"},[_c('span',[_vm._v(_vm._s(_vm.$t('navbar.blockheight'))+"："+_vm._s(_vm.blockheight))]),_vm._v(" "),_c('div',{staticClass:"tranhistory-img fright"},[_c('img',{attrs:{"src":__webpack_require__("Rsmh"),"alt":""},on:{"click":_vm.onshowHistory}}),_vm._v(" "),(_vm.taskNumber)?_c('div',{staticClass:"add-task"},[_vm._v("\n            "+_vm._s(_vm.taskNumber>99?99:_vm.taskNumber)+"\n            "),(_vm.taskNumber>99)?_c('span',[_vm._v("+")]):_vm._e()]):_vm._e()])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('router-link',{class:{active:_vm.isActive('balance')},attrs:{"to":{name:'balance'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('balance'))?_c('img',{attrs:{"src":__webpack_require__("5yhA"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("Yj+Z"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('balance.balance'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('transfer')},attrs:{"to":{name:'transfer'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('transfer'))?_c('img',{attrs:{"src":__webpack_require__("njKD"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("AT6x"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('transfer.transfer'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('exchange')},attrs:{"to":{name:'exchange'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('exchange'))?_c('img',{attrs:{"src":__webpack_require__("rVEi"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("w5Tq"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('exchange.title'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('nnsneo')},attrs:{"to":{name:'auction'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('nnsneo'))?_c('img',{attrs:{"src":__webpack_require__("Blow"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("rjrR"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('nns.nns'))+"(.neo)\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('nnstest')},attrs:{"to":{name:'auctiontest'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('nnstest'))?_c('img',{attrs:{"src":__webpack_require__("Blow"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("rjrR"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('nns.nns'))+"(.test)\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('setting')},attrs:{"to":{name:'setting'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('setting'))?_c('img',{attrs:{"src":__webpack_require__("Fxcc"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("1Iz4"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('setting.settings'))+"\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"tranhistory-box"},[(_vm.showHistory)?_c('div',{staticClass:"tranhistory-wrap"},[_c('div',{staticClass:"tranhistory-listbox"},[_c('div',{staticClass:"tranhistory-title"},[_c('div',{staticClass:"tranhistory-close",on:{"click":function($event){_vm.showHistory=!_vm.showHistory}}},[_c('img',{attrs:{"src":__webpack_require__("fgqV"),"alt":""}})]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.title')))]),_vm._v(" "),_c('div',{staticClass:"tranhistory-tips"},[_vm._v(_vm._s(_vm.$t('operation.tips')))])]),_vm._v(" "),(_vm.taskList.length != 0)?_c('div',{staticClass:"tranhistory-list"},_vm._l((_vm.taskList),function(item){return _c('div',{key:item.tasktype,staticClass:"th-onelist"},[(item.tasktype == 0)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.transfer')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.toaddress))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" "+_vm._s(item.message.assetname))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 1)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.openauction')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 2)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.raisebid')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" CGAS")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 3)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.exchange')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.count)+" Gas")]),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("0YXJ"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.count)+" CGAS")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 4)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.exchange')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.count)+" CGAS")]),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("0YXJ"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.count)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 5)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.topup')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" CGAS")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 6)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.withdraw')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+"Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 7)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.requestgas')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waitinggas'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"green-text"},[_vm._v(_vm._s(_vm.$t('operation.sentok')))]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 8)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v("\n                            "+_vm._s(_vm.$t('operation.addrmapping'))+"\n                            "),_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.address))])])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 9)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.addrresolver'))+" "+_vm._s(item.resolver))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 10)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.renew')))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 11)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.getdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 12)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.recover')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" CGAS")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 13)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.gasclaim')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 14)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v("\n                            "+_vm._s(_vm.$t('operation.domaintransfer'))+"\n                            "),_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.address))])])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 15)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.list')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" NNC")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 16)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.delist')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 17)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.buy')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" NNC")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 18)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.claimnnc')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_vm._v(_vm._s(item.message.amount)+" NNC")])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 19)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.requestnnc')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" NNC")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waitinggas'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"green-text"},[_vm._v(_vm._s(_vm.$t('operation.sentok')))]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e()])})):_vm._e(),_vm._v(" "),(_vm.taskList.length == 0)?_c('div',{staticClass:"notask"},[_vm._v(_vm._s(_vm.$t('operation.nodata')))]):_vm._e()])]):_vm._e()])])])]),_vm._v(" "),_c('div',{staticClass:"wallet-content"},[_c('router-view')],1)])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
-/***/ "A7KC":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"bubble-box"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"bubble-msg disable"},[_vm._v("\n    "+_vm._s(_vm.$t('nns.msg1')))]),_vm._v(" "),_c('div',{staticClass:"help-icon"},[_c('img',{attrs:{"src":__webpack_require__("NmuQ"),"alt":""}}),_vm._v(" "),_c('div',{staticClass:"help-msg"},[_vm._v("\n      "+_vm._s(_vm.$t('nns.msg2'))+"\n      "),_c('div',{staticClass:"triangle-box"})])])])}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"bubble-png"},[_c('img',{attrs:{"src":__webpack_require__("JPeH"),"alt":""}})])}]
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
 /***/ "AT6x":
 /***/ (function(module, exports) {
 
@@ -3194,16 +3159,22 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_toast_vue__ = __webpack_require__("vcAA");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_toast_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_toast_vue__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_toast_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_toast_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3006e8e0_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_toast_vue__ = __webpack_require__("SDXl");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/toast.vue
+var toast = __webpack_require__("vcAA");
+var toast_default = /*#__PURE__*/__webpack_require__.n(toast);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-34d787b3","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/toast.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.isshow)?_c('div',{staticClass:"comp-toast"},[_c('div',{staticClass:"img-box"},[(_vm.type == 'error')?_c('img',{attrs:{"src":__webpack_require__("lJF1"),"alt":""}}):_vm._e(),_vm._v(" "),(_vm.type == 'success')?_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('span',{staticClass:"text"},[_vm._v(_vm._s(_vm.msg))])]):_vm._e()}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_toast = (esExports);
+// CONCATENATED MODULE: ./src/components/toast.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("TC2Y")
+  __webpack_require__("S2Vl")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -3216,16 +3187,23 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_toast_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3006e8e0_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_toast_vue__["a" /* default */],
+  toast_default.a,
+  components_toast,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_components_toast = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "BKOO":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -3293,28 +3271,6 @@ var Notify = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Notify;
 
-
-/***/ }),
-
-/***/ "EkL8":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"main-content"},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v(_vm._s(_vm.$t('navbar.toggle')))]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])]),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('div',{staticClass:"logo"}),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/","target":"_blank"}},[_vm._v(_vm._s(_vm.$t('navbar.explorer')))])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel"},[_vm._v(_vm._s(_vm.$t('navbar.wallet')))])])]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{staticClass:"active",attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))])]),_vm._v(" "),_c('li',{attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"target":"_blank","href":"https://wallet.nel.group","id":"maina"}},[_vm._v(_vm._s(_vm.$t('navbar.mainnet')))])])])]),_vm._v(" "),(_vm.loginshow)?_c('li',[_c('router-link',{attrs:{"to":"login"}},[_vm._v(_vm._s(_vm.$t('navbar.logout')))])],1):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text"},[_vm._v(_vm._s(_vm.currentLanguage))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{class:_vm.currentLanguage=='English'?'active':'',attrs:{"id":"testnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(1)}}},[_vm._v("English")])]),_vm._v(" "),_c('li',{class:_vm.currentLanguage!='English'?'active':'',attrs:{"id":"mainnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(2)}}},[_vm._v("中文")])])])])])])])]),_vm._v(" "),_vm._t("default")],2)}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
-/***/ "FmI8":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"asset-select-box"},[_c('div',{staticClass:"btn dropdown-toggle select-nel",attrs:{"type":"button","id":"assets","data-toggle":"dropdown"}},[_c('div',{staticClass:"select-title"},[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),_vm._m(0)]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel",attrs:{"role":"menu","aria-labelledby":"assets"}},_vm._l((_vm.list),function(val,key){return _c('li',{key:key,class:_vm.selection==key?'active':'',attrs:{"role":"presentation"},on:{"click":function($event){_vm.switchVal(key)}}},[_c('a',{attrs:{"role":"menuitem","tabindex":"-1"}},[_vm._v(_vm._s(val))])])}))])}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"select-caret"},[_c('span',{staticClass:"caret"})])}]
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -3403,32 +3359,27 @@ exports.default = Main;
 
 /***/ }),
 
-/***/ "GiNd":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.show)?_c('div',{staticClass:"alert-box"},[_c('div',{staticClass:"alert-warp"},[_c('div',{staticClass:"alert-title"},[_vm._v(_vm._s(_vm.$t('nns.alerttitle')))]),_vm._v(" "),_c('div',{staticClass:"alert-content"},[_vm._t("default")],2),_vm._v(" "),_c('div',{staticClass:"alert-close",on:{"click":function($event){_vm.closemudloe()}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e()}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
 /***/ "Gieu":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Valert_vue__ = __webpack_require__("shbj");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Valert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Valert_vue__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Valert_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Valert_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4432cf73_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Valert_vue__ = __webpack_require__("GiNd");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/Valert.vue
+var Valert = __webpack_require__("shbj");
+var Valert_default = /*#__PURE__*/__webpack_require__.n(Valert);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-d8a19e9e","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Valert.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.show)?_c('div',{staticClass:"alert-box"},[_c('div',{staticClass:"alert-warp"},[_c('div',{staticClass:"alert-title"},[_vm._v(_vm._s(_vm.$t('nns.alerttitle')))]),_vm._v(" "),_c('div',{staticClass:"alert-content"},[_vm._t("default")],2),_vm._v(" "),_c('div',{staticClass:"alert-close",on:{"click":function($event){_vm.closemudloe()}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e()}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_Valert = (esExports);
+// CONCATENATED MODULE: ./src/components/Valert.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("oBpV")
+  __webpack_require__("cou+")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -3437,19 +3388,19 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-4432cf73"
+var __vue_scopeId__ = "data-v-d8a19e9e"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Valert_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4432cf73_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Valert_vue__["a" /* default */],
+  Valert_default.a,
+  components_Valert,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_components_Valert = __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
@@ -3474,8 +3425,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -3649,7 +3600,7 @@ var Contract = /** @class */ (function () {
      */
     Contract.contractInvokeTrans_attributes = function (script) {
         return __awaiter(this, void 0, void 0, function () {
-            var utxos, gass, addr, tran, feeres, data, res, result;
+            var utxos, gass, addr, tran, feeres, data, txid, res, result, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, cointool_1.CoinTool.getassets()];
@@ -3682,17 +3633,33 @@ var Contract = /** @class */ (function () {
                         return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
                     case 2:
                         data = _a.sent();
+                        txid = tran.GetHash().clone().reverse().toHexString();
                         res = new entity_1.Result();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                        _a.label = 3;
                     case 3:
+                        _a.trys.push([3, 5, , 6]);
+                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
+                    case 4:
                         result = _a.sent();
                         res.err = !result["sendrawtransactionresult"];
-                        res.info = result["txid"];
-                        if (!res.err) {
-                            if (feeres && feeres.oldutxo) {
-                                entity_1.OldUTXO.oldutxosPush(feeres.oldutxo);
-                            }
+                        res.info = txid;
+                        return [3 /*break*/, 6];
+                    case 5:
+                        error_1 = _a.sent();
+                        res.err = true;
+                        res.info = txid;
+                        return [3 /*break*/, 6];
+                    case 6:
+                        if (feeres && feeres.oldutxo) {
+                            entity_1.OldUTXO.oldutxosPush(feeres.oldutxo);
                         }
+                        // if (!res.err)
+                        // {
+                        //     if (feeres && feeres.oldutxo)
+                        //     {
+                        //         OldUTXO.oldutxosPush(feeres.oldutxo);
+                        //     }
+                        // }
                         return [2 /*return*/, res];
                 }
             });
@@ -3711,7 +3678,7 @@ var Contract = /** @class */ (function () {
             param[_i] = arguments[_i];
         }
         return __awaiter(this, void 0, void 0, function () {
-            var address, script, have, addr, assetid, count, utxos, tranmsg, tran, data, height, result, olds, error_1;
+            var address, script, have, addr, assetid, count, utxos, tranmsg, tran, data, height, result, olds, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3755,7 +3722,7 @@ var Contract = /** @class */ (function () {
                         }
                         return [3 /*break*/, 7];
                     case 6:
-                        error_1 = _a.sent();
+                        error_2 = _a.sent();
                         return [3 /*break*/, 7];
                     case 7: return [2 /*return*/];
                 }
@@ -3838,13 +3805,6 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABoCAYAAAAO
 
 /***/ }),
 
-/***/ "KnYP":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "LJj6":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3855,21 +3815,21 @@ var vue_1 = __webpack_require__("/5sW");
 var vue_router_1 = __webpack_require__("/ocq");
 var wallet_vue_1 = __webpack_require__("PPZq");
 vue_1.default.use(vue_router_1.default);
-var Balance = function (resolve) { return __webpack_require__.e/* require */(8).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("v8qo")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Login = function (resolve) { return __webpack_require__.e/* require */(6).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Luci")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Transfer = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(7)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Oz3I")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Exchange = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(5)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("eL9F")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var NNSNeo = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(9)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("C0Cu")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Settings = function (resolve) { return __webpack_require__.e/* require */(10).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Auction = function (resolve) { return Promise.all/* require */([__webpack_require__.e(3), __webpack_require__.e(0)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("jrmo")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var MyNeoName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(12)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("ogHy")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Bonus = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(14)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("6M52")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var NNSTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(15)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("PWmH")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var AuctionTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(4), __webpack_require__.e(0)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("dtBB")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var MyTestName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(13)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("bnm1")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var BonusTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(11)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("t94M")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Tutorial = function (resolve) { return __webpack_require__.e/* require */(1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("8G7y")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var TutorialTest = function (resolve) { return __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("nQWj")]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Balance = function (resolve) { return __webpack_require__.e/* require */(8).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("v8qo")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Login = function (resolve) { return __webpack_require__.e/* require */(6).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Luci")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Transfer = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(7)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Oz3I")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Exchange = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(5)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("eL9F")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var NNSNeo = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(15)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("C0Cu")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Settings = function (resolve) { return __webpack_require__.e/* require */(13).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Auction = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(3)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("jrmo")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var MyNeoName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(12)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("ogHy")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Bonus = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(11)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("6M52")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var NNSTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(9)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("PWmH")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var AuctionTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(4)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("dtBB")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var MyTestName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(14)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("bnm1")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var BonusTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(10)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("t94M")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Tutorial = function (resolve) { return __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("8G7y")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var TutorialTest = function (resolve) { return __webpack_require__.e/* require */(1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("nQWj")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 exports.default = new vue_router_1.default({
     mode: 'hash',
     routes: [
@@ -3945,18 +3905,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-ad35f30c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/VLink.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-179656f6","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/VLink.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{class:{ active: _vm.isActive },attrs:{"href":_vm.href},on:{"click":_vm.go}},[_vm._t("default")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_VLink = (esExports);
 // CONCATENATED MODULE: ./src/components/VLink.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("85su")
+  __webpack_require__("NLED")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -3965,7 +3924,7 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-ad35f30c"
+var __vue_scopeId__ = "data-v-179656f6"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -3979,6 +3938,13 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_VLink = __webpack_exports__["default"] = (Component.exports);
 
+
+/***/ }),
+
+/***/ "NLED":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -4039,8 +4005,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -4282,16 +4248,22 @@ exports.neotools = neotools;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_wallet_ts__ = __webpack_require__("YRcM");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_wallet_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_wallet_ts__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_wallet_ts__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_wallet_ts__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5ea91b90_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_wallet_vue__ = __webpack_require__("A5AY");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./src/layouts/wallet.ts
+var wallet = __webpack_require__("YRcM");
+var wallet_default = /*#__PURE__*/__webpack_require__.n(wallet);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1e9c5968","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/wallet.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main-layout',{attrs:{"id":"wallet"}},[_c('nav',{staticClass:"navbar navbar-wallet"},[_c('div',{staticClass:"blockheight"},[_c('div',{staticClass:"container"},[_c('span',[_vm._v(_vm._s(_vm.$t('navbar.blockheight'))+"："+_vm._s(_vm.blockheight))]),_vm._v(" "),_c('div',{staticClass:"tranhistory-img fright"},[_c('img',{attrs:{"src":__webpack_require__("Rsmh"),"alt":""},on:{"click":_vm.onshowHistory}}),_vm._v(" "),(_vm.taskNumber)?_c('div',{staticClass:"add-task"},[_vm._v("\n            "+_vm._s(_vm.taskNumber>99?99:_vm.taskNumber)+"\n            "),(_vm.taskNumber>99)?_c('span',[_vm._v("+")]):_vm._e()]):_vm._e()])])]),_vm._v(" "),_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('router-link',{class:{active:_vm.isActive('balance')},attrs:{"to":{name:'balance'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('balance'))?_c('img',{attrs:{"src":__webpack_require__("5yhA"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("Yj+Z"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('balance.balance'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('transfer')},attrs:{"to":{name:'transfer'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('transfer'))?_c('img',{attrs:{"src":__webpack_require__("njKD"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("AT6x"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('transfer.transfer'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('exchange')},attrs:{"to":{name:'exchange'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('exchange'))?_c('img',{attrs:{"src":__webpack_require__("rVEi"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("w5Tq"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('exchange.title'))+"\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('nnsneo')},attrs:{"to":{name:'auction'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('nnsneo'))?_c('img',{attrs:{"src":__webpack_require__("Blow"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("rjrR"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('nns.nns'))+"(.neo)\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('nnstest')},attrs:{"to":{name:'auctiontest'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('nnstest'))?_c('img',{attrs:{"src":__webpack_require__("Blow"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("rjrR"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('nns.nns'))+"(.test)\n            ")])],1),_vm._v(" "),_c('li',[_c('router-link',{class:{active:_vm.isActive('setting')},attrs:{"to":{name:'setting'}}},[_c('span',{staticClass:"icon-png"},[(_vm.isActive('setting'))?_c('img',{attrs:{"src":__webpack_require__("Fxcc"),"alt":""}}):_c('img',{attrs:{"src":__webpack_require__("1Iz4"),"alt":""}})]),_vm._v("\n              "+_vm._s(_vm.$t('setting.settings'))+"\n            ")])],1)]),_vm._v(" "),_c('div',{staticClass:"tranhistory-box"},[(_vm.showHistory)?_c('div',{staticClass:"tranhistory-wrap"},[_c('div',{staticClass:"tranhistory-listbox"},[_c('div',{staticClass:"tranhistory-title"},[_c('div',{staticClass:"tranhistory-close",on:{"click":function($event){_vm.showHistory=!_vm.showHistory}}},[_c('img',{attrs:{"src":__webpack_require__("fgqV"),"alt":""}})]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.title')))]),_vm._v(" "),_c('div',{staticClass:"tranhistory-tips"},[_vm._v(_vm._s(_vm.$t('operation.tips')))])]),_vm._v(" "),(_vm.taskList.length != 0)?_c('div',{staticClass:"tranhistory-list"},_vm._l((_vm.taskList),function(item){return _c('div',{key:item.tasktype,staticClass:"th-onelist"},[(item.tasktype == 0)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.transfer')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.toaddress))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" "+_vm._s(item.message.assetname))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 1)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.openauction')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 2)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.raisebid')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" CGAS")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 3)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.exchange')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.count)+" Gas")]),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("0YXJ"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.count)+" CGAS")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 4)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.exchange')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.count)+" CGAS")]),_vm._v(" "),_c('img',{attrs:{"src":__webpack_require__("0YXJ"),"alt":""}}),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.count)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 5)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.topup')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" CGAS")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 6)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.withdraw')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+"Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 7)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.requestgas')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waitinggas'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"green-text"},[_vm._v(_vm._s(_vm.$t('operation.sentok')))]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 8)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v("\n                            "+_vm._s(_vm.$t('operation.addrmapping'))+"\n                            "),_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.address))])])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 9)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.addrresolver'))+" "+_vm._s(item.resolver))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 10)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.$t('operation.renew')))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 11)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.getdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 12)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.recover')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" CGAS")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 13)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.gasclaim')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" Gas")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 14)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.editdomain')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"href":item.domainhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v("\n                            "+_vm._s(_vm.$t('operation.domaintransfer'))+"\n                            "),_c('a',{staticClass:"green-text",attrs:{"href":item.addrhref,"target":"_blank"}},[_vm._v(_vm._s(item.message.address))])])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 15)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.list')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" NNC")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 16)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.delist')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 17)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.buy')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('a',{staticClass:"green-text",attrs:{"target":"_blank","href":item.domainhref}},[_vm._v(_vm._s(item.message.domain))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(item.message.amount)+" NNC")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 18)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.claimnnc')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_vm._v(_vm._s(item.message.amount)+" NNC")])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[_c('span',{staticClass:"th-txid",staticStyle:{"padding-right":"10px"}},[_vm._v("\n                        "+_vm._s(_vm.$t('operation.txid'))+"\n                        "),_c('a',{staticClass:"green-text",attrs:{"href":item.txidhref,"target":"_blank"}},[_vm._v(_vm._s(item.txid))])]),_vm._v(" "),(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waiting'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"th-txid"}):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e(),_vm._v(" "),(item.tasktype == 19)?_c('div',[_c('div',{staticClass:"th-type"},[_c('div',{staticClass:"th-typename"},[_vm._v(_vm._s(_vm.$t('operation.requestnnc')))]),_vm._v(" "),_c('div',{staticClass:"th-other"},[_c('div',{staticClass:"th-number"},[_c('span',[_vm._v(_vm._s(item.message.amount)+" NNC")])])])]),_vm._v(" "),_c('div',{staticClass:"th-block-txid"},[(item.state==0)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.waitinggas'))+" "+_vm._s(item.pendingText))]):_vm._e(),_vm._v(" "),(item.state==1)?_c('span',{staticClass:"green-text"},[_vm._v(_vm._s(_vm.$t('operation.sentok')))]):_vm._e(),_vm._v(" "),(item.state==2)?_c('span',{staticClass:"red-text"},[_vm._v(_vm._s(_vm.$t('operation.fail')))]):_vm._e()])]):_vm._e()])})):_vm._e(),_vm._v(" "),(_vm.taskList.length == 0)?_c('div',{staticClass:"notask"},[_vm._v(_vm._s(_vm.$t('operation.nodata')))]):_vm._e()])]):_vm._e()])])])]),_vm._v(" "),_c('div',{staticClass:"wallet-content"},[_c('router-view')],1)])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var layouts_wallet = (esExports);
+// CONCATENATED MODULE: ./src/layouts/wallet.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("qD3d")
+  __webpack_require__("uCj8")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 /* template */
 
 /* template functional */
@@ -4303,23 +4275,16 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_wallet_ts___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5ea91b90_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_wallet_vue__["a" /* default */],
+  wallet_default.a,
+  layouts_wallet,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_layouts_wallet = __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "Q+Sz":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -4328,16 +4293,22 @@ var Component = normalizeComponent(
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Notify_vue__ = __webpack_require__("D078");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Notify_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Notify_vue__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Notify_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Notify_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_798d22fc_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Notify_vue__ = __webpack_require__("wuwk");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/Notify.vue
+var Notify = __webpack_require__("D078");
+var Notify_default = /*#__PURE__*/__webpack_require__.n(Notify);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-28693b97","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/Notify.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.show)?_c('div',{staticClass:"alert-box"},[_c('div',{staticClass:"alert-warp"},[_c('div',{staticClass:"alert-title"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"alert-content"},[_vm._t("default")],2),_vm._v(" "),_c('div',{staticClass:"alert-close",on:{"click":function($event){_vm.close()}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e()}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_Notify = (esExports);
+// CONCATENATED MODULE: ./src/components/Notify.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("Qqvj")
+  __webpack_require__("olDd")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -4346,27 +4317,20 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-798d22fc"
+var __vue_scopeId__ = "data-v-28693b97"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Notify_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_798d22fc_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Notify_vue__["a" /* default */],
+  Notify_default.a,
+  components_Notify,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_components_Notify = __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ "Qqvj":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -4377,18 +4341,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
-/***/ "SDXl":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.isshow)?_c('div',{staticClass:"comp-toast"},[_c('div',{staticClass:"img-box"},[(_vm.type == 'error')?_c('img',{attrs:{"src":__webpack_require__("lJF1"),"alt":""}}):_vm._e(),_vm._v(" "),(_vm.type == 'success')?_c('img',{attrs:{"src":__webpack_require__("wtuE"),"alt":""}}):_vm._e()]),_vm._v(" "),_c('span',{staticClass:"text"},[_vm._v(_vm._s(_vm.msg))])]):_vm._e()}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
-/***/ "TC2Y":
+/***/ "S2Vl":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -4421,7 +4374,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
-var vue_property_decorator_1 = __webpack_require__("443i");
+var vue_property_decorator_1 = __webpack_require__("EOM2");
 var Selected = /** @class */ (function (_super) {
     __extends(Selected, _super);
     function Selected() {
@@ -4450,6 +4403,13 @@ var Selected = /** @class */ (function (_super) {
 }(vue_1.default));
 exports.default = Selected;
 
+
+/***/ }),
+
+/***/ "UOl0":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -4493,16 +4453,22 @@ var tools;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bubble_vue__ = __webpack_require__("VvEX");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bubble_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bubble_vue__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bubble_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bubble_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_fbe2bff2_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bubble_vue__ = __webpack_require__("A7KC");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/bubble.vue
+var bubble = __webpack_require__("VvEX");
+var bubble_default = /*#__PURE__*/__webpack_require__.n(bubble);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-6b8831e2","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/bubble.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"bubble-box"},[_vm._m(0,false,false),_vm._v(" "),_c('div',{staticClass:"bubble-msg disable"},[_vm._v("\n    "+_vm._s(_vm.$t('nns.msg1')))]),_vm._v(" "),_c('div',{staticClass:"help-icon"},[_c('img',{attrs:{"src":__webpack_require__("NmuQ"),"alt":""}}),_vm._v(" "),_c('div',{staticClass:"help-msg"},[_vm._v("\n      "+_vm._s(_vm.$t('nns.msg2'))+"\n      "),_c('div',{staticClass:"triangle-box"})])])])}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"bubble-png"},[_c('img',{attrs:{"src":__webpack_require__("JPeH"),"alt":""}})])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_bubble = (esExports);
+// CONCATENATED MODULE: ./src/components/bubble.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("KnYP")
+  __webpack_require__("XN34")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -4511,19 +4477,19 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-fbe2bff2"
+var __vue_scopeId__ = "data-v-6b8831e2"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bubble_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_fbe2bff2_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bubble_vue__["a" /* default */],
+  bubble_default.a,
+  components_bubble,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_components_bubble = __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
@@ -4553,7 +4519,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var vue_property_decorator_1 = __webpack_require__("443i");
+var vue_property_decorator_1 = __webpack_require__("EOM2");
 var Bubble = /** @class */ (function (_super) {
     __extends(Bubble, _super);
     function Bubble() {
@@ -4787,6 +4753,13 @@ exports.Process = Process;
 
 /***/ }),
 
+/***/ "XN34":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "XfB5":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4807,8 +4780,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -5090,17 +5063,14 @@ var TaskManager = /** @class */ (function () {
                     case 1:
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
-                             {
+                            if (task.confirm > 3) {
                                 task.state = entity_1.TaskState.fail;
                             }
                             else {
                                 var result = ress[task.txid]; //获取通知数组
-                                if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
-                                 {
+                                if (result.issucces) {
                                     task.state = entity_1.TaskState.success;
-                                    if (task.message.type && task.message.type == "Claim") //判断此交易是否是claim
-                                     {
+                                    if (task.message.type && task.message.type == "Claim") {
                                         // TaskFunction.claimGas();
                                         importpack_1.tools.coinTool.claimGas()
                                             .then(function (res) {
@@ -5142,15 +5112,13 @@ var TaskManager = /** @class */ (function () {
                     case 1:
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
-                             {
+                            if (task.confirm > 3) {
                                 task.state = entity_1.TaskState.fail;
                                 entity_1.TaskFunction.claimState(0);
                             }
                             else {
                                 var result = ress[task.txid]; //获取通知数组
-                                if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
-                                 {
+                                if (result.issucces) {
                                     task.state = entity_1.TaskState.success;
                                     entity_1.TaskFunction.claimState(1);
                                 }
@@ -5177,16 +5145,14 @@ var TaskManager = /** @class */ (function () {
                     case 1:
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
-                             {
+                            if (task.confirm > 3) {
                                 task.state = entity_1.TaskState.fail;
                                 if (entity_1.TaskFunction.withdraw)
                                     entity_1.TaskFunction.withdraw();
                             }
                             else {
                                 var result = ress[task.txid]; //获取通知数组
-                                if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
-                                 {
+                                if (result.issucces) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.withdraw)
                                         entity_1.TaskFunction.withdraw();
@@ -5214,16 +5180,14 @@ var TaskManager = /** @class */ (function () {
                     case 1:
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
-                             {
+                            if (task.confirm > 3) {
                                 task.state = entity_1.TaskState.fail;
                                 if (entity_1.TaskFunction.topup)
                                     entity_1.TaskFunction.topup();
                             }
                             else {
                                 var result = ress[task.txid]; //获取通知数组
-                                if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
-                                 {
+                                if (result.issucces) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.topup)
                                         entity_1.TaskFunction.topup();
@@ -5293,8 +5257,7 @@ var TaskManager = /** @class */ (function () {
                                 if (result.vmstate == "FAULT, BREAK") {
                                     task.state = entity_1.TaskState.fail;
                                 }
-                                else if (result && result.displayNameList && result.displayNameList.includes("raise")) //检测是否有对应的通知 addprice
-                                 {
+                                else if (result && result.displayNameList && result.displayNameList.includes("raise")) {
                                     task.state = entity_1.TaskState.success;
                                 }
                                 else if (result && result.displayNameList && result.displayNameList.includes("bidSettlement")) {
@@ -5327,20 +5290,19 @@ var TaskManager = /** @class */ (function () {
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
                             var result = ress[task.txid]; //获取通知数组
-                            if (result && result['errCode']) //检测是否有对应的通知 changeOwnerInfo
-                             {
+                            if (result && result['errCode']) {
                                 switch (result['errCode']) {
-                                    case '0000': //成功
+                                    case '0000'://成功
                                         task.state = entity_1.TaskState.success;
                                         if (entity_1.TaskFunction.exchange)
                                             entity_1.TaskFunction.exchange();
                                         break;
-                                    case '3001': //失败
+                                    case '3001'://失败
                                         task.state = entity_1.TaskState.fail;
                                         if (entity_1.TaskFunction.exchange)
                                             entity_1.TaskFunction.exchange();
                                         break;
-                                    case '3002': //失败
+                                    case '3002'://失败
                                         task.state = entity_1.TaskState.fail;
                                         if (entity_1.TaskFunction.exchange)
                                             entity_1.TaskFunction.exchange();
@@ -5369,16 +5331,14 @@ var TaskManager = /** @class */ (function () {
                     case 1:
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
-                             {
+                            if (task.confirm > 3) {
                                 task.state = entity_1.TaskState.fail;
                                 if (entity_1.TaskFunction.exchange)
                                     entity_1.TaskFunction.exchange();
                             }
                             else {
                                 var result = ress[task.txid]; //获取通知数组
-                                if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
-                                 {
+                                if (result.issucces) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.exchange)
                                         entity_1.TaskFunction.exchange();
@@ -5415,8 +5375,7 @@ var TaskManager = /** @class */ (function () {
                                         entity_1.TaskFunction.domainResovle(task.message['domain']);
                                     domainEdit.delete(task.message['domain'], 'resolver');
                                 }
-                                else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) //检测是否有对应的通知 changeOwnerInfo
-                                 {
+                                else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.domainResovle)
                                         entity_1.TaskFunction.domainResovle(task.message['domain']);
@@ -5500,8 +5459,7 @@ var TaskManager = /** @class */ (function () {
                                         entity_1.TaskFunction.domainMapping(task['domain'], undefined);
                                     domainEdit.delete(task.message['domain'], 'mapping');
                                 }
-                                else if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) //如果返回的通知有 setResolveData则域名映射设置成功
-                                 {
+                                else if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) {
                                     task.state = entity_1.TaskState.success;
                                     if (entity_1.TaskFunction.domainMapping)
                                         entity_1.TaskFunction.domainMapping(task.message['domain'], task.message['address']);
@@ -5582,22 +5540,21 @@ var TaskManager = /** @class */ (function () {
                         taskarr = this.forConfirm(tasks, function (task) {
                             var result = ress[task.txid]; //获取通知数组
                             if (task.type == entity_1.ConfirmType.recharge) {
-                                if (result && result['errCode']) //检测是否有对应的通知 changeOwnerInfo
-                                 {
+                                if (result && result['errCode']) {
                                     switch (result['errCode']) {
-                                        case '0000': //成功
+                                        case '0000'://成功
                                             task.state = entity_1.TaskState.success;
                                             StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                                             if (entity_1.TaskFunction.auctionStateUpdate)
                                                 entity_1.TaskFunction.auctionStateUpdate();
                                             break;
-                                        case '3001': //失败
+                                        case '3001'://失败
                                             task.state = entity_1.TaskState.fail;
                                             StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                                             if (entity_1.TaskFunction.auctionStateUpdate)
                                                 entity_1.TaskFunction.auctionStateUpdate();
                                             break;
-                                        case '3002': //失败
+                                        case '3002'://失败
                                             task.state = entity_1.TaskState.fail;
                                             StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                                             if (entity_1.TaskFunction.auctionStateUpdate)
@@ -5650,8 +5607,7 @@ var TaskManager = /** @class */ (function () {
                     case 1:
                         ress = _a.sent();
                         taskarr = this.forConfirm(tasks, function (task) {
-                            if (task.confirm > 3) //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
-                             {
+                            if (task.confirm > 3) {
                                 task.state = entity_1.TaskState.fail;
                                 StorageMap_1.default.auctionInfo.put(task.message["domain"], false, 'isRecoverWait');
                                 if (entity_1.TaskFunction.auctionStateUpdate)
@@ -5696,20 +5652,17 @@ var TaskManager = /** @class */ (function () {
                     case 2:
                         res = _a.sent();
                         if (res) {
-                            if (res[0].code == "3010") //可领取
-                             {
+                            if (res[0].code == "3010") {
                                 task.state = entity_1.TaskState.fail;
                                 if (entity_1.TaskFunction.getGasTest)
                                     entity_1.TaskFunction.getGasTest(0); //可领取
                             }
-                            else if (res[0].code == "3012") //已领取
-                             {
+                            else if (res[0].code == "3012") {
                                 task.state = entity_1.TaskState.success;
                                 if (entity_1.TaskFunction.getGasTest)
                                     entity_1.TaskFunction.getGasTest(1); //已领取
                             }
-                            else if (res[0].code == "3011") //正在领取
-                             {
+                            else if (res[0].code == "3011") {
                                 task.state = entity_1.TaskState.watting;
                                 if (entity_1.TaskFunction.getGasTest)
                                     entity_1.TaskFunction.getGasTest(2); //已领取
@@ -5834,20 +5787,19 @@ var TaskManager = /** @class */ (function () {
                         taskarr = this.forConfirm(tasks, function (task) {
                             var result = ress[task.txid]; //获取通知数组
                             if (task.type == entity_1.ConfirmType.recharge) {
-                                if (result && result['errCode']) //检测是否有对应的通知 changeOwnerInfo
-                                 {
+                                if (result && result['errCode']) {
                                     switch (result['errCode']) {
-                                        case '0000': //成功
+                                        case '0000'://成功
                                             task.state = entity_1.TaskState.success;
                                             // if (TaskFunction.domainUnSale)
                                             //     TaskFunction.domainUnSale(task.message[ 'domain' ])
                                             buyDomain.delete(task.message['domain'], 'buy');
                                             break;
-                                        case '3001': //失败
+                                        case '3001'://失败
                                             task.state = entity_1.TaskState.fail;
                                             buyDomain.delete(task.message['domain'], 'buy');
                                             break;
-                                        case '3002': //失败
+                                        case '3002'://失败
                                             task.state = entity_1.TaskState.fail;
                                             buyDomain.delete(task.message['domain'], 'buy');
                                             break;
@@ -5928,26 +5880,22 @@ var TaskManager = /** @class */ (function () {
                     case 2:
                         res = _a.sent();
                         if (res) {
-                            if (res[0].code == "3001") //可领取
-                             {
+                            if (res[0].code == "3001") {
                                 task.state = entity_1.TaskState.fail;
                                 if (entity_1.TaskFunction.getNNCTest)
                                     entity_1.TaskFunction.getNNCTest(0); //可领取
                             }
-                            else if (res[0].code == "3002") //可再次领取
-                             {
+                            else if (res[0].code == "3002") {
                                 task.state = entity_1.TaskState.fail;
                                 if (entity_1.TaskFunction.getNNCTest)
                                     entity_1.TaskFunction.getNNCTest(0); //可领取
                             }
-                            else if (res[0].code == "3004") //已领取
-                             {
+                            else if (res[0].code == "3004") {
                                 task.state = entity_1.TaskState.success;
                                 if (entity_1.TaskFunction.getNNCTest)
                                     entity_1.TaskFunction.getNNCTest(1); //已领取
                             }
-                            else if (res[0].code == "3003") //正在领取
-                             {
+                            else if (res[0].code == "3003") {
                                 task.state = entity_1.TaskState.watting;
                                 if (entity_1.TaskFunction.getNNCTest)
                                     entity_1.TaskFunction.getNNCTest(2); //已领取
@@ -5976,13 +5924,6 @@ var TaskManager = /** @class */ (function () {
 }());
 exports.TaskManager = TaskManager;
 
-
-/***/ }),
-
-/***/ "Y4zF":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -6242,8 +6183,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -6925,6 +6866,13 @@ exports.NNSTool = NNSTool;
 
 /***/ }),
 
+/***/ "cou+":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "fgqV":
 /***/ (function(module, exports) {
 
@@ -6937,16 +6885,22 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__ = __webpack_require__("Gc41");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__);
-/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4c6eb4cd_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__ = __webpack_require__("EkL8");
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/layouts/Main.vue
+var Main = __webpack_require__("Gc41");
+var Main_default = /*#__PURE__*/__webpack_require__.n(Main);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-b5a9882e","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/layouts/Main.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"main-content"},[_c('nav',{staticClass:"navbar navbar-nel navbar-fixed-top"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"navbar-header"},[_c('button',{staticClass:"navbar-toggle collapsed",attrs:{"type":"button","data-toggle":"collapse","data-target":"#navbar","aria-expanded":"false","aria-controls":"navbar"}},[_c('span',{staticClass:"sr-only"},[_vm._v(_vm._s(_vm.$t('navbar.toggle')))]),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"}),_vm._v(" "),_c('span',{staticClass:"icon-bar"})])]),_vm._v(" "),_c('div',{staticClass:"navbar-collapse collapse",attrs:{"id":"navbar"}},[_c('div',{staticClass:"logo"}),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-left"},[_c('li',[_c('a',{attrs:{"href":"https://scan.nel.group/","target":"_blank"}},[_vm._v(_vm._s(_vm.$t('navbar.explorer')))])]),_vm._v(" "),_c('li',[_c('a',{staticClass:"active-nel"},[_vm._v(_vm._s(_vm.$t('navbar.wallet')))])])]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text",attrs:{"id":"network"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{staticClass:"active",attrs:{"id":"testnet-btn"}},[_c('a',{attrs:{"id":"testa"}},[_vm._v(_vm._s(_vm.$t('navbar.testnet')))])]),_vm._v(" "),_c('li',{attrs:{"id":"mainnet-btn"}},[_c('a',{attrs:{"target":"_blank","href":"https://wallet.nel.group","id":"maina"}},[_vm._v(_vm._s(_vm.$t('navbar.mainnet')))])])])]),_vm._v(" "),(_vm.loginshow)?_c('li',[_c('router-link',{attrs:{"to":"login"}},[_vm._v(_vm._s(_vm.$t('navbar.logout')))])],1):_vm._e()]),_vm._v(" "),_c('ul',{staticClass:"nav navbar-nav navbar-right"},[_c('li',{staticClass:"dropdown"},[_c('a',{staticClass:"dropdown-toggle",attrs:{"data-toggle":"dropdown","role":"button","aria-haspopup":"true","aria-expanded":"false"}},[_c('span',{staticClass:"text"},[_vm._v(_vm._s(_vm.currentLanguage))]),_vm._v(" "),_c('span',{staticClass:" caret"})]),_vm._v(" "),_c('ul',{staticClass:"dropdown-menu dropdown-nel"},[_c('li',{class:_vm.currentLanguage=='English'?'active':'',attrs:{"id":"testnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(1)}}},[_vm._v("English")])]),_vm._v(" "),_c('li',{class:_vm.currentLanguage!='English'?'active':'',attrs:{"id":"mainnet-btn"}},[_c('a',{on:{"click":function($event){_vm.cutLanguage(2)}}},[_vm._v("中文")])])])])])])])]),_vm._v(" "),_vm._t("default")],2)}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var layouts_Main = (esExports);
+// CONCATENATED MODULE: ./src/layouts/Main.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("2ZIe")
+  __webpack_require__("qNMH")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
-
 
 /* template */
 
@@ -6959,15 +6913,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4c6eb4cd_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["a" /* default */],
+  Main_default.a,
+  layouts_Main,
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+/* harmony default export */ var src_layouts_Main = __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
@@ -7005,7 +6959,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
-var vue_property_decorator_1 = __webpack_require__("443i");
+var vue_property_decorator_1 = __webpack_require__("EOM2");
 // import { LoginInfo } from "../tools/entity";
 var Hint = /** @class */ (function (_super) {
     __extends(Hint, _super);
@@ -7033,14 +6987,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
-/***/ "oBpV":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "ojCp":
+/***/ "olDd":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -7479,8 +7426,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -7631,13 +7578,11 @@ var CoinTool = /** @class */ (function () {
         var fee = Neo.Fixed8.parse('0.00000001');
         var sumcount = Neo.Fixed8.Zero; //初始化
         if (gasutxos) {
-            for (var i = 0; i < gasutxos.length; i++) //循环塞入utxo用于判断总数是否足够
-             {
+            for (var i = 0; i < gasutxos.length; i++) {
                 sumcount.add(gasutxos[i].count);
             }
         }
-        if (gasutxos && importpack_1.tools.coinTool.id_GAS == assetid) //如果转账的金额是gas
-         {
+        if (gasutxos && importpack_1.tools.coinTool.id_GAS == assetid) {
             // let addcount = sendcount.add(fee);
             var tranRes = this.creatInuptAndOutup(gasutxos, sendcount, targetaddr);
             tran.inputs = tranRes.inputs;
@@ -7694,8 +7639,7 @@ var CoinTool = /** @class */ (function () {
             assetId = utxos[i].asset.hexToBytes().reverse();
             var old = new entity_1.OldUTXO(utxos[i].txid, utxos[i].n);
             res.oldutxo.push(old);
-            if (count.compareTo(sendcount) > 0) //判断输入是否足够
-             {
+            if (count.compareTo(sendcount) > 0) {
                 break; //如果足够则跳出循环
             }
         }
@@ -7784,13 +7728,13 @@ var CoinTool = /** @class */ (function () {
                             tran.witnesses = [];
                         txid = tran.GetHash().clone().reverse().toHexString();
                         data = void 0;
+                        res = new entity_1.Result();
                         _a.label = 3;
                     case 3:
                         _a.trys.push([3, 7, , 8]);
                         return [4 /*yield*/, this.signData(tran)];
                     case 4:
                         data = _a.sent();
-                        res = new entity_1.Result();
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
                     case 5:
                         height = _a.sent();
@@ -7799,7 +7743,7 @@ var CoinTool = /** @class */ (function () {
                         result = _a.sent();
                         if (result["sendrawtransactionresult"]) {
                             res.err = !result;
-                            res.info = result['txid'];
+                            res.info = txid;
                             olds = tranres.info['oldarr'];
                             olds.map(function (old) { return old.height = height; });
                             entity_1.OldUTXO.oldutxosPush(olds);
@@ -7807,8 +7751,9 @@ var CoinTool = /** @class */ (function () {
                         return [2 /*return*/, res];
                     case 7:
                         error_2 = _a.sent();
-                        console.log(error_2);
-                        throw error_2;
+                        res.err = true;
+                        res.info = txid;
+                        return [2 /*return*/, res];
                     case 8: return [3 /*break*/, 10];
                     case 9:
                         error_3 = _a.sent();
@@ -8062,7 +8007,7 @@ exports.CoinTool = CoinTool;
 
 /***/ }),
 
-/***/ "qD3d":
+/***/ "qNMH":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -8103,8 +8048,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -8422,19 +8367,15 @@ var NNSSell = /** @class */ (function () {
                         if (info.maxPrice.compareTo(Neo.BigInteger.Zero) == 0) {
                             auction.auctionState = AuctionEntitys_1.AuctionState.pass;
                         }
-                        //先判断最后出价时间是否在第三天之前
                         else if (dlast < 2 * day) {
                             auction.auctionState = AuctionEntitys_1.AuctionState.end;
                         }
-                        //判断是否已有结束竞拍的区块高度。如果结束区块大于零则状态为结束
                         else if (info.endBlock.compareTo(Neo.BigInteger.Zero) > 0) {
                             auction.auctionState = AuctionEntitys_1.AuctionState.end;
                         }
-                        //如果不超过五天则是随机器
                         else if (dtime < 5 * day) {
                             auction.auctionState = AuctionEntitys_1.AuctionState.random;
                         }
-                        //超过五天则是结束 
                         else {
                             auction.auctionState = AuctionEntitys_1.AuctionState.end;
                         }
@@ -8647,6 +8588,13 @@ exports.default = Store;
 
 /***/ }),
 
+/***/ "uCj8":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "vcAA":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8673,7 +8621,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__("/5sW");
-var vue_property_decorator_1 = __webpack_require__("443i");
+var vue_property_decorator_1 = __webpack_require__("EOM2");
 var Toast = /** @class */ (function (_super) {
     __extends(Toast, _super);
     function Toast() {
@@ -9138,17 +9086,6 @@ exports.default = {
 /***/ (function(module, exports) {
 
 module.exports = "data:image/svg+xml;base64,DQo8c3ZnIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4NCiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQ5ICg1MTAwMikgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+DQogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+DQogICAgPGRlZnM+PC9kZWZzPg0KICAgIDxnIGlkPSJiYWxhbmNlNC10ZXN0bmV0IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICAgICAgPGcgaWQ9IummlumhtS10cmFuc2Zlci1pbnB1dCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTkyMi4wMDAwMDAsIC0zNzguMDAwMDAwKSI+DQogICAgICAgICAgICA8ZyBpZD0iR3JvdXAtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAwLjAwMDAwMCwgMjI2LjAwMDAwMCkiPg0KICAgICAgICAgICAgICAgIDxnIGlkPSLmiZPli74iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDgyMi4wMDAwMDAsIDE1Mi4wMDAwMDApIj4NCiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTI0LDEyLjE0ODE0ODEgQzI0LDUuMzcyNDQ0NDQgMTguNjI3NTU1NiwwIDExLjg1MTg1MTksMCBDNS4zNzI0NDQ0NCwwIDAsNS4zNzI0NDQ0NCAwLDEyLjE0ODE0ODEgQzAsMTguNjI3NTU1NiA1LjM3MjQ0NDQ0LDI0IDExLjg1MTg1MTksMjQgQzE4LjYyNzU1NTYsMjQgMjQsMTguNjI3NTU1NiAyNCwxMi4xNDgxNDgxIFoiIGlkPSJGaWxsLSIgZmlsbD0iIzJEREU0RiI+PC9wYXRoPg0KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNNi4yNDQ5NTE3MywxMi44NDYzNTA0IEM1Ljg1NjI5Mzc1LDEyLjQ0NjI2NzIgNS44MDk5NDA0OCwxMS43NTgyNjA2IDYuMTMyMDI0OTksMTEuMzIyMzU4MiBMNS42NTA2MzE3NSwxMS45NzM4NjU3IEM1Ljk3NjkyMjAyLDExLjUzMjI3MTMgNi41OTc0OTM2MiwxMS40NDU3MjQzIDcuMDQxMjU0NzcsMTEuNzg0MDE2NiBMOC44OTAxMDY5NywxMy4xOTM0NTE2IEM5LjMzMTgzNjU5LDEzLjUzMDE5NTIgMTAuMDM3NTcyNSwxMy41MTUxMTkgMTAuNDY1NjkwNiwxMy4xNjAzNzU5IEwxNy4wMDQ3NzQ2LDcuNzQyMDIzMTIgQzE3LjQzMzIxNTgsNy4zODcwMTIzMiAxOC4wOTc4NjA3LDcuNDEwOTI2MjQgMTguNDgwNzQ0NCw3Ljc4NzAzMTc1IEwxNy43ODA1MzYsNy4wOTkyMTkxOSBDMTguMTY3MjUwNCw3LjQ3OTA4NzU4IDE4LjE2Nzg2NTQsOC4wOTMyOTg5OSAxNy43NjEzMzQsOC40OTEyMzk2OSBMMTAuNDA5MDgxOSwxNS42ODgxMjUzIEMxMC4wMTE3NjI1LDE2LjA3NzA0ODYgOS4zNzc4NjM2OSwxNi4wNzEzNTk0IDguOTg1OTQzOTUsMTUuNjY3OTE4NSBMNi4yNDQ5NTE3MywxMi44NDYzNTA0IFoiIGlkPSJGaWxsLSIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPg0KICAgICAgICAgICAgICAgIDwvZz4NCiAgICAgICAgICAgIDwvZz4NCiAgICAgICAgPC9nPg0KICAgIDwvZz4NCjwvc3ZnPg=="
-
-/***/ }),
-
-/***/ "wuwk":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.show)?_c('div',{staticClass:"alert-box"},[_c('div',{staticClass:"alert-warp"},[_c('div',{staticClass:"alert-title"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"alert-content"},[_vm._t("default")],2),_vm._v(" "),_c('div',{staticClass:"alert-close",on:{"click":function($event){_vm.close()}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])])]):_vm._e()}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
