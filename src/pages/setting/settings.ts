@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../../layouts/wallet.vue";
-import { LoginInfo } from "../../tools/entity";
+import { LoginInfo, currentInfo, LoginType, alert } from "../../tools/entity";
 
 declare const mui;
 @Component({
@@ -13,12 +13,17 @@ export default class Settings extends Vue
 {
     address: string = "";
     wifshow: boolean = false;
+    type: LoginType;
     wif: string = "";
+    nep2: string = "";
     href: string = "";
     walletname: string = "";
+    nep2show: boolean = false;
     constructor()
     {
         super();
+        let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
+        this.type = current.type;
     }
 
     mounted()
@@ -27,25 +32,75 @@ export default class Settings extends Vue
     }
     visibleWif()
     {
-        this.wifshow = (this.wifshow == true ? false : true);
-        if (this.wifshow == true)
+        this.wifshow = !this.wifshow;
+        if (this.wifshow)
         {
             LoginInfo.info = null;
         }
         LoginInfo.deblocking()
             .then(info =>
             {
-                var msg: LoginInfo = info;
-                var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
-                this.wif = (this.wifshow == true ? wif : "");
+                var wif = ThinNeo.Helper.GetWifFromPrivateKey(info.prikey);
+                this.wif = this.wifshow ? wif : "";
             })
             .catch(err =>
             {
-
-                var msg: LoginInfo = LoginInfo.info;
-                var wif = ThinNeo.Helper.GetWifFromPrivateKey(msg.prikey);
-                this.wif = (this.wifshow == true ? wif : "");
+                console.log(err);
             })
+    }
+    //查看Nep2 字段
+    async visibleNep2()
+    {
+        this.nep2show = !this.nep2show;
+        if (this.nep2show)
+        {
+            LoginInfo.info = null;
+            try
+            {
+                let info = await LoginInfo.deblocking();
+                if (this.type == LoginType.otcgo)
+                {
+                    let password = info["password"];
+
+                    ThinNeo.Helper.GetNep2FromPrivateKey(info.prikey, password, 16384, 8, 8, (str, result) =>
+                    {
+                        this.nep2 = result;
+                    })
+                } else
+                {
+                    let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
+                    this.nep2 = current.msg[this.address]
+                }
+
+            } catch (error)
+            {
+
+            }
+        }
+    }
+
+    createNep2()
+    {
+        alert.show("请输入密码", "password", "创建", password =>
+        {
+            if (!password)
+            {
+            }
+            else
+            {
+                LoginInfo.deblocking()
+                    .catch(info =>
+                    {
+                        console.log(info);
+
+                        ThinNeo.Helper.GetNep2FromPrivateKey(info.prikey, password, 16384, 8, 8, (str, result) =>
+                        {
+                            this.nep2 = result;
+                            alert.close();
+                        })
+                    })
+            }
+        })
     }
     download()
     {
@@ -84,7 +139,6 @@ export default class Settings extends Vue
                 input.type = 'password';
             })
             .catch(err =>
-            {
-            })
+            { })
     }
 }

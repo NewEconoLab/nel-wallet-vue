@@ -73,6 +73,7 @@ export class LoginInfo
     pubkey: Uint8Array;
     prikey: Uint8Array;
     address: string;
+    nep2: string;
     static info: LoginInfo;
 
     static async deblocking()
@@ -103,7 +104,7 @@ export class LoginInfo
                 let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
                 if (current.type == LoginType.wif)
                 {
-                    var res = tools.neotool.wifDecode(current.msg[ 'wif' ]);
+                    var res = tools.neotool.wifDecode(current.msg['wif']);
                     if (res.err)
                     {
                         reject("WIF is error");
@@ -125,7 +126,7 @@ export class LoginInfo
                         }
                         else
                         {
-                            let nep2 = current.msg[ LoginInfo.getCurrentAddress() ];
+                            let nep2 = current.msg[LoginInfo.getCurrentAddress()];
                             tools.neotool.nep2ToWif(nep2, passsword)
                                 .then((res) =>
                                 {
@@ -156,10 +157,12 @@ export class LoginInfo
                             const result = otcgo.doValidatePwd();
                             if (result)
                             {
+
                                 var info: LoginInfo = new LoginInfo();
                                 info.address = otcgo.address;
                                 info.prikey = otcgo.prikey;
                                 info.pubkey = otcgo.pubkey;
+                                info["password"] = password;
                                 LoginInfo.info = info;
                                 alert.close();
                                 resolve(info);
@@ -208,9 +211,9 @@ export class LoginInfo
         for (var i = 0; i < array.length; i++)
         {
             obj.push({});
-            obj[ i ].pubkey = array[ i ].pubkey.toHexString();
-            obj[ i ].prikey = array[ i ].prikey.toHexString();
-            obj[ i ].address = array[ i ].address;
+            obj[i].pubkey = array[i].pubkey.toHexString();
+            obj[i].prikey = array[i].prikey.toHexString();
+            obj[i].address = array[i].address;
         }
         return JSON.stringify(obj);
     }
@@ -222,11 +225,11 @@ export class LoginInfo
         {
 
             arr.push(new LoginInfo());
-            var str: string = obj[ i ].prikey;
-            var str2: string = obj[ i ].pubkey;
-            arr[ i ].prikey = str.hexToBytes();
-            arr[ i ].pubkey = str2.hexToBytes();
-            arr[ i ].address = obj[ i ].address;
+            var str: string = obj[i].prikey;
+            var str2: string = obj[i].pubkey;
+            arr[i].prikey = str.hexToBytes();
+            arr[i].pubkey = str2.hexToBytes();
+            arr[i].address = obj[i].address;
         }
         return arr;
     }
@@ -235,7 +238,7 @@ export class LoginInfo
         var address: string = LoginInfo.getCurrentAddress();
         var arr: LoginInfo[] = tools.storagetool.getLoginArr();
         var n: number = arr.findIndex(info => info.address == address);
-        return arr[ n ];
+        return arr[n];
     }
     static getCurrentAddress(): string
     {
@@ -264,13 +267,13 @@ export class BalanceInfo
         {
             if (json.hasOwnProperty(i))
             {
-                const element = json[ i ];
+                const element = json[i];
                 let balance = new BalanceInfo();
-                balance.asset = element[ "asset" ];
-                balance.balance = element[ "balance" ];
-                balance.name = element[ "balance" ];
-                balance.names = element[ "names" ];
-                balance.type = element[ "type" ];
+                balance.asset = element["asset"];
+                balance.balance = element["balance"];
+                balance.name = element["balance"];
+                balance.names = element["names"];
+                balance.type = element["type"];
                 arr.push(balance);
             }
         }
@@ -286,13 +289,13 @@ export class BalanceInfo
             balances.map(
                 (item) =>
                 {
-                    item.names = tools.coinTool.assetID2name[ item.asset ];
+                    item.names = tools.coinTool.assetID2name[item.asset];
                     let a = tools.storagetool.getStorage(item.asset);
                     if (a)
                     {
                         let obj = JSON.parse(a)
-                        let h = obj[ "height" ];
-                        height - h > 1 ? tools.storagetool.delStorage(item.asset) : item.balance = obj[ "balance" ][ "balance" ];
+                        let h = obj["height"];
+                        height - h > 1 ? tools.storagetool.delStorage(item.asset) : item.balance = obj["balance"]["balance"];
                     }
                 }
             ); //将列表的余额资产名称赋值
@@ -302,7 +305,7 @@ export class BalanceInfo
         {
             for (let index = 0; index < nep5balances.length; index++)
             {
-                const nep5 = nep5balances[ index ];
+                const nep5 = nep5balances[index];
                 var nep5b: BalanceInfo = new BalanceInfo();
                 let id = nep5.assetid.replace("0x", "");
                 id = id.substring(0, 4) + '...' + id.substring(id.length - 4);
@@ -404,11 +407,11 @@ export class UTXO
         for (var i = 0; i < utxos.length; i++)
         {
             obj.push({});
-            obj[ i ].n = utxos[ i ].n;
-            obj[ i ].addr = utxos[ i ].addr;
-            obj[ i ].txid = utxos[ i ].txid;
-            obj[ i ].asset = utxos[ i ].asset;
-            obj[ i ].count = utxos[ i ].count.toString();
+            obj[i].n = utxos[i].n;
+            obj[i].addr = utxos[i].addr;
+            obj[i].txid = utxos[i].txid;
+            obj[i].asset = utxos[i].asset;
+            obj[i].count = utxos[i].count.toString();
         }
         return obj
     }
@@ -418,23 +421,23 @@ export class UTXO
         for (var i = 0; i < obj.length; i++)
         {
             utxos.push(new UTXO);
-            var str: string = obj[ i ].count;
-            utxos[ i ].n = obj[ i ].n;
-            utxos[ i ].addr = obj[ i ].addr;
-            utxos[ i ].txid = obj[ i ].txid;
-            utxos[ i ].asset = obj[ i ].asset;
-            utxos[ i ].count = Neo.Fixed8.parse(str);
+            var str: string = obj[i].count;
+            utxos[i].n = obj[i].n;
+            utxos[i].addr = obj[i].addr;
+            utxos[i].txid = obj[i].txid;
+            utxos[i].asset = obj[i].asset;
+            utxos[i].count = Neo.Fixed8.parse(str);
         }
         return utxos;
     }
 
-    static setAssets(assets: { [ id: string ]: UTXO[] })
+    static setAssets(assets: { [id: string]: UTXO[] })
     {
         var obj = {}
         for (var asset in assets)
         {
-            let arr = UTXO.ArrayToString(assets[ asset ]);
-            obj[ asset ] = arr;
+            let arr = UTXO.ArrayToString(assets[asset]);
+            obj[asset] = arr;
         }
         sessionStorage.setItem("current-assets-utxos", JSON.stringify(obj));
     }
@@ -447,7 +450,7 @@ export class UTXO
             assets = JSON.parse(str);
             for (const asset in assets)
             {
-                assets[ asset ] = UTXO.StringToArray(assets[ asset ]);
+                assets[asset] = UTXO.StringToArray(assets[asset]);
             }
         }
         return assets;
@@ -584,15 +587,15 @@ export class Claim
 
     constructor(json: {})
     {
-        this.addr = json[ 'addr' ];
-        this.asset = json[ 'asset' ];
-        this.claimed = json[ 'claimed' ];
-        this.createHeight = json[ 'createHeight' ];
-        this.n = json[ 'n' ];
-        this.txid = json[ 'txid' ];
-        this.useHeight = json[ 'useHeight' ];
-        this.used = json[ 'used' ];
-        this.value = json[ 'value' ];
+        this.addr = json['addr'];
+        this.asset = json['asset'];
+        this.claimed = json['claimed'];
+        this.createHeight = json['createHeight'];
+        this.n = json['n'];
+        this.txid = json['txid'];
+        this.useHeight = json['useHeight'];
+        this.used = json['used'];
+        this.value = json['value'];
     }
     static strToClaimArray(arr: {}[]): Claim[]
     {
@@ -601,7 +604,7 @@ export class Claim
         {
             if (arr.hasOwnProperty(i))
             {
-                claimarr.push(new Claim(arr[ i ]));
+                claimarr.push(new Claim(arr[i]));
             }
         }
         return claimarr;
@@ -636,17 +639,17 @@ export class DomainStatus
         if (str)
         {
             arr = JSON.parse(str);
-            let msg = arr[ domain.domainname ] as DomainStatus;
+            let msg = arr[domain.domainname] as DomainStatus;
             msg ? msg : msg = new DomainStatus();
-            domain.await_mapping ? msg[ "await_mapping" ] = domain.await_mapping : "";
-            domain.await_register ? msg[ "await_register" ] = domain.await_register : "";
-            domain.await_resolver ? msg[ "await_resolver" ] = domain.await_resolver : "";
-            domain.mapping ? msg[ "mapping" ] = domain.mapping : "";
-            domain.resolver ? msg[ "resolver" ] = domain.resolver.replace("0x", "") : "";
-            arr[ domain.domainname ] = msg;
+            domain.await_mapping ? msg["await_mapping"] = domain.await_mapping : "";
+            domain.await_register ? msg["await_register"] = domain.await_register : "";
+            domain.await_resolver ? msg["await_resolver"] = domain.await_resolver : "";
+            domain.mapping ? msg["mapping"] = domain.mapping : "";
+            domain.resolver ? msg["resolver"] = domain.resolver.replace("0x", "") : "";
+            arr[domain.domainname] = msg;
         } else
         {
-            arr[ domain.domainname ] = domain;
+            arr[domain.domainname] = domain;
         }
         sessionStorage.setItem("domain-status", JSON.stringify(arr));
     }
@@ -680,19 +683,19 @@ export class WalletOtcgo
     {
         let json = JSON.parse(str);
         let otcgo: WalletOtcgo = new WalletOtcgo();
-        this.address = json[ "address" ];
-        this.publicKey = json[ "publicKey" ];
-        this.publicKeyCompressed = json[ "publicKeyCompressed" ];
-        this.privateKeyEncrypted = json[ "privateKeyEncrypted" ];
+        this.address = json["address"];
+        this.publicKey = json["publicKey"];
+        this.publicKeyCompressed = json["publicKeyCompressed"];
+        this.privateKeyEncrypted = json["privateKeyEncrypted"];
     }
 
     toJson()
     {
         let json = {};
-        json[ 'address' ] = this.address;
-        json[ 'publicKey' ] = this.publicKey;
-        json[ 'publicKeyCompressed' ] = this.publicKeyCompressed;
-        json[ "privateKeyEncrypted" ] = this.privateKeyEncrypted;
+        json['address'] = this.address;
+        json['publicKey'] = this.publicKey;
+        json['publicKeyCompressed'] = this.publicKeyCompressed;
+        json["privateKeyEncrypted"] = this.privateKeyEncrypted;
         return json;
     }
 
@@ -850,9 +853,9 @@ export class ResultItem
             item.subItem = []//new ResultItem[(value as Array<any>).length];
             for (let i = 0; i < (value as any[]).length; i++)
             {
-                let subjson = ((value as any)[ i ] as Map<string, any>);
-                let subtype = (subjson[ "type" ] as string);
-                item.subItem.push(ResultItem.FromJson(subtype, subjson[ "value" ]));
+                let subjson = ((value as any)[i] as Map<string, any>);
+                let subtype = (subjson["type"] as string);
+                item.subItem.push(ResultItem.FromJson(subtype, subjson["value"]));
             }
         }
         else if (type === DataType.ByteArray)
@@ -909,7 +912,7 @@ export class ResultItem
     }
     public AsBoolean(): boolean
     {
-        if (this.data.length === 0 || this.data[ 0 ] === 0)
+        if (this.data.length === 0 || this.data[0] === 0)
             return false;
         return true;
     }

@@ -263,10 +263,9 @@ export class CoinTool
         {
             let info = await LoginInfo.deblocking();
             let addr = LoginInfo.getCurrentAddress();
-            let current = LoginInfo.info
             var msg = tran.GetMessage().clone();
-            var pubkey = current.pubkey.clone();
-            var prekey = current.prikey.clone();
+            var pubkey = info.pubkey.clone();
+            var prekey = info.prikey.clone();
             var signdata = ThinNeo.Helper.Sign(msg, prekey);
             tran.AddWitness(signdata, pubkey, addr);
             var data: Uint8Array = tran.GetRawData();
@@ -286,10 +285,6 @@ export class CoinTool
      */
     static async rawTransaction(targetaddr: string, asset: string, count: string): Promise<Result>
     {
-
-        var arr = tools.storagetool.getLoginArr();
-        var add = tools.storagetool.getStorage("current-address")
-        var n = arr.findIndex(login => login.address == add);
         var _count = Neo.Fixed8.parse(count + "");
         var utxos = await CoinTool.getassets();
         try

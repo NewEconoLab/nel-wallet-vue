@@ -1,30 +1,42 @@
 <template>
-        <div class="container">
-            <div class="title">
-                <span>{{$t('setting.settings')}}</span>
-            </div>
-            <div class="panel panel-default settings">
-                <div>
-                    <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
-                        <span>{{$t('setting.title1')}} : &nbsp;<span class="user-select-ok">{{address}}</span></span>
-                    </div>
-                    <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
-                        <span>{{$t('setting.title2')}} : &nbsp;&nbsp;</span>
-                        <button class="btn btn-nel" @click="visibleWif">{{$t('setting.btn1')}}</button>
-                        <span class="user-select-ok">&nbsp;&nbsp;{{wif}}</span>
-                    </div>
-                    <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
-                        <span>{{$t('setting.title3')}} : &nbsp;&nbsp;</span>
-                        <button class="btn btn-nel" @click="download">{{$t('setting.btn2')}}</button> &nbsp;&nbsp;
-                        <a v-if="href!=''" :download="walletname" :href="href">{{$t('setting.btn3')}}</a>
-                    </div>
-                    <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
-                        <p>{{$t('setting.msg1')}} <br> {{$t('setting.msg2')}} 
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="title">
+      <span>{{$t('setting.settings')}}</span>
+    </div>
+    <div class="panel panel-default settings">
+      <div>
+        <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
+          <span>
+            {{$t('setting.title1')}} : &nbsp;
+            <span class="user-select-ok">{{address}}</span>
+          </span>
         </div>
+        <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
+          <span>{{$t('setting.title2')}} : &nbsp;&nbsp;</span>
+          <button class="btn btn-nel" @click="visibleWif">{{$t('setting.btn1')}}</button>
+          <span class="user-select-ok">&nbsp;&nbsp;{{wif}}</span>
+        </div>
+        <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
+          <span>{{"我的nep2"}} : &nbsp;&nbsp;</span>
+          <button v-if="type==0" class="btn btn-nel" @click="createNep2">{{$t('setting.btn2')}}</button>
+          <button v-else class="btn btn-nel" @click="visibleNep2">{{$t('setting.btn1')}}</button>
+          <span v-if="nep2show" class="user-select-ok">&nbsp;&nbsp;{{nep2}}</span>
+        </div>
+        <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
+          <span>{{$t('setting.title3')}} : &nbsp;&nbsp;</span>
+          <button class="btn btn-nel" @click="download">{{$t('setting.btn2')}}</button> &nbsp;&nbsp;
+          <a v-if="href!=''" :download="walletname" :href="href">{{$t('setting.btn3')}}</a>
+        </div>
+        <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
+          <p>
+            {{$t('setting.msg1')}}
+            <br>
+            {{$t('setting.msg2')}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" src="./settings.ts">

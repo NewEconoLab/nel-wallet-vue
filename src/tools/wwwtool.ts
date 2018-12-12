@@ -216,6 +216,8 @@ export class WWW
 
     static async api_postRawTransaction(data: Uint8Array): Promise<any>
     {
+        console.log("===================================这里是交易体的 Hex========" + data.toHexString());
+
         var postdata = WWW.makeRpcPostBody("sendrawtransaction", data.toHexString());
         var result = await fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
