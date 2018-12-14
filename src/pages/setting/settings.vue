@@ -14,7 +14,7 @@
         <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
           <span>{{$t('setting.title2')}} : &nbsp;&nbsp;</span>
           <button class="btn btn-nel" @click="visibleWif">{{$t('setting.btn1')}}</button>
-          <span class="user-select-ok">&nbsp;&nbsp;{{wif}}</span>
+          <span v-if="wifshow" class="user-select-ok">&nbsp;&nbsp;{{wif}}</span>
         </div>
         <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
           <span>{{"我的nep2"}} : &nbsp;&nbsp;</span>

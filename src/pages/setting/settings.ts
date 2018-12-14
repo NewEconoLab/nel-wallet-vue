@@ -36,17 +36,17 @@ export default class Settings extends Vue
         if (this.wifshow)
         {
             LoginInfo.info = null;
+            LoginInfo.deblocking()
+                .then(info =>
+                {
+                    var wif = ThinNeo.Helper.GetWifFromPrivateKey(info.prikey);
+                    this.wif = this.wifshow ? wif : "";
+                })
+                .catch(err =>
+                {
+                    console.log(err);
+                })
         }
-        LoginInfo.deblocking()
-            .then(info =>
-            {
-                var wif = ThinNeo.Helper.GetWifFromPrivateKey(info.prikey);
-                this.wif = this.wifshow ? wif : "";
-            })
-            .catch(err =>
-            {
-                console.log(err);
-            })
     }
     //查看Nep2 字段
     async visibleNep2()
@@ -81,7 +81,7 @@ export default class Settings extends Vue
 
     createNep2()
     {
-        alert.show("请输入密码", "password", "创建", password =>
+        alert.show("输入密码构建nep2", "password", "创建", password =>
         {
             if (!password)
             {
