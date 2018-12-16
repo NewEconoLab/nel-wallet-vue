@@ -23,29 +23,29 @@ export class History
 
     paresTx(txs)
     {
-        this.txid = txs[ "txid" ];
-        this.addr = txs[ "addr" ];
-        this.txType = txs[ "txType" ];
-        this.netfee = txs[ "netfee" ];
-        this.sysfee = txs[ "sysfee" ];
-        this.blockindex = txs[ "blockindex" ];
-        this.blocktime = txs[ "blocktime" ];
+        this.txid = txs["txid"];
+        this.addr = txs["addr"];
+        this.txType = txs["txType"];
+        this.netfee = txs["netfee"];
+        this.sysfee = txs["sysfee"];
+        this.blockindex = txs["blockindex"];
+        this.blocktime = txs["blocktime"];
         this.time = tools.timetool.getTime(this.blocktime);
-        this.isNep5 = txs[ "isNep5" ];
-        const detail = txs[ "detail" ];
+        this.isNep5 = txs["isNep5"];
+        const detail = txs["detail"];
         if (detail)
         {
-            this.to = detail[ "to" ];
-            this.from = detail[ "from" ];
-            this.assetId = detail[ "assetId" ];
-            this.assetType = detail[ "assetType" ];
-            this.assetName = detail[ "assetName" ];
-            this.assetSymbol = detail[ "assetSymbol" ];
-            this.assetDecimals = detail[ "assetDecimals" ];
-            this.value = Neo.Fixed8.parse(detail[ "value" ]);
+            this.to = detail["to"];
+            this.from = detail["from"];
+            this.assetId = detail["assetId"];
+            this.assetType = detail["assetType"];
+            this.assetName = detail["assetName"];
+            this.assetSymbol = detail["assetSymbol"];
+            this.assetDecimals = detail["assetDecimals"];
+            this.value = Neo.Fixed8.parse(detail["value"]);
             //判断form or to
-            this.fromOrTo = parseFloat(detail[ `value` ]) > 0 ? `from` : `to`;
-            this.addr = (this.fromOrTo === 'to' ? (detail[ "to" ] ? detail[ 'to' ][ 0 ] : "") : (detail[ 'from' ] ? detail[ 'from' ][ 0 ] : ""))
+            this.fromOrTo = parseFloat(detail[`value`]) > 0 ? `from` : `to`;
+            this.addr = (this.fromOrTo === 'to' ? (detail["to"] ? detail['to'][0] : "") : (detail['from'] ? detail['from'][0] : ""))
             if (tools.coinTool.id_GAS == this.assetId)
             {
                 this.assetName = this.assetSymbol = "GAS";

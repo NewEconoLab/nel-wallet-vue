@@ -33,6 +33,7 @@ export default class transfer extends Vue
     txpage: number;
     cutshow: boolean = true;
     openToast: Function;
+    tranConfirm: Function;
     isAddress: boolean;//判断输入的交易地址是否正确
     isNumber: boolean;//判断输入的交易金额是否正确
     constructor() 
@@ -64,6 +65,7 @@ export default class transfer extends Vue
     mounted() 
     {
         this.openToast = this.$refs.toast["isShow"];
+        this.tranConfirm = this.$refs.tranConfirm["open"];
         var str = tools.storagetool.getStorage("balances_asset");
         if (str == null)
             this.balances = new Array<BalanceInfo>();
@@ -204,6 +206,9 @@ export default class transfer extends Vue
     }
     async send()
     {
+        let payfee = await this.tranConfirm([{ title: "转账至", value: this.toaddress }, { title: "转账数量", value: this.amount + " NEO" }]);
+        console.log(payfee);
+
         try
         {
             if (this.verify_addr() && this.verify_Amount())

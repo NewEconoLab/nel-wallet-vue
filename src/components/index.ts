@@ -6,6 +6,7 @@ import Toast from './toast.vue';
 import Valert from './Valert.vue';
 import Vlink from './VLink.vue';
 import Notify from './Notify.vue';
+import TranConfrim from './confrim.vue'
 
 export default {
     install(Vue)
@@ -18,5 +19,6 @@ export default {
         Vue.component('v-alert', Valert);
         Vue.component('v-link', Vlink);
         Vue.component("v-notify", Notify);
+        Vue.component('v-confirm', TranConfrim)
     }
 }
