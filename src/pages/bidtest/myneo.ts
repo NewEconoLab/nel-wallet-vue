@@ -117,7 +117,7 @@ export default class MyNeo extends Vue
         let res = await tools.wwwtool.getNNCFromSellingHash(this.currentAddress);
         if (res)
         {
-            this.myNNCBalance = (res["balance"]) === '-0' ? '0' : res["balance"];
+            this.myNNCBalance = parseFloat(res["balance"]) === 0 ? '0' : res["balance"];
             this.isCanGetNNC = 1;
             if (parseFloat(this.myNNCBalance) == 0)
             {

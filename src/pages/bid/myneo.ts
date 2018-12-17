@@ -95,7 +95,7 @@ export default class MyNeo extends Vue
         TaskFunction.domainUnSale = this.domainUnSaleTask;
         TaskFunction.getNNC = this.getMyNNC;
         tools.taskManager.functionList.push(this.initPage);
-        this.openToast = this.$refs.toast[ "isShow" ];
+        this.openToast = this.$refs.toast["isShow"];
     }
     initPage()
     {
@@ -115,7 +115,7 @@ export default class MyNeo extends Vue
         let res = await tools.wwwtool.getNNCFromSellingHash(this.currentAddress);
         if (res)
         {
-            this.myNNCBalance = res[ "balance" ];
+            this.myNNCBalance = parseFloat(res["balance"]) === 0 ? '0' : res["balance"];
             this.isCanGetNNC = 1;
             if (parseFloat(this.myNNCBalance) == 0)
             {
@@ -232,23 +232,23 @@ export default class MyNeo extends Vue
         {
             for (let i in list)
             {
-                let isshow = await this.checkExpiration(list[ i ]);
+                let isshow = await this.checkExpiration(list[i]);
                 if (!isshow)//未到期
                 {
-                    let expired = await this.checkExpirationSoon(list[ i ]);
-                    list[ i ][ "expired" ] = isshow;
-                    list[ i ][ "expiring" ] = expired;
+                    let expired = await this.checkExpirationSoon(list[i]);
+                    list[i]["expired"] = isshow;
+                    list[i]["expiring"] = expired;
                 } else
                 {
-                    list[ i ][ "expiring" ] = false;
-                    list[ i ][ "expired" ] = true;
+                    list[i]["expiring"] = false;
+                    list[i]["expired"] = true;
                 }
-                if (list[ i ][ "resolver" ])
+                if (list[i]["resolver"])
                 {
-                    let mapping = await tools.nnstool.resolveData(list[ i ][ 'domain' ]);
-                    list[ i ][ "resolverAddress" ] = mapping;
+                    let mapping = await tools.nnstool.resolveData(list[i]['domain']);
+                    list[i]["resolverAddress"] = mapping;
                 }
-                list[ i ][ "ttl" ] = tools.timetool.getTime(res[ i ][ "ttl" ])
+                list[i]["ttl"] = tools.timetool.getTime(res[i]["ttl"])
             }
             this.neonameList = list;
             this.myDomainListPage.totalCount = list.length;
@@ -271,13 +271,13 @@ export default class MyNeo extends Vue
     checkExpiration(domain: string)
     {
         let timestamp = new Date().getTime();
-        let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(domain[ "ttl" ]).multiply(1000));
+        let copare = new Neo.BigInteger(timestamp).compareTo(new Neo.BigInteger(domain["ttl"]).multiply(1000));
         return copare < 0 ? false : true;    //小于0未过期false，大于0已过期true
     }
     checkExpirationSoon(domain: string)
     {
         let timestamp = new Date().getTime();
-        let copare = (new Neo.BigInteger(domain[ "ttl" ]).multiply(1000)).subtract(new Neo.BigInteger(timestamp));
+        let copare = (new Neo.BigInteger(domain["ttl"]).multiply(1000)).subtract(new Neo.BigInteger(timestamp));
         let threeMonth = (24 * 60 * 60 * 1000) * 90;
         return copare.compareTo(threeMonth) < 0 ? false : true;    //小于threeMonth即将过期false
     }
@@ -315,24 +315,24 @@ export default class MyNeo extends Vue
         let domain = this.domainEdit.select(item.domain);
         if (domain)
         {
-            if (domain[ 'resolver' ] && domain[ 'resolver' ] === 'watting')
+            if (domain['resolver'] && domain['resolver'] === 'watting')
             {
                 this.resolverState = 2;
             }
-            if (domain[ 'mapping' ] && domain[ 'mapping' ][ 'state' ] && domain[ 'mapping' ][ 'state' ] === 'watting')
+            if (domain['mapping'] && domain['mapping']['state'] && domain['mapping']['state'] === 'watting')
             {
                 this.mappingState = 2;
-                this.resolverAddress = domain[ 'mapping' ][ 'address' ];
+                this.resolverAddress = domain['mapping']['address'];
             }
-            if (domain[ 'renewal' ] && domain[ 'renewal' ] === 'watting')
+            if (domain['renewal'] && domain['renewal'] === 'watting')
             {
                 this.renewalWatting = true;
             }
-            if (domain[ 'domain_transfer' ] && domain[ 'domain_transfer' ] === 'watting')
+            if (domain['domain_transfer'] && domain['domain_transfer'] === 'watting')
             {
                 this.ownerState = 1;
             }
-            if (domain[ 'unsale' ] && domain[ 'unsale' ] === 'watting')
+            if (domain['unsale'] && domain['unsale'] === 'watting')
             {
                 this.onUnSaleState = 1;
             }
@@ -355,7 +355,7 @@ export default class MyNeo extends Vue
         let domain = this.domainEdit.select(item.domain);
         if (domain)
         {
-            if (domain[ 'domain_transfer' ] && domain[ 'domain_transfer' ] === 'watting')
+            if (domain['domain_transfer'] && domain['domain_transfer'] === 'watting')
             {
                 this.ownerState = 2;
             }
@@ -371,7 +371,7 @@ export default class MyNeo extends Vue
     }
     async setowner()
     {
-        this.openToast = this.$refs.toast[ "isShow" ];
+        this.openToast = this.$refs.toast["isShow"];
         const oldstate = this.ownerState;
         try
         {
@@ -388,12 +388,12 @@ export default class MyNeo extends Vue
                 transferAddress = this.domainAddress;
             }
 
-            const res = await tools.nnstool.setOwner(this.domainInfo[ "domain" ], transferAddress);
+            const res = await tools.nnstool.setOwner(this.domainInfo["domain"], transferAddress);
             if (!res.err)
             {
                 const txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], address: transferAddress }),
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo['domain'], address: transferAddress }),
                     TaskType.domainTransfer);
                 this.domainEdit.put(this.domainInfo.domain, "watting", "domain_transfer");
                 this.closeTranferDomain();
@@ -421,12 +421,12 @@ export default class MyNeo extends Vue
         {
             this.resolverState = 2;
             let contract = this.set_contract.hexToBytes().reverse();
-            let res = await tools.nnstool.setResolve(this.domainInfo[ "domain" ], contract);
+            let res = await tools.nnstool.setResolve(this.domainInfo["domain"], contract);
             if (!res.err)
             {
                 let txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], contract: this.set_contract }),
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo['domain'], contract: this.set_contract }),
                     TaskType.domainResovle);
                 this.domainEdit.put(this.domainInfo.domain, "watting", "resolver");
             }
@@ -543,9 +543,9 @@ export default class MyNeo extends Vue
             let newList = [];
             Object.keys(this.neonameList).filter((keys: string) =>
             {
-                if (this.neonameList[ keys ].state == '0901')
+                if (this.neonameList[keys].state == '0901')
                 {
-                    newList.push(this.neonameList[ keys ]);
+                    newList.push(this.neonameList[keys]);
                     return true;
                 }
                 return false;
@@ -557,9 +557,9 @@ export default class MyNeo extends Vue
             let newList = [];
             Object.keys(this.neonameList).filter((keys: string) =>
             {
-                if (this.neonameList[ keys ].state != '0901')
+                if (this.neonameList[keys].state != '0901')
                 {
-                    newList.push(this.neonameList[ keys ]);
+                    newList.push(this.neonameList[keys]);
                     return true;
                 }
                 return false;
@@ -577,9 +577,9 @@ export default class MyNeo extends Vue
         this.sellStatus = 'all';
         Object.keys(this.neonameList).filter((keys: string) =>
         {
-            if (this.neonameList[ keys ].domain.indexOf(this.InputDomainName) !== -1)
+            if (this.neonameList[keys].domain.indexOf(this.InputDomainName) !== -1)
             {
-                newList.push(this.neonameList[ keys ]);
+                newList.push(this.neonameList[keys]);
                 return true;
             }
             return false;
@@ -594,7 +594,7 @@ export default class MyNeo extends Vue
     mydomainListByPage(arrlist)
     {
         const startNum = this.myDomainListPage.pageSize * (this.myDomainListPage.currentPage - 1);
-        const list = [ ...arrlist ];
+        const list = [...arrlist];
         const result = list.slice(startNum, startNum + this.myDomainListPage.pageSize);
         return result;
     }
@@ -700,7 +700,7 @@ export default class MyNeo extends Vue
         this.domainSalePrice = '';
         if (domain)
         {
-            if (domain[ 'sale' ] && domain[ 'sale' ] === 'watting')
+            if (domain['sale'] && domain['sale'] === 'watting')
             {
                 this.onSaleState = 1;
             }
@@ -726,7 +726,7 @@ export default class MyNeo extends Vue
             this.isOKSale = false;
             return false;
         }
-        if (/\./.test(this.domainSalePrice) && this.domainSalePrice.split('.')[ 1 ].length > 1)
+        if (/\./.test(this.domainSalePrice) && this.domainSalePrice.split('.')[1].length > 1)
         {
             this.domainSalePrice = this.domainSalePrice.substr(0, (this.domainSalePrice.toString().indexOf(".")) + 2);
             return false;
@@ -742,12 +742,12 @@ export default class MyNeo extends Vue
         try
         {
             // this.resolverState = 2;
-            let res = await tools.nnstool.saleDomain(this.domainInfo[ "domain" ], this.domainSalePrice);
+            let res = await tools.nnstool.saleDomain(this.domainInfo["domain"], this.domainSalePrice);
             if (!res.err)
             {
                 let txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ], amount: this.domainSalePrice }),
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo['domain'], amount: this.domainSalePrice }),
                     TaskType.saleDomain);
                 this.domainEdit.put(this.domainInfo.domain, "watting", "sale");
                 this.closeSaleDialog();
@@ -765,12 +765,12 @@ export default class MyNeo extends Vue
     {
         try
         {
-            let res = await tools.nnstool.unSaleDomain(this.domainInfo[ "domain" ]);
+            let res = await tools.nnstool.unSaleDomain(this.domainInfo["domain"]);
             if (!res.err)
             {
                 let txid = res.info;
                 TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo[ 'domain' ] }),
+                    new Task(ConfirmType.contract, txid, { domain: this.domainInfo['domain'] }),
                     TaskType.unSaleDomain);
                 this.domainEdit.put(this.domainInfo.domain, "watting", "unsale");
                 this.closeUnSaleDialog();
@@ -832,9 +832,9 @@ export default class MyNeo extends Vue
         {
             if (first)
             {
-                this.salePage = new PageUtil(res[ 0 ].count, 5);
+                this.salePage = new PageUtil(res[0].count, 5);
             }
-            this.saleOutDomainList = res[ 0 ].list.map((key) =>
+            this.saleOutDomainList = res[0].list.map((key) =>
             {
                 const newObj = {
                     fullDomain: key.fullDomain,
