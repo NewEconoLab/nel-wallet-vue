@@ -51,6 +51,7 @@ export default class balance extends Vue
   // Component method
   mounted()
   {
+    // tools.coinTool.claimgas();   签名测试
     this.currentAddress = LoginInfo.getCurrentAddress();
     this.getBalances();
     this.initGetGas()

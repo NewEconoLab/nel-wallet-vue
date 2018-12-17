@@ -819,6 +819,7 @@ declare namespace ThinNeo
         AddWitness(signdata: Uint8Array, pubkey: Uint8Array, addrs: string): void;
         AddWitnessScript(vscript: Uint8Array, iscript: Uint8Array): void;
         GetHash(): Uint8Array;
+        GetTxid(): string;
     }
 }
 declare module ThinNeo

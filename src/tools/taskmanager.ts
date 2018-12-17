@@ -32,7 +32,7 @@ export class TaskManager
         {
             if (taskList.hasOwnProperty(type))
             {
-                const tasks = taskList[ type ] as Task[];
+                const tasks = taskList[type] as Task[];
                 switch (parseInt(type) as TaskType)
                 {
                     case TaskType.tranfer:
@@ -114,7 +114,7 @@ export class TaskManager
         {
             if (this.functionList.hasOwnProperty(index))
             {
-                let element = this.functionList[ index ];
+                let element = this.functionList[index];
                 element();
             }
         }
@@ -131,7 +131,7 @@ export class TaskManager
         for (let index = 0; index < tasks.length; index++)
         {
             let tasknew: Task;
-            const task = tasks[ index ];
+            const task = tasks[index];
             if (task.state == TaskState.watting)
             {
                 tasknew = call(task);
@@ -153,28 +153,33 @@ export class TaskManager
         let ress = {};
         for (let index = 0; index < tasks.length; index++)
         {
-            const element = tasks[ index ];
+            const element = tasks[index];
             if (element.state == TaskState.watting) //判断如果状态是 watting 则查找对应的返回值
             {
                 switch (element.type)
                 {
                     case ConfirmType.tranfer:
-                        ress[ element.txid ] = await tools.wwwtool.hastx(element.txid);
+                        ress[element.txid] = await tools.wwwtool.hastx(element.txid);
                         break;
                     case ConfirmType.contract:
-                        ress[ element.txid ] = await tools.wwwtool.hascontract(element.txid);
+                        ress[element.txid] = await tools.wwwtool.hascontract(element.txid);
                         break;
                     case ConfirmType.recharge:
-                        ress[ element.txid ] = await tools.wwwtool.getrechargeandtransfer(element.txid);
+                        ress[element.txid] = await tools.wwwtool.getrechargeandtransfer(element.txid);
                         break;
                     default:
-                        ress[ element.txid ] = await tools.wwwtool.hastx(element.txid);
+                        ress[element.txid] = await tools.wwwtool.hastx(element.txid);
                         break;
                 }
             } else  //如果状态是 成功或者失败就没必要调用api查询返回结果了
             {
-                ress[ element.txid ] = undefined;
+                ress[element.txid] = undefined;
             }
+            // console.log("                                           task-update");
+            // console.log("task-txid" + element.txid);
+            // console.log("task-state-res");
+            // console.log(ress[element.txid]);
+
         }
         return ress;
     }
@@ -200,7 +205,7 @@ export class TaskManager
                 task.state = TaskState.fail;
             } else
             {
-                let result = ress[ task.txid ]; //获取通知数组
+                let result = ress[task.txid]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
@@ -210,12 +215,12 @@ export class TaskManager
                         tools.coinTool.claimGas()
                             .then(res =>
                             {
-                                if (res[ "sendrawtransactionresult" ])
+                                if (res["sendrawtransactionresult"])
                                 {
                                     if (TaskFunction.claimState)
                                         TaskFunction.claimState(2);
-                                    let txid = res[ "txid" ];
-                                    let amount = JSON.parse(res[ 'amount' ]);
+                                    let txid = res["txid"];
+                                    let amount = JSON.parse(res['amount']);
                                     let height = Store.blockheight.select("height");
                                     TaskManager.addTask(
                                         new Task(ConfirmType.tranfer, txid, { amount }),
@@ -256,7 +261,7 @@ export class TaskManager
                 TaskFunction.claimState(0);
             } else
             {
-                let result = ress[ task.txid ]; //获取通知数组
+                let result = ress[task.txid]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
@@ -286,7 +291,7 @@ export class TaskManager
                     TaskFunction.withdraw();
             } else
             {
-                let result = ress[ task.txid ]; //获取通知数组
+                let result = ress[task.txid]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
@@ -317,7 +322,7 @@ export class TaskManager
                     TaskFunction.topup();
             } else
             {
-                let result = ress[ task.txid ]; //获取通知数组
+                let result = ress[task.txid]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
@@ -342,8 +347,8 @@ export class TaskManager
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
 
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
                 if (result.vmstate == "FAULT, BREAK")
                 {
@@ -377,8 +382,8 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
                 if (result.vmstate == "FAULT, BREAK")
                 {
@@ -410,10 +415,10 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ 'errCode' ]) //检测是否有对应的通知 changeOwnerInfo
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result['errCode']) //检测是否有对应的通知 changeOwnerInfo
             {
-                switch (result[ 'errCode' ])
+                switch (result['errCode'])
                 {
                     case '0000'://成功
                         task.state = TaskState.success;
@@ -455,7 +460,7 @@ export class TaskManager
                     TaskFunction.exchange();
             } else
             {
-                let result = ress[ task.txid ]; //获取通知数组
+                let result = ress[task.txid]; //获取通知数组
                 if (result.issucces) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
@@ -480,28 +485,28 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
                 if (result.vmstate == "FAULT, BREAK")
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainResovle)
-                        TaskFunction.domainResovle(task.message[ 'domain' ]);
-                    domainEdit.delete(task.message[ 'domain' ], 'resolver');
+                        TaskFunction.domainResovle(task.message['domain']);
+                    domainEdit.delete(task.message['domain'], 'resolver');
                 }
                 else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo")) //检测是否有对应的通知 changeOwnerInfo
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainResovle)
-                        TaskFunction.domainResovle(task.message[ 'domain' ]);
-                    domainEdit.delete(task.message[ 'domain' ], 'resolver');
+                        TaskFunction.domainResovle(task.message['domain']);
+                    domainEdit.delete(task.message['domain'], 'resolver');
                 } else
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainResovle)
-                        TaskFunction.domainResovle(task.message[ 'domain' ]);
-                    domainEdit.delete(task.message[ 'domain' ], 'resolver');
+                        TaskFunction.domainResovle(task.message['domain']);
+                    domainEdit.delete(task.message['domain'], 'resolver');
                 }
             }
             task.confirm++;
@@ -516,28 +521,28 @@ export class TaskManager
         let domainEdit = new sessionStoreTool("domain-edit");
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ];
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid];
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
                 if (result.vmstate == "FAULT, BREAK")
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainTransfer)
-                        TaskFunction.domainTransfer(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'domain_transfer');
+                        TaskFunction.domainTransfer(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'domain_transfer');
                 }
                 else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo"))
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainTransfer)
-                        TaskFunction.domainTransfer(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'domain_transfer');
+                        TaskFunction.domainTransfer(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'domain_transfer');
                 } else
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainTransfer)
-                        TaskFunction.domainTransfer(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'domain_transfer');
+                        TaskFunction.domainTransfer(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'domain_transfer');
                 }
             }
             task.confirm++;
@@ -557,28 +562,28 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
                 if (result.vmstate == "FAULT, BREAK")
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainMapping)
-                        TaskFunction.domainMapping(task[ 'domain' ], undefined)
-                    domainEdit.delete(task.message[ 'domain' ], 'mapping');
+                        TaskFunction.domainMapping(task['domain'], undefined)
+                    domainEdit.delete(task.message['domain'], 'mapping');
                 }
                 else if (result && result.displayNameList && result.displayNameList.includes("setResolverData")) //如果返回的通知有 setResolveData则域名映射设置成功
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainMapping)
-                        TaskFunction.domainMapping(task.message[ 'domain' ], task.message[ 'address' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'mapping');
+                        TaskFunction.domainMapping(task.message['domain'], task.message['address'])
+                    domainEdit.delete(task.message['domain'], 'mapping');
                 } else
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainMapping)
-                        TaskFunction.domainMapping(task[ 'domain' ], undefined)
-                    domainEdit.delete(task.message[ 'domain' ], 'mapping');
+                        TaskFunction.domainMapping(task['domain'], undefined)
+                    domainEdit.delete(task.message['domain'], 'mapping');
                 }
             }
             task.confirm++;
@@ -598,28 +603,28 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
                 if (result.vmstate == "FAULT, BREAK")
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainRenewal)
-                        TaskFunction.domainRenewal(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'renewal');
+                        TaskFunction.domainRenewal(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'renewal');
                 }
                 else if (result && result.displayNameList && result.displayNameList.includes("changeOwnerInfo"))
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainRenewal)
-                        TaskFunction.domainRenewal(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'renewal');
+                        TaskFunction.domainRenewal(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'renewal');
                 } else
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainRenewal)
-                        TaskFunction.domainRenewal(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'renewal');
+                        TaskFunction.domainRenewal(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'renewal');
                 }
             }
             task.confirm++;
@@ -639,29 +644,29 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
+            let result = ress[task.txid]; //获取通知数组
             if (task.type == ConfirmType.recharge)
             {
 
-                if (result && result[ 'errCode' ]) //检测是否有对应的通知 changeOwnerInfo
+                if (result && result['errCode']) //检测是否有对应的通知 changeOwnerInfo
                 {
-                    switch (result[ 'errCode' ])
+                    switch (result['errCode'])
                     {
                         case '0000'://成功
                             task.state = TaskState.success;
-                            Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                            Store.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                             if (TaskFunction.auctionStateUpdate)
                                 TaskFunction.auctionStateUpdate();
                             break;
                         case '3001'://失败
                             task.state = TaskState.fail;
-                            Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                            Store.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                             if (TaskFunction.auctionStateUpdate)
                                 TaskFunction.auctionStateUpdate();
                             break;
                         case '3002'://失败
                             task.state = TaskState.fail;
-                            Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                            Store.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                             if (TaskFunction.auctionStateUpdate)
                                 TaskFunction.auctionStateUpdate();
                             break;
@@ -669,25 +674,25 @@ export class TaskManager
                 }
             } else
             {
-                if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+                if (result && result["vmstate"] && result["vmstate"] != "")
                 {
                     if (result.vmstate == "FAULT, BREAK")
                     {
                         task.state = TaskState.fail;
-                        Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                        Store.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                         if (TaskFunction.auctionStateUpdate)
                             TaskFunction.auctionStateUpdate();
                     }
                     else if (result && result.displayNameList && result.displayNameList.includes("collectDomain"))
                     {
                         task.state = TaskState.success;
-                        Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                        Store.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                         if (TaskFunction.auctionStateUpdate)
                             TaskFunction.auctionStateUpdate();
                     } else
                     {
                         task.state = TaskState.fail;
-                        Store.auctionInfo.put(task.message[ "domain" ], false, 'isGetDomainWait');
+                        Store.auctionInfo.put(task.message["domain"], false, 'isGetDomainWait');
                         if (TaskFunction.auctionStateUpdate)
                             TaskFunction.auctionStateUpdate();
                     }
@@ -713,16 +718,16 @@ export class TaskManager
             if (task.confirm > 3)   //交易确认的次数超过三次，等同于三个块也没有查询到对应的数据 默认失败;
             {
                 task.state = TaskState.fail;
-                Store.auctionInfo.put(task.message[ "domain" ], false, 'isRecoverWait');
+                Store.auctionInfo.put(task.message["domain"], false, 'isRecoverWait');
                 if (TaskFunction.auctionStateUpdate)
                     TaskFunction.auctionStateUpdate();
             } else
             {
-                let result = ress[ task.txid ]; //获取通知数组
+                let result = ress[task.txid]; //获取通知数组
                 if (result && result.issucces)
                 {
                     task.state = TaskState.success;
-                    Store.auctionInfo.put(task.message[ "domain" ], false, 'isRecoverWait');
+                    Store.auctionInfo.put(task.message["domain"], false, 'isRecoverWait');
                     if (TaskFunction.auctionStateUpdate)
                         TaskFunction.auctionStateUpdate();
                 }
@@ -742,23 +747,23 @@ export class TaskManager
         let taskarr: Task[] = []
         for (let index = 0; index < tasks.length; index++)
         {
-            const task = tasks[ index ];
+            const task = tasks[index];
             if (task.state == TaskState.watting)
             {
                 let res = await tools.wwwtool.api_hasclaimgas(task.message.address);
                 if (res)
                 {
-                    if (res[ 0 ].code == "3010")//可领取
+                    if (res[0].code == "3010")//可领取
                     {
                         task.state = TaskState.fail;
                         if (TaskFunction.getGasTest)
                             TaskFunction.getGasTest(0);//可领取
-                    } else if (res[ 0 ].code == "3012")//已领取
+                    } else if (res[0].code == "3012")//已领取
                     {
                         task.state = TaskState.success;
                         if (TaskFunction.getGasTest)
                             TaskFunction.getGasTest(1);//已领取
-                    } else if (res[ 0 ].code == "3011")//正在领取
+                    } else if (res[0].code == "3011")//正在领取
                     {
                         task.state = TaskState.watting;
                         if (TaskFunction.getGasTest)
@@ -782,28 +787,28 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
                 if (result.vmstate == "FAULT, BREAK")
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainSale)
-                        TaskFunction.domainSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'sale');
+                        TaskFunction.domainSale(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'sale');
                 }
                 else if (result && result.displayNameList && result.displayNameList.includes("NNSfixedSellingLaunched"))
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainSale)
-                        TaskFunction.domainSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'sale');
+                        TaskFunction.domainSale(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'sale');
                 } else
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainSale)
-                        TaskFunction.domainSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'sale');
+                        TaskFunction.domainSale(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'sale');
                 }
             }
             task.confirm++;
@@ -822,29 +827,29 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
 
                 if (result.vmstate == "FAULT, BREAK")
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainUnSale)
-                        TaskFunction.domainUnSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'unsale');
+                        TaskFunction.domainUnSale(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'unsale');
                 }
                 else if (result && result.displayNameList && result.displayNameList.includes("NNSfixedSellingDiscontinued"))
                 {
                     task.state = TaskState.success;
                     if (TaskFunction.domainUnSale)
-                        TaskFunction.domainUnSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'unsale');
+                        TaskFunction.domainUnSale(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'unsale');
                 } else
                 {
                     task.state = TaskState.fail;
                     if (TaskFunction.domainUnSale)
-                        TaskFunction.domainUnSale(task.message[ 'domain' ])
-                    domainEdit.delete(task.message[ 'domain' ], 'unsale');
+                        TaskFunction.domainUnSale(task.message['domain'])
+                    domainEdit.delete(task.message['domain'], 'unsale');
                 }
 
             }
@@ -864,26 +869,26 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
+            let result = ress[task.txid]; //获取通知数组
             if (task.type == ConfirmType.recharge)
             {
-                if (result && result[ 'errCode' ]) //检测是否有对应的通知 changeOwnerInfo
+                if (result && result['errCode']) //检测是否有对应的通知 changeOwnerInfo
                 {
-                    switch (result[ 'errCode' ])
+                    switch (result['errCode'])
                     {
                         case '0000'://成功
                             task.state = TaskState.success;
                             // if (TaskFunction.domainUnSale)
                             //     TaskFunction.domainUnSale(task.message[ 'domain' ])
-                            buyDomain.delete(task.message[ 'domain' ], 'buy');
+                            buyDomain.delete(task.message['domain'], 'buy');
                             break;
                         case '3001'://失败
                             task.state = TaskState.fail;
-                            buyDomain.delete(task.message[ 'domain' ], 'buy');
+                            buyDomain.delete(task.message['domain'], 'buy');
                             break;
                         case '3002'://失败
                             task.state = TaskState.fail;
-                            buyDomain.delete(task.message[ 'domain' ], 'buy');
+                            buyDomain.delete(task.message['domain'], 'buy');
                             break;
                     }
                 }
@@ -906,8 +911,8 @@ export class TaskManager
         //遍历管理类数组，在回调中处理后返回新的对象并用数组接收
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
-            let result = ress[ task.txid ]; //获取通知数组
-            if (result && result[ "vmstate" ] && result[ "vmstate" ] != "")
+            let result = ress[task.txid]; //获取通知数组
+            if (result && result["vmstate"] && result["vmstate"] != "")
             {
 
                 if (result.vmstate == "FAULT, BREAK")
@@ -946,28 +951,28 @@ export class TaskManager
         let taskarr: Task[] = []
         for (let index = 0; index < tasks.length; index++)
         {
-            const task = tasks[ index ];
+            const task = tasks[index];
             if (task.state == TaskState.watting)
             {
                 let res = await tools.wwwtool.api_hasclaimnnc(task.message.address);
                 if (res)
                 {
-                    if (res[ 0 ].code == "3001")//可领取
+                    if (res[0].code == "3001")//可领取
                     {
                         task.state = TaskState.fail;
                         if (TaskFunction.getNNCTest)
                             TaskFunction.getNNCTest(0);//可领取
-                    } else if (res[ 0 ].code == "3002")//可再次领取
+                    } else if (res[0].code == "3002")//可再次领取
                     {
                         task.state = TaskState.fail;
                         if (TaskFunction.getNNCTest)
                             TaskFunction.getNNCTest(0);//可领取
-                    } else if (res[ 0 ].code == "3004")//已领取
+                    } else if (res[0].code == "3004")//已领取
                     {
                         task.state = TaskState.success;
                         if (TaskFunction.getNNCTest)
                             TaskFunction.getNNCTest(1);//已领取
-                    } else if (res[ 0 ].code == "3003")//正在领取
+                    } else if (res[0].code == "3003")//正在领取
                     {
                         task.state = TaskState.watting;
                         if (TaskFunction.getNNCTest)

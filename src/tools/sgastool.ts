@@ -102,7 +102,7 @@ export default class SgasTool
             sb.EmitPushNumber(new Neo.BigInteger(250));
             tran.AddWitnessScript(sgasScript, sb.ToArray());
 
-            let txid = tran.GetHash().clone().reverse().toHexString();
+            let txid = tran.GetTxid();
             //做提款人的签名
             var data = await tools.coinTool.signData(tran);
             return { txid, data };

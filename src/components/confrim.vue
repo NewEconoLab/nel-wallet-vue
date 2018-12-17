@@ -28,10 +28,10 @@
         </label>
       </div>
       <div class="confrim-msg">
-        <button class="btn btn-nel btn-big" id="tranfer-confirm">确认</button>
+        <button class="btn btn-nel btn-big" id="transaction-confirm">确认</button>
       </div>
       <div class="alert-tips"></div>
-      <div class="alert-close" @click="closemudloe">
+      <div class="alert-close" id="transaction-mudloe-close" @click="closemudloe">
         <span aria-hidden="true">&times;</span>
       </div>
     </div>

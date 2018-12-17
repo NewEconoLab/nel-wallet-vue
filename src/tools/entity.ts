@@ -74,6 +74,7 @@ export class LoginInfo
     prikey: Uint8Array;
     address: string;
     nep2: string;
+    payfee: boolean;
     static info: LoginInfo;
 
     static async deblocking()

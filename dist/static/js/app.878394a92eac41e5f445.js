@@ -3059,7 +3059,7 @@ var SgasTool = /** @class */ (function () {
                         sb.EmitPushString("whatever");
                         sb.EmitPushNumber(new Neo.BigInteger(250));
                         tran.AddWitnessScript(sgasScript, sb.ToArray());
-                        txid = tran.GetHash().clone().reverse().toHexString();
+                        txid = tran.GetTxid();
                         return [4 /*yield*/, importpack_1.tools.coinTool.signData(tran)];
                     case 4:
                         data = _a.sent();
@@ -3633,7 +3633,7 @@ var Contract = /** @class */ (function () {
                         return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
                     case 2:
                         data = _a.sent();
-                        txid = tran.GetHash().clone().reverse().toHexString();
+                        txid = tran.GetTxid();
                         res = new entity_1.Result();
                         _a.label = 3;
                     case 3:
@@ -7726,7 +7726,7 @@ var CoinTool = /** @class */ (function () {
                         tran = tranres.info['tran'];
                         if (tran.witnesses == null)
                             tran.witnesses = [];
-                        txid = tran.GetHash().clone().reverse().toHexString();
+                        txid = tran.GetTxid();
                         data = void 0;
                         res = new entity_1.Result();
                         _a.label = 3;
