@@ -4581,7 +4581,7 @@ var ThinNeo;
             return new Uint8Array(data, 0, data.byteLength);
         };
         Transaction.prototype.GetTxid = function () {
-            var tranhash = this.GetHash().clone().toHexString();
+            var tranhash = this.GetHash().clone().reverse().toHexString();
             return "0x" + tranhash;
         };
         return Transaction;
