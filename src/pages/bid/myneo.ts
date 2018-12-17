@@ -328,14 +328,6 @@ export default class MyNeo extends Vue
             {
                 this.renewalWatting = true;
             }
-            if (domain['domain_transfer'] && domain['domain_transfer'] === 'watting')
-            {
-                this.ownerState = 1;
-            }
-            if (domain['unsale'] && domain['unsale'] === 'watting')
-            {
-                this.onUnSaleState = 1;
-            }
         }
     }
 
@@ -693,6 +685,7 @@ export default class MyNeo extends Vue
      */
     onShowSaleDialog(item)
     {
+        this.onSaleState = 0;
         this.domainInfo = item;
         this.isShowSaleBox = !this.isShowSaleBox;
         this.currentdomain = item.domain;
@@ -704,9 +697,6 @@ export default class MyNeo extends Vue
             {
                 this.onSaleState = 1;
             }
-        } else
-        {
-            this.onSaleState = 0;
         }
     }
     /**
@@ -787,9 +777,19 @@ export default class MyNeo extends Vue
      */
     onShowUnSaleDialog(item)
     {
+        this.onUnSaleState = 0;
         this.domainInfo = item;
         this.isUnSaleBox = !this.isUnSaleBox;
         this.currentdomain = item.domain;
+        let domain = this.domainEdit.select(item.domain);
+        this.domainSalePrice = '';
+        if (domain)
+        {
+            if (domain['unsale'] && domain['unsale'] === 'watting')
+            {
+                this.onUnSaleState = 1;
+            }
+        }
     }
     /**
      * 关闭出售模块
@@ -797,7 +797,6 @@ export default class MyNeo extends Vue
     closeUnSaleDialog()
     {
         this.isUnSaleBox = !this.isUnSaleBox;
-        this.onUnSaleState = 1;
     }
     /**
      * 筛选显示出售列表或者购买列表
