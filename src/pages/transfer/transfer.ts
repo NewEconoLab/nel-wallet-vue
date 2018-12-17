@@ -210,65 +210,67 @@ export default class transfer extends Vue
             { title: "转账至", value: this.toaddress },
             { title: "转账金额", value: this.amount + " " + this.balance.names }
         ]
-        let payfee = await this.tranConfirm("兑换信息", msgs);
-        console.log(payfee);
-
-        try
+        let confrimres = await this.tranConfirm("兑换信息", msgs);
+        console.log(confrimres);
+        if (confrimres)
         {
-            if (this.verify_addr() && this.verify_Amount())
+            try
             {
-                let height = Store.blockheight.select("height");
-                if (!!this.balance["type"] && this.balance.type == "nep5")
+                if (this.verify_addr() && this.verify_Amount())
                 {
-                    let res = await tools.coinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, parseFloat(this.amount));
-                    TaskManager.addTask(
-                        new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: this.balance.names, toaddress: this.toaddress }),
-                        TaskType.tranfer
-                    );
-                    if (!res["err"])
+                    let height = Store.blockheight.select("height");
+                    if (!!this.balance["type"] && this.balance.type == "nep5")
                     {
-                        mui.toast("" + this.$t("transfer.msg2"));
+                        let res = await tools.coinTool.nep5Transaction(LoginInfo.getCurrentAddress(), this.toaddress, this.asset, parseFloat(this.amount));
+                        TaskManager.addTask(
+                            new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: this.balance.names, toaddress: this.toaddress }),
+                            TaskType.tranfer
+                        );
+                        if (!res["err"])
+                        {
+                            mui.toast("" + this.$t("transfer.msg2"));
+                            let num = parseFloat(this.balance.balance + "");
+                            let bear = num - parseFloat(this.amount);
+                            this.balance.balance = bear;
+                            BalanceInfo.setBalanceSotre(this.balance, height);
+                            this.amount = "";
+                            tools.storagetool.setStorage("current-height", height + "");
+                        }
+                        else
+                        {
+                            this.openToast("error", "" + this.$t("transfer.msg3") + res.info, 3000);
+                        }
+                    } else
+                    {
+                        let res: Result = await tools.coinTool.rawTransaction(this.toaddress, this.asset, this.amount);
+                        if (res.err)
+                        {
+                            this.openToast("error", "" + this.$t("transfer.msg3") + res.info, 3000);
+                        } else
+                        {
+                            this.openToast("success", "" + this.$t("transfer.msg2"), 3000);
+                        }
+                        this.isNumber = false;
                         let num = parseFloat(this.balance.balance + "");
                         let bear = num - parseFloat(this.amount);
                         this.balance.balance = bear;
+                        TaskManager.addTask(
+                            new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: this.balance.names, toaddress: this.toaddress }),
+                            TaskType.tranfer
+                        );
                         BalanceInfo.setBalanceSotre(this.balance, height);
                         this.amount = "";
                         tools.storagetool.setStorage("current-height", height + "");
                     }
-                    else
-                    {
-                        this.openToast("error", "" + this.$t("transfer.msg3") + res.info, 3000);
-                    }
+                }
+            } catch (error)
+            {
+                if (error == "Signature interrupt")
+                {
                 } else
                 {
-                    let res: Result = await tools.coinTool.rawTransaction(this.toaddress, this.asset, this.amount);
-                    if (res.err)
-                    {
-                        this.openToast("error", "" + this.$t("transfer.msg3") + res.info, 3000);
-                    } else
-                    {
-                        this.openToast("success", "" + this.$t("transfer.msg2"), 3000);
-                    }
-                    this.isNumber = false;
-                    let num = parseFloat(this.balance.balance + "");
-                    let bear = num - parseFloat(this.amount);
-                    this.balance.balance = bear;
-                    TaskManager.addTask(
-                        new Task(ConfirmType.tranfer, res.info, { amount: this.amount, assetname: this.balance.names, toaddress: this.toaddress }),
-                        TaskType.tranfer
-                    );
-                    BalanceInfo.setBalanceSotre(this.balance, height);
-                    this.amount = "";
-                    tools.storagetool.setStorage("current-height", height + "");
+                    mui.alert("" + this.$t("transfer.msg4"));
                 }
-            }
-        } catch (error)
-        {
-            if (error == "Signature interrupt")
-            {
-            } else
-            {
-                mui.alert("" + this.$t("transfer.msg4"));
             }
         }
     }

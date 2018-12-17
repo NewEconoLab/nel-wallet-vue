@@ -630,8 +630,7 @@ export class WWW
             return r;
         } else
         {
-            throw "not data";
-
+            return 0;
         }
     }
     /**

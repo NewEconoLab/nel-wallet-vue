@@ -4580,6 +4580,10 @@ var ThinNeo;
             data = Neo.Cryptography.Sha256.computeHash(data);
             return new Uint8Array(data, 0, data.byteLength);
         };
+        Transaction.prototype.GetTxid = function () {
+            var msg = this.GetHash().clone().toHexString()
+            return "0x" + msg;
+        };
         return Transaction;
     }());
     ThinNeo.Transaction = Transaction;

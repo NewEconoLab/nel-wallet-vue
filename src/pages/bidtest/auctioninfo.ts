@@ -31,6 +31,7 @@ export default class AuctionInfoTest extends Vue
     isGetDomainWait: boolean;
     isRecoverWait: boolean;
     openToast: Function;
+    tranConfirm: Function;
 
     constructor()
     {
@@ -59,10 +60,11 @@ export default class AuctionInfoTest extends Vue
 
     async mounted()
     {
+        this.tranConfirm = this.$refs.tranConfirm["open"];
         this.rootInfo = await tools.nnstool.getRootInfo("test");
         this.init();
         if
-        (
+            (
             this.auctionInfo.btnState != auctionBtnState.receivedname
             &&
             this.auctionInfo.btnState != auctionBtnState.receivedsgas
@@ -83,8 +85,8 @@ export default class AuctionInfoTest extends Vue
         this.fee = accMul(this.auctionInfo.addwho.totalValue, 0.10);
         this.remaining = accSub(this.auctionInfo.addwho.totalValue, this.fee);
         let waitstate = Store.auctionInfo.select(this.auctionInfo.domain);
-        this.isGetDomainWait = !!waitstate && !!waitstate[ "isGetDomainWait" ];
-        this.isRecoverWait = !!waitstate && !!waitstate[ "isRecoverWait" ];
+        this.isGetDomainWait = !!waitstate && !!waitstate["isGetDomainWait"];
+        this.isRecoverWait = !!waitstate && !!waitstate["isRecoverWait"];
 
     }
 
@@ -152,25 +154,32 @@ export default class AuctionInfoTest extends Vue
     {
         if (this.auctionInfo.addwho.accountTime && this.auctionInfo.addwho.accountTime.blockindex > 0)
         {
-            let data = await tools.nnssell.collectDomain(this.auctionInfo.id.toString(), this.rootInfo.register);
-            if (!data)
+            let msgs = [
+                { title: "域名", value: this.auctionInfo.domain }
+            ]
+            let confirmres = await this.tranConfirm("领取域名", msgs);
+            if (confirmres)
             {
-                return;
+                let data = await tools.nnssell.collectDomain(this.auctionInfo.id.toString(), this.rootInfo.register);
+                if (!data)
+                {
+                    return;
+                }
+                let res = await tools.wwwtool.api_postRawTransaction(data);
+                let txid = res["txid"];
+                Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
+                TaskManager.addTask(
+                    new Task(ConfirmType.contract, txid, { domain: this.auctionInfo.domain }),
+                    TaskType.getDomain
+                )
             }
-            let res = await tools.wwwtool.api_postRawTransaction(data);
-            let txid = res[ "txid" ];
-            Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
-            TaskManager.addTask(
-                new Task(ConfirmType.contract, txid, { domain: this.auctionInfo.domain }),
-                TaskType.getDomain
-            )
         }
         else
         {
             let data1 = await tools.nnssell.bidSettlement(this.auctionInfo.id.toString(), this.rootInfo.register);
             let data2 = await tools.nnssell.collectDomain(this.auctionInfo.id.toString(), this.rootInfo.register);
             let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
-            let txid = res[ "txid" ];
+            let txid = res["txid"];
             this.isGetDomainWait = true;
             Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
             TaskManager.addTask(
@@ -186,15 +195,23 @@ export default class AuctionInfoTest extends Vue
      */
     async bidDomain()
     {
-        this.openToast = this.$refs.toast[ "isShow" ];
+        this.openToast = this.$refs.toast["isShow"];
         try
         {
-            let count = parseFloat(this.bidPrice)
-            let res = await services.auction_test.auctionRaise(this.auctionInfo.id, this.auctionInfo.domain, count, this.rootInfo.register);
-            if (!res.err)
-                this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
-            this.bidPrice = "";
-            this.bidState = 2;
+            let msgs = [
+                { title: "域名", value: this.auctionInfo.domain },
+                { title: "加价信息", value: this.bidPrice + " CGAS" }
+            ]
+            let confirmres = await this.tranConfirm("竞拍加价", msgs);
+            if (confirmres)
+            {
+                let count = parseFloat(this.bidPrice)
+                let res = await services.auction_test.auctionRaise(this.auctionInfo.id, this.auctionInfo.domain, count, this.rootInfo.register);
+                if (!res.err)
+                    this.openToast("success", "" + this.$t("auction.waitmsg2"), 3000);
+                this.bidPrice = "";
+                this.bidState = 2;
+            }
             // await this.getSessionBidDetail(this.auctionInfo.domain);
         } catch (error)
         {
@@ -214,16 +231,24 @@ export default class AuctionInfoTest extends Vue
             return;
         try
         {
-            let res = await tools.wwwtool.api_postRawTransaction(data);
-            if (res[ "txid" ])
+            let msgs = [
+                { title: "域名", value: this.auctionInfo.domain },
+                { title: "可领回的竞拍金", value: this.auctionInfo.addwho.totalValue + " CGAS" }
+            ]
+            let confirmres = await this.tranConfirm("领回竞拍金", msgs);
+            if (confirmres)
             {
-                this.isRecoverWait = true;
-                let txid = res[ "txid" ];
-                TaskManager.addTask(
-                    new Task(ConfirmType.tranfer, txid, { domain: this.auctionInfo.domain, amount: this.auctionInfo.addwho.totalValue }),
-                    TaskType.recoverSgas
-                );
-                Store.auctionInfo.put(this.auctionInfo.domain, true, "isRecoverWait");
+                let res = await tools.wwwtool.api_postRawTransaction(data);
+                if (res["txid"])
+                {
+                    this.isRecoverWait = true;
+                    let txid = res["txid"];
+                    TaskManager.addTask(
+                        new Task(ConfirmType.tranfer, txid, { domain: this.auctionInfo.domain, amount: this.auctionInfo.addwho.totalValue }),
+                        TaskType.recoverSgas
+                    );
+                    Store.auctionInfo.put(this.auctionInfo.domain, true, "isRecoverWait");
+                }
             }
         }
         catch (error)

@@ -31,15 +31,23 @@ export default class TranConfrim extends Vue
         this.messageList = msg;
         this.show = true;
         this.deblocking = (LoginInfo.info) ? false : true;
-        let confirmbtn: HTMLButtonElement = document.getElementById("tranfer-confirm") as HTMLButtonElement;
+        let confirmbtn: HTMLButtonElement = document.getElementById("transaction-confirm") as HTMLButtonElement;
+        let closebtn: HTMLDivElement = document.getElementById("transaction-mudloe-close") as HTMLDivElement;
         let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
         let promise: Promise<boolean> = new Promise((resolve, reject) =>
         {
+            closebtn.onclick = () =>
+            {
+                this.closemudloe();
+                resolve(false);
+            }
             confirmbtn.onclick = () =>
             {
                 if (LoginInfo.info)
                 {
-                    resolve(this.payFee);
+                    LoginInfo.info.payfee = this.payFee;
+                    resolve(true);
+                    this.closemudloe();
                 }
                 else if (current.type == LoginType.wif)
                 {
@@ -51,8 +59,9 @@ export default class TranConfrim extends Vue
                     else
                     {
                         LoginInfo.info = res.info as LoginInfo;
-                        resolve(this.payFee);
-                        return;
+                        LoginInfo.info.payfee = this.payFee;
+                        resolve(true);
+                        this.closemudloe();
                     }
                 }
                 else if (current.type == LoginType.otcgo)
@@ -67,8 +76,10 @@ export default class TranConfrim extends Vue
                         info.address = otcgo.address;
                         info.prikey = otcgo.prikey;
                         info.pubkey = otcgo.pubkey;
+                        info.payfee = this.payFee;
                         LoginInfo.info = info;
-                        resolve(this.payFee);
+                        resolve(true);
+                        this.closemudloe();
                     } else
                     {
                         this.passwordError = true;
@@ -81,7 +92,9 @@ export default class TranConfrim extends Vue
                         .then(result =>
                         {
                             LoginInfo.info = result.info;
-                            resolve(this.payFee)
+                            LoginInfo.info.payfee = this.payFee;
+                            resolve(true)
+                            this.closemudloe();
                         })
                         .catch(err =>
                         {

@@ -168,7 +168,7 @@ export default class Contract
         if (tran.witnesses == null)
             tran.witnesses = [];
         let data = await CoinTool.signData(tran);
-        let txid = tran.GetHash().clone().reverse().toHexString();
+        let txid = tran.GetTxid();
         var res: Result = new Result();
         try
         {

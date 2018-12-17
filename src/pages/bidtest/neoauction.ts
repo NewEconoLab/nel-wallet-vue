@@ -52,6 +52,7 @@ export default class NeoAuctionTest extends Vue
     // nncAssetid: string = '0xfc732edee1efdf968c23c20a9628eaa5a6ccb934';//nnc资产id
     domainEdit: sessionStoreTool;
     isUnSaleBox: boolean = false;//下架弹筐
+    tranConfirm: Function;
 
     constructor()
     {
@@ -67,8 +68,8 @@ export default class NeoAuctionTest extends Vue
         let SGas = tools.coinTool.id_SGAS.toString();
         let Gas = tools.coinTool.id_GAS;
         this.selectList = {}
-        this.selectList[ Gas ] = "Gas"
-        this.selectList[ SGas ] = "CGAS";
+        this.selectList[Gas] = "Gas"
+        this.selectList[SGas] = "CGAS";
         this.alert_available = "";
         this.checkState = 0;
         this.alert_withdraw = new NeoAuction_Withdraw();
@@ -84,14 +85,6 @@ export default class NeoAuctionTest extends Vue
         {
             this.auctionPage = false;
         }
-        // if (this.auctionPageSession.select("show"))
-        // {
-        //     this.auctionPage = true;
-        // }
-        // else
-        // {
-        //     this.auctionPage = false;
-        // }
         this.canAdded = false;
         this.myBalanceOfSelling = "";
         this.isSearchTime = false;
@@ -103,12 +96,13 @@ export default class NeoAuctionTest extends Vue
 
     async mounted()
     {
+        this.tranConfirm = this.$refs.tranConfirm["open"];
         this.rootInfo = await tools.nnstool.getRootInfo("test");
         this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
-        this.openToast = this.$refs.toast[ "isShow" ];
+        this.openToast = this.$refs.toast["isShow"];
         this.getBidList(this.address, 1);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable.toString() + " CGAS";
         TaskManager.functionList = [];
         TaskManager.functionList.push(this.refreshPage);
@@ -128,7 +122,7 @@ export default class NeoAuctionTest extends Vue
     {
         this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         await services.auction_test.updateAuctionList(this.address);
         this.getBidList(this.address, 1);
     }
@@ -147,7 +141,7 @@ export default class NeoAuctionTest extends Vue
         this.alert_TopUp.watting = false;
         this.sessionWatting.put("topup", false);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
     }
 
@@ -156,7 +150,7 @@ export default class NeoAuctionTest extends Vue
         this.alert_withdraw.watting = false;
         this.sessionWatting.put("withdraw", false);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
     }
 
@@ -253,7 +247,7 @@ export default class NeoAuctionTest extends Vue
     async openTopUp()
     {
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
         this.alert_TopUp.watting = this.sessionWatting.select("topup") ? true : false;
         this.alert_TopUp.isShow = true;
@@ -280,7 +274,7 @@ export default class NeoAuctionTest extends Vue
     async openWithdraw()
     {
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
         this.alert_withdraw.watting = this.sessionWatting.select("withdraw") ? true : false;
         this.alert_withdraw.isShow = true;
@@ -306,19 +300,27 @@ export default class NeoAuctionTest extends Vue
      */
     async withdraw()
     {
-        let amount = parseFloat(this.alert_withdraw.input);
-        this.alert_withdraw.watting = true;
-        let res = await tools.nnssell.getMoneyBack(amount, this.rootInfo.register);
-        if (!res.err)
+        let msgs = [
+            { title: "提取至", value: "钱包账户" },
+            { title: "提取数量", value: this.alert_withdraw.input + " CGAS" }
+        ]
+        let confirmres = await this.tranConfirm("提取信息", msgs);
+        if (confirmres)
         {
-            this.openToast("success", amount + "" + this.$t("auction.successwithdraw2"), 4000);
-            this.sessionWatting.put("withdraw", true);
-            this.alert_withdraw.isShow = false;
+            let amount = parseFloat(this.alert_withdraw.input);
+            this.alert_withdraw.watting = true;
+            let res = await tools.nnssell.getMoneyBack(amount, this.rootInfo.register);
+            if (!res.err)
+            {
+                this.openToast("success", amount + "" + this.$t("auction.successwithdraw2"), 4000);
+                this.sessionWatting.put("withdraw", true);
+                this.alert_withdraw.isShow = false;
 
-            //任务管理器
-            let task = new Task(ConfirmType.tranfer, res.info, { amount })
-            tools.taskManager.addTask(task, TaskType.withdraw);
+                //任务管理器
+                let task = new Task(ConfirmType.tranfer, res.info, { amount })
+                tools.taskManager.addTask(task, TaskType.withdraw);
 
+            }
         }
     }
 
@@ -330,17 +332,29 @@ export default class NeoAuctionTest extends Vue
         let amount = this.alert_TopUp.input;
         try
         {
-            let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8), this.rootInfo.register);
-            let res = await tools.wwwtool.api_postRawTransaction(data);
-            this.alert_TopUp.watting = true;
-            let txid = res[ "txid" ];
-            this.sessionWatting.put("topup", true);
-            //任务管理器
-            let task = new Task(ConfirmType.tranfer, txid, { amount })
-            tools.taskManager.addTask(task, TaskType.topup);
+            let msgs = [
+                { title: "充值至", value: "竞拍账户" },
+                { title: "充值数量", value: amount + " CGAS" }
+            ]
+            let confirmres = await this.tranConfirm("充值信息", msgs);
+            if (confirmres)
+            {
+                let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8), this.rootInfo.register);
+                let res = await tools.wwwtool.api_postRawTransaction(data);
+                this.alert_TopUp.watting = true;
+                let txid = res["txid"];
+                this.sessionWatting.put("topup", true);
+                //任务管理器
+                let task = new Task(ConfirmType.tranfer, txid, { amount })
+                tools.taskManager.addTask(task, TaskType.topup);
 
-            this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup3"), 4000);
-            this.alert_TopUp.isShow = false;
+                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup3"), 4000);
+                this.alert_TopUp.isShow = false;
+            }
+            else
+            {
+                return;
+            }
         }
         catch (error)
         {
@@ -403,23 +417,35 @@ export default class NeoAuctionTest extends Vue
             this.canAdded = false;
             try
             {
-                let res = await services.auction_test.auctionRaise(
-                    this.raiseAuction.auctionId,
-                    this.raiseAuction.fulldomain,
-                    parseFloat(this.alert_myBid),
-                    this.rootInfo.register);
-                if (!res.err)
+                let msgs = [
+                    { title: "域名", value: this.raiseAuction.fulldomain },
+                    { title: "加价信息", value: this.alert_myBid + " CGAS" }
+                ]
+                let confirmres = await this.tranConfirm("竞拍加价", msgs);
+                if (confirmres)
                 {
-                    this.canAdded = true;
-                    this.openToast("success", this.alert_myBid + this.$t("auction.successbid2"), 3000);
-                    this.auctionShow = !this.auctionShow;
-                    this.alert_myBid = "";
+                    let res = await services.auction_test.auctionRaise(
+                        this.raiseAuction.auctionId,
+                        this.raiseAuction.fulldomain,
+                        parseFloat(this.alert_myBid),
+                        this.rootInfo.register);
+                    if (!res.err)
+                    {
+                        this.canAdded = true;
+                        this.openToast("success", this.alert_myBid + this.$t("auction.successbid2"), 3000);
+                        this.auctionShow = !this.auctionShow;
+                        this.alert_myBid = "";
+                    }
+                    else
+                    {
+                        this.canAdded = true;
+                    }
+
                 }
                 else
                 {
                     this.canAdded = true;
                 }
-
             } catch (error)
             {
                 this.canAdded = true;
@@ -438,17 +464,28 @@ export default class NeoAuctionTest extends Vue
             this.btn_start = 4;
             this.checkState = 0;
             return;
-        }
-        this.btn_start = 0;
-        let res = await services.auction_test.startAuction(this.domain);
-        this.btn_start = 1;
-        this.domain = "";
-        this.checkState = 0;
-        if (!res)
+        } else
         {
-            return false;
+
+            let msgs = [
+                { title: "域名", value: this.domain + "." + this.rootInfo.rootname },
+            ]
+            let confirmres = await this.tranConfirm("域名开标", msgs);
+            if (confirmres)
+            {
+
+                this.btn_start = 0;
+                let res = await services.auction_test.startAuction(this.domain);
+                this.btn_start = 1;
+                this.domain = "";
+                this.checkState = 0;
+                if (!res)
+                {
+                    return false;
+                }
+                this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
+            }
         }
-        this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
     }
 
 
@@ -486,7 +523,7 @@ export default class NeoAuctionTest extends Vue
             return false;
         }
         // btn_start 0为开标中，1为可开标，2为可加价，3为结束期，4为输入域名错误，5为上架状态
-        switch (searchResult[ 0 ].state)
+        switch (searchResult[0].state)
         {
             case AuctionState.pass:
                 this.checkState = this.btn_start = 1;

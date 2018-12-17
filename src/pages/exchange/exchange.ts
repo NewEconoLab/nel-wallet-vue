@@ -23,6 +23,7 @@ export default class Exchange extends Vue
     exchangeList: any;             //一条交易数据的缓存
     isCheckingTran: boolean;        //是否交易中
     transmaxlength: number;          //input输入框的限制
+    tranConfirm: Function;
 
     constructor()
     {
@@ -40,6 +41,7 @@ export default class Exchange extends Vue
 
     mounted()
     {
+        this.tranConfirm = this.$refs.tranConfirm["open"];
         this.currentAddress = LoginInfo.getCurrentAddress();
         this.getMyGas();
         this.getMySGas();
@@ -121,69 +123,87 @@ export default class Exchange extends Vue
         let height = Store.blockheight.select("height");
         if (this.changeSGas)
         {
-            try
-            {   //sgas->gas
-                let trancount = Neo.Fixed8.parse(this.transcount);
-                this.isCheckingTran = true;
-                let result = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
-
-                // 已经确认
-                //tx的第一个utxo就是给自己的
-                let utxo: UTXO = new UTXO();
-                utxo.addr = LoginInfo.getCurrentAddress();
-                utxo.txid = result.txid;
-                utxo.asset = tools.coinTool.id_GAS;
-                utxo.count = trancount
-                utxo.n = 0;
-
-                //把这个txid里的utxo[0]的value转给自己
-                let data = await tools.sgastool.makeRefundTransaction_tranGas(utxo, trancount);
-                let res = await tools.wwwtool.rechargeandtransfer(result.data, data);
-                let txid = res[ "txid" ];
-                TaskManager.addTask(
-                    new Task(ConfirmType.recharge, txid, { count: this.transcount }),
-                    TaskType.sgasToGas
-                );
-                let tranObj = [ { 'trancount': this.transcount, 'txid': result.txid, 'trantype': 'CGAS' } ];
-                sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
-                this.exchangebtn = false;
-                this.isCheckingTran = true;
-                this.isShowTranLog();
-            } catch (error)
+            let msgs = [
+                { title: "目标资产", value: "GAS" },
+                { title: "兑换数量", value: this.transcount }
+            ]
+            let confirmres = await this.tranConfirm("兑换信息", msgs);
+            if (confirmres)
             {
-                console.log(error);
+
+                try
+                {   //sgas->gas
+                    let trancount = Neo.Fixed8.parse(this.transcount);
+                    this.isCheckingTran = true;
+                    let result = await tools.sgastool.makeRefundTransaction(parseFloat(this.transcount));
+
+                    // 已经确认
+                    //tx的第一个utxo就是给自己的
+                    let utxo: UTXO = new UTXO();
+                    utxo.addr = LoginInfo.getCurrentAddress();
+                    utxo.txid = result.txid;
+                    utxo.asset = tools.coinTool.id_GAS;
+                    utxo.count = trancount
+                    utxo.n = 0;
+
+                    //把这个txid里的utxo[0]的value转给自己
+                    let data = await tools.sgastool.makeRefundTransaction_tranGas(utxo, trancount);
+                    let res = await tools.wwwtool.rechargeandtransfer(result.data, data);
+                    let txid = res["txid"];
+                    TaskManager.addTask(
+                        new Task(ConfirmType.recharge, txid, { count: this.transcount }),
+                        TaskType.sgasToGas
+                    );
+                    let tranObj = [{ 'trancount': this.transcount, 'txid': result.txid, 'trantype': 'CGAS' }];
+                    sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
+                    this.exchangebtn = false;
+                    this.isCheckingTran = true;
+                    this.isShowTranLog();
+                } catch (error)
+                {
+                    console.log(error);
+                }
             }
         } else
         {
-            try
-            {   //gas->sgas
-                this.isCheckingTran = true;
-                // let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
-                let res: Result = await services.exchange.exchangeCGas(parseFloat(this.transcount));
-                if (res.err)
-                {
-                    let notify: Function = this.$refs.notify[ "open" ];
-                    let code = res.info[ "code" ]
-                    if (code == "1006")
-                        notify(this.$t("notify.utxo"));
-                    // if (code == "-100")
-                    //     notify("testtt");
-                    this.isCheckingTran = false;
-                } else
-                {
-                    let txid = res.info
-                    TaskManager.addTask(
-                        new Task(ConfirmType.tranfer, txid, { count: this.transcount }),
-                        TaskType.gasToSgas
-                    );
-                    let tranObj = [ { 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' } ];
-                    sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
-                    this.isShowTranLog();
-                }
-            } catch (error)
+            let msgs = [
+                { title: "目标资产", value: "CGAS" },
+                { title: "兑换数量", value: this.transcount }
+            ]
+            let confirmres = await this.tranConfirm("兑换信息", msgs);
+            if (confirmres)
             {
-                this.isCheckingTran = false;
-                // console.error(error);
+
+                try
+                {   //gas->sgas
+                    this.isCheckingTran = true;
+                    // let txid = await tools.sgastool.makeMintTokenTransaction(parseFloat(this.transcount));
+                    let res: Result = await services.exchange.exchangeCGas(parseFloat(this.transcount));
+                    if (res.err)
+                    {
+                        let notify: Function = this.$refs.notify["open"];
+                        let code = res.info["code"]
+                        if (code == "1006")
+                            notify(this.$t("notify.utxo"));
+                        // if (code == "-100")
+                        //     notify("testtt");
+                        this.isCheckingTran = false;
+                    } else
+                    {
+                        let txid = res.info
+                        TaskManager.addTask(
+                            new Task(ConfirmType.tranfer, txid, { count: this.transcount }),
+                            TaskType.gasToSgas
+                        );
+                        let tranObj = [{ 'trancount': this.transcount, 'txid': txid, 'trantype': 'Gas' }];
+                        sessionStorage.setItem('exchangelist', JSON.stringify(tranObj));
+                        this.isShowTranLog();
+                    }
+                } catch (error)
+                {
+                    this.isCheckingTran = false;
+                    // console.error(error);
+                }
             }
         }
     }

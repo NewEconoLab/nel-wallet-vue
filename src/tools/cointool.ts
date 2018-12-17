@@ -138,8 +138,8 @@ export class CoinTool
         var old: OldUTXO[] = []
         tran.outputs = [];
         tran.inputs = [];
-
-        let fee = Neo.Fixed8.parse('0.00000001');
+        let payfee = LoginInfo.info.payfee;
+        let fee = Neo.Fixed8.parse('0.001');
         let sumcount = Neo.Fixed8.Zero; //初始化
         if (gasutxos)
         {
@@ -154,13 +154,13 @@ export class CoinTool
             let tranRes = this.creatInuptAndOutup(gasutxos, sendcount, targetaddr);
             tran.inputs = tranRes.inputs;
             tran.outputs = tranRes.outputs;
-            if (tran.outputs && tran.outputs.length > 1)
+            if (payfee && tran.outputs && tran.outputs.length > 1)
             {
                 tran.outputs[1].value = tran.outputs[1].value.subtract(fee);
             }
         } else
         {
-            if (gasutxos)
+            if (payfee && gasutxos)
             {
                 // 创建 fee的输入输出
                 let feeRes = this.creatInuptAndOutup(gasutxos, fee);
@@ -293,7 +293,7 @@ export class CoinTool
             var tran: ThinNeo.Transaction = tranres.info['tran'];
             if (tran.witnesses == null)
                 tran.witnesses = [];
-            let txid = tran.GetHash().clone().reverse().toHexString();
+            let txid = tran.GetTxid();
             let data;
             var res: Result = new Result();
             try
@@ -330,7 +330,6 @@ export class CoinTool
     static async claimgas()
     {
         let claimtxhex: string = await tools.wwwtool.api_getclaimtxhex(LoginInfo.getCurrentAddress());
-
         //对象化交易体
         var tran = new ThinNeo.Transaction();
         var buf = claimtxhex.hexToBytes();
