@@ -152,13 +152,13 @@ export default class AuctionInfoTest extends Vue
      */
     async getDomain()
     {
-        if (this.auctionInfo.addwho.accountTime && this.auctionInfo.addwho.accountTime.blockindex > 0)
+        let msgs = [
+            { title: "域名", value: this.auctionInfo.domain }
+        ]
+        let confirmres = await this.tranConfirm("领取域名", msgs);
+        if (confirmres)
         {
-            let msgs = [
-                { title: "域名", value: this.auctionInfo.domain }
-            ]
-            let confirmres = await this.tranConfirm("领取域名", msgs);
-            if (confirmres)
+            if (this.auctionInfo.addwho.accountTime && this.auctionInfo.addwho.accountTime.blockindex > 0)
             {
                 let data = await tools.nnssell.collectDomain(this.auctionInfo.id.toString(), this.rootInfo.register);
                 if (!data)
@@ -173,19 +173,19 @@ export default class AuctionInfoTest extends Vue
                     TaskType.getDomain
                 )
             }
-        }
-        else
-        {
-            let data1 = await tools.nnssell.bidSettlement(this.auctionInfo.id.toString(), this.rootInfo.register);
-            let data2 = await tools.nnssell.collectDomain(this.auctionInfo.id.toString(), this.rootInfo.register);
-            let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
-            let txid = res["txid"];
-            this.isGetDomainWait = true;
-            Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
-            TaskManager.addTask(
-                new Task(ConfirmType.recharge, txid, { domain: this.auctionInfo.domain }),
-                TaskType.getDomain
-            )
+            else
+            {
+                let data1 = await tools.nnssell.bidSettlement(this.auctionInfo.id.toString(), this.rootInfo.register);
+                let data2 = await tools.nnssell.collectDomain(this.auctionInfo.id.toString(), this.rootInfo.register);
+                let res = await tools.wwwtool.rechargeandtransfer(data1, data2);
+                let txid = res["txid"];
+                this.isGetDomainWait = true;
+                Store.auctionInfo.put(this.auctionInfo.domain, true, "isGetDomainWait");
+                TaskManager.addTask(
+                    new Task(ConfirmType.recharge, txid, { domain: this.auctionInfo.domain }),
+                    TaskType.getDomain
+                )
+            }
         }
     }
 

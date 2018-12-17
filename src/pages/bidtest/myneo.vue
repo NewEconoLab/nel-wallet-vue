@@ -67,7 +67,7 @@
         v-if="!item.expired && item.state == '0901'"
       >( {{$t('auction.saleprice')}}: {{item.price ? item.price : "0"}} NNC)</div>
       <div class="time-msg" v-if="!item.expired">
-        ( {{$t('myneoname.time')}}: {{item.ttl}}
+        ( {{$t('myneoname.time')}}: {{item.ttltime}}
         <span
           class="ff6"
           v-if="!item.expiring"
@@ -306,7 +306,7 @@
                 type="text"
                 class="readonly-input"
                 readonly="readonly"
-                :value="domainInfo.expired?$t('myneoname.expired'):domainInfo.ttl"
+                :value="domainInfo.expired?$t('myneoname.expired'):domainInfo.ttltime"
               >
               <button
                 v-if="!domainInfo.expired&&!domainInfo.expiring &&!renewalWatting"
@@ -393,7 +393,7 @@
         </div>
         <div class="sale-smallbox">
           <div class="smallbox-label">{{$t('myneoname.time')}}:</div>
-          <div class="smallbox-div">{{domainInfo.ttl}}</div>
+          <div class="smallbox-div">{{domainInfo.ttltime}}</div>
         </div>
         <div class="sale-smallbox">
           <div class="smallbox-label">{{$t('myneoname.setprice')}}（NNC） :</div>
