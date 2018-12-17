@@ -1,7 +1,7 @@
 <template>
   <div class="alert-wrap" v-show="show">
     <div class="alert-box">
-      <div class="alert-title">转账确认</div>
+      <div class="alert-title">{{title}}</div>
       <div class="line-wrap" v-for="msg in messageList" :key="msg.title">
         <div class="line-box">
           <div class="line-title">{{msg.title}}</div>

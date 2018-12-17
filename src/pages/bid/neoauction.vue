@@ -484,6 +484,7 @@
     </div>
     <!-- <v-toast type="error" msg="Top up failed ! And your 100 GAS has been exchanged into 100 CGAS !"></v-toast> -->
     <v-toast ref="toast"></v-toast>
+    <v-confirm ref="tranConfirm"></v-confirm>
     <!-- <v-toast type="error" msg="Operation failed !"></v-toast> -->
   </div>
 </template>

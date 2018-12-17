@@ -437,6 +437,7 @@
         </div>
       </div>
     </div>
+    <v-confirm ref="tranConfirm"></v-confirm>
   </div>
 </template>
 <script lang="ts" src="./myneo.ts">

@@ -95,6 +95,7 @@
     </div>
     <div style="height:30px"></div>
 
+    <v-confirm ref="tranConfirm"></v-confirm>
     <!-- 地址选框 -->
     <div class="modal fade" id="selectAddr" tabindex="-1">
       <div class="modal-dialog" role="document">

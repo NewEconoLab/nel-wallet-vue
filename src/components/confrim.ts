@@ -8,6 +8,7 @@ import { ConfrimMessage } from "../entity/TransactionEntitys";
 export default class TranConfrim extends Vue
 {
     show: boolean = false;
+    title: string = ""
     deblocking: boolean = false;
     payFee: boolean = false;
     password: string = "";
@@ -24,8 +25,9 @@ export default class TranConfrim extends Vue
     }
 
     @Watch("open")
-    async open(msg: ConfrimMessage[])
+    async open(name: string, msg: ConfrimMessage[])
     {
+        this.title = name;
         this.messageList = msg;
         this.show = true;
         this.deblocking = (LoginInfo.info) ? false : true;
@@ -78,6 +80,7 @@ export default class TranConfrim extends Vue
                     tools.neotool.nep2ToWif(nep2, this.password)
                         .then(result =>
                         {
+                            LoginInfo.info = result.info;
                             resolve(this.payFee)
                         })
                         .catch(err =>

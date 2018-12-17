@@ -62,6 +62,7 @@
     </div>
     <!-- 提示弹筐 -->
     <v-toast ref="toast"></v-toast>
+    <v-confirm ref="tranConfirm"></v-confirm>
   </div>
 </template>
 <script lang="ts" src="./bonus.ts">

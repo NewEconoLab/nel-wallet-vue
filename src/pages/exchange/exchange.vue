@@ -1,108 +1,133 @@
 <template>
-    <div class="container exchange-box">
-        <div class="title">
-            <span>{{$t('exchange.title')}}</span>
-        </div>
-        <div class="form-box">
-            <div class="exchange-sgas">
-              <div class="gas-sgas" v-if="!changeSGas">
-                <div class="choose-wrap wrap-left">
-                    <img src="../../../static/img/gas-nomal.png" alt="gas-nomal.png">
-                    <div class="change-type">
-                      <span>Gas</span>
-                      <p>{{$t('exchange.balance')}}: <span>{{myGas}}</span></p>
-                    </div>
-                </div>
-                <div class="guid-img">
-                    <img src="../../../static/img/guiding.png" alt="guiding.png">
-                </div>
-                <div class="choose-wrap wrap-right">
-                    <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png">
-                    <div class="change-type">
-                      <span>CGAS</span>
-                      <p>{{$t('exchange.balance')}}: <span>{{mySGas}}</span></p>
-                    </div>
-                </div>
-              </div>
-              <div class="gas-sgas" v-if="changeSGas">
-                <div class="choose-wrap wrap-left">
-                    <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png" >
-                    <div class="change-type">
-                      <span>CGAS</span>
-                      <p>{{$t('exchange.balance')}}: <span>{{mySGas}}</span></p>
-                    </div>
-                </div>
-                <div class="guid-img">
-                    <img src="../../../static/img/guiding.png" alt="guiding.png">
-                </div>
-                <div class="choose-wrap wrap-right">
-                    <img src="../../../static/img/gas-nomal.png" alt="gas-nomal.png">
-                    <div class="change-type">
-                      <span>Gas</span>
-                      <p>{{$t('exchange.balance')}}: <span>{{myGas}}</span></p>
-                    </div>
-                </div>
-              </div>
-              <div class="exchange-img" @click="exchangeTranType">
-                  <img src="../../../static/img/exchange.png" alt="exchange.png">
-              </div>
+  <div class="container exchange-box">
+    <div class="title">
+      <span>{{$t('exchange.title')}}</span>
+    </div>
+    <div class="form-box">
+      <div class="exchange-sgas">
+        <div class="gas-sgas" v-if="!changeSGas">
+          <div class="choose-wrap wrap-left">
+            <img src="../../../static/img/gas-nomal.png" alt="gas-nomal.png">
+            <div class="change-type">
+              <span>Gas</span>
+              <p>
+                {{$t('exchange.balance')}}:
+                <span>{{myGas}}</span>
+              </p>
             </div>
-            <div class="sgas-tip">
-              {{$t('exchange.tips')}}
+          </div>
+          <div class="guid-img">
+            <img src="../../../static/img/guiding.png" alt="guiding.png">
+          </div>
+          <div class="choose-wrap wrap-right">
+            <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png">
+            <div class="change-type">
+              <span>CGAS</span>
+              <p>
+                {{$t('exchange.balance')}}:
+                <span>{{mySGas}}</span>
+              </p>
             </div>
-            <div class="trans-box">
-                <div class="spent-box">
-                  <div class="spent-msg">
-                    {{$t('exchange.spend')}} 
-                  </div>
-                  <div class="spent-input">
-                    <div class="img-icon">
-                      <img src="../../../static/img/plus.png" alt="plus.png">
-                    </div>
-                    <div class="input-icon">
-                      <input type="number" placeholder="0" v-model="transcount" @input="exchangeCount" autocomplete="off">
-                    </div>
-                    <div class="msg-icon">
-                      {{changeSGas?"CGAS":"Gas"}}
-                    </div>
-                  </div>
-                </div>
-                <div class="spent-box">
-                  <div class="spent-msg">
-                    {{$t('exchange.receive')}}  
-                  </div>
-                  <div class="spent-input disable-input">
-                    <div class="img-icon">
-                      <img src="../../../static/img/minus.png" alt="minus.png">
-                    </div>
-                    <div class="input-icon">
-                      <input type="number" :placeholder="$t('exchange.amount')" v-model="transcount" disabled>
-                    </div>
-                    <div class="msg-icon">
-                      {{changeSGas?"Gas":"CGAS"}}
-                    </div>
-                  </div>
-                </div>
-                
-            </div>  
-            <div class="spent-tip ff6" v-if="transcount > exMaxcount">
-              {{$t('exchange.warnmsg')}} 
-            </div>          
-            <div class="btn-right">
-                <button v-if="!isCheckingTran" class="btn btn-nel btn-big" @click="exChange()" :class="{'btn-disable':(transcount > exMaxcount || !exchangebtn)}" :disabled="transcount > exMaxcount || !exchangebtn">{{$t('btn.exchange')}}</button>
-                <!-- <spinner-wrap v-if="isCheckingTran" style="margin-left:20px"></spinner-wrap> -->
-                <button v-if="isCheckingTran" class="btn btn-nel btn-big btn-disable" disabled>{{$t('btn.exchanging')}}</button>
-            </div>
-        </div>
-        <div class="form-box tran-list" v-if="exchangeList">
-          <h3 class="tran-title">{{$t('exchange.waittitle')}}</h3>
-          <div class="tran-history" v-for="(item,index) in exchangeList" :key="index">            
-            <p v-if="item.trantype == 'Gas'">{{$t('exchange.tosgas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
-            <p v-if="item.trantype == 'CGAS'">{{$t('exchange.togas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
           </div>
         </div>
-        <v-notify ref="notify"></v-notify>
+        <div class="gas-sgas" v-if="changeSGas">
+          <div class="choose-wrap wrap-left">
+            <img src="../../../static/img/sgas-nomal.png" alt="sgas-nomal.png">
+            <div class="change-type">
+              <span>CGAS</span>
+              <p>
+                {{$t('exchange.balance')}}:
+                <span>{{mySGas}}</span>
+              </p>
+            </div>
+          </div>
+          <div class="guid-img">
+            <img src="../../../static/img/guiding.png" alt="guiding.png">
+          </div>
+          <div class="choose-wrap wrap-right">
+            <img src="../../../static/img/gas-nomal.png" alt="gas-nomal.png">
+            <div class="change-type">
+              <span>Gas</span>
+              <p>
+                {{$t('exchange.balance')}}:
+                <span>{{myGas}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="exchange-img" @click="exchangeTranType">
+          <img src="../../../static/img/exchange.png" alt="exchange.png">
+        </div>
+      </div>
+      <div class="sgas-tip">{{$t('exchange.tips')}}</div>
+      <div class="trans-box">
+        <div class="spent-box">
+          <div class="spent-msg">{{$t('exchange.spend')}}</div>
+          <div class="spent-input">
+            <div class="img-icon">
+              <img src="../../../static/img/plus.png" alt="plus.png">
+            </div>
+            <div class="input-icon">
+              <input
+                type="number"
+                placeholder="0"
+                v-model="transcount"
+                @input="exchangeCount"
+                autocomplete="off"
+              >
+            </div>
+            <div class="msg-icon">{{changeSGas?"CGAS":"Gas"}}</div>
+          </div>
+        </div>
+        <div class="spent-box">
+          <div class="spent-msg">{{$t('exchange.receive')}}</div>
+          <div class="spent-input disable-input">
+            <div class="img-icon">
+              <img src="../../../static/img/minus.png" alt="minus.png">
+            </div>
+            <div class="input-icon">
+              <input
+                type="number"
+                :placeholder="$t('exchange.amount')"
+                v-model="transcount"
+                disabled
+              >
+            </div>
+            <div class="msg-icon">{{changeSGas?"Gas":"CGAS"}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="spent-tip ff6" v-if="transcount > exMaxcount">{{$t('exchange.warnmsg')}}</div>
+      <div class="btn-right">
+        <button
+          v-if="!isCheckingTran"
+          class="btn btn-nel btn-big"
+          @click="exChange()"
+          :class="{'btn-disable':(transcount > exMaxcount || !exchangebtn)}"
+          :disabled="transcount > exMaxcount || !exchangebtn"
+        >{{$t('btn.exchange')}}</button>
+        <!-- <spinner-wrap v-if="isCheckingTran" style="margin-left:20px"></spinner-wrap> -->
+        <button
+          v-if="isCheckingTran"
+          class="btn btn-nel btn-big btn-disable"
+          disabled
+        >{{$t('btn.exchanging')}}</button>
+      </div>
     </div>
+    <div class="form-box tran-list" v-if="exchangeList">
+      <h3 class="tran-title">{{$t('exchange.waittitle')}}</h3>
+      <div class="tran-history" v-for="(item,index) in exchangeList" :key="index">
+        <p
+          v-if="item.trantype == 'Gas'"
+        >{{$t('exchange.tosgas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
+        <p
+          v-if="item.trantype == 'CGAS'"
+        >{{$t('exchange.togas')}}：{{item.trancount}} {{item.trantype}}, TXID: {{item.txid}}</p>
+      </div>
+    </div>
+    <v-notify ref="notify"></v-notify>
+    <v-confirm ref="tranConfirm"></v-confirm>
+  </div>
 </template>
 <script lang="ts" src="./exchange.ts">
 </script>

@@ -1,108 +1,190 @@
 <template>
-    <div class="page-two">
-      <!-- 域名详情 -->
-        <div class="title">
-            <span>{{$t('auction.title3')}}</span>
-            <div class="goback" @click="onBack">&lt;&lt;&lt;{{$t('auction.goback')}}</div>
-        </div>
-        <div class="form-box">
-            <div class="filename">{{$t('auction.domain')}}: {{auctionInfo.domain}}</div>
-            <div class="status" v-if="auctionInfo.state=='0201'">{{$t('auction.status')}}: <span class="status-being">{{$t('auction.fixedperiod')}}</span> </div>
-            <div class="status" v-if="auctionInfo.state=='0301'">{{$t('auction.status')}}: <span class="status-random">{{$t('auction.randomperiod')}}</span></div>
-            <div class="status" v-if="auctionInfo.state=='0401'">{{$t('auction.status')}}: <span class="status-ended">{{$t('auction.ended')}}</span> </div>
-            <div class="highest-price">{{$t('auction.highest')}}: {{auctionInfo.maxPrice}} CGAS</div>   
-            <div class="bidder" v-if="auctionInfo.maxBuyer != address">{{$t('auction.currentbidder')}}: <span>{{$t('auction.other')}}（ {{auctionInfo.maxBuyer}} ）</span> </div>
-            <div class="bidder" v-if="auctionInfo.maxBuyer == address">{{$t('auction.currentbidder')}}: <span class="bidder-me">{{$t('auction.me')}}（ {{auctionInfo.maxBuyer}} ）</span> </div>
-            <div class="my-bid-sgas">{{$t('auction.mybidmsg')}}: <span :class="auctionInfo.maxBuyer == address?'status-being':'status-ended'">{{auctionInfo.addwho.totalValue}}</span>  CGAS</div>     
-        </div>
-        <!-- 域名领取 -->
-        <div v-if="auctionInfo.btnState==1||auctionInfo.btnState==4">
-          <div class="title">
-              <span>{{$t('auction.title6')}}</span>
-          </div>
-          <div class="form-box">
-              <div class="neoname"> {{auctionInfo.domain}}</div>
-              <div class="neoname-tips">{{$t('auction.getdomaintips')}}</div>
-              <div class="btn-center">
-                <button v-if="auctionInfo.btnState==1 && !isGetDomainWait" class="btn btn-nel btn-bid" @click="getDomain">{{$t('btn.getdomain')}}</button>
-                <button v-if="auctionInfo.btnState==1 && isGetDomainWait" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.gettingdomain')}}</button>
-                <button v-if="auctionInfo.btnState==4" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.receivednns')}}</button>  
-              </div>  
-          </div>
-        </div>
-        <!-- 退回竞拍金额 -->
-        <div v-if="auctionInfo.btnState==2||auctionInfo.btnState==3">
-          <div class="title">
-              <span>{{$t('auction.title7')}}</span>
-          </div>
-          <div class="form-box">
-              <div class="cumulative-msg">{{$t('auction.mybidmsg')}}: {{myBidPrice}} CGAS</div>
-              <div class="fee-msg">{{$t('auction.fee')}}: {{fee}} CGAS</div>
-              <div class="remain-msg">{{$t('auction.remainingsgas')}}: {{remaining}} CGAS</div>
-              <div class="btn-center">
-                <button v-if="auctionInfo.btnState==2&&!isRecoverWait" class="btn btn-nel btn-bid" @click="recoverSgas" >{{$t('btn.recoversgas')}}</button>
-                <button v-if="auctionInfo.btnState==2&&isRecoverWait" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.recoveringsgas')}}</button>
-                <button v-if="auctionInfo.btnState==3" class="btn btn-nel btn-bid btn-disable" disabled>{{$t('btn.receivedsgas')}}</button> 
-              </div> 
-          </div>
-        </div>
-        <!-- 域名加价 -->
-        <div v-if="auctionInfo.btnState==0">
-        <div class="title">
-            <span>{{$t('auction.title4')}}</span>
-        </div>
-        <div class="form-box">
-            <div>
-                <div class="input-msg">{{$t('auction.raisebid')}}: </div>
-                <div class="input-box" >
-                    <input type="number" :placeholder="$t('auction.enterbid')" v-model="bidPrice" @input="myBidInput" autocomplete="off">
-                    <span>CGAS</span>
-                </div>
-                <div v-if="inputErrorCode==1" class="err-msg status-ended">{{$t('auction.errmsg1')}} {{balanceOf}} {{$t('auction.errmsg2')}}</div>
-                <div v-if="inputErrorCode==2" class="err-msg status-ended">{{$t('auction.errmsg4')}}</div>
-                <div v-if="inputErrorCode==3" class="err-msg status-ended">{{$t('auction.errmsg6')}}</div>
-            </div>
-            <div class="my-sgas">{{$t('auction.mywillbid')}}: <span :class="updatePrice<=auctionInfo.maxPrice||inputErrorCode==1?'status-ended':'status-being'">{{updatePrice}}</span> CGAS</div>
-            <div class="tips-msg">
-                {{$t('auction.tips1')}} 
-            </div>
-            <div class="btn-bid-box">
-              <button v-if="bidState==2" class="btn btn-bid btn-disable" disabled="disabled">{{$t('btn.bid')}}</button>
-              <button v-if="bidState==0" class="btn btn-bid " @click="bidDomain" >{{$t('btn.bid')}}</button>
-            </div>
-        </div>
-        </div>
-        <div class="title">
-            <span>{{$t('auction.title5')}}</span>
-        </div>
-        <div class="form-box">
-          <!-- process-wrapper start -->
-          <div class="process-wrapper">
-            <label>{{$t('auction.status')}}</label>
-            <div class="process-box">
-              <div :class="auctionInfo.process.timearr.length==3?'process':'process long'" :style="'width:'+auctionInfo.process.width+'%'">
-                <div v-if="auctionInfo.process.state=='0201'" class="process-tips">{{ $t('auction.fixedperiod')}} </div>
-                <div v-if="auctionInfo.process.state=='0301'" class="process-tips">{{ $t('auction.randomperiod')}} </div>
-                <div v-if="auctionInfo.process.state=='0401'" class="process-tips">{{ $t('auction.ended')}} </div>
-              </div>
-              <div class="starts">{{auctionInfo.process.date}}
-                <br/>{{auctionInfo.process.time}}</div>
-
-              <div v-for="days in auctionInfo.process.timearr" :key="days.msg" class="days">
-                <em v-if="days.msg!=''&&days.msg=='1'">{{$t('auction.bidstarttimemsg')}}</em>
-                <em v-if="days.msg!=''&&days.msg=='2'">{{$t('auction.endtimemsg')}}</em>
-                <em v-if="days.msg!=''&&days.msg=='3'">{{$t('auction.maxtimemsg')}}</em>
-                <span>{{days.date}}
-                  <br/>{{days.time}}</span>
-              </div>
-            </div>
-          </div>
-          <!-- process-wrapper end  -->
-          <div class="auction-tips">{{$t('auction.tips')}} <p> {{$t('auction.teststatustips')}}</p><p style="">{{$t('auction.teststatustips2')}}</p></div>
-
-        </div>
-        <v-toast ref="toast" ></v-toast>
+  <div class="page-two">
+    <!-- 域名详情 -->
+    <div class="title">
+      <span>{{$t('auction.title3')}}</span>
+      <div class="goback" @click="onBack">&lt;&lt;&lt;{{$t('auction.goback')}}</div>
     </div>
+    <div class="form-box">
+      <div class="filename">{{$t('auction.domain')}}: {{auctionInfo.domain}}</div>
+      <div class="status" v-if="auctionInfo.state=='0201'">
+        {{$t('auction.status')}}:
+        <span class="status-being">{{$t('auction.fixedperiod')}}</span>
+      </div>
+      <div class="status" v-if="auctionInfo.state=='0301'">
+        {{$t('auction.status')}}:
+        <span class="status-random">{{$t('auction.randomperiod')}}</span>
+      </div>
+      <div class="status" v-if="auctionInfo.state=='0401'">
+        {{$t('auction.status')}}:
+        <span class="status-ended">{{$t('auction.ended')}}</span>
+      </div>
+      <div class="highest-price">{{$t('auction.highest')}}: {{auctionInfo.maxPrice}} CGAS</div>
+      <div class="bidder" v-if="auctionInfo.maxBuyer != address">
+        {{$t('auction.currentbidder')}}:
+        <span>{{$t('auction.other')}}（ {{auctionInfo.maxBuyer}} ）</span>
+      </div>
+      <div class="bidder" v-if="auctionInfo.maxBuyer == address">
+        {{$t('auction.currentbidder')}}:
+        <span class="bidder-me">{{$t('auction.me')}}（ {{auctionInfo.maxBuyer}} ）</span>
+      </div>
+      <div class="my-bid-sgas">
+        {{$t('auction.mybidmsg')}}:
+        <span
+          :class="auctionInfo.maxBuyer == address?'status-being':'status-ended'"
+        >{{auctionInfo.addwho.totalValue}}</span> CGAS
+      </div>
+    </div>
+    <!-- 域名领取 -->
+    <div v-if="auctionInfo.btnState==1||auctionInfo.btnState==4">
+      <div class="title">
+        <span>{{$t('auction.title6')}}</span>
+      </div>
+      <div class="form-box">
+        <div class="neoname">{{auctionInfo.domain}}</div>
+        <div class="neoname-tips">{{$t('auction.getdomaintips')}}</div>
+        <div class="btn-center">
+          <button
+            v-if="auctionInfo.btnState==1 && !isGetDomainWait"
+            class="btn btn-nel btn-bid"
+            @click="getDomain"
+          >{{$t('btn.getdomain')}}</button>
+          <button
+            v-if="auctionInfo.btnState==1 && isGetDomainWait"
+            class="btn btn-nel btn-bid btn-disable"
+            disabled
+          >{{$t('btn.gettingdomain')}}</button>
+          <button
+            v-if="auctionInfo.btnState==4"
+            class="btn btn-nel btn-bid btn-disable"
+            disabled
+          >{{$t('btn.receivednns')}}</button>
+        </div>
+      </div>
+    </div>
+    <!-- 退回竞拍金额 -->
+    <div v-if="auctionInfo.btnState==2||auctionInfo.btnState==3">
+      <div class="title">
+        <span>{{$t('auction.title7')}}</span>
+      </div>
+      <div class="form-box">
+        <div class="cumulative-msg">{{$t('auction.mybidmsg')}}: {{myBidPrice}} CGAS</div>
+        <div class="fee-msg">{{$t('auction.fee')}}: {{fee}} CGAS</div>
+        <div class="remain-msg">{{$t('auction.remainingsgas')}}: {{remaining}} CGAS</div>
+        <div class="btn-center">
+          <button
+            v-if="auctionInfo.btnState==2&&!isRecoverWait"
+            class="btn btn-nel btn-bid"
+            @click="recoverSgas"
+          >{{$t('btn.recoversgas')}}</button>
+          <button
+            v-if="auctionInfo.btnState==2&&isRecoverWait"
+            class="btn btn-nel btn-bid btn-disable"
+            disabled
+          >{{$t('btn.recoveringsgas')}}</button>
+          <button
+            v-if="auctionInfo.btnState==3"
+            class="btn btn-nel btn-bid btn-disable"
+            disabled
+          >{{$t('btn.receivedsgas')}}</button>
+        </div>
+      </div>
+    </div>
+    <!-- 域名加价 -->
+    <div v-if="auctionInfo.btnState==0">
+      <div class="title">
+        <span>{{$t('auction.title4')}}</span>
+      </div>
+      <div class="form-box">
+        <div>
+          <div class="input-msg">{{$t('auction.raisebid')}}:</div>
+          <div class="input-box">
+            <input
+              type="number"
+              :placeholder="$t('auction.enterbid')"
+              v-model="bidPrice"
+              @input="myBidInput"
+              autocomplete="off"
+            >
+            <span>CGAS</span>
+          </div>
+          <div
+            v-if="inputErrorCode==1"
+            class="err-msg status-ended"
+          >{{$t('auction.errmsg1')}} {{balanceOf}} {{$t('auction.errmsg2')}}</div>
+          <div v-if="inputErrorCode==2" class="err-msg status-ended">{{$t('auction.errmsg4')}}</div>
+          <div v-if="inputErrorCode==3" class="err-msg status-ended">{{$t('auction.errmsg6')}}</div>
+        </div>
+        <div class="my-sgas">
+          {{$t('auction.mywillbid')}}:
+          <span
+            :class="updatePrice<=auctionInfo.maxPrice||inputErrorCode==1?'status-ended':'status-being'"
+          >{{updatePrice}}</span> CGAS
+        </div>
+        <div class="tips-msg">{{$t('auction.tips1')}}</div>
+        <div class="btn-bid-box">
+          <button
+            v-if="bidState==2"
+            class="btn btn-bid btn-disable"
+            disabled="disabled"
+          >{{$t('btn.bid')}}</button>
+          <button v-if="bidState==0" class="btn btn-bid" @click="bidDomain">{{$t('btn.bid')}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="title">
+      <span>{{$t('auction.title5')}}</span>
+    </div>
+    <div class="form-box">
+      <!-- process-wrapper start -->
+      <div class="process-wrapper">
+        <label>{{$t('auction.status')}}</label>
+        <div class="process-box">
+          <div
+            :class="auctionInfo.process.timearr.length==3?'process':'process long'"
+            :style="'width:'+auctionInfo.process.width+'%'"
+          >
+            <div
+              v-if="auctionInfo.process.state=='0201'"
+              class="process-tips"
+            >{{ $t('auction.fixedperiod')}}</div>
+            <div
+              v-if="auctionInfo.process.state=='0301'"
+              class="process-tips"
+            >{{ $t('auction.randomperiod')}}</div>
+            <div
+              v-if="auctionInfo.process.state=='0401'"
+              class="process-tips"
+            >{{ $t('auction.ended')}}</div>
+          </div>
+          <div class="starts">
+            {{auctionInfo.process.date}}
+            <br>
+            {{auctionInfo.process.time}}
+          </div>
+
+          <div v-for="days in auctionInfo.process.timearr" :key="days.msg" class="days">
+            <em v-if="days.msg!=''&&days.msg=='1'">{{$t('auction.bidstarttimemsg')}}</em>
+            <em v-if="days.msg!=''&&days.msg=='2'">{{$t('auction.endtimemsg')}}</em>
+            <em v-if="days.msg!=''&&days.msg=='3'">{{$t('auction.maxtimemsg')}}</em>
+            <span>
+              {{days.date}}
+              <br>
+              {{days.time}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- process-wrapper end  -->
+      <div class="auction-tips">
+        {{$t('auction.tips')}}
+        <p>{{$t('auction.teststatustips')}}</p>
+        <p style>{{$t('auction.teststatustips2')}}</p>
+      </div>
+    </div>
+    <v-toast ref="toast"></v-toast>
+    <v-confirm ref="tranConfirm"></v-confirm>
+  </div>
 </template>
 <script lang="ts" src="./auctioninfo.ts">
 </script>
