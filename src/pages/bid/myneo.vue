@@ -99,16 +99,7 @@
       </div>
       <div class="btn-right" v-if="!item.expired && item.state == '0901'">
         <div class="status-text">{{$t('btn.selling')}}</div>
-        <button
-          v-if="onUnSaleState == 0"
-          class="btn btn-nel btn-bid"
-          @click="onShowUnSaleDialog(item)"
-        >{{$t('btn.delist')}}</button>
-        <button
-          v-if="onUnSaleState == 1"
-          class="btn btn-nel btn-bid btn-disable"
-          disabled
-        >{{$t('btn.delisting')}}</button>
+        <button class="btn btn-nel btn-bid" @click="onShowUnSaleDialog(item)">{{$t('btn.delist')}}</button>
       </div>
     </div>
     <div class="mydomain-page">
@@ -429,7 +420,17 @@
           <span>{{$t('myneoname.surecheck1')}}{{domainInfo.domain}}{{$t('myneoname.surecheck2')}}</span>
         </div>
         <div class="unsale-btn">
-          <button class="btn btn-nel btn-big" @click="toUnSellDomain">{{$t('btn.check')}}</button>
+          <!-- <button class="btn btn-nel btn-big" @click="toUnSellDomain">{{$t('btn.check')}}</button> -->
+          <button
+            v-if="onUnSaleState == 0"
+            class="btn btn-nel btn-big"
+            @click="toUnSellDomain"
+          >{{$t('btn.delist')}}</button>
+          <button
+            v-if="onUnSaleState == 1"
+            class="btn btn-nel btn-big btn-disable"
+            disabled
+          >{{$t('btn.delisting')}}</button>
         </div>
         <div class="sale-close">
           <span aria-hidden="true" @click="isUnSaleBox=!isUnSaleBox">&times;</span>
