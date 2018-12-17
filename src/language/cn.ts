@@ -51,7 +51,7 @@ export default {
         lookinfo: "查看详情",
         buy: "购买",
         apply: "申请",
-        applying: "申请中",
+        applying: "已申请",
         applyed: "已发放",
         getNNC: "索取NNC",
         gettingNNC: "NNC领取中",

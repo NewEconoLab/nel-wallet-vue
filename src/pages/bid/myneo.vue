@@ -49,7 +49,6 @@
             <option value>{{$t('myneoname.unsell')}}</option>
           </select>
         </div>
-        <!-- <img src="" alt=""> -->
       </div>
     </div>
     <div class="mydomain-tips">{{$t('myneoname.note2')}}</div>

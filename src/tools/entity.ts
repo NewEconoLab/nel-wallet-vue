@@ -463,7 +463,7 @@ export class Consts
     static readonly baseContract = Neo.Uint160.parse("348387116c4a75e420663277d9c02049907128c7");
     static readonly registerContract = Neo.Uint160.parse("d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c");
     // static domainContract = '954f285a93eed7b4aed9396a7806a5812f1a5950';
-    static readonly saleContract = Neo.Uint160.parse("1b0ca9a908e07b20469917aed8d503049b420eeb");
+    static readonly saleContract = Neo.Uint160.parse("c4d09243258364e0e028852640218e08534f0466");
 }
 
 export class DomainInfo

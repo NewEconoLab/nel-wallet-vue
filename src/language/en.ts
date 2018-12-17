@@ -51,7 +51,7 @@ export default {
         lookinfo: "View details",
         buy: "Buy",
         apply: "Apply",
-        applying: "Applying",
+        applying: "Applyed",
         applyed: "Distributed",
         getNNC: "Request NNC",
         gettingNNC: "Requesting NNC",
