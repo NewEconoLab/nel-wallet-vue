@@ -154,9 +154,9 @@ export default class Contract
             outputs: ThinNeo.TransactionOutput[];
             oldutxo: OldUTXO[];
         };
-        if (gass)
+        if (gass && LoginInfo.info.payfee)
         {
-            feeres = tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.parse("0.00000001"));
+            feeres = tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.parse("0.001"));
             tran.inputs = feeres.inputs.map(input =>
             {
                 input.hash = input.hash.reverse();
@@ -185,13 +185,6 @@ export default class Contract
         {
             OldUTXO.oldutxosPush(feeres.oldutxo);
         }
-        // if (!res.err)
-        // {
-        //     if (feeres && feeres.oldutxo)
-        //     {
-        //         OldUTXO.oldutxosPush(feeres.oldutxo);
-        //     }
-        // }
         return res;
     }
 
