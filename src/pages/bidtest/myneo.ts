@@ -361,10 +361,10 @@ export default class MyNeo extends Vue
         this.openToast = this.$refs.toast["isShow"];
         const oldstate = this.ownerState;
         let msgs = [
-            { title: "域名", value: this.domainInfo.domain },
-            { title: "转让至", value: this.ownerAddress }
+            { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
+            { title: this.$t("confirm.domainTransferTo"), value: this.ownerAddress }
         ]
-        let confirmres = await this.tranConfirm("域名转让确认", msgs);
+        let confirmres = await this.tranConfirm(this.$t("confirm.domainTransferConfirm"), msgs);
         if (confirmres)
         {
             try
@@ -423,10 +423,10 @@ export default class MyNeo extends Vue
             this.resolverState = 2;
             let contract = this.set_contract.hexToBytes().reverse();
             let msgs = [
-                { title: "域名", value: this.domainInfo.domain },
-                { title: "地址解析器", value: this.set_contract }
+                { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
+                { title: this.$t("confirm.addrresolver"), value: this.set_contract }
             ]
-            let confirmres = await this.tranConfirm("确认地址解析器", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.addrResolverConfirm"), msgs);
             if (confirmres)
             {
                 let res = await tools.nnstool.setResolve(this.domainInfo["domain"], contract);
@@ -458,10 +458,10 @@ export default class MyNeo extends Vue
         try
         {
             let msgs = [
-                { title: "域名", value: this.domainInfo.domain },
-                { title: "映射地址", value: this.resolverAddress }
+                { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
+                { title: this.$t("confirm.addrmapping"), value: this.resolverAddress }
             ]
-            let confirmres = await this.tranConfirm("确认地址解析器", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.addrMappingConfirm"), msgs);
             if (confirmres)
             {
                 this.mappingState = 2;
@@ -499,10 +499,10 @@ export default class MyNeo extends Vue
         let domain = this.domainInfo.domain;
         let time = tools.timetool.getTime(this.domainInfo.ttl * 5 * 60 * 1000 * 365);
         let msgs = [
-            { title: "域名", value: this.domainInfo.domain },
-            { title: "续约至", value: time }
+            { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
+            { title: this.$t("confirm.renewalto"), value: time }
         ]
-        let confirmres = await this.tranConfirm("域名续约", msgs);
+        let confirmres = await this.tranConfirm(this.$t("confirm.renewalConfirm"), msgs);
         if (confirmres)
         {
             let res = await tools.nnssell.renewDomain(domain, root.register);
@@ -769,15 +769,14 @@ export default class MyNeo extends Vue
      */
     async toSaleDomain()
     {
-        // this.domainEdit.put(this.domainInfo.domain, { state: "watting", price: this.salePrice }, "sale");
         try
         {
             let msgs = [
-                { title: "域名", value: this.domainInfo.domain },
-                { title: "出售价格", value: this.domainSalePrice + " NNC" },
-                { title: "域名到期时间", value: this.domainInfo.ttltime }
+                { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
+                { title: this.$t("confirm.price"), value: this.domainSalePrice + " NNC" },
+                { title: this.$t("confirm.expirationTime"), value: this.domainInfo.ttltime }
             ]
-            let confirmres = await this.tranConfirm("域名上架", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.listingConfirm"), msgs);
             if (confirmres)
             {
                 // this.resolverState = 2;
@@ -807,9 +806,9 @@ export default class MyNeo extends Vue
         try
         {
             let msgs = [
-                { title: "域名", value: this.currentdomain }
+                { title: this.$t("confirm.domain"), value: this.currentdomain }
             ]
-            let confirmres = await this.tranConfirm("域名下架", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.delistingConfirm"), msgs);
             if (confirmres)
             {
                 let res = await tools.nnstool.unSaleDomain(this.domainInfo["domain"]);

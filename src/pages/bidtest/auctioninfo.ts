@@ -153,9 +153,9 @@ export default class AuctionInfoTest extends Vue
     async getDomain()
     {
         let msgs = [
-            { title: "域名", value: this.auctionInfo.domain }
+            { title: this.$t("confirm.domain"), value: this.auctionInfo.domain }
         ]
-        let confirmres = await this.tranConfirm("领取域名", msgs);
+        let confirmres = await this.tranConfirm(this.$t("confirm.domainClaimingConfirm"), msgs);
         if (confirmres)
         {
             if (this.auctionInfo.addwho.accountTime && this.auctionInfo.addwho.accountTime.blockindex > 0)
@@ -199,10 +199,10 @@ export default class AuctionInfoTest extends Vue
         try
         {
             let msgs = [
-                { title: "域名", value: this.auctionInfo.domain },
-                { title: "加价信息", value: this.bidPrice + " CGAS" }
+                { title: this.$t("confirm.domain"), value: this.auctionInfo.domain },
+                { title: this.$t("confirm.bidPrice"), value: this.bidPrice + " CGAS" }
             ]
-            let confirmres = await this.tranConfirm("竞拍加价", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.bidConfirm"), msgs);
             if (confirmres)
             {
                 let count = parseFloat(this.bidPrice)
@@ -232,10 +232,10 @@ export default class AuctionInfoTest extends Vue
         try
         {
             let msgs = [
-                { title: "域名", value: this.auctionInfo.domain },
-                { title: "可领回的竞拍金", value: this.auctionInfo.addwho.totalValue + " CGAS" }
+                { title: this.$t("confirm.domain"), value: this.auctionInfo.domain },
+                { title: this.$t("confirm.reclaimCgas"), value: this.auctionInfo.addwho.totalValue + " CGAS" }
             ]
-            let confirmres = await this.tranConfirm("领回竞拍金", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.cgasReclaimingConfirm"), msgs);
             if (confirmres)
             {
                 let res = await tools.wwwtool.api_postRawTransaction(data);

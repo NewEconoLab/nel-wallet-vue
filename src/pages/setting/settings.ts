@@ -81,7 +81,7 @@ export default class Settings extends Vue
 
     createNep2()
     {
-        alert.show("输入密码构建nep2", "password", "创建", password =>
+        alert.show(this.$t("setting.createnep2").toString(), this.$t("setting.msg3").toString(), this.$t("setting.btn2").toString(), password =>
         {
             if (!password)
             {

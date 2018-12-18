@@ -124,10 +124,10 @@ export default class Exchange extends Vue
         if (this.changeSGas)
         {
             let msgs = [
-                { title: "目标资产", value: "GAS" },
-                { title: "兑换数量", value: this.transcount }
+                { title: this.$t("confirm.exchangeTo"), value: "GAS" },
+                { title: this.$t("confirm.exchangeAmount"), value: this.transcount }
             ]
-            let confirmres = await this.tranConfirm("兑换信息", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.exchangeConfirm"), msgs);
             if (confirmres)
             {
 
@@ -167,10 +167,10 @@ export default class Exchange extends Vue
         } else
         {
             let msgs = [
-                { title: "目标资产", value: "CGAS" },
-                { title: "兑换数量", value: this.transcount }
+                { title: this.$t("confirm.exchangeTo"), value: "CGAS" },
+                { title: this.$t("confirm.exchangeAmount"), value: this.transcount }
             ]
-            let confirmres = await this.tranConfirm("兑换信息", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.exchangeConfirm"), msgs);
             if (confirmres)
             {
 

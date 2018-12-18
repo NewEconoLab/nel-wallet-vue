@@ -560,6 +560,7 @@ var WWW = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        console.log("===================================这里是交易体的 Hex========" + data.toHexString());
                         postdata = WWW.makeRpcPostBody("sendrawtransaction", data.toHexString());
                         return [4 /*yield*/, fetch(WWW.api, { "method": "post", "body": JSON.stringify(postdata) })];
                     case 1:
@@ -1267,7 +1268,7 @@ var WWW = /** @class */ (function () {
                             return [2 /*return*/, r];
                         }
                         else {
-                            throw "not data";
+                            return [2 /*return*/, 0];
                         }
                         return [2 /*return*/];
                 }
@@ -2063,6 +2064,7 @@ var LoginInfo = /** @class */ (function () {
                                         info.address = otcgo.address;
                                         info.prikey = otcgo.prikey;
                                         info.pubkey = otcgo.pubkey;
+                                        info["password"] = password;
                                         LoginInfo.info = info;
                                         alert.close();
                                         resolve(info);
@@ -2303,7 +2305,7 @@ var Consts = /** @class */ (function () {
     Consts.baseContract = Neo.Uint160.parse("348387116c4a75e420663277d9c02049907128c7");
     Consts.registerContract = Neo.Uint160.parse("d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c");
     // static domainContract = '954f285a93eed7b4aed9396a7806a5812f1a5950';
-    Consts.saleContract = Neo.Uint160.parse("1b0ca9a908e07b20469917aed8d503049b420eeb");
+    Consts.saleContract = Neo.Uint160.parse("c4d09243258364e0e028852640218e08534f0466");
     return Consts;
 }());
 exports.Consts = Consts;
@@ -3508,10 +3510,13 @@ var Contract = /** @class */ (function () {
     };
     Contract.buildInvokeTransData_attributes = function (script) {
         return __awaiter(this, void 0, void 0, function () {
-            var addr, tran, data;
+            var utxos, gass, addr, tran, feeres, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
+                    case 0: return [4 /*yield*/, cointool_1.CoinTool.getassets()];
+                    case 1:
+                        utxos = _a.sent();
+                        gass = utxos[importpack_1.tools.coinTool.id_GAS];
                         addr = entity_1.LoginInfo.getCurrentAddress();
                         tran = new ThinNeo.Transaction();
                         //合约类型
@@ -3525,10 +3530,18 @@ var Contract = /** @class */ (function () {
                         tran.attributes[0] = new ThinNeo.Attribute();
                         tran.attributes[0].usage = ThinNeo.TransactionAttributeUsage.Script;
                         tran.attributes[0].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
+                        if (gass && entity_1.LoginInfo.info.payfee) {
+                            feeres = importpack_1.tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.fromNumber(0.001));
+                            tran.inputs = feeres.inputs.map(function (input) {
+                                input.hash = input.hash.reverse();
+                                return input;
+                            });
+                            tran.outputs = feeres.outputs;
+                        }
                         if (tran.witnesses == null)
                             tran.witnesses = [];
                         return [4 /*yield*/, cointool_1.CoinTool.signData(tran)];
-                    case 1:
+                    case 2:
                         data = _a.sent();
                         return [2 /*return*/, data];
                 }
@@ -3620,8 +3633,8 @@ var Contract = /** @class */ (function () {
                         tran.attributes[0] = new ThinNeo.Attribute();
                         tran.attributes[0].usage = ThinNeo.TransactionAttributeUsage.Script;
                         tran.attributes[0].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
-                        if (gass) {
-                            feeres = importpack_1.tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.parse("0.00000001"));
+                        if (gass && entity_1.LoginInfo.info.payfee) {
+                            feeres = importpack_1.tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.fromNumber(0.001));
                             tran.inputs = feeres.inputs.map(function (input) {
                                 input.hash = input.hash.reverse();
                                 return input;
@@ -3653,13 +3666,6 @@ var Contract = /** @class */ (function () {
                         if (feeres && feeres.oldutxo) {
                             entity_1.OldUTXO.oldutxosPush(feeres.oldutxo);
                         }
-                        // if (!res.err)
-                        // {
-                        //     if (feeres && feeres.oldutxo)
-                        //     {
-                        //         OldUTXO.oldutxosPush(feeres.oldutxo);
-                        //     }
-                        // }
                         return [2 /*return*/, res];
                 }
             });
@@ -3815,15 +3821,15 @@ var vue_1 = __webpack_require__("/5sW");
 var vue_router_1 = __webpack_require__("/ocq");
 var wallet_vue_1 = __webpack_require__("PPZq");
 vue_1.default.use(vue_router_1.default);
-var Balance = function (resolve) { return __webpack_require__.e/* require */(8).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("v8qo")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Balance = function (resolve) { return __webpack_require__.e/* require */(7).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("v8qo")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Login = function (resolve) { return __webpack_require__.e/* require */(6).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Luci")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Transfer = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(7)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Oz3I")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Transfer = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(8)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("Oz3I")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Exchange = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(5)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("eL9F")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var NNSNeo = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(15)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("C0Cu")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Settings = function (resolve) { return __webpack_require__.e/* require */(13).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Settings = function (resolve) { return __webpack_require__.e/* require */(11).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("hZlE")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var Auction = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(3)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("jrmo")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var MyNeoName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(12)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("ogHy")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
-var Bonus = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(11)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("6M52")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var MyNeoName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(13)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("ogHy")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
+var Bonus = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(12)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("6M52")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var NNSTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(9)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("PWmH")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var AuctionTest = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(4)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("dtBB")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
 var MyTestName = function (resolve) { return Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(14)]).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__("bnm1")]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe); };
@@ -3868,6 +3874,13 @@ exports.default = new vue_router_1.default({
     ]
 });
 
+
+/***/ }),
+
+/***/ "M1eE":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -3969,6 +3982,7 @@ var toast_vue_1 = __webpack_require__("AU0D");
 var Valert_vue_1 = __webpack_require__("Gieu");
 var VLink_vue_1 = __webpack_require__("N5E8");
 var Notify_vue_1 = __webpack_require__("QSGr");
+var confrim_vue_1 = __webpack_require__("Yvh6");
 exports.default = {
     install: function (Vue) {
         Vue.component('bubble-wrap', bubble_vue_1.default);
@@ -3979,6 +3993,7 @@ exports.default = {
         Vue.component('v-alert', Valert_vue_1.default);
         Vue.component('v-link', VLink_vue_1.default);
         Vue.component("v-notify", Notify_vue_1.default);
+        Vue.component('v-confirm', confrim_vue_1.default);
     }
 };
 
@@ -4345,6 +4360,179 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "Sxgl":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__("/5sW");
+var vue_property_decorator_1 = __webpack_require__("EOM2");
+var entity_1 = __webpack_require__("6nHw");
+var importpack_1 = __webpack_require__("VKSY");
+var TranConfrim = /** @class */ (function (_super) {
+    __extends(TranConfrim, _super);
+    function TranConfrim() {
+        var _this = _super.call(this) || this;
+        _this.show = false;
+        _this.title = "";
+        _this.deblocking = false;
+        _this.payFee = false;
+        _this.password = "";
+        _this.passwordError = false;
+        _this.messageList = [];
+        return _this;
+    }
+    TranConfrim.prototype.closemudloe = function () {
+        this.show = false;
+    };
+    TranConfrim.prototype.open = function (name, msg) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var confirmbtn, closebtn, current, promise;
+            return __generator(this, function (_a) {
+                this.title = name;
+                this.messageList = msg;
+                this.show = true;
+                this.deblocking = (entity_1.LoginInfo.info) ? false : true;
+                confirmbtn = document.getElementById("transaction-confirm");
+                closebtn = document.getElementById("transaction-mudloe-close");
+                current = JSON.parse(sessionStorage.getItem("login-info-arr"));
+                promise = new Promise(function (resolve, reject) {
+                    closebtn.onclick = function () {
+                        _this.closemudloe();
+                        resolve(false);
+                    };
+                    confirmbtn.onclick = function () {
+                        if (entity_1.LoginInfo.info) {
+                            entity_1.LoginInfo.info.payfee = _this.payFee;
+                            resolve(true);
+                            _this.closemudloe();
+                        }
+                        else if (current.type == entity_1.LoginType.wif) {
+                            var res = importpack_1.tools.neotool.wifDecode(current.msg['wif']);
+                            if (res.err) {
+                                reject("WIF is error");
+                            }
+                            else {
+                                entity_1.LoginInfo.info = res.info;
+                                entity_1.LoginInfo.info.payfee = _this.payFee;
+                                resolve(true);
+                                _this.closemudloe();
+                            }
+                        }
+                        else if (current.type == entity_1.LoginType.otcgo) {
+                            var otcgo = new entity_1.WalletOtcgo();
+                            otcgo.fromJsonStr(JSON.stringify(current.msg));
+                            otcgo.otcgoDecrypt(_this.password);
+                            var result = otcgo.doValidatePwd();
+                            if (result) {
+                                var info = new entity_1.LoginInfo();
+                                info.address = otcgo.address;
+                                info.prikey = otcgo.prikey;
+                                info.pubkey = otcgo.pubkey;
+                                info.payfee = _this.payFee;
+                                entity_1.LoginInfo.info = info;
+                                resolve(true);
+                                _this.closemudloe();
+                            }
+                            else {
+                                _this.passwordError = true;
+                            }
+                        }
+                        else {
+                            var nep2 = current.msg[entity_1.LoginInfo.getCurrentAddress()];
+                            importpack_1.tools.neotool.nep2ToWif(nep2, _this.password)
+                                .then(function (result) {
+                                entity_1.LoginInfo.info = result.info;
+                                entity_1.LoginInfo.info.payfee = _this.payFee;
+                                resolve(true);
+                                _this.closemudloe();
+                            })
+                                .catch(function (err) {
+                                _this.passwordError = true;
+                            });
+                        }
+                    };
+                });
+                return [2 /*return*/, promise];
+            });
+        });
+    };
+    TranConfrim.prototype.mounted = function () {
+        sessionStorage.getItem("");
+    };
+    __decorate([
+        vue_property_decorator_1.Watch("open"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String, Array]),
+        __metadata("design:returntype", Promise)
+    ], TranConfrim.prototype, "open", null);
+    TranConfrim = __decorate([
+        vue_property_decorator_1.Component,
+        __metadata("design:paramtypes", [])
+    ], TranConfrim);
+    return TranConfrim;
+}(vue_1.default));
+exports.default = TranConfrim;
+
 
 /***/ }),
 
@@ -6163,6 +6351,51 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
+/***/ "Yvh6":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+// EXTERNAL MODULE: ./node_modules/ts-loader!./src/components/confrim.ts
+var confrim = __webpack_require__("Sxgl");
+var confrim_default = /*#__PURE__*/__webpack_require__.n(confrim);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-36d887d2","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/confrim.vue
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.show),expression:"show"}],staticClass:"alert-wrap"},[_c('div',{staticClass:"alert-box"},[_c('div',{staticClass:"alert-title"},[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),_vm._l((_vm.messageList),function(msg){return _c('div',{key:msg.title,staticClass:"line-wrap"},[_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"line-title"},[_vm._v(_vm._s(msg.title))]),_vm._v(" "),_c('div',{staticClass:"line-content"},[_vm._v(_vm._s(msg.value))])])])}),_vm._v(" "),(_vm.deblocking)?_c('div',{staticClass:"line-wrap"},[_c('div',{staticClass:"line-box"},[_c('div',{staticClass:"line-title"},[_vm._v(_vm._s(_vm.$t("confirm.pwd")))]),_vm._v(" "),_c('div',{staticClass:"line-content"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.password),expression:"password"}],attrs:{"type":"password"},domProps:{"value":(_vm.password)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.password=$event.target.value},function($event){_vm.passwordError=false}]}}),_vm._v(" "),_c('div',{staticClass:"err-msg"},[_vm._v(_vm._s(_vm.passwordError?_vm.$t("confirm.pwderror"):""))])])])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"confrim-msg"},[_c('label',{class:_vm.payFee?'checked-input':'',attrs:{"for":""}},[_c('span',[_c('span',{staticClass:"select-img",on:{"click":function($event){_vm.payFee=!_vm.payFee}}},[_c('img',{attrs:{"src":__webpack_require__("o1/X"),"alt":""}})]),_vm._v(" "),_c('span',{staticClass:"select-msg"},[_vm._v(_vm._s(_vm.$t("confirm.msg")))])])])]),_vm._v(" "),_c('div',{staticClass:"confrim-msg"},[_c('button',{staticClass:"btn btn-nel btn-big",attrs:{"id":"transaction-confirm"}},[_vm._v(_vm._s(_vm.$t("confirm.confirm")))])]),_vm._v(" "),_c('div',{staticClass:"alert-tips"}),_vm._v(" "),_c('div',{staticClass:"alert-close",attrs:{"id":"transaction-mudloe-close"},on:{"click":_vm.closemudloe}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("×")])])],2)])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_confrim = (esExports);
+// CONCATENATED MODULE: ./src/components/confrim.vue
+function injectStyle (ssrContext) {
+  __webpack_require__("M1eE")
+}
+var normalizeComponent = __webpack_require__("VU/8")
+/* script */
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-36d887d2"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  confrim_default.a,
+  components_confrim,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+
+/* harmony default export */ var src_components_confrim = __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+
 /***/ "ar5l":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6987,6 +7220,13 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
+/***/ "o1/X":
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAWlBMVEUAAAAceegbd+gbd+YcduUcd+Ybd+Ucd+Ycd+Ybd+Ycd+Ydd+YbeOYdeOcgeOf///8bduYbduX///8tgefX5/rY5/pyqu6Bs/DK3/henuzn8fy71veOu/Jwqe4Cm0HOAAAAEXRSTlMAQjfz7ebZwb+rpZiCaiABjFvTkxAAAAEBSURBVDjLldXdkoMgDAXgiIoIVHtst9vuz/u/Zi+YNkoqknPnzDcMYEgoy2yid7ZtrfPRzFRKE3qs0odml5oBIoP5SKcRHzNO0jYddtKJvZxQyGlrzyjmLNatXLvBYd77nrpj3L3uZERFxmQNqpL+zlCHh+x0x2cMJXC5/+KVQDT3JXtd7lyDM5my/bqsjxirLSL5agtPrtrCkeWPx2Nrr1sLSy1//CzfhXWBdo3/l6TZ5tiCc0uabb4NB6nZZgf0yLWwfHURuf7bsYhkIPSOhZGFdBP3y4UkSzRRmaAqfs2zUj1YTStQNRlN+9I0Rk3L1TRzzZjQDCD1aNMPTdU4fgIy22SeoellCAAAAABJRU5ErkJggg=="
+
+/***/ }),
+
 /***/ "olDd":
 /***/ (function(module, exports) {
 
@@ -7053,7 +7293,7 @@ exports.default = {
         lookinfo: "View details",
         buy: "Buy",
         apply: "Apply",
-        applying: "Applying",
+        applying: "Applyed",
         applyed: "Distributed",
         getNNC: "Request NNC",
         gettingNNC: "Requesting NNC",
@@ -7167,6 +7407,7 @@ exports.default = {
         alertmessage2: "Please enter the correct format of the address.",
     },
     setting: {
+        createnep2: "My NEP2",
         settings: "Settings",
         title1: "My Wallet Address",
         title2: "My WIF",
@@ -7400,6 +7641,49 @@ exports.default = {
         page: "Page",
         total1: ",",
         total2: " pages in total"
+    },
+    confirm: {
+        pwd: "Password",
+        msg: "This transaction will be prioritized(Pay 0.001 GAS)",
+        confirm: "confirm",
+        pwderror: "Password error",
+        transferConfirm: "Transfer Confirmation",
+        transferTo: "Transfer to",
+        transferAmount: "Amount",
+        exchangeConfirm: "Exchange Confirmation",
+        exchangeTo: "Exchange to",
+        exchangeAmount: "Amount",
+        topupConfrim: "Top-up Confirmation",
+        topupTo: "Top up to",
+        topupAmount: "Amount",
+        auctionAccount: "Your Auction Account",
+        withdrawConfirm: "Withdraw Confirmation",
+        withdrawTo: "Withdraw to",
+        withdrawAmount: "Amount",
+        yourbalance: "Your Balance",
+        startAuctionConfirm: "Auction-starting Confirmation",
+        domain: "Domain",
+        bidConfirm: "Bid Confirmation",
+        bidPrice: "Bid price",
+        domainClaimingConfirm: "Domain-claiming Confirmation",
+        cgasReclaimingConfirm: "CGAS-reclaiming Confirmation",
+        reclaimCgas: "Reclaim CGAS",
+        nncClaimConfirm: "NNC-claiming Confirmation",
+        claimto: "Claim to",
+        claimAmount: "Amount",
+        addrResolverConfirm: "Address Resolver Confirmation ",
+        addrresolver: "Address resolver",
+        addrMappingConfirm: "Address Mapping Confirmation",
+        addrmapping: "Address mapping",
+        renewalConfirm: "Renewal Confirmation",
+        renewalto: "Renewal to",
+        domainTransferConfirm: "Domain Transfer Confirmation",
+        domainTransferTo: "Tranfer to",
+        listingConfirm: "Listing Confirmation",
+        price: "Price",
+        expirationTime: "Expiration time",
+        delistingConfirm: "Delisting Confirmation",
+        purchaseConfirm: "Purchase Confirmation",
     }
 };
 
@@ -7575,7 +7859,8 @@ var CoinTool = /** @class */ (function () {
         var old = [];
         tran.outputs = [];
         tran.inputs = [];
-        var fee = Neo.Fixed8.parse('0.00000001');
+        var payfee = entity_1.LoginInfo.info.payfee;
+        var fee = Neo.Fixed8.parse('0.001');
         var sumcount = Neo.Fixed8.Zero; //初始化
         if (gasutxos) {
             for (var i = 0; i < gasutxos.length; i++) {
@@ -7587,12 +7872,12 @@ var CoinTool = /** @class */ (function () {
             var tranRes = this.creatInuptAndOutup(gasutxos, sendcount, targetaddr);
             tran.inputs = tranRes.inputs;
             tran.outputs = tranRes.outputs;
-            if (tran.outputs && tran.outputs.length > 1) {
+            if (payfee && tran.outputs && tran.outputs.length > 1) {
                 tran.outputs[1].value = tran.outputs[1].value.subtract(fee);
             }
         }
         else {
-            if (gasutxos) {
+            if (payfee && gasutxos) {
                 // 创建 fee的输入输出
                 var feeRes = this.creatInuptAndOutup(gasutxos, fee);
                 tran.inputs = tran.inputs.concat(feeRes.inputs);
@@ -7675,7 +7960,7 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.signData = function (tran) {
         return __awaiter(this, void 0, void 0, function () {
-            var info, addr, current, msg, pubkey, prekey, signdata, data, error_1;
+            var info, addr, msg, pubkey, prekey, signdata, data, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -7684,10 +7969,9 @@ var CoinTool = /** @class */ (function () {
                     case 1:
                         info = _a.sent();
                         addr = entity_1.LoginInfo.getCurrentAddress();
-                        current = entity_1.LoginInfo.info;
                         msg = tran.GetMessage().clone();
-                        pubkey = current.pubkey.clone();
-                        prekey = current.prikey.clone();
+                        pubkey = info.pubkey.clone();
+                        prekey = info.prikey.clone();
                         signdata = ThinNeo.Helper.Sign(msg, prekey);
                         tran.AddWitness(signdata, pubkey, addr);
                         data = tran.GetRawData();
@@ -7708,13 +7992,10 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.rawTransaction = function (targetaddr, asset, count) {
         return __awaiter(this, void 0, void 0, function () {
-            var arr, add, n, _count, utxos, tranres, tran, txid, data, res, height, result, olds, error_2, error_3;
+            var _count, utxos, tranres, tran, txid, data, res, height, result, olds, error_2, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        arr = importpack_1.tools.storagetool.getLoginArr();
-                        add = importpack_1.tools.storagetool.getStorage("current-address");
-                        n = arr.findIndex(function (login) { return login.address == add; });
                         _count = Neo.Fixed8.parse(count + "");
                         return [4 /*yield*/, CoinTool.getassets()];
                     case 1:
@@ -8730,7 +9011,7 @@ exports.default = {
         lookinfo: "查看详情",
         buy: "购买",
         apply: "申请",
-        applying: "申请中",
+        applying: "已申请",
         applyed: "已发放",
         getNNC: "索取NNC",
         gettingNNC: "NNC领取中",
@@ -8844,6 +9125,7 @@ exports.default = {
         alertmessage2: "请输入正确格式的地址",
     },
     setting: {
+        createnep2: "我的nep2",
         settings: "设置",
         title1: "我的钱包地址",
         title2: "我的私钥",
@@ -9076,6 +9358,49 @@ exports.default = {
         page: "第",
         total1: "页，共 ",
         total2: " 页"
+    },
+    confirm: {
+        pwd: "输入密码",
+        msg: "优先处理此笔交易 （ 支付0.001 GAS ）",
+        pwderror: "密码错误请重新输入",
+        confirm: "确认",
+        transferConfirm: "转账确认",
+        transferTo: "转账至",
+        transferAmount: "转账数量",
+        exchangeConfirm: "兑换信息",
+        exchangeTo: "目标资产",
+        exchangeAmount: "兑换数量",
+        topupConfrim: "充值信息",
+        topupTo: "充值至",
+        topupAmount: "充值数量",
+        auctionAccount: "竞拍账户",
+        withdrawConfirm: "提取信息",
+        withdrawTo: "提取至",
+        withdrawAmount: "提取数量",
+        yourbalance: "钱包账户",
+        startAuctionConfirm: "域名开标",
+        domain: "域名",
+        bidConfirm: "竞拍加价",
+        bidPrice: "加价金额",
+        domainClaimingConfirm: "领取域名",
+        cgasReclaimingConfirm: "领回竞拍金",
+        reclaimCgas: "可领回的竞拍金",
+        nncClaimConfirm: "提取NNC",
+        claimto: "提取至",
+        claimAmount: "提取数量",
+        addrResolverConfirm: "确认地址解析器",
+        addrresolver: "地址解析器",
+        addrMappingConfirm: "确认地址映射",
+        addrmapping: "映射地址",
+        renewalConfirm: "域名续约",
+        renewalto: "续约至",
+        domainTransferConfirm: "域名转让确认",
+        domainTransferTo: "转让至",
+        listingConfirm: "域名上架确认",
+        price: "出售价格",
+        expirationTime: "域名到期时间",
+        delistingConfirm: "域名下架确认",
+        purchaseConfirm: "域名购买",
     }
 };
 

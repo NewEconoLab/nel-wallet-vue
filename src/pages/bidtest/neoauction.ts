@@ -301,10 +301,10 @@ export default class NeoAuctionTest extends Vue
     async withdraw()
     {
         let msgs = [
-            { title: "提取至", value: "钱包账户" },
-            { title: "提取数量", value: this.alert_withdraw.input + " CGAS" }
+            { title: this.$t("confirm.withdrawTo"), value: "钱包账户" },
+            { title: this.$t("confirm.withdrawAmount"), value: this.alert_withdraw.input + " CGAS" }
         ]
-        let confirmres = await this.tranConfirm("提取信息", msgs);
+        let confirmres = await this.tranConfirm(this.$t("confirm.withdrawConfirm"), msgs);
         if (confirmres)
         {
             let amount = parseFloat(this.alert_withdraw.input);
@@ -333,10 +333,10 @@ export default class NeoAuctionTest extends Vue
         try
         {
             let msgs = [
-                { title: "充值至", value: "竞拍账户" },
-                { title: "充值数量", value: amount + " CGAS" }
+                { title: this.$t("confirm.topupTo"), value: this.$t("confirm.auctionAccount") },
+                { title: this.$t("confirm.topupAmount"), value: amount + " CGAS" }
             ]
-            let confirmres = await this.tranConfirm("充值信息", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.topupConfrim"), msgs);
             if (confirmres)
             {
                 let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8), this.rootInfo.register);
@@ -418,10 +418,10 @@ export default class NeoAuctionTest extends Vue
             try
             {
                 let msgs = [
-                    { title: "域名", value: this.raiseAuction.fulldomain },
-                    { title: "加价信息", value: this.alert_myBid + " CGAS" }
+                    { title: this.$t("confirm.domain"), value: this.raiseAuction.fulldomain },
+                    { title: this.$t("confirm.bidPrice"), value: this.alert_myBid + " CGAS" }
                 ]
-                let confirmres = await this.tranConfirm("竞拍加价", msgs);
+                let confirmres = await this.tranConfirm(this.$t("confirm.bidConfirm"), msgs);
                 if (confirmres)
                 {
                     let res = await services.auction_test.auctionRaise(
@@ -468,9 +468,9 @@ export default class NeoAuctionTest extends Vue
         {
 
             let msgs = [
-                { title: "域名", value: this.domain + "." + this.rootInfo.rootname },
+                { title: this.$t("confirm.domain"), value: this.domain + "." + this.rootInfo.rootname },
             ]
-            let confirmres = await this.tranConfirm("域名开标", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.startAuctionConfirm"), msgs);
             if (confirmres)
             {
 
@@ -637,23 +637,32 @@ export default class NeoAuctionTest extends Vue
      */
     async toBuyDomain()
     {
-        try
+        let msgs = [
+            { title: this.$t('confirm.domain'), value: this.saleDomainInfo.domain },
+            { title: this.$t('confirm.price'), value: this.saleDomainInfo.price + " NNC" },
+            { title: this.$t('confirm.expirationTime'), value: this.saleDomainInfo.ttl }
+        ]
+        let confirmres = await this.tranConfirm(this.$t("confirm.purchaseConfirm"), msgs);
+        if (confirmres)
         {
-            this.isShowSaleBox = false;
-            this.domain = '';
-            this.checkState = this.btn_start = 1;
-            let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
-            if (res)
+            try
             {
-                this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
-            } else
-            {
-                this.openToast("error", "" + this.$t("auction.waitmsg3"), 5000);
-            }
+                this.isShowSaleBox = false;
+                this.domain = '';
+                this.checkState = this.btn_start = 1;
+                let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
+                if (res)
+                {
+                    this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
+                } else
+                {
+                    this.openToast("error", "" + this.$t("auction.waitmsg3"), 5000);
+                }
 
-        } catch (error)
-        {
-            // this.resolverState = oldstate;
+            } catch (error)
+            {
+                // this.resolverState = oldstate;
+            }
         }
     }
     /**
@@ -661,21 +670,28 @@ export default class NeoAuctionTest extends Vue
      */
     async toUnSellDomain()
     {
-        this.domain = '';
-        this.checkState = this.btn_start = 1;
         try
         {
-            let res = await tools.nnstool.unSaleDomain(this.saleDomainInfo.domain);
-            if (!res.err)
+            let msgs = [
+                { title: this.$t("confirm.domain"), value: this.saleDomainInfo.domain }
+            ]
+            let confirmres = await this.tranConfirm(this.$t("confirm.delistingConfirm"), msgs);
+            if (confirmres)
             {
-                let txid = res.info;
-                TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.saleDomainInfo.domain }),
-                    TaskType.unSaleDomain);
-                this.domainEdit.put(this.saleDomainInfo.domain, "watting", "unsale");
-                this.isShowSaleBox = !this.isShowSaleBox;
-                this.isUnSaleBox = !this.isUnSaleBox;
-                this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+                this.domain = '';
+                this.checkState = this.btn_start = 1;
+                let res = await tools.nnstool.unSaleDomain(this.saleDomainInfo.domain);
+                if (!res.err)
+                {
+                    let txid = res.info;
+                    TaskManager.addTask(
+                        new Task(ConfirmType.contract, txid, { domain: this.saleDomainInfo.domain }),
+                        TaskType.unSaleDomain);
+                    this.domainEdit.put(this.saleDomainInfo.domain, "watting", "unsale");
+                    this.isShowSaleBox = !this.isShowSaleBox;
+                    this.isUnSaleBox = !this.isUnSaleBox;
+                    this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+                }
             }
         } catch (error)
         {

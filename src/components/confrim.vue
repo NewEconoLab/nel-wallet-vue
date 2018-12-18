@@ -10,10 +10,10 @@
       </div>
       <div class="line-wrap" v-if="deblocking">
         <div class="line-box">
-          <div class="line-title">输入密码</div>
+          <div class="line-title">{{$t("confirm.pwd")}}</div>
           <div class="line-content">
             <input type="password" v-model="password" @input="passwordError=false">
-            <div class="err-msg">{{passwordError?"密码错误，请重新输入":""}}</div>
+            <div class="err-msg">{{passwordError?$t("confirm.pwderror"):""}}</div>
           </div>
         </div>
       </div>
@@ -23,12 +23,12 @@
             <span class="select-img" @click="payFee=!payFee">
               <img src="../assets/selected.png" alt>
             </span>
-            <span class="select-msg">优先处理此笔交易（ 支付0.001 GAS ）</span>
+            <span class="select-msg">{{$t("confirm.msg")}}</span>
           </span>
         </label>
       </div>
       <div class="confrim-msg">
-        <button class="btn btn-nel btn-big" id="transaction-confirm">确认</button>
+        <button class="btn btn-nel btn-big" id="transaction-confirm">{{$t("confirm.confirm")}}</button>
       </div>
       <div class="alert-tips"></div>
       <div class="alert-close" id="transaction-mudloe-close" @click="closemudloe">

@@ -207,10 +207,10 @@ export default class transfer extends Vue
     async send()
     {
         let msgs = [
-            { title: "转账至", value: this.toaddress },
-            { title: "转账金额", value: this.amount + " " + this.balance.names }
+            { title: this.$t("confirm.transferTo"), value: this.toaddress },
+            { title: this.$t("confirm.transferAmount"), value: this.amount + " " + this.balance.names }
         ]
-        let confrimres = await this.tranConfirm("兑换信息", msgs);
+        let confrimres = await this.tranConfirm(this.$t("confirm.transferConfirm"), msgs);
         console.log(confrimres);
         if (confrimres)
         {
