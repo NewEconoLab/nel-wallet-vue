@@ -2,6 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import WalletLayout from "../../layouts/wallet.vue";
 import { LoginInfo, currentInfo, LoginType, alert } from "../../tools/entity";
+import { tools } from "../../tools/importpack";
 
 declare const mui;
 @Component({
@@ -81,26 +82,26 @@ export default class Settings extends Vue
 
     createNep2()
     {
-        alert.show(this.$t("setting.createnep2").toString(), this.$t("setting.msg3").toString(), this.$t("setting.btn2").toString(), password =>
+        this.nep2show = !this.nep2show;
+        if (this.nep2show)
         {
-            if (!password)
+            alert.show(this.$t("setting.createnep2").toString(), "password", this.$t("setting.btn2").toString(), password =>
             {
-            }
-            else
-            {
-                LoginInfo.deblocking()
-                    .catch(info =>
+                if (password)
+                {
+                    let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
+                    var res = tools.neotool.wifDecode(current.msg['wif']);
+                    if (!res.err)
                     {
-                        console.log(info);
-
-                        ThinNeo.Helper.GetNep2FromPrivateKey(info.prikey, password, 16384, 8, 8, (str, result) =>
+                        ThinNeo.Helper.GetNep2FromPrivateKey(res.info.prikey, password, 16384, 8, 8, (str, result) =>
                         {
                             this.nep2 = result;
                             alert.close();
                         })
-                    })
-            }
-        })
+                    }
+                }
+            })
+        }
     }
     download()
     {

@@ -17,7 +17,7 @@
           <span v-if="wifshow" class="user-select-ok">&nbsp;&nbsp;{{wif}}</span>
         </div>
         <div style="padding-top: 2.8%; padding-bottom: 0.9%; padding-left: 2.3%;">
-          <span>{{"我的nep2"}} : &nbsp;&nbsp;</span>
+          <span>{{$t("setting.createnep2")}} : &nbsp;&nbsp;</span>
           <button v-if="type==0" class="btn btn-nel" @click="createNep2">{{$t('setting.btn2')}}</button>
           <button v-else class="btn btn-nel" @click="visibleNep2">{{$t('setting.btn1')}}</button>
           <span v-if="nep2show" class="user-select-ok">&nbsp;&nbsp;{{nep2}}</span>
