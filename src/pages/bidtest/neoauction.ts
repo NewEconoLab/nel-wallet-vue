@@ -301,7 +301,7 @@ export default class NeoAuctionTest extends Vue
     async withdraw()
     {
         let msgs = [
-            { title: this.$t("confirm.withdrawTo"), value: "钱包账户" },
+            { title: this.$t("confirm.withdrawTo"), value: this.$t("confirm.yourbalance") },
             { title: this.$t("confirm.withdrawAmount"), value: this.alert_withdraw.input + " CGAS" }
         ]
         let confirmres = await this.tranConfirm(this.$t("confirm.withdrawConfirm"), msgs);

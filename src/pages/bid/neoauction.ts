@@ -52,6 +52,7 @@ export default class NeoAuction extends Vue
     // nncAssetid: string = '0xfc732edee1efdf968c23c20a9628eaa5a6ccb934';//nnc资产id
     domainEdit: sessionStoreTool;
     isUnSaleBox: boolean = false;//下架弹筐
+    tranConfirm: Function;
 
     constructor()
     {
@@ -67,8 +68,8 @@ export default class NeoAuction extends Vue
         let SGas = tools.coinTool.id_SGAS.toString();
         let Gas = tools.coinTool.id_GAS;
         this.selectList = {}
-        this.selectList[ Gas ] = "Gas"
-        this.selectList[ SGas ] = "CGAS";
+        this.selectList[Gas] = "Gas"
+        this.selectList[SGas] = "CGAS";
         this.alert_available = "";
         this.checkState = 0;
         this.alert_withdraw = new NeoAuction_Withdraw();
@@ -103,12 +104,13 @@ export default class NeoAuction extends Vue
 
     async mounted()
     {
+        this.tranConfirm = this.$refs.tranConfirm["open"];
         this.rootInfo = await tools.nnstool.getRootInfo("neo");
         this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
-        this.openToast = this.$refs.toast[ "isShow" ];
+        this.openToast = this.$refs.toast["isShow"];
         this.getBidList(this.address, 1);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable.toString() + " CGAS";
         TaskManager.functionList = [];
         TaskManager.functionList.push(this.refreshPage);
@@ -137,7 +139,7 @@ export default class NeoAuction extends Vue
     {
         this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         await services.auction_neo.updateAuctionList(this.address);
         this.getBidList(this.address, 1);
     }
@@ -156,7 +158,7 @@ export default class NeoAuction extends Vue
         this.alert_TopUp.watting = false;
         this.sessionWatting.put("topup", false);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
     }
 
@@ -165,7 +167,7 @@ export default class NeoAuction extends Vue
         this.alert_withdraw.watting = false;
         this.sessionWatting.put("withdraw", false);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
     }
 
@@ -262,7 +264,7 @@ export default class NeoAuction extends Vue
     async openTopUp()
     {
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
         this.alert_TopUp.watting = this.sessionWatting.select("topup") ? true : false;
         this.alert_TopUp.isShow = true;
@@ -289,7 +291,7 @@ export default class NeoAuction extends Vue
     async openWithdraw()
     {
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
-        this.sgasAvailable = nep5[ "nep5balance" ];
+        this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
         this.alert_withdraw.watting = this.sessionWatting.select("withdraw") ? true : false;
         this.alert_withdraw.isShow = true;
@@ -315,19 +317,26 @@ export default class NeoAuction extends Vue
      */
     async withdraw()
     {
-        let amount = parseFloat(this.alert_withdraw.input);
-        this.alert_withdraw.watting = true;
-        let res = await tools.nnssell.getMoneyBack(amount, this.rootInfo.register);
-        if (!res.err)
+        let msgs = [
+            { title: this.$t("confirm.withdrawTo"), value: this.$t("confirm.yourbalance") },
+            { title: this.$t("confirm.withdrawAmount"), value: this.alert_withdraw.input + " CGAS" }
+        ]
+        let confirmres = await this.tranConfirm(this.$t("confirm.withdrawConfirm"), msgs);
+        if (confirmres)
         {
-            this.openToast("success", amount + "" + this.$t("auction.successwithdraw2"), 4000);
-            this.sessionWatting.put("withdraw", true);
-            this.alert_withdraw.isShow = false;
+            let amount = parseFloat(this.alert_withdraw.input);
+            this.alert_withdraw.watting = true;
+            let res = await tools.nnssell.getMoneyBack(amount, this.rootInfo.register);
+            if (!res.err)
+            {
+                this.openToast("success", amount + "" + this.$t("auction.successwithdraw2"), 4000);
+                this.sessionWatting.put("withdraw", true);
+                this.alert_withdraw.isShow = false;
 
-            //任务管理器
-            let task = new Task(ConfirmType.tranfer, res.info, { amount })
-            tools.taskManager.addTask(task, TaskType.withdraw);
-
+                //任务管理器
+                let task = new Task(ConfirmType.tranfer, res.info, { amount })
+                tools.taskManager.addTask(task, TaskType.withdraw);
+            }
         }
     }
 
@@ -339,17 +348,25 @@ export default class NeoAuction extends Vue
         let amount = this.alert_TopUp.input;
         try
         {
-            let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8), this.rootInfo.register);
-            let res = await tools.wwwtool.api_postRawTransaction(data);
-            this.alert_TopUp.watting = true;
-            let txid = res[ "txid" ];
-            this.sessionWatting.put("topup", true);
-            //任务管理器
-            let task = new Task(ConfirmType.tranfer, txid, { amount })
-            tools.taskManager.addTask(task, TaskType.topup);
+            let msgs = [
+                { title: this.$t("confirm.topupTo"), value: this.$t("confirm.auctionAccount") },
+                { title: this.$t("confirm.topupAmount"), value: amount + " CGAS" }
+            ]
+            let confirmres = await this.tranConfirm(this.$t("confirm.topupConfrim"), msgs);
+            if (confirmres)
+            {
+                let data = await tools.nnssell.rechargeReg(parseFloat(this.alert_TopUp.input).toFixed(8), this.rootInfo.register);
+                let res = await tools.wwwtool.api_postRawTransaction(data);
+                this.alert_TopUp.watting = true;
+                let txid = res["txid"];
+                this.sessionWatting.put("topup", true);
+                //任务管理器
+                let task = new Task(ConfirmType.tranfer, txid, { amount })
+                tools.taskManager.addTask(task, TaskType.topup);
 
-            this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup3"), 4000);
-            this.alert_TopUp.isShow = false;
+                this.openToast("success", "" + this.$t("auction.successtopup") + amount + "" + this.$t("auction.successtopup3"), 4000);
+                this.alert_TopUp.isShow = false;
+            }
         }
         catch (error)
         {
@@ -412,17 +429,29 @@ export default class NeoAuction extends Vue
             this.canAdded = false;
             try
             {
-                let res = await services.auction_neo.auctionRaise(
-                    this.raiseAuction.auctionId,
-                    this.raiseAuction.fulldomain,
-                    parseFloat(this.alert_myBid),
-                    this.rootInfo.register);
-                if (!res.err)
+                let msgs = [
+                    { title: this.$t("confirm.domain"), value: this.raiseAuction.fulldomain },
+                    { title: this.$t("confirm.bidPrice"), value: this.alert_myBid + " CGAS" }
+                ]
+                let confirmres = await this.tranConfirm(this.$t("confirm.bidConfirm"), msgs);
+                if (confirmres)
                 {
-                    this.canAdded = true;
-                    this.openToast("success", this.alert_myBid + this.$t("auction.successbid2"), 3000);
-                    this.auctionShow = !this.auctionShow;
-                    this.alert_myBid = "";
+                    let res = await services.auction_neo.auctionRaise(
+                        this.raiseAuction.auctionId,
+                        this.raiseAuction.fulldomain,
+                        parseFloat(this.alert_myBid),
+                        this.rootInfo.register);
+                    if (!res.err)
+                    {
+                        this.canAdded = true;
+                        this.openToast("success", this.alert_myBid + this.$t("auction.successbid2"), 3000);
+                        this.auctionShow = !this.auctionShow;
+                        this.alert_myBid = "";
+                    }
+                    else
+                    {
+                        this.canAdded = true;
+                    }
                 }
                 else
                 {
@@ -447,17 +476,28 @@ export default class NeoAuction extends Vue
             this.btn_start = 4;
             this.checkState = 0;
             return;
-        }
-        this.btn_start = 0;
-        let res = await services.auction_neo.startAuction(this.domain);
-        this.btn_start = 1;
-        this.domain = "";
-        this.checkState = 0;
-        if (!res)
+        } else
         {
-            return false;
+
+            let msgs = [
+                { title: this.$t("confirm.domain"), value: this.domain + "." + this.rootInfo.rootname },
+            ]
+            let confirmres = await this.tranConfirm(this.$t("confirm.startAuctionConfirm"), msgs);
+            if (confirmres)
+            {
+                this.btn_start = 0;
+                let res = await services.auction_neo.startAuction(this.domain);
+                this.btn_start = 1;
+                this.domain = "";
+                this.checkState = 0;
+                if (!res)
+                {
+                    return false;
+                }
+                this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
+
+            }
         }
-        this.openToast("success", "" + this.$t("auction.sendingmsg"), 3000);
     }
 
 
@@ -495,7 +535,7 @@ export default class NeoAuction extends Vue
             return false;
         }
         // btn_start 0为开标中，1为可开标，2为可加价，3为结束期，4为输入域名错误，5为上架状态
-        switch (searchResult[ 0 ].state)
+        switch (searchResult[0].state)
         {
             case AuctionState.pass:
                 this.checkState = this.btn_start = 1;
@@ -655,16 +695,25 @@ export default class NeoAuction extends Vue
     {
         try
         {
-            this.isShowSaleBox = false;
-            this.domain = '';
-            this.checkState = this.btn_start = 1;
-            let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
-            if (res)
+            let msgs = [
+                { title: this.$t('confirm.domain'), value: this.saleDomainInfo.domain },
+                { title: this.$t('confirm.price'), value: this.saleDomainInfo.price + " NNC" },
+                { title: this.$t('confirm.expirationTime'), value: this.saleDomainInfo.ttl }
+            ]
+            let confirmres = await this.tranConfirm(this.$t("confirm.purchaseConfirm"), msgs);
+            if (confirmres)
             {
-                this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
-            } else
-            {
-                this.openToast("error", "" + this.$t("auction.waitmsg3"), 5000);
+                this.isShowSaleBox = false;
+                this.domain = '';
+                this.checkState = this.btn_start = 1;
+                let res = await services.buyAuction_neo.domainBuy(this.saleDomainInfo.domain, this.saleDomainInfo.price);
+                if (res)
+                {
+                    this.openToast("success", "" + this.$t("auction.waitmsg3"), 5000);
+                } else
+                {
+                    this.openToast("error", "" + this.$t("auction.waitmsg3"), 5000);
+                }
             }
 
         } catch (error)
@@ -681,17 +730,24 @@ export default class NeoAuction extends Vue
         this.checkState = this.btn_start = 1;
         try
         {
-            let res = await tools.nnstool.unSaleDomain(this.saleDomainInfo.domain);
-            if (!res.err)
+            let msgs = [
+                { title: this.$t("confirm.domain"), value: this.saleDomainInfo.domain }
+            ]
+            let confirmres = await this.tranConfirm(this.$t("confirm.delistingConfirm"), msgs);
+            if (confirmres)
             {
-                let txid = res.info;
-                TaskManager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.saleDomainInfo.domain }),
-                    TaskType.unSaleDomain);
-                this.domainEdit.put(this.saleDomainInfo.domain, "watting", "unsale");
-                this.isShowSaleBox = !this.isShowSaleBox;
-                this.isUnSaleBox = !this.isUnSaleBox;
-                this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+                let res = await tools.nnstool.unSaleDomain(this.saleDomainInfo.domain);
+                if (!res.err)
+                {
+                    let txid = res.info;
+                    TaskManager.addTask(
+                        new Task(ConfirmType.contract, txid, { domain: this.saleDomainInfo.domain }),
+                        TaskType.unSaleDomain);
+                    this.domainEdit.put(this.saleDomainInfo.domain, "watting", "unsale");
+                    this.isShowSaleBox = !this.isShowSaleBox;
+                    this.isUnSaleBox = !this.isUnSaleBox;
+                    this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+                }
             }
         } catch (error)
         {

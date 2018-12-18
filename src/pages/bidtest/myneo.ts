@@ -1003,10 +1003,10 @@ export default class MyNeo extends Vue
         try
         {
             let msgs = [
-                { title: "提取至", value: "钱包账户" },
-                { title: "提取数量", value: this.myNNCBalance + " NNC" }
+                { title: this.$t("confirm.claimto").toString(), value: this.$t("confirm.yourbalance").toString() },
+                { title: this.$t("confirm.claimAmount").toString(), value: this.myNNCBalance + " NNC" }
             ]
-            let confirmres = await this.tranConfirm("提取NNC", msgs);
+            let confirmres = await this.tranConfirm(this.$t("confirm.nncClaimConfirm").toString(), msgs);
             if (confirmres)
             {
                 let res = await tools.nnstool.getAllMyNNC();
