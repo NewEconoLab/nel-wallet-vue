@@ -144,7 +144,7 @@
         <div class="select-box">
           <label>{{$t('myneoname.type')}}：</label>
           <select class="form-control" @change="selectSellOrBuy()" v-model="showListType">
-            <option value="sale">{{$t('myneoname.salelist')}}</option>
+            <option value="sell">{{$t('myneoname.salelist')}}</option>
             <option value="buy">{{$t('myneoname.buylist')}}</option>
           </select>
         </div>
