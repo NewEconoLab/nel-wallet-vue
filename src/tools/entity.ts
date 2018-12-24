@@ -374,7 +374,6 @@ export class OldUTXO
 
     static setOldutxos(olds: OldUTXO[])
     {
-        // let arr: OldUTXO[] = this.getOldutxos();
         tools.storagetool.setStorage("old-utxos", JSON.stringify(olds));
     }
 

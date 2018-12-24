@@ -2231,7 +2231,6 @@ var OldUTXO = /** @class */ (function () {
         importpack_1.tools.storagetool.setStorage("old-utxos", JSON.stringify(arr.concat(olds)));
     };
     OldUTXO.setOldutxos = function (olds) {
-        // let arr: OldUTXO[] = this.getOldutxos();
         importpack_1.tools.storagetool.setStorage("old-utxos", JSON.stringify(olds));
     };
     OldUTXO.getOldutxos = function () {
@@ -7803,7 +7802,7 @@ var CoinTool = /** @class */ (function () {
                                     console.log(utxo);
                                     console.log(height - old.height);
                                 }
-                                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height < 3) {
+                                if (utxo.txid + "".includes(old.txid) && old.n == utxo.n && height - old.height < 3) {
                                     findutxo = true;
                                     utxos.splice(i_1, 1);
                                 }
@@ -7992,7 +7991,7 @@ var CoinTool = /** @class */ (function () {
      */
     CoinTool.rawTransaction = function (targetaddr, asset, count) {
         return __awaiter(this, void 0, void 0, function () {
-            var _count, utxos, tranres, tran, txid, data, res, height, result, olds, error_2, error_3;
+            var _count, utxos, tranres, tran, txid, data, res, height, olds, result, error_2, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -8019,15 +8018,15 @@ var CoinTool = /** @class */ (function () {
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getHeight()];
                     case 5:
                         height = _a.sent();
+                        olds = tranres.info['oldarr'];
+                        olds.map(function (old) { return old.height = height; });
+                        entity_1.OldUTXO.oldutxosPush(olds);
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
                     case 6:
                         result = _a.sent();
                         if (result["sendrawtransactionresult"]) {
                             res.err = !result;
                             res.info = txid;
-                            olds = tranres.info['oldarr'];
-                            olds.map(function (old) { return old.height = height; });
-                            entity_1.OldUTXO.oldutxosPush(olds);
                         }
                         return [2 /*return*/, res];
                     case 7:

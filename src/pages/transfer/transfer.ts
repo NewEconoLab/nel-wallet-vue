@@ -118,7 +118,7 @@ export default class transfer extends Vue
             this.target = this.target.toLowerCase();
             let res = await tools.wwwtool.getresolvedaddress(this.target);
             // let addr = await tools.nnstool.resolveData(this.target);
-            if (res)
+            if (res && res.data)
             {
                 this.toaddress = res.data
                 this.expiryTime = tools.timetool.getTime(res.TTL);
@@ -228,7 +228,8 @@ export default class transfer extends Vue
                         );
                         if (!res["err"])
                         {
-                            mui.toast("" + this.$t("transfer.msg2"));
+                            // mui.toast("" + this.$t("transfer.msg2"));
+                            this.openToast("error", "" + this.$t("transfer.msg2"), 3000);
                             let num = parseFloat(this.balance.balance + "");
                             let bear = num - parseFloat(this.amount);
                             this.balance.balance = bear;
@@ -269,7 +270,8 @@ export default class transfer extends Vue
                 {
                 } else
                 {
-                    mui.alert("" + this.$t("transfer.msg4"));
+                    // mui.alert("" + this.$t("transfer.msg4"));
+                    this.openToast("error", "" + this.$t("transfer.msg4"), 3000);
                 }
             }
         }
@@ -277,7 +279,7 @@ export default class transfer extends Vue
     async history()
     {
         this.txs = await services.transfer.history(LoginInfo.getCurrentAddress(), 5, this.txpage);
-        console.log(this.txs);
+        // console.log(this.txs);
 
     }
 

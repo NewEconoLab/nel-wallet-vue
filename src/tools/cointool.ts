@@ -75,7 +75,7 @@ export class CoinTool
                     console.log(height - old.height);
 
                 }
-                if (utxo.txid == old.txid && old.n == utxo.n && height - old.height < 3)
+                if (utxo.txid + "".includes(old.txid) && old.n == utxo.n && height - old.height < 3)
                 {
                     findutxo = true;
                     utxos.splice(i, 1);
@@ -300,14 +300,14 @@ export class CoinTool
             {
                 data = await this.signData(tran);
                 var height = await tools.wwwtool.api_getHeight();
+                let olds = tranres.info['oldarr'] as OldUTXO[];
+                olds.map(old => old.height = height);
+                OldUTXO.oldutxosPush(olds);
                 var result = await tools.wwwtool.api_postRawTransaction(data);
                 if (result["sendrawtransactionresult"])
                 {
                     res.err = !result;
                     res.info = txid;
-                    let olds = tranres.info['oldarr'] as OldUTXO[];
-                    olds.map(old => old.height = height);
-                    OldUTXO.oldutxosPush(olds);
                 }
                 return res;
             } catch (error)

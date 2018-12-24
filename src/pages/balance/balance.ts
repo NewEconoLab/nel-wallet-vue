@@ -259,16 +259,19 @@ export default class balance extends Vue
           }
         });
       // 获取nnc资产
-      Object.keys(nep5balances).filter((keys: string) =>
+      if (nep5balances)
       {
-        const nnc = '0x' + tools.coinTool.id_NNC.toString();
-        if (nep5balances[keys].assetid == nnc)
+        Object.keys(nep5balances).filter((keys: string) =>
         {
-          this.nncBalance = nep5balances[keys].balance
-          return true;
-        }
-        return false;
-      })
+          const nnc = '0x' + tools.coinTool.id_NNC.toString();
+          if (nep5balances[keys].assetid == nnc)
+          {
+            this.nncBalance = nep5balances[keys].balance
+            return true;
+          }
+          return false;
+        })
+      }
     }
     this.balances = await BalanceInfo.getBalancesByArr(balances, nep5balances, height);
     tools.storagetool.setStorage("balances_asset", JSON.stringify(this.balances));
@@ -276,7 +279,6 @@ export default class balance extends Vue
 
   async toClaimGas()
   {
-    let height = Store.blockheight.select("height");
     if (Neo.Fixed8.parse(this.neoasset.claim).compareTo(Neo.Fixed8.Zero) > 0)
     {
       if (this.neoasset.neo > 0)
@@ -303,7 +305,6 @@ export default class balance extends Vue
 
   async startClaimGas()
   {
-    let height = Store.blockheight.select("height");
     let res = await tools.coinTool.claimGas();
     if (res["sendrawtransactionresult"])
     {
@@ -321,7 +322,7 @@ export default class balance extends Vue
   toTransfer(asset: string)
   {
     tools.storagetool.setStorage("transfer_choose", asset);
-    window.location.hash = "#transfer";
+    this.$router.push("transfer");
   }
 
 }
