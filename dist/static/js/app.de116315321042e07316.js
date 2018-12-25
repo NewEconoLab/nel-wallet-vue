@@ -4454,6 +4454,9 @@ var TranConfrim = /** @class */ (function (_super) {
                 confirmbtn = document.getElementById("transaction-confirm");
                 closebtn = document.getElementById("transaction-mudloe-close");
                 current = JSON.parse(sessionStorage.getItem("login-info-arr"));
+                if (current.type == entity_1.LoginType.wif) {
+                    this.deblocking = false;
+                }
                 promise = new Promise(function (resolve, reject) {
                     closebtn.onclick = function () {
                         _this.closemudloe();

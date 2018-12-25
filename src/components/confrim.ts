@@ -34,6 +34,10 @@ export default class TranConfrim extends Vue
         let confirmbtn: HTMLButtonElement = document.getElementById("transaction-confirm") as HTMLButtonElement;
         let closebtn: HTMLDivElement = document.getElementById("transaction-mudloe-close") as HTMLDivElement;
         let current = JSON.parse(sessionStorage.getItem("login-info-arr")) as currentInfo;
+        if (current.type == LoginType.wif)
+        {
+            this.deblocking = false;
+        }
         let promise: Promise<boolean> = new Promise((resolve, reject) =>
         {
             closebtn.onclick = () =>
