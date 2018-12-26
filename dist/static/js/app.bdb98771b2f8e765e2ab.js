@@ -2134,7 +2134,7 @@ var LoginInfo = /** @class */ (function () {
     };
     LoginInfo.getCurrentAddress = function () {
         return importpack_1.tools.storagetool.getStorage("current-address");
-        // return "AVJQf2yhaPS611NaGeTwCqUqLQww9zvrvx";
+        // return "ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi";
     };
     LoginInfo.setCurrentAddress = function (str) {
         importpack_1.tools.storagetool.setStorage("current-address", str);
@@ -3077,7 +3077,7 @@ var SgasTool = /** @class */ (function () {
      */
     SgasTool.makeRefundTransaction_tranGas = function (utxo, transcount) {
         return __awaiter(this, void 0, void 0, function () {
-            var tran, fee, sendcount, tranRes, n, r, sgasScript, sb, trandata;
+            var tran, sendcount, fee, tranRes, n, r, sgasScript, sb, trandata;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3090,8 +3090,11 @@ var SgasTool = /** @class */ (function () {
                         tran.extdata = null;
                         tran.attributes = [];
                         try {
-                            fee = Neo.Fixed8.fromNumber(0.00000001);
-                            sendcount = transcount.subtract(fee);
+                            sendcount = transcount;
+                            if (entity_1.LoginInfo.info.payfee) {
+                                fee = Neo.Fixed8.fromNumber(0.001);
+                                sendcount = transcount.subtract(fee); //由于转账使用的utxo和需要转换的金额一样大所以输入只需要塞入减去交易费的金额，utxo也足够使用交易费
+                            }
                             tranRes = importpack_1.tools.coinTool.creatInuptAndOutup([utxo], sendcount, entity_1.LoginInfo.getCurrentAddress());
                             tran.inputs = tranRes.inputs;
                             tran.outputs = tranRes.outputs;
@@ -3101,6 +3104,7 @@ var SgasTool = /** @class */ (function () {
                             }
                         }
                         catch (error) {
+                            console.log(error);
                         }
                         return [4 /*yield*/, importpack_1.tools.wwwtool.api_getcontractstate(importpack_1.tools.coinTool.id_SGAS.toString())];
                     case 1:
@@ -8117,55 +8121,6 @@ var CoinTool = /** @class */ (function () {
                         result = _a.sent();
                         result['amount'] = sum;
                         return [2 /*return*/, result];
-                }
-            });
-        });
-    };
-    /**
-     * invokeTrans 方式调用合约塞入attributes
-     * @param script 合约的script
-     */
-    CoinTool.contractInvokeTrans_attributes = function (script) {
-        return __awaiter(this, void 0, void 0, function () {
-            var addr, utxos, gass, tran, feeres, data, res, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        addr = entity_1.LoginInfo.getCurrentAddress();
-                        return [4 /*yield*/, CoinTool.getassets()];
-                    case 1:
-                        utxos = _a.sent();
-                        gass = utxos[importpack_1.tools.coinTool.id_GAS];
-                        tran = new ThinNeo.Transaction();
-                        //合约类型
-                        tran.inputs = [];
-                        tran.outputs = [];
-                        tran.type = ThinNeo.TransactionType.InvocationTransaction;
-                        tran.extdata = new ThinNeo.InvokeTransData();
-                        //塞入脚本
-                        tran.extdata.script = script;
-                        tran.attributes = new Array(1);
-                        tran.attributes[0] = new ThinNeo.Attribute();
-                        tran.attributes[0].usage = ThinNeo.TransactionAttributeUsage.Script;
-                        tran.attributes[0].data = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(addr);
-                        feeres = importpack_1.tools.coinTool.creatInuptAndOutup(gass, Neo.Fixed8.parse("0.00000001"));
-                        tran.inputs = feeres.inputs.map(function (input) {
-                            input.hash = input.hash.reverse();
-                            return input;
-                        });
-                        tran.outputs = feeres.outputs;
-                        if (tran.witnesses == null)
-                            tran.witnesses = [];
-                        return [4 /*yield*/, this.signData(tran)];
-                    case 2:
-                        data = _a.sent();
-                        res = new entity_1.Result();
-                        return [4 /*yield*/, importpack_1.tools.wwwtool.api_postRawTransaction(data)];
-                    case 3:
-                        result = _a.sent();
-                        res.err = !result["sendrawtransactionresult"];
-                        res.info = result["txid"];
-                        return [2 /*return*/, res];
                 }
             });
         });
