@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator"
 import AuctionInfo from "./auctioninfo.vue";
 import { tools } from "../../tools/importpack";
-import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState, TaskFunction, RootDomainInfo, DomainSaleInfo } from "../../tools/entity";
+import { MyAuction, SellDomainInfo, LoginInfo, ResultItem, DataType, NeoAuction_Withdraw, NeoAuction_TopUp, Task, ConfirmType, TaskType, DomainState, TaskFunction, RootDomainInfo, DomainSaleInfo, PageUtil } from "../../tools/entity";
 import { LocalStoreTool, sessionStoreTool } from "../../tools/storagetool";
 import { TaskManager } from "../../tools/taskmanager";
 import { Auction, AuctionView, AuctionState } from "../../entity/AuctionEntitys";
@@ -43,6 +43,8 @@ export default class NeoAuctionTest extends Vue
     searchDomain: string;//查询域名
     searchAuctionList: MyAuction[] = [];
     auctionlist: AuctionView[];
+    myAuctionPage: PageUtil;
+    inputMyBidPage: string = '';//竞拍列表的翻页
     currentpage: number = 1;
     rootInfo: RootDomainInfo;
     checkBid: boolean = false;//检测账户是否有余额
@@ -53,6 +55,7 @@ export default class NeoAuctionTest extends Vue
     domainEdit: sessionStoreTool;
     isUnSaleBox: boolean = false;//下架弹筐
     tranConfirm: Function;
+    itemList: Auction[];
 
     constructor()
     {
@@ -91,7 +94,9 @@ export default class NeoAuctionTest extends Vue
         this.searchDomain = "";
         this.searchAuctionList = [];
         this.auctionlist = [];
+        this.myAuctionPage = new PageUtil(0, 5);
         this.domainEdit = new sessionStoreTool("domain-edit");
+        this.itemList = [];
     }
 
     async mounted()
@@ -100,7 +105,7 @@ export default class NeoAuctionTest extends Vue
         this.rootInfo = await tools.nnstool.getRootInfo("test");
         this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         this.openToast = this.$refs.toast["isShow"];
-        this.getBidList(this.address, 1);
+        this.getBidList(true);
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable.toString() + " CGAS";
@@ -108,14 +113,35 @@ export default class NeoAuctionTest extends Vue
         TaskManager.functionList.push(this.refreshPage);
         TaskFunction.topup = this.topupStateRefresh;
         TaskFunction.withdraw = this.withdrawRefresh;
-        let scroll = new ScrollTools();
-        scroll.onScroll(bheight =>
+        // let scroll = new ScrollTools();
+        // scroll.onScroll(bheight =>
+        // {
+        //     if (bheight < 20)
+        //     {
+        //         this.getBidList(this.address, this.currentpage++)
+        //     }
+        // })
+    }
+    async getBidList(isFirst: boolean)
+    {
+        let res = [];
+        if (isFirst)
         {
-            if (bheight < 20)
+            res = await tools.wwwtool.getauctioninfobyaddress(this.address, 1, this.myAuctionPage.pageSize, ".test", this.searchDomain);
+            if (res)
             {
-                this.getBidList(this.address, this.currentpage++)
+                this.myAuctionPage = new PageUtil(res[0].count, 5);
             }
-        })
+        } else
+        {
+            res = await tools.wwwtool.getauctioninfobyaddress(this.address, this.myAuctionPage.currentPage, this.myAuctionPage.pageSize, ".test", this.searchDomain);
+        }
+        if (!res)
+        {
+            this.auctionlist = null;
+            return false;
+        }
+        this.initListData(res[0].list);
     }
 
     async refreshPage()
@@ -124,18 +150,145 @@ export default class NeoAuctionTest extends Vue
         let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5["nep5balance"];
         await services.auction_test.updateAuctionList(this.address);
-        this.getBidList(this.address, 1);
+        this.getBidList(false);
     }
 
     /**
      * 获得参与过竞拍的域名列表
      * @param address 地址
      */
-    async getBidList(address, page)
+    // async getBidList(address, page)
+    // {
+    //     // this.auctionlist = await services.auction_test.getMyAuctionList(address, page, 5);
+    // }
+    async initListData(res: any)
     {
-        this.auctionlist = await services.auction_test.getMyAuctionList(address, page, 5);
+        this.itemList = res;
+        this.auctionlist = [];
+        for (let index = 0; index < this.itemList.length; index++)
+        {
+            const auction = this.itemList[index];
+            if (auction.auctionState != AuctionState.open)
+            {
+                if (auction.auctionState == AuctionState.end)
+                {
+                    if (auction.addwholist)
+                    {
+                        for (let i = 0; i < auction.addwholist.length; i++)
+                        {
+                            let who = auction.addwholist[i];
+                            if (who.address == this.address)
+                            {
+                                auction.addWho = who;
+                            }
+                        }
+                    }
+                    if (auction.addWho)
+                    {
+                        let view = new AuctionView(auction);
+                        this.auctionlist.push(view);
+                    }
+                }
+                else
+                {
+                    let view = new AuctionView(auction);
+                    this.auctionlist.push(view);
+                }
+            }
+        }
     }
+    /**
+     * 竞拍列表上一页
+     */
+    myBidPrevious()
+    {
 
+        const current = this.myAuctionPage.currentPage;
+        if (current - 1 <= 0)
+        {
+            return;
+        }
+        this.myAuctionPage.currentPage--;
+        // this.showMydomainList = this.mydomainListByPage(this.neonameList);
+        this.getBidList(false);
+    }
+    /**
+     * 竞拍列表下一页
+     */
+    myBidNext()
+    {
+        const current = this.myAuctionPage.currentPage;
+        if (current + 1 > this.myAuctionPage.totalPage)
+        {
+            return;
+        }
+        this.myAuctionPage.currentPage++;
+        // this.showMydomainList = this.mydomainListByPage(this.neonameList);
+        this.getBidList(false);
+    }
+    /**
+     * 竞拍列表跳转输入
+     */
+    onInputMyBidPageChange = (event: any) =>
+    {
+        const value = parseInt('' + event.target.value, 10);
+        if (event.target.value && isNaN(event.target.value))
+        {
+            return false;
+        }
+        // const num = parseInt(event.target.value, 10);
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (value <= 0)
+        {
+            this.inputMyBidPage = '';
+            return false;
+        }
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (value > this.myAuctionPage.totalPage)
+        {
+            return false
+        }
+        this.inputMyBidPage = event.target.value;
+        return true;
+    }
+    /**
+     * 竞拍列表翻页
+     */
+    goMyneoPage()
+    {
+
+        if (this.inputMyBidPage != '' && this.inputMyBidPage != '0')
+        {
+            this.pageToMyBid(this.inputMyBidPage);
+        }
+    }
+    // 翻页跳转
+    pageToMyBid(page: string)
+    {
+        let current = parseInt('' + page, 10);
+
+        // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
+        if (current < 0 || current > this.myAuctionPage.totalPage)
+        {
+            return;
+        }
+        // 如果跳转页码等于当前页码，则中断
+        if (current == this.myAuctionPage.currentPage)
+        {
+            return;
+        }
+        this.myAuctionPage.currentPage = current
+        // this.showMydomainList = this.mydomainListByPage(this.neonameList);
+        this.getBidList(false);
+    }
+    // 竞拍列表回车翻页
+    onInputMyBidKeyDown(event: any)
+    {
+        if (event.keyCode === 13)
+        {
+            this.pageToMyBid(this.inputMyBidPage);
+        }
+    }
     async topupStateRefresh()
     {
         this.alert_TopUp.watting = false;
@@ -160,9 +313,20 @@ export default class NeoAuctionTest extends Vue
      */
     onGoBidInfo(item: AuctionView)
     {
-        // this.auctionPageSession.put("id", item.id)
-        // this.auctionPageSession.put('show', true);
-        services.auctionInfo_test.auctionId = item.id;
+        services.auctionInfo_neo.auctionId = item.id;
+        let infoItem = this.itemList.filter((keys: Auction) =>
+        {
+
+            if (keys.auctionId == item.id)
+            {
+                return keys;
+            }
+            return false;
+        })
+        if (infoItem)
+        {
+            services.auctionInfo_neo.auctionInfo = infoItem[0];
+        }
         this.auctionPage = !this.auctionPage
     }
 
@@ -175,6 +339,7 @@ export default class NeoAuctionTest extends Vue
         TaskManager.functionList.push(this.refreshPage);
         this.refreshPage()
         this.auctionPageSession.put('show', false);
+        services.auctionInfo_neo.auctionInfo = null;
         services.auctionInfo_test.auctionId = null;
         this.auctionPage = false;
     }
@@ -319,7 +484,6 @@ export default class NeoAuctionTest extends Vue
                 //任务管理器
                 let task = new Task(ConfirmType.tranfer, res.info, { amount })
                 tools.taskManager.addTask(task, TaskType.withdraw);
-
             }
         }
     }
@@ -453,7 +617,6 @@ export default class NeoAuctionTest extends Vue
         }
     }
 
-
     /**
      * 开标
      */
@@ -487,8 +650,6 @@ export default class NeoAuctionTest extends Vue
             }
         }
     }
-
-
 
     /**
      * 查询域名状态
@@ -562,13 +723,10 @@ export default class NeoAuctionTest extends Vue
      */
     async searchDomainInput()
     {
-        if (this.searchDomain.length)
-        {
-            this.doSearchDomain();
-        }
-        else
+        if (this.searchDomain.length === 0)
         {
             this.isSearchTime = false;
+            this.getBidList(true);
         }
     }
     /**
@@ -579,7 +737,7 @@ export default class NeoAuctionTest extends Vue
         if (this.searchDomain.length)
         {
             this.isSearchTime = true;
-            // this.searchAuctionList = await NeoaucionData.searchBidList(this.address, this.searchDomain);
+            this.getBidList(true);
         }
         else
         {

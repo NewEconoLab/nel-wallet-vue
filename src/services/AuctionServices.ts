@@ -33,7 +33,7 @@ export class AuctionService
         auctions = !auctions ? [] : auctions;
         for (let index = 0; index < auctions.length; index++)
         {
-            const auction = auctions[ index ];
+            const auction = auctions[index];
             if (auction.auctionState != AuctionState.open)
             {
                 if (auction.auctionState == AuctionState.end)
@@ -77,10 +77,10 @@ export class AuctionService
             {
                 //从列表种拉取数据
                 let count = await tools.wwwtool.getauctioninfocount(address, "." + this.root.rootname);
-                let result = await tools.wwwtool.getauctioninfobyaddress(address, 1, count, "." + this.root.rootname);
+                let result = await tools.wwwtool.getauctioninfobyaddress(address, 1, count, "." + this.root.rootname, '');
                 if (result)
                 {
-                    let auctionList = result[ 0 ].list as Auction[];
+                    let auctionList = result[0].list as Auction[];
                     //对比信息并保存至缓存
                     this.store.setSotre(auctionList, address);
                     //获得处理后的缓存数据
@@ -111,7 +111,7 @@ export class AuctionService
         //获得所有需要更新的域名竞拍id
         for (let index = 0; index < auctionList.length; index++)
         {
-            const auction = auctionList[ index ];
+            const auction = auctionList[index];
             if (auction.auctionState == AuctionState.end)
             {
                 if (auction.addWho)
@@ -136,7 +136,7 @@ export class AuctionService
         let result = await tools.wwwtool.getauctioninfobyaucitonid(address, ids, "." + this.root.rootname);
         if (result)
         {
-            let list = result[ 0 ].list as Auction[];
+            let list = result[0].list as Auction[];
             this.store.setSotre(list, address);
             this.auctionList = this.store.getSotre();
         }
@@ -151,8 +151,8 @@ export class AuctionService
      */
     async queryAuctionByDomain(subname: string): Promise<Auction>
     {
-        const res = await tools.wwwtool.getdomainauctioninfo([ subname, this.root.rootname ].join('.'));
-        const info = res ? res[ 0 ] : undefined;
+        const res = await tools.wwwtool.getdomainauctioninfo([subname, this.root.rootname].join('.'));
+        const info = res ? res[0] : undefined;
         let auction = new Auction();
         if (info)
         {
@@ -170,7 +170,7 @@ export class AuctionService
     async startAuction(subname: string): Promise<any>
     {
         let address = LoginInfo.getCurrentAddress()     //当前地址
-        let domain: string = [ subname, this.root.rootname ].join(".");
+        let domain: string = [subname, this.root.rootname].join(".");
         let auction: Auction = new Auction();
         try
         {
@@ -178,11 +178,11 @@ export class AuctionService
             let txid = result.info;
             let task = new Task(ConfirmType.contract, txid, { domain: domain })
             tools.taskManager.addTask(task, TaskType.openAuction);
-            let result2 = await tools.wwwtool.getauctioninfobyaucitonid(address, [ txid ], "." + this.root.rootname);
+            let result2 = await tools.wwwtool.getauctioninfobyaucitonid(address, [txid], "." + this.root.rootname);
             if (!!result2)
             {
-                let list = result[ 0 ].list as Auction[];
-                auction.parse(list[ 0 ], address);
+                let list = result[0].list as Auction[];
+                auction.parse(list[0], address);
             }
             else
             {
@@ -220,14 +220,14 @@ export class AuctionService
                 )
                 tools.taskManager.addTask(task, TaskType.addPrice);
                 //根据标地id查询域名状态
-                let result2 = await tools.wwwtool.getauctioninfobyaucitonid("", [ auctionId ], "." + this.root.rootname);
+                let result2 = await tools.wwwtool.getauctioninfobyaucitonid("", [auctionId], "." + this.root.rootname);
                 let auction = new Auction()
                 if (res)
                 {
                     res.err = false;
                     res.info = txid;
-                    let list = result2[ 0 ].list as Auction[];
-                    auction.parse(list[ 0 ], address);
+                    let list = result2[0].list as Auction[];
+                    auction.parse(list[0], address);
                 }
                 else
                 {

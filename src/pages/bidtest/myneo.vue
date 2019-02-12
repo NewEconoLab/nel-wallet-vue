@@ -36,24 +36,24 @@
             id
             :placeholder="$t('auction.searchmsg')"
             autocomplete="off"
-            v-model="InputDomainName"
-            @input="toSearchDomain"
+            v-model="inputDomainName"
+            @input="searchMyDomainInput"
+            @keyup.enter="toSearchDomain"
           >
-          <img src="../../../static/img/seach.png" alt>
+          <img src="../../../static/img/seach.png" alt @click="toSearchDomain">
         </div>
         <div class="select-box">
           <label>{{$t('myneoname.status')}}：</label>
           <select class="form-control" @change="selectSellDomain()" v-model="sellStatus">
             <option value="all">{{$t('myneoname.all')}}</option>
-            <option value="0901">{{$t('myneoname.selling')}}</option>
-            <option value>{{$t('myneoname.unsell')}}</option>
+            <option value="selling">{{$t('myneoname.selling')}}</option>
+            <option value="notSelling">{{$t('myneoname.unsell')}}</option>
           </select>
         </div>
-        <!-- <img src="" alt=""> -->
       </div>
     </div>
     <div class="mydomain-tips">{{$t('myneoname.note2')}}</div>
-    <div class="form-box" v-if="neonameList" v-for="(item,index) in showMydomainList" :key="index">
+    <div class="form-box" v-for="(item,index) in neonameList" :key="index">
       <div class="neoname">{{item.domain}}</div>
       <div
         class="addr-resolver"
@@ -61,13 +61,13 @@
       <div
         class="addr-mapping"
         v-if="!item.expired && item.state!='0901'"
-      >( {{$t('myneoname.mapping')}}: {{item.resolverAddress ? item.resolverAddress : $t('myneoname.notconfigure')}} )</div>
+      >( {{$t('myneoname.mapping')}}: {{item.resolverAddr ? item.resolverAddr : $t('myneoname.notconfigure')}} )</div>
       <div
         class="addr-mapping"
         v-if="!item.expired && item.state == '0901'"
-      >( {{$t('auction.saleprice')}}: {{item.price ? item.price : "0"}} NNC)</div>
+      >( {{$t('auction.saleprice')}}: {{item.price ? item.price.$numberDecimal : "0"}} NNC)</div>
       <div class="time-msg" v-if="!item.expired">
-        ( {{$t('myneoname.time')}}: {{item.ttltime}}
+        ( {{$t('myneoname.time')}}: {{item.ttl}}
         <span
           class="ff6"
           v-if="!item.expiring"
@@ -78,7 +78,12 @@
         <span class="ff6">{{$t('myneoname.expired')}}</span> )
       </div>
       <div class="btn-right" v-if="!item.expired && item.state!='0901'">
-        <button class="btn btn-nel btn-bid" @click="onShowEdit(item)">{{$t('btn.edit')}}</button>
+        <button
+          class="btn btn-nel btn-bid"
+          @click="onShowEdit(item)"
+          :class="{'btn-disable':item.isEdit}"
+          :disabled="!!item.isEdit"
+        >{{$t('btn.edit')}}</button>
         <!-- <button
           v-if="ownerState===2"
           class="btn btn-nel btn-bid"
@@ -86,6 +91,8 @@
         >{{$t('myneoname.transferring')}}</button>-->
         <button
           class="btn btn-nel btn-bid"
+          :class="{'btn-disable':item.transfering}"
+          :disabled="!!item.transfering"
           @click="showTranferDomain(item)"
         >{{$t('myneoname.transfer')}}</button>
         <button
@@ -93,14 +100,19 @@
           data-toggle="tooltip"
           data-placement="bottom"
           :title="$t('myneoname.btntip')"
-          :class="{'btn-disable':item.resolverAddress}"
-          :disabled="!!item.resolverAddress"
+          :class="{'btn-disable':item.resolverAddr||item.selling}"
+          :disabled="!!item.resolverAddr || !!item.selling"
           @click="onShowSaleDialog(item)"
         >{{$t('btn.sell')}}</button>
       </div>
       <div class="btn-right" v-if="!item.expired && item.state == '0901'">
         <div class="status-text">{{$t('btn.selling')}}</div>
-        <button class="btn btn-nel btn-bid" @click="onShowUnSaleDialog(item)">{{$t('btn.delist')}}</button>
+        <button
+          class="btn btn-nel btn-bid"
+          :class="{'btn-disable':item.delist}"
+          :disabled="!!item.delist"
+          @click="onShowUnSaleDialog(item)"
+        >{{$t('btn.delist')}}</button>
       </div>
     </div>
     <div class="mydomain-page">
@@ -152,12 +164,7 @@
       </div>
     </div>
     <div class="form-box">
-      <div
-        class="sale-list-wraper"
-        v-if="saleOutDomainList"
-        v-for="(item,index) in saleOutDomainList"
-        :key="index"
-      >
+      <div class="sale-list-wraper" v-for="(item,index) in saleOutDomainList" :key="index">
         <div class="sale-content">
           <div class="sale-domainname">{{item.fullDomain}}</div>
           <p>
@@ -500,6 +507,7 @@
           position: absolute;
           top: 6px;
           right: 6px;
+          cursor: pointer;
         }
       }
       .select-box {

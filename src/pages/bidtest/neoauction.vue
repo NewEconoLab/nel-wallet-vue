@@ -102,12 +102,7 @@
         </div>
       </div>
       <!-- 加载列表 -->
-      <div
-        class="form-box mbottom"
-        v-if="auctionlist&&!isSearchTime"
-        v-for="(item,index) in auctionlist"
-        :key="index"
-      >
+      <div class="form-box mbottom" v-for="(item,index) in auctionlist" :key="index">
         <div class="msg-list">
           <div class="msg-neoname">{{item.domain}}</div>
           <div class="msg-status">
@@ -148,11 +143,7 @@
             {{$t('auction.bidstarttimemsg')}}:
             <span>{{item.startTimeStr}}</span>
           </div>
-          <div
-            v-if="item.bidListSession"
-            v-for="(value,key) in item.bidListSession"
-            :key="key"
-          >{{value}}</div>
+          <div v-for="(value,key) in item.bidListSession" :key="key">{{value}}</div>
         </div>
         <div class="btn-right">
           <button
@@ -183,7 +174,7 @@
         </div>
       </div>
       <!-- 查询列表 -->
-      <div
+      <!-- <div
         class="form-box mbottom"
         v-if="searchAuctionList&&isSearchTime"
         v-for="(item,index) in searchAuctionList"
@@ -262,8 +253,42 @@
             @click="onGoBidInfo(item)"
           >{{$t('btn.receivednns')}}</button>
         </div>
+      </div>-->
+      <div class="form-box mbottom" v-if="!auctionlist&&isSearchTime">{{$t('auction.nodata')}}</div>
+      <div class="bidlist-page">
+        <div class="page-msg" v-if="auctionlist">
+          {{$t('page.page')}}
+          {{myAuctionPage.currentPage}}
+          {{$t('page.total1')}}
+          {{myAuctionPage.totalPage}}
+          {{$t('page.total2')}}
+        </div>
+        <div class="page" v-if="myAuctionPage && myAuctionPage.totalCount>myAuctionPage.pageSize">
+          <div
+            class="page-previous"
+            :class="{'notallow':(myAuctionPage.currentPage == 1)}"
+            @click="myBidPrevious"
+          >
+            <img src="../../../static/img/lefttrangle.svg" alt>
+          </div>
+          <div style="width:1px;"></div>
+          <div
+            class="page-next"
+            @click="myBidNext"
+            :class="{'notallow':(myAuctionPage.currentPage == myAuctionPage.totalPage)}"
+          >
+            <img src="../../../static/img/righttrangle.svg" alt>
+          </div>
+          <input
+            type="text"
+            class="input-wrapper"
+            v-model="inputMyBidPage"
+            @input="onInputMyBidPageChange"
+            @keydown="onInputMyBidKeyDown"
+          >
+          <div class="gopage" @click="pageToMyBid">Go</div>
+        </div>
       </div>
-      <div class="form-box mbottom" v-if="!searchAuctionList&&isSearchTime">{{$t('auction.nodata')}}</div>
     </div>
     <!-- 竞拍域名详情页 -->
     <auction-info v-if="auctionPage" @onBack="onBack"></auction-info>
@@ -520,6 +545,49 @@
     font-size: 12px;
     margin-top: 10px;
   }
+  .page {
+    .page-previous,
+    .page-next {
+      background: #198cee;
+      cursor: pointer;
+      &:hover {
+        background: #4dadff;
+      }
+      &.notallow {
+        background: #0e5c9e;
+        cursor: not-allowed;
+      }
+    }
+    .input-wrapper {
+      width: 50px;
+      background: #ffffff;
+      border-radius: 5px;
+      margin-left: 10px;
+      margin-right: 10px;
+      padding: 5px;
+      height: 38px;
+      color: #333;
+      font-size: 16px;
+    }
+    .gopage {
+      width: 50px;
+      height: 38px;
+      line-height: 38px;
+      font-size: 16px;
+      color: #ffffff;
+      text-align: center;
+      background: #198cee;
+      border-radius: 5px;
+      cursor: pointer;
+      &:hover {
+        background: #4dadff;
+      }
+      &.donot {
+        background: #0e5c9e;
+        cursor: not-allowed;
+      }
+    }
+  }
   .page-one {
     .tips-box {
       margin-top: 50px;
@@ -551,6 +619,7 @@
           position: absolute;
           top: 6px;
           right: 6px;
+          cursor: pointer;
         }
       }
     }
