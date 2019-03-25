@@ -313,7 +313,7 @@ export default class NeoAuctionTest extends Vue
      */
     onGoBidInfo(item: AuctionView)
     {
-        services.auctionInfo_neo.auctionId = item.id;
+        services.auctionInfo_test.auctionId = item.id;
         let infoItem = this.itemList.filter((keys: Auction) =>
         {
 
@@ -325,7 +325,7 @@ export default class NeoAuctionTest extends Vue
         })
         if (infoItem)
         {
-            services.auctionInfo_neo.auctionInfo = infoItem[0];
+            services.auctionInfo_test.auctionInfo = infoItem[0];
         }
         this.auctionPage = !this.auctionPage
     }
@@ -339,7 +339,7 @@ export default class NeoAuctionTest extends Vue
         TaskManager.functionList.push(this.refreshPage);
         this.refreshPage()
         this.auctionPageSession.put('show', false);
-        services.auctionInfo_neo.auctionInfo = null;
+        services.auctionInfo_test.auctionInfo = null;
         services.auctionInfo_test.auctionId = null;
         this.auctionPage = false;
     }
