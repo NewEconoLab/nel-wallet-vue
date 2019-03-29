@@ -55,6 +55,9 @@ export default {
         applyed: "已发放",
         getNNC: "索取NNC",
         gettingNNC: "NNC领取中",
+        unbind: "取消绑定",
+        bind: "绑定域名",
+        tibind: "替换绑定域名"
     },
     toast: {
         msg1: "登陆中...",
@@ -347,7 +350,16 @@ export default {
         surecheck2: " 下架吗？",
         type: "类型",
         salelist: "出售",
-        buylist: "购买"
+        buylist: "购买",
+        mybind: "我的绑定域名",
+        mybindtips: "为自己的钱包地址绑定一个唯一的域名，绑定域名之后，允许别人在输入该钱包地址时，被显示绑定的域名。",
+        binddomain: "绑定域名",
+        mybindtips2: "未绑定任何域名",
+        bindtips: "用户可以为自己的钱包绑定一个唯一的域名。绑定域名之后，允许别人在输入该地址时，显示被绑定的域名。域名过期后绑定关系自动失效。已经绑定过域名的地址，重新绑定域名时，新域名会替换掉旧域名。",
+        addr: "地址",
+        binded: "已绑定域名",
+        waitbind: "操作成功，区块确认后将完成绑定",
+        waidunbind: "操作成功，区块确认后将取消绑定"
     },
     bonus: {
         title: "分红",
@@ -441,5 +453,10 @@ export default {
         expirationTime: "域名到期时间",
         delistingConfirm: "域名下架确认",
         purchaseConfirm: "域名购买",
+        addr: "地址",
+        unbind: "取消绑定域名",
+        unbindtitle: "取消绑定域名确认",
+        bind: "绑定域名",
+        bindtitle: "绑定域名确认"
     }
 }

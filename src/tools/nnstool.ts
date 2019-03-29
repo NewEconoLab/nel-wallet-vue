@@ -56,7 +56,99 @@ export class NNSTool
         }
     }
 
+    /**
+     * 获取绑定的域名
+     * @param address 当前地址
+     */
+    static async getBindDomain(address: string)
+    {
+        const scriptaddress = Consts.bindContract;
+        try
+        {
+            const data = tools.contract.buildScript(
+                scriptaddress,
+                "getCreditInfo",
+                [
+                    `(addr)${address}`
+                ]
+            );
 
+            let res = await tools.wwwtool.rpc_getInvokescript(data);
+            if (res)
+            {
+                const result = ResultItem.FromJson("Array", res['stack'])
+                const subData = result.subItem[0].subItem;
+                let obj = {
+                    domain: subData[1].AsString(),
+                    ttl: subData[2].AsInteger().toString()
+                }
+                return obj;
+            } else
+            {
+                return null;
+            }
+
+        } catch (error)
+        {
+            throw new Error(error)
+        }
+    }
+
+    /**
+     * 绑定域名地址
+     * @param doamin 域名字符串
+     * @param address 当前地址
+     */
+    static async bindDomain(domain: string, address: string)
+    {
+        let arr = domain.split(".").reverse();
+        arr = arr.map(str => `(str)${str}`);
+        // arr[0] = "(str)" + arr[0]
+        // arr[1] = "(str)" + arr[1]
+        const scriptaddress = Consts.bindContract;
+
+        try
+        {
+            const data = tools.contract.buildScript_random(
+                scriptaddress,
+                "authenticate",
+                [
+                    `(addr)${address}`,
+                    arr
+                ]
+            );
+
+            let res = await tools.contract.contractInvokeTrans_attributes(data);
+            return res;
+        } catch (error)
+        {
+            throw new Error(error)
+        }
+    }
+    /**
+     * 解除绑定域名地址
+     * @param address 当前地址
+     */
+    static async cancalBindDomain(address: string)
+    {
+        const scriptaddress = Consts.bindContract;
+        try
+        {
+            const data = tools.contract.buildScript_random(
+                scriptaddress,
+                "revoke",
+                [
+                    `(addr)${address}`
+                ]
+            );
+
+            let res = await tools.contract.contractInvokeTrans_attributes(data);
+            return res;
+        } catch (error)
+        {
+            throw new Error(error)
+        }
+    }
 
 
     /**
@@ -95,7 +187,7 @@ export class NNSTool
         //塞入随机数
         sb.EmitPushNumber(random_int);
         sb.Emit(ThinNeo.OpCode.DROP);
-        sb.EmitParamJson([ "(addr)" + address, "(hex256)" + nnshash.toString(), "(str)" + doamin ]);//第二个参数是个数组
+        sb.EmitParamJson(["(addr)" + address, "(hex256)" + nnshash.toString(), "(str)" + doamin]);//第二个参数是个数组
         sb.EmitPushString("requestSubDomain");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
@@ -135,14 +227,14 @@ export class NNSTool
             }
             var stack = result.stack as any[];
             //find name 他的type 有可能是string 或者ByteArray
-            if (stack[ 0 ].type == "Array")
+            if (stack[0].type == "Array")
             {
                 // info2.textContent += "name=" + stack[0].value + "\n";
-                length = stack[ 0 ].lenght;
+                length = stack[0].lenght;
             }
-            else if (stack[ 0 ].type == "ByteArray")
+            else if (stack[0].type == "ByteArray")
             {
-                var bs = (stack[ 0 ].value as string).hexToBytes();
+                var bs = (stack[0].value as string).hexToBytes();
                 name = ThinNeo.Helper.Bytes2String(bs);
             }
 
@@ -173,17 +265,17 @@ export class NNSTool
         let result = await tools.wwwtool.rpc_getInvokescript(data);
         try
         {
-            var state = result[ "state" ] as string;
+            var state = result["state"] as string;
             // info2.textContent = "";
             if (state.includes("HALT, BREAK"))
             {
                 // info2.textContent += "Succ\n";
             }
-            var stack = result[ "stack" ] as any[];
+            var stack = result["stack"] as any[];
             //find name 他的type 有可能是string 或者ByteArray
-            if (stack[ 0 ].type == "ByteArray")
+            if (stack[0].type == "ByteArray")
             {
-                nameHash = (stack[ 0 ][ "value" ] as string).hexToBytes();
+                nameHash = (stack[0]["value"] as string).hexToBytes();
             }
             return nameHash;
         }
@@ -197,7 +289,7 @@ export class NNSTool
     static async getOwnerInfo(domain: Neo.Uint256, scriptaddress: Neo.Uint160): Promise<DomainInfo>
     {
         let info: DomainInfo = new DomainInfo();
-        var data = tools.contract.buildScript(scriptaddress, "getOwnerInfo", [ "(hex256)" + domain.toString() ]);
+        var data = tools.contract.buildScript(scriptaddress, "getOwnerInfo", ["(hex256)" + domain.toString()]);
         let result = await tools.wwwtool.rpc_getInvokescript(data);
 
         try
@@ -210,15 +302,15 @@ export class NNSTool
             }
             let rest = new NNSResult();
             rest.textInfo = result;
-            var stackarr = result[ "stack" ] as any[];
-            let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[ 0 ].subItem;
+            var stackarr = result["stack"] as any[];
+            let stack = ResultItem.FromJson(DataType.Array, stackarr).subItem[0].subItem;
 
-            if (stackarr[ 0 ].type == "Array")
+            if (stackarr[0].type == "Array")
             {
-                info.owner = stack[ 0 ].AsHash160();
-                info.register = stack[ 1 ].AsHash160();
-                info.resolver = stack[ 2 ].AsHash160();
-                info.ttl = stack[ 3 ].AsInteger().toString();
+                info.owner = stack[0].AsHash160();
+                info.register = stack[1].AsHash160();
+                info.resolver = stack[2].AsHash160();
+                info.ttl = stack[3].AsInteger().toString();
             }
         }
         catch (e)
@@ -272,8 +364,8 @@ export class NNSTool
             return;
         }
         const arr = domain.split(".").reverse();
-        arr[ 0 ] = "(str)" + arr[ 0 ]
-        arr[ 1 ] = "(str)" + arr[ 1 ]
+        arr[0] = "(str)" + arr[0]
+        arr[1] = "(str)" + arr[1]
         const scriptaddress = Consts.saleContract;
         const count = parseFloat(price).toFixed(result.decimals).replace(".", "");
 
@@ -438,7 +530,7 @@ export class NNSTool
         sb.EmitParamJson([
             "(hex160)" + hashstr,
             "(hex256)" + nnshash.toString(),
-            "(hex160)" + resolvestr ]);//第二个参数是个数组
+            "(hex160)" + resolvestr]);//第二个参数是个数组
         sb.EmitPushString("owner_SetResolver");
         sb.EmitAppCall(scriptaddress);
         var data = sb.ToArray();
@@ -509,11 +601,11 @@ export class NNSTool
                 // info2.textContent += "Succ\n";
                 var stack = res.stack as any[];
                 //find name 他的type 有可能是string 或者ByteArray
-                if (stack[ 0 ].type == "ByteArray")
+                if (stack[0].type == "ByteArray")
                 {
-                    if (stack[ 0 ].value as string != "00")
+                    if (stack[0].value as string != "00")
                     {
-                        let value = (stack[ 0 ].value as string).hexToBytes();
+                        let value = (stack[0].value as string).hexToBytes();
                         addr = ThinNeo.Helper.Bytes2String(value);
                     }
                 }
@@ -571,10 +663,10 @@ export class NNSTool
     static nameHashArray(domainarray: string[]): Neo.Uint256
     {
         domainarray.reverse();
-        var hash: Neo.Uint256 = NNSTool.nameHash(domainarray[ 0 ]);
+        var hash: Neo.Uint256 = NNSTool.nameHash(domainarray[0]);
         for (var i = 1; i < domainarray.length; i++)
         {
-            hash = NNSTool.nameHashSub(hash, domainarray[ i ]);
+            hash = NNSTool.nameHashSub(hash, domainarray[i]);
         }
         return hash;
     }

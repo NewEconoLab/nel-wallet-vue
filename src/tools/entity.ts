@@ -464,6 +464,7 @@ export class Consts
     static readonly registerContract = Neo.Uint160.parse("d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c");
     // static domainContract = '954f285a93eed7b4aed9396a7806a5812f1a5950';
     static readonly saleContract = Neo.Uint160.parse("c4d09243258364e0e028852640218e08534f0466");
+    static readonly bindContract = Neo.Uint160.parse("77bf387c9b5f2e2c33ef8507478b103285c55b11");
 }
 
 export class DomainInfo
@@ -1027,6 +1028,8 @@ export class TaskFunction
     static domainBuy: Function;//域名购买
     static getNNC: Function;//提取NNC
     static getNNCTest: Function;//测试网领取NNC
+    static bindDomain: Function;// 绑定域名
+    static delBindDomain: Function;// 解除域名的绑定
 }
 
 export class Task
@@ -1203,16 +1206,18 @@ export enum TaskType
     getGasTest,//测试网领取gas
     domainMapping,//域名映射
     domainResovle,//域名合约地址
-    domainRenewal,
+    domainRenewal,// 域名续约
     getDomain,//领取域名
     recoverSgas,//退回sgas
     ClaimGas,//领取Gas
-    domainTransfer,
+    domainTransfer,// 域名转让
     saleDomain,//出售域名
     unSaleDomain,//下架域名
     buyDomain,//购买域名
     getMyNNC,//获取收入的NNC
     requestNNC,//索取NNC
+    bindDomain,// 绑定域名
+    delBindDomain,// 取消绑定域名
 }
 
 /**

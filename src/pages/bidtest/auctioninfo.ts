@@ -42,7 +42,6 @@ export default class AuctionInfoTest extends Vue
             this.auctionInfo = services.auctionInfo_test.getAuctionInfo();
             this.auctionInfo.maxPrice = this.auctionInfo.maxPrice ? this.auctionInfo.maxPrice : 0;
         }
-        console.log(this.auctionInfo)
         this.address = LoginInfo.getCurrentAddress();
         this.myBidPrice = "";
         this.updatePrice = "0";

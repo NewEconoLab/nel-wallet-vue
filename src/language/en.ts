@@ -55,6 +55,9 @@ export default {
         applyed: "Distributed",
         getNNC: "Request NNC",
         gettingNNC: "Requesting NNC",
+        unbind: "Unbind",
+        bind: "Bind domain",
+        tibind: "Replace"
     },
     toast: {
         msg1: "Loading ...",
@@ -347,7 +350,16 @@ export default {
         surecheck2: "?",
         type: "Types",
         salelist: "Sold",
-        buylist: "Bought"
+        buylist: "Bought",
+        mybind: "My bound domain",
+        mybindtips: "Bind a unique domain to your wallet address. After that the bound domain will be displayed when others enter the wallet address.",
+        binddomain: "Bind the domain name",
+        mybindtips2: "No domain bound",
+        bindtips: "Bind a unique domain to your wallet address. After that the bound domain will be displayed when others enter the wallet address.The binding automatically expires after the domain expires. When the address with a  bound domain is re-bound, the new domain will replace the old domain.",
+        addr: "Address",
+        binded: "Domain bound",
+        waitbind: "Operation successful, the binding will be complete after it's confirmed in the block.",
+        waidunbind: "Operation successful,the unbinding domain will be complete after it's confirmed in the block."
     },
     bonus: {
         title: "Bonus",
@@ -405,7 +417,7 @@ export default {
     confirm: {
         pwd: "Password",
         msg: "This transaction will be prioritized(Pay 0.001 GAS)",
-        confirm: "confirm",
+        confirm: "Confirm",
         pwderror: "Password error",
         transferConfirm: "Transfer Confirmation",
         transferTo: "Transfer to",
@@ -444,5 +456,10 @@ export default {
         expirationTime: "Expiration time",
         delistingConfirm: "Delisting Confirmation",
         purchaseConfirm: "Purchase Confirmation",
+        addr: "Address",
+        unbind: "Unbind domain",
+        unbindtitle: "Unbinding domain confirmation",
+        bind: "Bind domain",
+        bindtitle: "Binding domain confirmation"
     }
 }

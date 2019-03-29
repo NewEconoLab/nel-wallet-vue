@@ -579,6 +579,10 @@ export default class NeoAuctionTest extends Vue
         if (this.canAdded)
         {
             this.canAdded = false;
+            if (this.alert_myBid == "")
+            {
+                return false;
+            }
             try
             {
                 let msgs = [

@@ -80,7 +80,7 @@ export default class FeatureComponent extends Vue
         {
             if (list.hasOwnProperty(type))
             {
-                const tasks = list[ type ] as Task[];
+                const tasks = list[type] as Task[];
                 switch (parseInt(type) as TaskType)
                 {
                     case TaskType.tranfer:
@@ -143,6 +143,12 @@ export default class FeatureComponent extends Vue
                     case TaskType.requestNNC:
                         this.makeTaskList(tasks, TaskType.requestNNC);
                         break;
+                    case TaskType.bindDomain:
+                        this.makeTaskList(tasks, TaskType.bindDomain);
+                        break;
+                    case TaskType.delBindDomain:
+                        this.makeTaskList(tasks, TaskType.delBindDomain);
+                        break;
                     default:
                         break;
                 }
@@ -184,16 +190,16 @@ export default class FeatureComponent extends Vue
         {
             let arr = [];
             let href = this.makeHref();
-            arr[ "tasktype" ] = tasktype;
-            arr[ "startTime" ] = tasks[ i ].startTime;
-            arr[ "txid" ] = tasks[ i ].txid.substring(0, 6) + "..." + tasks[ i ].txid.substring(tasks[ i ].txid.length - 6);
-            arr[ "txidhref" ] = href + "transaction/" + tasks[ i ].txid;
-            arr[ "height" ] = tasks[ i ].height;
-            arr[ "state" ] = tasks[ i ].state;
-            arr[ "addrhref" ] = href + "address/" + (tasks[ i ].message.toaddress ? tasks[ i ].message.toaddress : tasks[ i ].message.address);
-            arr[ "message" ] = tasks[ i ].message;
-            arr[ "domainhref" ] = href + "nnsinfo/" + (tasks[ i ].message.domain ? tasks[ i ].message.domain : "");
-            arr[ "resolver" ] = "" + (tasks[ i ].message.contract ? (tasks[ i ].message.contract.substring(0, 4) + "..." + tasks[ i ].message.contract.substring(tasks[ i ].message.contract.length - 4)) : "");
+            arr["tasktype"] = tasktype;
+            arr["startTime"] = tasks[i].startTime;
+            arr["txid"] = tasks[i].txid.substring(0, 6) + "..." + tasks[i].txid.substring(tasks[i].txid.length - 6);
+            arr["txidhref"] = href + "transaction/" + tasks[i].txid;
+            arr["height"] = tasks[i].height;
+            arr["state"] = tasks[i].state;
+            arr["addrhref"] = href + "address/" + (tasks[i].message.toaddress ? tasks[i].message.toaddress : tasks[i].message.address);
+            arr["message"] = tasks[i].message;
+            arr["domainhref"] = href + "nnsinfo/" + (tasks[i].message.domain ? tasks[i].message.domain : "");
+            arr["resolver"] = "" + (tasks[i].message.contract ? (tasks[i].message.contract.substring(0, 4) + "..." + tasks[i].message.contract.substring(tasks[i].message.contract.length - 4)) : "");
             this.taskList.push(arr);
         }
     }
@@ -204,7 +210,7 @@ export default class FeatureComponent extends Vue
             clearInterval(item.timer);
         }
         let pendingText = '';
-        let seconds = '' + (new Date().getTime() - item[ "startTime" ]) / 1000;
+        let seconds = '' + (new Date().getTime() - item["startTime"]) / 1000;
         pendingText = `(${parseInt(seconds)}s)`;
         this.$set(item, 'pendingText', pendingText);
         let timer = setInterval(() =>
@@ -213,7 +219,7 @@ export default class FeatureComponent extends Vue
             {
                 clearInterval(timer);
             }
-            let seconds = '' + (new Date().getTime() - item[ "startTime" ]) / 1000;
+            let seconds = '' + (new Date().getTime() - item["startTime"]) / 1000;
             pendingText = `(${parseInt(seconds)}s)`;
             this.$set(item, 'pendingText', pendingText);
         }, 1000)
