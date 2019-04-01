@@ -129,7 +129,6 @@ export default class MyNeo extends Vue
     async getBindDomain()
     {
         let res = await tools.nnstool.getBindDomain(this.currentAddress);
-        console.log(res);
         if (res)
         {
             this.bindDomainName = res.domain;
@@ -178,6 +177,7 @@ export default class MyNeo extends Vue
         if (domain == this.currentdomain)
         {
             this.ownerState = 0;
+            this.ownerTransfer = false;
         }
         this.getMyDomainList(false);
     }
@@ -325,7 +325,7 @@ export default class MyNeo extends Vue
                         // 域名绑定确认中
                         else if (domain['bind'] && domain['bind'] === 'watting')
                         {
-                            list[i]['bind'] = true;// （域名不可下架为true）
+                            list[i]['bind'] = true;
                         }
                     }
                 } else
@@ -438,7 +438,6 @@ export default class MyNeo extends Vue
             try
             {
                 const res = await tools.nnstool.bindDomain(this.wantBindDomain, this.currentAddress);
-                console.log(res);
                 if (!res.err)
                 {
                     const txid = res.info;
@@ -472,6 +471,7 @@ export default class MyNeo extends Vue
         this.wantBindDomain = '';
         this.wantBindTime = '';
     }
+
     /**
      * 打开编辑域名
      * @param item 传入窗口的域名对象
@@ -879,6 +879,7 @@ export default class MyNeo extends Vue
             this.pageToMyneo(this.inputMyneoPage);
         }
     }
+    // 翻页跳转
     pageToMyneo(page: string)
     {
         let current = parseInt('' + page, 10);
@@ -960,7 +961,7 @@ export default class MyNeo extends Vue
             let msgs = [
                 { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
                 { title: this.$t("confirm.price"), value: this.domainSalePrice + " NNC" },
-                { title: this.$t("confirm.expirationTime"), value: this.domainInfo.ttltime }
+                { title: this.$t("confirm.expirationTime"), value: this.domainInfo.ttl }
             ]
             let confirmres = await this.tranConfirm(this.$t("confirm.listingConfirm"), msgs);
             if (confirmres)
@@ -977,7 +978,6 @@ export default class MyNeo extends Vue
                     this.closeSaleDialog();
                     this.openToast("success", "" + this.$t("myneoname.waitmsg3"), 5000);
                 }
-
             }
         } catch (error)
         {
@@ -1008,6 +1008,7 @@ export default class MyNeo extends Vue
                     this.closeUnSaleDialog();
                     this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
                 }
+
             }
         } catch (error)
         {

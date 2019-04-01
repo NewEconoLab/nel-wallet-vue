@@ -423,7 +423,7 @@
         </div>
         <div class="sale-smallbox">
           <div class="smallbox-label">{{$t('myneoname.time')}}:</div>
-          <div class="smallbox-div">{{domainInfo.ttltime}}</div>
+          <div class="smallbox-div">{{domainInfo.ttl}}</div>
         </div>
         <div class="sale-smallbox">
           <div class="smallbox-label">{{$t('myneoname.setprice')}}（NNC） :</div>

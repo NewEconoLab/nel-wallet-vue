@@ -50,7 +50,12 @@ export default class MyNeo extends Vue
     showListType: string = 'sell';// 我的交易记录显示类型
     isFirstFlag: boolean = true;//初始调用交易记录
     tranConfirm: Function;
-
+    bindDomainName: string;// 绑定的域名
+    bindDomainTime: string;// 绑定的域名的过期时间
+    showBindBox: number; // 绑定功能的弹窗，0为不弹，1为绑定
+    wantBindDomain: string;// 想要绑定或取消绑定的域名
+    wantBindTime: string;// 想要绑定的域名的过期时间
+    onBinding: number; // 0默认无状态，1为正在绑定，2为正在解除绑定
     constructor()
     {
         super();
@@ -81,6 +86,11 @@ export default class MyNeo extends Vue
         this.nncGet = new sessionStoreTool("getnnc");
         this.myNNCBalance = '0';
         this.isCanGetNNC = 0;
+        this.showBindBox = 0;
+        this.bindDomainName = '';
+        this.bindDomainTime = '';
+        this.wantBindDomain = '';
+        this.wantBindTime = '';
     }
 
     mounted()
@@ -103,6 +113,7 @@ export default class MyNeo extends Vue
     {
         this.getMyNNC();
         // this.getAllNeoName();
+        this.getBindDomain();
         this.getMyDomainList(true);
         if (this.isFirstFlag)
         {
@@ -111,6 +122,16 @@ export default class MyNeo extends Vue
         } else
         {
             this.getSaleDomainList(this.currentAddress, false, this.salePage);
+        }
+    }
+
+    async getBindDomain()
+    {
+        let res = await tools.nnstool.getBindDomain(this.currentAddress);
+        if (res)
+        {
+            this.bindDomainName = res.domain;
+            this.bindDomainTime = tools.timetool.getTime(parseFloat(res.ttl));
         }
     }
     async getMyNNC()
@@ -298,6 +319,11 @@ export default class MyNeo extends Vue
                         {
                             list[i]['delist'] = true;// （域名不可下架为true）
                         }
+                        // 域名绑定确认中
+                        else if (domain['bind'] && domain['bind'] === 'watting')
+                        {
+                            list[i]['bind'] = true;
+                        }
                     }
                 } else
                 {
@@ -307,6 +333,7 @@ export default class MyNeo extends Vue
                     list[i]['selling'] = false;
                     list[i]['transfering'] = false;
                     list[i]['delist'] = false;
+                    list[i]['bind'] = false;
                 }
                 list[i]["ttl"] = tools.timetool.getTime(res[i]["ttl"])
             }
@@ -340,6 +367,106 @@ export default class MyNeo extends Vue
     {
         this.resolverAddress = "";
         this.mappingState = 0;
+    }
+    /**
+     * 取消绑定
+     * @param item 
+     */
+    async onCancelBind()
+    {
+        this.openToast = this.$refs.toast["isShow"];
+        let msgs = [
+            { title: this.$t("confirm.addr"), value: this.currentAddress },
+            { title: this.$t("confirm.unbind"), value: this.bindDomainName }
+        ]
+        let confirmres = await this.tranConfirm(this.$t("confirm.unbindtitle"), msgs);
+        if (confirmres)
+        {
+            try
+            {
+                const res = await tools.nnstool.cancalBindDomain(this.currentAddress);
+                if (!res.err)
+                {
+                    const txid = res.info;
+                    TaskManager.addTask(
+                        new Task(ConfirmType.contract, txid, { domain: this.bindDomainName, address: this.currentAddress }),
+                        TaskType.delBindDomain);
+                    this.domainEdit.put(this.bindDomainName, "watting", "unbind");
+
+                    this.openToast("success", "" + this.$t("myneoname.waidunbind"), 5000);
+                    this.initListData(this.neonameList);
+                } else
+                {
+                    this.openToast("error", "" + this.$t("errormsg.msg3"), 3000);
+                    throw new Error("Delete Bind failed");
+                }
+            } catch (error)
+            {
+                console.log("ERROR!!");
+            }
+        }
+    }
+    /**
+     * 绑定域名
+     * @param item 
+     */
+    onBindDomain(item)
+    {
+        this.showBindBox = 1;
+        this.wantBindDomain = item.domain;
+        this.wantBindTime = item.ttl;
+    }
+    /**
+     * 再次确认绑定域名
+     * @param item 
+     */
+    async onCheckBindDomain()
+    {
+        // this.showBindBox = 2;
+        this.openToast = this.$refs.toast["isShow"];
+        let msgs = [
+            { title: this.$t("confirm.addr"), value: this.currentAddress },
+            { title: this.$t("confirm.bind"), value: this.wantBindDomain },
+            { title: this.$t("confirm.expirationTime"), value: this.wantBindTime }
+        ]
+        let confirmres = await this.tranConfirm(this.$t("confirm.bindtitle"), msgs);
+        if (confirmres)
+        {
+            try
+            {
+                const res = await tools.nnstool.bindDomain(this.wantBindDomain, this.currentAddress);
+                if (!res.err)
+                {
+                    const txid = res.info;
+                    TaskManager.addTask(
+                        new Task(ConfirmType.contract, txid, { domain: this.wantBindDomain, address: this.currentAddress }),
+                        TaskType.bindDomain);
+                    this.domainEdit.put(this.wantBindDomain, "watting", "bind");
+                    this.onCloseBindDomain();
+                    this.openToast("success", "" + this.$t("myneoname.waitbind"), 5000);
+                    this.initListData(this.neonameList);
+                } else
+                {
+                    this.onCloseBindDomain();
+                    this.openToast("error", "" + this.$t("errormsg.msg3"), 3000);
+                    throw new Error("Bind failed");
+                }
+            } catch (error)
+            {
+                console.log("ERROR!!");
+                this.onCloseBindDomain()
+            }
+        }
+    }
+
+    /**
+     * 关闭绑定窗口
+     */
+    onCloseBindDomain()
+    {
+        this.showBindBox = 0;
+        this.wantBindDomain = '';
+        this.wantBindTime = '';
     }
 
     /**
@@ -455,6 +582,11 @@ export default class MyNeo extends Vue
                 this.closeTranferDomain()
             }
         }
+        else
+        {
+            this.ownerState = oldstate;
+            this.closeTranferDomain()
+        }
     }
 
     /**
@@ -542,7 +674,8 @@ export default class MyNeo extends Vue
     {
         let root = await tools.nnstool.getRootInfo("neo");
         let domain = this.domainInfo.domain;
-        let time = tools.timetool.getTime(this.domainInfo.ttl * 5 * 60 * 1000 * 365);
+        let ttl = (new Date(this.domainInfo.ttl).getTime()) + 24 * 60 * 60 * 1000 * 365;
+        let time = tools.timetool.getTime(ttl);
         let msgs = [
             { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
             { title: this.$t("confirm.renewalto"), value: time }
@@ -827,7 +960,7 @@ export default class MyNeo extends Vue
             let msgs = [
                 { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
                 { title: this.$t("confirm.price"), value: this.domainSalePrice + " NNC" },
-                { title: this.$t("confirm.expirationTime"), value: this.domainInfo.ttltime }
+                { title: this.$t("confirm.expirationTime"), value: this.domainInfo.ttl }
             ]
             let confirmres = await this.tranConfirm(this.$t("confirm.listingConfirm"), msgs);
             if (confirmres)

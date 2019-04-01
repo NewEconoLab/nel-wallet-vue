@@ -1071,7 +1071,6 @@ export class TaskManager
             task.confirm++;
             return task;
         });
-        console.log(taskarr);
 
         this.taskStore.put(TaskType.delBindDomain.toString(), taskarr); //保存修改的状态
     }

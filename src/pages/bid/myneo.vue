@@ -1,5 +1,6 @@
 <template>
   <div class="myneo-box">
+    <!-- 我的收入 -->
     <div class="title">
       <span>{{$t('myneoname.myIncome')}}</span>
     </div>
@@ -23,6 +24,23 @@
           :class="{'btn-disable':isCanGetNNC==0}"
           :disabled="isCanGetNNC==0"
         >{{$t('btn.claim')}}</button>
+      </div>
+    </div>
+    <!-- 我的绑定域名 -->
+    <div class="title">
+      <span>{{$t('myneoname.mybind')}}</span>
+    </div>
+    <div class="mydomain-tips">{{$t('myneoname.mybindtips')}}</div>
+    <div class="form-box">
+      <div class="nnc-wrap">
+        <template v-if="bindDomainName!==''">
+          <strong>{{$t('myneoname.binddomain')}}：{{bindDomainName}}</strong>
+          <span class="bind-time">{{$t('myneoname.time')}}：{{bindDomainTime}}</span>
+        </template>
+        <p v-else>{{$t('myneoname.mybindtips2')}}</p>
+      </div>
+      <div class="btn-right" v-if="bindDomainName!==''">
+        <button class="btn btn-nel btn-bid" @click="onCancelBind">{{$t('btn.unbind')}}</button>
       </div>
     </div>
     <!-- 域名列表 -->
@@ -53,7 +71,7 @@
       </div>
     </div>
     <div class="mydomain-tips">{{$t('myneoname.note2')}}</div>
-    <div class="form-box" v-for="(item,index) in neonameList" :key="index">
+    <div class="form-box myneo-list" v-for="(item,index) in neonameList" :key="index">
       <div class="neoname">{{item.domain}}</div>
       <div
         class="addr-resolver"
@@ -91,8 +109,8 @@
         >{{$t('myneoname.transferring')}}</button>-->
         <button
           class="btn btn-nel btn-bid"
-          :class="{'btn-disable':item.transfering}"
-          :disabled="!!item.transfering"
+          :class="{'btn-disable':item.transfering||bindDomainName==item.domain}"
+          :disabled="!!item.transfering||bindDomainName==item.domain"
           @click="showTranferDomain(item)"
         >{{$t('myneoname.transfer')}}</button>
         <button
@@ -100,10 +118,24 @@
           data-toggle="tooltip"
           data-placement="bottom"
           :title="$t('myneoname.btntip')"
-          :class="{'btn-disable':item.resolverAddr||item.selling}"
-          :disabled="!!item.resolverAddr || !!item.selling"
+          :class="{'btn-disable':item.resolverAddr||item.selling||bindDomainName==item.domain}"
+          :disabled="!!item.resolverAddr || !!item.selling||bindDomainName==item.domain"
           @click="onShowSaleDialog(item)"
         >{{$t('btn.sell')}}</button>
+        <button
+          class="btn btn-nel btn-bid"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          v-if="bindDomainName!=item.domain"
+          @click="onBindDomain(item)"
+        >{{$t('btn.bind')}}</button>
+        <button
+          class="btn btn-nel btn-bid"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          v-else
+          @click="onCancelBind()"
+        >{{$t('btn.unbind')}}</button>
       </div>
       <div class="btn-right" v-if="!item.expired && item.state == '0901'">
         <div class="status-text">{{$t('btn.selling')}}</div>
@@ -445,6 +477,39 @@
         </div>
       </div>
     </div>
+    <!-- 绑定弹筐 -->
+    <div class="bind-wrapper" v-if="showBindBox==1">
+      <div class="bind-box">
+        <div class="bind-title">
+          <h4>{{$t('myneoname.binddomain')}}</h4>
+          <p>{{$t('myneoname.bindtips')}}</p>
+        </div>
+        <div class="bind-inline">
+          <span>{{$t('myneoname.addr')}} : {{currentAddress}}</span>
+          <span
+            class="red-text"
+            v-if="bindDomainName!==''"
+          >( {{$t('myneoname.binded')}} : {{bindDomainName}} )</span>
+        </div>
+        <div class="bind-inline">
+          <span>{{$t('myneoname.binddomain')}} : {{wantBindDomain}}</span>
+        </div>
+        <div class="bind-inline">
+          <span>{{$t('myneoname.time')}} : {{wantBindTime}}</span>
+        </div>
+        <div class="bind-btn">
+          <button
+            class="btn btn-nel btn-big"
+            v-if="bindDomainName!==''"
+            @click="onCheckBindDomain"
+          >{{$t('btn.tibind')}}</button>
+          <button class="btn btn-nel btn-big" v-else @click="onCheckBindDomain">{{$t('btn.bind')}}</button>
+        </div>
+        <div class="bind-close">
+          <span aria-hidden="true" @click="showBindBox=0">&times;</span>
+        </div>
+      </div>
+    </div>
     <v-confirm ref="tranConfirm"></v-confirm>
   </div>
 </template>
@@ -551,6 +616,9 @@
     color: #c5c5c5;
     padding: 0 20px 20px 20px;
   }
+  .myneo-list {
+    height: 272px;
+  }
   .form-box {
     background: #454f60;
     border-radius: 5px;
@@ -563,6 +631,8 @@
       strong {
         font-size: 20px;
         font-weight: 500;
+        margin-bottom: 20px;
+        display: block;
         span {
           font-size: 30px;
         }
@@ -570,7 +640,11 @@
       p {
         font-size: 14px;
         color: #c5c5c5;
-        margin-top: 20px;
+      }
+      .bind-time {
+        display: block;
+        font-size: 14px;
+        color: #ffffff;
       }
     }
     .neoname {
@@ -580,7 +654,7 @@
     .neoname,
     .addr-resolver,
     .addr-mapping {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
     .time-msg {
       margin-bottom: 45px;
@@ -839,6 +913,62 @@
       }
       .unsale-btn {
         text-align: center;
+      }
+    }
+  }
+  .bind-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    z-index: 1030;
+    .bind-box {
+      background: #454f60;
+      padding: 30px 50px 50px 50px;
+      width: 80%;
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -moz-transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 5px;
+      font-size: 16px;
+      .bind-title {
+        h4 {
+          font-size: 20px;
+        }
+        p {
+          font-size: 14px;
+          color: #c5c5c5;
+        }
+      }
+      .bind-inline {
+        font-size: 16px;
+        color: #ffffff;
+        margin-top: 50px;
+        .red-text {
+          font-size: 14px;
+          color: #f76260;
+          // display: inline-block;
+          // margin-left: 30px;
+        }
+      }
+      .bind-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+      }
+      .bind-btn {
+        text-align: center;
+        margin-top: 50px;
       }
     }
   }
