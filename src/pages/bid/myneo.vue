@@ -291,7 +291,7 @@
             <div class="input-box">
               <input
                 type="text"
-                v-model="resolverAddress"
+                v-model="resolverAddr"
                 @input="verifyMapping"
                 class
                 autocomplete="off"

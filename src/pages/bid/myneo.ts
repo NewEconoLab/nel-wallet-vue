@@ -15,7 +15,7 @@ export default class MyNeo extends Vue
     showMydomainList: any;
     domainInfo: any;
     set_contract: string;
-    resolverAddress: string;
+    resolverAddr: string;
     ownerAddress: string;
     mappingistrue: boolean;
     mappingState: number;
@@ -66,7 +66,7 @@ export default class MyNeo extends Vue
         this.set_contract = "0x6e2aea28af9c5febea0774759b1b76398e3167f1";
         this.domainEdit = new sessionStoreTool("domain-edit");
         this.renewalWatting = false;
-        this.resolverAddress = "";
+        this.resolverAddr = "";
         this.mappingState = 0;
         this.resolverState = 0;
         this.mappingistrue = false;
@@ -91,6 +91,7 @@ export default class MyNeo extends Vue
         this.bindDomainTime = '';
         this.wantBindDomain = '';
         this.wantBindTime = '';
+        this.onBinding = 0;
     }
 
     mounted()
@@ -181,12 +182,12 @@ export default class MyNeo extends Vue
 
     verifyMapping()
     {
-        if (!this.resolverAddress)
+        if (!this.resolverAddr)
         {
             this.mappingistrue = false;
             return;
         }
-        let res = tools.neotool.verifyAddress(this.resolverAddress);
+        let res = tools.neotool.verifyAddress(this.resolverAddr);
         this.mappingistrue = res;
     }
 
@@ -358,14 +359,14 @@ export default class MyNeo extends Vue
     resetresolve()
     {
         this.resolverState = 0;
-        this.resolverAddress = "";
+        this.resolverAddr = "";
         this.mappingState = 0;
         this.mappingistrue = false;
     }
 
     resetmappingData()
     {
-        this.resolverAddress = "";
+        this.resolverAddr = "";
         this.mappingState = 0;
     }
     /**
@@ -476,15 +477,14 @@ export default class MyNeo extends Vue
     onShowEdit(item)
     {
         this.domainInfo = item;
-        this.resolverAddress = item.resolverAddress;
-        this.mappingistrue = tools.neotool.verifyAddress(this.resolverAddress);
-        this.mappingState = this.domainInfo.resolverAddress ? 1 : 0;
+        this.resolverAddr = item.resolverAddr;
+        this.mappingistrue = tools.neotool.verifyAddress(this.resolverAddr);
+        this.mappingState = this.domainInfo.resolverAddr ? 1 : 0;
         this.resolverState = this.domainInfo.resolver ? 1 : 0;
         this.renewalWatting = false;
         this.isShowEdit = !this.isShowEdit;
         this.currentdomain = item.domain;
         // this.verifySetOwner(this.currentdomain);
-
         let domain = this.domainEdit.select(item.domain);
         if (domain)
         {
@@ -495,7 +495,7 @@ export default class MyNeo extends Vue
             if (domain['mapping'] && domain['mapping']['state'] && domain['mapping']['state'] === 'watting')
             {
                 this.mappingState = 2;
-                this.resolverAddress = domain['mapping']['address'];
+                this.resolverAddr = domain['mapping']['address'];
             }
             if (domain['renewal'] && domain['renewal'] === 'watting')
             {
@@ -546,7 +546,7 @@ export default class MyNeo extends Vue
         {
             try
             {
-                if (this.resolverAddress != "" && this.mappingState != 0)
+                if (this.resolverAddr != "" && this.mappingState != 0)
                 {
                     this.resetmappingData()
                     await this.mappingData();
@@ -636,20 +636,20 @@ export default class MyNeo extends Vue
         {
             let msgs = [
                 { title: this.$t("confirm.domain"), value: this.domainInfo.domain },
-                { title: this.$t("confirm.addrmapping"), value: this.resolverAddress }
+                { title: this.$t("confirm.addrmapping"), value: this.resolverAddr }
             ]
             let confirmres = await this.tranConfirm(this.$t("confirm.addrMappingConfirm"), msgs);
             if (confirmres)
             {
                 this.mappingState = 2;
-                let res = await tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddress, this.domainInfo.resolver);
+                let res = await tools.nnstool.setResolveData(this.domainInfo.domain, this.resolverAddr, this.set_contract);
                 if (!res.err)
                 {
                     let txid = res.info;
                     TaskManager.addTask(
-                        new Task(ConfirmType.contract, txid, { domain: this.domainInfo.domain, address: this.resolverAddress }),
+                        new Task(ConfirmType.contract, txid, { domain: this.domainInfo.domain, address: this.resolverAddr }),
                         TaskType.domainMapping);
-                    this.domainEdit.put(this.domainInfo.domain, { state: "watting", address: this.resolverAddress }, "mapping");
+                    this.domainEdit.put(this.domainInfo.domain, { state: "watting", address: this.resolverAddr }, "mapping");
                 } else
                 {
                     this.mappingState = oldstate;
@@ -722,7 +722,7 @@ export default class MyNeo extends Vue
             this.mappingState = 1;
             if (address)
             {
-                this.resolverAddress = address;
+                this.resolverAddr = address;
             }
         }
     }
@@ -965,7 +965,6 @@ export default class MyNeo extends Vue
             let confirmres = await this.tranConfirm(this.$t("confirm.listingConfirm"), msgs);
             if (confirmres)
             {
-                // this.resolverState = 2;
                 let res = await tools.nnstool.saleDomain(this.domainInfo["domain"], this.domainSalePrice);
                 if (!res.err)
                 {
@@ -976,6 +975,7 @@ export default class MyNeo extends Vue
                     this.domainEdit.put(this.domainInfo.domain, "watting", "sale");
                     this.closeSaleDialog();
                     this.openToast("success", "" + this.$t("myneoname.waitmsg3"), 5000);
+                    await this.initListData(this.neonameList);
                 }
             }
         } catch (error)
@@ -1006,6 +1006,7 @@ export default class MyNeo extends Vue
                     this.domainEdit.put(this.domainInfo.domain, "watting", "unsale");
                     this.closeUnSaleDialog();
                     this.openToast("success", "" + this.$t("myneoname.waitmsg4"), 5000);
+                    await this.initListData(this.neonameList);
                 }
 
             }

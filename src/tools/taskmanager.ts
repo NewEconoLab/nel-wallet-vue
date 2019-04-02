@@ -1003,7 +1003,6 @@ export class TaskManager
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
             let result = ress[task.txid]; //获取通知数组
-            console.log(result);
             if (task.type == ConfirmType.contract)
             {
                 if (result && result["vmstate"] && result["vmstate"] != "")
@@ -1044,7 +1043,6 @@ export class TaskManager
         let taskarr = this.forConfirm(tasks, (task: Task) =>
         {
             let result = ress[task.txid]; //获取通知数组
-            console.log(result);
             if (task.type == ConfirmType.contract)
             {
                 if (result && result["vmstate"] && result["vmstate"] != "")
