@@ -68,6 +68,10 @@
                 <img class="transfer-icon" src="../../../static/img/transfer.png" alt>
                 <span class="map-address">{{toaddress}}</span>
               </p>
+              <p v-if="isAddress&&bindDomain!=''">
+                <img class="transfer-icon" src="../../../static/img/transfer.png" alt>
+                <span class="map-address">{{bindDomain}}</span>
+              </p>
             </div>
             <div class="col-sm-3 mess">
               <p v-if="addrerr==2||addrerr==4">

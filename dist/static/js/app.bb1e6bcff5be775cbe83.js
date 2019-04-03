@@ -743,7 +743,7 @@ var WWW = /** @class */ (function () {
             });
         });
     };
-    //获取转账域名地址    
+    //根据域名查询映射地址    
     WWW.getresolvedaddress = function (domain) {
         return __awaiter(this, void 0, void 0, function () {
             var postdata, result, json, r;
@@ -752,6 +752,28 @@ var WWW = /** @class */ (function () {
                     case 0:
                         postdata = WWW.makeRpcPostBody("getresolvedaddress", domain);
                         return [4 /*yield*/, fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, result.json()];
+                    case 2:
+                        json = _a.sent();
+                        if (json["result"] == null)
+                            return [2 /*return*/, null];
+                        r = json["result"][0];
+                        return [2 /*return*/, r];
+                }
+            });
+        });
+    };
+    // 根据地址查询绑定域名
+    WWW.getboundDomain = function (addr) {
+        return __awaiter(this, void 0, void 0, function () {
+            var postdata, result, json, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        postdata = WWW.makeRpcPostBody("getMappingDomain", addr);
+                        return [4 /*yield*/, fetch(WWW.scanApi, { "method": "post", "body": JSON.stringify(postdata) })];
                     case 1:
                         result = _a.sent();
                         return [4 /*yield*/, result.json()];
@@ -1410,6 +1432,7 @@ var WWW = /** @class */ (function () {
     };
     WWW.api = "https://api.nel.group/api/testnet";
     WWW.apiaggr = "https://apiwallet.nel.group/api/testnet";
+    WWW.scanApi = "https://apiscan.nel.group/api/testnet";
     return WWW;
 }());
 exports.WWW = WWW;

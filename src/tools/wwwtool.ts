@@ -3,6 +3,7 @@ export class WWW
 {
     static api: string = "https://api.nel.group/api/testnet";
     static apiaggr: string = "https://apiwallet.nel.group/api/testnet";
+    static scanApi: string = "https://apiscan.nel.group/api/testnet";
     static makeRpcUrl(url: string, method: string, ..._params: any[])
     {
         if (url[url.length - 1] != '/')
@@ -308,11 +309,22 @@ export class WWW
         var r = json["result"][0]
         return r;
     }
-    //获取转账域名地址    
+    //根据域名查询映射地址    
     static async getresolvedaddress(domain: string)
     {
         var postdata = WWW.makeRpcPostBody("getresolvedaddress", domain);
         var result = await fetch(WWW.apiaggr, { "method": "post", "body": JSON.stringify(postdata) });
+        var json = await result.json();
+        if (json["result"] == null)
+            return null;
+        var r = json["result"][0]
+        return r;
+    }
+    // 根据地址查询绑定域名
+    static async getboundDomain(addr: string)
+    {
+        var postdata = WWW.makeRpcPostBody("getMappingDomain", addr);
+        var result = await fetch(WWW.scanApi, { "method": "post", "body": JSON.stringify(postdata) });
         var json = await result.json();
         if (json["result"] == null)
             return null;

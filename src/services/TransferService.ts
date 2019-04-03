@@ -7,12 +7,11 @@ export class TransferService
     {
         const transactionHistory: History[] = [];
         const txs = await tools.wwwtool.gettransbyaddress(address, pagesize, pageindex)
-        console.log(txs);
 
         for (const key in txs)
         {
             const his = new History()
-            his.paresTx(txs[ key ])
+            his.paresTx(txs[key])
             transactionHistory.push(his);
         }
         return transactionHistory;
