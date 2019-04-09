@@ -2341,7 +2341,7 @@ var Consts = /** @class */ (function () {
     Consts.registerContract = Neo.Uint160.parse("d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c");
     // static domainContract = '954f285a93eed7b4aed9396a7806a5812f1a5950';
     Consts.saleContract = Neo.Uint160.parse("c4d09243258364e0e028852640218e08534f0466");
-    Consts.bindContract = Neo.Uint160.parse("77bf387c9b5f2e2c33ef8507478b103285c55b11");
+    Consts.bindContract = Neo.Uint160.parse("960b41a05588d2f55acbc13a1e3aa464eec6fff5");
     return Consts;
 }());
 exports.Consts = Consts;
