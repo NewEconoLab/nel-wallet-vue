@@ -404,6 +404,8 @@ export default {
         claimnnc: "NNC Claim",
         requestnnc: "Request NNC",
         domaintransfer: "Domain transfer",
+        unbind: "Unbind",
+        bind: "Bind domain",
     },
     notify: {
         utxo: "Your UTXO is too scattered, which may cause the CGAS conversion to fail (GAS will also be lost). Please transfer some GAS( the amount shall be no less than your conversion amount) to your own address first and then convert GAS into CGAS after the transfer operation is confirmed.",

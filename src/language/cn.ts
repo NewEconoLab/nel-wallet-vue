@@ -401,6 +401,8 @@ export default {
         claimnnc: "提取NNC",
         requestnnc: "索取NNC",
         domaintransfer: "转让域名",
+        unbind: "取消绑定",
+        bind: "绑定域名",
     },
     notify: {
         utxo: "您的UTXO过于分散，将可能造成CGAS兑换失败（GAS也会损失），请先对自己的地址执行一次不小于兑换金额的转账，待转账操作生效后再行兑换",

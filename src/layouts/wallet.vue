@@ -683,7 +683,7 @@
                     <!-- 绑定域名 -->
                     <div v-if="item.tasktype == 20">
                       <div class="th-type">
-                        <div class="th-typename">绑定域名</div>
+                        <div class="th-typename">{{$t('operation.bind')}}</div>
                         <div class="th-other">
                           <div class="th-number">
                             <a
@@ -721,7 +721,7 @@
                     <!-- 取消绑定域名 -->
                     <div v-if="item.tasktype == 21">
                       <div class="th-type">
-                        <div class="th-typename">取消绑定</div>
+                        <div class="th-typename">{{$t('operation.unbind')}}</div>
                         <div class="th-other">
                           <div class="th-number">
                             <a
