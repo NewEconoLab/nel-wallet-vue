@@ -7907,7 +7907,7 @@ exports.default = {
         buylist: "Bought",
         mybind: "My bound domain",
         mybindtips: "Bind a unique domain to your wallet address. After that the bound domain will be displayed when others enter the wallet address.",
-        binddomain: "Bind the domain name",
+        binddomain: "Bound domain",
         mybindtips2: "No domain bound",
         bindtips: "Bind a unique domain to your wallet address. After that the bound domain will be displayed when others enter the wallet address.The binding automatically expires after the domain expires. When the address with a  bound domain is re-bound, the new domain will replace the old domain.",
         addr: "Address",
