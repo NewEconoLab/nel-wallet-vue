@@ -116,13 +116,15 @@ export default class MyNeo extends Vue
         this.getMyNNC();
         // this.getAllNeoName();
         this.getBindDomain();
-        this.getMyDomainList(true);
+        // this.getMyDomainList(true);
         if (this.isFirstFlag)
         {
+            this.getMyDomainList(true);
             this.getSaleDomainList(this.currentAddress, true, this.salePage);
             this.isFirstFlag = false;
         } else
         {
+            this.getMyDomainList(false);
             this.getSaleDomainList(this.currentAddress, false, this.salePage);
         }
     }
@@ -252,6 +254,7 @@ export default class MyNeo extends Vue
     }
     async getMyDomainList(isFirst: boolean)
     {
+        console.log(this.myDomainListPage)
         let res = [];
         if (isFirst)
         {
