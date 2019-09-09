@@ -10,16 +10,16 @@ export class ExchangeService
     async exchangeCGas(count: number)
     {
         //获得登陆信息
-        let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);
+        let script = tools.contract.buildScript(tools.coinTool.id_CGAS, "mintTokens", []);
         //获得sgas的合约地址
-        var cgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        var cgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_CGAS);
 
         let res = new Result();
         try
         {
             let utxos = await tools.coinTool.getassets();
             let tranmsg = tools.coinTool.makeTran(utxos, cgasaddr, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(count));
-            let tran: ThinNeo.Transaction = tranmsg.info[ 'tran' ];
+            let tran: ThinNeo.Transaction = tranmsg.info['tran'];
             if (!tranmsg.err)
             {
                 if (tran.inputs.length + tran.outputs.length > 60)
@@ -38,11 +38,11 @@ export class ExchangeService
                     (tran.extdata as ThinNeo.InvokeTransData).gas = Neo.Fixed8.fromNumber(0);
                     let data = await tools.coinTool.signData(tran);
                     let result = await tools.wwwtool.api_postRawTransaction(data);
-                    res.err = !result[ "sendrawtransactionresult" ];
+                    res.err = !result["sendrawtransactionresult"];
                     if (res.err)
                         res.info = { code: "-100", msg: "" };
                     else
-                        res.info = result[ "txid" ];
+                        res.info = result["txid"];
 
                     return res;
                 }
@@ -63,7 +63,7 @@ export class ExchangeService
     async splitUtxo()
     {
         let utxos = await tools.coinTool.getassets();
-        let gass = utxos[ tools.coinTool.id_GAS ];
+        let gass = utxos[tools.coinTool.id_GAS];
         let tran = new ThinNeo.Transaction();
 
         tran.type = ThinNeo.TransactionType.ContractTransaction;
@@ -77,7 +77,7 @@ export class ExchangeService
         let count = Neo.Fixed8.Zero;
         for (const i in gass)
         {
-            const gas = gass[ i ];
+            const gas = gass[i];
             let input = new ThinNeo.TransactionInput();
             input.hash = gas.txid.hexToBytes().reverse();
             input.index = gas.n;

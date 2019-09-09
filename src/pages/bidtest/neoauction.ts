@@ -68,7 +68,7 @@ export default class NeoAuctionTest extends Vue
         this.alert_myBid = "";
         this.address = LoginInfo.getCurrentAddress();
         this.regBalance = '0';
-        let SGas = tools.coinTool.id_SGAS.toString();
+        let SGas = tools.coinTool.id_CGAS.toString();
         let Gas = tools.coinTool.id_GAS;
         this.selectList = {}
         this.selectList[Gas] = "Gas"
@@ -106,7 +106,7 @@ export default class NeoAuctionTest extends Vue
         this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
         this.openToast = this.$refs.toast["isShow"];
         this.getBidList(true);
-        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_CGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable.toString() + " CGAS";
         TaskManager.functionList = [];
@@ -147,7 +147,7 @@ export default class NeoAuctionTest extends Vue
     async refreshPage()
     {
         this.regBalance = await tools.nnssell.getBalanceOf(this.address, this.rootInfo.register);
-        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_CGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5["nep5balance"];
         await services.auction_test.updateAuctionList(this.address);
         this.getBidList(false);
@@ -293,7 +293,7 @@ export default class NeoAuctionTest extends Vue
     {
         this.alert_TopUp.watting = false;
         this.sessionWatting.put("topup", false);
-        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_CGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
     }
@@ -302,7 +302,7 @@ export default class NeoAuctionTest extends Vue
     {
         this.alert_withdraw.watting = false;
         this.sessionWatting.put("withdraw", false);
-        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_CGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
     }
@@ -411,7 +411,7 @@ export default class NeoAuctionTest extends Vue
      */
     async openTopUp()
     {
-        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_CGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
         this.alert_TopUp.watting = this.sessionWatting.select("topup") ? true : false;
@@ -438,7 +438,7 @@ export default class NeoAuctionTest extends Vue
      */
     async openWithdraw()
     {
-        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_SGAS.toString(), LoginInfo.getCurrentAddress());
+        let nep5 = await tools.wwwtool.getnep5balanceofaddress(tools.coinTool.id_CGAS.toString(), LoginInfo.getCurrentAddress());
         this.sgasAvailable = nep5["nep5balance"];
         this.alert_available = this.sgasAvailable + " CGAS";
         this.alert_withdraw.watting = this.sessionWatting.select("withdraw") ? true : false;

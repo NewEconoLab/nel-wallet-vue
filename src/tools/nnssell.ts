@@ -110,9 +110,9 @@ export default class NNSSell
 
     static async gasToRecharge(transcount: number, register: Neo.Uint160)
     {
-        let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);
+        let script = tools.contract.buildScript(tools.coinTool.id_CGAS, "mintTokens", []);
         //获得sgas的合约地址
-        var sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        var sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_CGAS);
         try
         {
             let data1 = await tools.contract.buildInvokeTransData(script, sgasaddr, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
@@ -158,7 +158,7 @@ export default class NNSSell
             "(int)" + amount.replace(".", "")//value
         ]);//参数倒序入
         sb.EmitPushString("transfer");//参数倒序入
-        sb.EmitAppCall(tools.coinTool.id_SGAS);//nep5脚本
+        sb.EmitAppCall(tools.coinTool.id_CGAS);//nep5脚本
 
         ////这个方法是为了在同一笔交易中转账并充值
         ////当然你也可以分为两笔交易

@@ -14,9 +14,9 @@ export default class SgasTool
     static async makeMintTokenTransaction(transcount)
     {
         //获得登陆信息
-        let script = tools.contract.buildScript(tools.coinTool.id_SGAS, "mintTokens", []);
+        let script = tools.contract.buildScript(tools.coinTool.id_CGAS, "mintTokens", []);
         //获得sgas的合约地址
-        var sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        var sgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_CGAS);
         try
         {
             let txid = await tools.contract.contractInvokeTrans(script, sgasaddr, tools.coinTool.id_GAS, Neo.Fixed8.fromNumber(transcount));
@@ -37,7 +37,7 @@ export default class SgasTool
         //获取sgas合约地址的资产列表
         let utxos_current = await tools.coinTool.getassets();
         let utxos_cgas = await tools.wwwtool.getavailableutxos(LoginInfo.getCurrentAddress(), transcount);
-        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_SGAS);
+        var nepAddress = ThinNeo.Helper.GetAddressFromScriptHash(tools.coinTool.id_CGAS);
         let gass: UTXO[] = utxos_current[tools.coinTool.id_GAS];
         var cgass: UTXO[] = []
         for (var i in utxos_cgas)
@@ -80,38 +80,27 @@ export default class SgasTool
             throw "";
         }
 
-        var r = await tools.wwwtool.api_getcontractstate(tools.coinTool.id_SGAS.toString())
-        if (r && r['script'])
-        {
-            var sgasScript = r['script'].hexToBytes();
+        var scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress())
 
-            var scriptHash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(LoginInfo.getCurrentAddress())
+        tran.type = ThinNeo.TransactionType.InvocationTransaction;
+        (tran.extdata as ThinNeo.InvokeTransData).script
+            = tools.contract.buildScript(tools.coinTool.id_CGAS, "refund", ["(bytes)" + scriptHash.toHexString()]);
 
-            tran.type = ThinNeo.TransactionType.InvocationTransaction;
-            (tran.extdata as ThinNeo.InvokeTransData).script
-                = tools.contract.buildScript(tools.coinTool.id_SGAS, "refund", ["(bytes)" + scriptHash.toHexString()]);
+        //附加鉴证
+        tran.attributes = new Array<ThinNeo.Attribute>(1);
+        tran.attributes[0] = new ThinNeo.Attribute();
+        tran.attributes[0].usage = ThinNeo.TransactionAttributeUsage.Script;
+        tran.attributes[0].data = scriptHash;
+        //构建一个script
+        let sb = new ThinNeo.ScriptBuilder();
+        sb.EmitPushString("whatever")
+        sb.EmitPushNumber(new Neo.BigInteger(250));
+        tran.AddWitnessScript(new Uint8Array(0), sb.ToArray(), tools.coinTool.id_CGAS.toArray());
 
-            //附加鉴证
-            tran.attributes = new Array<ThinNeo.Attribute>(1);
-            tran.attributes[0] = new ThinNeo.Attribute();
-            tran.attributes[0].usage = ThinNeo.TransactionAttributeUsage.Script;
-            tran.attributes[0].data = scriptHash;
-            //构建一个script
-            let sb = new ThinNeo.ScriptBuilder();
-            sb.EmitPushString("whatever")
-            sb.EmitPushNumber(new Neo.BigInteger(250));
-            tran.AddWitnessScript(sgasScript, sb.ToArray());
-
-            let txid = tran.GetTxid();
-            //做提款人的签名
-            var data = await tools.coinTool.signData(tran);
-            return { txid, data };
-        }
-        else
-        {
-            throw "Contract acquisition failure";
-        }
-
+        let txid = tran.GetTxid();
+        //做提款人的签名
+        var data = await tools.coinTool.signData(tran);
+        return { txid, data };
 
     }
 
@@ -152,25 +141,13 @@ export default class SgasTool
         {
             console.log(error);
         }
-        //sign and broadcast
-        //做智能合约的签名
-        var r = await tools.wwwtool.api_getcontractstate(tools.coinTool.id_SGAS.toString())
+        var sb = new ThinNeo.ScriptBuilder();
+        sb.EmitPushNumber(new Neo.BigInteger(0));
+        sb.EmitPushNumber(new Neo.BigInteger(0));
+        tran.AddWitnessScript(new Uint8Array(0), sb.ToArray(), tools.coinTool.id_CGAS.toArray());
+        var trandata = tran.GetRawData();
 
-        if (r && r['script'])
-        {
-            var sgasScript = r['script'].hexToBytes();
-            var sb = new ThinNeo.ScriptBuilder();
-            sb.EmitPushNumber(new Neo.BigInteger(0));
-            sb.EmitPushNumber(new Neo.BigInteger(0));
-            tran.AddWitnessScript(sgasScript, sb.ToArray());
-            var trandata = tran.GetRawData();
-
-            return trandata;
-        }
-        else
-        {
-            // this.makeRefundTransaction_error("获取转换合约失败！")
-        }
+        return trandata;
 
     }
 

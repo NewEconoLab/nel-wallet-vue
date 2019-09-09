@@ -83,7 +83,7 @@ export default class Exchange extends Vue
      */
     async getMySGas()
     {
-        let res = await tools.wwwtool.getnep5balanceofaddress('0x' + tools.coinTool.id_SGAS.toString(), this.currentAddress);
+        let res = await tools.wwwtool.getnep5balanceofaddress('0x' + tools.coinTool.id_CGAS.toString(), this.currentAddress);
         if (res && res.nep5balance)
         {
             this.mySGas = parseFloat(res.nep5balance);

@@ -336,7 +336,7 @@ export default class login extends Vue
         var sb = new ThinNeo.ScriptBuilder();
         sb.EmitParamJson([]);//第二个参数是个数组
         sb.EmitPushString("mintTokens");
-        sb.EmitAppCall(tools.coinTool.id_SGAS);
+        sb.EmitAppCall(tools.coinTool.id_CGAS);
         let data = sb.ToArray();
         console.log(index);
 

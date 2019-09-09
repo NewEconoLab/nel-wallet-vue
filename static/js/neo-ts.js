@@ -4544,13 +4544,18 @@ var ThinNeo;
             var iscript = sb.ToArray();
             this.AddWitnessScript(vscript, iscript);
         };
-        Transaction.prototype.AddWitnessScript = function (vscript, iscript) {
-            var scripthash = ThinNeo.Helper.GetScriptHashFromScript(vscript);
+        Transaction.prototype.AddWitnessScript = function (vscript, iscript, scripthash) {
             if (this.witnesses == null)
                 this.witnesses = [];
             var newwit = new Witness();
             newwit.VerificationScript = vscript;
             newwit.InvocationScript = iscript;
+            if (scripthash) {
+                newwit.scriptHash = scripthash;
+            }
+            else {
+                newwit.scriptHash = ThinNeo.Helper.GetScriptHashFromScript(vscript);
+            }
             for (var i = 0; i < this.witnesses.length; i++) {
                 if (this.witnesses[i].Address == newwit.Address)
                     throw new Error("alread have this witness");
@@ -4562,8 +4567,8 @@ var ThinNeo;
                 _witnesses = [];
             _witnesses.push(newwit);
             _witnesses.sort(function (a, b) {
-                var hash_a = ThinNeo.Helper.GetScriptHashFromScript(a.VerificationScript);
-                var hash_b = ThinNeo.Helper.GetScriptHashFromScript(b.VerificationScript);
+                var hash_a = a.scriptHash;
+                var hash_b = b.scriptHash;
                 for (var i_4 = (hash_a.length - 1); i_4 >= 0; i_4--) {
                     if (hash_a[i_4] > hash_b[i_4])
                         return 1;
